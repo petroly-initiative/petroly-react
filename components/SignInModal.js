@@ -25,45 +25,51 @@ export default function SignInModal() {
         <span>تسجيل</span>
       </Button>
 
-      <Modal show={show} onHide={hideModal}>
-        <Modal.Header style={{ justifyContent: "center" }}>
-          <Modal.Title className={authStyle["modal-title"]}>
-            <img src="/petroly-logo.svg" />
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group>
-              <Form.Label>KFUPM Email</Form.Label>
-              <InputGroup>
-                <FormControl placeholder="KFUPM Email" type="text" />
-              </InputGroup>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Password</Form.Label>
-              <InputGroup>
-                <FormControl
-                  placeholder="Password"
-                  type={showPwd ? "text" : "password"}
-                />
-                <InputGroup.Append>
-                  <Button
-                    className={authStyle["pwd-toggle"]}
-                    onClick={handleShowPwd}
-                  >
-                    {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
-                  </Button>
-                </InputGroup.Append>
-              </InputGroup>
-            </Form.Group>
-            <div style={{ display: "flex", direction: "rtl" }}>
-              <Button type="submit" className={authStyle["login-btn"]}>
-                تسجيل الدخول
-              </Button>
+      {show ? (
+        <>
+          <div className={authStyle["modal-overlay"]} onClick={hideModal} />
+          <div className={authStyle["modal-wrapper"]}>
+            <div className={authStyle["modal-bg"]} />
+            <div className={authStyle["modal-header"]}>
+              <img src="images/21022889.jpg" alt="" />
             </div>
-          </Form>
-        </Modal.Body>
-      </Modal>
+            <div className={authStyle["modal-footer"]}>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group>
+                  <Form.Label>اسم المستخدم</Form.Label>
+                  <InputGroup>
+                    <FormControl placeholder="KFUPM Email" type="text" />
+                  </InputGroup>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>كلمة المرور</Form.Label>
+                  <InputGroup>
+                    <FormControl
+                      placeholder="Password"
+                      type={showPwd ? "text" : "password"}
+                    />
+                    <InputGroup.Append>
+                      <Button
+                        className={authStyle["pwd-toggle"]}
+                        onClick={handleShowPwd}
+                      >
+                        {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
+                      </Button>
+                    </InputGroup.Append>
+                  </InputGroup>
+                </Form.Group>
+                <div style={{ display: "flex", direction: "rtl" }}>
+                  <Button type="submit" className={authStyle["login-btn"]}>
+                    تسجيل الدخول
+                  </Button>
+                </div>
+              </Form>
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 }
