@@ -1,10 +1,15 @@
 .container {
   height: 100vh;
-  padding: 360px;
+  padding: 36px;
+  margin-right: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   font-family: "Cairo", sans-serif;
+  
 }
+
+
+
