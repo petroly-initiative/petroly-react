@@ -1,0 +1,238 @@
+$fnt-size: 16px;
+$bg-primary: #40a9ff;
+$fnt-clr: #6e737a;
+
+.navbar_nav {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  min-height: 640px;
+  justify-content: center;
+  background: rgb(247, 247, 247);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253);
+  transition: 600ms ease;
+}
+
+.collapser {
+  background: rgb(247, 247, 247);
+  border: none;
+  transition: 600ms ease;
+  .collapse_icon {
+    color: $fnt-clr;
+    transition: 600ms ease;
+  }
+
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    background: rgb(247, 247, 247) !important;
+  }
+
+  &:hover {
+    background: #00ead3 !important;
+    .collapse_icon {
+      color: white;
+    }
+  }
+}
+
+.navbar_item {
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  margin: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 600ms ease;
+  &:hover,
+  &:active {
+    color: $bg-primary;
+    background: rgb(233, 233, 233);
+    .link_text {
+      color: $bg-primary;
+    }
+  }
+
+  .link_text {
+    width: 100%;
+    font-size: 12px;
+    margin: 8px;
+    white-space: nowrap;
+    transition: color 800ms ease;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.navbar {
+  display: flex;
+  height: 100vh !important;
+  position: fixed;
+  right: 0 !important;
+  top: 0 !important;
+  color: $fnt-clr;
+  font-family: "Cairo", sans-serif;
+  transition: width 200ms ease;
+  width: 5rem !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar_top {
+  position: fixed;
+  top: 0 !important;
+  display: none;
+  z-index: 99;
+  width: 100vw;
+  background: rgb(247, 247, 247);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253);
+  color: $fnt-clr;
+  height: 5rem;
+  padding: 16px;
+  justify-content: space-between;
+  align-items: center;
+  left: 0;
+}
+
+.navbar_main {
+  z-index: 100;
+  position: fixed;
+  height: 100vh;
+  overflow-y: scroll;
+  width: 5rem;
+  background: rgb(247, 247, 247);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253);
+  color: $fnt-clr;
+  right: 0;
+  transition: 600ms ease, height 200ms ease;
+}
+
+.navbar_side {
+  z-index: 100;
+  position: fixed;
+  height: calc(100vh - 5rem);
+  overflow-y: scroll;
+  top: 5rem;
+  width: 5rem;
+  background: rgb(247, 247, 247);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253);
+  color: $fnt-clr;
+  left: 100vw;
+  transition: 600ms ease, height 200ms ease;
+}
+
+.navbar_side ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  transition: 600ms ease, height 50ms ease;
+  height: 100%;
+  min-height: 640px;
+}
+
+.navbar_side ul:last-child {
+  margin-top: auto;
+}
+
+.navbar_side ul > li {
+  box-shadow: 0 2px 3px rgb(204, 202, 202);
+  margin-top: 0;
+}
+
+.navbar_link {
+  display: flex;
+  align-items: center;
+  height: 5rem;
+  text-decoration: none;
+}
+
+.nav_pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin: auto;
+  width: 100%;
+  height: 30vh;
+}
+
+.nav_img {
+  width: 5rem;
+}
+
+.nav_overlay {
+  width: calc(100vw - 5rem);
+  height: 100vh;
+  opacity: 0;
+  position: fixed;
+  z-index: 99;
+  left: 0;
+}
+
+.profile {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  border-radius: 1.25em;
+  background: rgb(233, 165, 233);
+  transition: 600ms ease;
+  &:hover {
+    border-radius: 0.5rem;
+  }
+}
+
+.navbar_main::-webkit-scrollbar {
+  display: none;
+}
+
+.navbar_side::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.navbar_side {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.navbar_main {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@media only screen and (min-width: 600px) {
+  .navbar_nav {
+    display: flex;
+  }
+
+  .navbar_top {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .navbar_top {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .navbar_main {
+    display: none;
+  }
+
+  .nav_pages {
+    height: 50vh;
+  }
+}
