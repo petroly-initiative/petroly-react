@@ -6,8 +6,6 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { AiFillHome } from "react-icons/ai";
 
-
-
 export default function Test() {
   const [show, setShow] = useState(false);
 
@@ -17,11 +15,14 @@ export default function Test() {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width,initial-scale=1"></meta>
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1"
+        ></meta>
         <link rel="shortcut icon" href="/favicon.png" />
         <title>Petroly</title>
       </Head>
-      
+
       <div id="test" className={styles.container}>
         This page is for testing purposes and will become the home screen later
         <Button variant="primary" onClick={handleShow}>
@@ -66,7 +67,7 @@ export default function Test() {
               border: "#00ead3",
             }}
           >
-            <AiFillHome size="2em"/>
+            <AiFillHome size="2em" />
           </Button>
         </div>
         <h2
