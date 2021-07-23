@@ -1,11 +1,16 @@
-import Test from "../pages/mhbTest";
-import Navbar from "../components/navbar";
 
+import Test from '../pages/mhbTest';
+import SignInModal from '../components/SignInModal';
+import HomeScreen from './home';
 export default function Home() {
+  
+/**
+ * TODO: A complete dynamic grid layout to present news, links and other features
+ * 
+ */
   return (
     <>
-      <Navbar />
-      <Test />
+      <HomeScreen />
     </>
   );
 }

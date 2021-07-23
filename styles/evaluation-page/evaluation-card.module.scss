@@ -1,0 +1,75 @@
+
+@mixin tagstyle($bg-color){
+  background-color: $bg-color;
+  font-weight: 700;
+  border-radius: 4px;
+  color: white;
+  padding: 6px;
+  margin: 4px;
+}
+
+.cardHeader{
+  display: flex !important;
+  justify-content: space-between !important;
+  background-color: #fcf9f9 !important;
+  align-items: center;
+}
+
+.feedback_container{
+  margin: 16px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.course{
+ @include tagstyle(rgb(45, 223, 223));
+ transition: 300ms ease;
+  &:hover{
+    transform: scale(1.05);
+ }
+}
+
+.term{
+  @include tagstyle(rgb(34, 159, 241));
+  transition: 300ms ease;
+  &:hover{
+    transform: scale(1.05);
+ }
+}
+
+.tags{
+  display: flex;
+  width: 40%;
+  justify-content: flex-start;
+
+
+}
+
+.dates{
+  font-weight: 600 !important;
+}
+
+.headers {
+  width: 100%;
+  font-size: 20px;
+  color: #0091e7;
+  font-weight: 600;
+  text-align:right;
+}
+
+.contentText{
+  width: 100%;
+  unicode-bidi: bidi-override !important;
+  text-align: right;
+}
+
+.stars {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.stars span {
+    margin-left: 12px;
+    margin-left: 12px;
+  }

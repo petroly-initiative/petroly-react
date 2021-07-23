@@ -1,0 +1,109 @@
+$colors: (
+  blue: #14f7ef,
+  green: #00e091,
+  orange: #fac218,
+  red: #f51663,
+);
+//
+
+@each $color, $value in $colors {
+  .grading_#{$color} div {
+    background-color: $value;
+  }
+}
+
+.statsBody {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ovrSection {
+  width: 100%;
+  display: flex;
+  height: 60%;
+  justify-content: center;
+  align-items: center;
+}
+
+.attrBars {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-self: flex-end;
+}
+
+.barHeaders {
+  font-size: 18px;
+  font-weight: 600;
+  color: #52575d;
+  direction: rtl;
+  text-align: right;
+  padding-bottom: 8px;
+
+}
+
+.barContainer {
+  padding: 1px;
+}
+
+.barValue > div {
+  direction: rtl !important;
+  height: 15px;
+  margin: 2px;
+  border-radius: 6px;
+  background: #e6e6e6;
+  box-shadow: 1px 1px 3px #c5c5c5, -1px -1px 3px #ffffff;
+}
+
+.ovrcontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 7vw;
+  min-width: 100px;
+  height: 7vw;
+  min-height: 100px;
+  border: 1px solid rgba(0, 0, 0, 0.068);
+  border-radius:max(4vw, 50px);
+  background: #f1f1f105;
+}
+
+.ovrDisplay {
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+
+  .score {
+    font-weight: 700;
+    font-size: 37px;
+    color: #52575d;
+  }
+
+  .divider {
+    width: 75px;
+    border-top: 3px solid #52575d69;
+    margin: 2px;
+    margin-top: 0px;
+    background-color: #52575d69;
+    border-radius: 1.5px;
+  }
+
+  .ovrFull {
+    font-weight: 700;
+    font-size: 22px;
+    color: #52575d69;
+  }
+}
+
+.bg-blue {
+  background-color: rgb(20, 100, 9);
+}

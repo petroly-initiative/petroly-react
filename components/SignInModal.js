@@ -1,16 +1,30 @@
-import { InputGroup, Button, Modal, Form, FormControl } from "react-bootstrap";
+import { InputGroup, Button, Form, FormControl } from "react-bootstrap";
 import authStyle from "../styles/Auth.module.scss";
 import { FaSignInAlt } from "react-icons/fa";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
-export default function SignInModal() {
+export default function SignInModal(props) {
+  /**
+   * TODO: Another Tab for create account interface (bootstrap tabs are recommended)
+   */
+
+  
   const [show, setShow] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
 
-  const showModal = () => setShow(true);
-  const hideModal = () => setShow(false);
+  useEffect(() => {
+    setShow(props.visible);
+  }, [props.visible]);
 
+  
+
+  const showModal = () => setShow(true);
+  const hideModal = () => {
+    setShow(false)
+    props.close()
+  };
   const handleShowPwd = () => setShowPwd(!showPwd);
 
   const handleSubmit = (e) => {
@@ -20,10 +34,6 @@ export default function SignInModal() {
 
   return (
     <>
-      <Button className={authStyle["modal-btn"]} onClick={showModal}>
-        <FaSignInAlt />
-        <span>تسجيل</span>
-      </Button>
 
       {show ? (
         <>
@@ -31,18 +41,30 @@ export default function SignInModal() {
           <div className={authStyle["modal-wrapper"]}>
             <div className={authStyle["modal-bg"]} />
             <div className={authStyle["modal-header"]}>
-              <img src="images/21022889.jpg" alt="" />
+              <Image
+                layout="fixed"
+                width={100}
+                height={360}
+                src="/images/21022889.jpg"
+                alt=""
+              />
             </div>
+
             <div className={authStyle["modal-footer"]}>
               <Form onSubmit={handleSubmit}>
+                <div className={authStyle["text-header"]}>تسجيل الدخول</div>
                 <Form.Group>
-                  <Form.Label>اسم المستخدم</Form.Label>
+                  <Form.Label className={authStyle["labels"]}>
+                    اسم المستخدم
+                  </Form.Label>
                   <InputGroup>
                     <FormControl placeholder="KFUPM Email" type="text" />
                   </InputGroup>
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label>كلمة المرور</Form.Label>
+                  <Form.Label className={authStyle["labels"]}>
+                    كلمة المرور
+                  </Form.Label>
                   <InputGroup>
                     <FormControl
                       placeholder="Password"
@@ -62,6 +84,15 @@ export default function SignInModal() {
                   <Button type="submit" className={authStyle["login-btn"]}>
                     تسجيل الدخول
                   </Button>
+                </div>
+                <div
+                  className={authStyle.redirecter}
+                  style={{ padding: 16, fontSize: 12 }}
+                >
+                  <button className={authStyle.redirectBtn}>
+                    أنشئ حساب جديد
+                  </button>{" "}
+                  ليس لديك حساب بترولي؟
                 </div>
               </Form>
             </div>

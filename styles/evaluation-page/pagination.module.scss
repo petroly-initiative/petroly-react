@@ -1,0 +1,22 @@
+$btn-pr: #00dfc8;
+
+.buttons {
+  a {
+    color: $btn-pr !important;
+    font-size: 18px;
+    font-weight: 600;
+    height: 100% !important;
+  }
+  span {
+    height: 100% !important;
+  }
+}
+
+.active-btn span {
+  height: 100% !important;
+  background-color: $btn-pr !important;
+  color: white;
+  border: $btn-pr !important;
+  font-weight: 700;
+  font-size: 18px !important;
+}

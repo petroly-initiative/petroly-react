@@ -1,10 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap");
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html,
 body {
   padding: 0;
-  margin: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  position: absolute;
   font-family: "Cairo", sans-serif !important;
+  background: url("/images/background.svg") repeat  ;
+  background-size: auto;
+  overflow-x: hidden;
 }
+
 
 body::-webkit-scrollbar{
   width: 0.30rem;
@@ -21,14 +34,11 @@ body::-webkit-scrollbar-thumb{
 main {
   margin-left: 5rem;
   padding: 1rem;
+  
 }
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
 }
 
