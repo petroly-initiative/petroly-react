@@ -1,9 +1,9 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Head from 'next/head';
 /**
- * 
- * @WARNING This file exists to only apply globals.css for all pages 
+ *
+ * @WARNING This file exists to only apply globals.css for all pages
  */
 function MyApp({ Component, pageProps }) {
   return (
@@ -17,4 +17,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp
+export default MyApp;
