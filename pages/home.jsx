@@ -9,7 +9,7 @@ import Head from "next/head";
 import ChatCard from "../components/home/Chat-card";
 import { HiDesktopComputer } from "react-icons/hi";
 import { GiMaterialsScience } from "react-icons/gi";
-import ReactPaginate from "react-paginate";
+
 export default function HomeScreen() {
   /**
    * TODO:

@@ -18,7 +18,7 @@ import Head from "next/head";
 import mockData from "../dummy-data/instructors-data.json";
 import { useEffect, useState } from "react";
 import CustomPagination from "../components/Pagination";
-import ReactPaginate from "react-paginate";
+
 
 function instructorsList() {
   /**
