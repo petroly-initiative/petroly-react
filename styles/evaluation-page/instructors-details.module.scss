@@ -1,0 +1,129 @@
+
+.container {
+  
+  margin-right: 5rem !important;
+  min-width: calc(100vw - 5rem) !important;
+  padding: 30px;
+  padding-left: 52px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.feedbackCol {
+  height: 85vh;
+  margin-bottom: 16px;
+  
+}
+
+.statsCol {
+  height: 85vh;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  margin-bottom: 16px;
+}
+
+.statContainer {
+  height: 60vh !important;
+  width: 100%;
+  margin-top: 16px;
+  padding: 0px;
+  justify-self: flex-end;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.statsCard{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.prev_list {
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+.prev_list::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.prev_list::-webkit-scrollbar-track {
+  background: white;
+}
+
+.prev_list::-webkit-scrollbar-thumb {
+  background: #969696;
+  border-radius: 2px;
+}
+
+.feedbackContainer {
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 16px;
+  overflow-y: hidden;
+  
+}
+
+.picDiv{
+        border-radius: 35px;
+      overflow: hidden;
+      padding: 2px;
+       margin: auto;
+       
+      }
+
+
+.containerHeaders {
+    font-weight: 700;
+    font-size: 22px;
+    color: #0091e7;
+  }
+
+.evalBtn{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #00ead3 !important;
+  border: none;
+  margin: auto;
+  padding: 8px ;
+  width: 60px;
+  height: 60px;
+  border-radius: 20px;
+  position: fixed;
+  bottom: 1.5rem;
+  right: 6rem;
+  box-shadow: 0px 0px 12px #999999;
+  transition: 300ms ease;
+
+  
+
+  &:hover{
+    transform: scale(1.05);
+    
+  }
+  &:active{
+    transform: scale(0.95);
+    
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    max-width: 100vw !important;
+    margin-top: 5rem !important;
+  }
+
+  .evalBtn{
+    right: 2rem;
+    bottom: 1rem;
+  }
+}

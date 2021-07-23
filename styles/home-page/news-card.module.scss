@@ -1,0 +1,49 @@
+.lg-card{
+  height: 200px;
+  padding: 16px;
+  margin: 8px;
+  width: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 24px;
+  border-radius: 4px !important;
+  transition: 300ms ease;
+  overflow: hidden;
+  cursor: pointer;
+  &:hover, &:focus, &:active{
+    transform: scale(1.05);
+    .card-title{
+        filter: blur(1px) opacity(0.1);
+    }
+    .card-content{
+      filter: opacity(1);
+    }
+  }
+}
+
+.card-title{
+    text-shadow: 1px 1px rgb(112, 112, 112);
+}
+
+.card-content{
+  position: absolute;
+  width: 101%;
+  height: 101%;
+  background-color: rgba(128, 128, 128, 0.5);
+  top: -1px;
+  left: -1px;
+  filter: opacity(0);
+  transition: 300ms ease;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: right;
+  color: white;
+  font-size: 12px;
+  
+}

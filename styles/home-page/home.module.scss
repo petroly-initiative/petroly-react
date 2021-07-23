@@ -1,0 +1,76 @@
+.main-container {
+  margin-right: 5rem !important;
+  max-width: calc(100vw - 5rem) !important;
+  padding: 30px;
+  padding-left: 52px;
+  padding-right: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  top: 0;
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.titles {
+  font-size: 28px;
+  width: 100%;
+  text-align: right;
+  padding: 16px;
+  font-weight: 700;
+  color: #05a3ff;
+}
+
+.profile {
+  width: 2rem !important;
+  height: 2rem !important;
+  border-radius: 1.25em;
+  background: rgb(233, 165, 233);
+  transition: 600ms ease;
+  &:hover {
+    border-radius: 0.5rem;
+  }
+}
+
+.xl-card {
+  height: 400px;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  color: #00ead334;
+  margin: 8px;
+  width: 100%;
+  border-radius: 4px !important;
+  transition: 300ms ease;
+
+  .card-header {
+    font-size: 24px;
+    font-weight: 700;
+    color: black;
+  }
+}
+
+.md-card {
+  padding: 16px;
+  margin: 4px;
+  height: 200px;
+  width: 100%;
+  border-radius: 4px !important;
+  transition: 300ms ease;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .main-container {
+    position: relative;
+    max-width: 100vw !important;
+    top: 5rem !important;
+  }
+}

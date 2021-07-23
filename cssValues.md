@@ -2,11 +2,11 @@
 
 - button-padding: 16px;
   _padding for major elments is upon your choices_
-- btn-primary-color: <span style= "color: #00ead3">#00ead3</span>
+- btn-primary-color:#00ead3
 - main-headers-color: black (#000)
-- text-fill-color (paragraphs, instructions, etc): <span style= "color: #52575d">#52575d</span>
+- text-fill-color (paragraphs, instructions, etc): #52575d
   -text-fill-fontSize: 18px
-- text-fill-highlight (emphasis on some text): <span style= "color: #0091E7">#0091E7</span>
+- text-fill-highlight (emphasis on some text):#0091E7
 - font weights are specified as the following: headers (700), highlight-text-fill(600), text-fill(400)
 
 **instructions**
