@@ -15,20 +15,54 @@ import { AiFillEdit } from "react-icons/ai";
 import Evaluation from "../components/evaluation/Evaluation";
 import InstructorRates from "../components/Instructros/InstructorRates";
 import EvaluationModal from "../components/evaluation/EvaluationModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import { MdFolderSpecial } from "react-icons/md";
+import mockData from "../dummy-data/instructors-data.json";
 
-export default function instructorDetails(props) {
+
+
+export const getStaticPaths = async () => {
+  //! Should be replaced by an API Call to get all instructor names for dynamic path creation
+  const data = mockData; 
+  const names =  data[0].map(val => {
+    return ({
+      params: {
+        instructor: val.name
+      }
+    })
+  });
+  
   /**
-   * TODOs:
-   * ? Create a counter for evaluations
-   * ? Overlay triggers for each progress bar
-   * ? Use REM sizing for the rating board
+   * we need to return an array of objects each with  param property
+   * which include information needed for our path
+   * that includes the tokenzied dynamic path
    */
+  return {
+    paths: names,
+    fallback: false,
+  };
+};
+// This function will run for each path we provided
+export const getStaticProps = async (context) => {
+  const id = context.params.instructor;
+  // !WARNING: This code should be replaced by an API Query 
+  const index = mockData[0].findIndex( element => element.name === id);
 
+  const data = (mockData[0][index]);
+
+  return {
+    props: { instructorData: data },
+  };
+};
+
+export default function instructorDetails({ instructorData }) {
   const [modalVisible, setVisible] = useState(false);
+
+  useEffect(() => {
+    console.log(instructorData)
+  }, [])
 
   const closeModal = () => {
     setVisible(false);
@@ -52,10 +86,10 @@ export default function instructorDetails(props) {
   return (
     <>
       <Head>
-        {/* Will later become the name of the instructor */}
-        <title>Petroly | Rating Details</title>
+        
+        <title>Petroly | {instructorData.name}</title>
       </Head>
-      <Navbar />
+      <Navbar page="rating" />
       <Container className={styles.container}>
         <Row
           style={{
@@ -75,7 +109,7 @@ export default function instructorDetails(props) {
                   <div className={cardStyles.insuctor_pic + " shadow"}>
                     <Image
                       className={cardStyles.picDiv}
-                      src="/images/spongy.png"
+                      src= {instructorData.src}
                       width="70"
                       height="70"
                     />
@@ -89,11 +123,13 @@ export default function instructorDetails(props) {
                   >
                     <div className={cardStyles.eval_counter}>
                       <MdFolderSpecial />
-                      <span>75</span>
+                      <span>{instructorData.evalCount}</span>
                     </div>
                   </OverlayTrigger>
                 </div>
-                <div className={cardStyles.instructor_name}>Muhab Abubaker</div>
+                <div className={cardStyles.instructor_name}>
+                  {instructorData.name}
+                </div>
 
                 <div className={cardStyles.instructor_dept}>
                   Software Engineering
@@ -107,7 +143,8 @@ export default function instructorDetails(props) {
               <Card.Body className={styles.statsCard}>
                 <div className={styles.containerHeaders}>التقييم العام</div>
                 <InstructorRates
-                  overall={4.6}
+                  overall={parseFloat(instructorData.rating)}
+                  //!WARNING: All category scores should be fetched from data
                   grading={3}
                   teaching={4.3}
                   personality={1.9}
@@ -123,6 +160,9 @@ export default function instructorDetails(props) {
                   style={{ paddingTop: "0px !important" }}
                   className={styles.prev_list}
                 >
+                  {/**
+                   * The evaluations will also be a past of the response object in fetching
+                   */}
                   <Col xs={12} md={6}>
                     <Evaluation
                       date="21/6/2001"
@@ -190,7 +230,7 @@ export default function instructorDetails(props) {
           </Button>
         </OverlayTrigger>
         <EvaluationModal
-          name={"Muhab Abubaker"}
+          name={instructorData.name}
           image={<CgProfile size={75} id="profile" />}
           dept={"Software Engineering"}
           close={closeModal}

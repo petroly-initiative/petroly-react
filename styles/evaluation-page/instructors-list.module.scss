@@ -20,18 +20,11 @@
     transition: 600ms ease;
     z-index: 100;
     margin-bottom: 12px;
-    &:focus{
+    &:focus, &:active, &:hover{
         transform: scale(1.05);
         box-shadow: none !important;
     }
-    &:active{
-        transform: scale(1.05);
-        box-shadow: none !important;
-    }
-    &:hover{
-        transform: scale(1.05);
-        box-shadow: none !important;
-    }
+    
 }
 .search_btn{
     background-color: rgb(8, 164, 255) !important;

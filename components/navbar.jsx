@@ -9,10 +9,11 @@ import {
   BsFillPeopleFill,
 } from "react-icons/bs";
 import { AiFillHome } from "react-icons/ai";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import SignInModal from "./SignInModal";
-
+import { userContext } from "../state-management/user-state/userContext";
+import { FaSignInAlt } from "react-icons/fa";
 /**
  * TODO:
  * -  Create slots for the new services
@@ -21,10 +22,11 @@ import SignInModal from "./SignInModal";
  */
 
 export default function Navbar(props) {
+
+  const userInfo = useContext(userContext);
   const [sideVisible, setVisible] = useState(false);
   const [sideBarStyle, setStyle] = useState({ left: "100vw" });
   const [overlayStyle, setOverlay] = useState({ display: "none" });
-
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
@@ -56,21 +58,25 @@ export default function Navbar(props) {
     setVisible((prev) => !prev);
   };
 
-  const overlayExit = () => {
-    setVisible(false);
-  };
+  useEffect(() => {
+    console.log(userInfo.status)
+  }, [])
 
   return (
     <nav className={styles.navbar}>
       <SignInModal visible={showModal} close={handleClose} />
       <div className={styles.navbar_top}>
         <li className={styles.navbar_item}>
-          <Image
-            style={{ margin: 0 }}
-            src="/favicon.png"
-            width={35}
-            height={35}
-          />
+          {userInfo.status.logged ? (
+            <Image
+              style={{ margin: 0 }}
+              src="/favicon.png"
+              width={35}
+              height={35}
+            />
+          ) : (
+            <FaSignInAlt size="2.5rem" />
+          )}
         </li>
         <Button className={styles.collapser} onClick={showSidebar}>
           <FiMenu className={styles.collapse_icon} size="1.6em" />
@@ -167,12 +173,16 @@ export default function Navbar(props) {
             style={{ boxShadow: "0 2px 3px rgb(204, 202, 202)" }}
           >
             <Button onClick={handleShow} className={styles.navbar_link}>
-              <Image
-                className={styles.profile}
-                src="/images/muhabpower.png"
-                width="30"
-                height="30"
-              />
+              {userInfo.status.logged ? (
+                <Image
+                  style={{ margin: 0 }}
+                  src="/favicon.png"
+                  width={35}
+                  height={35}
+                />
+              ) : (
+                <FaSignInAlt size="2rem"  />
+              )}
             </Button>
           </li>
           <div className={styles.nav_pages}>

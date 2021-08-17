@@ -16,24 +16,45 @@ import { GoSettings } from "react-icons/go";
 import Image from "next/image";
 import Head from "next/head";
 import mockData from "../dummy-data/instructors-data.json";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer } from "react";
 import CustomPagination from "../components/Pagination";
+import { Fade } from "react-awesome-reveal";
+import { instructorsReducer } from "../state-management/instructors-state/instructorsReducer";
+/**
+ * TODO:
+ *
+ * - Create a reducer for switching the pages and apply the change
+ * - Plug in the API instead of using mock data setup
+ * - Create a getStaticProps to serve the first batch of instructors
+ */
 
+// To supply the initial batch of data
+export const getStaticProps = async (context) => {
+  // !WARNING: This line should be replaced by an API Query
+  const data = mockData[0];
+  return {
+    props: {
+      instructorsData: data,
+    },
+  };
+};
 
-function instructorsList() {
-  /**
-   * TODO:
-   * - Create a variable that maps the instructors data in its respective card API
-   * - Create a dummy database and retreive instructors in fixed stacks
-   *
-   */
+function instructorsList({ instructorsData }) {
+  /*
+  ? New State managemnt implementation
+  - The reducer in state-managment file will handle the switching of pageContent
+  - Every change in the page number will trigger a dispatch for the reducer
+  */
+
+  const [pageData, dispatch] = useReducer(instructorsReducer, instructorsData);
+  // ------------
   const [page, setPage] = useState(1);
   const switchPage = (pageNum) => {
     setPage(pageNum, console.log("Updated list Page num:", pageNum));
   };
 
   const instructorMapper = (ind) =>
-    mockData[ind].map((info) => {
+    pageData.map((info) => {
       return (
         <InstructorCard
           image={
@@ -54,6 +75,8 @@ function instructorsList() {
   var currentList = instructorMapper(page - 1);
 
   useEffect(() => {
+    //!WARNING: We need to use async functions with the API Calls
+    dispatch({ index: page - 1 });
     currentList = instructorMapper(page - 1);
   }, [page]);
 
@@ -130,7 +153,20 @@ function instructorsList() {
             </InputGroup>
           </Col>
         </Row>
-        <Row className={styles.instructor_list}>{currentList}</Row>
+
+        <Row className={styles.instructor_list}>
+          {" "}
+          <Fade
+            className={"col col-sm-12 col-xs-12 col-md-6 col-xl-4 my-2 w-100"}
+            cascade
+            damping={0.05}
+            triggerOnce
+            direction="up"
+          >
+            {currentList}
+          </Fade>
+        </Row>
+
         <div className={styles["pagination-container"]}>
           <CustomPagination pageNum={mockData.length} switchView={switchPage} />
         </div>
