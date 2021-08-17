@@ -179,8 +179,9 @@ function instructorsList({ instructorsData }) {
             {currentList}
           </Fade>
         </Row>
-
+        {/**!Number of pages should be provided by the api*/}
         <div className={styles["pagination-container"]}>
+          
           <CustomPagination pageNum={mockData.length} switchView={switchPage} />
         </div>
       </Container>

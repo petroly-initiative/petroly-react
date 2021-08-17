@@ -14,6 +14,8 @@ import Button from "react-bootstrap/Button";
 import SignInModal from "./SignInModal";
 import { userContext } from "../state-management/user-state/userContext";
 import { FaSignInAlt } from "react-icons/fa";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import Popover from "react-bootstrap/Popover";
 /**
  * TODO:
  * -  Create slots for the new services
@@ -27,10 +29,15 @@ export default function Navbar(props) {
   const [sideVisible, setVisible] = useState(false);
   const [sideBarStyle, setStyle] = useState({ left: "100vw" });
   const [overlayStyle, setOverlay] = useState({ display: "none" });
-  const [showModal, setShowModal] = useState(false);
+  const [showSignIn, setShowSignIn] = useState(false);
+  
 
-  const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
+  const handleSignInClose = () => setShowSignIn(false);
+  const handleSignInShow = () => setShowSignIn(true);
+
+  const signOut = () => {
+    userInfo.userDispatch({type: "sign-out"})
+  }
 
   var navStyles = {
     home: { color: props.page == "home" ? "#00dfc8" : "" },
@@ -64,7 +71,7 @@ export default function Navbar(props) {
 
   return (
     <nav className={styles.navbar}>
-      <SignInModal visible={showModal} close={handleClose} />
+      <SignInModal visible={showSignIn} close={handleSignInClose} />
       <div className={styles.navbar_top}>
         <li className={styles.navbar_item}>
           {userInfo.status.logged ? (
@@ -89,18 +96,51 @@ export default function Navbar(props) {
           ></div>
           <ul>
             <li className={styles.navbar_item}>
-              <Button
-                style={{ background: "none !important" }}
-                onClick={handleShow}
-                className={styles.navbar_link}
-              >
-                <Image
-                  className={styles.profile}
-                  src="/images/muhabpower.png"
-                  width="35"
-                  height="35"
-                />
-              </Button>
+              {userInfo.status.logged ? (
+                <OverlayTrigger
+                  trigger="click"
+                  className={styles.navbar_link}
+                  placement={"left"}
+                  delay={{ show: 350, hide: 400 }}
+                  overlay={
+                    <Popover
+                      id="meow"
+                      style={{ marginRight: "12 !important" }}
+                      id="popover-basic"
+                      show={{ show: 350, hide: 400 }}
+                    >
+                      <Popover.Content style={{ marginRight: "12 !important" }}>
+                        <strong style={{ color: "#0091E7", fontSize: 18 }}>
+                          {userInfo.status.username}
+                        </strong>
+                        <br />
+                        {userInfo.status.email}
+                        <Button onClick={signOut}>
+                          <strong>sign out</strong>
+                        </Button>
+                      </Popover.Content>
+                    </Popover>
+                  }
+                  rootClose
+                >
+                  <Button className={styles.navbar_link}>
+                    <Image
+                      style={{ margin: 0 }}
+                      src="/images/muhabpower.png"
+                      width={35}
+                      height={35}
+                      className={styles.profile}
+                    />
+                  </Button>
+                </OverlayTrigger>
+              ) : (
+                <Button
+                  onClick={handleSignInShow}
+                  className={styles.navbar_link}
+                >
+                  <FaSignInAlt size="2rem" />
+                </Button>
+              )}
             </li>
             <div className={styles.nav_pages}>
               <li style={navStyles.home} className={styles.navbar_item}>
@@ -172,18 +212,48 @@ export default function Navbar(props) {
             className={styles.navbar_item}
             style={{ boxShadow: "0 2px 3px rgb(204, 202, 202)" }}
           >
-            <Button onClick={handleShow} className={styles.navbar_link}>
-              {userInfo.status.logged ? (
-                <Image
-                  style={{ margin: 0 }}
-                  src="/favicon.png"
-                  width={35}
-                  height={35}
-                />
-              ) : (
-                <FaSignInAlt size="2rem"  />
-              )}
-            </Button>
+            {userInfo.status.logged ? (
+              <OverlayTrigger
+                trigger="click"
+                className={styles.navbar_link}
+                placement={"left"}
+                delay={{ show: 350, hide: 400 }}
+                overlay={
+                  <Popover
+                    id="meow"
+                    style={{ marginRight: "12 !important" }}
+                    id="popover-basic"
+                    show={{ show: 350, hide: 400 }}
+                  >
+                    <Popover.Content style={{ marginRight: "12 !important" }}>
+                      <strong style={{ color: "#0091E7", fontSize: 18 }}>
+                        {userInfo.status.username}
+                      </strong>
+                      <br />
+                      <div>{userInfo.status.email}</div>
+                      <Button variant="danger" style={{marginTop: 12, fontSize: 12}} onClick={signOut}>
+                        <strong>sign out</strong>
+                      </Button>
+                    </Popover.Content>
+                  </Popover>
+                }
+                rootClose
+              >
+                <Button className={styles.navbar_link}>
+                  <Image
+                    style={{ margin: 0 }}
+                    src="/images/muhabpower.png"
+                    width={35}
+                    height={35}
+                    className={styles.profile}
+                  />
+                </Button>
+              </OverlayTrigger>
+            ) : (
+              <Button onClick={handleSignInShow} className={styles.navbar_link}>
+                <FaSignInAlt size="2rem" />
+              </Button>
+            )}
           </li>
           <div className={styles.nav_pages}>
             <li style={navStyles.home} className={styles.navbar_item}>

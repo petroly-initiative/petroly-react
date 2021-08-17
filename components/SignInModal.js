@@ -13,6 +13,17 @@ export default function SignInModal(props) {
   const userInfo = useContext(userContext);
   const [show, setShow] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
+  // Handling input change;
+  const[email, setEmail] = useState("");
+  const[password, setPassword] = useState("");
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  }
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
 
   useEffect(() => {
     setShow(props.visible);
@@ -27,9 +38,25 @@ export default function SignInModal(props) {
   };
   const handleShowPwd = () => setShowPwd(!showPwd);
 
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Submitted sign in form");
+    console.log(userInfo.status);
+    /**
+     * !WARNING: The following is just a practical demo
+     * - The username should be fetched from the server
+     * - The profilePic attribute should also be fetched from the server
+     */
+    await userInfo.userDispatch({
+      type: "sign-in",
+      credentials: {
+        logged: true,
+        username: password,
+        email: email
+      }
+    })
+    console.log(userInfo.status, password, email)
   };
 
   return (
@@ -58,7 +85,7 @@ export default function SignInModal(props) {
                     اسم المستخدم
                   </Form.Label>
                   <InputGroup>
-                    <FormControl placeholder="KFUPM Email" type="text" />
+                    <FormControl onChange={handleEmail} value={email} placeholder="KFUPM Email" type="text" required/>
                   </InputGroup>
                 </Form.Group>
                 <Form.Group>
@@ -67,8 +94,11 @@ export default function SignInModal(props) {
                   </Form.Label>
                   <InputGroup>
                     <FormControl
+                    onChange={handlePassword}
+                    value = {password}
                       placeholder="Password"
                       type={showPwd ? "text" : "password"}
+                      required
                     />
                     <InputGroup.Append>
                       <Button
