@@ -1,8 +1,8 @@
 import { InputGroup, Button, Form, FormControl } from "react-bootstrap";
 import authStyle from "../styles/Auth.module.scss";
-import { FaSignInAlt } from "react-icons/fa";
+import { userContext } from "../state-management/user-state/userContext";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 
 export default function SignInModal(props) {
@@ -10,7 +10,7 @@ export default function SignInModal(props) {
    * TODO: Another Tab for create account interface (bootstrap tabs are recommended)
    */
 
-  
+  const userInfo = useContext(userContext);
   const [show, setShow] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
 

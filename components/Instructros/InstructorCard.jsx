@@ -26,8 +26,9 @@ function InstructorCard(props) {
     );
   };
   return (
-    <Link href="/instructorsDetails">
-      <Col xs={12} md={6} xl={4} className="my-2">
+    
+      
+        <Link href= {`/${props.instructorName}`} >
         <Card
           style={{ borderRadius: 8 }}
           className={"shadow border-0 " + styles.Cardholder}
@@ -69,8 +70,8 @@ function InstructorCard(props) {
             </div>
           </Card.Body>
         </Card>
-      </Col>
-    </Link>
+        </Link>
+     
   );
 }
 

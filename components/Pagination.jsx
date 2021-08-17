@@ -30,7 +30,7 @@ export default function CustomPagination(props) {
       Math.floor(props.pageNum / 5) * 5 + (props.pageNum % 5) + 1)
     );
   }
-  // CORRECT ----------------------
+
 
   stacks = {...stacks}  
 
