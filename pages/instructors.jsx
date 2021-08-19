@@ -20,6 +20,11 @@ import { useEffect, useState, useReducer } from "react";
 import CustomPagination from "../components/Pagination";
 import { Fade } from "react-awesome-reveal";
 import { instructorsReducer } from "../state-management/instructors-state/instructorsReducer";
+
+import client from "../api/apollo-client";
+import { instructorsQuery } from "../api/queries";
+
+
 /**
  * TODO:
  *
@@ -31,10 +36,15 @@ import { instructorsReducer } from "../state-management/instructors-state/instru
 // To supply the initial batch of data
 export const getStaticProps = async (context) => {
   // !WARNING: This line should be replaced by an API Query
-  const data = mockData[0];
+  console.log('Inside getStaticProps');
+
+  const { data } = await client.query({
+      query: instructorsQuery
+    })
+    
   return {
     props: {
-      instructorsData: data,
+      instructorsData: data.instructors.data,
     },
   };
 };
@@ -54,21 +64,21 @@ function instructorsList({ instructorsData }) {
   };
 
   const instructorMapper = (ind) =>
-    pageData.map((info) => {
+    pageData.map((instructor) => {
       return (
         <InstructorCard
           image={
             <Image
               className={styles.picDiv}
-              src={info["src"]}
+              src={instructor.profilePic}
               width="70"
               height="70"
             />
           }
-          instructorName={info["name"]}
-          instructorDept={info["dept"]}
-          starValue={Math.round(info["rating"])}
-          evalCount={info["evalCount"]}
+          instructorName={instructor.name}
+          instructorDept={instructor.department}
+          starValue={Math.round(instructor.overallFloat)}
+          evalCount={instructor.evaluationSet.count}
         />
       );
     });
@@ -76,8 +86,11 @@ function instructorsList({ instructorsData }) {
 
   useEffect(() => {
     //!WARNING: We need to use async functions with the API Calls
+    console.log('Inside useEffect');
+
     dispatch({ index: page - 1 });
     currentList = instructorMapper(page - 1);
+
   }, [page]);
 
   return (
