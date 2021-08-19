@@ -21,19 +21,17 @@ import Head from "next/head";
 import { MdFolderSpecial } from "react-icons/md";
 import mockData from "../dummy-data/instructors-data.json";
 
-
-
 export const getStaticPaths = async () => {
   //! Should be replaced by an API Call to get all instructor names for dynamic path creation
-  const data = mockData; 
-  const names =  data[0].map(val => {
-    return ({
+  const data = mockData;
+  const names = data[0].map((val) => {
+    return {
       params: {
-        instructor: val.name
-      }
-    })
+        instructor: val.name,
+      },
+    };
   });
-  
+
   /**
    * we need to return an array of objects each with  param property
    * which include information needed for our path
@@ -47,22 +45,25 @@ export const getStaticPaths = async () => {
 // This function will run for each path we provided
 export const getStaticProps = async (context) => {
   const id = context.params.instructor;
-  // !WARNING: This code should be replaced by an API Query 
-  const index = mockData[0].findIndex( element => element.name === id);
+  // !WARNING: This code should be replaced by an API Query
+  const index = mockData[0].findIndex((element) => element.name === id);
 
-  const data = (mockData[0][index]);
+  const data = mockData[0][index];
 
   return {
     props: { instructorData: data },
+    revalidate: 5
   };
 };
+
+// TODO: Replacing static evaluations with mapped mock data
 
 export default function instructorDetails({ instructorData }) {
   const [modalVisible, setVisible] = useState(false);
 
   useEffect(() => {
-    console.log(instructorData)
-  }, [])
+    console.log(instructorData);
+  }, []);
 
   const closeModal = () => {
     setVisible(false);
@@ -86,7 +87,6 @@ export default function instructorDetails({ instructorData }) {
   return (
     <>
       <Head>
-        
         <title>Petroly | {instructorData.name}</title>
       </Head>
       <Navbar page="rating" />
@@ -109,7 +109,7 @@ export default function instructorDetails({ instructorData }) {
                   <div className={cardStyles.insuctor_pic + " shadow"}>
                     <Image
                       className={cardStyles.picDiv}
-                      src= {instructorData.src}
+                      src={instructorData.src}
                       width="70"
                       height="70"
                     />
@@ -154,7 +154,7 @@ export default function instructorDetails({ instructorData }) {
           </Col>
           <Col xl={8} className={styles.feedbackCol}>
             <Card className={styles.feedbackContainer + " shadow"}>
-              <div className={styles.containerHeaders}>التعليقات</div>
+              <div className={styles.containerHeaders}>التقييمات السابقة</div>
               <Card.Body>
                 <Row
                   style={{ paddingTop: "0px !important" }}

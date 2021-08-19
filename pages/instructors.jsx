@@ -170,7 +170,7 @@ function instructorsList({ instructorsData }) {
         <Row className={styles.instructor_list}>
           {" "}
           <Fade
-            className={"col col-sm-12 col-xs-12 col-md-6 col-xl-4 my-2 w-100"}
+            className={"col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-4 my-2 w-100"}
             cascade
             damping={0.05}
             triggerOnce
@@ -179,8 +179,9 @@ function instructorsList({ instructorsData }) {
             {currentList}
           </Fade>
         </Row>
-
+        {/**!Number of pages should be provided by the api*/}
         <div className={styles["pagination-container"]}>
+          
           <CustomPagination pageNum={mockData.length} switchView={switchPage} />
         </div>
       </Container>
