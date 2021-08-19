@@ -32,7 +32,7 @@ export const userReducer = (currentState, action) => {
             )
         case "sign-out":
             return({logged: false});
-            //? This section will contain the procedure to create a new accounr
+            //? This section will contain the procedure to create a new account
         case "create-new":
             break;
             

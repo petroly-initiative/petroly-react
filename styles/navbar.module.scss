@@ -113,7 +113,6 @@ $testing: #00dfc8;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253);
   color: $fnt-clr;
   right: 0;
-  transition: 600ms ease, height 200ms ease;
 }
 
 .navbar_side {
@@ -128,6 +127,10 @@ $testing: #00dfc8;
   color: $fnt-clr;
   left: 100vw;
   transition: 600ms ease, height 200ms ease;
+   -webkit-transition: 600ms ease, height 200ms ease;
+  -moz-transition: 600ms ease, height 200ms ease;
+  -ms-transition: 600ms ease, height 200ms ease;
+  -o-transition: 600ms ease, height 200ms ease;
 }
 
 .navbar_side ul {
@@ -161,8 +164,8 @@ $testing: #00dfc8;
   border: none;
   color: $fnt-clr;
   &:hover,
-  &:active {
-    color: $bg-primary;
+  &:active, &:focus {
+    color: $bg-primary !important;
     background: rgb(233, 233, 233);
   }
 }

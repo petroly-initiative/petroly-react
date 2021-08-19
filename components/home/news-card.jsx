@@ -21,7 +21,7 @@ export default function NewsCard(props){
           className={[styles["lg-card"], "shadow", "border-0"]}
           style={{
             background: "#00b7ff44 " + props.header,
-            backgroundSize: "500px 200px",
+            backgroundSize: "100% 100%",
             backgroundBlendMode: "multiply",
           }}
         >
