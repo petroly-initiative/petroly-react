@@ -35,8 +35,9 @@ export default function Navbar(props) {
   const handleSignInClose = () => setShowSignIn(false);
   const handleSignInShow = () => setShowSignIn(true);
 
-  const signOut = () => {
-    userInfo.userDispatch({type: "sign-out"})
+  const signOut = async () => {
+    await userInfo.userDispatch({type: "sign-out"});
+    
   }
 
   var navStyles = {
@@ -60,30 +61,25 @@ export default function Navbar(props) {
     });
   }, [sideVisible]);
 
+  
+
   const showSidebar = () => {
     console.log(sideVisible);
     setVisible((prev) => !prev);
   };
 
-  useEffect(() => {
-    console.log(userInfo.status)
-  }, [])
 
   return (
     <nav className={styles.navbar}>
       <SignInModal visible={showSignIn} close={handleSignInClose} />
       <div className={styles.navbar_top}>
         <li className={styles.navbar_item}>
-          {userInfo.status.logged ? (
             <Image
               style={{ margin: 0 }}
               src="/favicon.png"
               width={35}
               height={35}
             />
-          ) : (
-            <FaSignInAlt size="2.5rem" />
-          )}
         </li>
         <Button className={styles.collapser} onClick={showSidebar}>
           <FiMenu className={styles.collapse_icon} size="1.6em" />
@@ -138,7 +134,7 @@ export default function Navbar(props) {
                   onClick={handleSignInShow}
                   className={styles.navbar_link}
                 >
-                  <FaSignInAlt size="2rem" />
+                  <FaSignInAlt size="1.4rem" />
                 </Button>
               )}
             </li>
@@ -251,7 +247,7 @@ export default function Navbar(props) {
               </OverlayTrigger>
             ) : (
               <Button onClick={handleSignInShow} className={styles.navbar_link}>
-                <FaSignInAlt size="2rem" />
+                <FaSignInAlt size="1.4rem" />
               </Button>
             )}
           </li>
