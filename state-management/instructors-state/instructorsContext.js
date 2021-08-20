@@ -3,6 +3,15 @@ from the created API via respected methods*/
 
 import client from "../../api/apollo-client";
 import { instructorsQuery } from "../../api/queries";
+import { createContext } from "react";
+
+
+export const instructorContext = createContext(null);
+
+export const stackReducer = ( _ , action) => {
+
+  return {stack: action.stack}
+}
 
 export const instructorsReducer = (currentState, action) => {
   // !WARNING: This should be replaced by an API Call
