@@ -1,6 +1,6 @@
 import styles from "../styles/evaluation-page/pagination.module.scss";
 import { useEffect, useState } from "react";
-import { Button, Pagination } from "react-bootstrap";
+import { Pagination } from "react-bootstrap";
 import { range } from "lodash";
 export default function CustomPagination(props) {
   /**
@@ -10,7 +10,7 @@ export default function CustomPagination(props) {
    * - The component will create the ranges for each compoenent
    * - Out-of-range pagination items will be both disabled and will have no click listeners
    * - navigator function will handle all navigation cases
-   * - Each change in the currentPage Will Trigger a passed prop function that switches
+   * - Each change in the props.currentPage Will Trigger a passed prop function that switches
    *  the view on each page
    *  ? Needed Props to operate the component
    *
@@ -21,75 +21,81 @@ export default function CustomPagination(props) {
 
   let stacks = [];
 
-  for (let i = 1; i + 4 < props.pageNum; i += 5) {
+  for (let i = 1; i + 4 <= props.pageNum; i += 5) {
     stacks.push(range(i, i + 5));
   }
   if (props.pageNum % 5 !== 0) {
     stacks.push(
-      range(Math.floor(props.pageNum / 5) * 5 + 1,
-      Math.floor(props.pageNum / 5) * 5 + (props.pageNum % 5) + 1)
+      range(
+        Math.floor(props.pageNum / 5) * 5 + 1,
+        Math.floor(props.pageNum / 5) * 5 + (props.pageNum % 5) + 1
+      )
     );
   }
 
+  stacks = { ...stacks };
 
-  stacks = {...stacks}  
-
-  const [currentPage, setPage] = useState(1);
   const [stack, setStack] = useState(stacks[0]);
-  const [stackIndex, setIndex] = useState(0)
-
-  const stackSearch = (value) => 
-     Object.keys(stacks).find(key => stacks[key] === value);
-
-  const switchPage = (ind) => {
-    setPage(parseInt(ind), props.switchView(parseInt(ind)));
-  };
-
-  const keyButtons = (e) =>{
-    switchPage((e.target.id));
-  }
-
-  const firstBtn = (e) => {
-     console.log(stack);
-    setStack(stacks[0], switchPage(1));
-    setIndex(0)
-  }
-
-  const lastBtn = (e) => {
-     console.log(stack);
-    setStack(stacks[Object.keys(stacks).length - 1], switchPage(props.pageNum));
-    setIndex(Object.keys(stacks).length - 1);
-  }
-
-  const nextBtn = (e) => {
-     console.log("Out of stack?", stack.indexOf(currentPage + 1) === -1 );
-    if (stack.indexOf(currentPage + 1) === -1) {
-      console.log("old Stack: ", stack);
-      setIndex(
-        (prev) => prev + 1,
-        setStack(stacks[stackIndex + 1], switchPage(currentPage + 1))
-      );
-      console.log("New Stack: ", stack);
-    } else {
-      switchPage(currentPage + 1);
-    }
-     console.log("Stack index:",stackIndex);
-  }
-
-  const prevBtn = (e) => {
-    console.log("Out of stack?", stack.indexOf(currentPage - 1) === -1);
-    if(stack.indexOf(currentPage - 1) === -1){
-      setIndex((prev) => prev - 1, setStack(stacks[stackIndex - 1], switchPage( currentPage - 1)));
-    }else{
-      switchPage(currentPage - 1)
-    }
-  }
   
 
-  const pageMapper = (arr) =>
-    {console.log("New Array of pages:",arr);
-       return arr.map((page) => {
-      if (page == currentPage) {
+  // the purpose of these two functions is two broadcast the local state of the pagination to the page
+  const switchPage = (ind) => {
+    props.switchView(parseInt(ind));
+  };
+
+  const switchStIndex = (ind) => {
+    props.switchIndex(ind);
+  };
+
+  const keyButtons = (e) => {
+    switchPage(e.target.id);
+  };
+
+  // CORRECT
+  const firstBtn = (e) => {
+    console.log(stacks[props.currentIndex]);
+    switchPage(1);
+    switchStIndex(0);
+  };
+ // CORRECT
+  const lastBtn = (e) => {
+    console.log(stacks[props.currentIndex]);
+    setStack(stacks[Object.keys(stacks).length - 1], switchStIndex(Object.keys(stacks).length - 1, switchPage(props.pageNum)));
+    
+  };
+  // CORRECT
+  const nextBtn = (e) => {
+    console.log("Out of stack?", stacks[props.currentIndex].indexOf(props.currentPage + 1) === -1);
+    if (stacks[props.currentIndex].indexOf(props.currentPage + 1) === -1) {
+      console.log("old Stack: ", stacks[props]);
+      
+        setStack(stacks[props.currentIndex + 1],switchStIndex(
+        (prev) => prev + 1), switchPage(props.currentPage + 1))
+      
+      console.log("New Stack: ", stack);
+    } else {
+      switchPage(props.currentPage + 1);
+    }
+  };
+
+  // CORRECT
+  const prevBtn = (e) => {
+    console.log("Out of stack?", stacks[props.currentIndex].indexOf(props.currentPage - 1) === -1);
+    if (stacks[props.currentIndex].indexOf(props.currentPage - 1) === -1) {
+       setStack(
+         stacks[props.currentIndex - 1],
+         switchStIndex((prev) => prev - 1),
+         switchPage(props.currentPage - 1)
+       );
+    } else {
+      switchPage(props.currentPage - 1);
+    }
+  };
+
+  const pageMapper = (arr) => {
+    console.log("Current Array of pages:", arr);
+    return arr.map((page) => {
+      if (page == props.currentPage) {
         return (
           <Pagination.Item
             className={[styles["active-btn"], styles["buttons"]]}
@@ -111,27 +117,16 @@ export default function CustomPagination(props) {
             {page}
           </Pagination.Item>
         );
-    });}
+    });
+  };
 
-  var pagesList = pageMapper(stack);
+  var pagesList = pageMapper(stacks[props.currentIndex]);
 
-  useEffect(() => {
-    pagesList = pageMapper(stack);
-  }, [ currentPage]);
-
-  useEffect(() => {
-    console.log(stacks)
-    console.log(Object.keys(stacks).length);
-  }, []);
-
-  useEffect(() => {
-    console.log("Stack index Changed!",stackIndex)
-  }, [stackIndex])
 
   return (
     <>
       <Pagination>
-        {currentPage == 1 ? (
+        {props.currentPage == 1 ? (
           <Pagination.First
             style={{ color: "#212529" }}
             className={styles["buttons"]}
@@ -144,7 +139,7 @@ export default function CustomPagination(props) {
             id="first"
           />
         )}
-        {currentPage == 1 ? (
+        {props.currentPage == 1 ? (
           <Pagination.Prev
             style={{ color: "#212529" }}
             className={styles["buttons"]}
@@ -159,7 +154,7 @@ export default function CustomPagination(props) {
         )}
         {pagesList}
 
-        {currentPage == props.pageNum ? (
+        {props.currentPage == props.pageNum ? (
           <Pagination.Next disabled />
         ) : (
           <Pagination.Next
@@ -168,7 +163,7 @@ export default function CustomPagination(props) {
             id="next"
           />
         )}
-        {currentPage == props.pageNum ? (
+        {props.currentPage == props.pageNum ? (
           <Pagination.Last disabled />
         ) : (
           <Pagination.Last

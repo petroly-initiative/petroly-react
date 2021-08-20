@@ -15,19 +15,26 @@ import { AiFillEdit } from "react-icons/ai";
 import Evaluation from "../components/evaluation/Evaluation";
 import InstructorRates from "../components/Instructros/InstructorRates";
 import EvaluationModal from "../components/evaluation/EvaluationModal";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import { MdFolderSpecial } from "react-icons/md";
 import mockData from "../dummy-data/instructors-data.json";
+import client from "../api/apollo-client";
+import { getInstructorName, getInstructorDetail } from "../api/queries";
+import { instructorContext } from "../state-management/instructors-state/instructorsContext";
 
 export const getStaticPaths = async () => {
   //! Should be replaced by an API Call to get all instructor names for dynamic path creation
-  const data = mockData;
-  const names = data[0].map((val) => {
+
+  const { data } = client.query({
+    query: getInstructorName,
+  });
+  const ids = data.instructors.data.map((element) => {
     return {
       params: {
-        instructor: val.name,
+        instructor: element.name,
+        id: element.id,
       },
     };
   });
@@ -38,31 +45,29 @@ export const getStaticPaths = async () => {
    * that includes the tokenzied dynamic path
    */
   return {
-    paths: names,
+    paths: ids,
     fallback: false,
   };
 };
 // This function will run for each path we provided
 export const getStaticProps = async (context) => {
-  const id = context.params.instructor;
-  // !WARNING: This code should be replaced by an API Query
-  const index = mockData[0].findIndex((element) => element.name === id);
+  const id = context.params.id;
 
-  const data = mockData[0][index];
+  const instructorData = client.query(getInstructorDetail(id));
 
   return {
-    props: { instructorData: data },
-    revalidate: 5
+    props: { data: instructorData },
+    revalidate: 5,
   };
 };
 
 // TODO: Replacing static evaluations with mapped mock data
 
-export default function instructorDetails({ instructorData }) {
+export default function instructorDetails({ data }) {
   const [modalVisible, setVisible] = useState(false);
 
   useEffect(() => {
-    console.log(instructorData);
+    console.log(data.instructor);
   }, []);
 
   const closeModal = () => {
@@ -87,7 +92,7 @@ export default function instructorDetails({ instructorData }) {
   return (
     <>
       <Head>
-        <title>Petroly | {instructorData.name}</title>
+        <title>Petroly | {data.instructor.name}</title>
       </Head>
       <Navbar page="rating" />
       <Container className={styles.container}>
@@ -109,7 +114,7 @@ export default function instructorDetails({ instructorData }) {
                   <div className={cardStyles.insuctor_pic + " shadow"}>
                     <Image
                       className={cardStyles.picDiv}
-                      src={instructorData.src}
+                      src={data.instructor.profilePic}
                       width="70"
                       height="70"
                     />
@@ -123,12 +128,12 @@ export default function instructorDetails({ instructorData }) {
                   >
                     <div className={cardStyles.eval_counter}>
                       <MdFolderSpecial />
-                      <span>{instructorData.evalCount}</span>
+                      <span>{45}</span>
                     </div>
                   </OverlayTrigger>
                 </div>
                 <div className={cardStyles.instructor_name}>
-                  {instructorData.name}
+                  {data.instructor.name}
                 </div>
 
                 <div className={cardStyles.instructor_dept}>
@@ -143,11 +148,11 @@ export default function instructorDetails({ instructorData }) {
               <Card.Body className={styles.statsCard}>
                 <div className={styles.containerHeaders}>التقييم العام</div>
                 <InstructorRates
-                  overall={parseFloat(instructorData.rating)}
+                  overall={data.instructor.overallFloat}
                   //!WARNING: All category scores should be fetched from data
-                  grading={3}
-                  teaching={4.3}
-                  personality={1.9}
+                  grading={(data.instructor.gradingAvg / 20).toPrecision(2)}
+                  teaching={(data.instructor.teachingAvg / 20).toPrecision(2)}
+                  personality={(data.teachingAvg / 20).toPrecision(2)}
                 />
               </Card.Body>
             </Card>
