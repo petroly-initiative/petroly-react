@@ -61,7 +61,8 @@
 }
 
 .input-containers{
-  margin-top: 12px;
+  margin-top: 16px;
+  width: 90%;
 }
 
 .descriptions{
@@ -176,6 +177,7 @@
 }
 
 .rules{
+  padding: 8px !important;
   display: flex;
   align-items: center;
   direction: rtl;
@@ -185,6 +187,15 @@
   width : 95%;
   .rules-icon{
     margin-left: 16px;
+  }
+}
+
+.rules-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  div{
+    margin-bottom: 6px;
   }
 }
 

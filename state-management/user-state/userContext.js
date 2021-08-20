@@ -31,7 +31,10 @@ export const userReducer = (currentState, action) => {
                 action.credentials
             )
         case "sign-out":
-            return({logged: false})
+            return({logged: false});
+            //? This section will contain the procedure to create a new account
+        case "create-new":
+            break;
             
     }
 }
