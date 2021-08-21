@@ -19,17 +19,16 @@ export const instructorsQuery = gql`
 `;
 
 export const getInstructorName =  gql`
-  query getNames {
+  query getIds {
     instructors {
-      data {
-        id
-        name
-      }
+        data{
+          id
+        }
     }
   }
 `;
 
-export const getInstructorDetail = (id) => gql`
+export const getInstructorDetail = (id) => (gql`
   query{
     instructor(where: { id: { equals: ${id} } }) {
       name
@@ -41,6 +40,6 @@ export const getInstructorDetail = (id) => gql`
       teachingAvg
     }
   }
-`;
+`);
 
 

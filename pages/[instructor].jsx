@@ -22,19 +22,19 @@ import { MdFolderSpecial } from "react-icons/md";
 import mockData from "../dummy-data/instructors-data.json";
 import client from "../api/apollo-client";
 import { getInstructorName, getInstructorDetail } from "../api/queries";
-import { instructorContext } from "../state-management/instructors-state/instructorsContext";
+
 
 export const getStaticPaths = async () => {
   //! Should be replaced by an API Call to get all instructor names for dynamic path creation
 
-  const { data } = client.query({
+  const { data } = await client.query({
     query: getInstructorName,
+    variables: {},
   });
   const ids = data.instructors.data.map((element) => {
     return {
       params: {
-        instructor: element.name,
-        id: element.id,
+        instructor: element.id,
       },
     };
   });
@@ -46,14 +46,16 @@ export const getStaticPaths = async () => {
    */
   return {
     paths: ids,
-    fallback: false,
+    fallback: true,
   };
 };
 // This function will run for each path we provided
 export const getStaticProps = async (context) => {
-  const id = context.params.id;
+  const id = context.params.instructor;
 
-  const instructorData = client.query(getInstructorDetail(id));
+  const instructorData = await client.query({
+    query: getInstructorDetail(id),
+    variables: {}});
 
   return {
     props: { data: instructorData },
@@ -67,7 +69,7 @@ export default function instructorDetails({ data }) {
   const [modalVisible, setVisible] = useState(false);
 
   useEffect(() => {
-    console.log(data.instructor);
+    console.log(data);
   }, []);
 
   const closeModal = () => {
@@ -89,10 +91,14 @@ export default function instructorDetails({ data }) {
     );
   };
 
+  useEffect(() => {
+    console.log(data)
+  }, [])
+
   return (
     <>
       <Head>
-        <title>Petroly | {data.instructor.name}</title>
+        <title>Petroly | {data.data.instructor.name}</title>
       </Head>
       <Navbar page="rating" />
       <Container className={styles.container}>
@@ -114,7 +120,7 @@ export default function instructorDetails({ data }) {
                   <div className={cardStyles.insuctor_pic + " shadow"}>
                     <Image
                       className={cardStyles.picDiv}
-                      src={data.instructor.profilePic}
+                      src={data.data.instructor.profilePic}
                       width="70"
                       height="70"
                     />
@@ -133,7 +139,7 @@ export default function instructorDetails({ data }) {
                   </OverlayTrigger>
                 </div>
                 <div className={cardStyles.instructor_name}>
-                  {data.instructor.name}
+                  {data.data.instructor.name}
                 </div>
 
                 <div className={cardStyles.instructor_dept}>
@@ -148,11 +154,11 @@ export default function instructorDetails({ data }) {
               <Card.Body className={styles.statsCard}>
                 <div className={styles.containerHeaders}>التقييم العام</div>
                 <InstructorRates
-                  overall={data.instructor.overallFloat}
+                  overall={data.data.instructor.overallFloat}
                   //!WARNING: All category scores should be fetched from data
-                  grading={(data.instructor.gradingAvg / 20).toPrecision(2)}
-                  teaching={(data.instructor.teachingAvg / 20).toPrecision(2)}
-                  personality={(data.teachingAvg / 20).toPrecision(2)}
+                  grading={(data.data.instructor.gradingAvg / 20).toPrecision(2)}
+                  teaching={(data.data.instructor.teachingAvg / 20).toPrecision(2)}
+                  personality={(data.data.teachingAvg / 20).toPrecision(2)}
                 />
               </Card.Body>
             </Card>
@@ -235,7 +241,7 @@ export default function instructorDetails({ data }) {
           </Button>
         </OverlayTrigger>
         <EvaluationModal
-          name={instructorData.name}
+          name={data.data.instructor.name}
           image={<CgProfile size={75} id="profile" />}
           dept={"Software Engineering"}
           close={closeModal}
