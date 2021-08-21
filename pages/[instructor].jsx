@@ -53,12 +53,12 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const id = context.params.instructor;
 
-  const instructorData = await client.query({
-    query: getInstructorDetail(id),
-    variables: {}});
+  const { data } = await client.query({
+    query: getInstructorDetail,
+    variables: {id}});
 
   return {
-    props: { data: instructorData },
+    props: { data: data },
     revalidate: 5,
   };
 };
@@ -90,6 +90,27 @@ export default function instructorDetails({ data }) {
       ' url("/images/background.svg")'
     );
   };
+  // !WARNING: Change eval structure according to specified date
+  const evalMapper = () => 
+    data.instructor.evaluationSet.data.map(evaluation => 
+      <Evaluation
+        date={evaluation.date.split("T")[0]}
+        grading={""}
+        teaching={evaluation.comment}
+        personality=""
+        rating={[
+          evaluation.grading,
+          evaluation.teaching,
+          evaluation.personality,
+        ]}
+        term={""}
+        course={evaluation.course.toUpperCase()}
+      />
+    );
+  
+
+  const evalList = evalMapper();
+
 
   useEffect(() => {
     console.log(data)
@@ -98,7 +119,7 @@ export default function instructorDetails({ data }) {
   return (
     <>
       <Head>
-        <title>Petroly | {data.data.instructor.name}</title>
+        <title>Petroly | {data.instructor.name}</title>
       </Head>
       <Navbar page="rating" />
       <Container className={styles.container}>
@@ -108,11 +129,12 @@ export default function instructorDetails({ data }) {
             padding: "16px",
             display: "flex !important",
             alignItems: "center !important",
+            width: "100%"
           }}
         >
           <Col xl={4} className={styles.statsCol}>
             <Card style={{ borderRadius: 8 }} className={"shadow border-0"}>
-              <Card.Body className={cardStyles.container}>
+              <Card.Body style={{width: "100%"}} className={cardStyles.container}>
                 <div
                   style={{ background: randomColor() }}
                   className={cardStyles.cardColor}
@@ -120,7 +142,7 @@ export default function instructorDetails({ data }) {
                   <div className={cardStyles.insuctor_pic + " shadow"}>
                     <Image
                       className={cardStyles.picDiv}
-                      src={data.data.instructor.profilePic}
+                      src={data.instructor.profilePic}
                       width="70"
                       height="70"
                     />
@@ -134,16 +156,17 @@ export default function instructorDetails({ data }) {
                   >
                     <div className={cardStyles.eval_counter}>
                       <MdFolderSpecial />
-                      <span>{45}</span>
+                      {/**! WARNING Needs to be fetched */}
+                      <span>{data.instructor.evaluationSet.count}</span>
                     </div>
                   </OverlayTrigger>
                 </div>
                 <div className={cardStyles.instructor_name}>
-                  {data.data.instructor.name}
+                  {data.instructor.name}
                 </div>
 
                 <div className={cardStyles.instructor_dept}>
-                  Software Engineering
+                  {data.instructor.department}
                 </div>
               </Card.Body>
             </Card>
@@ -154,15 +177,11 @@ export default function instructorDetails({ data }) {
               <Card.Body className={styles.statsCard}>
                 <div className={styles.containerHeaders}>التقييم العام</div>
                 <InstructorRates
-                  overall={data.data.instructor.overallFloat}
+                  overall={data.instructor.overallFloat}
                   //!WARNING: All category scores should be fetched from data
-                  grading={(data.data.instructor.gradingAvg / 20).toPrecision(
-                    2
-                  )}
-                  teaching={(data.data.instructor.teachingAvg / 20).toPrecision(
-                    2
-                  )}
-                  personality={(data.data.teachingAvg / 20).toPrecision(2)}
+                  grading={(data.instructor.gradingAvg / 20).toPrecision(2)}
+                  teaching={(data.instructor.teachingAvg / 20).toPrecision(2)}
+                  personality={(data.teachingAvg / 20).toPrecision(2)}
                 />
               </Card.Body>
             </Card>
@@ -170,7 +189,7 @@ export default function instructorDetails({ data }) {
           <Col xl={8} className={styles.feedbackCol}>
             <Card className={styles.feedbackContainer + " shadow"}>
               <div className={styles.containerHeaders}>التقييمات السابقة</div>
-              <Card.Body>
+              <Card.Body style={{width: "100%"}}>
                 <Row
                   style={{ paddingTop: "0px !important" }}
                   className={styles.prev_list}
@@ -178,52 +197,8 @@ export default function instructorDetails({ data }) {
                   {/**
                    * The evaluations will also be a past of the response object in fetching
                    */}
-                  <Col xs={12} md={6}>
-                    <Evaluation
-                      date="21/6/2001"
-                      grading=" what a phenomenal experience to be taught under this teacher"
-                      teaching=" really really goooooood"
-                      personality="despite being angry, he is really friendly most of the tim"
-                      rating={4}
-                      term="201"
-                      course="PHYS201"
-                    />
-                    <Evaluation
-                      date="21/6/2001"
-                      grading=" what a phenomenal experience to be taught under this teacher"
-                      teaching=" really really goooooood"
-                      personality="despite being angry, he is really friendly most of the tim"
-                      rating={5}
-                      course="PHYS101"
-                      term={193}
-                    />
-                  </Col>
-                  <Col xs={12} md={6}>
-                    <Evaluation
-                      date="21/6/2001"
-                      grading=" what a phenomenal experience to be taught under this teacher"
-                      teaching=" really really goooooood"
-                      personality="despite being angry, he is really friendly most of the tim"
-                      rating={5}
-                      course="PHYS102"
-                      term="203"
-                    />
-                    <Evaluation
-                      date="21/9/2020"
-                      grading=" what a phenomenal experience to be taught under this teacher"
-                      teaching=" really really goooooood"
-                      personality="despite being angry, he is really friendly most of the tim"
-                      rating={5}
-                      course="PYP003"
-                    />
-                    <Evaluation
-                      date="21/6/2001"
-                      grading=" what a phenomenal experience to be taught under this teacher"
-                      teaching=" really really goooooood"
-                      personality="despite being angry, he is really friendly most of the tim"
-                      rating={5}
-                    />
-                  </Col>
+
+                    {evalList}
                 </Row>
               </Card.Body>
             </Card>
@@ -245,18 +220,17 @@ export default function instructorDetails({ data }) {
           </Button>
         </OverlayTrigger>
         <EvaluationModal
-          name={data.data.instructor.name}
+          name={data.instructor.name}
           image={
-            
-              <Image
-              style={{borderRadius: "30px !important"}}
-                className={cardStyles.picDiv}
-                src={data.data.instructor.profilePic}
-                width="70"
-                height="70"
-              />
+            <Image
+              style={{ borderRadius: "30px !important" }}
+              className={cardStyles.picDiv}
+              src={data.instructor.profilePic}
+              width="70"
+              height="70"
+            />
           }
-          dept={"Software Engineering"}
+          dept= {data.instructor.department}
           close={closeModal}
           visible={modalVisible}
         />

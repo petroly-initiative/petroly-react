@@ -88,8 +88,8 @@ export default function SignInModal(props) {
                 layout="fixed"
                 width={200}
                 height={560}
-                src="/images/sign-in/sign-in-header.svg"
-                alt=""
+                src={"/images/signIn/sign-in-header.svg"}
+                alt="abstract green and blue pattern"
               />
             </div>
 
@@ -196,7 +196,7 @@ export default function SignInModal(props) {
                     {tab === "signIn"
                       ? "ليس لديك حساب بترولي؟"
                       : "لديك حساب بترولي؟"}
-                    <button
+                    <button type="button"
                       onClick={switchTab}
                       className={authStyle.redirectBtn}
                     >
@@ -216,3 +216,4 @@ export default function SignInModal(props) {
     </>
   );
 }
+

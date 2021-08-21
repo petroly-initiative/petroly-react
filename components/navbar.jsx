@@ -14,7 +14,7 @@ import Button from "react-bootstrap/Button";
 import SignInModal from "./SignInModal";
 import { userContext } from "../state-management/user-state/userContext";
 import { FaSignInAlt } from "react-icons/fa";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { OverlayTrigger } from "react-bootstrap";
 import Popover from "react-bootstrap/Popover";
 /**
  * TODO:
@@ -24,21 +24,18 @@ import Popover from "react-bootstrap/Popover";
  */
 
 export default function Navbar(props) {
-
   const userInfo = useContext(userContext);
   const [sideVisible, setVisible] = useState(false);
   const [sideBarStyle, setStyle] = useState({ left: "100vw" });
   const [overlayStyle, setOverlay] = useState({ display: "none" });
   const [showSignIn, setShowSignIn] = useState(false);
-  
 
   const handleSignInClose = () => setShowSignIn(false);
   const handleSignInShow = () => setShowSignIn(true);
 
   const signOut = async () => {
-    await userInfo.userDispatch({type: "sign-out"});
-    
-  }
+    await userInfo.userDispatch({ type: "sign-out" });
+  };
 
   var navStyles = {
     home: { color: props.page == "home" ? "#00dfc8" : "" },
@@ -61,25 +58,22 @@ export default function Navbar(props) {
     });
   }, [sideVisible]);
 
-  
-
   const showSidebar = () => {
     console.log(sideVisible);
     setVisible((prev) => !prev);
   };
-
 
   return (
     <nav className={styles.navbar}>
       <SignInModal visible={showSignIn} close={handleSignInClose} />
       <div className={styles.navbar_top}>
         <li className={styles.navbar_item}>
-            <Image
-              style={{ margin: 0 }}
-              src="/favicon.png"
-              width={35}
-              height={35}
-            />
+          <Image
+            style={{ margin: 0 }}
+            src="/favicon.png"
+            width={35}
+            height={35}
+          />
         </li>
         <Button className={styles.collapser} onClick={showSidebar}>
           <FiMenu className={styles.collapse_icon} size="1.6em" />
@@ -227,7 +221,11 @@ export default function Navbar(props) {
                       </strong>
                       <br />
                       <div>{userInfo.status.email}</div>
-                      <Button variant="danger" style={{marginTop: 12, fontSize: 12}} onClick={signOut}>
+                      <Button
+                        variant="danger"
+                        style={{ marginTop: 12, fontSize: 12 }}
+                        onClick={signOut}
+                      >
                         <strong>sign out</strong>
                       </Button>
                     </Popover.Content>

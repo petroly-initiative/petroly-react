@@ -7,7 +7,7 @@ import {
   InputGroup,
   DropdownButton,
   Dropdown,
-  Spinner
+  Spinner,
 } from "react-bootstrap";
 import InstructorCard from "../components/Instructros/InstructorCard";
 import Navbar from "../components/navbar";
@@ -21,16 +21,11 @@ import CustomPagination from "../components/Pagination";
 import { Fade } from "react-awesome-reveal";
 import ClientOnly from "../components/ClientOnly";
 import { useQuery } from "@apollo/client";
-import { instructorsQuery } from "../api/queries";
-
-
-
+import { instructorsQuery, getDepartments } from "../api/queries";
+import { AiOutlineConsoleSql } from "react-icons/ai";
 
 function instructorsList() {
-  
-
-
-  const[offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(0);
   const [page, setPage] = useState(1);
   const [stackIndex, setStackIndex] = useState(0);
 
@@ -40,32 +35,76 @@ function instructorsList() {
     console.log(data.instructors.count / 18);
   };
 
-  const switchStack = (index) => {
-    setStackIndex(index);
+  // Searchbar input management ----------
+  const [name, setName] = useState("");
+  const [activeDept, setDept] = useState("None");
+
+  const { data: dataDept, error: errorDept, loading: loadingDept } = useQuery(getDepartments, {
+    variables: { short: false },
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
+  });
+
+  const selectDept = (e) => {
+    setDept(e.target.id);
   }
 
-  // ! Error page
-  const { data, loading, error, refetch } = useQuery(instructorsQuery,
-     {variables: {offset: offset},
-    fetchPolicy: "network-only",
-  nextFetchPolicy: "cache-first"} );
+  const getName = e => {
+    setName(e.target.value);
+  }
 
-  useEffect( () => {
+   const deptMapper = () => 
+      dataDept.departmentList.map((dept) => (
+        <Dropdown.Item id={dept} active = {dept === activeDept} eventKey={dept} onClick={selectDept} className={styles["depts"]} as={"div"} eventKey="1">
+          {dept}
+        </Dropdown.Item>
+      ))
+ 
+  ;
+
+  
+
+ 
+
+  // -----------------------
+  const switchStack = (index) => {
+    setStackIndex(index);
+  };
+
+  const findInstructor = () => {
+    // some query to fetch instructors
+  };
+
+  // ! Error page
+  const { data, loading, error, refetch } = useQuery(instructorsQuery, {
+    variables: { offset: offset },
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
+  });
+  
+
+  useEffect(() => {
     // ? detect the change in page number
-    
-      setOffset((page - 1) * 18, refetch());
-      
+
+    setOffset((page - 1) * 18, refetch());
   }, [page]);
 
   useEffect(() => {
     console.log("New index", stackIndex);
   }, [stackIndex]);
 
-  const instructorMapper = (ind) =>
+  useEffect(() => {
+    if (!loadingDept){
+      console.log(dataDept);
+      deptList = deptMapper();
+    }
+  }, [loadingDept]);
+
+
+  const instructorMapper = () =>
     data.instructors.data.map((instructor) => {
       return (
         <InstructorCard
-          
           image={
             <Image
               className={styles.picDiv}
@@ -76,15 +115,15 @@ function instructorsList() {
           }
           instructorName={instructor.name}
           instructorDept={instructor.department}
-          instructorID = {instructor.id}
+          instructorID={instructor.id}
           starValue={Math.round(instructor.overallFloat)}
           evalCount={instructor.evaluationSet.count}
         />
       );
     });
 
-  if (loading){
-    console.log('LOADING');
+  if (loading || loadingDept) {
+    console.log("LOADING");
     return (
       <>
         <Head>
@@ -100,68 +139,34 @@ function instructorsList() {
               xl={7}
               style={{ width: "100% !important" }}
             >
-              <InputGroup className={styles["search-container"]}>
-                <Form.Control
-                  style={{ direction: "rtl" }}
-                  type="text"
-                  placeholder="أدخِل اسم المحاضِر"
-                ></Form.Control>
-                <InputGroup.Append style={{ height: 38 }}>
-                  <Button className={styles["search_btn"]}>
-                    <BiSearch size="1.5rem" />
-                  </Button>
-                </InputGroup.Append>
-
-                <InputGroup.Append>
-                  {/*popover for filters and order*/}
-                  <DropdownButton
-                    className={styles["dept-dropdown"]}
-                    align="start"
-                    id="dropdown-menu-align-right"
-                    title={<GoSettings size="1.5rem" />}
-                  >
-                    <Dropdown.Item className={styles["dropdown-h"]} disabled>
-                      القسم الجامعي
-                    </Dropdown.Item>
-                    <Dropdown.Divider style={{ height: "1" }} />
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Software Engineering
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Civil Engineering
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Chemical Engineering{" "}
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Computer Science
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Mechanical Engineering
-                    </Dropdown.Item>
-                  </DropdownButton>
-                </InputGroup.Append>
-              </InputGroup>
+              <Form onSubmit={findInstructor}>
+                <InputGroup className={styles["search-container"]}>
+                  <Form.Control
+                    style={{ direction: "rtl" }}
+                    type="text"
+                    placeholder="أدخِل اسم المحاضِر"
+                  ></Form.Control>
+                  <InputGroup.Append style={{ height: 38 }}>
+                    <Button className={styles["search_btn"]}>
+                      <BiSearch size="1.5rem" />
+                    </Button>
+                    <DropdownButton
+      className={styles["dept-dropdown"]}
+      align="start"
+      id="dropdown-menu-align-right"
+      title={<GoSettings size="1.5rem" />}
+    >
+      <Dropdown.Item className={styles["dropdown-h"]} disabled>
+        القسم الجامعي
+      </Dropdown.Item>
+      <Dropdown.Divider style={{ height: "1" }} />
+      <Dropdown.Item className={styles["depts"]} as={"div"} eventKey="1" active = {"None" === activeDept}>
+        None
+      </Dropdown.Item>
+      </DropdownButton>
+                  </InputGroup.Append>
+                </InputGroup>
+              </Form>
             </Col>
           </Row>
           <center>
@@ -175,7 +180,7 @@ function instructorsList() {
                 role="status"
                 aria-hidden="true"
               />
-              <div className= {styles["loading-text"]}>جاري التحميل </div>
+              <div className={styles["loading-text"]}>جاري التحميل </div>
             </Button>
           </center>
         </Container>
@@ -183,8 +188,8 @@ function instructorsList() {
     );
   }
 
-
   var currentList = instructorMapper(page - 1);
+  var deptList = deptMapper();
 
   return (
     <ClientOnly>
@@ -207,6 +212,8 @@ function instructorsList() {
                   style={{ direction: "rtl" }}
                   type="text"
                   placeholder="أدخِل اسم المحاضِر"
+                  value={name}
+                  onChange={getName}
                 ></Form.Control>
                 <InputGroup.Append style={{ height: 38 }}>
                   <Button className={styles["search_btn"]}>
@@ -227,40 +234,16 @@ function instructorsList() {
                     </Dropdown.Item>
                     <Dropdown.Divider style={{ height: "1" }} />
                     <Dropdown.Item
+                      id="None"
                       className={styles["depts"]}
                       as={"div"}
                       eventKey="1"
+                      onClick={selectDept}
+                      active={activeDept === "None"}
                     >
-                      Software Engineering
+                      All departments
                     </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Civil Engineering
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Chemical Engineering{" "}
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Computer Science
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Mechanical Engineering
-                    </Dropdown.Item>
+                    {deptList}
                   </DropdownButton>
                 </InputGroup.Append>
               </InputGroup>
@@ -286,9 +269,9 @@ function instructorsList() {
             <CustomPagination
               pageNum={Math.ceil(data.instructors.count / 18)}
               switchView={switchPage}
-              switchIndex = {switchStack}
-              currentPage = {page}
-              currentIndex = {stackIndex}
+              switchIndex={switchStack}
+              currentPage={page}
+              currentIndex={stackIndex}
             />
           </div>
         </Container>

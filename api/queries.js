@@ -28,18 +28,38 @@ export const getInstructorName =  gql`
   }
 `;
 
-export const getInstructorDetail = (id) => (gql`
-  query{
-    instructor(where: { id: { equals: ${id} } }) {
+export const getInstructorDetail = gql`
+  query Instructor($id: Int) {
+    instructor(where: { id: { equals: $id } }) {
+      id
       name
       department
       profilePic
+      overall
       overallFloat
       gradingAvg
       personalityAvg
       teachingAvg
+      evaluationSet {
+        count
+        data {
+          date
+          id
+          grading
+          teaching
+          personality
+          course
+          comment
+        }
+      }
     }
   }
-`);
+`;
+
+export const getDepartments =  gql`
+  query getDepartments($short: Boolean){
+    departmentList(short: $short)
+  }
+`;
 
 
