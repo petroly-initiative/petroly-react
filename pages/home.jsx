@@ -24,13 +24,7 @@ export default function HomeScreen() {
       </Head>
       <Navbar page="home" />
       <Container className={styles["main-container"]}>
-        <Fade
-          
-          cascade
-          damping={0.05}
-          triggerOnce
-          direction="up"
-        >
+        <Fade cascade damping={0.05} triggerOnce direction="up">
           <div className={styles["titles"]}>أخبار بترولي</div>
           <Row className={styles["containers"]}>
             <Col
@@ -174,10 +168,7 @@ export default function HomeScreen() {
                   xl={6}
                   className={[styles["services"], styles["columns"]]}
                 >
-                  <ServiceCard
-                    title="التقييم"
-                    header="/images/home/rating.svg"
-                  />
+                  <ServiceCard title="التقييم" header="/images/home/rating.svg" />
                   <ServiceCard
                     title="المجتمعات"
                     header="/images/home/communities-icon.svg"

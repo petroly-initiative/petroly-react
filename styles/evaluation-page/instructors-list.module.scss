@@ -9,10 +9,10 @@
 
 .search-container > input {
   &:focus {
-    box-shadow: 0px 0px 2px #999999 !important;
+    box-shadow: 0px 0px 4px #00ffe5 !important;
   }
   &:hover {
-    box-shadow: 0px 0px 2px #999999 !important;
+    box-shadow: 0px 0px 4px #999999 !important;
   }
 }
 
@@ -20,35 +20,31 @@
   transition: 600ms ease;
   z-index: 100;
   margin-bottom: 12px;
-  &:focus,
-  &:active,
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: none !important;
-  }
+  
 }
 .search_btn {
-  background-color: rgb(8, 164, 255) !important;
+  background-color: #00ead3 !important;
   border: none;
   height: 100% !important;
   &:hover {
-    background-color: rgb(4, 144, 224) !important;
+    background-color: #05e6cf !important;
   }
 }
 
 .dropdown-menu {
   height: 300px !important;
   overflow-y: scroll !important;
+  
 }
 
 .dept-dropdown {
   button {
-    background-color: rgb(0, 157, 248) !important;
+    background-color: #06d8c3 !important;
     border: none;
     border-radius: 0 6px 6px 0 !important;
     height: 38px;
     &:hover {
-      background-color: rgb(4, 144, 224) !important;
+      background-color: #04c0ad !important;
     }
   }
   button::after {
@@ -57,13 +53,14 @@
 }
 
 .dropdown-h {
-  color: #00ead3 !important;
+  color: rgb(4, 144, 224) !important;
   font-weight: 700;
 }
 
 .depts {
   color: #52575d;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .dept-dropdown > div {
@@ -71,7 +68,7 @@
   overflow-y: scroll !important;
 }
 .dept-dropdown div::-webkit-scrollbar {
-  width: 0.3rem;
+  width: 0.5rem;
 }
 
 .dept-dropdown div::-webkit-scrollbar-track {
