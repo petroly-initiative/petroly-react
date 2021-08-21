@@ -7,7 +7,7 @@ import {
   InputGroup,
   DropdownButton,
   Dropdown,
-  Spinner
+  Spinner,
 } from "react-bootstrap";
 import InstructorCard from "../components/Instructros/InstructorCard";
 import Navbar from "../components/navbar";
@@ -23,14 +23,8 @@ import ClientOnly from "../components/ClientOnly";
 import { useQuery } from "@apollo/client";
 import { instructorsQuery } from "../api/queries";
 
-
-
-
 function instructorsList() {
-  
-
-
-  const[offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(0);
   const [page, setPage] = useState(1);
   const [stackIndex, setStackIndex] = useState(0);
 
@@ -40,32 +34,39 @@ function instructorsList() {
     console.log(data.instructors.count / 18);
   };
 
+  // Searchbar input management
+  const [name, setName] = useState("");
+  const [dept, setDept] = useState("None");
+
   const switchStack = (index) => {
     setStackIndex(index);
-  }
+  };
+
+  const findInstructor = () => {
+    // some query to fetch instructors
+  };
 
   // ! Error page
-  const { data, loading, error, refetch } = useQuery(instructorsQuery,
-     {variables: {offset: offset},
+  const { data, loading, error, refetch } = useQuery(instructorsQuery, {
+    variables: { offset: offset },
     fetchPolicy: "network-only",
-  nextFetchPolicy: "cache-first"} );
+    nextFetchPolicy: "cache-first",
+  });
 
-  useEffect( () => {
+  useEffect(() => {
     // ? detect the change in page number
-    
-      setOffset((page - 1) * 18, refetch());
-      
+
+    setOffset((page - 1) * 18, refetch());
   }, [page]);
 
   useEffect(() => {
     console.log("New index", stackIndex);
   }, [stackIndex]);
 
-  const instructorMapper = (ind) =>
+  const instructorMapper = () =>
     data.instructors.data.map((instructor) => {
       return (
         <InstructorCard
-          
           image={
             <Image
               className={styles.picDiv}
@@ -76,15 +77,37 @@ function instructorsList() {
           }
           instructorName={instructor.name}
           instructorDept={instructor.department}
-          instructorID = {instructor.id}
+          instructorID={instructor.id}
           starValue={Math.round(instructor.overallFloat)}
           evalCount={instructor.evaluationSet.count}
         />
       );
     });
 
-  if (loading){
-    console.log('LOADING');
+  const deptMapper = (dept) => {
+    <DropdownButton
+      className={styles["dept-dropdown"]}
+      align="start"
+      id="dropdown-menu-align-right"
+      title={<GoSettings size="1.5rem" />}
+    >
+      <Dropdown.Item className={styles["dropdown-h"]} disabled>
+        القسم الجامعي
+      </Dropdown.Item>
+      <Dropdown.Divider style={{ height: "1" }} />
+      <Dropdown.Item className={styles["depts"]} as={"div"} eventKey="1" active>
+        None
+      </Dropdown.Item>
+      {[].map(dept => {
+        <Dropdown.Item className={styles["depts"]} as={"div"} eventKey="1">
+          {dept}
+        </Dropdown.Item>;
+      })}
+    </DropdownButton>;
+  };
+
+  if (loading) {
+    console.log("LOADING");
     return (
       <>
         <Head>
@@ -100,68 +123,78 @@ function instructorsList() {
               xl={7}
               style={{ width: "100% !important" }}
             >
-              <InputGroup className={styles["search-container"]}>
-                <Form.Control
-                  style={{ direction: "rtl" }}
-                  type="text"
-                  placeholder="أدخِل اسم المحاضِر"
-                ></Form.Control>
-                <InputGroup.Append style={{ height: 38 }}>
-                  <Button className={styles["search_btn"]}>
-                    <BiSearch size="1.5rem" />
-                  </Button>
-                </InputGroup.Append>
+              <Form onSubmit={findInstructor}>
+                <InputGroup className={styles["search-container"]}>
+                  <Form.Control
+                    style={{ direction: "rtl" }}
+                    type="text"
+                    placeholder="أدخِل اسم المحاضِر"
+                  ></Form.Control>
+                  <InputGroup.Append style={{ height: 38 }}>
+                    <Button className={styles["search_btn"]}>
+                      <BiSearch size="1.5rem" />
+                    </Button>
+                  </InputGroup.Append>
 
-                <InputGroup.Append>
-                  {/*popover for filters and order*/}
-                  <DropdownButton
-                    className={styles["dept-dropdown"]}
-                    align="start"
-                    id="dropdown-menu-align-right"
-                    title={<GoSettings size="1.5rem" />}
-                  >
-                    <Dropdown.Item className={styles["dropdown-h"]} disabled>
-                      القسم الجامعي
-                    </Dropdown.Item>
-                    <Dropdown.Divider style={{ height: "1" }} />
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
+                  <InputGroup.Append>
+                    {/*popover for filters and order*/}
+                    <DropdownButton
+                      className={styles["dept-dropdown"]}
+                      align="start"
+                      id="dropdown-menu-align-right"
+                      title={<GoSettings size="1.5rem" />}
                     >
-                      Software Engineering
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Civil Engineering
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Chemical Engineering{" "}
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Computer Science
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className={styles["depts"]}
-                      as={"div"}
-                      eventKey="1"
-                    >
-                      Mechanical Engineering
-                    </Dropdown.Item>
-                  </DropdownButton>
-                </InputGroup.Append>
-              </InputGroup>
+                      <Dropdown.Item className={styles["dropdown-h"]} disabled>
+                        القسم الجامعي
+                      </Dropdown.Item>
+                      <Dropdown.Divider style={{ height: "1" }} />
+                      <Dropdown.Item
+                        className={styles["depts"]}
+                        as={"div"}
+                        eventKey="1"
+                        active
+                      >
+                        None
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        className={styles["depts"]}
+                        as={"div"}
+                        eventKey="1"
+                      >
+                        Software Engineering
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        className={styles["depts"]}
+                        as={"div"}
+                        eventKey="1"
+                      >
+                        Civil Engineering
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        className={styles["depts"]}
+                        as={"div"}
+                        eventKey="1"
+                      >
+                        Chemical Engineering{" "}
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        className={styles["depts"]}
+                        as={"div"}
+                        eventKey="1"
+                      >
+                        Computer Science
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        className={styles["depts"]}
+                        as={"div"}
+                        eventKey="1"
+                      >
+                        Mechanical Engineering
+                      </Dropdown.Item>
+                    </DropdownButton>
+                  </InputGroup.Append>
+                </InputGroup>
+              </Form>
             </Col>
           </Row>
           <center>
@@ -175,14 +208,13 @@ function instructorsList() {
                 role="status"
                 aria-hidden="true"
               />
-              <div className= {styles["loading-text"]}>جاري التحميل </div>
+              <div className={styles["loading-text"]}>جاري التحميل </div>
             </Button>
           </center>
         </Container>
       </>
     );
   }
-
 
   var currentList = instructorMapper(page - 1);
 
@@ -226,6 +258,14 @@ function instructorsList() {
                       القسم الجامعي
                     </Dropdown.Item>
                     <Dropdown.Divider style={{ height: "1" }} />
+                    <Dropdown.Item
+                      className={styles["depts"]}
+                      as={"div"}
+                      eventKey="1"
+                      active
+                    >
+                      None
+                    </Dropdown.Item>
                     <Dropdown.Item
                       className={styles["depts"]}
                       as={"div"}
@@ -286,9 +326,9 @@ function instructorsList() {
             <CustomPagination
               pageNum={Math.ceil(data.instructors.count / 18)}
               switchView={switchPage}
-              switchIndex = {switchStack}
-              currentPage = {page}
-              currentIndex = {stackIndex}
+              switchIndex={switchStack}
+              currentPage={page}
+              currentIndex={stackIndex}
             />
           </div>
         </Container>
