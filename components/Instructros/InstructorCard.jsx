@@ -28,7 +28,7 @@ function InstructorCard(props) {
   return (
     
       
-        <Link href= {`/${props.instructorName}`} >
+        <Link href= {`/${props.instructorID}`} >
         <Card
           style={{ borderRadius: 8 }}
           className={"shadow border-0 " + styles.Cardholder}

@@ -22,7 +22,6 @@ import { Fade } from "react-awesome-reveal";
 import ClientOnly from "../components/ClientOnly";
 import { useQuery } from "@apollo/client";
 import { instructorsQuery } from "../api/queries";
-import { instructorContext} from "../state-management/instructors-state/instructorsContext";
 
 
 
@@ -30,7 +29,7 @@ import { instructorContext} from "../state-management/instructors-state/instruct
 function instructorsList() {
   
 
-  const offsetTracker = useContext(instructorContext);
+
   const[offset, setOffset] = useState(0);
   const [page, setPage] = useState(1);
   const [stackIndex, setStackIndex] = useState(0);
@@ -60,7 +59,6 @@ function instructorsList() {
 
   useEffect(() => {
     console.log("New index", stackIndex);
-    offsetTracker.instructorsDispatch(stackIndex);
   }, [stackIndex]);
 
   const instructorMapper = (ind) =>
@@ -78,6 +76,7 @@ function instructorsList() {
           }
           instructorName={instructor.name}
           instructorDept={instructor.department}
+          instructorID = {instructor.id}
           starValue={Math.round(instructor.overallFloat)}
           evalCount={instructor.evaluationSet.count}
         />
