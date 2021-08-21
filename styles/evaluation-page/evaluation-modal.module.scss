@@ -108,11 +108,20 @@
 }
 
 .instructorPic{
-  height: 70px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    width: 70px;
+    height: 70px;
+      padding: 4px;
+      border-radius: 35px;
+      overflow: hidden;
+      background-color: white;
+      color: white !important;
+
+      img{
+        border-radius: 35px;
+      }
+      
+  }
+
 
 .instructorInfo{
   height: 70px;

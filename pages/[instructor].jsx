@@ -156,8 +156,12 @@ export default function instructorDetails({ data }) {
                 <InstructorRates
                   overall={data.data.instructor.overallFloat}
                   //!WARNING: All category scores should be fetched from data
-                  grading={(data.data.instructor.gradingAvg / 20).toPrecision(2)}
-                  teaching={(data.data.instructor.teachingAvg / 20).toPrecision(2)}
+                  grading={(data.data.instructor.gradingAvg / 20).toPrecision(
+                    2
+                  )}
+                  teaching={(data.data.instructor.teachingAvg / 20).toPrecision(
+                    2
+                  )}
                   personality={(data.data.teachingAvg / 20).toPrecision(2)}
                 />
               </Card.Body>
@@ -242,7 +246,16 @@ export default function instructorDetails({ data }) {
         </OverlayTrigger>
         <EvaluationModal
           name={data.data.instructor.name}
-          image={<CgProfile size={75} id="profile" />}
+          image={
+            
+              <Image
+              style={{borderRadius: "30px !important"}}
+                className={cardStyles.picDiv}
+                src={data.data.instructor.profilePic}
+                width="70"
+                height="70"
+              />
+          }
           dept={"Software Engineering"}
           close={closeModal}
           visible={modalVisible}

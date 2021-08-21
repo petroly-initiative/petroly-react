@@ -19,6 +19,7 @@ import { ImCancelCircle } from "react-icons/im";
 import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
 import { evalReducer } from "../../state-management/evaluation-state/evaluationReducer";
+
 /**
  * TODO: State management for every form control
  * - creating a reducer to handle the evaluation request
@@ -27,55 +28,56 @@ import { evalReducer } from "../../state-management/evaluation-state/evaluationR
  */
 export default function EvaluationModal(props) {
   // modal state
-  const [submissionState, dispatch] = useReducer(evalReducer, {sucess: false})
+  const [submissionState, dispatch] = useReducer(evalReducer, {
+    sucess: false,
+  });
   const [show, setShow] = useState(false);
   // evaluation form state
   // each category is an object with grade and comment attribute
   const [grading, setGrading] = useState({
     rating: 0,
-    comment: ""
+    comment: "",
   });
   const [teaching, setTeaching] = useState({
     rating: 0,
-    comment: ""
+    comment: "",
   });
   const [person, setPerson] = useState({
-    rating: 0, 
-    comment: ""
+    rating: 0,
+    comment: "",
   });
   const [extra, setExtra] = useState({
     term: "",
-    course: ""
-  })
+    course: "",
+  });
 
   const setCourse = (e) => {
-    setExtra(state => ({term: state.term, course: e.target.value}))
-  }
+    setExtra((state) => ({ term: state.term, course: e.target.value }));
+  };
   const setTerm = (e) => {
-    setExtra((state) => ({term: e.target.value, course: state.course}));
+    setExtra((state) => ({ term: e.target.value, course: state.course }));
   };
 
   const gradeRate = (val) => {
-    setGrading(state => ({rating: val, comment: state.comment}))
-  }
+    setGrading((state) => ({ rating: val, comment: state.comment }));
+  };
   const gradeComment = (e) => {
-    setGrading(state => ({rating: state.rating, comment: e.target.value}))
-  }
+    setGrading((state) => ({ rating: state.rating, comment: e.target.value }));
+  };
 
   const teachRate = (val) => {
-    setTeaching(state => ({rating: val, comment: state.comment}))
-  }
+    setTeaching((state) => ({ rating: val, comment: state.comment }));
+  };
   const teachComment = (e) => {
-    setTeaching(state => ({rating: state.rating, comment: e.target.value}))
-  }
+    setTeaching((state) => ({ rating: state.rating, comment: e.target.value }));
+  };
 
-    const personRate = (val) => {
-    setPerson(state => ({rating: val, comment: state.comment}))
-  }
+  const personRate = (val) => {
+    setPerson((state) => ({ rating: val, comment: state.comment }));
+  };
   const personComment = (e) => {
-    setPerson(state => ({rating: state.rating, comment: e.target.value}))
-  }
-
+    setPerson((state) => ({ rating: state.rating, comment: e.target.value }));
+  };
 
   useEffect(() => {
     setShow(props.visible);
@@ -88,22 +90,20 @@ export default function EvaluationModal(props) {
       context: extra,
       grading: grading,
       teaching: teaching,
-      personality: person
-    }
+      personality: person,
+    };
 
     await dispatch({
       type: "send",
-      content: dataFormat
-    })
+      content: dataFormat,
+    });
 
-    console.log("Done")
-
+    console.log("Done");
   };
 
   useEffect(() => {
-    if(submissionState.sucess)
-    props.close()
-  }, [submissionState])
+    if (submissionState.sucess) props.close();
+  }, [submissionState]);
 
   return (
     <>
@@ -135,7 +135,12 @@ export default function EvaluationModal(props) {
         >
           <section className={styles.sections}>
             <div className={styles["info-container"]}>
-              <div className={styles.instructorPic}>{props.image}</div>
+              <div
+                style={{ borderRadius: "35px" }}
+                className={styles.instructorPic + " shadow"}
+              >
+                {props.image}
+              </div>
               <div className={styles.instructorInfo}>
                 <div className={styles["instructor-name"]}>{props.name}</div>
                 <div className={styles["instructor-dept"]}>{props.dept}</div>
@@ -178,8 +183,8 @@ export default function EvaluationModal(props) {
                     placeholder="XXX"
                     aria-label="Term"
                     aria-describedby="term-txtarea"
-                    value = {extra.term}
-                    onChange ={setTerm}
+                    value={extra.term}
+                    onChange={setTerm}
                   />
                 </InputGroup>
               </Col>
@@ -194,13 +199,13 @@ export default function EvaluationModal(props) {
                     </InputGroup.Text>
                   </InputGroup.Prepend>
                   <FormControl
-                  minLength={5}
+                    minLength={5}
                     maxLength={7}
                     placeholder="ABCDXXX"
                     aria-label="Course"
                     aria-describedby="Course-txt-input"
-                    value = {extra.course}
-                    onChange = {setCourse}
+                    value={extra.course}
+                    onChange={setCourse}
                   />
                 </InputGroup>
               </Col>
@@ -223,7 +228,7 @@ export default function EvaluationModal(props) {
                   filledIcon={<BsStarFill />}
                   value={grading.rating}
                   activeColor="#ffd700"
-                  onChange = {gradeRate}
+                  onChange={gradeRate}
                 />
               </div>
             </div>
@@ -235,7 +240,7 @@ export default function EvaluationModal(props) {
                 placeholder={"اكتب تعليقك عن تصحيح المحاضِر"}
                 size="sm"
                 as="textarea"
-                value = {grading.comment}
+                value={grading.comment}
                 onChange={gradeComment}
               ></FormControl>
               <InputGroup.Append>
@@ -273,7 +278,7 @@ export default function EvaluationModal(props) {
                 placeholder={"اكتب تعليقك عن تدريس المحاضِر"}
                 size="sm"
                 as="textarea"
-                value = {teaching.comment}
+                value={teaching.comment}
                 onChange={teachComment}
               ></FormControl>
               <InputGroup.Append>
@@ -310,7 +315,7 @@ export default function EvaluationModal(props) {
                 placeholder={"اكتب تعليقك عن شخصية المحاضِر"}
                 as="textarea"
                 size="sm"
-                value = {person.comment}
+                value={person.comment}
                 onChange={personComment}
               ></FormControl>
               <InputGroup.Append>
@@ -341,7 +346,11 @@ export default function EvaluationModal(props) {
             delay={{ show: 500, hide: 400 }}
             overlay={<Tooltip id="button-tooltip-2">تسليم التقييم</Tooltip>}
           >
-            <Button onClick={submitEvaluation} type="submit" className={[styles["btns"], styles["submit-btn"]]}>
+            <Button
+              onClick={submitEvaluation}
+              type="submit"
+              className={[styles["btns"], styles["submit-btn"]]}
+            >
               <FaSave size="1.7rem" />
             </Button>
           </OverlayTrigger>
