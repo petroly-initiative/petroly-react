@@ -19,7 +19,6 @@ import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import { MdFolderSpecial } from "react-icons/md";
-import mockData from "../dummy-data/instructors-data.json";
 import client from "../api/apollo-client";
 import { getInstructorName, getInstructorDetail } from "../api/queries";
 

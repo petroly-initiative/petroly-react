@@ -70,4 +70,16 @@ export const getDepartments =  gql`
   }
 `;
 
+export const meQuery = gql`
+  query ME {
+    me {
+      id
+      username
+      profile {
+        profilePic
+      }
+    }
+  }
+`;
+
 
