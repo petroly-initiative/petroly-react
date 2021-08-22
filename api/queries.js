@@ -1,21 +1,29 @@
 import { gql } from "@apollo/client";
 
 export const instructorsQuery = gql`
-  query Instructors( $offset: Int) {
-    instructors(limit: 18, offset: $offset) {
-      count
-      data {
-        id
-        name
-        department
-        overallFloat
-        profilePic
-        evaluationSet {
-          count
-        }
+query Instructors($limit: Int, $offset: Int, 
+  $department: InstructorDepartmentEnum, $name: String){
+  instructors(
+    limit: $limit
+    offset: $offset
+    where: {
+      department: $department
+      name: {contains: $name}
+    }
+  ){
+    count
+    data{
+      id
+      name
+      department
+      overallFloat
+      profilePic
+      evaluationSet{
+        count
       }
     }
   }
+}
 `;
 
 export const getInstructorName =  gql`
