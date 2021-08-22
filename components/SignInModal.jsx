@@ -8,7 +8,9 @@ import { Fade } from "react-awesome-reveal";
 
 export default function SignInModal(props) {
   /**
-   * TODO: Validation, and validation Error indicators
+   * TODO: 
+   * - Validation, and validation Error indicators
+   * 
    */
 
   const userInfo = useContext(userContext);

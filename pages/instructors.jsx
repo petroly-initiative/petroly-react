@@ -16,101 +16,126 @@ import styles from "../styles/evaluation-page/instructors-list.module.scss";
 import { GoSettings } from "react-icons/go";
 import Image from "next/image";
 import Head from "next/head";
-import { useContext, useEffect, useState, useReducer, useLayoutEffect } from "react";
+import { useEffect, useState, useReducer } from "react";
 import CustomPagination from "../components/Pagination";
 import { Fade } from "react-awesome-reveal";
 import ClientOnly from "../components/ClientOnly";
 import { useQuery } from "@apollo/client";
 import { instructorsQuery, getDepartments } from "../api/queries";
-import { AiOutlineConsoleSql } from "react-icons/ai";
 
-function instructorsReducer(state, action){
-  console.log('instructorsReducer');
+function instructorsReducer(state, action) {
+  console.log("instructorsReducer");
   switch (action.changeIn) {
-    case 'name':
+    case "name":
       state.name = action.name;
       return state;
-    case 'department':
+    case "department":
       state.department = action.department;
       return state;
-    case 'offset':
+    case "offset":
       state.offset = action.offset;
       return state;
-    case 'limit':
+    case "limit":
       state.limit = action.limit;
       return state;
-  
+
     default:
       throw new Error("instructorsReducer didn't find what to do");
   }
 }
-const ITEMS = 4; // Number of InstructorCards per page
-const initialInstructorsState = {limit: ITEMS, offset: 0, department: null, name: null};
-
+const ITEMS = 6; // Number of InstructorCards per page
+const initialInstructorsState = {
+  limit: ITEMS,
+  offset: 0,
+  department: null,
+  name: null,
+};
 
 function instructorsList() {
   const [stackIndex, setStackIndex] = useState(0);
-  
-  // Searchbar input management ----------
-  const [instructorsState, instructorsDispatch] = useReducer(instructorsReducer, initialInstructorsState);
-  
+  //Searchbar input management ----------
+  const [instructorsState, instructorsDispatch] = useReducer(
+    instructorsReducer,
+    initialInstructorsState
+  );
+  const [name, setName] = useState("");
+
+  const changeName = (e) => {
+    instructorsDispatch({ changeIn: "name", name: e.target.value });
+    setName(e.target.value);
+  };
+  //
   // ? API hooks
-  const { data: dataDept, error: errorDept, loading: loadingDept } = useQuery(getDepartments, {
+  const {
+    data: dataDept,
+    error: errorDept,
+    loading: loadingDept,
+  } = useQuery(getDepartments, {
     variables: { short: true },
   });
 
-  const { data, loading, error, refetch, networkStatus, variables, fetchMore } = useQuery(instructorsQuery, {
-    variables: instructorsState,
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "cache-first",
-  });
-    
-    
+  const { data, loading, error, refetch, networkStatus, variables } = useQuery(
+    instructorsQuery,
+    {
+      variables: instructorsState,
+      notifyOnNetworkStatusChange: true,
+      fetchPolicy: "network-only",
+      nextFetchPolicy: "cache-first",
+    }
+  );
+
   //  ? To handle the search event
   const selectDept = (e) => {
-    var value = e.target.id
-    if (value == 'null')
-      value = null
-    instructorsDispatch({changeIn: 'department', department: value});
+    var value = e.target.id;
+    if (value == "null") value = null;
+    instructorsDispatch({ changeIn: "department", department: value });
     refetch(instructorsState);
-  }
-  
-  const search = e => {
-    var value = document.getElementById('name').value;
-    instructorsDispatch({changeIn: 'name', name: value});
+  };
+
+  const search = (e) => {
+    var value = name;
+    instructorsDispatch({ changeIn: "name", name: value });
     refetch(instructorsState);
-  }
-  
-  
+  };
+
+  const enterSearch = (event) => {
+    if (event.key === "Enter") search();
+  };
+
   // ? detect page-number switching
   const switchPage = (pageNum) => {
-    console.log('switchPage', pageNum);
-    instructorsDispatch({changeIn: 'offset', offset: (pageNum - 1) * ITEMS});
+    console.log("switchPage", pageNum);
+    instructorsDispatch({ changeIn: "offset", offset: (pageNum - 1) * ITEMS });
     refetch(instructorsState);
   };
   const switchStack = (index) => {
     setStackIndex(index);
   };
 
-  
   useEffect(() => {
     console.log("New index", stackIndex);
   }, [stackIndex]);
-  
-  
+
   // ? Mappers
-  const deptMapper = () => 
-     dataDept.departmentList.map((dept) => (
-       <Dropdown.Item id={dept} active = {dept === instructorsState.department} eventKey={dept} onClick={selectDept} className={styles["depts"]} as={"div"} eventKey="1">
-         {dept}
-       </Dropdown.Item>
-     ));
+  const deptMapper = () =>
+    dataDept.departmentList.map((dept) => (
+      <Dropdown.Item
+        id={dept}
+        active={dept === instructorsState.department}
+        eventKey={dept}
+        onClick={selectDept}
+        className={styles["depts"]}
+        as={"div"}
+        eventKey="1"
+      >
+        {dept}
+      </Dropdown.Item>
+    ));
 
   const instructorMapper = () =>
-  data.instructors.data.map((instructor) => {
-    return (
-      <InstructorCard
+    data.instructors.data.map((instructor) => {
+      return (
+        <InstructorCard
           image={
             <Image
               className={styles.picDiv}
@@ -128,7 +153,7 @@ function instructorsList() {
       );
     });
 
-  console.log('Status', networkStatus);
+  console.log("Status", networkStatus);
 
   // Loading status
   if (loading || loadingDept) {
@@ -159,19 +184,24 @@ function instructorsList() {
                       <BiSearch size="1.5rem" />
                     </Button>
                     <DropdownButton
-      className={styles["dept-dropdown"]}
-      align="start"
-      id="dropdown-menu-align-right"
-      title={<GoSettings size="1.5rem" />}
-    >
-      <Dropdown.Item className={styles["dropdown-h"]} disabled>
-        القسم الجامعي
-      </Dropdown.Item>
-      <Dropdown.Divider style={{ height: "1" }} />
-      <Dropdown.Item className={styles["depts"]} as={"div"} eventKey="1" active ={true}>
-        None
-      </Dropdown.Item>
-      </DropdownButton>
+                      className={styles["dept-dropdown"]}
+                      align="start"
+                      id="dropdown-menu-align-right"
+                      title={<GoSettings size="1.5rem" />}
+                    >
+                      <Dropdown.Item className={styles["dropdown-h"]} disabled>
+                        القسم الجامعي
+                      </Dropdown.Item>
+                      <Dropdown.Divider style={{ height: "1" }} />
+                      <Dropdown.Item
+                        className={styles["depts"]}
+                        as={"div"}
+                        eventKey="1"
+                        active={true}
+                      >
+                        None
+                      </Dropdown.Item>
+                    </DropdownButton>
                   </InputGroup.Append>
                 </InputGroup>
               </Form>
@@ -196,26 +226,26 @@ function instructorsList() {
     );
   }
 
-  // ? Error status
-  if (error){
-    console.log('ERROR IN QUERY');
+  // ! Error status
+  if (error || errorDept) {
+    console.log("ERROR IN QUERY");
     return (
-    <div>
-      <h1>{error.name}</h1>
-      <p>{error.message}</p>
-      <p>{error.networkError.result.errors[0].message}</p>
-    </div>
+      <div>
+        <h1>{error.name}</h1>
+        <p>{error.message}</p>
+        <p>{error.networkError.result.errors[0].message}</p>
+      </div>
     );
-  } 
-  
+  }
+
   // ? Data loaded
   var currentList = instructorMapper();
   var deptList = deptMapper();
-  console.log('instructorsState', instructorsState);
-  console.log('query vars', variables);
+  console.log("instructorsState", instructorsState);
+  console.log("query vars", variables);
 
-  // ? No data
-  if (data.instructors.data.length == 0){
+  // ! No data
+  if (data.instructors.data.length == 0) {
     return (
       <ClientOnly>
         <>
@@ -234,18 +264,24 @@ function instructorsList() {
               >
                 <InputGroup className={styles["search-container"]}>
                   <Form.Control
-                    id='name'
+                    id="name"
                     style={{ direction: "rtl" }}
                     type="text"
                     placeholder="أدخِل اسم المحاضِر"
-                    value={instructorsState.name}
+                    value={name}
+                    onKeyDown={enterSearch}
+                    onChange={changeName}
                   ></Form.Control>
                   <InputGroup.Append style={{ height: 38 }}>
-                    <Button type='submit' onClick={search} className={styles["search_btn"]}>
+                    <Button
+                      type="submit"
+                      onClick={search}
+                      className={styles["search_btn"]}
+                    >
                       <BiSearch size="1.5rem" />
                     </Button>
                   </InputGroup.Append>
-  
+
                   <InputGroup.Append>
                     {/*popover for filters and order*/}
                     <DropdownButton
@@ -274,14 +310,15 @@ function instructorsList() {
                 </InputGroup>
               </Col>
             </Row>
-  
-            <center><h1>No result :(</h1></center>
+
+            <center>
+              <h1>No result :(</h1>
+            </center>
           </Container>
         </>
       </ClientOnly>
     );
-  } 
-  
+  }
 
   return (
     <ClientOnly>
@@ -301,14 +338,20 @@ function instructorsList() {
             >
               <InputGroup className={styles["search-container"]}>
                 <Form.Control
-                  id='name'
+                  id="name"
                   style={{ direction: "rtl" }}
                   type="text"
                   placeholder="أدخِل اسم المحاضِر"
-                  value={instructorsState.name}
+                  value={name}
+                  onChange={changeName}
+                  onKeyDown={enterSearch}
                 ></Form.Control>
                 <InputGroup.Append style={{ height: 38 }}>
-                  <Button type='submit' onClick={search} className={styles["search_btn"]}>
+                  <Button
+                    type="submit"
+                    onClick={search}
+                    className={styles["search_btn"]}
+                  >
                     <BiSearch size="1.5rem" />
                   </Button>
                 </InputGroup.Append>
@@ -357,15 +400,19 @@ function instructorsList() {
             </Fade>
           </Row>
           {/**!Number of pages should be provided by the api*/}
-          <div className={styles["pagination-container"]}>
-            <CustomPagination
-              pageNum={Math.ceil(data.instructors.count / ITEMS)}
-              switchView={switchPage}
-              switchIndex={switchStack}
-              currentPage={instructorsState.offset / ITEMS + 1}
-              currentIndex={stackIndex}
-            />
-          </div>
+          {Math.ceil(data.instructors.count / ITEMS) !== 1 && (
+            <div className={styles["pagination-container"]}>
+              <Fade delay="100">
+                <CustomPagination
+                  pageNum={Math.ceil(data.instructors.count / ITEMS)}
+                  switchView={switchPage}
+                  switchIndex={switchStack}
+                  currentPage={instructorsState.offset / ITEMS + 1}
+                  currentIndex={stackIndex}
+                />
+              </Fade>
+            </div>
+          )}
         </Container>
       </>
     </ClientOnly>

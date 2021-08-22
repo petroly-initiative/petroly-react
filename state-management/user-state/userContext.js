@@ -18,7 +18,7 @@ export const userContext = createContext(null);
  *  {
  *     username: "string",
  *     email: "string",
- *     image: (A file from the database)
+ *     image: (A file from cloudiary)
  * }
  * }
  */

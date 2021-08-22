@@ -16,19 +16,37 @@ import { userContext } from "../state-management/user-state/userContext";
 import { FaSignInAlt } from "react-icons/fa";
 import { OverlayTrigger } from "react-bootstrap";
 import Popover from "react-bootstrap/Popover";
+import { useQuery } from "@apollo/client";
+import { meQuery } from "../api/queries"
+
 /**
  * TODO:
- * -  Create slots for the new services
- * -  Creat an indication in the props to light up the current page
+ * - Loading state before updating the context
  *
  */
 
 export default function Navbar(props) {
+
   const userInfo = useContext(userContext);
   const [sideVisible, setVisible] = useState(false);
   const [sideBarStyle, setStyle] = useState({ left: "100vw" });
   const [overlayStyle, setOverlay] = useState({ display: "none" });
   const [showSignIn, setShowSignIn] = useState(false);
+
+  // ---- query state
+  // !WARNING: Use a loading component inplace of the profile image
+  const { data, loading, error, refetch, networkStatus } = useQuery(
+    meQuery,
+    {
+      notifyOnNetworkStatusChange: true,
+      fetchPolicy: "network-only",
+      nextFetchPolicy: "cache-first",
+    }
+  );
+
+  
+
+
 
   const handleSignInClose = () => setShowSignIn(false);
   const handleSignInShow = () => setShowSignIn(true);
@@ -38,12 +56,16 @@ export default function Navbar(props) {
   };
 
   var navStyles = {
-    home: { color: props.page == "home" ? "#00dfc8" : "" },
-    rating: { color: props.page == "rating" ? "#00dfc8" : "" },
-    resources: { color: props.page == "resources" ? "#00dfc8" : "" },
-    communities: { color: props.page == "communities" ? "#00dfc8" : "" },
-    chat: { color: props.page == "chat" ? "#00dfc8" : "" },
+    home: { color: props.page == "home" ? "#2ea5eb" : "" },
+    rating: { color: props.page == "rating" ? "#2ea5eb" : "" },
+    resources: { color: props.page == "resources" ? "#2ea5eb" : "" },
+    communities: { color: props.page == "communities" ? "#2ea5eb" : "" },
+    chat: { color: props.page == "chat" ? "#2ea5eb" : "" },
   };
+
+  useEffect(() => {
+    userInfo.userDispatch({ type: "sign-in", credentials: Object.assign(data, {logged: true}) });
+    }, [data])
 
   useEffect(() => {
     setStyle(() => {
@@ -57,6 +79,11 @@ export default function Navbar(props) {
       } else return { display: "none" };
     });
   }, [sideVisible]);
+
+  // force refresh
+  useEffect(() => {
+    // refresh token
+  }, [])
 
   const showSidebar = () => {
     console.log(sideVisible);
@@ -100,7 +127,7 @@ export default function Navbar(props) {
                       show={{ show: 350, hide: 400 }}
                     >
                       <Popover.Content style={{ marginRight: "12 !important" }}>
-                        <strong style={{ color: "#0091E7", fontSize: 18 }}>
+                        <strong style={{ color: "#2ea5eb", fontSize: 18 }}>
                           {userInfo.status.username}
                         </strong>
                         <br />
@@ -216,7 +243,7 @@ export default function Navbar(props) {
                     show={{ show: 350, hide: 400 }}
                   >
                     <Popover.Content style={{ marginRight: "12 !important" }}>
-                      <strong style={{ color: "#0091E7", fontSize: 18 }}>
+                      <strong style={{ color: "#2ea5eb", fontSize: 18 }}>
                         {userInfo.status.username}
                       </strong>
                       <br />
