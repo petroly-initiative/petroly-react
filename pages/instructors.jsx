@@ -16,7 +16,7 @@ import styles from "../styles/evaluation-page/instructors-list.module.scss";
 import { GoSettings } from "react-icons/go";
 import Image from "next/image";
 import Head from "next/head";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useReducer, useLayoutEffect } from "react";
 import CustomPagination from "../components/Pagination";
 import { Fade } from "react-awesome-reveal";
 import ClientOnly from "../components/ClientOnly";
@@ -24,87 +24,93 @@ import { useQuery } from "@apollo/client";
 import { instructorsQuery, getDepartments } from "../api/queries";
 import { AiOutlineConsoleSql } from "react-icons/ai";
 
+function instructorsReducer(state, action){
+  console.log('instructorsReducer');
+  switch (action.changeIn) {
+    case 'name':
+      state.name = action.name;
+      return state;
+    case 'department':
+      state.department = action.department;
+      return state;
+    case 'offset':
+      state.offset = action.offset;
+      return state;
+    case 'limit':
+      state.limit = action.limit;
+      return state;
+  
+    default:
+      throw new Error("instructorsReducer didn't find what to do");
+  }
+}
+const ITEMS = 4; // Number of InstructorCards per page
+const initialInstructorsState = {limit: ITEMS, offset: 0, department: null, name: null};
+
+
 function instructorsList() {
-  const [offset, setOffset] = useState(0);
-  const [page, setPage] = useState(1);
   const [stackIndex, setStackIndex] = useState(0);
-
-  const switchPage = (pageNum) => {
-    setPage(pageNum);
-    console.log(Math.ceil(data.instructors.count / 18));
-    console.log(data.instructors.count / 18);
-  };
-
+  
   // Searchbar input management ----------
-  const [name, setName] = useState("");
-  const [activeDept, setDept] = useState("None");
-
+  const [instructorsState, instructorsDispatch] = useReducer(instructorsReducer, initialInstructorsState);
+  
+  // ? API hooks
   const { data: dataDept, error: errorDept, loading: loadingDept } = useQuery(getDepartments, {
-    variables: { short: false },
+    variables: { short: true },
+  });
+
+  const { data, loading, error, refetch, networkStatus, variables, fetchMore } = useQuery(instructorsQuery, {
+    variables: instructorsState,
+    notifyOnNetworkStatusChange: true,
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-first",
   });
-
+    
+    
+  //  ? To handle the search event
   const selectDept = (e) => {
-    setDept(e.target.id);
+    var value = e.target.id
+    if (value == 'null')
+      value = null
+    instructorsDispatch({changeIn: 'department', department: value});
+    refetch(instructorsState);
   }
-
-  const getName = e => {
-    setName(e.target.value);
-  }
-
-   const deptMapper = () => 
-      dataDept.departmentList.map((dept) => (
-        <Dropdown.Item id={dept} active = {dept === activeDept} eventKey={dept} onClick={selectDept} className={styles["depts"]} as={"div"} eventKey="1">
-          {dept}
-        </Dropdown.Item>
-      ))
- 
-  ;
-
   
-
- 
-
-  // -----------------------
+  const search = e => {
+    var value = document.getElementById('name').value;
+    instructorsDispatch({changeIn: 'name', name: value});
+    refetch(instructorsState);
+  }
+  
+  
+  // ? detect page-number switching
+  const switchPage = (pageNum) => {
+    console.log('switchPage', pageNum);
+    instructorsDispatch({changeIn: 'offset', offset: (pageNum - 1) * ITEMS});
+    refetch(instructorsState);
+  };
   const switchStack = (index) => {
     setStackIndex(index);
   };
 
-  const findInstructor = () => {
-    // some query to fetch instructors
-  };
-
-  // ! Error page
-  const { data, loading, error, refetch } = useQuery(instructorsQuery, {
-    variables: { offset: offset },
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "cache-first",
-  });
   
-
-  useEffect(() => {
-    // ? detect the change in page number
-
-    setOffset((page - 1) * 18, refetch());
-  }, [page]);
-
   useEffect(() => {
     console.log("New index", stackIndex);
   }, [stackIndex]);
-
-  useEffect(() => {
-    if (!loadingDept){
-      console.log(dataDept);
-      deptList = deptMapper();
-    }
-  }, [loadingDept]);
-
+  
+  
+  // ? Mappers
+  const deptMapper = () => 
+     dataDept.departmentList.map((dept) => (
+       <Dropdown.Item id={dept} active = {dept === instructorsState.department} eventKey={dept} onClick={selectDept} className={styles["depts"]} as={"div"} eventKey="1">
+         {dept}
+       </Dropdown.Item>
+     ));
 
   const instructorMapper = () =>
-    data.instructors.data.map((instructor) => {
-      return (
-        <InstructorCard
+  data.instructors.data.map((instructor) => {
+    return (
+      <InstructorCard
           image={
             <Image
               className={styles.picDiv}
@@ -122,8 +128,10 @@ function instructorsList() {
       );
     });
 
+  console.log('Status', networkStatus);
+
+  // Loading status
   if (loading || loadingDept) {
-    console.log("LOADING");
     return (
       <>
         <Head>
@@ -139,7 +147,7 @@ function instructorsList() {
               xl={7}
               style={{ width: "100% !important" }}
             >
-              <Form onSubmit={findInstructor}>
+              <Form>
                 <InputGroup className={styles["search-container"]}>
                   <Form.Control
                     style={{ direction: "rtl" }}
@@ -160,7 +168,7 @@ function instructorsList() {
         القسم الجامعي
       </Dropdown.Item>
       <Dropdown.Divider style={{ height: "1" }} />
-      <Dropdown.Item className={styles["depts"]} as={"div"} eventKey="1" active = {"None" === activeDept}>
+      <Dropdown.Item className={styles["depts"]} as={"div"} eventKey="1" active ={true}>
         None
       </Dropdown.Item>
       </DropdownButton>
@@ -188,8 +196,92 @@ function instructorsList() {
     );
   }
 
-  var currentList = instructorMapper(page - 1);
+  // ? Error status
+  if (error){
+    console.log('ERROR IN QUERY');
+    return (
+    <div>
+      <h1>{error.name}</h1>
+      <p>{error.message}</p>
+      <p>{error.networkError.result.errors[0].message}</p>
+    </div>
+    );
+  } 
+  
+  // ? Data loaded
+  var currentList = instructorMapper();
   var deptList = deptMapper();
+  console.log('instructorsState', instructorsState);
+  console.log('query vars', variables);
+
+  // ? No data
+  if (data.instructors.data.length == 0){
+    return (
+      <ClientOnly>
+        <>
+          <Head>
+            <title>Petroly | Rating</title>
+          </Head>
+          <Navbar page="rating" />
+          <Container className={"mt-4 " + styles.list_container}>
+            <Row style={{ justifyContent: "center" }}>
+              <Col
+                l={8}
+                xs={11}
+                md={9}
+                xl={7}
+                style={{ width: "100% !important" }}
+              >
+                <InputGroup className={styles["search-container"]}>
+                  <Form.Control
+                    id='name'
+                    style={{ direction: "rtl" }}
+                    type="text"
+                    placeholder="أدخِل اسم المحاضِر"
+                    value={instructorsState.name}
+                  ></Form.Control>
+                  <InputGroup.Append style={{ height: 38 }}>
+                    <Button type='submit' onClick={search} className={styles["search_btn"]}>
+                      <BiSearch size="1.5rem" />
+                    </Button>
+                  </InputGroup.Append>
+  
+                  <InputGroup.Append>
+                    {/*popover for filters and order*/}
+                    <DropdownButton
+                      className={styles["dept-dropdown"]}
+                      align="start"
+                      id="dropdown-menu-align-right"
+                      title={<GoSettings size="1.5rem" />}
+                    >
+                      <Dropdown.Item className={styles["dropdown-h"]} disabled>
+                        القسم الجامعي
+                      </Dropdown.Item>
+                      <Dropdown.Divider style={{ height: "1" }} />
+                      <Dropdown.Item
+                        id="null"
+                        className={styles["depts"]}
+                        as={"div"}
+                        eventKey="1"
+                        onClick={selectDept}
+                        active={instructorsState.department === null}
+                      >
+                        All departments
+                      </Dropdown.Item>
+                      {deptList}
+                    </DropdownButton>
+                  </InputGroup.Append>
+                </InputGroup>
+              </Col>
+            </Row>
+  
+            <center><h1>No result :(</h1></center>
+          </Container>
+        </>
+      </ClientOnly>
+    );
+  } 
+  
 
   return (
     <ClientOnly>
@@ -209,14 +301,14 @@ function instructorsList() {
             >
               <InputGroup className={styles["search-container"]}>
                 <Form.Control
+                  id='name'
                   style={{ direction: "rtl" }}
                   type="text"
                   placeholder="أدخِل اسم المحاضِر"
-                  value={name}
-                  onChange={getName}
+                  value={instructorsState.name}
                 ></Form.Control>
                 <InputGroup.Append style={{ height: 38 }}>
-                  <Button className={styles["search_btn"]}>
+                  <Button type='submit' onClick={search} className={styles["search_btn"]}>
                     <BiSearch size="1.5rem" />
                   </Button>
                 </InputGroup.Append>
@@ -234,12 +326,12 @@ function instructorsList() {
                     </Dropdown.Item>
                     <Dropdown.Divider style={{ height: "1" }} />
                     <Dropdown.Item
-                      id="None"
+                      id="null"
                       className={styles["depts"]}
                       as={"div"}
                       eventKey="1"
                       onClick={selectDept}
-                      active={activeDept === "None"}
+                      active={instructorsState.department === null}
                     >
                       All departments
                     </Dropdown.Item>
@@ -267,10 +359,10 @@ function instructorsList() {
           {/**!Number of pages should be provided by the api*/}
           <div className={styles["pagination-container"]}>
             <CustomPagination
-              pageNum={Math.ceil(data.instructors.count / 18)}
+              pageNum={Math.ceil(data.instructors.count / ITEMS)}
               switchView={switchPage}
               switchIndex={switchStack}
-              currentPage={page}
+              currentPage={instructorsState.offset / ITEMS + 1}
               currentIndex={stackIndex}
             />
           </div>
