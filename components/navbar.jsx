@@ -35,14 +35,14 @@ export default function Navbar(props) {
 
   // ---- query state
   // !WARNING: Use a loading component inplace of the profile image
-  const { data, loading, error, refetch, networkStatus } = useQuery(
-    meQuery,
-    {
-      notifyOnNetworkStatusChange: true,
-      fetchPolicy: "network-only",
-      nextFetchPolicy: "cache-first",
-    }
-  );
+  // const { data, loading, error, refetch, networkStatus } = useQuery(
+  //   meQuery,
+  //   {
+  //     notifyOnNetworkStatusChange: true,
+  //     fetchPolicy: "network-only",
+  //     nextFetchPolicy: "cache-first",
+  //   }
+  // );
 
   
 
@@ -63,9 +63,9 @@ export default function Navbar(props) {
     chat: { color: props.page == "chat" ? "#2ea5eb" : "" },
   };
 
-  useEffect(() => {
-    userInfo.userDispatch({ type: "sign-in", credentials: Object.assign(data, {logged: true}) });
-    }, [data])
+  // useEffect(() => {
+  //   userInfo.userDispatch({ type: "sign-in", credentials: Object.assign(data, {logged: true}) });
+  //   }, [data])
 
   useEffect(() => {
     setStyle(() => {
