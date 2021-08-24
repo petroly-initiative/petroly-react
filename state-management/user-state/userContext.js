@@ -26,13 +26,16 @@ export const userReducer = (currentState, action) => {
 
     switch(action.type){
         case "sign-in":
-            return (
-                // ? Credentials will be provided via the sign in forms 
-                action.credentials
-            )
+            return {
+                user: action.user,
+                logged: true
+            }
         case "sign-out":
-            return({logged: false});
-            //? This section will contain the procedure to create a new account
+            sessionStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+            return {
+                logged: false
+            };
         case "create-new":
             break;
             

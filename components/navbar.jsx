@@ -35,14 +35,14 @@ export default function Navbar(props) {
 
   // ---- query state
   // !WARNING: Use a loading component inplace of the profile image
-  // const { data, loading, error, refetch, networkStatus } = useQuery(
-  //   meQuery,
-  //   {
-  //     notifyOnNetworkStatusChange: true,
-  //     fetchPolicy: "network-only",
-  //     nextFetchPolicy: "cache-first",
-  //   }
-  // );
+  const { data, loading, error, refetch, networkStatus } = useQuery(
+    meQuery,
+    {
+      notifyOnNetworkStatusChange: true,
+      fetchPolicy: "network-only",
+      nextFetchPolicy: "cache-first",
+    }
+  );
 
   
 
@@ -90,6 +90,17 @@ export default function Navbar(props) {
     setVisible((prev) => !prev);
   };
 
+  if (loading)
+    return <h1>No navbar</h1>;
+
+  if (error)
+    console.log('error', error);
+  if (!error)
+    userInfo.logged = true;
+  
+  console.log('Me', data);
+  console.log('userInfo', userInfo);
+
   return (
     <nav className={styles.navbar}>
       <SignInModal visible={showSignIn} close={handleSignInClose} />
@@ -128,7 +139,7 @@ export default function Navbar(props) {
                     >
                       <Popover.Content style={{ marginRight: "12 !important" }}>
                         <strong style={{ color: "#2ea5eb", fontSize: 18 }}>
-                          {userInfo.status.username}
+                          {data.me.username}
                         </strong>
                         <br />
                         {userInfo.status.email}
@@ -244,7 +255,7 @@ export default function Navbar(props) {
                   >
                     <Popover.Content style={{ marginRight: "12 !important" }}>
                       <strong style={{ color: "#2ea5eb", fontSize: 18 }}>
-                        {userInfo.status.username}
+                        {data.me.username}
                       </strong>
                       <br />
                       <div>{userInfo.status.email}</div>
@@ -263,7 +274,7 @@ export default function Navbar(props) {
                 <Button className={styles.navbar_link}>
                   <Image
                     style={{ margin: 0 }}
-                    src="/images/muhabpower.png"
+                    src={data.me.profile.profilePic}
                     width={35}
                     height={35}
                     className={styles.profile}

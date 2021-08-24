@@ -5,6 +5,8 @@ import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { Fade } from "react-awesome-reveal";
+import { useMutation } from "@apollo/client";
+import { tokenAuthMutation } from "../api/mutations";
 
 export default function SignInModal(props) {
   /**
@@ -18,16 +20,26 @@ export default function SignInModal(props) {
   const [showPwd, setShowPwd] = useState(false);
   const [tab, setTab] = useState("signIn");
   // Handling input change;
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [tokenAuth, {data, loading, error}] = useMutation(
+    tokenAuthMutation,
+    {
+      variables: {
+        username, 
+        password
+      }
+    }
+  );
 
   const switchTab = () => {
     if (tab === "signIn") setTab("signUp");
     else setTab("signIn");
   };
 
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
+  const handleUsername = (e) => {
+    setUsername(e.target.value);
   };
 
   const handlePassword = (e) => {
@@ -58,25 +70,30 @@ export default function SignInModal(props) {
     e.preventDefault();
     console.log("Submitted sign in form");
 
-    /**
-     * !WARNING: The following is just a practical demo
-     * - The username should be fetched from the server, and should not be the password
-     * - The profilePic attribute should also be fetched from the server
-     */
-    await userInfo.userDispatch({
-      type: "sign-in",
-      credentials: {
-        logged: true,
-        username: password,
-        email: email,
-      },
-    });
+    tokenAuth();
   };
 
   useEffect(() => {
-    console.log(userInfo.status);
-    if (userInfo.status.logged === true) props.close();
-  }, [userInfo.status]);
+    console.log(data);
+
+    if (data){
+      if (data.tokenAuth.success){
+          sessionStorage.setItem('token', data.tokenAuth.token);
+          localStorage.setItem('refreshToken', data.tokenAuth.refreshToken);
+          
+          userInfo.userDispatch({
+            type: "sign-in",
+            user: data.tokenAuth.user,
+            token: data.tokenAuth.token
+        });
+        props.close();
+      }
+
+      else {
+        console.log('login', data.tokenAuth.errors);
+      }
+    }
+  }, [data, loading]);
 
   return (
     <>
@@ -108,8 +125,8 @@ export default function SignInModal(props) {
                     </Form.Label>
                     <InputGroup>
                       <FormControl
-                        onChange={handleEmail}
-                        value={email}
+                        onChange={handleUsername}
+                        value={username}
                         placeholder="Username"
                         type="text"
                         required
