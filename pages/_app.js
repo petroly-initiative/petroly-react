@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { userContext, userReducer } from "../state-management/user-state/userContext";
 import { useReducer } from "react";
 import client from "../api/apollo-client";
-import clientMutator from "../components/clientMutator";
+import ClientMutator from "../components/ClientMutator";
 import {
   ApolloClient,
   InMemoryCache,
@@ -36,25 +36,23 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <ApolloProvider client={client}>
-        <ClientOnly>
           <userContext.Provider
             value={{
               status: userInfo,
               userDispatch: dispatchUser,
             }}
           >
-            <clientMutator>
-              <Head>
-                <title>Petroly</title>
-                <meta
-                  name="viewport"
-                  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-                />
-              </Head>
-              <Component {...pageProps} />
-            </clientMutator>
+          <Head>
+            <title>Petroly</title>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+            />
+          </Head>
+          <ClientMutator>
+            <Component {...pageProps} />
+          </ClientMutator>
           </userContext.Provider>
-        </ClientOnly>
       </ApolloProvider>
     </>
   );

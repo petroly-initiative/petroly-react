@@ -1,13 +1,24 @@
-import { ApolloProvider, ApolloClient, useMutation } from "@apollo/client";
+import { 
+  ApolloProvider, 
+  ApolloClient, 
+  useMutation, 
+  InMemoryCache 
+} from "@apollo/client";
 import { tokenAuthMutation } from "../api/mutations";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { userContext } from "../state-management/user-state/userContext";
 
-export default function clientMutator({ children, ...delegated }) {
+export default function ClientMutator({ children }) {
+  console.log('clientMutator');
   const userInfo = useContext(userContext);
+  var token = '';
+  var refreshToken = '';
 
-  const token = sessionStorage.getItem("token");
-  const refreshToken = localStorage.getItem("refreshToken");
+  if (typeof window !== 'undefined'){
+    token = sessionStorage.getItem("token");
+    refreshToken = localStorage.getItem("refreshToken");
+  }
+
   const [signedClient, setClient] = useState(
     new ApolloClient({
       uri: "http://localhost:8000/endpoint/",
@@ -45,7 +56,7 @@ export default function clientMutator({ children, ...delegated }) {
 console.log("verifyToken", data);
   return (
   <ApolloProvider client={signedClient}>
-        <div {...delegated}>{children}</div>
+      {children}
   </ApolloProvider>
   );
 }
