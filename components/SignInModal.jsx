@@ -70,11 +70,11 @@ export default function SignInModal(props) {
     e.preventDefault();
     console.log("Submitted sign in form");
 
-    tokenAuth();
+   await tokenAuth();
   };
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
 
     if (data){
       if (data.tokenAuth.success){

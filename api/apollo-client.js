@@ -13,13 +13,10 @@ if (typeof window !== 'undefined'){
   console.log('window loaded');
 }
 
-
+// Non-authorized clients
 const client = new ApolloClient({
     uri: 'http://localhost:8000/endpoint/',
     cache: new InMemoryCache(),
-    headers: {
-      Authorization: 'JWT ' + token,
-    }
 });
 
 export default client;
