@@ -1,44 +1,48 @@
-import { 
-  ApolloProvider, 
-  ApolloClient, 
-  useMutation, 
-  InMemoryCache 
+import {
+  ApolloProvider,
+  ApolloClient,
+  useMutation,
+  InMemoryCache,
 } from "@apollo/client";
-import { tokenAuthMutation } from "../api/mutations";
+import { verifyTokenMutation, refreshTokenMutation } from "../api/mutations";
 import { useEffect, useContext, useState } from "react";
-import { userContext } from "../state-management/user-state/userContext";
+import { UserContext } from "../state-management/user-state/UserContext";
 
 export default function ClientMutator({ children }) {
-  console.log('clientMutator');
-  const userInfo = useContext(userContext);
-  var token = '';
-  var refreshToken = '';
+  const userContext = useContext(UserContext);
+  var token = "";
+  var rToken = "";
 
-  if (typeof window !== 'undefined'){
+  if (typeof window !== "undefined") {
     token = sessionStorage.getItem("token");
-    refreshToken = localStorage.getItem("refreshToken");
+    rToken = localStorage.getItem("refreshToken");
   }
 
-  const [signedClient, setClient] = useState(
+  const [client, setClient] = useState(
     new ApolloClient({
       uri: "http://localhost:8000/endpoint/",
       cache: new InMemoryCache(),
     })
   );
-  const [verfiyToken, { data, loading, error }] = useMutation(
-    tokenAuthMutation,
-    {
-      token,
-    }
+  const [verifyToken, { data: dataVerifyToken }] = useMutation(
+    verifyTokenMutation,
+    {variables: {token}}
+  );
+  const [refreshToken, { data: dataRefreshToken}] = useMutation(
+    refreshTokenMutation,
+    {variables: {refreshToken: rToken}}
   );
 
-  useEffect(() => {
-    verfiyToken();
+  // Excute `toketAuth` once if `token` is found
+  useEffect(async () => {
+    if (token && !userContext.logged)
+      await verifyToken()
   }, []);
+  
 
-  useEffect(() => {
-    if (data) {
-      if (data.verfiyToken.success) {
+  useEffect( () => {
+    if (dataVerifyToken) {
+      if (dataVerifyToken.verifyToken.success) {
         setClient(
           new ApolloClient({
             uri: "http://localhost:8000/endpoint/",
@@ -48,15 +52,44 @@ export default function ClientMutator({ children }) {
             },
           })
         );
-        userInfo.userDispatch({ logged: true });
+        console.log("token was good");
+        userContext.userDispatch({ type: "verified"});
+      }
+
+      else if (rToken) {
+        refreshToken();
+        console.log("token was bad");
       }
     }
-}, [data]);
+  }, [dataVerifyToken]);
 
-console.log("verifyToken", data);
-  return (
-  <ApolloProvider client={signedClient}>
-      {children}
-  </ApolloProvider>
-  );
+  useEffect( () => {
+    if (dataRefreshToken) {
+      if (dataRefreshToken.refreshToken.success){
+        token = dataRefreshToken.refreshToken.token;
+        rToken = dataRefreshToken.refreshToken.refreshToken;
+        sessionStorage.setItem("token", token);
+        localStorage.setItem("refreshToken", rToken);
+        setClient(
+          new ApolloClient({
+            uri: "http://localhost:8000/endpoint/",
+            cache: new InMemoryCache(),
+            headers: {
+              authorization: "JWT " + token,
+            },
+          })
+        );
+        userContext.userDispatch({ type: "verified" })
+        console.log("token was updated");
+      }
+    }
+  }, [dataRefreshToken]);
+
+  console.log("verifyToken", dataVerifyToken);
+  console.log("refreshToken", dataRefreshToken);
+
+
+  return <ApolloProvider client={client}>
+    {children}
+  </ApolloProvider>;
 }

@@ -1,6 +1,6 @@
 import { InputGroup, Button, Form, FormControl } from "react-bootstrap";
 import authStyle from "../styles/Auth.module.scss";
-import { userContext } from "../state-management/user-state/userContext";
+import { UserContext } from "../state-management/user-state/UserContext";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
@@ -15,7 +15,7 @@ export default function SignInModal(props) {
    * 
    */
 
-  const userInfo = useContext(userContext);
+  const userContext = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
   const [tab, setTab] = useState("signIn");
@@ -23,7 +23,7 @@ export default function SignInModal(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [tokenAuth, {data, loading, error}] = useMutation(
+  const [tokenAuth, {data: dataTokenAuth, loading: loadingTokenAuth, errorTokenAuth}] = useMutation(
     tokenAuthMutation,
     {
       variables: {
@@ -69,31 +69,30 @@ export default function SignInModal(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Submitted sign in form");
-
+    // Send logn request
    await tokenAuth();
   };
 
   useEffect(() => {
-    // console.log(data);
-
-    if (data){
-      if (data.tokenAuth.success){
-          sessionStorage.setItem('token', data.tokenAuth.token);
-          localStorage.setItem('refreshToken', data.tokenAuth.refreshToken);
+     if (dataTokenAuth){
+      //  Successful login
+      if (dataTokenAuth.tokenAuth.success){
+          sessionStorage.setItem('token', dataTokenAuth.tokenAuth.token);
+          localStorage.setItem('refreshToken', dataTokenAuth.tokenAuth.refreshToken);
           
-          userInfo.userDispatch({
+          userContext.userDispatch({
             type: "sign-in",
-            user: data.tokenAuth.user,
-            token: data.tokenAuth.token
+            user: dataTokenAuth.tokenAuth.user,
+            token: dataTokenAuth.tokenAuth.token
         });
         props.close();
       }
-
+      //  Unsuccessful login
       else {
-        console.log('login', data.tokenAuth.errors);
+        console.log('login', dataTokenAuth.tokenAuth.errors);
       }
     }
-  }, [data, loading]);
+  }, [dataTokenAuth, loadingTokenAuth]);
 
   return (
     <>

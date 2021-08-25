@@ -6,7 +6,7 @@ import { createContext } from "react";
  * - username (string), email(string), profilePic(an image file from the database)
  */
 
-export const userContext = createContext(null);
+export const UserContext = createContext(null);
 /**
  * 
  * @param currentState: The original state 
@@ -23,8 +23,11 @@ export const userContext = createContext(null);
  * }
  */
 export const userReducer = (currentState, action) => {
-
     switch(action.type){
+        case "verified":
+            return {
+                logged: true,
+            }
         case "sign-in":
             return {
                 user: action.user,
@@ -37,9 +40,6 @@ export const userReducer = (currentState, action) => {
                 logged: false
             };
         case "create-new":
-            break;
-
-        
-            
+            break;        
     }
 }

@@ -1,47 +1,34 @@
 import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Head from 'next/head';
-import { userContext, userReducer } from "../state-management/user-state/userContext";
+import Head from "next/head";
+import {
+  UserContext,
+  userReducer,
+} from "../state-management/user-state/UserContext";
 import { useReducer } from "react";
 import client from "../api/apollo-client";
 import ClientMutator from "../components/ClientMutator";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useMutation
-} from "@apollo/client";
-import { verifyTokenMutation } from "../api/mutations";
-import ClientOnly from "../components/ClientOnly";
+import { ApolloProvider } from "@apollo/client";
+
 /**
  *
  * @WARNING This file exists to only apply globals assets and context for all pages
  */
 
-
-
 function MyApp({ Component, pageProps }) {
-  console.log('_app.js');
+  console.log("_app.js");
 
-  const [userInfo, dispatchUser] = useReducer(userReducer, {logged: false});
-  var token = '';
+  const [user, userDispatch] = useReducer(userReducer, { logged: false });
 
-  if (typeof window !== 'undefined'){
-    token = sessionStorage.getItem('token');
-    token = token ? token : '';
-    console.log('window loaded');
-  }  
-
-// context = {value: status, reducer: userDispatch}
   return (
     <>
       <ApolloProvider client={client}>
-          <userContext.Provider
-            value={{
-              status: userInfo,
-              userDispatch: dispatchUser,
-            }}
-          >
+        <UserContext.Provider
+          value={{
+            user: user,
+            userDispatch: userDispatch,
+          }}
+        >
           <Head>
             <title>Petroly</title>
             <meta
@@ -52,7 +39,7 @@ function MyApp({ Component, pageProps }) {
           <ClientMutator>
             <Component {...pageProps} />
           </ClientMutator>
-          </userContext.Provider>
+        </UserContext.Provider>
       </ApolloProvider>
     </>
   );

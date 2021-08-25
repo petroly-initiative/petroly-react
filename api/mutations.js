@@ -31,3 +31,28 @@ mutation VerifyToken($token:String!){
   }
 }
 `;
+
+export const refreshTokenMutation = gql`
+mutation Refresh($refreshToken:String!){
+  refreshToken(
+    refreshToken:$refreshToken
+  ){
+    success
+    errors
+    refreshToken
+    token
+  }
+}
+`;
+
+export const revokeTokenMutation = gql`
+mutation Revoke($refreshToken:String!){
+  revokeToken(
+    refreshToken: $refreshToken
+  ){
+    success
+    errors
+    revoked
+  }
+}
+`;

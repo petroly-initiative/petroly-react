@@ -13,12 +13,13 @@ import { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { Spinner } from "react-bootstrap";
 import SignInModal from "./SignInModal";
-import { userContext } from "../state-management/user-state/userContext";
+import { UserContext } from "../state-management/user-state/UserContext";
 import { FaSignInAlt } from "react-icons/fa";
 import { OverlayTrigger } from "react-bootstrap";
 import Popover from "react-bootstrap/Popover";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { meQuery } from "../api/queries"
+import { revokeTokenMutation } from "../api/mutations";
 import ClientOnly from "./ClientOnly";
 
 /**
@@ -29,7 +30,7 @@ import ClientOnly from "./ClientOnly";
 
 export default function Navbar(props) {
 
-  const userInfo = useContext(userContext);
+  const userContext = useContext(UserContext);
   const [sideVisible, setVisible] = useState(false);
   const [sideBarStyle, setStyle] = useState({ left: "100vw" });
   const [overlayStyle, setOverlay] = useState({ display: "none" });
@@ -44,14 +45,15 @@ export default function Navbar(props) {
 
   // ---- query state
   // !WARNING: Use a loading component inplace of the profile image
-  const { data, loading, error, refetch, networkStatus } = useQuery(
+  const { data: dataMe, loading: loadingMe, error: errorMe } = useQuery(
     meQuery,
     {
       notifyOnNetworkStatusChange: true,
-      fetchPolicy: "network-only",
-      nextFetchPolicy: "cache-first",
-      skip: !userInfo.status.logged
+      skip: !userContext.user.logged
     }
+  );
+  const [revokeToken, {data: dataRevokeToken, loading: loadingRevokeToken, error: errorRevokeToken}] = useMutation(
+    revokeTokenMutation,
   );
 
 // -------------
@@ -62,8 +64,10 @@ export default function Navbar(props) {
   const handleSignInShow = () => setShowSignIn(true);
 
   const signOut = async () => {
-    await userInfo.userDispatch({ type: "sign-out" });
-    console.log(userInfo)
+    const refreshToken = localStorage.getItem("refreshToken") ? 
+                              localStorage.getItem("refreshToken") : "";
+    await revokeToken({variables: {refreshToken}})
+    await userContext.userDispatch({ type: "sign-out" });
   };
 
   var navStyles = {
@@ -74,16 +78,12 @@ export default function Navbar(props) {
     chat: { color: props.page == "chat" ? "#2ea5eb" : "" },
   };
 
-  // useEffect(() => {
-  //   userInfo.userDispatch({ type: "sign-in", credentials: Object.assign(data, {logged: true}) });
-  //   }, [data])
-
   useEffect(() => {
-    if(data){
-      setUsername(data.me.username, setProfilePic(data.me.profile.profilePic));
+    if(dataMe){
+      setUsername(dataMe.me.username, setProfilePic(dataMe.me.profile.profilePic));
       
     }
-  }, [data])
+  }, [dataMe])
 
   useEffect(() => {
     setStyle(() => {
@@ -98,25 +98,21 @@ export default function Navbar(props) {
     });
   }, [sideVisible]);
 
-  // force refresh
-  useEffect(() => {
-    // refresh token
-    console.log(userInfo.status.logged)
-  }, [])
 
   const showSidebar = () => {
     console.log(sideVisible);
     setVisible((prev) => !prev);
   };
 
-  console.log('loading', loading);
-  console.log('Me', data);
-  console.log('userInfo', userInfo);
-  if (error)
-    console.log('error', error);
+  console.log('loadingMe', loadingMe);
+  console.log('dataMe', dataMe);
+  console.log('userContext', userContext);
+  if (errorMe)
+    console.log('error', errorMe);
 
-  if (loading)
+  if (loadingMe)
     return (
+      <ClientOnly>
       <nav className={styles.navbar}>
         <SignInModal visible={showSignIn} close={handleSignInClose} />
         <div className={styles.navbar_top}>
@@ -275,6 +271,7 @@ export default function Navbar(props) {
           </ul>
         </div>
       </nav>
+      </ClientOnly>
     );
 
   
@@ -303,7 +300,7 @@ export default function Navbar(props) {
             ></div>
             <ul>
               <li className={styles.navbar_item}>
-                {userInfo.status.logged ? (
+                {userContext.user.logged ? (
                   <OverlayTrigger
                     trigger="click"
                     className={styles.navbar_link}
@@ -323,7 +320,7 @@ export default function Navbar(props) {
                             {username}
                           </strong>
                           <br />
-                          {userInfo.status.email}
+                          {userContext.user.email}
                           <Button onClick={signOut}>
                             <strong>sign out</strong>
                           </Button>
@@ -427,7 +424,7 @@ export default function Navbar(props) {
               className={styles.navbar_item}
               style={{ boxShadow: "0 2px 3px rgb(204, 202, 202)" }}
             >
-              {userInfo.status.logged ? (
+              {userContext.user.logged ? (
                 <OverlayTrigger
                   trigger="click"
                   className={styles.navbar_link}
@@ -445,7 +442,7 @@ export default function Navbar(props) {
                           {username}
                         </strong>
                         <br />
-                        <div>{userInfo.status.email}</div>
+                        <div>{userContext.user.email}</div>
                         <Button
                           variant="danger"
                           style={{ marginTop: 12, fontSize: 12 }}
