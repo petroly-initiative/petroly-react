@@ -81,7 +81,7 @@ export default function SignInModal(props) {
           localStorage.setItem('refreshToken', dataTokenAuth.tokenAuth.refreshToken);
           
           userContext.userDispatch({
-            type: "sign-in",
+            type: "login",
             user: dataTokenAuth.tokenAuth.user,
             token: dataTokenAuth.tokenAuth.token
         });

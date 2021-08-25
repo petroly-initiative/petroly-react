@@ -15,6 +15,8 @@ export default function ClientMutator({ children }) {
 
   if (typeof window !== "undefined") {
     token = sessionStorage.getItem("token");
+    if (!token)
+      token = userContext.user.token;
     rToken = localStorage.getItem("refreshToken");
   }
 
@@ -53,7 +55,7 @@ export default function ClientMutator({ children }) {
           })
         );
         console.log("token was good");
-        userContext.userDispatch({ type: "verified"});
+        userContext.userDispatch({ type: "verified", token });
       }
 
       else if (rToken) {
@@ -79,7 +81,7 @@ export default function ClientMutator({ children }) {
             },
           })
         );
-        userContext.userDispatch({ type: "verified" })
+        userContext.userDispatch({ type: "verified", token })
         console.log("token was updated");
       }
     }

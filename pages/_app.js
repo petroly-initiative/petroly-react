@@ -18,7 +18,7 @@ import { ApolloProvider } from "@apollo/client";
 function MyApp({ Component, pageProps }) {
   console.log("_app.js");
 
-  const [user, userDispatch] = useReducer(userReducer, { logged: false });
+  const [user, userDispatch] = useReducer(userReducer, { logged: false, token: "" });
 
   return (
     <>

@@ -27,10 +27,12 @@ export const userReducer = (currentState, action) => {
         case "verified":
             return {
                 logged: true,
+                token: action.token,
             }
-        case "sign-in":
+        case "login":
             return {
                 user: action.user,
+                token: action.token,
                 logged: true
             }
         case "sign-out":
