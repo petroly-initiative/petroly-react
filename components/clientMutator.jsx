@@ -37,7 +37,7 @@ export default function ClientMutator({ children }) {
   useEffect(async () => {
     if (token && !userContext.logged)
       await verifyToken()
-  }, []);
+  }, [userContext.user.logged]);
   
 
   useEffect( () => {
