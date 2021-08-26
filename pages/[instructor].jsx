@@ -180,7 +180,7 @@ export default function instructorDetails({ data }) {
                   //!WARNING: All category scores should be fetched from data
                   grading={(data.instructor.gradingAvg / 20).toPrecision(2)}
                   teaching={(data.instructor.teachingAvg / 20).toPrecision(2)}
-                  personality={(data.teachingAvg / 20).toPrecision(2)}
+                  personality={(data.instructor.personalityAvg / 20).toPrecision(2)}
                 />
               </Card.Body>
             </Card>
