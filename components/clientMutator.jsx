@@ -37,7 +37,7 @@ export default function ClientMutator({ children }) {
 
   // Excute `toketAuth` once if `token` is found
   useEffect(async () => {
-    if (token && !userContext.logged)
+    if (token && !userContext.user.logged)
       await verifyToken()
   }, [userContext.user.logged]);
   
