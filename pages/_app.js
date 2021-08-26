@@ -9,6 +9,7 @@ import { useReducer } from "react";
 import client from "../api/apollo-client";
 import ClientMutator from "../components/ClientMutator";
 import { ApolloProvider } from "@apollo/client";
+import { USER } from "../constants";
 
 /**
  *
@@ -18,7 +19,8 @@ import { ApolloProvider } from "@apollo/client";
 function MyApp({ Component, pageProps }) {
   console.log("_app.js");
 
-  const [user, userDispatch] = useReducer(userReducer, { logged: false, token: "" });
+  const [user, userDispatch] = useReducer(userReducer, 
+      { status: USER.LOGGED_OUT, token: "" });
 
   return (
     <>

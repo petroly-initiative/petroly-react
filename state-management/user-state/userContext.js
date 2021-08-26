@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import { USER, T } from "../../constants";
 
 /**
  * ? User State management: A JSON with the following attributes
@@ -24,22 +25,22 @@ export const UserContext = createContext(null);
  */
 export const userReducer = (currentState, action) => {
     switch(action.type){
-        case "verified":
+        case T.SET_CLIENT:
             return {
-                logged: true,
+                status: USER.LOGGED_IN,
+                token: action.token,
+                username: action.username,
+            }
+        case T.LOGIN:
+            return {
+                status: USER.VERIFING,
                 token: action.token,
             }
-        case "login":
-            return {
-                user: action.user,
-                token: action.token,
-                logged: true
-            }
-        case "sign-out":
+        case T.LOGOUT:
             sessionStorage.removeItem('token');
             localStorage.removeItem('refreshToken');
             return {
-                logged: false
+                status: USER.LOGGED_OUT,
             };
         case "create-new":
             break;        

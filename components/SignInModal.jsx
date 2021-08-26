@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Fade } from "react-awesome-reveal";
 import { useMutation } from "@apollo/client";
 import { tokenAuthMutation } from "../api/mutations";
+import { T } from "../constants";
 
 export default function SignInModal(props) {
   /**
@@ -81,9 +82,9 @@ export default function SignInModal(props) {
           localStorage.setItem('refreshToken', dataTokenAuth.tokenAuth.refreshToken);
           
           userContext.userDispatch({
-            type: "login",
-            user: dataTokenAuth.tokenAuth.user,
-            token: dataTokenAuth.tokenAuth.token
+            type: T.LOGIN,
+            token: dataTokenAuth.tokenAuth.token,
+            username: dataTokenAuth.tokenAuth.user.username,
         });
         props.close();
       }

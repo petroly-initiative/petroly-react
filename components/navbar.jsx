@@ -21,6 +21,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { meQuery } from "../api/queries"
 import { revokeTokenMutation } from "../api/mutations";
 import ClientOnly from "./ClientOnly";
+import { USER, T } from "../constants";
 
 /**
  * TODO:
@@ -49,7 +50,7 @@ export default function Navbar(props) {
     meQuery,
     {
       notifyOnNetworkStatusChange: true,
-      skip: !userContext.user.logged
+      skip: userContext.user.status !== USER.LOGGED_IN
     }
   );
   const [revokeToken, {data: dataRevokeToken, loading: loadingRevokeToken, error: errorRevokeToken}] = useMutation(
@@ -67,7 +68,7 @@ export default function Navbar(props) {
     const refreshToken = localStorage.getItem("refreshToken") ? 
                               localStorage.getItem("refreshToken") : "";
     await revokeToken({variables: {refreshToken}})
-    await userContext.userDispatch({ type: "sign-out" });
+    await userContext.userDispatch({ type: T.LOGOUT });
   };
 
   var navStyles = {
@@ -300,7 +301,7 @@ export default function Navbar(props) {
             ></div>
             <ul>
               <li className={styles.navbar_item}>
-                {userContext.user.logged ? (
+                {userContext.user.status === USER.LOGGED_IN ? (
                   <OverlayTrigger
                     trigger="click"
                     className={styles.navbar_link}
@@ -424,7 +425,7 @@ export default function Navbar(props) {
               className={styles.navbar_item}
               style={{ boxShadow: "0 2px 3px rgb(204, 202, 202)" }}
             >
-              {userContext.user.logged ? (
+              {userContext.user.status === USER.LOGGED_IN ? (
                 <OverlayTrigger
                   trigger="click"
                   className={styles.navbar_link}

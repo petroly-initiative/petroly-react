@@ -41,6 +41,7 @@ mutation Refresh($refreshToken:String!){
     errors
     refreshToken
     token
+    payload
   }
 }
 `;
@@ -53,6 +54,49 @@ mutation Revoke($refreshToken:String!){
     success
     errors
     revoked
+  }
+}
+`;
+
+export const registerMutation = gql`
+mutation Register($email: String!, $username: String!, $password1: String!, $password2: String!){
+  register(
+    email:$email
+    username: $username
+    password1:$password1
+    password2:$password2
+  ){
+    success
+    errors
+    token
+    refreshToken
+  }
+}
+`;
+
+export const evaluationCreateMutation = gql`
+mutation EvaluationCreate($instructorId: Int, $userId: Int, $grading: EvaluationGradingEnum!, 
+  $teaching: EvaluationTeachingEnum!, $personality: EvaluationPersonalityEnum!, $course: String, 
+  $comment: String){
+  evaluationCreate(
+    input: {
+      instructor: {connect: {id: {equals: $instructorId}}}
+      user: {connect: {id: {equals: $userId}}}
+      grading: $grading
+      teaching: $teaching
+      personality: $personality
+      course: $course
+      comment: $comment
+    }
+  ){
+    ok
+    errors{
+      field
+      messages
+    }
+    result{
+      id
+    }
   }
 }
 `;
