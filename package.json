@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p $PORT"
+  },
+    "engines": {
+    "node": "10"
   },
   "dependencies": {
     "@apollo/client": "^3.4.8",
