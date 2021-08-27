@@ -220,6 +220,7 @@ export default function instructorDetails({ data }) {
         </OverlayTrigger>
         <EvaluationModal
           name={data.instructor.name}
+          id={data.instructor.id}
           image={
             <Image
               style={{ borderRadius: "30px !important" }}
