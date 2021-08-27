@@ -10,6 +10,7 @@ import { UserContext } from "../state-management/user-state/UserContext";
 import { USER, T } from "../constants";
 
 export default function ClientMutator({ children }) {
+  const URL_ENDPOINT = "https://www.petroly.co/endpoint/";
   const userContext = useContext(UserContext);
   var token = "";
   var rToken = "";
@@ -23,7 +24,7 @@ export default function ClientMutator({ children }) {
 
   const [client, setClient] = useState(
     new ApolloClient({
-      uri: "http://localhost:8000/endpoint/",
+      uri: URL_ENDPOINT,
       cache: new InMemoryCache(),
     })
   );
@@ -42,7 +43,7 @@ export default function ClientMutator({ children }) {
       
       setClient(
         new ApolloClient({
-          uri: "http://localhost:8000/endpoint/",
+          uri: URL_ENDPOINT,
           cache: new InMemoryCache(),
           headers: {authorization: "JWT " + token},
         })
@@ -64,7 +65,7 @@ export default function ClientMutator({ children }) {
       if (dataVerifyToken.verifyToken.success) {
         setClient(
           new ApolloClient({
-            uri: "http://localhost:8000/endpoint/",
+            uri: URL_ENDPOINT,
             cache: new InMemoryCache(),
             headers: {authorization: "JWT " + token},
           })
