@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState, useContext } from "react";
 import {
   Modal,
   Col,
@@ -19,6 +19,10 @@ import { ImCancelCircle } from "react-icons/im";
 import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
 import { evalReducer } from "../../state-management/evaluation-state/evaluationReducer";
+import { evaluationCreateMutation } from "../../api/mutations";
+import { useMutation } from "@apollo/client";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import { USER } from "../../constants";
 
 /**
  * TODO: State management for every form control
@@ -27,6 +31,8 @@ import { evalReducer } from "../../state-management/evaluation-state/evaluationR
  * - evaluation submission for gathering user input from different forms
  */
 export default function EvaluationModal(props) {
+  const userContext = useContext(UserContext);
+
   // modal state
   const [submissionState, dispatch] = useReducer(evalReducer, {
     sucess: false,
@@ -83,6 +89,23 @@ export default function EvaluationModal(props) {
     setShow(props.visible);
   }, [props.visible]);
 
+  const [evaluationCreate, {data: dataEvaluationCreate, loading: loadingEvaluationCreate, 
+    error: errorEvaluationCreate}] = useMutation(
+    evaluationCreateMutation,
+    {
+      notifyOnNetworkStatusChange: true,
+      variables: {
+        instructorId: props.id,
+        userId: userContext.user.id,
+        grading: "A_" + String(grading.rating * 20),
+        teaching: "A_" + String(teaching.rating * 20),
+        personality: "A_" + String(person.rating * 20),
+        course: extra.course,
+        comment: ""
+      }
+    }
+  );
+
   const submitEvaluation = async (e) => {
     /* Submit all forms and sned it in a query */
     e.preventDefault();
@@ -98,8 +121,12 @@ export default function EvaluationModal(props) {
       content: dataFormat,
     });
 
+    console.log("form", dataFormat);
     console.log("Done");
+    await evaluationCreate();
   };
+
+  console.log(dataEvaluationCreate);
 
   useEffect(() => {
     if (submissionState.sucess) props.close();
