@@ -1,11 +1,16 @@
 
 @mixin tagstyle($bg-color){
   background-color: $bg-color;
+  width: fit-content;
   font-weight: 700;
   border-radius: 4px;
   color: white;
   padding: 6px;
   margin: 4px;
+  cursor: pointer;
+   &:hover{
+    transform: scale(1.05);
+ }
 }
 
 .cardHeader{
@@ -24,17 +29,12 @@
 .course{
  @include tagstyle(rgb(45, 223, 223));
  transition: 300ms ease;
-  &:hover{
-    transform: scale(1.05);
- }
+ 
 }
 
 .term{
-  @include tagstyle(rgb(34, 159, 241));
+  @include tagstyle(rgb(45, 223, 223));
   transition: 300ms ease;
-  &:hover{
-    transform: scale(1.05);
- }
 }
 
 .tags{
@@ -46,7 +46,8 @@
 }
 
 .dates{
-  font-weight: 600 !important;
+  @include tagstyle(rgb(34, 159, 241));
+  font-weight: 700 !important;
 }
 
 .headers {

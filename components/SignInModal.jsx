@@ -1,9 +1,10 @@
-import { InputGroup, Button, Form, FormControl } from "react-bootstrap";
+import { InputGroup, Button, Form, FormControl, Alert } from "react-bootstrap";
 import authStyle from "../styles/Auth.module.scss";
 import { UserContext } from "../state-management/user-state/UserContext";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { MdVisibility, MdVisibilityOff, MdWarning } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
+
 import { Fade } from "react-awesome-reveal";
 import { useMutation } from "@apollo/client";
 import { tokenAuthMutation } from "../api/mutations";
@@ -11,40 +12,70 @@ import { T } from "../constants";
 
 export default function SignInModal(props) {
   /**
-   * TODO: 
+   * TODO:
    * - Validation, and validation Error indicators
-   * 
+   *
    */
 
   const userContext = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
   const [tab, setTab] = useState("signIn");
+  const [validationError, setError] = useState({
+    show: false,
+    msg: "",
+  });
+  const [validated, setValidation] = useState(false);
   // Handling input change;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const [tokenAuth, {data: dataTokenAuth, loading: loadingTokenAuth, errorTokenAuth}] = useMutation(
-    tokenAuthMutation,
-    {
-      variables: {
-        username, 
-        password
-      }
-    }
-  );
+  // handling creat account tab
+  const [confirmPass, setConfirmPass] = useState("");
+  const [email, setEmail] = useState("");
+  const [isEmailInvalid, setEmailVal] = useState(false);
+  const [
+    tokenAuth,
+    { data: dataTokenAuth, loading: loadingTokenAuth, errorTokenAuth },
+  ] = useMutation(tokenAuthMutation, {
+    variables: {
+      username,
+      password,
+    },
+  });
 
   const switchTab = () => {
     if (tab === "signIn") setTab("signUp");
     else setTab("signIn");
+    setValidation(false);
+    setError({
+      show: false,
+      msg: "",
+    });
+    setEmailVal(false);
   };
 
   const handleUsername = (e) => {
     setUsername(e.target.value);
   };
 
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    if (e.target.value === "") {
+      setEmailVal(false);
+    } else
+      setEmailVal(
+        !/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
+          email
+        )
+      );
+  };
+
   const handlePassword = (e) => {
     setPassword(e.target.value);
+  };
+
+  const handleConfirmPass = (e) => {
+    setConfirmPass(e.target.value);
   };
 
   useEffect(() => {
@@ -71,26 +102,78 @@ export default function SignInModal(props) {
     e.preventDefault();
     console.log("Submitted sign in form");
     // Send logn request
-   await tokenAuth();
+    switch (tab) {
+      case "signIn":
+        if (username === "" || password === "") {
+          setValidation(true);
+          setError({
+            show: true,
+            msg: "الرجاء تعبئة الخانات المطلوبة لتسجيل الدخول",
+          });
+        } else {
+          setError({
+            show: false,
+            msg: "default",
+          });
+          await tokenAuth();
+        }
+        break;
+      case "signUp":
+        if (
+          username === "" ||
+          password === "" ||
+          email === "" ||
+          confirmPass === ""
+        ) {
+          setValidation(true);
+          setError({
+            show: true,
+            msg: "الرجاء تعبئة الخانات المطلوبة لتسجيل الدخول",
+          });
+        } else if (password !== confirmPass) {
+          setError({
+            show: true,
+            msg: "الرجاء التأكد من تطابق كلمة المرور وتأكيد كلمة الم",
+          });
+        }
+
+        if (
+          !/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
+            email
+          )
+        ) {
+          setEmailVal(true);
+        }
+        break;
+    }
   };
 
   useEffect(() => {
-     if (dataTokenAuth){
+    console.log(validationError);
+  }, [validationError]);
+  useEffect(() => {});
+
+  useEffect(() => {
+    if (dataTokenAuth) {
       //  Successful login
-      if (dataTokenAuth.tokenAuth.success){
-          sessionStorage.setItem('token', dataTokenAuth.tokenAuth.token);
-          localStorage.setItem('refreshToken', dataTokenAuth.tokenAuth.refreshToken);
-          
-          userContext.userDispatch({
-            type: T.LOGIN,
-            token: dataTokenAuth.tokenAuth.token,
-            username: dataTokenAuth.tokenAuth.user.username,
+      if (dataTokenAuth.tokenAuth.success) {
+        sessionStorage.setItem("token", dataTokenAuth.tokenAuth.token);
+        localStorage.setItem(
+          "refreshToken",
+          dataTokenAuth.tokenAuth.refreshToken
+        );
+
+        userContext.userDispatch({
+          type: T.LOGIN,
+          token: dataTokenAuth.tokenAuth.token,
+          username: dataTokenAuth.tokenAuth.user.username,
         });
         props.close();
       }
       //  Unsuccessful login
       else {
-        console.log('login', dataTokenAuth.tokenAuth.errors);
+        setValidation(true);
+        console.log("login", dataTokenAuth.tokenAuth.errors);
       }
     }
   }, [dataTokenAuth, loadingTokenAuth]);
@@ -105,25 +188,41 @@ export default function SignInModal(props) {
             <div className={authStyle["modal-header"]}>
               <Image
                 layout="fixed"
-                width={200}
-                height={560}
+                width={300}
+                height={660}
                 src={"/images/signIn/sign-in-header.svg"}
                 alt="abstract green and blue pattern"
               />
             </div>
 
             <div className={authStyle["modal-footer"]}>
-              <Form className={authStyle["main-form"]} onSubmit={handleSubmit}>
+              <Form
+                validated={validated}
+                className={authStyle["main-form"]}
+                onSubmit={handleSubmit}
+                noValidate
+              >
                 <div className={authStyle["text-header"]}>
                   {" "}
                   {tab === "signIn" ? " تسجيل الدخول" : "إنشاء حساب بترولي"}
                 </div>
+                {validationError.show && (
+                  <Fade duration="1000">
+                    <Alert className={authStyle["rules"]} variant="danger">
+                      <MdWarning
+                        className={authStyle["rules-icon"]}
+                        size="1.4rem"
+                      />
+                      <div>{validationError.msg}</div>
+                    </Alert>
+                  </Fade>
+                )}
                 <Fade duration="1000">
                   <Form.Group>
                     <Form.Label className={authStyle["labels"]}>
                       اسم المستخدم
                     </Form.Label>
-                    <InputGroup>
+                    <InputGroup hasValidation>
                       <FormControl
                         onChange={handleUsername}
                         value={username}
@@ -140,14 +239,21 @@ export default function SignInModal(props) {
                       <Form.Label className={authStyle["labels"]}>
                         البريد الإلكتروني
                       </Form.Label>
-                      <InputGroup>
+                      <InputGroup hasValidation>
                         <FormControl
-                          onChange={handlePassword}
-                          value={password}
+                          onChange={handleEmail}
+                          value={email}
                           placeholder="Email Address"
-                          type="text"
+                          type="email"
                           required
+                          isInvalid={isEmailInvalid}
                         />
+                        <FormControl.Feedback
+                          style={{ textAlign: "right" }}
+                          type="invalid"
+                        >
+                          الرجاء استخدام بريد إلكتروني صالح
+                        </FormControl.Feedback>
                       </InputGroup>
                     </Form.Group>
                   </Fade>
@@ -157,7 +263,7 @@ export default function SignInModal(props) {
                     <Form.Label className={authStyle["labels"]}>
                       كلمة المرور
                     </Form.Label>
-                    <InputGroup>
+                    <InputGroup hasValidation>
                       <FormControl
                         onChange={handlePassword}
                         value={password}
@@ -165,6 +271,7 @@ export default function SignInModal(props) {
                         type={showPwd ? "text" : "password"}
                         required
                       />
+
                       <InputGroup.Append>
                         <Button
                           className={authStyle["pwd-toggle"]}
@@ -182,10 +289,10 @@ export default function SignInModal(props) {
                       <Form.Label className={authStyle["labels"]}>
                         تأكيد كلمة المرور
                       </Form.Label>
-                      <InputGroup>
+                      <InputGroup hasValidation>
                         <FormControl
-                          onChange={handlePassword}
-                          value={password}
+                          onChange={handleConfirmPass}
+                          value={confirmPass}
                           placeholder="Password Confirm"
                           type={showPwd ? "text" : "password"}
                           required
@@ -215,7 +322,8 @@ export default function SignInModal(props) {
                     {tab === "signIn"
                       ? "ليس لديك حساب بترولي؟"
                       : "لديك حساب بترولي؟"}
-                    <button type="button"
+                    <button
+                      type="button"
                       onClick={switchTab}
                       className={authStyle.redirectBtn}
                     >
@@ -235,4 +343,3 @@ export default function SignInModal(props) {
     </>
   );
 }
-

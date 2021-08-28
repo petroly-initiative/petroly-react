@@ -15,13 +15,13 @@ import { AiFillEdit } from "react-icons/ai";
 import Evaluation from "../components/evaluation/Evaluation";
 import InstructorRates from "../components/Instructros/InstructorRates";
 import EvaluationModal from "../components/evaluation/EvaluationModal";
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import { MdFolderSpecial } from "react-icons/md";
 import client from "../api/apollo-client";
 import { getInstructorName, getInstructorDetail } from "../api/queries";
-
+import { Fade } from "react-awesome-reveal";
 
 export const getStaticPaths = async () => {
   //! Should be replaced by an API Call to get all instructor names for dynamic path creation
@@ -102,6 +102,7 @@ export default function instructorDetails({ data }) {
           evaluation.teaching,
           evaluation.personality,
         ]}
+        comment = {evaluation.comment}
         term={""}
         course={evaluation.course.toUpperCase()}
       />
@@ -128,14 +129,20 @@ export default function instructorDetails({ data }) {
             padding: "16px",
             display: "flex !important",
             alignItems: "center !important",
-            width: "100%"
+            width: "100%",
           }}
         >
-          <Col xl={4} className={styles.statsCol}>
+          <Col xl={4} lg={6} className={styles.statsCol}>
             <Card style={{ borderRadius: 8 }} className={"shadow border-0"}>
-              <Card.Body style={{width: "100%"}} className={cardStyles.container}>
+              <Card.Body
+                style={{ width: "100%" }}
+                className={cardStyles.container}
+              >
                 <div
-                  style={{ background: randomColor() }}
+                  style={{
+                    background:
+                      'rgb(9, 248, 236) url("/images/background.svg")',
+                  }}
                   className={cardStyles.cardColor}
                 >
                   <div className={cardStyles.insuctor_pic + " shadow"}>
@@ -180,15 +187,17 @@ export default function instructorDetails({ data }) {
                   //!WARNING: All category scores should be fetched from data
                   grading={(data.instructor.gradingAvg / 20).toPrecision(2)}
                   teaching={(data.instructor.teachingAvg / 20).toPrecision(2)}
-                  personality={(data.instructor.personalityAvg / 20).toPrecision(2)}
+                  personality={(
+                    data.instructor.personalityAvg / 20
+                  ).toPrecision(2)}
                 />
               </Card.Body>
             </Card>
           </Col>
-          <Col xl={8} className={styles.feedbackCol}>
+          <Col xl={8} lg={6} sm={12} className={styles.feedbackCol}>
             <Card className={styles.feedbackContainer + " shadow"}>
               <div className={styles.containerHeaders}>التقييمات السابقة</div>
-              <Card.Body style={{width: "100%"}}>
+              <Card.Body style={{ width: "100%" }}>
                 <Row
                   style={{ paddingTop: "0px !important" }}
                   className={styles.prev_list}
@@ -196,8 +205,18 @@ export default function instructorDetails({ data }) {
                   {/**
                    * The evaluations will also be a past of the response object in fetching
                    */}
-
+                  <Fade
+                    className={
+                      "col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-6"
+                    }
+                    duration={1200}
+                    cascade
+                    damping={0.02}
+                    triggerOnce
+                    direction="up"
+                  >
                     {evalList}
+                  </Fade>
                 </Row>
               </Card.Body>
             </Card>
@@ -230,7 +249,7 @@ export default function instructorDetails({ data }) {
               height="70"
             />
           }
-          dept= {data.instructor.department}
+          dept={data.instructor.department}
           close={closeModal}
           visible={modalVisible}
         />
