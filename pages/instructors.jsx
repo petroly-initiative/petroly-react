@@ -28,9 +28,11 @@ function instructorsReducer(state, action) {
   switch (action.changeIn) {
     case "name":
       state.name = action.name;
+      state.offset = 0;
       return state;
     case "department":
       state.department = action.department;
+      state.offset = 0;
       return state;
     case "offset":
       state.offset = action.offset;
