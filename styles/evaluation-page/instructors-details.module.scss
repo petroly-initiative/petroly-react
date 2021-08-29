@@ -91,7 +91,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: #00ead3 !important;
+  background-color: #00ead3 ;
   border: none;
   margin: auto;
   padding: 8px ;
@@ -104,7 +104,9 @@
   box-shadow: 0px 0px 12px #999999;
   transition: 300ms ease;
 
-  
+  &:disabled{
+    background-color: grey;
+  }  
 
   &:hover{
     transform: scale(1.05);
@@ -115,6 +117,8 @@
     
   }
 }
+
+
 
 @media only screen and (max-width: 600px) {
   .container {

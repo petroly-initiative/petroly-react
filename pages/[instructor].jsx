@@ -10,12 +10,13 @@ import {
 import Navbar from "../components/navbar";
 import styles from "../styles/evaluation-page/instructors-details.module.scss";
 import cardStyles from "../styles/evaluation-page/instructors-card.module.scss";
-import { CgProfile } from "react-icons/cg";
+import { UserContext } from "../state-management/user-state/UserContext";
+import { USER } from "../constants";
 import { AiFillEdit } from "react-icons/ai";
 import Evaluation from "../components/evaluation/Evaluation";
 import InstructorRates from "../components/Instructros/InstructorRates";
 import EvaluationModal from "../components/evaluation/EvaluationModal";
-import {  useEffect, useState } from "react";
+import {  useEffect, useState, useContext } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import { MdFolderSpecial } from "react-icons/md";
@@ -66,7 +67,7 @@ export const getStaticProps = async (context) => {
 
 export default function instructorDetails({ data }) {
   const [modalVisible, setVisible] = useState(false);
-
+  const userContext = useContext(UserContext);
   useEffect(() => {
     console.log(data);
   }, []);
@@ -74,6 +75,10 @@ export default function instructorDetails({ data }) {
   const closeModal = () => {
     setVisible(false);
   };
+
+  const launchModal = () => {
+    if (userContext.user.status === USER.LOGGED_IN) setVisible(true);
+            }
 
   const colors = [
     "rgb(235, 24, 122)",
@@ -225,13 +230,22 @@ export default function instructorDetails({ data }) {
         <OverlayTrigger
           placement="top"
           delay={{ show: 350, hide: 400 }}
-          overlay={<Tooltip id="button-tooltip-2">قيّم المحاضِر</Tooltip>}
+          overlay={
+            userContext.user.status === USER.LOGGED_IN ? (
+              <Tooltip id="button-tooltip-2">قيّم المحاضِر</Tooltip>
+            ) : (
+              <Tooltip id="button-tooltip-2">الرجاء تسجيل الدخول</Tooltip>
+            )
+          }
         >
           <Button
             id="evaluate"
             className={styles.evalBtn}
-            onClick={() => {
-              setVisible(true);
+            onClick={launchModal
+            }
+            style={{
+              backgroundColor:
+                userContext.user.status !== USER.LOGGED_IN ? "gray" : "#00ead3",
             }}
           >
             <AiFillEdit size={32} />

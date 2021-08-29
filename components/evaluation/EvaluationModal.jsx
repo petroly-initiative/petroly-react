@@ -31,8 +31,8 @@ import { Fade } from "react-awesome-reveal";
  * - validation system for the suer input
  */
 export default function EvaluationModal(props) {
-  const userContext = useContext(UserContext);
 
+  const userContext = useContext(UserContext);
   // modal state
   const [submissionState, dispatch] = useReducer(evalReducer, {
     sucess: false,
@@ -63,12 +63,22 @@ export default function EvaluationModal(props) {
   });
 
   const [validated, setValidated] = useState(false);
+  const [isTermInvalid, setTermInvalid] = useState(false);
+  const [isCourseInvalid, setCourseInvalid] = useState(false);
 
   const setCourse = (e) => {
     setExtra((state) => ({ term: state.term, course: e.target.value }));
+    if(/^[a-zA-Z]{3,4}[0-9]{3}$/g.test(e.target.value)){
+      setCourseInvalid(false)
+    }
+    else
+    setCourseInvalid(true)
+    
   };
   const setTerm = (e) => {
     setExtra((state) => ({ term: e.target.value, course: state.course }));
+    setTermInvalid(!Number.isInteger(parseInt(e.target.value)));
+    
   };
 
   const gradeRate = (val) => {
@@ -156,8 +166,6 @@ export default function EvaluationModal(props) {
     await evaluationCreate();
   };
 
-  console.log(dataEvaluationCreate);
-
   useEffect(() => {
     if (submissionState.sucess) props.close();
   }, [submissionState]);
@@ -244,7 +252,6 @@ export default function EvaluationModal(props) {
                     </InputGroup.Prepend>
                     <FormControl
                       type="text"
-                      minLength={3}
                       maxLength={3}
                       placeholder="XXX"
                       aria-label="Term"
@@ -252,7 +259,14 @@ export default function EvaluationModal(props) {
                       value={extra.term}
                       onChange={setTerm}
                       required
+                      isInvalid = {isTermInvalid}
                     />
+                    <FormControl.Feedback
+                          style={{ textAlign: "right" }}
+                          type="invalid"
+                        >
+                          الرجاء استخدام 3 أرقام فقط
+                        </FormControl.Feedback>
                   </InputGroup>
                 </Col>
                 <Col xs={12} sm={12} md={6}>
@@ -274,7 +288,15 @@ export default function EvaluationModal(props) {
                       value={extra.course}
                       onChange={setCourse}
                       required
+                      isInvalid = {isCourseInvalid}
+                      className = {styles["course-input"]}
                     />
+                    <FormControl.Feedback
+                          style={{ textAlign: "right" }}
+                          type="invalid"
+                        >
+                        ABCDXXX :الرجاء كتابة اسم المدة الدراسية كالآتي
+                        </FormControl.Feedback>
                   </InputGroup>
                 </Col>
               </Form.Row>
