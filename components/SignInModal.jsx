@@ -1,4 +1,4 @@
-import { InputGroup, Button, Form, FormControl, Alert } from "react-bootstrap";
+import { InputGroup, Button, Form, FormControl, Alert, Spinner } from "react-bootstrap";
 import authStyle from "../styles/Auth.module.scss";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { MdVisibility, MdVisibilityOff, MdWarning } from "react-icons/md";
@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import { Fade } from "react-awesome-reveal";
 import { useMutation } from "@apollo/client";
-import { tokenAuthMutation } from "../api/mutations";
+import { tokenAuthMutation, registerMutation } from "../api/mutations";
 import { T } from "../constants";
 
 export default function SignInModal(props) {
@@ -41,6 +41,14 @@ export default function SignInModal(props) {
       username,
       password,
     },
+  });
+  const [register, {data: dataRegister, loading: loadingRegister, error: errorRegister}] = useMutation(registerMutation, {
+    variables: {
+      username,
+      email,
+      password1: password,
+      password2: password,
+    }
   });
 
   const [isConfirmPassInvalid, setConfirmVal] = useState(false);
@@ -150,6 +158,7 @@ export default function SignInModal(props) {
         ) {
           setEmailVal(true);
         }
+        await register();
         break;
     }
   };
@@ -160,7 +169,7 @@ export default function SignInModal(props) {
   useEffect(() => {});
 
   useEffect(() => {
-    if (dataTokenAuth) {
+    if (tab === "signIn" && dataTokenAuth) {
       //  Successful login
       if (dataTokenAuth.tokenAuth.success) {
         sessionStorage.setItem("token", dataTokenAuth.tokenAuth.token);
@@ -179,10 +188,20 @@ export default function SignInModal(props) {
       //  Unsuccessful login
       else {
         setValidation(true);
+        setError({show: true, msg: dataTokenAuth.tokenAuth.errors.nonFieldErrors[0].message})
         console.log("login", dataTokenAuth.tokenAuth.errors);
       }
     }
-  }, [dataTokenAuth, loadingTokenAuth]);
+    if (tab === "signUp" && dataRegister){
+      //  Successful register
+      if (dataRegister.register.success){
+        console.log("registred");
+      }
+      else {
+        console.log("register", dataRegister.register.errors);
+      }
+    }
+  }, [dataTokenAuth, loadingTokenAuth, loadingRegister]);
 
   return (
     <>
@@ -324,9 +343,14 @@ export default function SignInModal(props) {
                 )}
 
                 <div className={authStyle["submitContainer"]}>
-                  <Button type="submit" className={authStyle["login-btn"]}>
+                  
+                  {loadingTokenAuth || loadingRegister ?
+                    <Spinner animation="border" role="status"/> : 
+                    <Button type="submit" className={authStyle["login-btn"]}
+                    disabled={loadingTokenAuth}>
                     {tab === "signIn" ? "تسجيل الدخول" : "إنشاء حساب"}
-                  </Button>
+                    </Button>
+                  }
                   <div
                     className={authStyle.redirecter}
                     style={{ padding: 16, fontSize: 12 }}
