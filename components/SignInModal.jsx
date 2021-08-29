@@ -43,6 +43,8 @@ export default function SignInModal(props) {
     },
   });
 
+  const [isConfirmPassInvalid, setConfirmVal] = useState(false);
+
   const switchTab = () => {
     if (tab === "signIn") setTab("signUp");
     else setTab("signIn");
@@ -59,6 +61,7 @@ export default function SignInModal(props) {
   };
 
   const handleEmail = (e) => {
+    setValidation(false);
     setEmail(e.target.value);
     if (e.target.value === "") {
       setEmailVal(false);
@@ -75,6 +78,9 @@ export default function SignInModal(props) {
   };
 
   const handleConfirmPass = (e) => {
+    setValidation(false);
+    if(e.target.value !== "")
+    setConfirmVal(e.target.value !== password)
     setConfirmPass(e.target.value);
   };
 
@@ -133,10 +139,10 @@ export default function SignInModal(props) {
         } else if (password !== confirmPass) {
           setError({
             show: true,
-            msg: "الرجاء التأكد من تطابق كلمة المرور وتأكيد كلمة الم",
+            msg: "الرجاء التأكد من تطابق كلمة المرور وتأكيد كلمة المرور",
           });
         }
-
+        // ? important to prevent unnecessary queries for wrong emails
         if (
           !/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
             email
@@ -289,13 +295,14 @@ export default function SignInModal(props) {
                       <Form.Label className={authStyle["labels"]}>
                         تأكيد كلمة المرور
                       </Form.Label>
-                      <InputGroup hasValidation>
+                      <InputGroup>
                         <FormControl
                           onChange={handleConfirmPass}
                           value={confirmPass}
                           placeholder="Password Confirm"
                           type={showPwd ? "text" : "password"}
                           required
+                          isInvalid={isConfirmPassInvalid}
                         />
                         <InputGroup.Append>
                           <Button
@@ -305,6 +312,12 @@ export default function SignInModal(props) {
                             {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
                           </Button>
                         </InputGroup.Append>
+                        <FormControl.Feedback
+                          style={{ textAlign: "right" }}
+                          type="invalid"
+                        >
+                          الرجاء التاكد من التطابق كلمة المرور
+                        </FormControl.Feedback>
                       </InputGroup>
                     </Form.Group>
                   </Fade>
