@@ -135,9 +135,14 @@
     max-width: 100vw !important;
     height: calc(100vh - 5rem);
     top: 5rem;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 
   .loading-container{
-      margin-right: 0;
+      left: calc(50vw - 50px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
   }
 }

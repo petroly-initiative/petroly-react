@@ -209,7 +209,7 @@ function instructorsList() {
               </Form>
             </Col>
           </Row>
-          <center>
+         
             {" "}
             <Button className={styles["loading-container"]} disabled>
               <Spinner
@@ -222,7 +222,7 @@ function instructorsList() {
               />
               <div className={styles["loading-text"]}>جاري التحميل </div>
             </Button>
-          </center>
+          
         </Container>
       </>
     );
@@ -400,21 +400,21 @@ function instructorsList() {
             >
               {currentList}
             </Fade>
+            {/**!Number of pages should be provided by the api*/}
+            {Math.ceil(data.instructors.count / ITEMS) !== 1 && (
+              <div className={styles["pagination-container"]}>
+                <Fade triggerOnce>
+                  <CustomPagination
+                    pageNum={Math.ceil(data.instructors.count / ITEMS)}
+                    switchView={switchPage}
+                    switchIndex={switchStack}
+                    currentPage={instructorsState.offset / ITEMS + 1}
+                    currentIndex={stackIndex}
+                  />
+                </Fade>
+              </div>
+            )}
           </Row>
-          {/**!Number of pages should be provided by the api*/}
-          {Math.ceil(data.instructors.count / ITEMS) !== 1 && (
-            <div className={styles["pagination-container"]}>
-              <Fade delay="100">
-                <CustomPagination
-                  pageNum={Math.ceil(data.instructors.count / ITEMS)}
-                  switchView={switchPage}
-                  switchIndex={switchStack}
-                  currentPage={instructorsState.offset / ITEMS + 1}
-                  currentIndex={stackIndex}
-                />
-              </Fade>
-            </div>
-          )}
         </Container>
       </>
     </ClientOnly>

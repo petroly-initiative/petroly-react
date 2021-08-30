@@ -132,7 +132,7 @@ export default function EvaluationModal(props) {
       extra.term === "" ||
       extra.course === "" ||
       grading.comment === "" ||
-      rating.comment === "" ||
+      teaching.comment === "" ||
       person.comment === ""
     ) {
       setError({
