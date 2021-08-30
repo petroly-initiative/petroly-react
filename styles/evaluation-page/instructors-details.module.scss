@@ -122,6 +122,8 @@
 
 @media only screen and (max-width: 600px) {
   .container {
+    padding-left: 0px;
+    padding-right: 0px;
     max-width: 100vw !important;
     margin-top: 5rem !important;
   }
