@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState, useContext } from "react";
+import { useEffect, useReducer, useState, useContext, useCallback } from "react";
 import {
   Modal,
   Col,
@@ -9,6 +9,7 @@ import {
   Tooltip,
   InputGroup,
   Alert,
+  Spinner,
 } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
 import styles from "../../styles/evaluation-page/evaluation-modal.module.scss";
@@ -62,6 +63,7 @@ export default function EvaluationModal(props) {
     msg: "",
   });
 
+  const [waiting, setWaiting] = useState(false);
   const [validated, setValidated] = useState(false);
   const [isTermInvalid, setTermInvalid] = useState(false);
   const [isCourseInvalid, setCourseInvalid] = useState(false);
@@ -154,7 +156,8 @@ export default function EvaluationModal(props) {
     if (dataEvaluationCreate){
       console.log(dataEvaluationCreate);
       if(dataEvaluationCreate.evaluationCreate.ok){
-        location.reload();
+        setWaiting(true);
+        setTimeout(() => location.reload(), 1900);
       }
     }
   }, [loadingEvaluationCreate]);
@@ -411,12 +414,15 @@ export default function EvaluationModal(props) {
             delay={{ show: 500, hide: 400 }}
             overlay={<Tooltip id="button-tooltip-2">تسليم التقييم</Tooltip>}
           >
+          {waiting ?
+            <Spinner animation="border" role="status"/> :
             <Button
               onClick={fireEval}
               className={[styles["btns"], styles["submit-btn"]]}
             >
               <FaSave size="1.7rem" />
             </Button>
+          }
           </OverlayTrigger>
         </Modal.Footer>
       </Modal>
