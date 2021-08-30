@@ -46,7 +46,7 @@ export const getStaticPaths = async () => {
    */
   return {
     paths: ids,
-    fallback: true,
+    fallback: false,
   };
 };
 // This function will run for each path we provided
