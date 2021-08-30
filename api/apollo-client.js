@@ -7,7 +7,7 @@ import {
 
 // Non-authorized clients
 const client = new ApolloClient({
-    uri: 'http://localhost:8000/endpoint/',
+    uri: 'https://www.petroly.co/endpoint/',
     cache: new InMemoryCache(),
 });
 
