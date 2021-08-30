@@ -11,7 +11,7 @@ import { USER, T } from "../constants";
 
 export default function ClientMutator({ children }) {
  
-  const URL_ENDPOINT = "https://www.petroly.co/endpoint/";
+  const URL_ENDPOINT = "http://localhost:8000/endpoint/";
   const userContext = useContext(UserContext);
   var token = "";
   var rToken = "";
