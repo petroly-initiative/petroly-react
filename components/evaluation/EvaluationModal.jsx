@@ -116,8 +116,8 @@ export default function EvaluationModal(props) {
   ] = useMutation(evaluationCreateMutation, {
     notifyOnNetworkStatusChange: true,
     variables: {
+      username: userContext.user.username,
       instructorId: props.id,
-      userId: userContext.user.id,
       grading: "A_" + String(grading.rating * 20),
       teaching: "A_" + String(teaching.rating * 20),
       personality: "A_" + String(person.rating * 20),
@@ -142,33 +142,22 @@ export default function EvaluationModal(props) {
     setValidated(true);
     }
     else
-    form.submit();
+      evaluationCreate();    
   };
 
-  const submitEvaluation = async (e) => {
-    /* Submit all forms and sned it in a query */
-    e.preventDefault();
-
-    var dataFormat = {
-      context: extra,
-      grading: grading,
-      teaching: teaching,
-      personality: person,
-    };
-
-    await dispatch({
-      type: "send",
-      content: dataFormat,
-    });
-
-    console.log("form", dataFormat);
-    console.log("Done");
-    await evaluationCreate();
-  };
 
   useEffect(() => {
     if (submissionState.sucess) props.close();
   }, [submissionState]);
+
+  useEffect(() => {
+    if (dataEvaluationCreate){
+      console.log(dataEvaluationCreate);
+      if(dataEvaluationCreate.evaluationCreate.ok){
+        location.reload();
+      }
+    }
+  }, [loadingEvaluationCreate]);
 
   return (
     <>
@@ -231,7 +220,6 @@ export default function EvaluationModal(props) {
             className={styles["evalForm"]}
             id={"evalForm"}
             validated={validated}
-            onSubmit={submitEvaluation}
           >
             <section className={styles.sections}>
               <div className={styles.headers}>

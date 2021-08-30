@@ -198,6 +198,7 @@ export default function SignInModal(props) {
         console.log("registred");
       }
       else {
+        setError({show: true, msg: dataRegister.register.errors})
         console.log("register", dataRegister.register.errors);
       }
     }
@@ -344,14 +345,13 @@ export default function SignInModal(props) {
 
                 <div className={authStyle["submitContainer"]}>
                   
-                   
+                  {loadingTokenAuth || loadingRegister ?
+                    <Spinner animation="border" role="status"/> : 
                     <Button type="submit" className={authStyle["login-btn"]}
                     disabled={loadingTokenAuth}>
-                      {loadingTokenAuth || loadingRegister ?
-                    <Spinner animation="border" role="status"/> :
-                    tab === "signIn" ? "تسجيل الدخول" : "إنشاء حساب"}
+                    {tab === "signIn" ? "تسجيل الدخول" : "إنشاء حساب"}
                     </Button>
-                  
+                  }
                   <div
                     className={authStyle.redirecter}
                     style={{ padding: 16, fontSize: 12 }}
