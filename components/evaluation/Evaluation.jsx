@@ -16,69 +16,75 @@ export default function Evaluation(props){
   }, [])
     return (
       <>
-        <Col xs={12} md={12} sm={12} lg ={6}>
-          <Card className={styles.feedback_container}>
-            <Card.Header className={styles.cardHeader}>
-              <div className={styles.tags}>
-                {props.course !== "" && (
-                  <OverlayTrigger
-                    placement="top"
-                    delay={{ show: 0, hide: 50 }}
-                    overlay={
-                      <Tooltip id="button-tooltip-2">المادة الدراسية</Tooltip>
-                    }
-                  >
-                    <div id="course_tag" className={styles.course}>
-                      {props.course}
-                    </div>
-                  </OverlayTrigger>
-                )}
-                {props.term !== "" && (
-                  <OverlayTrigger
-                    placement="top"
-                    delay={{ show: 0, hide: 50 }}
-                    overlay={
-                      <Tooltip id="button-tooltip-2">الفصل الدراسي</Tooltip>
-                    }
-                  >
-                    <div id="term_tag" className={styles.term}>
-                      {"T" + props.term}
-                    </div>
-                  </OverlayTrigger>
-                )}
-              </div>
+        <Card className={styles.feedback_container}>
+          <Card.Header className={styles.cardHeader}>
+            <div className={styles.tags}>
+              {props.course !== "" && (
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 0, hide: 50 }}
+                  overlay={
+                    <Tooltip id="button-tooltip-2">المادة الدراسية</Tooltip>
+                  }
+                >
+                  <div id="course_tag" className={styles.course}>
+                    {props.course}
+                  </div>
+                </OverlayTrigger>
+              )}
+              {props.term !== "" && (
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 0, hide: 50 }}
+                  overlay={
+                    <Tooltip id="button-tooltip-2">الفصل الدراسي</Tooltip>
+                  }
+                >
+                  <div id="term_tag" className={styles.term}>
+                    {"T" + props.term}
+                  </div>
+                </OverlayTrigger>
+              )}
+            </div>
+            <OverlayTrigger
+              placement="top"
+              delay={{ show: 0, hide: 50 }}
+              overlay={
+                <Tooltip id="button-tooltip-2">تاريخ تسليم التقييم</Tooltip>
+              }
+            >
               <div className={styles.dates}>{props.date}</div>
-            </Card.Header>
-            <Card.Body>
-              <section id="grading">
-                <div className={styles.headers}>الدرجات</div>
-                <p className={styles.contentText}>{props.grading}</p>
-              </section>
-              <section id="teaching">
-                <div className={styles.headers}>التدريس</div>
-                <p className={styles.contentText}>{props.teaching}</p>
-              </section>
-              <section id="personality">
-                <div className={styles.headers}>الشخصية</div>
-                <p className={styles.contentText}>{props.personality}</p>
-              </section>
-              <section>
-                <div className={styles.stars}>
-                  <ReactStars
-                    size={20}
-                    count={5}
-                    edit={false}
-                    edit={false}
-                    emptyIcon={<BsStar />}
-                    filledIcon={<BsStarFill />}
-                    value={overall}
-                    activeColor="#ffd700"
-                  />
-                </div>
-              </section>
-            </Card.Body>
-          </Card>
-        </Col>
+            </OverlayTrigger>
+          </Card.Header>
+          <Card.Body>
+            <section id="grading">
+              <div className={styles.headers}>الدرجات</div>
+              <p className={styles.contentText}>{props.grading}</p>
+            </section>
+            <section id="teaching">
+              <div className={styles.headers}>التدريس</div>
+              <p className={styles.contentText}>{props.teaching}</p>
+            </section>
+            <section id="personality">
+              <div className={styles.headers}>الشخصية</div>
+              <p className={styles.contentText}>{props.personality}</p>
+            </section>
+            <section>
+              <div className={styles.stars}>
+                <ReactStars
+                  size={20}
+                  count={5}
+                  edit={false}
+                  edit={false}
+                  emptyIcon={<BsStar />}
+                  filledIcon={<BsStarFill />}
+                  value={overall}
+                  activeColor="#ffd700"
+                />
+              </div>
+            </section>
+          </Card.Body>
+        </Card>
       </>
     );
 }

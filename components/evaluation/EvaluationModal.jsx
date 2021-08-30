@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState, useContext } from "react";
 import {
   Modal,
   Col,
@@ -18,15 +18,21 @@ import { FaSave, FaCommentAlt } from "react-icons/fa";
 import { ImCancelCircle } from "react-icons/im";
 import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
+import { MdWarning } from "react-icons/md";
 import { evalReducer } from "../../state-management/evaluation-state/evaluationReducer";
-
+import { evaluationCreateMutation } from "../../api/mutations";
+import { useMutation } from "@apollo/client";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import { USER } from "../../constants";
+import { Fade } from "react-awesome-reveal";
 /**
  * TODO: State management for every form control
  * - creating a reducer to handle the evaluation request
- * - state hooks for each form control and react stars' value component
- * - evaluation submission for gathering user input from different forms
+ * - validation system for the suer input
  */
 export default function EvaluationModal(props) {
+
+  const userContext = useContext(UserContext);
   // modal state
   const [submissionState, dispatch] = useReducer(evalReducer, {
     sucess: false,
@@ -51,11 +57,28 @@ export default function EvaluationModal(props) {
     course: "",
   });
 
+  const [validationError, setError] = useState({
+    show: false,
+    msg: "",
+  });
+
+  const [validated, setValidated] = useState(false);
+  const [isTermInvalid, setTermInvalid] = useState(false);
+  const [isCourseInvalid, setCourseInvalid] = useState(false);
+
   const setCourse = (e) => {
     setExtra((state) => ({ term: state.term, course: e.target.value }));
+    if(/^[a-zA-Z]{3,4}[0-9]{3}$/g.test(e.target.value)){
+      setCourseInvalid(false)
+    }
+    else
+    setCourseInvalid(true)
+    
   };
   const setTerm = (e) => {
     setExtra((state) => ({ term: e.target.value, course: state.course }));
+    setTermInvalid(!Number.isInteger(parseInt(e.target.value)));
+    
   };
 
   const gradeRate = (val) => {
@@ -83,9 +106,49 @@ export default function EvaluationModal(props) {
     setShow(props.visible);
   }, [props.visible]);
 
+  const [
+    evaluationCreate,
+    {
+      data: dataEvaluationCreate,
+      loading: loadingEvaluationCreate,
+      error: errorEvaluationCreate,
+    },
+  ] = useMutation(evaluationCreateMutation, {
+    notifyOnNetworkStatusChange: true,
+    variables: {
+      instructorId: props.id,
+      userId: userContext.user.id,
+      grading: "A_" + String(grading.rating * 20),
+      teaching: "A_" + String(teaching.rating * 20),
+      personality: "A_" + String(person.rating * 20),
+      course: extra.course,
+      comment: "",
+    },
+  });
+
+  const fireEval = (e) => {
+    var form = document.getElementById("evalForm");
+    if (
+      extra.term === "" ||
+      extra.course === "" ||
+      grading.comment === "" ||
+      rating.comment === "" ||
+      person.comment === ""
+    ) {
+      setError({
+        show: true,
+        msg: "الرجاء تعبئة الخانات المطلوبة لتسجيل الدخول",
+      });
+    setValidated(true);
+    }
+    else
+    form.submit();
+  };
+
   const submitEvaluation = async (e) => {
     /* Submit all forms and sned it in a query */
     e.preventDefault();
+
     var dataFormat = {
       context: extra,
       grading: grading,
@@ -98,7 +161,9 @@ export default function EvaluationModal(props) {
       content: dataFormat,
     });
 
+    console.log("form", dataFormat);
     console.log("Done");
+    await evaluationCreate();
   };
 
   useEffect(() => {
@@ -154,181 +219,194 @@ export default function EvaluationModal(props) {
               التقييم
             </div>
           </Alert>
-          <Alert className={styles["rules"]} key={0} variant="primary">
-            <BiInfoCircle className={styles["rules-icon"]} size="1.4rem" />
-            <div>تعبئة الحقول الكتابية غير إلزامي لإكمال استمارة التقييم</div>
-          </Alert>
-          <Form onSubmit={submitEvaluation}></Form>
-          <section className={styles.sections}>
-            <div className={styles.headers}>
-              <div className={styles.titles}>معلومات التقييم</div>
-              <div className={styles.descriptions}>
-                معلومات ضرورية للاستفادة القصوى من تقييمك
+          {validationError.show && (
+            <Fade triggerOnce style={{width: "95%"}} duration="1000">
+              <Alert style={{width: "100%"}} className={styles["rules"]} variant="danger">
+                <MdWarning className={styles["rules-icon"]} size="1.4rem" />
+                <div>{validationError.msg}</div>
+              </Alert>
+            </Fade>
+          )}
+          <Form
+            className={styles["evalForm"]}
+            id={"evalForm"}
+            validated={validated}
+            onSubmit={submitEvaluation}
+          >
+            <section className={styles.sections}>
+              <div className={styles.headers}>
+                <div className={styles.titles}>معلومات التقييم</div>
+                <div className={styles.descriptions}>
+                  معلومات ضرورية للاستفادة القصوى من تقييمك
+                </div>
               </div>
-            </div>
 
-            <Form.Row className={styles["evaluation-data"]}>
-              <Col xs={12} sm={6}>
-                <Form.Label className={styles["labels"]}>
-                  الفصل الدراسي
-                </Form.Label>
-                <InputGroup className="mb-3">
-                  <InputGroup.Prepend>
-                    <InputGroup.Text id="basic-addon1">T</InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    type="text"
-                    minLength={3}
-                    maxLength={3}
-                    placeholder="XXX"
-                    aria-label="Term"
-                    aria-describedby="term-txtarea"
-                    value={extra.term}
-                    onChange={setTerm}
-                  />
-                </InputGroup>
-              </Col>
-              <Col xs={12} sm={6}>
-                <Form.Label className={styles["labels"]}>
-                  المادة الدراسية
-                </Form.Label>
-                <InputGroup className="mb-3">
-                  <InputGroup.Prepend>
-                    <InputGroup.Text id="basic-addon1">
-                      <HiBookOpen size="1.5rem" />
-                    </InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    minLength={5}
-                    maxLength={7}
-                    placeholder="ABCDXXX"
-                    aria-label="Course"
-                    aria-describedby="Course-txt-input"
-                    value={extra.course}
-                    onChange={setCourse}
-                  />
-                </InputGroup>
-              </Col>
-            </Form.Row>
-          </section>
-          <section className={styles.sections}>
-            <div className={styles.headers}>
-              <div className={styles.titles}>التصحيح والدرجات</div>
-              <div className={styles.descriptions}>
-                شفافية التصحيح والالتزام بمعايير محددة للدرجات
+              <Form.Row className={styles["evaluation-data"]}>
+                <Col xs={12} sm={12} md={6}>
+                  <Form.Label className={styles["labels"]}>
+                    الفصل الدراسي
+                  </Form.Label>
+                  <InputGroup hasValidation className="mb-4">
+                    <InputGroup.Prepend>
+                      <InputGroup.Text id="basic-addon1">T</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                      type="text"
+                      maxLength={3}
+                      placeholder="XXX"
+                      aria-label="Term"
+                      aria-describedby="term-txtarea"
+                      value={extra.term}
+                      onChange={setTerm}
+                      required
+                      isInvalid = {isTermInvalid}
+                    />
+                    <FormControl.Feedback
+                          style={{ textAlign: "right" }}
+                          type="invalid"
+                        >
+                          الرجاء استخدام 3 أرقام فقط
+                        </FormControl.Feedback>
+                  </InputGroup>
+                </Col>
+                <Col xs={12} sm={12} md={6}>
+                  <Form.Label className={styles["labels"]}>
+                    المادة الدراسية
+                  </Form.Label>
+                  <InputGroup hasValidation className="mb-3">
+                    <InputGroup.Prepend>
+                      <InputGroup.Text id="basic-addon1">
+                        <HiBookOpen size="1.5rem" />
+                      </InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                      minLength={5}
+                      maxLength={7}
+                      placeholder="ABCDXXX"
+                      aria-label="Course"
+                      aria-describedby="Course-txt-input"
+                      value={extra.course}
+                      onChange={setCourse}
+                      required
+                      isInvalid = {isCourseInvalid}
+                      className = {styles["course-input"]}
+                    />
+                    <FormControl.Feedback
+                          style={{ textAlign: "right" }}
+                          type="invalid"
+                        >
+                        ABCDXXX :الرجاء كتابة اسم المدة الدراسية كالآتي
+                        </FormControl.Feedback>
+                  </InputGroup>
+                </Col>
+              </Form.Row>
+            </section>
+            <section className={styles.sections}>
+              <div className={styles.headers}>
+                <div className={styles.titles}>التصحيح والدرجات</div>
+                <div className={styles.descriptions}>
+                  شفافية التصحيح والالتزام بمعايير محددة للدرجات
+                </div>
               </div>
-            </div>
-            <div className={styles.ratingStars}>
-              <div className={styles.stars}>
+              <div className={styles.ratingStars}>
+                <div className={styles.stars}>
+                  <ReactStars
+                    size={14}
+                    count={5}
+                    edit={true}
+                    emptyIcon={<BsStar />}
+                    filledIcon={<BsStarFill />}
+                    value={grading.rating}
+                    activeColor="#ffd700"
+                    onChange={gradeRate}
+                  />
+                </div>
+              </div>
+
+              <InputGroup hasValidation className={styles["input-containers"]}>
+                <FormControl
+                  maxLength="160"
+                  className={styles["comments"]}
+                  placeholder={"اكتب تعليقك عن تصحيح المحاضِر"}
+                  size="sm"
+                  as="textarea"
+                  value={grading.comment}
+                  onChange={gradeComment}
+                  required
+                ></FormControl>
+              </InputGroup>
+            </section>
+            <section className={styles.sections}>
+              <div className={styles.headers}>
+                <div className={styles.titles}>التدريس</div>
+                <div className={styles.descriptions}>
+                  سهولة إيصال المعلومة و فهم المنهج{" "}
+                </div>
+              </div>
+              <div className={styles.ratingStars}>
                 <ReactStars
                   size={14}
                   count={5}
                   edit={true}
                   emptyIcon={<BsStar />}
                   filledIcon={<BsStarFill />}
-                  value={grading.rating}
+                  value={teaching.rating}
                   activeColor="#ffd700"
-                  onChange={gradeRate}
+                  onChange={teachRate}
                 />
               </div>
-            </div>
 
-            <InputGroup className={styles["input-containers"]}>
-              <FormControl
-                maxLength="160"
-                className={styles["comments"]}
-                placeholder={"اكتب تعليقك عن تصحيح المحاضِر"}
-                size="sm"
-                as="textarea"
-                value={grading.comment}
-                onChange={gradeComment}
-              ></FormControl>
-              <InputGroup.Append>
-                <InputGroup.Text>
-                  <FaCommentAlt />
-                </InputGroup.Text>
-              </InputGroup.Append>
-            </InputGroup>
-          </section>
-          <section className={styles.sections}>
-            <div className={styles.headers}>
-              <div className={styles.titles}>التدريس</div>
-              <div className={styles.descriptions}>
-                سهولة إيصال المعلومة و فهم المنهج{" "}
+              <InputGroup hasValidation className={styles["input-containers"]}>
+                <Form.Label></Form.Label>
+                <FormControl
+                  maxLength="160"
+                  className={styles["comments"]}
+                  placeholder={"اكتب تعليقك عن تدريس المحاضِر"}
+                  size="sm"
+                  as="textarea"
+                  value={teaching.comment}
+                  onChange={teachComment}
+                  required
+                ></FormControl>
+              </InputGroup>
+            </section>
+            <section className={styles.sections}>
+              <div className={styles.headers}>
+                <div className={styles.titles}>الشخصية</div>
+                <div className={styles.descriptions}>
+                  المزاج العام والتعامل مع الطلاب
+                </div>
               </div>
-            </div>
-            <div className={styles.ratingStars}>
-              <ReactStars
-                size={14}
-                count={5}
-                edit={true}
-                emptyIcon={<BsStar />}
-                filledIcon={<BsStarFill />}
-                value={teaching.rating}
-                activeColor="#ffd700"
-                onChange={teachRate}
-              />
-            </div>
-
-            <InputGroup className={styles["input-containers"]}>
-              <Form.Label></Form.Label>
-              <FormControl
-                maxLength="160"
-                className={styles["comments"]}
-                placeholder={"اكتب تعليقك عن تدريس المحاضِر"}
-                size="sm"
-                as="textarea"
-                value={teaching.comment}
-                onChange={teachComment}
-              ></FormControl>
-              <InputGroup.Append>
-                <InputGroup.Text>
-                  <FaCommentAlt />
-                </InputGroup.Text>
-              </InputGroup.Append>
-            </InputGroup>
-          </section>
-          <section className={styles.sections}>
-            <div className={styles.headers}>
-              <div className={styles.titles}>الشخصية</div>
-              <div className={styles.descriptions}>
-                المزاج العام والتعامل مع الطلاب
+              <div className={styles.ratingStars}>
+                <ReactStars
+                  size={14}
+                  count={5}
+                  edit={true}
+                  emptyIcon={<BsStar />}
+                  filledIcon={<BsStarFill />}
+                  value={person.rating}
+                  activeColor="#ffd700"
+                  onChange={personRate}
+                />
               </div>
-            </div>
-            <div className={styles.ratingStars}>
-              <ReactStars
-                size={14}
-                count={5}
-                edit={true}
-                emptyIcon={<BsStar />}
-                filledIcon={<BsStarFill />}
-                value={person.rating}
-                activeColor="#ffd700"
-                onChange={personRate}
-              />
-            </div>
 
-            <InputGroup className={styles["input-containers"]}>
-              <FormControl
-                maxLength="160"
-                className={styles["comments"]}
-                placeholder={"اكتب تعليقك عن شخصية المحاضِر"}
-                as="textarea"
-                size="sm"
-                value={person.comment}
-                onChange={personComment}
-              ></FormControl>
-              <InputGroup.Append>
-                <InputGroup.Text>
-                  <FaCommentAlt />
-                </InputGroup.Text>
-              </InputGroup.Append>
-            </InputGroup>
-          </section>
+              <InputGroup hasValidation className={styles["input-containers"]}>
+                <FormControl
+                  maxLength="160"
+                  className={styles["comments"]}
+                  placeholder={"اكتب تعليقك عن شخصية المحاضِر"}
+                  as="textarea"
+                  size="sm"
+                  value={person.comment}
+                  onChange={personComment}
+                  required
+                ></FormControl>
+              </InputGroup>
+            </section>
+          </Form>
         </Modal.Body>
         <Modal.Footer className={styles["modal-footer"]}>
           <OverlayTrigger
-            onClick={submitEvaluation}
             placement="top"
             delay={{ show: 500, hide: 400 }}
             overlay={<Tooltip id="button-tooltip-2">حذف التقييم</Tooltip>}
@@ -341,20 +419,17 @@ export default function EvaluationModal(props) {
             </Button>
           </OverlayTrigger>
           <OverlayTrigger
-            onClick={submitEvaluation}
             placement="top"
             delay={{ show: 500, hide: 400 }}
             overlay={<Tooltip id="button-tooltip-2">تسليم التقييم</Tooltip>}
           >
             <Button
-              onClick={submitEvaluation}
-              type="submit"
+              onClick={fireEval}
               className={[styles["btns"], styles["submit-btn"]]}
             >
               <FaSave size="1.7rem" />
             </Button>
           </OverlayTrigger>
-          <Form />
         </Modal.Footer>
       </Modal>
     </>
