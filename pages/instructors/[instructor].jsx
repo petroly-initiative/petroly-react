@@ -7,21 +7,21 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
-import Navbar from "../components/navbar";
-import styles from "../styles/evaluation-page/instructors-details.module.scss";
-import cardStyles from "../styles/evaluation-page/instructors-card.module.scss";
-import { UserContext } from "../state-management/user-state/UserContext";
-import { USER } from "../constants";
+import Navbar from "../../components/navbar";
+import styles from "../../styles/evaluation-page/instructors-details.module.scss";
+import cardStyles from "../../styles/evaluation-page/instructors-card.module.scss";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import { USER } from "../../constants";
 import { AiFillEdit } from "react-icons/ai";
-import Evaluation from "../components/evaluation/Evaluation";
-import InstructorRates from "../components/Instructros/InstructorRates";
-import EvaluationModal from "../components/evaluation/EvaluationModal";
+import Evaluation from "../../components/evaluation/Evaluation";
+import InstructorRates from "../../components/Instructros/InstructorRates";
+import EvaluationModal from "../../components/evaluation/EvaluationModal";
 import {  useEffect, useState, useContext } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import { MdFolderSpecial } from "react-icons/md";
-import client from "../api/apollo-client";
-import { getInstructorName, getInstructorDetail } from "../api/queries";
+import client from "../../api/apollo-client";
+import { getInstructorName, getInstructorDetail } from "../../api/queries";
 import { Fade } from "react-awesome-reveal";
 
 export const getStaticPaths = async () => {
