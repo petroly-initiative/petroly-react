@@ -258,3 +258,10 @@ $testing: #00dfc8;
     height: 50vh;
   }
 }
+
+@media only screen and (max-height: 640px) {
+  .navbar_main{
+    overflow-y: scroll;
+  }
+  
+}
