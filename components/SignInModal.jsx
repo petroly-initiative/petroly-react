@@ -1,10 +1,13 @@
 import { InputGroup, Button, Form, FormControl } from "react-bootstrap";
 import authStyle from "../styles/Auth.module.scss";
-import { userContext } from "../state-management/user-state/userContext";
+import { UserContext } from "../state-management/user-state/UserContext";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { Fade } from "react-awesome-reveal";
+import { useMutation } from "@apollo/client";
+import { tokenAuthMutation } from "../api/mutations";
+import { T } from "../constants";
 
 export default function SignInModal(props) {
   /**
@@ -13,21 +16,31 @@ export default function SignInModal(props) {
    * 
    */
 
-  const userInfo = useContext(userContext);
+  const userContext = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
   const [tab, setTab] = useState("signIn");
   // Handling input change;
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [tokenAuth, {data: dataTokenAuth, loading: loadingTokenAuth, errorTokenAuth}] = useMutation(
+    tokenAuthMutation,
+    {
+      variables: {
+        username, 
+        password
+      }
+    }
+  );
 
   const switchTab = () => {
     if (tab === "signIn") setTab("signUp");
     else setTab("signIn");
   };
 
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
+  const handleUsername = (e) => {
+    setUsername(e.target.value);
   };
 
   const handlePassword = (e) => {
@@ -57,26 +70,30 @@ export default function SignInModal(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Submitted sign in form");
-
-    /**
-     * !WARNING: The following is just a practical demo
-     * - The username should be fetched from the server, and should not be the password
-     * - The profilePic attribute should also be fetched from the server
-     */
-    await userInfo.userDispatch({
-      type: "sign-in",
-      credentials: {
-        logged: true,
-        username: password,
-        email: email,
-      },
-    });
+    // Send logn request
+   await tokenAuth();
   };
 
   useEffect(() => {
-    console.log(userInfo.status);
-    if (userInfo.status.logged === true) props.close();
-  }, [userInfo.status]);
+     if (dataTokenAuth){
+      //  Successful login
+      if (dataTokenAuth.tokenAuth.success){
+          sessionStorage.setItem('token', dataTokenAuth.tokenAuth.token);
+          localStorage.setItem('refreshToken', dataTokenAuth.tokenAuth.refreshToken);
+          
+          userContext.userDispatch({
+            type: T.LOGIN,
+            token: dataTokenAuth.tokenAuth.token,
+            username: dataTokenAuth.tokenAuth.user.username,
+        });
+        props.close();
+      }
+      //  Unsuccessful login
+      else {
+        console.log('login', dataTokenAuth.tokenAuth.errors);
+      }
+    }
+  }, [dataTokenAuth, loadingTokenAuth]);
 
   return (
     <>
@@ -108,8 +125,8 @@ export default function SignInModal(props) {
                     </Form.Label>
                     <InputGroup>
                       <FormControl
-                        onChange={handleEmail}
-                        value={email}
+                        onChange={handleUsername}
+                        value={username}
                         placeholder="Username"
                         type="text"
                         required

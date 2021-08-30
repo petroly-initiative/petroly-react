@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import { USER, T } from "../../constants";
 
 /**
  * ? User State management: A JSON with the following attributes
@@ -6,7 +7,7 @@ import { createContext } from "react";
  * - username (string), email(string), profilePic(an image file from the database)
  */
 
-export const userContext = createContext(null);
+export const UserContext = createContext(null);
 /**
  * 
  * @param currentState: The original state 
@@ -23,18 +24,25 @@ export const userContext = createContext(null);
  * }
  */
 export const userReducer = (currentState, action) => {
-
     switch(action.type){
-        case "sign-in":
-            return (
-                // ? Credentials will be provided via the sign in forms 
-                action.credentials
-            )
-        case "sign-out":
-            return({logged: false});
-            //? This section will contain the procedure to create a new account
+        case T.SET_CLIENT:
+            return {
+                status: USER.LOGGED_IN,
+                token: action.token,
+                username: action.username,
+            }
+        case T.LOGIN:
+            return {
+                status: USER.VERIFING,
+                token: action.token,
+            }
+        case T.LOGOUT:
+            sessionStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+            return {
+                status: USER.LOGGED_OUT,
+            };
         case "create-new":
-            break;
-            
+            break;        
     }
 }
