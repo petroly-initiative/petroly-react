@@ -344,13 +344,14 @@ export default function SignInModal(props) {
 
                 <div className={authStyle["submitContainer"]}>
                   
-                  {loadingTokenAuth || loadingRegister ?
-                    <Spinner animation="border" role="status"/> : 
+                   
                     <Button type="submit" className={authStyle["login-btn"]}
                     disabled={loadingTokenAuth}>
-                    {tab === "signIn" ? "تسجيل الدخول" : "إنشاء حساب"}
+                      {loadingTokenAuth || loadingRegister ?
+                    <Spinner animation="border" role="status"/> :
+                    tab === "signIn" ? "تسجيل الدخول" : "إنشاء حساب"}
                     </Button>
-                  }
+                  
                   <div
                     className={authStyle.redirecter}
                     style={{ padding: 16, fontSize: 12 }}

@@ -35,7 +35,7 @@ export default function ChatCard(props) {
   return (
     <>
       <Card className={[styles["main-container"], "shadow"]}>
-        <Card.Body>
+        <Card.Body style={{overflow: "hidden", margin: 4}}>
           <div className={styles["Header"]}>
             <div className={styles["user-info"]}>{props.profile}</div>
             <div className={styles["post-info"]}>
