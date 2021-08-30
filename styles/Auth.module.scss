@@ -127,7 +127,7 @@
   width: 130px;
   img {
     width: 100%;
-    height: 101%;
+    height: 103%;
     -o-object-fit: cover;
     object-fit: cover;
     position: absolute;
@@ -184,6 +184,12 @@
   .rules-icon{
     margin-left: 16px;
   }
+}
+
+.reset-instructions{
+  text-align: right;
+  padding: 12px;
+
 }
 
 .labels {
