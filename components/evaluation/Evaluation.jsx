@@ -16,7 +16,7 @@ export default function Evaluation(props){
   }, [])
     return (
       <>
-        <Card className={styles.feedback_container}>
+        <Card className={styles.feedback_container + " shadow"}>
           <Card.Header className={styles.cardHeader}>
             <div className={styles.tags}>
               {props.course !== "" && (

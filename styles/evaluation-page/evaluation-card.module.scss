@@ -1,12 +1,16 @@
+$txt-fill: #52575d;
 
 @mixin tagstyle($bg-color){
   background-color: $bg-color;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
-  font-weight: 700;
+  font-weight: 400;
+  font-size: 16px;
   border-radius: 4px;
   color: white;
-  padding: 6px;
-  margin: 4px;
+  padding: 5px;
+  margin: 2px;
   cursor: pointer;
    &:hover{
     transform: scale(1.05);
@@ -16,24 +20,29 @@
 .cardHeader{
   display: flex !important;
   justify-content: space-between !important;
-  background-color: #fcf9f9 !important;
+  background-color: #ffffff !important;
+  border-bottom: 2px solid rgba(0,0,0,.125);
+  border-radius: 10px 10px 0 0 !important;
   align-items: center;
+  padding: 10px;
 }
 
 .feedback_container{
   margin: 16px;
   margin-left: 0px;
   margin-right: 0px;
+  border-radius: 10px !important;
+  border: 1px solid rgba(128, 128, 128, 0.233) !important;
 }
 
 .course{
- @include tagstyle(rgb(45, 223, 223));
+ @include tagstyle(#4D9AFF);
  transition: 300ms ease;
  
 }
 
 .term{
-  @include tagstyle(rgb(45, 223, 223));
+  @include tagstyle(#34D5FF);
   transition: 300ms ease;
 }
 
@@ -46,8 +55,8 @@
 }
 
 .dates{
-  @include tagstyle(rgb(34, 159, 241));
-  font-weight: 700 !important;
+  color: $txt-fill;
+  font-weight: 600 !important;
 }
 
 .headers {
