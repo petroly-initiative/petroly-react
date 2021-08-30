@@ -8,7 +8,7 @@
     "start": "next start -p $PORT"
   },
     "engines": {
-    "node": "16.4.1"
+    "node": "14.x"
   },
   "dependencies": {
     "@apollo/client": "^3.4.8",
