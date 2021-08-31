@@ -37,7 +37,7 @@ export default function SignInModal(props) {
    * ? Sign in modal modes
    * - user-input: basic sign in and create account tabs
    * - ps-reset: password reset with email input
-   * - ps-change: an input for the new restted password
+   * - ps-scuccess: an input for the new restted password
    * - acc-confirm: a screen to advise users 
    */
   const [validationError, setError] = useState({
@@ -219,7 +219,6 @@ export default function SignInModal(props) {
               setEmailVal(true);
             }
             await register();
-            setMode("acc-confirm");
             break;
         }
         break;
@@ -270,7 +269,8 @@ export default function SignInModal(props) {
       //  Successful register
       if (dataRegister.register.success) {
         console.log("registered");
-        setTimeout(() => location.reload(), 900);
+        setMode("acc-confirm");
+        setTimeout(() => location.reload(), 1000);
       } else {
         const errors = dataRegister.register.errors;
         var messages = "";
@@ -293,6 +293,7 @@ export default function SignInModal(props) {
       if (dataSendPasswordResetEmail.sendPasswordResetEmail.success){
         console.log("Email was sent");
         setMode("ps-sccuess");
+        setTimeout(() => location.reload(), 1000);
       }
       else
         console.log("Email wasn't sent");
