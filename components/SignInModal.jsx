@@ -244,7 +244,7 @@ export default function SignInModal(props) {
     if (tab === "signIn" && dataTokenAuth) {
       //  Successful login
       if (dataTokenAuth.tokenAuth.success) {
-        if (dataTokenAuth.tokenAuth.user.verified){
+        if (! dataTokenAuth.tokenAuth.user.verified){
           setMode("acc-confirm");
           return;
         }
