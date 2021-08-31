@@ -49,8 +49,10 @@ export default function ResetPasswordPage(props) {
 
   useEffect(() => {
     if (data) {
-      if (data.passwordReset.success)
-        console.log("setting was done successfuly");
+      if (data.passwordReset.success){
+				console.log("setting was done successfuly");
+				setTimeout(() => location.assign("/"), 1200);
+			}
       else {
 				console.log("setting new password error");
 				console.log(data);
