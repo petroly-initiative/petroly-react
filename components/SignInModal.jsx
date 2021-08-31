@@ -252,7 +252,7 @@ export default function SignInModal(props) {
       //  Successful register
       if (dataRegister.register.success) {
         console.log("registered");
-        setTimeout(() => location.reload(), 1900);
+        setTimeout(() => location.reload(), 900);
       } 
       else {
         const errors = dataRegister.register.errors;
