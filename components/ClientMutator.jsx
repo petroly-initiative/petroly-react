@@ -7,11 +7,10 @@ import {
 import { verifyTokenMutation, refreshTokenMutation } from "../api/mutations";
 import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
-import { USER, T } from "../constants";
+import { USER, T, URL_ENDPOINT } from "../constants";
 
 export default function ClientMutator({ children }) {
- 
-  const URL_ENDPOINT = "http://localhost:8000/endpoint/";
+  
   const userContext = useContext(UserContext);
   var token = "";
   var rToken = "";
