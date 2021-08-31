@@ -8,7 +8,7 @@ import { URL_ENDPOINT } from "../constants";
 
 // Non-authorized clients
 const client = new ApolloClient({
-    URL_ENDPOINT,
+    uri: URL_ENDPOINT,
     cache: new InMemoryCache(),
 });
 
