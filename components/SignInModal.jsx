@@ -160,6 +160,7 @@ export default function SignInModal(props) {
     switch(mode){
       case "user-input":
       case "ps-reset":
+      case "acc-confirm":
       setShow(false);
       props.close();
       break;
@@ -243,6 +244,10 @@ export default function SignInModal(props) {
     if (tab === "signIn" && dataTokenAuth) {
       //  Successful login
       if (dataTokenAuth.tokenAuth.success) {
+        if (dataTokenAuth.tokenAuth.user.verified){
+          setMode("acc-confirm");
+          return;
+        }
         sessionStorage.setItem("token", dataTokenAuth.tokenAuth.token);
         localStorage.setItem(
           "refreshToken",
