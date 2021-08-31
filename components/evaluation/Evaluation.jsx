@@ -11,9 +11,6 @@ export default function Evaluation(props){
   parseInt(rate.split("_")[1])
   ).reduce((a, b) =>  a + b, 0) / 3 * 20)
 
-  useEffect(() => {
-    console.log(overall)
-  }, [])
     return (
       <>
         <Card className={styles.feedback_container + " shadow"}>

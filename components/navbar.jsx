@@ -101,15 +101,8 @@ export default function Navbar(props) {
 
 
   const showSidebar = () => {
-    console.log(sideVisible);
     setVisible((prev) => !prev);
   };
-
-  console.log('loadingMe', loadingMe);
-  console.log('dataMe', dataMe);
-  console.log('userContext', userContext);
-  if (errorMe)
-    console.log('error', errorMe);
 
   if (loadingMe)
     return (

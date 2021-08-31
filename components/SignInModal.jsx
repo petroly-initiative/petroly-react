@@ -143,8 +143,7 @@ export default function SignInModal(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted sign in form");
-    // Send logn request
+    // Send login request
     switch (mode) {
       case "user-input":
         switch (tab) {
@@ -220,7 +219,6 @@ export default function SignInModal(props) {
   };
 
   useEffect(() => {
-    console.log(validationError);
   }, [validationError]);
   useEffect(() => {});
 
@@ -243,21 +241,18 @@ export default function SignInModal(props) {
       }
       //  Unsuccessful login
       else {
-        setValidation(true);
+        setValidation(false);
         setError({
           show: true,
           msg: dataTokenAuth.tokenAuth.errors.nonFieldErrors[0].message,
         });
-        console.log("login", dataTokenAuth.tokenAuth.errors);
       }
     }
     if (tab === "signUp" && dataRegister) {
       //  Successful register
       if (dataRegister.register.success) {
-        console.log("registred");
       } else {
         setError({ show: true, msg: dataRegister.register.errors });
-        console.log("register", dataRegister.register.errors);
       }
     }
   }, [dataTokenAuth, loadingTokenAuth, loadingRegister]);

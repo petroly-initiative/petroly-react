@@ -71,14 +71,12 @@ export default function ClientMutator({ children }) {
             headers: {authorization: "JWT " + token},
           })
         );
-        console.log("token was good");
         userContext.userDispatch({ type: T.SET_CLIENT, token, 
           username:  dataVerifyToken.verifyToken.payload.username});
       }
 
       else if (rToken) {
         refreshToken();
-        console.log("token was bad");
       }
     }
   }, [dataVerifyToken]);
@@ -99,13 +97,10 @@ export default function ClientMutator({ children }) {
         );
         userContext.userDispatch({ type: T.SET_CLIENT, token, 
           username: dataRefreshToken.refreshToken.payload.username })
-        console.log("token was updated");
       }
     }
   }, [dataRefreshToken]);
 
-  console.log("verifyToken", dataVerifyToken);
-  console.log("refreshToken", dataRefreshToken);
 
 
   return <ApolloProvider client={client}>

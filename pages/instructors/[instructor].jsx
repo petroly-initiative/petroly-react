@@ -68,9 +68,6 @@ export const getStaticProps = async (context) => {
 export default function instructorDetails({ data }) {
   const [modalVisible, setVisible] = useState(false);
   const userContext = useContext(UserContext);
-  useEffect(() => {
-    console.log(data);
-  }, []);
 
   const closeModal = () => {
     setVisible(false);
@@ -88,7 +85,6 @@ export default function instructorDetails({ data }) {
   ];
 
   const randomColor = () => {
-    console.log("finished", Math.floor(Math.random() * colors.length));
     return (
       colors[Math.floor(Math.random() * colors.length)] +
       ' url("/images/background.svg")'
@@ -115,11 +111,6 @@ export default function instructorDetails({ data }) {
   
 
   const evalList = evalMapper();
-
-
-  useEffect(() => {
-    console.log(data)
-  }, [])
 
   return (
     <>

@@ -24,7 +24,6 @@ import { useQuery } from "@apollo/client";
 import { instructorsQuery, getDepartments } from "../api/queries";
 
 function instructorsReducer(state, action) {
-  console.log("instructorsReducer");
   switch (action.changeIn) {
     case "name":
       state.name = action.name;
@@ -106,7 +105,6 @@ function instructorsList() {
 
   // ? detect page-number switching
   const switchPage = (pageNum) => {
-    console.log("switchPage", pageNum);
     instructorsDispatch({ changeIn: "offset", offset: (pageNum - 1) * ITEMS });
     refetch(instructorsState);
   };
@@ -115,7 +113,6 @@ function instructorsList() {
   };
 
   useEffect(() => {
-    console.log("New index", stackIndex);
   }, [stackIndex]);
 
   // ? Mappers
@@ -155,7 +152,6 @@ function instructorsList() {
       );
     });
 
-  console.log("Status", networkStatus);
 
   // Loading status
   if (loading || loadingDept) {
@@ -230,7 +226,6 @@ function instructorsList() {
 
   // ! Error status
   if (error || errorDept) {
-    console.log("ERROR IN QUERY");
     return (
       <div>
         <h1>{error.name}</h1>
@@ -243,8 +238,6 @@ function instructorsList() {
   // ? Data loaded
   var currentList = instructorMapper();
   var deptList = deptMapper();
-  console.log("instructorsState", instructorsState);
-  console.log("query vars", variables);
 
   // ! No data
   if (data.instructors.data.length == 0) {
