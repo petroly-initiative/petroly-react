@@ -251,11 +251,27 @@ export default function SignInModal(props) {
     if (tab === "signUp" && dataRegister) {
       //  Successful register
       if (dataRegister.register.success) {
-      } else {
-        setError({ show: true, msg: dataRegister.register.errors });
+        console.log("registered");
+        setTimeout(() => location.reload(), 1900);
+      } 
+      else {
+        const errors = dataRegister.register.errors;
+        var messages = "";
+        
+        // Combine all messages
+        if (errors.username)
+          errors.username.map((el) => messages += el.message + " \n");
+        if (errors.email)
+          errors.email.map((el) => messages += el.message + " \n");
+        if (errors.password2)
+          errors.password2.map((el) => messages += el.message + " \n");
+        if (errors.nonFieldErrors)
+          errors.nonFieldErrors.map((el) => messages += el.message + " \n");
+
+        setError({ show: true, msg: messages});
       }
     }
-  }, [dataTokenAuth, loadingTokenAuth, loadingRegister]);
+  }, [loadingTokenAuth, loadingRegister]);
 
   return (
     <>
