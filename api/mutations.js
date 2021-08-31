@@ -100,3 +100,14 @@ mutation EvaluationCreate($instructorId: Int, $username: String, $grading: Evalu
   }
 }
 `;
+
+export const sendPasswordResetEmailMutation = gql`
+mutation($email: String!){
+  sendPasswordResetEmail(
+    email: $email
+  ){
+    success
+    errors
+  }
+}
+`;

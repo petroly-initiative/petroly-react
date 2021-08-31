@@ -14,7 +14,11 @@ import Image from "next/image";
 
 import { Fade } from "react-awesome-reveal";
 import { useMutation } from "@apollo/client";
-import { tokenAuthMutation, registerMutation } from "../api/mutations";
+import {
+  tokenAuthMutation,
+  registerMutation,
+  sendPasswordResetEmailMutation,
+} from "../api/mutations";
 import { T } from "../constants";
 
 export default function SignInModal(props) {
@@ -61,6 +65,15 @@ export default function SignInModal(props) {
       password1: password,
       password2: password,
     },
+  });
+  const [
+    sendPasswordResetEmail,
+    {
+      data: dataSendPasswordResetEmail,
+      loading: loadingSendPasswordResetEmail,
+    },
+  ] = useMutation(sendPasswordResetEmailMutation, {
+    variables: { email },
   });
 
   const [isConfirmPassInvalid, setConfirmVal] = useState(false);
@@ -203,24 +216,11 @@ export default function SignInModal(props) {
         }
         // else {create a crazy query that gets the job done }
         setValidation(false);
-        setError({show: false, msg: ""})
-        setMode("ps-change");
-        setPassword("");
+        setError({ show: false, msg: "" });
+        await sendPasswordResetEmail();
         break;
-      case "ps-change":
-        if (password === "") {
-          setError({
-            show: true,
-            msg: "الرجاء إدخال كلمة المرور المرسلة بالشكل الصحيح",
-          });
-        }
-      // else {validate the user input}
     }
   };
-
-  useEffect(() => {
-  }, [validationError]);
-  useEffect(() => {});
 
   useEffect(() => {
     if (tab === "signIn" && dataTokenAuth) {
@@ -253,25 +253,33 @@ export default function SignInModal(props) {
       if (dataRegister.register.success) {
         console.log("registered");
         setTimeout(() => location.reload(), 900);
-      } 
-      else {
+      } else {
         const errors = dataRegister.register.errors;
         var messages = "";
-        
+
         // Combine all messages
         if (errors.username)
-          errors.username.map((el) => messages += el.message + " \n");
+          errors.username.map((el) => (messages += el.message + " \n"));
         if (errors.email)
-          errors.email.map((el) => messages += el.message + " \n");
+          errors.email.map((el) => (messages += el.message + " \n"));
         if (errors.password2)
-          errors.password2.map((el) => messages += el.message + " \n");
+          errors.password2.map((el) => (messages += el.message + " \n"));
         if (errors.nonFieldErrors)
-          errors.nonFieldErrors.map((el) => messages += el.message + " \n");
+          errors.nonFieldErrors.map((el) => (messages += el.message + " \n"));
 
-        setError({ show: true, msg: messages});
+        setError({ show: true, msg: messages });
       }
     }
-  }, [loadingTokenAuth, loadingRegister]);
+
+    if (mode === "ps-reset" && dataSendPasswordResetEmail){
+      if (dataSendPasswordResetEmail.sendPasswordResetEmail.success){
+        console.log("Email was sent");
+        setMode("ps-sccuess");
+      }
+      else
+        console.log("Email wasn't sent");
+    }
+  }, [loadingTokenAuth, loadingRegister, loadingSendPasswordResetEmail]);
 
   return (
     <>
@@ -507,13 +515,16 @@ export default function SignInModal(props) {
                     className={authStyle["submitContainer"]}
                     style={{ marginTop: 16 }}
                   >
-                    <Button
+                  {loadingSendPasswordResetEmail ?
+                    <Spinner animation="border" role="status" /> :(
+                      <Button
                       type="submit"
                       className={authStyle["login-btn"]}
                       disabled={loadingTokenAuth}
-                    >
+                      >
                       أرسل كلمة المرور الجديدة
                     </Button>
+                    )}
                     <div
                       className={authStyle.redirecter}
                       style={{ padding: 16, fontSize: 12 }}
@@ -531,62 +542,9 @@ export default function SignInModal(props) {
                 </Form>
               </div>
             )}
-            {mode === "ps-change" && (
+            {mode === "ps-sccuess" && (
               <div className={authStyle["modal-footer"]}>
-                <Form
-                  validated={validated}
-                  className={authStyle["main-form"]}
-                  onSubmit={handleSubmit}
-                  noValidate
-                >
-                  <div className={authStyle["text-header"]}>
-                    {"إعادة تعيين كلمة المرور"}
-                  </div>
-                  <div className={authStyle["reset-instructions"]}>
-                    الرجاء إدخال كلمة المرور المرسلة إلى بريدك الإلكتروني
-                  </div>
-                  {validationError.show && (
-                    <Fade duration="1000">
-                      <Alert className={authStyle["rules"]} variant="danger">
-                        <MdWarning
-                          className={authStyle["rules-icon"]}
-                          size="1.4rem"
-                        />
-                        <div>{validationError.msg}</div>
-                      </Alert>
-                    </Fade>
-                  )}
-                  <InputGroup hasValidation>
-                    <FormControl
-                      onChange={handlePassword}
-                      value={password}
-                      placeholder="Password"
-                      type={showPwd ? "text" : "password"}
-                      required
-                    />
-
-                    <InputGroup.Append>
-                      <Button
-                        className={authStyle["pwd-toggle"]}
-                        onClick={handleShowPwd}
-                      >
-                        {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
-                      </Button>
-                    </InputGroup.Append>
-                    <div
-                      className={authStyle["submitContainer"]}
-                      style={{ marginTop: 16 }}
-                    >
-                      <Button
-                        type="submit"
-                        className={authStyle["login-btn"]}
-                        disabled={loadingTokenAuth}
-                      >
-                        تسجيل الدخول
-                      </Button>
-                    </div>
-                  </InputGroup>
-                </Form>
+                <p>تفقد بريدك الإلكتروني لإعادة ضبط كلمة المرور</p>
               </div>
             )}
           </div>
