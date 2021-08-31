@@ -33,7 +33,13 @@ export default function SignInModal(props) {
   const [showPwd, setShowPwd] = useState(false);
   const [tab, setTab] = useState("signIn");
   const [mode, setMode] = useState("user-input");
-  // other modes will be: ps-reset and acc-confirm
+  /**
+   * ? Sign in modal modes
+   * - user-input: basic sign in and create account tabs
+   * - ps-reset: password reset with email input
+   * - ps-change: an input for the new restted password
+   * - acc-confirm: a screen to advise users 
+   */
   const [validationError, setError] = useState({
     show: false,
     msg: "",
@@ -149,8 +155,19 @@ export default function SignInModal(props) {
   }, [tab]);
 
   const hideModal = () => {
-    setShow(false);
-    props.close();
+    console.log(mode);
+    // ? blocking the window closing when in these modes
+    switch(mode){
+      case "user-input":
+      case "ps-reset":
+      setShow(false);
+      props.close();
+      break;
+      default:
+        console.log("exit blocked in this mode")
+    }
+     
+    
   };
   const handleShowPwd = () => setShowPwd(!showPwd);
 
@@ -202,6 +219,7 @@ export default function SignInModal(props) {
               setEmailVal(true);
             }
             await register();
+            setMode("acc-confirm");
             break;
         }
         break;
@@ -231,7 +249,7 @@ export default function SignInModal(props) {
           "refreshToken",
           dataTokenAuth.tokenAuth.refreshToken
         );
-
+        
         userContext.userDispatch({
           type: T.LOGIN,
           token: dataTokenAuth.tokenAuth.token,
@@ -290,9 +308,7 @@ export default function SignInModal(props) {
             <div className={authStyle["modal-bg"]} />
             <div className={authStyle["modal-header"]}>
               <Image
-                layout="fixed"
-                width={300}
-                height={660}
+                layout="fill"
                 src={"/images/signIn/sign-in-header.svg"}
                 alt="abstract green and blue pattern"
               />
@@ -545,6 +561,16 @@ export default function SignInModal(props) {
             {mode === "ps-sccuess" && (
               <div className={authStyle["modal-footer"]}>
                 <p>تفقد بريدك الإلكتروني لإعادة ضبط كلمة المرور</p>
+              </div>
+            )}
+            {mode === "acc-confirm" && (
+              <div className={authStyle["main-form"]}>
+                {" "}
+                <div className={authStyle["text-header"]}>
+                  {"تأكيد إنشاء الحساب"}
+                </div>
+                <div className={authStyle["reset-instructions"]}>
+               الرجاء تأكيد إنشاء الحساب الخاص بك عن طريق بريدك الإلكتروني </div>
               </div>
             )}
           </div>
