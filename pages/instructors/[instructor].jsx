@@ -23,6 +23,7 @@ import { MdFolderSpecial } from "react-icons/md";
 import client from "../../api/apollo-client";
 import { getInstructorName, getInstructorDetail } from "../../api/queries";
 import { Fade } from "react-awesome-reveal";
+import { useRouter } from 'next/router';
 
 export const getStaticPaths = async () => {
   //! Should be replaced by an API Call to get all instructor names for dynamic path creation
@@ -38,6 +39,7 @@ export const getStaticPaths = async () => {
       },
     };
   });
+  
 
   /**
    * we need to return an array of objects each with  param property
@@ -66,8 +68,17 @@ export const getStaticProps = async (context) => {
 // TODO: Replacing static evaluations with mapped mock data
 
 export default function instructorDetails({ data }) {
+  const router = useRouter();
   const [modalVisible, setVisible] = useState(false);
   const userContext = useContext(UserContext);
+
+  useEffect(() => {
+    console.log(data);
+  }, []);
+  
+    if (router.isFallback) {
+    return <div>Loading...</div>
+  }
 
   const closeModal = () => {
     setVisible(false);
