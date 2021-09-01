@@ -10,7 +10,7 @@ import { UserContext } from "../state-management/user-state/UserContext";
 import { USER, T, URL_ENDPOINT } from "../constants";
 
 export default function ClientMutator({ children }) {
-  
+
   const userContext = useContext(UserContext);
   var token = "";
   var rToken = "";

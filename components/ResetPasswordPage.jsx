@@ -10,6 +10,7 @@ import authStyle from "../styles/Auth.module.scss";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { MdVisibility, MdVisibilityOff, MdWarning } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 
 import { Fade } from "react-awesome-reveal";
@@ -17,7 +18,8 @@ import { useMutation } from "@apollo/client";
 import { passwordResetMutation } from "../api/mutations";
 import { T } from "../constants";
 
-export default function ResetMock(props) {
+export default function ResetPasswordPage(props) {
+  const router = useRouter();
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
   const [confirmPass, setConfirmPass] = useState("");

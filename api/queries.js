@@ -1,37 +1,38 @@
 import { gql } from "@apollo/client";
 
 export const instructorsQuery = gql`
-query Instructors($limit: Int, $offset: Int, 
-  $department: InstructorDepartmentEnum, $name: String){
-  instructors(
-    limit: $limit
-    offset: $offset
-    where: {
-      department: $department
-      name: {contains: $name}
-    }
-  ){
-    count
-    data{
-      id
-      name
-      department
-      overallFloat
-      profilePic
-      evaluationSet{
-        count
+  query Instructors(
+    $limit: Int
+    $offset: Int
+    $department: InstructorDepartmentEnum
+    $name: String
+  ) {
+    instructors(
+      limit: $limit
+      offset: $offset
+      where: { department: $department, name: { contains: $name } }
+    ) {
+      count
+      data {
+        id
+        name
+        department
+        overallFloat
+        profilePic
+        evaluationSet {
+          count
+        }
       }
     }
   }
-}
 `;
 
-export const getInstructorName =  gql`
+export const getInstructorName = gql`
   query getIds {
     instructors {
-        data{
-          id
-        }
+      data {
+        id
+      }
     }
   }
 `;
@@ -64,8 +65,8 @@ export const getInstructorDetail = gql`
   }
 `;
 
-export const getDepartments =  gql`
-  query getDepartments($short: Boolean){
+export const getDepartments = gql`
+  query getDepartments($short: Boolean) {
     departmentList(short: $short)
   }
 `;
@@ -82,4 +83,8 @@ export const meQuery = gql`
   }
 `;
 
-
+export const hasEvaluatedQuery = gql`
+  query ($instructorId: Int) {
+    hasEvaluated(id: $instructorId)
+  }
+`;

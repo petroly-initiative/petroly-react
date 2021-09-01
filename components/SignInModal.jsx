@@ -20,6 +20,7 @@ import {
   sendPasswordResetEmailMutation,
 } from "../api/mutations";
 import { T } from "../constants";
+import { useRouter } from "next/router";
 
 export default function SignInModal(props) {
   /**
@@ -27,7 +28,7 @@ export default function SignInModal(props) {
    * - Validation, and validation Error indicators
    *
    */
-
+  const router = useRouter();
   const userContext = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
@@ -38,7 +39,7 @@ export default function SignInModal(props) {
    * - user-input: basic sign in and create account tabs
    * - ps-reset: password reset with email input
    * - ps-scuccess: an input for the new restted password
-   * - acc-confirm: a screen to advise users 
+   * - acc-confirm: a screen to advise users
    */
   const [validationError, setError] = useState({
     show: false,
@@ -157,18 +158,16 @@ export default function SignInModal(props) {
   const hideModal = () => {
     console.log(mode);
     // ? blocking the window closing when in these modes
-    switch(mode){
+    switch (mode) {
       case "user-input":
       case "ps-reset":
       case "acc-confirm":
-      setShow(false);
-      props.close();
-      break;
+        setShow(false);
+        props.close();
+        break;
       default:
-        console.log("exit blocked in this mode")
+        console.log("exit blocked in this mode");
     }
-     
-    
   };
   const handleShowPwd = () => setShowPwd(!showPwd);
 
@@ -244,7 +243,7 @@ export default function SignInModal(props) {
     if (tab === "signIn" && dataTokenAuth) {
       //  Successful login
       if (dataTokenAuth.tokenAuth.success) {
-        if (dataTokenAuth.tokenAuth.user.verified){
+        if (!dataTokenAuth.tokenAuth.user.verified) {
           setMode("acc-confirm");
           return;
         }
@@ -253,7 +252,7 @@ export default function SignInModal(props) {
           "refreshToken",
           dataTokenAuth.tokenAuth.refreshToken
         );
-        
+
         userContext.userDispatch({
           type: T.LOGIN,
           token: dataTokenAuth.tokenAuth.token,
@@ -275,7 +274,7 @@ export default function SignInModal(props) {
       if (dataRegister.register.success) {
         console.log("registered");
         setMode("acc-confirm");
-        setTimeout(() => location.reload(), 1000);
+        setTimeout(() => router.reload(), 1000);
       } else {
         const errors = dataRegister.register.errors;
         var messages = "";
@@ -294,14 +293,12 @@ export default function SignInModal(props) {
       }
     }
 
-    if (mode === "ps-reset" && dataSendPasswordResetEmail){
-      if (dataSendPasswordResetEmail.sendPasswordResetEmail.success){
+    if (mode === "ps-reset" && dataSendPasswordResetEmail) {
+      if (dataSendPasswordResetEmail.sendPasswordResetEmail.success) {
         console.log("Email was sent");
         setMode("ps-sccuess");
-        setTimeout(() => location.reload(), 1000);
-      }
-      else
-        console.log("Email wasn't sent");
+        setTimeout(() => router.reload(), 1000);
+      } else console.log("Email wasn't sent");
     }
   }, [loadingTokenAuth, loadingRegister, loadingSendPasswordResetEmail]);
 
@@ -537,15 +534,16 @@ export default function SignInModal(props) {
                     className={authStyle["submitContainer"]}
                     style={{ marginTop: 16 }}
                   >
-                  {loadingSendPasswordResetEmail ?
-                    <Spinner animation="border" role="status" /> :(
+                    {loadingSendPasswordResetEmail ? (
+                      <Spinner animation="border" role="status" />
+                    ) : (
                       <Button
-                      type="submit"
-                      className={authStyle["login-btn"]}
-                      disabled={loadingTokenAuth}
+                        type="submit"
+                        className={authStyle["login-btn"]}
+                        disabled={loadingTokenAuth}
                       >
-                      أرسل كلمة المرور الجديدة
-                    </Button>
+                        أرسل كلمة المرور الجديدة
+                      </Button>
                     )}
                     <div
                       className={authStyle.redirecter}
@@ -576,7 +574,8 @@ export default function SignInModal(props) {
                   {"تأكيد إنشاء الحساب"}
                 </div>
                 <div className={authStyle["reset-instructions"]}>
-               الرجاء تأكيد إنشاء الحساب الخاص بك عن طريق بريدك الإلكتروني </div>
+                  الرجاء تأكيد إنشاء الحساب الخاص بك عن طريق بريدك الإلكتروني{" "}
+                </div>
               </div>
             )}
           </div>
