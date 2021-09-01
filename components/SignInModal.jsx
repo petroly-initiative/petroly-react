@@ -20,6 +20,7 @@ import {
   sendPasswordResetEmailMutation,
 } from "../api/mutations";
 import { T } from "../constants";
+import { useRouter } from "next/router";
 
 export default function SignInModal(props) {
   /**
@@ -27,7 +28,7 @@ export default function SignInModal(props) {
    * - Validation, and validation Error indicators
    *
    */
-
+  const router = useRouter();
   const userContext = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
@@ -273,7 +274,7 @@ export default function SignInModal(props) {
       if (dataRegister.register.success) {
         console.log("registered");
         setMode("acc-confirm");
-        setTimeout(() => location.reload(), 1000);
+        setTimeout(() => router.reload(), 1000);
       } else {
         const errors = dataRegister.register.errors;
         var messages = "";
@@ -296,7 +297,7 @@ export default function SignInModal(props) {
       if (dataSendPasswordResetEmail.sendPasswordResetEmail.success) {
         console.log("Email was sent");
         setMode("ps-sccuess");
-        setTimeout(() => location.reload(), 1000);
+        setTimeout(() => router.reload(), 1000);
       } else console.log("Email wasn't sent");
     }
   }, [loadingTokenAuth, loadingRegister, loadingSendPasswordResetEmail]);
