@@ -1,5 +1,5 @@
 import HomeScreen from './home';
-import ResetPasswordPage from '../components/ResetPasswordPage';
+
 
 
 
@@ -11,7 +11,7 @@ export default function Home() {
  */
   return (
     <>
-      <ResetPasswordPage />
+      <HomeScreen />
     </>
   );
 }
