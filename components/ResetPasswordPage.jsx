@@ -31,7 +31,7 @@ export default function ResetPasswordPage(props) {
     passwordResetMutation,
     {
       variables: {
-        token: props.token,
+        token: "props.token",
         newPassword1: password,
         newPassword2: password,
       },
@@ -40,6 +40,12 @@ export default function ResetPasswordPage(props) {
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
+  };
+
+  const handleConfirmPass = (e) => {
+    setValidation(false);
+    if (e.target.value !== "") setConfirmVal(e.target.value !== password);
+    setConfirmPass(e.target.value);
   };
 
   const handleShowPwd = () => setShowPwd(!showPwd);
@@ -81,18 +87,40 @@ export default function ResetPasswordPage(props) {
             noValidate
           >
             <div className={authStyle["text-header"]}>تغيير كلمة المرور</div>
-            <div className={authStyle["reset-instructions"]}>
-              الرجاء كتابة بريدك الإلكتروني لإرسال كلمة المرور الجديدة
-            </div>
-            <Fade duration="1000">
+            <Fade damping="0.5" duration="1000">
               <Form.Group>
+                <Form.Label className={authStyle["labels"]}>
+                 كلمة المرور الجديدة</Form.Label>
                 <InputGroup>
                   <FormControl
                     onChange={handlePassword}
                     value={password}
+                    placeholder="Password"
+                    type={showPwd ? "text" : "password"}
+                    required
+                  />
+                  <InputGroup.Append>
+                    <Button
+                      className={authStyle["pwd-toggle"]}
+                      onClick={handleShowPwd}
+                    >
+                      {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
+                    </Button>
+                  </InputGroup.Append>
+                </InputGroup>
+              </Form.Group>
+              <Form.Group>
+                <Form.Label className={authStyle["labels"]}>
+                  تأكيد كلمة المرور
+                </Form.Label>
+                <InputGroup>
+                  <FormControl
+                    onChange={handleConfirmPass}
+                    value={confirmPass}
                     placeholder="Password Confirm"
                     type={showPwd ? "text" : "password"}
                     required
+                    isInvalid={isConfirmPassInvalid}
                   />
                   <InputGroup.Append>
                     <Button
@@ -122,7 +150,7 @@ export default function ResetPasswordPage(props) {
                   justifyContent: "center",
                 }}
               >
-                <Button type="submit" className={authStyle["login-btn"]}>
+                <Button style={{marginTop: 16}} type="submit" className={authStyle["login-btn"]}>
                   تأكيد تغيير كلمة المرور
                 </Button>
               </div>
