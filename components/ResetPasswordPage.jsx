@@ -10,6 +10,7 @@ import authStyle from "../styles/Auth.module.scss";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { MdVisibility, MdVisibilityOff, MdWarning } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 
 import { Fade } from "react-awesome-reveal";
@@ -18,6 +19,7 @@ import { passwordResetMutation } from "../api/mutations";
 import { T } from "../constants";
 
 export default function ResetPasswordPage(props) {
+  const router = useRouter();
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -43,20 +45,19 @@ export default function ResetPasswordPage(props) {
   const handleShowPwd = () => setShowPwd(!showPwd);
 
   const handleSubmit = async (e) => {
-		e.preventDefault();
+    e.preventDefault();
     await passwordReset();
   };
 
   useEffect(() => {
     if (data) {
-      if (data.passwordReset.success){
-				console.log("setting was done successfuly");
-				setTimeout(() => location.assign("/"), 1200);
-			}
-      else {
-				console.log("setting new password error");
-				console.log(data);
-			}
+      if (data.passwordReset.success) {
+        console.log("setting was done successfuly");
+        setTimeout(() => router.push("/"), 1200);
+      } else {
+        console.log("setting new password error");
+        console.log(data);
+      }
     }
   }, [loading]);
 
@@ -102,10 +103,7 @@ export default function ResetPasswordPage(props) {
         {loading ? (
           <Spinner animation="border" role="status" />
         ) : (
-          <Button
-            type="submit"
-            className={authStyle["login-btn"]}
-          >
+          <Button type="submit" className={authStyle["login-btn"]}>
             أرسل كلمة المرور الجديدة
           </Button>
         )}
