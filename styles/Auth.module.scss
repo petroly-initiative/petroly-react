@@ -1,6 +1,8 @@
+$btn-high: #00ead3;
+$txt-fill: #52575d;
 .modal-btn {
-  background-color: #00ead3 !important;
-  border-color: #00ead3 !important;
+  background-color: $btn-high !important;
+  border-color: $btn-high !important;
   display: flex;
   color: black !important;
   box-shadow: unset !important;
@@ -38,14 +40,14 @@
 .pwd-toggle:focus {
   border: #ced4da solid 1px !important;
   background-color: unset !important;
-  color: #00ead3 !important;
+  color: $btn-high !important;
   outline: none !important;
   box-shadow: unset !important;
 }
 
 .pwd-toggle:active {
   background-color: #e4e9ee !important;
-  color: #00ead3 !important;
+  color: $btn-high !important;
 }
 
 .login-btn {
@@ -53,8 +55,8 @@
   border-radius: 23px;
   background-color: unset !important;
   font-weight: bold;
-  border: #00ead3 solid 1px !important;
-  color: #00ead3 !important;
+  border: $btn-high solid 1px !important;
+  color: $btn-high !important;
   transition: 100ms ease-in;
   box-shadow: unset !important;
   -webkit-transition: 100ms ease-in;
@@ -64,7 +66,7 @@
 }
 
 .login-btn:hover {
-  background-color: #00ead3 !important;
+  background-color: $btn-high !important;
   color: white !important;
 }
 
@@ -169,7 +171,7 @@
   transition: 300ms ease;
   margin-right: 4px;
   &:hover {
-    color: #00ead3;
+    color: $btn-high;
   }
 }
 
@@ -189,7 +191,8 @@
 .reset-instructions{
   text-align: right;
   padding: 12px;
-
+  color: $txt-fill;
+  font-weight: 600;
 }
 
 .labels {

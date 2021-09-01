@@ -17,7 +17,7 @@ import { useMutation } from "@apollo/client";
 import { passwordResetMutation } from "../api/mutations";
 import { T } from "../constants";
 
-export default function ResetPasswordPage(props) {
+export default function ResetMock(props) {
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -43,73 +43,91 @@ export default function ResetPasswordPage(props) {
   const handleShowPwd = () => setShowPwd(!showPwd);
 
   const handleSubmit = async (e) => {
-		e.preventDefault();
+    e.preventDefault();
     await passwordReset();
   };
 
   useEffect(() => {
     if (data) {
-      if (data.passwordReset.success){
-				console.log("setting was done successfuly");
-				setTimeout(() => location.assign("/"), 1200);
-			}
-      else {
-				console.log("setting new password error");
-				console.log(data);
-			}
+      if (data.passwordReset.success) {
+        console.log("setting was done successfuly");
+        setTimeout(() => location.assign("/"), 1200);
+      } else {
+        console.log("setting new password error");
+        console.log(data);
+      }
     }
   }, [loading]);
 
   return (
     <>
-      <Form
-        validated={validated}
-        className={authStyle["main-form"]}
-        onSubmit={handleSubmit}
-        noValidate
-      >
-        <Fade duration="1000">
-          <Form.Group>
-            <Form.Label className={authStyle["labels"]}>
-              تأكيد كلمة المرور
-            </Form.Label>
-            <InputGroup>
-              <FormControl
-                onChange={handlePassword}
-                value={password}
-                placeholder="Password Confirm"
-                type={showPwd ? "text" : "password"}
-                required
-              />
-              <InputGroup.Append>
-                <Button
-                  className={authStyle["pwd-toggle"]}
-                  onClick={handleShowPwd}
-                >
-                  {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
-                </Button>
-              </InputGroup.Append>
-              <FormControl.Feedback
-                style={{ textAlign: "right" }}
-                type="invalid"
-              >
-                الرجاء التاكد من التطابق كلمة المرور
-              </FormControl.Feedback>
-            </InputGroup>
-          </Form.Group>
-        </Fade>
-
-        {loading ? (
-          <Spinner animation="border" role="status" />
-        ) : (
-          <Button
-            type="submit"
-            className={authStyle["login-btn"]}
+      <div className={authStyle["modal-overlay"]} />
+      <div className={authStyle["modal-wrapper"]}>
+        <div className={authStyle["modal-bg"]} />
+        <div className={authStyle["modal-header"]}>
+          <Image
+            layout="fill"
+            src={"/images/signIn/sign-in-header.svg"}
+            alt="abstract green and blue pattern"
+          />
+        </div>
+        <div className={authStyle["modal-footer"]}>
+          <Form
+            validated={validated}
+            className={authStyle["main-form"]}
+            onSubmit={handleSubmit}
+            noValidate
           >
-            أرسل كلمة المرور الجديدة
-          </Button>
-        )}
-      </Form>
+            <div className={authStyle["text-header"]}>تغيير كلمة المرور</div>
+            <div className={authStyle["reset-instructions"]}>
+              الرجاء كتابة بريدك الإلكتروني لإرسال كلمة المرور الجديدة
+            </div>
+            <Fade duration="1000">
+              <Form.Group>
+                <InputGroup>
+                  <FormControl
+                    onChange={handlePassword}
+                    value={password}
+                    placeholder="Password Confirm"
+                    type={showPwd ? "text" : "password"}
+                    required
+                  />
+                  <InputGroup.Append>
+                    <Button
+                      className={authStyle["pwd-toggle"]}
+                      onClick={handleShowPwd}
+                    >
+                      {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
+                    </Button>
+                  </InputGroup.Append>
+                  <FormControl.Feedback
+                    style={{ textAlign: "right" }}
+                    type="invalid"
+                  >
+                    الرجاء التاكد من التطابق كلمة المرور
+                  </FormControl.Feedback>
+                </InputGroup>
+              </Form.Group>
+            </Fade>
+
+            {loading ? (
+              <Spinner animation="border" role="status" />
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Button type="submit" className={authStyle["login-btn"]}>
+                  تأكيد تغيير كلمة المرور
+                </Button>
+              </div>
+            )}
+          </Form>
+        </div>
+      </div>
     </>
   );
 }
