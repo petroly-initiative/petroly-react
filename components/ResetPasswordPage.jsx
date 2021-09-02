@@ -31,7 +31,7 @@ export default function ResetPasswordPage(props) {
     passwordResetMutation,
     {
       variables: {
-        token: "props.token",
+        token: props.token,
         newPassword1: password,
         newPassword2: password,
       },
@@ -90,7 +90,8 @@ export default function ResetPasswordPage(props) {
             <Fade damping="0.5" duration="1000">
               <Form.Group>
                 <Form.Label className={authStyle["labels"]}>
-                 كلمة المرور الجديدة</Form.Label>
+                  كلمة المرور الجديدة
+                </Form.Label>
                 <InputGroup>
                   <FormControl
                     onChange={handlePassword}
@@ -150,7 +151,11 @@ export default function ResetPasswordPage(props) {
                   justifyContent: "center",
                 }}
               >
-                <Button style={{marginTop: 16}} type="submit" className={authStyle["login-btn"]}>
+                <Button
+                  style={{ marginTop: 16 }}
+                  type="submit"
+                  className={authStyle["login-btn"]}
+                >
                   تأكيد تغيير كلمة المرور
                 </Button>
               </div>
