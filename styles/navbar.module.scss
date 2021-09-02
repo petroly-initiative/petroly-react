@@ -4,6 +4,7 @@ $fnt-clr: #6e737a;
 $testing: #00dfc8;
 .navbar_nav {
   width: 100%;
+  pointer-events: auto;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -74,6 +75,7 @@ $testing: #00dfc8;
 
 .navbar {
   display: flex;
+  pointer-events: none;
   height: 100vh !important;
   position: fixed;
   right: 0 !important;
@@ -89,6 +91,7 @@ $testing: #00dfc8;
 
 .navbar_top {
   position: fixed;
+  pointer-events: auto;
   top: 0 !important;
   display: none;
   z-index: 99;
@@ -104,6 +107,7 @@ $testing: #00dfc8;
 }
 
 .navbar_main {
+  pointer-events: auto;
   z-index: 100;
   position: fixed;
   height: 100vh;
@@ -117,6 +121,7 @@ $testing: #00dfc8;
 
 .navbar_side {
   z-index: 100;
+  pointer-events: auto;
   position: fixed;
   height: calc(100vh - 5rem);
   overflow-y: scroll;
