@@ -207,7 +207,7 @@ function instructorsList() {
           </Row>
          
             {" "}
-            <Button className={styles["loading-container"]} disabled>
+            <Button className={styles["loading-container"] + " shadow"} disabled>
               <Spinner
                 className={styles["loading-spinner"]}
                 as="div"
