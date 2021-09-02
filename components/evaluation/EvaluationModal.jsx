@@ -13,9 +13,10 @@ import {
 } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
 import styles from "../../styles/evaluation-page/evaluation-modal.module.scss";
-import { BsStarFill, BsStar } from "react-icons/bs";
+import { BsStarFill, BsStar, BsPersonBoundingBox } from "react-icons/bs";
+import { FaChalkboardTeacher, FaClipboardCheck } from "react-icons/fa";
 import { Image } from "next/dist/client/image";
-import { FaSave, FaCommentAlt } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 import { ImCancelCircle } from "react-icons/im";
 import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
@@ -212,8 +213,12 @@ export default function EvaluationModal(props) {
             </div>
           </Alert>
           {validationError.show && (
-            <Fade triggerOnce style={{width: "95%"}} duration="1000">
-              <Alert style={{width: "100%"}} className={styles["rules"]} variant="danger">
+            <Fade triggerOnce style={{ width: "95%" }} duration="1000">
+              <Alert
+                style={{ width: "100%" }}
+                className={styles["rules"]}
+                variant="danger"
+              >
                 <MdWarning className={styles["rules-icon"]} size="1.4rem" />
                 <div>{validationError.msg}</div>
               </Alert>
@@ -250,14 +255,14 @@ export default function EvaluationModal(props) {
                       value={extra.term}
                       onChange={setTerm}
                       required
-                      isInvalid = {isTermInvalid}
+                      isInvalid={isTermInvalid}
                     />
                     <FormControl.Feedback
-                          style={{ textAlign: "right" }}
-                          type="invalid"
-                        >
-                          الرجاء استخدام 3 أرقام فقط
-                        </FormControl.Feedback>
+                      style={{ textAlign: "right" }}
+                      type="invalid"
+                    >
+                      الرجاء استخدام 3 أرقام فقط
+                    </FormControl.Feedback>
                   </InputGroup>
                 </Col>
                 <Col xs={12} sm={12} md={6}>
@@ -279,22 +284,25 @@ export default function EvaluationModal(props) {
                       value={extra.course}
                       onChange={setCourse}
                       required
-                      isInvalid = {isCourseInvalid}
-                      className = {styles["course-input"]}
+                      isInvalid={isCourseInvalid}
+                      className={styles["course-input"]}
                     />
                     <FormControl.Feedback
-                          style={{ textAlign: "right" }}
-                          type="invalid"
-                        >
-                        ABCDXXX :الرجاء كتابة اسم المدة الدراسية كالآتي
-                        </FormControl.Feedback>
+                      style={{ textAlign: "right" }}
+                      type="invalid"
+                    >
+                      ABCDXXX :الرجاء كتابة اسم المدة الدراسية كالآتي
+                    </FormControl.Feedback>
                   </InputGroup>
                 </Col>
               </Form.Row>
             </section>
-            <section className={styles.sections}>
+            <section className={styles.sections + " shadow"}>
               <div className={styles.headers}>
-                <div className={styles.titles}>التصحيح والدرجات</div>
+                <div style={{ color: "#F037A5" }} className={styles.titles}>
+                  التصحيح والدرجات
+                  <FaClipboardCheck className={styles["title-icons"]} />
+                </div>
                 <div className={styles.descriptions}>
                   شفافية التصحيح والالتزام بمعايير محددة للدرجات
                 </div>
@@ -327,9 +335,12 @@ export default function EvaluationModal(props) {
                 ></FormControl>
               </InputGroup>
             </section>
-            <section className={styles.sections}>
+            <section className={styles.sections + " shadow"}>
               <div className={styles.headers}>
-                <div className={styles.titles}>التدريس</div>
+                <div style={{ color: "#3DB2FF" }} className={styles.titles}>
+                  التدريس
+                  <FaChalkboardTeacher className={styles["title-icons"]} />
+                </div>
                 <div className={styles.descriptions}>
                   سهولة إيصال المعلومة و فهم المنهج{" "}
                 </div>
@@ -361,9 +372,12 @@ export default function EvaluationModal(props) {
                 ></FormControl>
               </InputGroup>
             </section>
-            <section className={styles.sections}>
+            <section className={styles.sections + " shadow"}>
               <div className={styles.headers}>
-                <div className={styles.titles}>الشخصية</div>
+                <div style={{ color: "#FF6666" }} className={styles.titles}>
+                  الشخصية
+                  <BsPersonBoundingBox className={styles["title-icons"]} />
+                </div>
                 <div className={styles.descriptions}>
                   المزاج العام والتعامل مع الطلاب
                 </div>
@@ -414,15 +428,16 @@ export default function EvaluationModal(props) {
             delay={{ show: 500, hide: 400 }}
             overlay={<Tooltip id="button-tooltip-2">تسليم التقييم</Tooltip>}
           >
-          {waiting ?
-            <Spinner animation="border" role="status"/> :
-            <Button
-              onClick={fireEval}
-              className={[styles["btns"], styles["submit-btn"]]}
-            >
-              <FaSave size="1.7rem" />
-            </Button>
-          }
+            {waiting ? (
+              <Spinner animation="border" role="status" />
+            ) : (
+              <Button
+                onClick={fireEval}
+                className={[styles["btns"], styles["submit-btn"]]}
+              >
+                <FaSave size="1.7rem" />
+              </Button>
+            )}
           </OverlayTrigger>
         </Modal.Footer>
       </Modal>

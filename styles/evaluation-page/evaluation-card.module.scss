@@ -1,6 +1,6 @@
 $txt-fill: #52575d;
 
-@mixin tagstyle($bg-color){
+@mixin tagstyle($bg-color) {
   background-color: $bg-color;
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -12,26 +12,26 @@ $txt-fill: #52575d;
   padding: 5px;
   margin: 2px;
   cursor: pointer;
-   &:hover{
+  &:hover {
     transform: scale(1.05);
- }
+  }
 }
 
-.card-body{
+.card-body {
   padding: 14px;
 }
 
-.cardHeader{
+.cardHeader {
   display: flex !important;
   justify-content: space-between !important;
   background-color: #ffffff !important;
-  border-bottom: 2px solid rgba(0,0,0,.125);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.125);
   border-radius: 10px 10px 0 0 !important;
   align-items: center;
   padding: 10px;
 }
 
-.feedback_container{
+.feedback_container {
   margin: 16px;
   margin-left: 0px;
   margin-right: 0px;
@@ -39,30 +39,34 @@ $txt-fill: #52575d;
   border: 1px solid rgba(128, 128, 128, 0.082) !important;
 }
 
-.course{
- @include tagstyle(#4D9AFF);
- transition: 300ms ease;
- 
-}
-
-.term{
-  @include tagstyle(#34D5FF);
+.course {
+  @include tagstyle(#4d9aff);
   transition: 300ms ease;
 }
 
-.tags{
+.term {
+  @include tagstyle(#34d5ff);
+  transition: 300ms ease;
+}
+
+.tags {
   display: flex;
   width: 40%;
   justify-content: flex-start;
 }
 
-.sections{
-  border-radius: 4px;
+.sections {
+  border-radius: 8px;
   padding: 8px;
   margin-bottom: 16px;
+  box-shadow: 0 0.2rem 0.7rem rgba(0, 0, 0, 0.15) !important;
 }
 
-.dates{
+.section-icon {
+  margin-left: 8px;
+}
+
+.dates {
   color: $txt-fill;
   font-weight: 600 !important;
 }
@@ -70,15 +74,17 @@ $txt-fill: #52575d;
 .headers {
   width: 100%;
   font-size: 20px;
-  color: #0091e7;
   font-weight: 600;
-  text-align:right;
+  text-align: right;
+  padding-right: 8px;
 }
 
-.contentText{
+.contentText {
   width: 100%;
   unicode-bidi: bidi-override !important;
   text-align: right;
+  color: $txt-fill;
+  padding: 10px;
 }
 
 .stars {
@@ -88,6 +94,6 @@ $txt-fill: #52575d;
 }
 
 .stars span {
-    margin-left: 12px;
-    margin-left: 12px;
-  }
+  margin-left: 12px;
+  margin-left: 12px;
+}

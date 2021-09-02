@@ -1,10 +1,9 @@
 import { Card, Tooltip, OverlayTrigger, Col } from "react-bootstrap";
 import styles from "../../styles/evaluation-page/evaluation-card.module.scss";
-import { BsStar, BsStarFill } from "react-icons/bs";
+import { BsStar, BsStarFill, BsPersonBoundingBox } from "react-icons/bs";
 import ReactStars from "react-rating-stars-component";
 import { useEffect } from "react";
-
-// !WARNING: mock page for empty evals
+import { FaChalkboardTeacher, FaClipboardCheck } from "react-icons/fa";
 export default function Evaluation(props) {
   // const overall = Math.ceil(
   //   (props.rating
@@ -67,15 +66,14 @@ export default function Evaluation(props) {
         </Card.Header>
         <Card.Body className={styles["card-body"]}>
           <section
-            style={{
-              boxShadow: `0 1px 1rem  ${colorFilter(
-                parseInt(props.rating[0].split("_")[1]) / 20
-              )} !important`,
-            }}
+            style={{ color: "#F037A5" }}
             className={styles["sections"]}
             id="grading"
           >
-            <div className={styles.headers}>الدرجات</div>
+            <div className={styles.headers}>
+              الدرجات
+              <FaClipboardCheck className={styles["section-icon"]} />
+            </div>
             <p className={styles.contentText}>{props.grading}</p>
             <div className={styles.stars}>
               <ReactStars
@@ -91,15 +89,14 @@ export default function Evaluation(props) {
             </div>
           </section>
           <section
-            style={{
-              boxShadow: `0 1px 1rem  ${colorFilter(
-                parseInt(props.rating[1].split("_")[1]) / 20
-              )} !important`,
-            }}
+            style={{ color: "#3DB2FF" }}
             className={styles["sections"]}
             id="teaching"
           >
-            <div className={styles.headers}>التدريس</div>
+            <div className={styles.headers}>
+              التدريس
+              <FaChalkboardTeacher className={styles["section-icon"]} />
+            </div>
             <p className={styles.contentText}>{props.teaching}</p>
             <div className={styles.stars}>
               <ReactStars
@@ -115,15 +112,14 @@ export default function Evaluation(props) {
             </div>
           </section>
           <section
-            style={{
-              boxShadow: `0 1px 1rem  ${colorFilter(
-                parseInt(props.rating[2].split("_")[1]) / 20
-              )} !important`,
-            }}
+            style={{ color: "#FF6666" }}
             className={styles["sections"]}
             id="personality"
           >
-            <div className={styles.headers}>الشخصية</div>
+            <div className={styles.headers}>
+              الشخصية
+              <BsPersonBoundingBox className={styles["section-icon"]} />
+            </div>
             <p className={styles.contentText}>{props.personality}</p>
             <div className={styles.stars}>
               <ReactStars
