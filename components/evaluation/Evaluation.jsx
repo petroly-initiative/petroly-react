@@ -1,87 +1,145 @@
-import {Card, Tooltip, OverlayTrigger, Col} from 'react-bootstrap';
+import { Card, Tooltip, OverlayTrigger, Col } from "react-bootstrap";
 import styles from "../../styles/evaluation-page/evaluation-card.module.scss";
-import { BsStar, BsStarFill } from 'react-icons/bs';
+import { BsStar, BsStarFill } from "react-icons/bs";
 import ReactStars from "react-rating-stars-component";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 // !WARNING: mock page for empty evals
-export default function Evaluation(props){
+export default function Evaluation(props) {
+  // const overall = Math.ceil(
+  //   (props.rating
+  //     .map((rate) => parseInt(rate.split("_")[1]))
+  //     .reduce((a, b) => a + b, 0) /
+  //     3) *
+  //     20
+  // );
 
-  const overall = Math.ceil(props.rating.map((rate) => 
-  parseInt(rate.split("_")[1])
-  ).reduce((a, b) =>  a + b, 0) / 3 * 20)
+  const colorFilter = (value) => {
+    if (value >= 4) return "#74fffb";
+    else if (value >= 3) return "#65ffc9";
+    else if (value >= 2) return "#FAC218";
+    else return "#f76a9b";
+  };
 
-    return (
-      <>
-        <Card className={styles.feedback_container + " shadow"}>
-          <Card.Header className={styles.cardHeader}>
-            <div className={styles.tags}>
-              {props.course !== "" && (
-                <OverlayTrigger
-                  placement="top"
-                  delay={{ show: 0, hide: 50 }}
-                  overlay={
-                    <Tooltip id="button-tooltip-2">المادة الدراسية</Tooltip>
-                  }
-                >
-                  <div id="course_tag" className={styles.course}>
-                    {props.course}
-                  </div>
-                </OverlayTrigger>
-              )}
-              {props.term !== "" && (
-                <OverlayTrigger
-                  placement="top"
-                  delay={{ show: 0, hide: 50 }}
-                  overlay={
-                    <Tooltip id="button-tooltip-2">الفصل الدراسي</Tooltip>
-                  }
-                >
-                  <div id="term_tag" className={styles.term}>
-                    {"T" + props.term}
-                  </div>
-                </OverlayTrigger>
-              )}
+  useEffect(() => {
+    console.log(colorFilter(parseInt(props.rating[2].split("_")[1]) / 20));
+  });
+
+  return (
+    <>
+      <Card className={styles.feedback_container + " shadow"}>
+        <Card.Header className={styles.cardHeader}>
+          <div className={styles.tags}>
+            {props.course !== "" && (
+              <OverlayTrigger
+                placement="top"
+                delay={{ show: 0, hide: 50 }}
+                overlay={
+                  <Tooltip id="button-tooltip-2">المادة الدراسية</Tooltip>
+                }
+              >
+                <div id="course_tag" className={styles.course}>
+                  {props.course}
+                </div>
+              </OverlayTrigger>
+            )}
+            {props.term !== "" && (
+              <OverlayTrigger
+                placement="top"
+                delay={{ show: 0, hide: 50 }}
+                overlay={<Tooltip id="button-tooltip-2">الفصل الدراسي</Tooltip>}
+              >
+                <div id="term_tag" className={styles.term}>
+                  {"T" + props.term}
+                </div>
+              </OverlayTrigger>
+            )}
+          </div>
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 0, hide: 50 }}
+            overlay={
+              <Tooltip id="button-tooltip-2">تاريخ تسليم التقييم</Tooltip>
+            }
+          >
+            <div className={styles.dates}>{props.date}</div>
+          </OverlayTrigger>
+        </Card.Header>
+        <Card.Body className={styles["card-body"]}>
+          <section
+            style={{
+              boxShadow: `0 1px 1rem  ${colorFilter(
+                parseInt(props.rating[0].split("_")[1]) / 20
+              )} !important`,
+            }}
+            className={styles["sections"]}
+            id="grading"
+          >
+            <div className={styles.headers}>الدرجات</div>
+            <p className={styles.contentText}>{props.grading}</p>
+            <div className={styles.stars}>
+              <ReactStars
+                size={20}
+                count={5}
+                edit={false}
+                edit={false}
+                emptyIcon={<BsStar />}
+                filledIcon={<BsStarFill />}
+                value={parseInt(props.rating[0].split("_")[1]) / 20}
+                activeColor="#ffd700"
+              />
             </div>
-            <OverlayTrigger
-              placement="top"
-              delay={{ show: 0, hide: 50 }}
-              overlay={
-                <Tooltip id="button-tooltip-2">تاريخ تسليم التقييم</Tooltip>
-              }
-            >
-              <div className={styles.dates}>{props.date}</div>
-            </OverlayTrigger>
-          </Card.Header>
-          <Card.Body>
-            <section id="grading">
-              <div className={styles.headers}>الدرجات</div>
-              <p className={styles.contentText}>{props.grading}</p>
-            </section>
-            <section id="teaching">
-              <div className={styles.headers}>التدريس</div>
-              <p className={styles.contentText}>{props.teaching}</p>
-            </section>
-            <section id="personality">
-              <div className={styles.headers}>الشخصية</div>
-              <p className={styles.contentText}>{props.personality}</p>
-            </section>
-            <section>
-              <div className={styles.stars}>
-                <ReactStars
-                  size={20}
-                  count={5}
-                  edit={false}
-                  edit={false}
-                  emptyIcon={<BsStar />}
-                  filledIcon={<BsStarFill />}
-                  value={overall}
-                  activeColor="#ffd700"
-                />
-              </div>
-            </section>
-          </Card.Body>
-        </Card>
-      </>
-    );
+          </section>
+          <section
+            style={{
+              boxShadow: `0 1px 1rem  ${colorFilter(
+                parseInt(props.rating[1].split("_")[1]) / 20
+              )} !important`,
+            }}
+            className={styles["sections"]}
+            id="teaching"
+          >
+            <div className={styles.headers}>التدريس</div>
+            <p className={styles.contentText}>{props.teaching}</p>
+            <div className={styles.stars}>
+              <ReactStars
+                size={20}
+                count={5}
+                edit={false}
+                edit={false}
+                emptyIcon={<BsStar />}
+                filledIcon={<BsStarFill />}
+                value={parseInt(props.rating[1].split("_")[1]) / 20}
+                activeColor="#ffd700"
+              />
+            </div>
+          </section>
+          <section
+            style={{
+              boxShadow: `0 1px 1rem  ${colorFilter(
+                parseInt(props.rating[2].split("_")[1]) / 20
+              )} !important`,
+            }}
+            className={styles["sections"]}
+            id="personality"
+          >
+            <div className={styles.headers}>الشخصية</div>
+            <p className={styles.contentText}>{props.personality}</p>
+            <div className={styles.stars}>
+              <ReactStars
+                size={20}
+                count={5}
+                edit={false}
+                edit={false}
+                emptyIcon={<BsStar />}
+                filledIcon={<BsStarFill />}
+                value={parseInt(props.rating[2].split("_")[1]) / 20}
+                activeColor="#ffd700"
+              />
+            </div>
+          </section>
+        </Card.Body>
+      </Card>
+    </>
+  );
 }

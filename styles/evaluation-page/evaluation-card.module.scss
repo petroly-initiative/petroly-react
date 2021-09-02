@@ -17,6 +17,10 @@ $txt-fill: #52575d;
  }
 }
 
+.card-body{
+  padding: 14px;
+}
+
 .cardHeader{
   display: flex !important;
   justify-content: space-between !important;
@@ -50,8 +54,12 @@ $txt-fill: #52575d;
   display: flex;
   width: 40%;
   justify-content: flex-start;
+}
 
-
+.sections{
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 16px;
 }
 
 .dates{
