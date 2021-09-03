@@ -9,7 +9,6 @@ import {
 import authStyle from "../styles/Auth.module.scss";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { MdVisibility, MdVisibilityOff, MdWarning } from "react-icons/md";
-
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 
@@ -307,7 +306,11 @@ export default function SignInModal(props) {
         console.log("Email was sent");
         setMode("ps-sccuess");
         setTimeout(() => router.reload(), 1000);
-      } else console.log("Email wasn't sent");
+      } else
+        console.error(
+          "Email wasn't sent",
+          dataSendPasswordResetEmail.sendPasswordResetEmail.errors
+        );
     }
   }, [loadingTokenAuth, loadingRegister, loadingSendPasswordResetEmail]);
 

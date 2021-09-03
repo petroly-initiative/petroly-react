@@ -1,4 +1,3 @@
-
 .container {
   margin-right: 5rem !important;
   min-width: calc(100vw - 5rem) !important;
@@ -52,10 +51,9 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  
 }
 
-.statsCard{
+.statsCard {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -88,32 +86,29 @@
   box-sizing: border-box;
   padding: 16px;
   overflow-y: hidden;
-  
 }
 
-.picDiv{
-        border-radius: 35px;
-      overflow: hidden;
-      padding: 2px;
-       margin: auto;
-       
-      }
-
+.picDiv {
+  border-radius: 35px;
+  overflow: hidden;
+  padding: 2px;
+  margin: auto;
+}
 
 .containerHeaders {
-    font-weight: 700;
-    font-size: 22px;
-    color: #0091e7;
-  }
+  font-weight: 700;
+  font-size: 22px;
+  color: #0091e7;
+}
 
-.evalBtn{
+.evalBtn {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: #00ead3 ;
+  background-color: #00ead3;
   border: none;
   margin: auto;
-  padding: 8px ;
+  padding: 8px;
   width: 60px;
   height: 60px;
   border-radius: 20px;
@@ -123,21 +118,17 @@
   box-shadow: 0px 0px 12px #999999;
   transition: 300ms ease;
 
-  &:disabled{
+  &:disabled {
     background-color: grey;
-  }  
-
-  &:hover{
-    transform: scale(1.05);
-    
   }
-  &:active{
+
+  &:hover {
+    transform: scale(1.05);
+  }
+  &:active {
     transform: scale(0.95);
-    
   }
 }
-
-
 
 @media only screen and (max-width: 600px) {
   .container {
@@ -145,9 +136,10 @@
     padding-right: 0px;
     max-width: 100vw !important;
     margin-top: 5rem !important;
+    margin: 0%;
   }
 
-  .evalBtn{
+  .evalBtn {
     right: 2rem;
     bottom: 1rem;
   }
