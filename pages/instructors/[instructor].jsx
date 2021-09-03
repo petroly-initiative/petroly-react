@@ -164,6 +164,7 @@ export default function instructorDetails({ data }) {
       <Navbar page="rating" />
       <Container className={styles.container}>
         <Row
+        className={styles["col-container"]}
           style={{
             margin: "16px !important",
             padding: "16px",

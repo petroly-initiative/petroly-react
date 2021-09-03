@@ -1,6 +1,5 @@
 
 .container {
-  
   margin-right: 5rem !important;
   min-width: calc(100vw - 5rem) !important;
   padding: 30px;
@@ -10,10 +9,29 @@
   justify-content: center !important;
 }
 
+.statsCard{
+  min-height: 400px !important;
+  overflow-y: scroll;
+  background-color: white;
+}
+
+.statsCard::-webkit-scrollbar{
+  width: 0.30rem;
+   border-radius: 0.15rem;
+}
+
+.statsCard::-webkit-scrollbar-track{
+  background: white;
+}
+
+.statsCard::-webkit-scrollbar-thumb{
+  background: #969696;
+  border-radius: 0.15rem;
+}
+
 .feedbackCol {
   height: 85vh;
   margin-bottom: 16px;
-  
 }
 
 .statsCol {
@@ -22,6 +40,7 @@
   flex-direction: column !important;
   justify-content: space-between !important;
   margin-bottom: 16px;
+  min-height: 500px;
 }
 
 .statContainer {
@@ -62,7 +81,7 @@
 }
 
 .feedbackContainer {
-  height: 85vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -133,3 +152,4 @@
     bottom: 1rem;
   }
 }
+

@@ -71,7 +71,7 @@ export default function EvaluationModal(props) {
 
   const setCourse = (e) => {
     setExtra((state) => ({ term: state.term, course: e.target.value }));
-    if(/^[a-zA-Z]{3,4}[0-9]{3}$/g.test(e.target.value)){
+    if(/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value)){
       setCourseInvalid(false)
     }
     else

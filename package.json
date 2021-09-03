@@ -7,14 +7,15 @@
     "build": "next build",
     "start": "next start -p $PORT"
   },
-    "engines": {
+  "engines": {
     "node": "14.x"
   },
   "dependencies": {
     "@apollo/client": "^3.4.8",
     "bootstrap": "^4.6.0",
     "graphql": "^15.5.1",
-    "next": "10.2.3",
+    "lodash": "^4.17.21",
+    "next": "^11.1.2",
     "react": "17.0.2",
     "react-awesome-reveal": "^3.8.1",
     "react-bootstrap": "^1.6.1",

@@ -1,5 +1,30 @@
 $btn-high: #00ead3;
 $txt-fill: #52575d;
+
+@mixin tabNav {
+  width: 100%;
+  margin: 12px;
+    background-color: unset !important;
+    color: $txt-fill;
+    font-weight: 700;
+    border: unset !important;
+    border-radius: 4px;
+    transition: 600 ease;
+    &:hover{
+      background-color: $btn-high !important;
+      border-radius: 4px;
+      color: white;
+    }
+    &:focus{
+      background-color: unset !important;
+      border: unset !important;
+      color: $txt-fill;
+      box-shadow: unset !important;
+    }
+
+  }
+ 
+
 .modal-btn {
   background-color: $btn-high !important;
   border-color: $btn-high !important;
@@ -160,6 +185,7 @@ $txt-fill: #52575d;
 .redirecter {
   display: flex;
   direction: rtl;
+  margin-top: 16px;
 }
 
 .redirectBtn {
@@ -211,6 +237,32 @@ $txt-fill: #52575d;
   color: #0091e7;
   font-weight: 600;
   margin-bottom: 26px;
+}
+
+.nav-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+ .nav-btns{
+   width: 140px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+
+ }
+}
+
+ .active-tab{
+   @include tabNav;
+   border-radius: 0;
+    border-bottom: 3px solid $btn-high !important;
+    &:focus{
+      border-bottom: 3px solid $btn-high !important;
+    }
+}
+  
+  .tab-btns{
+    @include tabNav;
 }
 
 @-webkit-keyframes modaltransition {

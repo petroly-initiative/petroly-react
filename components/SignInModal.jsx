@@ -39,7 +39,7 @@ export default function SignInModal(props) {
    * ? Sign in modal modes
    * - user-input: basic sign in and create account tabs
    * - ps-reset: password reset with email input
-   * - ps-scuccess: an input for the new restted password
+   * - ps-cuccess: an input for the new restted password
    * - acc-confirm: a screen to advise users
    */
   const [validationError, setError] = useState({
@@ -86,9 +86,8 @@ export default function SignInModal(props) {
 
   const [isConfirmPassInvalid, setConfirmVal] = useState(false);
 
-  const switchTab = () => {
-    if (tab === "signIn") setTab("signUp");
-    else setTab("signIn");
+  const switchTab = (e) => {
+    setTab(e.target.id);
     setValidation(false);
     setError({
       show: false,
@@ -154,6 +153,7 @@ export default function SignInModal(props) {
         e.preventDefault();
       });
     });
+    console.log(tab)
   }, [tab]);
 
   const hideModal = () => {
@@ -161,10 +161,18 @@ export default function SignInModal(props) {
     // ? blocking the window closing when in these modes
     switch (mode) {
       case "user-input":
+        setShow(false);
+        props.close();
+        break;
       case "ps-reset":
+        setShow(false);
+        props.close();
+        setMode("user-input");
+        break;
       case "acc-confirm":
         setShow(false);
         props.close();
+        setMode("user-input");
         break;
       default:
         console.log("exit blocked in this mode");
@@ -327,8 +335,30 @@ export default function SignInModal(props) {
                   noValidate
                 >
                   <div className={authStyle["text-header"]}>
-                    {" "}
-                    {tab === "signIn" ? " تسجيل الدخول" : "إنشاء حساب بترولي"}
+                    <div className={authStyle["nav-container"]}>
+                      <Button
+                        className={
+                          tab === "signIn"
+                            ? authStyle["active-tab"]
+                            : authStyle["tab-btns"]
+                        }
+                        onClick={switchTab}
+                        id="signIn"
+                      >
+                        تسجيل الدخول
+                      </Button>
+                      <Button
+                        className={
+                          tab === "signUp"
+                            ? authStyle["active-tab"]
+                            : authStyle["tab-btns"]
+                        }
+                        onClick={switchTab}
+                        id="signUp"
+                      >
+                        حساب جديد
+                      </Button>
+                    </div>
                   </div>
                   {validationError.show && (
                     <Fade duration="1000">
@@ -453,26 +483,7 @@ export default function SignInModal(props) {
                         {tab === "signIn" ? "تسجيل الدخول" : "إنشاء حساب"}
                       </Button>
                     )}
-                    <div
-                      className={authStyle.redirecter}
-                      style={{ padding: 16, fontSize: 12, paddingBottom: 8 }}
-                    >
-                      {/** OnClick to change the tab */}
-                      <div>
-                        {tab === "signIn"
-                          ? "ليس لديك حساب بترولي؟"
-                          : "لديك حساب بترولي؟"}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={switchTab}
-                        className={authStyle.redirectBtn}
-                      >
-                        {tab === "signIn"
-                          ? "أنشئ حساب بترولي"
-                          : "قم بتسجيل الدخول"}{" "}
-                      </button>{" "}
-                    </div>
+
                     <div
                       className={authStyle.redirecter}
                       style={{ fontSize: 12 }}
@@ -498,9 +509,11 @@ export default function SignInModal(props) {
                   onSubmit={handleSubmit}
                   noValidate
                 >
-                  <div className={authStyle["text-header"]}>
-                    {"إعادة تعيين كلمة المرور"}
-                  </div>
+                  <Fade duration="1000">
+                    <div className={authStyle["text-header"]}>
+                      {"إعادة تعيين كلمة المرور"}
+                    </div>
+                  </Fade>
                   <div className={authStyle["reset-instructions"]}>
                     الرجاء كتابة بريدك الإلكتروني لإرسال كلمة المرور الجديدة
                   </div>
