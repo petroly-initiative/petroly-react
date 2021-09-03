@@ -56,9 +56,14 @@ $txt-fill: #52575d;
 }
 
 .sections {
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 8px;
   margin-bottom: 16px;
+  box-shadow: 0 0.2rem 0.7rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.section-icon {
+  margin-left: 8px;
 }
 
 .dates {
@@ -69,14 +74,16 @@ $txt-fill: #52575d;
 .headers {
   width: 100%;
   font-size: 20px;
-  color: #0091e7;
   font-weight: 600;
   text-align: right;
+  padding-right: 8px;
 }
 
 .contentText {
   width: 100%;
   text-align: right;
+  color: $txt-fill;
+  padding: 10px;
 }
 
 .stars {

@@ -79,6 +79,7 @@ $txt-fill: #52575d;
 }
 
 .modal-overlay {
+  pointer-events: auto;
   position: fixed;
   top: 0;
   left: 0;
@@ -89,6 +90,7 @@ $txt-fill: #52575d;
 }
 
 .modal-wrapper {
+  pointer-events: auto;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -175,7 +177,7 @@ $txt-fill: #52575d;
   }
 }
 
-.rules{
+.rules {
   padding: 8px !important;
   display: flex;
   align-items: center;
@@ -183,12 +185,12 @@ $txt-fill: #52575d;
   text-align: right;
   font-weight: 600;
   padding: 16px;
-  .rules-icon{
+  .rules-icon {
     margin-left: 16px;
   }
 }
 
-.reset-instructions{
+.reset-instructions {
   text-align: right;
   padding: 12px;
   color: $txt-fill;

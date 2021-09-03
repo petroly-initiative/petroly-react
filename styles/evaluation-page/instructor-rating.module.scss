@@ -1,7 +1,8 @@
 $colors: (
   blue: #14f7ef,
   green: #00e091,
-  orange: #fac218,
+  yellow: #fac218,
+  orange: #FF7600,
   red: #f51663,
 );
 
@@ -11,6 +12,8 @@ $txt-fill: #6e737a;
 @each $color, $value in $colors {
   .grading_#{$color} div {
     background-color: $value;
+    box-shadow: 0 0 0.4rem $value !important;
+    overflow: visible !important;
   }
 }
 
@@ -52,10 +55,10 @@ $txt-fill: #6e737a;
 }
 
 .barValue {
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   padding: 4px;
   border-radius: 12px !important;
-  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15) !important;
 }
 
 .barValue > div {
@@ -64,6 +67,10 @@ $txt-fill: #6e737a;
   margin: 2px;
   border-radius: 8px !important;
   background: #e6e6e6;
+  overflow: visible;
+  div{
+  border-radius: 12px !important;
+  }
   // box-shadow: 1px 1px 3px #c5c5c5, -1px -1px 3px #ffffff;
 }
 
