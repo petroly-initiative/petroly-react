@@ -24,7 +24,6 @@ import { useQuery } from "@apollo/client";
 import { instructorsQuery, getDepartments } from "../api/queries";
 
 function instructorsReducer(state, action) {
-  console.log("instructorsReducer");
   switch (action.changeIn) {
     case "name":
       state.name = action.name;
@@ -106,7 +105,6 @@ function instructorsList() {
 
   // ? detect page-number switching
   const switchPage = (pageNum) => {
-    console.log("switchPage", pageNum);
     instructorsDispatch({ changeIn: "offset", offset: (pageNum - 1) * ITEMS });
     refetch(instructorsState);
   };
@@ -115,7 +113,6 @@ function instructorsList() {
   };
 
   useEffect(() => {
-    console.log("New index", stackIndex);
   }, [stackIndex]);
 
   // ? Mappers
@@ -155,7 +152,6 @@ function instructorsList() {
       );
     });
 
-  console.log("Status", networkStatus);
 
   // Loading status
   if (loading || loadingDept) {
@@ -209,9 +205,9 @@ function instructorsList() {
               </Form>
             </Col>
           </Row>
-          <center>
+         
             {" "}
-            <Button className={styles["loading-container"]} disabled>
+            <Button className={styles["loading-container"] + " shadow"} disabled>
               <Spinner
                 className={styles["loading-spinner"]}
                 as="div"
@@ -222,7 +218,7 @@ function instructorsList() {
               />
               <div className={styles["loading-text"]}>جاري التحميل </div>
             </Button>
-          </center>
+          
         </Container>
       </>
     );
@@ -230,7 +226,6 @@ function instructorsList() {
 
   // ! Error status
   if (error || errorDept) {
-    console.log("ERROR IN QUERY");
     return (
       <div>
         <h1>{error.name}</h1>
@@ -243,8 +238,6 @@ function instructorsList() {
   // ? Data loaded
   var currentList = instructorMapper();
   var deptList = deptMapper();
-  console.log("instructorsState", instructorsState);
-  console.log("query vars", variables);
 
   // ! No data
   if (data.instructors.data.length == 0) {
@@ -400,21 +393,21 @@ function instructorsList() {
             >
               {currentList}
             </Fade>
+            {/**!Number of pages should be provided by the api*/}
+            {Math.ceil(data.instructors.count / ITEMS) !== 1 && (
+              <div className={styles["pagination-container"]}>
+                <Fade triggerOnce>
+                  <CustomPagination
+                    pageNum={Math.ceil(data.instructors.count / ITEMS)}
+                    switchView={switchPage}
+                    switchIndex={switchStack}
+                    currentPage={instructorsState.offset / ITEMS + 1}
+                    currentIndex={stackIndex}
+                  />
+                </Fade>
+              </div>
+            )}
           </Row>
-          {/**!Number of pages should be provided by the api*/}
-          {Math.ceil(data.instructors.count / ITEMS) !== 1 && (
-            <div className={styles["pagination-container"]}>
-              <Fade delay="100">
-                <CustomPagination
-                  pageNum={Math.ceil(data.instructors.count / ITEMS)}
-                  switchView={switchPage}
-                  switchIndex={switchStack}
-                  currentPage={instructorsState.offset / ITEMS + 1}
-                  currentIndex={stackIndex}
-                />
-              </Fade>
-            </div>
-          )}
         </Container>
       </>
     </ClientOnly>

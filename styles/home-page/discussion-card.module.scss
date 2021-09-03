@@ -8,6 +8,7 @@ $btn-prem-hover: #01bba8;
   transition: 300ms ease;
   height: fit-content;
   max-height: 100%;
+  overflow-y: hidden;
   &:hover {
     transform: scale(1.02);
   }
@@ -65,7 +66,7 @@ $btn-prem-hover: #01bba8;
 }
 
 .title {
-  color: $txt-fill;
+  color: $txt-high;
   font-weight: 700;
   margin-right: 4px;
 }
@@ -74,7 +75,7 @@ $btn-prem-hover: #01bba8;
   font-weight: 400;
   margin-right: 4px;
   font-size: 16px;
-  color: $txt-high;
+  color: $txt-fill;
 }
 
 .more-btn {
@@ -105,6 +106,7 @@ $btn-prem-hover: #01bba8;
 
 .tags-container {
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
   flex-direction: row;
   margin-right: 0px;
@@ -112,7 +114,9 @@ $btn-prem-hover: #01bba8;
 
 .tags {
   display: flex;
+  
   align-items: center;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.288) inset;
   margin: 4px;
   font-size: 16px;
   background-color: chartreuse;

@@ -1,3 +1,5 @@
+$txt-fill: #52575d;
+
 .list_container {
   margin-right: 5rem !important;
   max-width: calc(100vw - 5rem) !important;
@@ -87,7 +89,7 @@
 }
 
 .loading-container {
-  background-color: #00eed6ab !important;
+  background-color: #ffffff !important;
   border: none !important;
   position: fixed;
   left: calc(50vw - 5rem);
@@ -104,6 +106,7 @@
 {
     width: 65px;
     height: 65px;
+    background-color: #00ffe591 !important;
   }
 
   .loading-text {
@@ -111,6 +114,7 @@
     font-size: 12px;
     margin-top: 12px;
     padding: 4px;
+    color: $txt-fill;
   }
 
 }
@@ -135,9 +139,15 @@
     max-width: 100vw !important;
     height: calc(100vh - 5rem);
     top: 5rem;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 0%;
   }
 
   .loading-container{
-      margin-right: 0;
+      left: calc(50vw - 50px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
   }
 }

@@ -75,13 +75,13 @@ mutation Register($email: String!, $username: String!, $password1: String!, $pas
 `;
 
 export const evaluationCreateMutation = gql`
-mutation EvaluationCreate($instructorId: Int, $userId: Int, $grading: EvaluationGradingEnum!, 
+mutation EvaluationCreate($instructorId: Int, $username: String, $grading: EvaluationGradingEnum!, 
   $teaching: EvaluationTeachingEnum!, $personality: EvaluationPersonalityEnum!, $course: String, 
   $comment: String){
   evaluationCreate(
     input: {
       instructor: {connect: {id: {equals: $instructorId}}}
-      user: {connect: {id: {equals: $userId}}}
+      user: {connect: {username: {equals: $username}}}
       grading: $grading
       teaching: $teaching
       personality: $personality
@@ -97,6 +97,31 @@ mutation EvaluationCreate($instructorId: Int, $userId: Int, $grading: Evaluation
     result{
       id
     }
+  }
+}
+`;
+
+export const sendPasswordResetEmailMutation = gql`
+mutation($email: String!){
+  sendPasswordResetEmail(
+    email: $email
+  ){
+    success
+    errors
+  }
+}
+`;
+
+export const passwordResetMutation = gql`
+mutation ($token: String!, $newPassword1: String!, $newPassword2: String!){
+  passwordReset(
+    token:$token
+    newPassword1: $newPassword1
+    newPassword2: $newPassword2
+    
+  ){
+    success
+    errors
   }
 }
 `;

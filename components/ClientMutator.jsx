@@ -7,9 +7,10 @@ import {
 import { verifyTokenMutation, refreshTokenMutation } from "../api/mutations";
 import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
-import { USER, T } from "../constants";
+import { USER, T, URL_ENDPOINT } from "../constants";
 
 export default function ClientMutator({ children }) {
+
   const userContext = useContext(UserContext);
   var token = "";
   var rToken = "";
@@ -23,7 +24,7 @@ export default function ClientMutator({ children }) {
 
   const [client, setClient] = useState(
     new ApolloClient({
-      uri: "http://localhost:8000/endpoint/",
+      uri: URL_ENDPOINT,
       cache: new InMemoryCache(),
     })
   );
@@ -42,7 +43,7 @@ export default function ClientMutator({ children }) {
       
       setClient(
         new ApolloClient({
-          uri: "http://localhost:8000/endpoint/",
+          uri: URL_ENDPOINT,
           cache: new InMemoryCache(),
           headers: {authorization: "JWT " + token},
         })
@@ -64,19 +65,17 @@ export default function ClientMutator({ children }) {
       if (dataVerifyToken.verifyToken.success) {
         setClient(
           new ApolloClient({
-            uri: "http://localhost:8000/endpoint/",
+            uri: URL_ENDPOINT,
             cache: new InMemoryCache(),
             headers: {authorization: "JWT " + token},
           })
         );
-        console.log("token was good");
         userContext.userDispatch({ type: T.SET_CLIENT, token, 
           username:  dataVerifyToken.verifyToken.payload.username});
       }
 
       else if (rToken) {
         refreshToken();
-        console.log("token was bad");
       }
     }
   }, [dataVerifyToken]);
@@ -97,13 +96,10 @@ export default function ClientMutator({ children }) {
         );
         userContext.userDispatch({ type: T.SET_CLIENT, token, 
           username: dataRefreshToken.refreshToken.payload.username })
-        console.log("token was updated");
       }
     }
   }, [dataRefreshToken]);
 
-  console.log("verifyToken", dataVerifyToken);
-  console.log("refreshToken", dataRefreshToken);
 
 
   return <ApolloProvider client={client}>

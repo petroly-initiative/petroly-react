@@ -53,26 +53,21 @@ export default function CustomPagination(props) {
 
   // CORRECT
   const firstBtn = (e) => {
-    console.log(stacks[props.currentIndex]);
     switchPage(1);
     switchStIndex(0);
   };
  // CORRECT
   const lastBtn = (e) => {
-    console.log(stacks[props.currentIndex]);
     setStack(stacks[Object.keys(stacks).length - 1], switchStIndex(Object.keys(stacks).length - 1, switchPage(props.pageNum)));
     
   };
   // CORRECT
   const nextBtn = (e) => {
-    console.log("Out of stack?", stacks[props.currentIndex].indexOf(props.currentPage + 1) === -1);
     if (stacks[props.currentIndex].indexOf(props.currentPage + 1) === -1) {
-      console.log("old Stack: ", stacks[props]);
       
         setStack(stacks[props.currentIndex + 1],switchStIndex(
         (prev) => prev + 1), switchPage(props.currentPage + 1))
       
-      console.log("New Stack: ", stack);
     } else {
       switchPage(props.currentPage + 1);
     }
@@ -80,7 +75,6 @@ export default function CustomPagination(props) {
 
   // CORRECT
   const prevBtn = (e) => {
-    console.log("Out of stack?", stacks[props.currentIndex].indexOf(props.currentPage - 1) === -1);
     if (stacks[props.currentIndex].indexOf(props.currentPage - 1) === -1) {
        setStack(
          stacks[props.currentIndex - 1],
@@ -93,7 +87,6 @@ export default function CustomPagination(props) {
   };
 
   const pageMapper = (arr) => {
-    console.log("Current Array of pages:", arr);
     return arr.map((page) => {
       if (page == props.currentPage) {
         return (

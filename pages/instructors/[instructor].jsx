@@ -6,23 +6,30 @@ import {
   Button,
   OverlayTrigger,
   Tooltip,
+  Spinner,
 } from "react-bootstrap";
-import Navbar from "../components/navbar";
-import styles from "../styles/evaluation-page/instructors-details.module.scss";
-import cardStyles from "../styles/evaluation-page/instructors-card.module.scss";
-import { UserContext } from "../state-management/user-state/UserContext";
-import { USER } from "../constants";
+import Navbar from "../../components/navbar";
+import styles from "../../styles/evaluation-page/instructors-details.module.scss";
+import cardStyles from "../../styles/evaluation-page/instructors-card.module.scss";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import { USER } from "../../constants";
 import { AiFillEdit } from "react-icons/ai";
-import Evaluation from "../components/evaluation/Evaluation";
-import InstructorRates from "../components/Instructros/InstructorRates";
-import EvaluationModal from "../components/evaluation/EvaluationModal";
-import {  useEffect, useState, useContext } from "react";
+import Evaluation from "../../components/evaluation/Evaluation";
+import InstructorRates from "../../components/Instructros/InstructorRates";
+import EvaluationModal from "../../components/evaluation/EvaluationModal";
+import { useEffect, useState, useContext } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import { MdFolderSpecial } from "react-icons/md";
-import client from "../api/apollo-client";
-import { getInstructorName, getInstructorDetail } from "../api/queries";
+import client from "../../api/apollo-client";
+import { useQuery } from "@apollo/client";
+import {
+  getInstructorName,
+  getInstructorDetail,
+  hasEvaluatedQuery,
+} from "../../api/queries";
 import { Fade } from "react-awesome-reveal";
+import { useRouter } from 'next/router';
 
 export const getStaticPaths = async () => {
   //! Should be replaced by an API Call to get all instructor names for dynamic path creation
@@ -38,6 +45,7 @@ export const getStaticPaths = async () => {
       },
     };
   });
+  
 
   /**
    * we need to return an array of objects each with  param property
@@ -55,30 +63,64 @@ export const getStaticProps = async (context) => {
 
   const { data } = await client.query({
     query: getInstructorDetail,
-    variables: {id}});
+    variables: { id },
+  });
 
   return {
     props: { data: data },
-    revalidate: 5,
+    revalidate: 1,
   };
 };
 
 // TODO: Replacing static evaluations with mapped mock data
 
 export default function instructorDetails({ data }) {
+  const router = useRouter();
   const [modalVisible, setVisible] = useState(false);
+  const [msg, setMsg] = useState("");
   const userContext = useContext(UserContext);
+
+
+  const { data: dataHasEvaluated, loading: loadingHasEvaluated } = useQuery(
+    hasEvaluatedQuery,
+    {
+      skip: userContext.user.status !== USER.LOGGED_IN,
+      variables: { instructorId: data.instructor.id },
+    }
+  );
+
+  useEffect(() => {
+    if (userContext.user.status === USER.LOGGED_IN) {
+      if (dataHasEvaluated) {
+        if (dataHasEvaluated.hasEvaluated) {
+          setMsg("قيمتَ المُحاضِر");
+          setVisible(false);
+          // we can redirect the user to the eavaluation edit page
+        } else setMsg("قيّم المحاضر");
+      }
+    } else setMsg("الرجاء تسجيل الدخول");
+  }, [loadingHasEvaluated, userContext.user.status]);
+
   useEffect(() => {
     console.log(data);
   }, []);
+  
+    if (router.isFallback) {
+    return <div>Loading...</div>
+  }
+
 
   const closeModal = () => {
     setVisible(false);
   };
 
   const launchModal = () => {
-    if (userContext.user.status === USER.LOGGED_IN) setVisible(true);
-            }
+    if (
+      userContext.user.status === USER.LOGGED_IN &&
+      !dataHasEvaluated.hasEvaluated
+    )
+      setVisible(true);
+  };
 
   const colors = [
     "rgb(235, 24, 122)",
@@ -88,15 +130,14 @@ export default function instructorDetails({ data }) {
   ];
 
   const randomColor = () => {
-    console.log("finished", Math.floor(Math.random() * colors.length));
     return (
       colors[Math.floor(Math.random() * colors.length)] +
       ' url("/images/background.svg")'
     );
   };
   // !WARNING: Change eval structure according to specified date
-  const evalMapper = () => 
-    data.instructor.evaluationSet.data.map(evaluation => 
+  const evalMapper = () =>
+    data.instructor.evaluationSet.data.map((evaluation) => (
       <Evaluation
         date={evaluation.date.split("T")[0]}
         grading={""}
@@ -107,19 +148,13 @@ export default function instructorDetails({ data }) {
           evaluation.teaching,
           evaluation.personality,
         ]}
-        comment = {evaluation.comment}
+        comment={evaluation.comment}
         term={""}
         course={evaluation.course.toUpperCase()}
       />
-    );
-  
+    ));
 
   const evalList = evalMapper();
-
-
-  useEffect(() => {
-    console.log(data)
-  }, [])
 
   return (
     <>
@@ -129,6 +164,7 @@ export default function instructorDetails({ data }) {
       <Navbar page="rating" />
       <Container className={styles.container}>
         <Row
+        className={styles["col-container"]}
           style={{
             margin: "16px !important",
             padding: "16px",
@@ -227,30 +263,42 @@ export default function instructorDetails({ data }) {
             </Card>
           </Col>
         </Row>
-        <OverlayTrigger
-          placement="top"
-          delay={{ show: 350, hide: 400 }}
-          overlay={
-            userContext.user.status === USER.LOGGED_IN ? (
-              <Tooltip id="button-tooltip-2">قيّم المحاضِر</Tooltip>
-            ) : (
-              <Tooltip id="button-tooltip-2">الرجاء تسجيل الدخول</Tooltip>
-            )
-          }
-        >
-          <Button
-            id="evaluate"
-            className={styles.evalBtn}
-            onClick={launchModal
-            }
-            style={{
-              backgroundColor:
-                userContext.user.status !== USER.LOGGED_IN ? "gray" : "#00ead3",
-            }}
+        {loadingHasEvaluated ? (
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 350, hide: 400 }}
+            overlay={<Tooltip id="button-tooltip-2">نتفقد بياناتك</Tooltip>}
           >
-            <AiFillEdit size={32} />
-          </Button>
-        </OverlayTrigger>
+            <Button
+              id="evaluate"
+              className={styles.evalBtn}
+              style={{ backgroundColor: "gray" }}
+            >
+              <Spinner animation="border" role="status" />
+            </Button>
+          </OverlayTrigger>
+        ) : (
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 350, hide: 400 }}
+            overlay={<Tooltip id="button-tooltip-2">{msg}</Tooltip>}
+          >
+            <Button
+              id="evaluate"
+              className={styles.evalBtn}
+              onClick={launchModal}
+              style={{
+                backgroundColor:
+                  userContext.user.status !== USER.LOGGED_IN ||
+                  dataHasEvaluated.hasEvaluated
+                    ? "gray"
+                    : "#00ead3",
+              }}
+            >
+              <AiFillEdit size={32} />
+            </Button>
+          </OverlayTrigger>
+        )}
         <EvaluationModal
           name={data.instructor.name}
           id={data.instructor.id}

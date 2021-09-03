@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState, useContext } from "react";
+import { useEffect, useReducer, useState, useContext, useCallback } from "react";
 import {
   Modal,
   Col,
@@ -9,12 +9,14 @@ import {
   Tooltip,
   InputGroup,
   Alert,
+  Spinner,
 } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
 import styles from "../../styles/evaluation-page/evaluation-modal.module.scss";
-import { BsStarFill, BsStar } from "react-icons/bs";
+import { BsStarFill, BsStar, BsPersonBoundingBox } from "react-icons/bs";
+import { FaChalkboardTeacher, FaClipboardCheck } from "react-icons/fa";
 import { Image } from "next/dist/client/image";
-import { FaSave, FaCommentAlt } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 import { ImCancelCircle } from "react-icons/im";
 import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
@@ -62,13 +64,14 @@ export default function EvaluationModal(props) {
     msg: "",
   });
 
+  const [waiting, setWaiting] = useState(false);
   const [validated, setValidated] = useState(false);
   const [isTermInvalid, setTermInvalid] = useState(false);
   const [isCourseInvalid, setCourseInvalid] = useState(false);
 
   const setCourse = (e) => {
     setExtra((state) => ({ term: state.term, course: e.target.value }));
-    if(/^[a-zA-Z]{3,4}[0-9]{3}$/g.test(e.target.value)){
+    if(/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value)){
       setCourseInvalid(false)
     }
     else
@@ -116,8 +119,8 @@ export default function EvaluationModal(props) {
   ] = useMutation(evaluationCreateMutation, {
     notifyOnNetworkStatusChange: true,
     variables: {
+      username: userContext.user.username,
       instructorId: props.id,
-      userId: userContext.user.id,
       grading: "A_" + String(grading.rating * 20),
       teaching: "A_" + String(teaching.rating * 20),
       personality: "A_" + String(person.rating * 20),
@@ -132,7 +135,7 @@ export default function EvaluationModal(props) {
       extra.term === "" ||
       extra.course === "" ||
       grading.comment === "" ||
-      rating.comment === "" ||
+      teaching.comment === "" ||
       person.comment === ""
     ) {
       setError({
@@ -142,33 +145,23 @@ export default function EvaluationModal(props) {
     setValidated(true);
     }
     else
-    form.submit();
+      evaluationCreate();    
   };
 
-  const submitEvaluation = async (e) => {
-    /* Submit all forms and sned it in a query */
-    e.preventDefault();
-
-    var dataFormat = {
-      context: extra,
-      grading: grading,
-      teaching: teaching,
-      personality: person,
-    };
-
-    await dispatch({
-      type: "send",
-      content: dataFormat,
-    });
-
-    console.log("form", dataFormat);
-    console.log("Done");
-    await evaluationCreate();
-  };
 
   useEffect(() => {
     if (submissionState.sucess) props.close();
   }, [submissionState]);
+
+  useEffect(() => {
+    if (dataEvaluationCreate){
+      console.log(dataEvaluationCreate);
+      if(dataEvaluationCreate.evaluationCreate.ok){
+        setWaiting(true);
+        setTimeout(() => location.reload(), 1900);
+      }
+    }
+  }, [loadingEvaluationCreate]);
 
   return (
     <>
@@ -220,8 +213,12 @@ export default function EvaluationModal(props) {
             </div>
           </Alert>
           {validationError.show && (
-            <Fade triggerOnce style={{width: "95%"}} duration="1000">
-              <Alert style={{width: "100%"}} className={styles["rules"]} variant="danger">
+            <Fade triggerOnce style={{ width: "95%" }} duration="1000">
+              <Alert
+                style={{ width: "100%" }}
+                className={styles["rules"]}
+                variant="danger"
+              >
                 <MdWarning className={styles["rules-icon"]} size="1.4rem" />
                 <div>{validationError.msg}</div>
               </Alert>
@@ -231,7 +228,6 @@ export default function EvaluationModal(props) {
             className={styles["evalForm"]}
             id={"evalForm"}
             validated={validated}
-            onSubmit={submitEvaluation}
           >
             <section className={styles.sections}>
               <div className={styles.headers}>
@@ -259,14 +255,14 @@ export default function EvaluationModal(props) {
                       value={extra.term}
                       onChange={setTerm}
                       required
-                      isInvalid = {isTermInvalid}
+                      isInvalid={isTermInvalid}
                     />
                     <FormControl.Feedback
-                          style={{ textAlign: "right" }}
-                          type="invalid"
-                        >
-                          الرجاء استخدام 3 أرقام فقط
-                        </FormControl.Feedback>
+                      style={{ textAlign: "right" }}
+                      type="invalid"
+                    >
+                      الرجاء استخدام 3 أرقام فقط
+                    </FormControl.Feedback>
                   </InputGroup>
                 </Col>
                 <Col xs={12} sm={12} md={6}>
@@ -288,22 +284,25 @@ export default function EvaluationModal(props) {
                       value={extra.course}
                       onChange={setCourse}
                       required
-                      isInvalid = {isCourseInvalid}
-                      className = {styles["course-input"]}
+                      isInvalid={isCourseInvalid}
+                      className={styles["course-input"]}
                     />
                     <FormControl.Feedback
-                          style={{ textAlign: "right" }}
-                          type="invalid"
-                        >
-                        ABCDXXX :الرجاء كتابة اسم المدة الدراسية كالآتي
-                        </FormControl.Feedback>
+                      style={{ textAlign: "right" }}
+                      type="invalid"
+                    >
+                      ABCDXXX :الرجاء كتابة اسم المدة الدراسية كالآتي
+                    </FormControl.Feedback>
                   </InputGroup>
                 </Col>
               </Form.Row>
             </section>
-            <section className={styles.sections}>
+            <section className={styles.sections + " shadow"}>
               <div className={styles.headers}>
-                <div className={styles.titles}>التصحيح والدرجات</div>
+                <div style={{ color: "#F037A5" }} className={styles.titles}>
+                  التصحيح والدرجات
+                  <FaClipboardCheck className={styles["title-icons"]} />
+                </div>
                 <div className={styles.descriptions}>
                   شفافية التصحيح والالتزام بمعايير محددة للدرجات
                 </div>
@@ -336,9 +335,12 @@ export default function EvaluationModal(props) {
                 ></FormControl>
               </InputGroup>
             </section>
-            <section className={styles.sections}>
+            <section className={styles.sections + " shadow"}>
               <div className={styles.headers}>
-                <div className={styles.titles}>التدريس</div>
+                <div style={{ color: "#3DB2FF" }} className={styles.titles}>
+                  التدريس
+                  <FaChalkboardTeacher className={styles["title-icons"]} />
+                </div>
                 <div className={styles.descriptions}>
                   سهولة إيصال المعلومة و فهم المنهج{" "}
                 </div>
@@ -370,9 +372,12 @@ export default function EvaluationModal(props) {
                 ></FormControl>
               </InputGroup>
             </section>
-            <section className={styles.sections}>
+            <section className={styles.sections + " shadow"}>
               <div className={styles.headers}>
-                <div className={styles.titles}>الشخصية</div>
+                <div style={{ color: "#FF6666" }} className={styles.titles}>
+                  الشخصية
+                  <BsPersonBoundingBox className={styles["title-icons"]} />
+                </div>
                 <div className={styles.descriptions}>
                   المزاج العام والتعامل مع الطلاب
                 </div>
@@ -423,12 +428,16 @@ export default function EvaluationModal(props) {
             delay={{ show: 500, hide: 400 }}
             overlay={<Tooltip id="button-tooltip-2">تسليم التقييم</Tooltip>}
           >
-            <Button
-              onClick={fireEval}
-              className={[styles["btns"], styles["submit-btn"]]}
-            >
-              <FaSave size="1.7rem" />
-            </Button>
+            {waiting ? (
+              <Spinner animation="border" role="status" />
+            ) : (
+              <Button
+                onClick={fireEval}
+                className={[styles["btns"], styles["submit-btn"]]}
+              >
+                <FaSave size="1.7rem" />
+              </Button>
+            )}
           </OverlayTrigger>
         </Modal.Footer>
       </Modal>

@@ -6,13 +6,15 @@ function InstructorRates(props) {
     if (value >= 4) return "#04F9F2";
     else if (value >= 3) return "#00E091";
     else if (value >= 2) return "#FAC218";
+    else if (value >= 1) return "#FF7600";
     else return "#F51663";
   };
 
   const barFilter = (value) => {
     if (value >= 4) return styles.grading_blue;
     else if (value >= 3) return styles.grading_green;
-    else if (value >= 2) return styles.grading_orange;
+    else if (value >= 2) return styles.grading_yellow;
+    else if (value >= 1) return styles.grading_orange;
     else return styles.grading_red;
   };
 
@@ -28,7 +30,10 @@ function InstructorRates(props) {
     <Container className={styles.statsBody}>
       <div id="overall-section" className={styles.ovrSection}>
         <div
-          style={{ boxShadow: `0 0 40px ${colorFilter(props.overall)}` }}
+          style={{
+            boxShadow: `0 0 40px ${colorFilter(
+              props.overall)}, 0 0 10px rgba(0, 0, 0, 0.13)`,
+          }}
           id="overall-container"
           className={styles.ovrcontainer}
         >
