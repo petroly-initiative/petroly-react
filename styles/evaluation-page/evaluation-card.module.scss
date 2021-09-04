@@ -73,7 +73,7 @@ $txt-fill: #52575d;
 
 .headers {
   width: 100%;
-  font-size: 20px;
+  font-size: 2vmin;
   font-weight: 600;
   text-align: right;
   padding-right: 8px;
@@ -95,4 +95,18 @@ $txt-fill: #52575d;
 .stars span {
   margin-left: 12px;
   margin-left: 12px;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .headers{
+    font-size: 4vmin;
+  }
+  .stars span{
+    font-size: 15px !important;
+  }
+
+  .card-body{
+    padding: 6px;
+  }
 }

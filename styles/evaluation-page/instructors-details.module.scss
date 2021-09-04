@@ -8,46 +8,37 @@
   justify-content: center !important;
 }
 
-.statsCard{
-  min-height: 400px !important;
-  overflow-y: scroll;
+.statsCard {
+  height: 100%;
+  min-height: 450px;
   background-color: white;
+  border-radius: 4px;
+  justify-self: flex-end;
 }
 
-.statsCard::-webkit-scrollbar{
-  width: 0.30rem;
-   border-radius: 0.15rem;
-}
 
-.statsCard::-webkit-scrollbar-track{
-  background: white;
-}
-
-.statsCard::-webkit-scrollbar-thumb{
-  background: #969696;
-  border-radius: 0.15rem;
-}
 
 .feedbackCol {
   height: 85vh;
   margin-bottom: 16px;
+  min-height: 700px;
+  border-radius: 4px;
 }
 
 .statsCol {
   height: 85vh;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: space-between !important;
   margin-bottom: 16px;
-  min-height: 500px;
+  min-height: 700px;
 }
 
 .statContainer {
-  height: 60vh !important;
+  height: 100% !important;
   width: 100%;
   margin-top: 16px;
   padding: 0px;
-  justify-self: flex-end;
+  justify-self: flex-end !important;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -61,8 +52,9 @@
 }
 
 .prev_list {
-  height: 70vh;
+  height: 100%;
   overflow-y: scroll;
+  border-radius: 3px;
 }
 
 .prev_list::-webkit-scrollbar {
@@ -71,11 +63,13 @@
 
 .prev_list::-webkit-scrollbar-track {
   background: white;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0.3rem rgb(218, 218, 218);
 }
 
 .prev_list::-webkit-scrollbar-thumb {
   background: #969696;
-  border-radius: 2px;
+  border-radius: 0.15rem;
 }
 
 .feedbackContainer {
@@ -86,6 +80,14 @@
   box-sizing: border-box;
   padding: 16px;
   overflow-y: hidden;
+}
+
+.col-container {
+  margin: 16px !important;
+  padding: 16px;
+  display: flex !important;
+  align-items: center !important;
+  width: 100%;
 }
 
 .picDiv {
@@ -143,5 +145,8 @@
     right: 2rem;
     bottom: 1rem;
   }
-}
 
+  .col-container {
+    padding: 0px;
+  }
+}
