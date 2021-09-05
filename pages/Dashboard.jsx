@@ -1,6 +1,7 @@
 import { Col, Row, Container, Card } from "react-bootstrap";
 import EvaluationsTab from "../components/evaluation/dashboard/EvalsTab";
 import ProfileTab from "../components/evaluation/dashboard/ProfileTab";
+import styles from "../styles/dashboard-page/dashboard-container.modules.scss";
 /**
  * 
  * ? Dasboard page setup:

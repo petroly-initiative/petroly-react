@@ -195,7 +195,7 @@ export default function EvaluationModal(props) {
             <div className={styles["info-container"]}>
               <div
                 style={{ borderRadius: "35px" }}
-                className={styles.instructorPic + " shadow"}
+                className={styles.instructorPic + " shadow-sm"}
               >
                 {props.image}
               </div>
@@ -297,7 +297,7 @@ export default function EvaluationModal(props) {
                 </Col>
               </Form.Row>
             </section>
-            <section className={styles.sections + " shadow"}>
+            <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div style={{ color: "#F037A5" }} className={styles.titles}>
                   التصحيح والدرجات
@@ -335,7 +335,7 @@ export default function EvaluationModal(props) {
                 ></FormControl>
               </InputGroup>
             </section>
-            <section className={styles.sections + " shadow"}>
+            <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div style={{ color: "#3DB2FF" }} className={styles.titles}>
                   التدريس
@@ -372,7 +372,7 @@ export default function EvaluationModal(props) {
                 ></FormControl>
               </InputGroup>
             </section>
-            <section className={styles.sections + " shadow"}>
+            <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div style={{ color: "#FF6666" }} className={styles.titles}>
                   الشخصية
@@ -413,19 +413,19 @@ export default function EvaluationModal(props) {
         <Modal.Footer className={styles["modal-footer"]}>
           <OverlayTrigger
             placement="top"
-            delay={{ show: 500, hide: 400 }}
+            delay={{ show: 1000, hide: 300 }}
             overlay={<Tooltip id="button-tooltip-2">حذف التقييم</Tooltip>}
           >
             <Button
               onClick={props.close}
               className={[styles["btns"], styles["cancel-btn"]]}
             >
-              <ImCancelCircle size="1.7rem" />
+              <ImCancelCircle size="2rem" />
             </Button>
           </OverlayTrigger>
           <OverlayTrigger
             placement="top"
-            delay={{ show: 500, hide: 400 }}
+            delay={{ show: 1000, hide: 300 }}
             overlay={<Tooltip id="button-tooltip-2">تسليم التقييم</Tooltip>}
           >
             {waiting ? (
@@ -435,7 +435,7 @@ export default function EvaluationModal(props) {
                 onClick={fireEval}
                 className={[styles["btns"], styles["submit-btn"]]}
               >
-                <FaSave size="1.7rem" />
+                <FaSave size="2rem" />
               </Button>
             )}
           </OverlayTrigger>

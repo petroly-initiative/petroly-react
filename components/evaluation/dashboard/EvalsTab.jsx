@@ -18,8 +18,8 @@ export default function EvaluationsTab(props){
 
   const [mode ,setMode]  = useState("view-all")
 
-  const fullList;
-  const matchingList;
+  const fullList = {};
+  const matchingList = {};
 
     return (
       <>
