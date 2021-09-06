@@ -1,4 +1,10 @@
-import { useEffect, useReducer, useState, useContext, useCallback } from "react";
+import {
+  useEffect,
+  useReducer,
+  useState,
+  useContext,
+  useCallback,
+} from "react";
 import {
   Modal,
   Col,
@@ -17,10 +23,9 @@ import { BsStarFill, BsStar, BsPersonBoundingBox } from "react-icons/bs";
 import { FaChalkboardTeacher, FaClipboardCheck } from "react-icons/fa";
 import { Image } from "next/dist/client/image";
 import { FaSave } from "react-icons/fa";
-import { ImCancelCircle } from "react-icons/im";
 import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
-import { MdWarning } from "react-icons/md";
+import { MdWarning, MdCancel } from "react-icons/md";
 import { evalReducer } from "../../state-management/evaluation-state/evaluationReducer";
 import { evaluationCreateMutation } from "../../api/mutations";
 import { useMutation } from "@apollo/client";
@@ -33,7 +38,6 @@ import { Fade } from "react-awesome-reveal";
  * - validation system for the suer input
  */
 export default function EvaluationModal(props) {
-
   const userContext = useContext(UserContext);
   // modal state
   const [submissionState, dispatch] = useReducer(evalReducer, {
@@ -71,17 +75,13 @@ export default function EvaluationModal(props) {
 
   const setCourse = (e) => {
     setExtra((state) => ({ term: state.term, course: e.target.value }));
-    if(/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value)){
-      setCourseInvalid(false)
-    }
-    else
-    setCourseInvalid(true)
-    
+    if (/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value)) {
+      setCourseInvalid(false);
+    } else setCourseInvalid(true);
   };
   const setTerm = (e) => {
     setExtra((state) => ({ term: e.target.value, course: state.course }));
     setTermInvalid(!Number.isInteger(parseInt(e.target.value)));
-    
   };
 
   const gradeRate = (val) => {
@@ -142,21 +142,18 @@ export default function EvaluationModal(props) {
         show: true,
         msg: "الرجاء تعبئة الخانات المطلوبة لتسجيل الدخول",
       });
-    setValidated(true);
-    }
-    else
-      evaluationCreate();    
+      setValidated(true);
+    } else evaluationCreate();
   };
-
 
   useEffect(() => {
     if (submissionState.sucess) props.close();
   }, [submissionState]);
 
   useEffect(() => {
-    if (dataEvaluationCreate){
+    if (dataEvaluationCreate) {
       console.log(dataEvaluationCreate);
-      if(dataEvaluationCreate.evaluationCreate.ok){
+      if (dataEvaluationCreate.evaluationCreate.ok) {
         setWaiting(true);
         setTimeout(() => location.reload(), 1900);
       }
@@ -420,7 +417,7 @@ export default function EvaluationModal(props) {
               onClick={props.close}
               className={[styles["btns"], styles["cancel-btn"]]}
             >
-              <ImCancelCircle size="2rem" />
+              <MdCancel size="2rem" />
             </Button>
           </OverlayTrigger>
           <OverlayTrigger

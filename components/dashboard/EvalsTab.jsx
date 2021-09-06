@@ -1,7 +1,10 @@
 import { Col, Card, Row, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import { useState } from "react";
 import EvaluationPreview from "./EvaluationPrev";
-
+import styles from "../../styles/dashboard-page/dashboard-tabs.module.scss";
+import { MdCancel } from "react-icons/md";
+import { Fade } from "react-awesome-reveal";
+import { FiSearch } from "react-icons/fi";
 /**
  * 
  * ? Evaluation Tab setup
@@ -18,41 +21,38 @@ export default function EvaluationsTab(props){
 
   const [mode ,setMode]  = useState("view-all")
 
-  const fullList = {};
-  const matchingList = {};
+  const fullList = "all of it";
+  const matchingList = "matching only";
 
     return (
       <>
-        <Col>
-          <Card>
-            <Card.Header>
-              {mode === "view-all" &&(
-              <div>
-                <span></span>
-                <Button>Cancel</Button>
-              </div>
-              )}
-              {mode === "search" && (
-                <div>
-                  <Form>
-                    <InputGroup>
-                    <FormControl />
-                    </InputGroup>
-                  </Form>
-                  <Button >Search</Button>
+          <Card className={styles["card-containers"] + " shadow"}>
+            <Card.Header className={styles["header-containers"]}>
+              {mode === "view-all" && (
+                <div className={styles["card-headers"]}>
+                  <span className={styles["card-title"]}>تقييماتي</span>
+                  <Button className={styles["btns"]}><FiSearch size="1.6rem" /></Button>
                 </div>
               )}
-              
+              {mode === "search" && (
+                <div className={styles["card-headers"]}>
+                  <Form>
+                    <InputGroup>
+                      <FormControl />
+                    </InputGroup>
+                  </Form>
+                  <Button className={styles["btns", "cancel-btns"]}><MdCancel size = "1.6rem"/></Button>
+                </div>
+              )}
             </Card.Header>
-            <Card.Body>
+            <Card.Body className={styles["card-body"]}>
               <Row>
                 {/* conditoinal mapping between all available and only search match*/}
-                {mode === "view-all" && (fullList)}
-                {mode === "search" && (matchingList)}
+                {mode === "view-all" && fullList}
+                {mode === "search" && matchingList}
               </Row>
             </Card.Body>
           </Card>
-        </Col>
       </>
     );
 }
