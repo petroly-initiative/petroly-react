@@ -436,11 +436,16 @@ export default function Navbar(props) {
               </div>
               {
                 <li className={styles.navbar_item}>
-                  <Link href="/" className={styles.navbar_link}>
+                  <a
+                    target="_blank"
+                    href="https://forms.gle/dFhnn6qSeTJBfc5ZA"
+                    className={styles.navbar_link}
+                  >
                     <div className={styles.link_btn}>
                       <FiHelpCircle className={styles.nav_img} size="1.2em" />
+                      <div className={styles.link_text}>الدعم</div>
                     </div>
-                  </Link>
+                  </a>
                 </li>
               }
             </ul>
@@ -586,11 +591,17 @@ export default function Navbar(props) {
               </li>
             </div>
             <li className={styles.navbar_item}>
-              <Link href="/" className={styles.navbar_link}>
+              <a
+                target="_blank"
+                href="https://forms.gle/dFhnn6qSeTJBfc5ZA"
+                className={styles.navbar_link}
+              >
                 <div className={styles.link_btn}>
                   <FiHelpCircle className={styles.nav_img} size="1.2em" />
+
+                  <div className={styles.link_text}>الدعم</div>
                 </div>
-              </Link>
+              </a>
             </li>
           </ul>
         </div>

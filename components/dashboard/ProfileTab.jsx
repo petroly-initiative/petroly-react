@@ -71,7 +71,7 @@ export default function ProfileTab(props) {
 
           {mode === "view" && (
             <div className={styles["body-structure"]}>
-              <div className={styles["pic-border"]}>
+              <div className={styles["pic-border"]+ " shadow"}>
                 <Image
                   width="140"
                   height="140"
@@ -174,7 +174,9 @@ export default function ProfileTab(props) {
                   <Form.Group>
                     <Form.Label>اسم المستخدم</Form.Label>
                     <InputGroup>
-                      <FormControl />
+                      <FormControl 
+                      type= "text"
+                      value = "مهاب أبوبكر"/>
                     </InputGroup>
                   </Form.Group>
                 </Form>

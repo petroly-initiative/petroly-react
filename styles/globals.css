@@ -19,6 +19,10 @@ body {
   touch-action: pan-y pan-x;
 }
 
+a{
+  text-decoration: none !important;
+}
+
 
 body::-webkit-scrollbar{
   width: 0.30rem;

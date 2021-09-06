@@ -98,28 +98,26 @@ $txt-high: #0091e7;
 }
 
 .edit-form {
-    margin-top: 34px;
+  margin-top: 34px;
   direction: rtl;
   text-align: right;
   width: 100%;
   padding: 16px;
 }
 
-.edit-pic-btn{
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: unset;
-    border: unset;
-    padding: 0;
+.edit-pic-btn {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: unset;
+  border: unset;
+  padding: 0;
 }
 
-
-
 .pic-border {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 8px;
   height: 148px;
   width: 148px;
