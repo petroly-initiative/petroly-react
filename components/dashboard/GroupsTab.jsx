@@ -1,4 +1,4 @@
-import { Col, Card, Button } from "react-bootstrap";
+import { Col, Card, Button, Row, Form, InputGroup, FormControl } from "react-bootstrap";
 import { useState } from "react";
 import styles from "../../styles/dashboard-page/dashboard-tabs.module.scss";
 import GroupPreview from "./GroupPrev";
@@ -18,37 +18,47 @@ export default function GroupsTab(props) {
 
   const fullList = "all of it";
   const matchingList = "matching only";
+
+  const switchMode = () => {
+    setMode(mode === "view-all" ? "search" : "view-all");
+  };
+
   return (
     <>
-        <Card className={styles["card-containers"] + " shadow"}>
-          <Card.Header className={styles["header-containers"]}>
-            {mode === "view-all" && (
-              <div className={styles["card-headers"]}>
-                <span className={styles["card-title"]}>مجتمعاتي</span>
-                <Button className={styles["btns"]}>
+      <Card className={styles["card-containers"] + " shadow"}>
+        <Card.Header className={styles["header-containers"]}>
+          {mode === "view-all" && (
+            <div className={styles["card-headers"]}>
+              <span className={styles["card-title"]}>مجتمعاتي</span>
+              <Button onClick={switchMode} className={styles["btns"]}>
+                <FiSearch size="1.6rem" />
+              </Button>
+            </div>
+          )}
+          {mode === "search" && (
+            <div className={styles["card-headers"]}>
+              <Form className={styles["header-search"]}>
+                <InputGroup>
+                  <FormControl />
+                </InputGroup>
+              </Form>
+              <div className={styles["search-set"]} >
+                <Button onClick={switchMode} className={styles["btns"]}>
                   <FiSearch size="1.6rem" />
                 </Button>
+                
               </div>
-            )}
-            {mode === "search" && (
-              <div className={styles["card-headers"]}>
-                <Form>
-                  <InputGroup>
-                    <FormControl />
-                  </InputGroup>
-                </Form>
-                <Button className={styles["btns", "cancel-btns"]}>
-                  <MdCancel size="1.6rem" />
-                </Button>
-              </div>
-            )}
-          </Card.Header>
-          <Card.Body className={styles["card-body"]}>
-            {/* A list will be populated via a custom component */}
-            {mode === "view-all" && fullList}
-            {mode === "search" && matchingList}
-          </Card.Body>
-        </Card>
+            </div>
+          )}
+        </Card.Header>
+        <Card.Body className={styles["card-body"]}>
+          {/* A list will be populated via a custom component */}
+          <Row>
+            <Col>{mode === "view-all" && fullList}</Col>
+            <Col>{mode === "search" && matchingList}</Col>
+          </Row>
+        </Card.Body>
+      </Card>
     </>
   );
 }

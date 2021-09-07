@@ -20,39 +20,51 @@ import { FiSearch } from "react-icons/fi";
 export default function EvaluationsTab(props){
 
   const [mode ,setMode]  = useState("view-all")
-
+  const switchMode = () => {
+    setMode(mode === "view-all" ? "search" : "view-all");
+  };
   const fullList = "all of it";
   const matchingList = "matching only";
 
     return (
       <>
-          <Card className={styles["card-containers"] + " shadow"}>
-            <Card.Header className={styles["header-containers"]}>
-              {mode === "view-all" && (
+        <Card className={styles["card-containers"] + " shadow"}>
+          <Card.Header className={styles["header-containers"]}>
+            {mode === "view-all" && (
+              <Fade>
                 <div className={styles["card-headers"]}>
                   <span className={styles["card-title"]}>تقييماتي</span>
-                  <Button className={styles["btns"]}><FiSearch size="1.6rem" /></Button>
+                  <Button on onClick={switchMode} className={styles["btns"]}>
+                    <FiSearch size="1.6rem" />
+                  </Button>
                 </div>
-              )}
-              {mode === "search" && (
+              </Fade>
+            )}
+            {mode === "search" && (
+              <Fade>
                 <div className={styles["card-headers"]}>
-                  <Form>
+                  <Form className={styles["header-search"]}>
                     <InputGroup>
                       <FormControl />
                     </InputGroup>
                   </Form>
-                  <Button className={styles["btns", "cancel-btns"]}><MdCancel size = "1.6rem"/></Button>
+                  <div className={styles["search-set"]}>
+                    <Button onClick={switchMode} className={styles["btns"]}>
+                      <FiSearch size="1.6rem" />
+                    </Button>
+                  </div>
                 </div>
-              )}
-            </Card.Header>
-            <Card.Body className={styles["card-body"]}>
-              <Row>
-                {/* conditoinal mapping between all available and only search match*/}
-                {mode === "view-all" && fullList}
-                {mode === "search" && matchingList}
-              </Row>
-            </Card.Body>
-          </Card>
+              </Fade>
+            )}
+          </Card.Header>
+          <Card.Body className={styles["card-body"]}>
+            <Row>
+              {/* conditoinal mapping between all available and only search match*/}
+              {mode === "view-all" && fullList}
+              {mode === "search" && matchingList}
+            </Row>
+          </Card.Body>
+        </Card>
       </>
     );
 }

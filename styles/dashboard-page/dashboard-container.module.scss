@@ -2,6 +2,7 @@ $txt-fill: #52575d;
 $btn-primary: #00ead3;
 
 .main-container{
+  padding-bottom: 16px;
   margin-right: 5rem !important;
   max-width: calc(100vw - 5rem) !important;
   padding-left: 52px;
@@ -12,10 +13,16 @@ $btn-primary: #00ead3;
 
 .tab-containers{
     min-height: 500px;
-    padding: 8px;
+    margin-bottom: 16px !important;
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+
+
+.cards-holder{
+  margin-bottom: 26px;
 }
 
 .title {
@@ -36,6 +43,7 @@ $btn-primary: #00ead3;
     top: 5rem;
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 16px;
     margin: 0%;
   }
 }

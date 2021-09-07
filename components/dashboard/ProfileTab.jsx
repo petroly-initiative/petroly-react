@@ -33,11 +33,16 @@ export default function ProfileTab(props) {
     setMode(mode === "view" ? "edit" : "view");
   };
 
+  const handleImage = () => {
+    // do something
+  }
+
   return (
     <>
       <Card className={styles["card-containers"] + " shadow"}>
         <Card.Header className={styles["header-containers"]}>
-          <div className={styles["card-headers"]}>
+          <div
+         className={styles["card-headers"]}>
             <span className={styles["card-title"]}>حسابي الشخصي</span>
             {/* Edit btn / cancel editing button / Saving button */}
             {mode === "view" && (
@@ -71,7 +76,7 @@ export default function ProfileTab(props) {
 
           {mode === "view" && (
             <div className={styles["body-structure"]}>
-              <div className={styles["pic-border"]+ " shadow"}>
+              <div className={styles["pic-border"] + " shadow"}>
                 <Image
                   width="140"
                   height="140"
@@ -87,7 +92,7 @@ export default function ProfileTab(props) {
                 <Row className={styles["stats-container"]}>
                   <Col
                     xs={6}
-                    lg={3}
+                    lg={6}
                     md={6}
                     sm={6}
                     xl={3}
@@ -104,7 +109,7 @@ export default function ProfileTab(props) {
                   </Col>
                   <Col
                     xs={6}
-                    lg={3}
+                    lg={6}
                     md={6}
                     sm={6}
                     className={styles["stat-col"]}
@@ -120,7 +125,7 @@ export default function ProfileTab(props) {
                   </Col>
                   <Col
                     xs={6}
-                    lg={3}
+                    lg={6}
                     md={6}
                     sm={6}
                     className={styles["stat-col"]}
@@ -136,7 +141,7 @@ export default function ProfileTab(props) {
                   </Col>
                   <Col
                     xs={6}
-                    lg={3}
+                    lg={6}
                     md={6}
                     sm={6}
                     className={styles["stat-col"]}
@@ -160,25 +165,35 @@ export default function ProfileTab(props) {
               {/* profile pic editing */}
 
               <div className={styles["pic-border"] + " shadow"}>
-                <Button className={styles["edit-pic-btn"]}>
-                <Image
-                  width="140"
-                  height="140"
-                  className={styles["profile-pic"]}
-                  src="/images/muhabpower.png"
-                />
-                </Button>
+                <Fade style={{ width: "100%", height: "100%" }}>
+                  <Image
+                    width="140"
+                    height="140"
+                    className={styles["profile-pic"]}
+                    src="/images/muhabpower.png"
+                  ></Image>
+                </Fade>
               </div>
               <Fade className={styles["fader"]}>
                 <Form className={styles["edit-form"]}>
                   <Form.Group>
                     <Form.Label>اسم المستخدم</Form.Label>
                     <InputGroup>
-                      <FormControl 
-                      type= "text"
-                      value = "مهاب أبوبكر"/>
+                      <FormControl type="text" value="مهاب أبوبكر" />
                     </InputGroup>
                   </Form.Group>
+                  <Form.Group controlId="formFile">
+                    <InputGroup>
+                    <Form.Label> صورة العرض</Form.Label>
+                    <Form.Control
+                      type="file"
+                      className={styles["img-input"]}
+                      name="file"
+                      onChange={handleImage}
+                    />
+                    </InputGroup>
+                  </Form.Group>
+                  
                 </Form>
               </Fade>
             </div>
