@@ -188,7 +188,10 @@ export default function EvaluationModal(props) {
             styles["body-container"],
           ]}
         >
-          <section className={styles.sections}>
+          <section
+            style={{ borderBottom: "unset", paddingBottom: 8 }}
+            className={styles.sections}
+          >
             <div className={styles["info-container"]}>
               <div
                 style={{ borderRadius: "35px" }}
@@ -226,7 +229,7 @@ export default function EvaluationModal(props) {
             id={"evalForm"}
             validated={validated}
           >
-            <section className={styles.sections}>
+            <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div className={styles.titles}>معلومات التقييم</div>
                 <div className={styles.descriptions}>

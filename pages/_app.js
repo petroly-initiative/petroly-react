@@ -11,6 +11,7 @@ import ClientMutator from "../components/ClientMutator";
 import { ApolloProvider } from "@apollo/client";
 import { USER } from "../constants";
 
+
 /**
  *
  * @WARNING This file exists to only apply globals assets and context for all pages

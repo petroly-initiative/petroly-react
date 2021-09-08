@@ -41,8 +41,7 @@ export default function ProfileTab(props) {
     <>
       <Card className={styles["card-containers"] + " shadow"}>
         <Card.Header className={styles["header-containers"]}>
-          <div
-         className={styles["card-headers"]}>
+          <div className={styles["card-headers"]}>
             <span className={styles["card-title"]}>حسابي الشخصي</span>
             {/* Edit btn / cancel editing button / Saving button */}
             {mode === "view" && (
@@ -112,6 +111,7 @@ export default function ProfileTab(props) {
                     lg={6}
                     md={6}
                     sm={6}
+                    xl={3}
                     className={styles["stat-col"]}
                   >
                     <div className={styles["stat-title"]}>المجتمعات</div>
@@ -128,6 +128,7 @@ export default function ProfileTab(props) {
                     lg={6}
                     md={6}
                     sm={6}
+                    xl={3}
                     className={styles["stat-col"]}
                   >
                     <div className={styles["stat-title"]}>المحادثات</div>
@@ -144,6 +145,7 @@ export default function ProfileTab(props) {
                     lg={6}
                     md={6}
                     sm={6}
+                    xl={3}
                     className={styles["stat-col"]}
                   >
                     <div className={styles["stat-title"]}>الميداليات</div>
@@ -184,16 +186,15 @@ export default function ProfileTab(props) {
                   </Form.Group>
                   <Form.Group controlId="formFile">
                     <InputGroup>
-                    <Form.Label> صورة العرض</Form.Label>
-                    <Form.Control
-                      type="file"
-                      className={styles["img-input"]}
-                      name="file"
-                      onChange={handleImage}
-                    />
+                      <Form.Label> صورة العرض</Form.Label>
+                      <Form.Control
+                        type="file"
+                        className={styles["img-input"]}
+                        name="file"
+                        onChange={handleImage}
+                      />
                     </InputGroup>
                   </Form.Group>
-                  
                 </Form>
               </Fade>
             </div>

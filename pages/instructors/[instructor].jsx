@@ -68,7 +68,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: { data: data },
-    revalidate: 1,
+    revalidate: 3,
   };
 };
 
@@ -85,9 +85,11 @@ export default function instructorDetails({ data }) {
     hasEvaluatedQuery,
     {
       skip: userContext.user.status !== USER.LOGGED_IN,
-      variables: { instructorId: data.instructor.id },
+      variables: { instructorId:  data.instructor.id },
     }
   );
+
+ 
 
   useEffect(() => {
     if (userContext.user.status === USER.LOGGED_IN) {
@@ -102,8 +104,8 @@ export default function instructorDetails({ data }) {
   }, [loadingHasEvaluated, userContext.user.status]);
 
   useEffect(() => {
-    console.log(data);
-  }, []);
+    console.log(data.instructor);
+  }, [data]);
   
     if (router.isFallback) {
     return <div>Loading...</div>

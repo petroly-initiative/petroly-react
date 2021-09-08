@@ -99,6 +99,14 @@ $txt-high: #0091e7;
   margin-top: 8px;
 }
 
+.evals-row{
+  width: 100%;
+  padding: 8px;
+  margin: 0;
+}
+
+
+
 .user-email {
   font-weight: 600;
   color: $txt-fill;
@@ -122,6 +130,7 @@ $txt-high: #0091e7;
 
 .header-search{
   width: 100% !important;
+  margin-right: 5px;
 }
 .pic-border {
   display: flex;
@@ -146,6 +155,8 @@ $txt-high: #0091e7;
   border-radius: 25px;
   background-color: unset !important;
   border: unset !important;
+  padding: 0 !important;
+  margin-left: 4px;
   color: $txt-fill;
   &:hover {
     color: $btn-primary;
@@ -183,4 +194,23 @@ $txt-high: #0091e7;
   font-size: 22px;
   font-weight: 700;
   color: $txt-fill;
+}
+
+.eval-cards{
+  height: 450px;
+  overflow-y: scroll;
+}
+
+.eval-cards::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.eval-cards::-webkit-scrollbar-track {
+  background: white;
+  box-shadow: inset 0 0 0.3rem rgb(218, 218, 218);
+}
+
+.eval-cards::-webkit-scrollbar-thumb {
+  background: #969696;
+  border-radius: 0.15rem;
 }

@@ -112,11 +112,12 @@
 
 .info-container {
   width: 100%;
-  height: 70px;
   display: flex;
+  flex-direction: column;
+  text-align: center;
   justify-content: center;
   align-items: center;
-  padding-bottom: 32px;
+  
 }
 
 .instructorPic {
@@ -244,4 +245,14 @@
 
 .course-input {
   text-transform: uppercase;
+}
+
+@media only screen and (max-width: 600px) {
+  .sections{
+    margin: 8px;
+  }
+
+  .evalForm{
+    padding: 8px;
+  }
 }

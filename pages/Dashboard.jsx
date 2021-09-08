@@ -44,8 +44,9 @@ export default function Dashboard(props) {
             }
           >
             <ProfileTab />
-            <GroupsTab />
             <EvaluationsTab />
+            <GroupsTab />
+            
           </Fade>
         </Row>
       </Container>

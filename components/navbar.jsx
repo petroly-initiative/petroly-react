@@ -90,7 +90,6 @@ export default function Navbar(props) {
         dataMe.me.username,
         setProfilePic(dataMe.me.profile.profilePic, setEmail(dataMe.me.email))
       );
-      console.log(dataMe);
     }
   }, [dataMe]);
 
@@ -336,29 +335,38 @@ export default function Navbar(props) {
                             </div>
                             <div className={styles["popup-txt"]}>
                               <strong
-                                style={{
-                                  color: "#2ecfeb",
-                                  fontSize: 18,
-                                  marginBottom: 0,
-                                }}
+                                style={{ color: "#2ecfeb", fontSize: 18 }}
                               >
                                 {username}
                               </strong>
-                              <div className={styles["user-email"]}>
-                                {" "}
-                                {email}
-                              </div>
+                              <br />
+                              {email}
                             </div>
                           </div>
-                          <Button
-                            className={styles["signout-btn"]}
-                            onClick={signOut}
-                          >
-                            <div>
-                              <FaSignInAlt />
-                              تسجيل الخروج
-                            </div>
-                          </Button>
+                          <div className={styles["btn-container"]}>
+                            <Link href="./Dashboard">
+                              <div className={styles["info-btn"]}>
+                                <MdDashboard
+                                  size="1rem"
+                                  style={{ marginLeft: 8 }}
+                                />
+                                لوحة التحكم
+                              </div>
+                            </Link>
+                            <Button
+                              className={styles["signout-btn"]}
+                              onClick={signOut}
+                            >
+                              <div>
+                                {" "}
+                                <FaSignInAlt
+                                  size="1rem"
+                                  style={{ marginLeft: 8 }}
+                                />
+                                تسجيل الخروج
+                              </div>
+                            </Button>
+                          </div>
                         </Popover.Content>
                       </Popover>
                     }

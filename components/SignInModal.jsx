@@ -152,7 +152,6 @@ export default function SignInModal(props) {
         e.preventDefault();
       });
     });
-    console.log(tab)
   }, [tab]);
 
   const hideModal = () => {

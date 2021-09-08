@@ -28,14 +28,17 @@ export default function GroupsTab(props) {
       <Card className={styles["card-containers"] + " shadow"}>
         <Card.Header className={styles["header-containers"]}>
           {mode === "view-all" && (
+            <Fade>
             <div className={styles["card-headers"]}>
               <span className={styles["card-title"]}>مجتمعاتي</span>
               <Button onClick={switchMode} className={styles["btns"]}>
                 <FiSearch size="1.6rem" />
               </Button>
             </div>
+            </Fade>
           )}
           {mode === "search" && (
+            <Fade>
             <div className={styles["card-headers"]}>
               <Form className={styles["header-search"]}>
                 <InputGroup>
@@ -49,6 +52,7 @@ export default function GroupsTab(props) {
                 
               </div>
             </div>
+            </Fade>
           )}
         </Card.Header>
         <Card.Body className={styles["card-body"]}>
