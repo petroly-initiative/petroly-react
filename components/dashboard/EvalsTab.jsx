@@ -33,7 +33,7 @@ export default function EvaluationsTab(props) {
   const switchMode = () => {
     setMode(mode === "view-all" ? "search" : "view-all");
   };
-  const fullList ="";
+  const fullList = "";
   const matchingList = "matching only";
 
   return (
@@ -76,51 +76,25 @@ export default function EvaluationsTab(props) {
         >
           <Row className={styles["evals-row"]}>
             {/* conditoinal mapping between all available and only search match*/}
-            <Col className={{ padding: 4 }} sm={12} md={12} lg={12} xl={6}>
-              {mode === "view-all" && fullList}
-              {mode === "search" && matchingList}
+            <Fade damping={0.05} className={"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"}>
               <EvaluationPreview />
-            </Col>
-            <Col className={{ padding: 4 }} sm={12} md={12} lg={12} xl={6}>
-              {mode === "view-all" && fullList}
-              {mode === "search" && matchingList}
+
               <EvaluationPreview />
-            </Col>
-            <Col className={{ padding: 4 }} sm={12} md={12} lg={12} xl={6}>
-              {mode === "view-all" && fullList}
-              {mode === "search" && matchingList}
+
               <EvaluationPreview />
-            </Col>
-            <Col className={{ padding: 4 }} sm={12} md={12} lg={12} xl={6}>
-              {mode === "view-all" && fullList}
-              {mode === "search" && matchingList}
+
               <EvaluationPreview />
-            </Col>
-            <Col className={{ padding: 4 }} sm={12} md={12} lg={12} xl={6}>
-              {mode === "view-all" && fullList}
-              {mode === "search" && matchingList}
+
               <EvaluationPreview />
-            </Col>
-            <Col className={{ padding: 4 }} sm={12} md={12} lg={12} xl={6}>
-              {mode === "view-all" && fullList}
-              {mode === "search" && matchingList}
+
               <EvaluationPreview />
-            </Col>
-            <Col className={{ padding: 4 }} sm={12} md={12} lg={12} xl={6}>
-              {mode === "view-all" && fullList}
-              {mode === "search" && matchingList}
+
               <EvaluationPreview />
-            </Col>
-            <Col className={{ padding: 4 }} sm={12} md={12} lg={12} xl={6}>
-              {mode === "view-all" && fullList}
-              {mode === "search" && matchingList}
+
               <EvaluationPreview />
-            </Col>
-            <Col className={{ padding: 4 }} sm={12} md={12} lg={12} xl={6}>
-              {mode === "view-all" && fullList}
-              {mode === "search" && matchingList}
+
               <EvaluationPreview />
-            </Col>
+            </Fade>
           </Row>
         </Card.Body>
       </Card>

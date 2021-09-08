@@ -164,12 +164,17 @@ $txt-high: #0091e7;
 
   &:active {
     color: $btn-primary !important;
+    box-shadow: unset !important;
+    border: unset !important;
+    background-color: rgb(214, 214, 214);
   }
 
   &:focus {
     color: $txt-fill;
-    box-shadow: unset;
+    box-shadow: unset !important;
+    border: unset !important;
     background-color: unset;
+    
   }
 }
 
@@ -197,8 +202,11 @@ $txt-high: #0091e7;
 }
 
 .eval-cards{
-  height: 450px;
+  height: 400px;
+  padding: 16px;
   overflow-y: scroll;
+  overflow-x: hidden;
+  margin-bottom: 16px;
 }
 
 .eval-cards::-webkit-scrollbar {
@@ -212,5 +220,5 @@ $txt-high: #0091e7;
 
 .eval-cards::-webkit-scrollbar-thumb {
   background: #969696;
-  border-radius: 0.15rem;
+
 }

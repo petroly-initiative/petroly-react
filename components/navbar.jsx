@@ -344,7 +344,7 @@ export default function Navbar(props) {
                             </div>
                           </div>
                           <div className={styles["btn-container"]}>
-                            <Link href="./Dashboard">
+                            <Link href="/Dashboard">
                               <div className={styles["info-btn"]}>
                                 <MdDashboard
                                   size="1rem"
@@ -505,7 +505,7 @@ export default function Navbar(props) {
                           </div>
                         </div>
                         <div className={styles["btn-container"]}>
-                          <Link href="./Dashboard">
+                          <Link href="/Dashboard">
                             <div className={styles["info-btn"]}>
                               <MdDashboard
                                 size="1rem"

@@ -1,0 +1,89 @@
+$txt-fill: #52575dc0;
+$btn-primary: #01dac4;
+$txt-high: #0091e7;
+
+.pic-border {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 6px;
+  margin: 8px;
+  height: 58px;
+  width: 58px;
+  border-radius: 29px;
+}
+
+.profile-pic {
+  border-radius: 70px;
+}
+
+.card-body{
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    box-shadow: 0 0.125rem 0.4rem rgba(0, 0, 0, 0.125) !important;
+    border: unset;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    position: relative;
+    cursor: pointer;
+    transition: 500ms ease;
+   .btns{
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    margin: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    background-color: unset;
+    border: unset;
+    opacity: 0;
+    transition: 500ms ease;
+}
+
+
+    &:hover, &:active, &:focus{
+        transform: scale(1.05);
+        .btns{
+            opacity: 1;
+        }
+    }
+}
+
+.btns-container{
+    margin-left:  auto;
+    display: flex;
+}
+
+.group-name{
+    color: $txt-high;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.group-type{
+    font-weight: 600;
+}
+
+
+
+.edit-btn{
+    color: $btn-primary;
+    &:hover{
+        background-color: $txt-high;
+    }
+}
+
+.delete-btn{
+    color: red;
+    &:hover{
+        background-color: $txt-high;
+    }
+}

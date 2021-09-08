@@ -1,4 +1,12 @@
-import { Col, Card, Button, Row, Form, InputGroup, FormControl } from "react-bootstrap";
+import {
+  Col,
+  Card,
+  Button,
+  Row,
+  Form,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import { useState } from "react";
 import styles from "../../styles/dashboard-page/dashboard-tabs.module.scss";
 import GroupPreview from "./GroupPrev";
@@ -29,37 +37,44 @@ export default function GroupsTab(props) {
         <Card.Header className={styles["header-containers"]}>
           {mode === "view-all" && (
             <Fade>
-            <div className={styles["card-headers"]}>
-              <span className={styles["card-title"]}>مجتمعاتي</span>
-              <Button onClick={switchMode} className={styles["btns"]}>
-                <FiSearch size="1.6rem" />
-              </Button>
-            </div>
-            </Fade>
-          )}
-          {mode === "search" && (
-            <Fade>
-            <div className={styles["card-headers"]}>
-              <Form className={styles["header-search"]}>
-                <InputGroup>
-                  <FormControl />
-                </InputGroup>
-              </Form>
-              <div className={styles["search-set"]} >
+              <div className={styles["card-headers"]}>
+                <span className={styles["card-title"]}>مجتمعاتي</span>
                 <Button onClick={switchMode} className={styles["btns"]}>
                   <FiSearch size="1.6rem" />
                 </Button>
-                
               </div>
-            </div>
+            </Fade>
+          )}
+          {mode === "search" && (
+            <Fade className={styles["fader"]}>
+              <div className={styles["card-headers"]}>
+                <Form className={styles["header-search"]}>
+                  <InputGroup>
+                    <FormControl />
+                  </InputGroup>
+                </Form>
+                <div className={styles["search-set"]}>
+                  <Button onClick={switchMode} className={styles["btns"]}>
+                    <FiSearch size="1.6rem" />
+                  </Button>
+                </div>
+              </div>
             </Fade>
           )}
         </Card.Header>
-        <Card.Body className={styles["card-body"]}>
+        <Card.Body className={styles["card-body"] + " " + styles["eval-cards"]}>
           {/* A list will be populated via a custom component */}
           <Row>
-            <Col>{mode === "view-all" && fullList}</Col>
-            <Col>{mode === "search" && matchingList}</Col>
+            <Fade triggerOnce className={"col col-xs-12"}>
+              <GroupPreview />
+              <GroupPreview />
+              <GroupPreview />
+              <GroupPreview />
+
+              <GroupPreview />
+              <GroupPreview />
+              <GroupPreview />
+            </Fade>
           </Row>
         </Card.Body>
       </Card>
