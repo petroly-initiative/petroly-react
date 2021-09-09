@@ -12,6 +12,7 @@ $txt-fill: #52575d;
   padding: 5px;
   margin: 2px;
   cursor: pointer;
+  box-shadow: 0 .225rem .3rem rgba(0, 0, 0, 0.171)!important;
   &:hover {
     transform: scale(1.05);
   }
@@ -51,6 +52,7 @@ $txt-fill: #52575d;
 
 .tags {
   display: flex;
+  
   width: 40%;
   justify-content: flex-start;
 }
@@ -60,6 +62,10 @@ $txt-fill: #52575d;
   padding: 8px;
   margin-bottom: 16px;
   box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.15) !important;
+  transition: 300ms ease;
+  &:hover{
+    transform: scale(1.05);
+  }
 }
 
 .section-icon {
@@ -68,12 +74,18 @@ $txt-fill: #52575d;
 
 .dates {
   color: $txt-fill;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  cursor: default;
+  padding: 6px;
+  border-radius: 8px;
+   box-shadow: 0 .125rem .3rem rgba(0, 0, 0, 0.171)!important;
 }
 
 .headers {
   width: 100%;
-  font-size: 20px;
+ 
+
+  font-size: 2vmin;
   font-weight: 600;
   text-align: right;
   padding-right: 8px;
@@ -95,4 +107,24 @@ $txt-fill: #52575d;
 .stars span {
   margin-left: 12px;
   margin-left: 12px;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .headers{
+    font-size: 4vmin;
+  }
+  .stars span{
+    font-size: 15px !important;
+  }
+
+  .sections{
+    &:hover{
+    transform: unset
+  }
+  }
+
+  .card-body{
+    padding: 6px;
+  }
 }

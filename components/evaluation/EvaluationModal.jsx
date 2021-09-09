@@ -1,4 +1,10 @@
-import { useEffect, useReducer, useState, useContext, useCallback } from "react";
+import {
+  useEffect,
+  useReducer,
+  useState,
+  useContext,
+  useCallback,
+} from "react";
 import {
   Modal,
   Col,
@@ -17,10 +23,9 @@ import { BsStarFill, BsStar, BsPersonBoundingBox } from "react-icons/bs";
 import { FaChalkboardTeacher, FaClipboardCheck } from "react-icons/fa";
 import { Image } from "next/dist/client/image";
 import { FaSave } from "react-icons/fa";
-import { ImCancelCircle } from "react-icons/im";
 import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
-import { MdWarning } from "react-icons/md";
+import { MdWarning, MdCancel } from "react-icons/md";
 import { evalReducer } from "../../state-management/evaluation-state/evaluationReducer";
 import { evaluationCreateMutation } from "../../api/mutations";
 import { useMutation } from "@apollo/client";
@@ -33,7 +38,6 @@ import { Fade } from "react-awesome-reveal";
  * - validation system for the suer input
  */
 export default function EvaluationModal(props) {
-
   const userContext = useContext(UserContext);
   // modal state
   const [submissionState, dispatch] = useReducer(evalReducer, {
@@ -71,17 +75,13 @@ export default function EvaluationModal(props) {
 
   const setCourse = (e) => {
     setExtra((state) => ({ term: state.term, course: e.target.value }));
-    if(/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value)){
-      setCourseInvalid(false)
-    }
-    else
-    setCourseInvalid(true)
-    
+    if (/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value)) {
+      setCourseInvalid(false);
+    } else setCourseInvalid(true);
   };
   const setTerm = (e) => {
     setExtra((state) => ({ term: e.target.value, course: state.course }));
     setTermInvalid(!Number.isInteger(parseInt(e.target.value)));
-    
   };
 
   const gradeRate = (val) => {
@@ -142,21 +142,18 @@ export default function EvaluationModal(props) {
         show: true,
         msg: "الرجاء تعبئة الخانات المطلوبة لتسجيل الدخول",
       });
-    setValidated(true);
-    }
-    else
-      evaluationCreate();    
+      setValidated(true);
+    } else evaluationCreate();
   };
-
 
   useEffect(() => {
     if (submissionState.sucess) props.close();
   }, [submissionState]);
 
   useEffect(() => {
-    if (dataEvaluationCreate){
+    if (dataEvaluationCreate) {
       console.log(dataEvaluationCreate);
-      if(dataEvaluationCreate.evaluationCreate.ok){
+      if (dataEvaluationCreate.evaluationCreate.ok) {
         setWaiting(true);
         setTimeout(() => location.reload(), 1900);
       }
@@ -191,11 +188,14 @@ export default function EvaluationModal(props) {
             styles["body-container"],
           ]}
         >
-          <section className={styles.sections}>
+          <section
+            style={{ borderBottom: "unset", paddingBottom: 8 }}
+            className={styles.sections}
+          >
             <div className={styles["info-container"]}>
               <div
                 style={{ borderRadius: "35px" }}
-                className={styles.instructorPic + " shadow"}
+                className={styles.instructorPic + " shadow-sm"}
               >
                 {props.image}
               </div>
@@ -229,7 +229,7 @@ export default function EvaluationModal(props) {
             id={"evalForm"}
             validated={validated}
           >
-            <section className={styles.sections}>
+            <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div className={styles.titles}>معلومات التقييم</div>
                 <div className={styles.descriptions}>
@@ -297,7 +297,7 @@ export default function EvaluationModal(props) {
                 </Col>
               </Form.Row>
             </section>
-            <section className={styles.sections + " shadow"}>
+            <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div style={{ color: "#F037A5" }} className={styles.titles}>
                   التصحيح والدرجات
@@ -335,7 +335,7 @@ export default function EvaluationModal(props) {
                 ></FormControl>
               </InputGroup>
             </section>
-            <section className={styles.sections + " shadow"}>
+            <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div style={{ color: "#3DB2FF" }} className={styles.titles}>
                   التدريس
@@ -372,7 +372,7 @@ export default function EvaluationModal(props) {
                 ></FormControl>
               </InputGroup>
             </section>
-            <section className={styles.sections + " shadow"}>
+            <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div style={{ color: "#FF6666" }} className={styles.titles}>
                   الشخصية
@@ -413,19 +413,19 @@ export default function EvaluationModal(props) {
         <Modal.Footer className={styles["modal-footer"]}>
           <OverlayTrigger
             placement="top"
-            delay={{ show: 500, hide: 400 }}
+            delay={{ show: 1000, hide: 300 }}
             overlay={<Tooltip id="button-tooltip-2">حذف التقييم</Tooltip>}
           >
             <Button
               onClick={props.close}
               className={[styles["btns"], styles["cancel-btn"]]}
             >
-              <ImCancelCircle size="1.7rem" />
+              <MdCancel size="2rem" />
             </Button>
           </OverlayTrigger>
           <OverlayTrigger
             placement="top"
-            delay={{ show: 500, hide: 400 }}
+            delay={{ show: 1000, hide: 300 }}
             overlay={<Tooltip id="button-tooltip-2">تسليم التقييم</Tooltip>}
           >
             {waiting ? (
@@ -435,7 +435,7 @@ export default function EvaluationModal(props) {
                 onClick={fireEval}
                 className={[styles["btns"], styles["submit-btn"]]}
               >
-                <FaSave size="1.7rem" />
+                <FaSave size="2rem" />
               </Button>
             )}
           </OverlayTrigger>

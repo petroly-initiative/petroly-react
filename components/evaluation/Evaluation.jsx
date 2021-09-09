@@ -20,9 +20,7 @@ export default function Evaluation(props) {
     else return "#f76a9b";
   };
 
-  useEffect(() => {
-    console.log(colorFilter(parseInt(props.rating[2].split("_")[1]) / 20));
-  });
+
 
   return (
     <>

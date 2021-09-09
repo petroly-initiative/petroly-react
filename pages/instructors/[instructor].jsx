@@ -68,7 +68,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: { data: data },
-    revalidate: 1,
+    revalidate: 3,
   };
 };
 
@@ -85,9 +85,11 @@ export default function instructorDetails({ data }) {
     hasEvaluatedQuery,
     {
       skip: userContext.user.status !== USER.LOGGED_IN,
-      variables: { instructorId: data.instructor.id },
+      variables: { instructorId:  data.instructor.id },
     }
   );
+
+ 
 
   useEffect(() => {
     if (userContext.user.status === USER.LOGGED_IN) {
@@ -102,8 +104,8 @@ export default function instructorDetails({ data }) {
   }, [loadingHasEvaluated, userContext.user.status]);
 
   useEffect(() => {
-    console.log(data);
-  }, []);
+    console.log(data.instructor);
+  }, [data]);
   
     if (router.isFallback) {
     return <div>Loading...</div>
@@ -165,13 +167,7 @@ export default function instructorDetails({ data }) {
       <Container className={styles.container}>
         <Row
         className={styles["col-container"]}
-          style={{
-            margin: "16px !important",
-            padding: "16px",
-            display: "flex !important",
-            alignItems: "center !important",
-            width: "100%",
-          }}
+          
         >
           <Col xl={4} lg={6} className={styles.statsCol}>
             <Card style={{ borderRadius: 8 }} className={"shadow border-0"}>
@@ -221,7 +217,7 @@ export default function instructorDetails({ data }) {
               style={{ borderRadius: 8 }}
               className={styles.statContainer + " shadow"}
             >
-              <Card.Body className={styles.statsCard}>
+              <Card.Body className={styles.statsCard + " shadow"}>
                 <div className={styles.containerHeaders}>التقييم العام</div>
                 <InstructorRates
                   overall={data.instructor.overallFloat}
