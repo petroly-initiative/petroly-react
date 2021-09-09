@@ -43,10 +43,16 @@ export default function Dashboard(props) {
               " col-sm-12 col-xs-12 col-md-12 col-lg-6 col-xl-6"
             }
           >
-            <ProfileTab />
+            <ProfileTab
+              username="Muhab Abubaker"
+              email="mohababubakir2001@gmail.com"
+              evalNum="45"
+              groupNum="7"
+              chatNum="16"
+              medalNum="12"
+            />
             <EvaluationsTab />
             <GroupsTab />
-            
           </Fade>
         </Row>
       </Container>

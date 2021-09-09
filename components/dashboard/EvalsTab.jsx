@@ -22,7 +22,6 @@ import { FiSearch } from "react-icons/fi";
  * - The component will have two states
  * *view-all: header is visible and all evals are showing
  * *search: a searchbar is visible with a cancel btn, only matching names will be showing
- * ! The seaching function will be handled locally in reactJS for this process
  *
  * - Instructor data will be mapped via a custom component
  */
@@ -33,6 +32,8 @@ export default function EvaluationsTab(props) {
   const switchMode = () => {
     setMode(mode === "view-all" ? "search" : "view-all");
   };
+
+  // ? The mapped componentes will be stores in either according to mode
   const fullList = "";
   const matchingList = "matching only";
 
@@ -41,7 +42,7 @@ export default function EvaluationsTab(props) {
       <Card className={styles["card-containers"] + " shadow"}>
         <Card.Header className={styles["header-containers"]}>
           {mode === "view-all" && (
-            <Fade>
+            <Fade triggerOnce>
               <div className={styles["card-headers"]}>
                 <span className={styles["card-title"]}>تقييماتي</span>
                 <Button on onClick={switchMode} className={styles["btns"]}>
@@ -51,7 +52,7 @@ export default function EvaluationsTab(props) {
             </Fade>
           )}
           {mode === "search" && (
-            <Fade>
+            <Fade triggerOnce>
               <div className={styles["card-headers"]}>
                 <Form className={styles["header-search"]}>
                   <InputGroup>
@@ -76,24 +77,52 @@ export default function EvaluationsTab(props) {
         >
           <Row className={styles["evals-row"]}>
             {/* conditoinal mapping between all available and only search match*/}
-            <Fade damping={0.05} className={"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"}>
-              <EvaluationPreview />
-
-              <EvaluationPreview />
-
-              <EvaluationPreview />
-
-              <EvaluationPreview />
-
-              <EvaluationPreview />
-
-              <EvaluationPreview />
-
-              <EvaluationPreview />
-
-              <EvaluationPreview />
-
-              <EvaluationPreview />
+            <Fade triggerOnce
+              damping={0.05}
+              className={"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"}
+            >
+              <EvaluationPreview
+                pic="/images/spongy.png"
+                name="Muhab"
+                dept="ICS"
+                overall={5}
+              />
+              <EvaluationPreview
+                pic="/images/muhabpower.png"
+                name="Naruto"
+                dept="Shinobi"
+                overall={5}
+              />
+              <EvaluationPreview
+                pic="/images/muhabpower.png"
+                name="Ammar"
+                dept="ICS"
+                overall={5}
+              />
+              <EvaluationPreview
+                pic="/images/muhabpower.png"
+                name="Haitham"
+                dept="ICS"
+                overall={2}
+              />
+              <EvaluationPreview
+                pic="/images/muhabpower.png"
+                name="Ziyad"
+                dept="ICS"
+                overall={5}
+              />
+              <EvaluationPreview
+                pic="/images/muhabpower.png"
+                name="Nawwaf"
+                dept="ICS"
+                overall={5}
+              />
+              <EvaluationPreview
+                pic="/images/muhabpower.png"
+                name="Nawwaf"
+                dept="ICS"
+                overall={5}
+              />
             </Fade>
           </Row>
         </Card.Body>

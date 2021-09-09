@@ -36,7 +36,7 @@ export default function GroupsTab(props) {
       <Card className={styles["card-containers"] + " shadow"}>
         <Card.Header className={styles["header-containers"]}>
           {mode === "view-all" && (
-            <Fade>
+            <Fade triggerOnce>
               <div className={styles["card-headers"]}>
                 <span className={styles["card-title"]}>مجتمعاتي</span>
                 <Button onClick={switchMode} className={styles["btns"]}>
@@ -46,7 +46,7 @@ export default function GroupsTab(props) {
             </Fade>
           )}
           {mode === "search" && (
-            <Fade className={styles["fader"]}>
+            <Fade triggerOnce className={styles["fader"]}>
               <div className={styles["card-headers"]}>
                 <Form className={styles["header-search"]}>
                   <InputGroup>
@@ -65,15 +65,37 @@ export default function GroupsTab(props) {
         <Card.Body className={styles["card-body"] + " " + styles["eval-cards"]}>
           {/* A list will be populated via a custom component */}
           <Row>
-            <Fade triggerOnce className={"col col-xs-12"}>
-              <GroupPreview />
-              <GroupPreview />
-              <GroupPreview />
-              <GroupPreview />
-
-              <GroupPreview />
-              <GroupPreview />
-              <GroupPreview />
+            <Fade
+              triggerOnce
+              className={
+                "col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"
+              }
+            >
+              <GroupPreview
+                pic="/images/muhabpower.png"
+                name="ICS Nerds"
+                type="Discord"
+              />
+              <GroupPreview
+                pic="/images/muhabpower.png"
+                name="ICS202 Section6"
+                type="Whatsapp"
+              />
+              <GroupPreview
+                pic="/images/muhabpower.png"
+                name="Web development"
+                type="Discord"
+              />
+              <GroupPreview
+                pic="/images/muhabpower.png"
+                name="ICS Nerds"
+                type="Telegram"
+              />
+              <GroupPreview
+                pic="/images/muhabpower.png"
+                name="ICS Nerds"
+                type="Telegram"
+              />
             </Fade>
           </Row>
         </Card.Body>

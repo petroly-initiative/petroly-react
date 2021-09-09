@@ -118,7 +118,7 @@ export default function CustomPagination(props) {
 
   return (
     <>
-      <Pagination className = "shadow">
+      <Pagination className={styles["pagination-container"] + " shadow"}>
         {props.currentPage == 1 ? (
           <Pagination.First
             style={{ color: "#212529" }}

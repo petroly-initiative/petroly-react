@@ -26,6 +26,19 @@ import Image from "next/image";
  * TODO: Create a modal to recieve the image file
  */
 
+/**
+ *
+ * @param {*} props {
+ * username,
+ * email.
+ * profile pic,
+ * evalNum,
+ * groupNum,
+ * chatNum,
+ * medalNum}
+ * @returns The profile tab
+ */
+
 export default function ProfileTab(props) {
   const [mode, setMode] = useState("view");
 
@@ -35,7 +48,7 @@ export default function ProfileTab(props) {
 
   const handleImage = () => {
     // do something
-  }
+  };
 
   return (
     <>
@@ -83,10 +96,8 @@ export default function ProfileTab(props) {
                   src="/images/muhabpower.png"
                 />
               </div>
-              <div className={styles["user-name"]}>مهاب أبوبكر</div>
-              <div className={styles["user-email"]}>
-                mohababubakir2001@gmail.com
-              </div>
+              <div className={styles["user-name"]}>{props.username}</div>
+              <div className={styles["user-email"]}>{props.email}</div>
               <Fade className={styles["fader"]}>
                 <Row className={styles["stats-container"]}>
                   <Col
@@ -103,7 +114,7 @@ export default function ProfileTab(props) {
                         className={styles["rate-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>45</div>
+                      <div className={styles["stat-num"]}>{props.evalNum}</div>
                     </Card>
                   </Col>
                   <Col
@@ -120,7 +131,7 @@ export default function ProfileTab(props) {
                         className={styles["comms-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>13</div>
+                      <div className={styles["stat-num"]}>{props.groupNum}</div>
                     </Card>
                   </Col>
                   <Col
@@ -137,7 +148,7 @@ export default function ProfileTab(props) {
                         className={styles["chat-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>45</div>
+                      <div className={styles["stat-num"]}>{props.chatNum}</div>
                     </Card>
                   </Col>
                   <Col
@@ -154,7 +165,7 @@ export default function ProfileTab(props) {
                         className={styles["medal-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>3</div>
+                      <div className={styles["stat-num"]}>{props.medalNum}</div>
                     </Card>
                   </Col>
                 </Row>

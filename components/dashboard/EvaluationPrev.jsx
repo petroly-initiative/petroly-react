@@ -47,11 +47,11 @@ const launchModal = () => {
                 width="80"
                 height="80"
                 className={styles["profile-pic"]}
-                src="/images/muhabpower.png"
+                src= {props.pic}
               />
             </div>
-            <div className={styles["instructor-name"]}>Yahya Garout</div>
-            <div className={styles["instructor-dept"]}>ICS</div>
+            <div className={styles["instructor-name"]}>{props.name}</div>
+            <div className={styles["instructor-dept"]}>{props.dept}</div>
           </div>
           {/* eval stars container */}
           <div className={styles["rate-container"]}>
@@ -61,7 +61,7 @@ const launchModal = () => {
               edit={false}
               emptyIcon={<BsStar />}
               filledIcon={<BsStarFill />}
-              value={4}
+              value={props.overall}
               activeColor="#ffd700"
             />
           </div>
