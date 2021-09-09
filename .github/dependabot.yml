@@ -13,6 +13,6 @@ updates:
       time: "12:00"
       timezone: "Asia/Riyadh"
     commit-message:
-      prefix: "updates bot"
+      prefix: "depBot "
       include: "scope"
     open-pull-requests-limit: 10
