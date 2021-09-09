@@ -13,6 +13,6 @@ updates:
       time: "12:00"
       timezone: "Asia/Riyadh"
     commit-message:
-    prefix: "dependency update bot"
-    include: "scope"
+      prefix: "dependency update bot"
+      include: "scope"
     open-pull-requests-limit: 2
