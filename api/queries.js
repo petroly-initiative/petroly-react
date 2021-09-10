@@ -72,13 +72,16 @@ export const getDepartments = gql`
 `;
 
 export const meQuery = gql`
-  query ME {
+  query Me {
     me {
       id
       username
       email
       profile {
         profilePic
+      }
+      evaluationSet {
+        count
       }
     }
   }

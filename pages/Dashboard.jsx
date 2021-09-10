@@ -1,10 +1,15 @@
-import { Col, Row, Container, Card } from "react-bootstrap";
+import { Col, Row, Container, Card, Spinner } from "react-bootstrap";
 import EvaluationsTab from "../components/dashboard/EvalsTab";
 import ProfileTab from "../components/dashboard/ProfileTab";
 import GroupsTab from "../components/dashboard/GroupsTab";
 import styles from "../styles/dashboard-page/dashboard-container.module.scss";
 import Navbar from "../components/navbar";
 import { Fade } from "react-awesome-reveal";
+import { useContext } from "react";
+import { UserContext } from "../state-management/user-state/UserContext";
+import { useQuery } from "@apollo/client";
+import { meQuery } from "../api/queries";
+import { USER } from "../constants";
 /**
  *
  * ? Dasboard page setup:
@@ -26,6 +31,17 @@ import { Fade } from "react-awesome-reveal";
 // }
 
 export default function Dashboard(props) {
+  const userContext = useContext(UserContext);
+
+  const {
+    data: dataMe,
+    loading: loadingMe,
+    error: errorMe,
+  } = useQuery(meQuery, {
+    notifyOnNetworkStatusChange: true,
+    skip: userContext.user.status !== USER.LOGGED_IN,
+  });
+
   return (
     <>
       <Navbar />
@@ -43,14 +59,7 @@ export default function Dashboard(props) {
               " col-sm-12 col-xs-12 col-md-12 col-lg-6 col-xl-6"
             }
           >
-            <ProfileTab
-              username="Muhab Abubaker"
-              email="mohababubakir2001@gmail.com"
-              evalNum="45"
-              groupNum="7"
-              chatNum="16"
-              medalNum="12"
-            />
+            <ProfileTab />
             <EvaluationsTab />
             <GroupsTab />
           </Fade>

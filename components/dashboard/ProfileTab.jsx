@@ -6,6 +6,7 @@ import {
   Form,
   InputGroup,
   FormControl,
+  Spinner,
 } from "react-bootstrap";
 import { useState } from "react";
 import styles from "../../styles/dashboard-page/dashboard-tabs.module.scss";
@@ -16,6 +17,11 @@ import { HiUserGroup } from "react-icons/hi";
 import { IoMdChatbubbles } from "react-icons/io";
 import { Fade } from "react-awesome-reveal";
 import Image from "next/image";
+import { useContext } from "react";
+import { useQuery } from "@apollo/client";
+import { meQuery } from "../../api/queries";
+import { USER } from "../../constants";
+import { UserContext } from "../../state-management/user-state/UserContext";
 /**
  *
  * ? State management:
@@ -41,6 +47,16 @@ import Image from "next/image";
 
 export default function ProfileTab(props) {
   const [mode, setMode] = useState("view");
+  const userContext = useContext(UserContext);
+
+  const {
+    data: dataMe,
+    loading: loadingMe,
+    error: errorMe,
+  } = useQuery(meQuery, {
+    notifyOnNetworkStatusChange: true,
+    skip: userContext.user.status !== USER.LOGGED_IN,
+  });
 
   const switchMode = () => {
     setMode(mode === "view" ? "edit" : "view");
@@ -49,6 +65,16 @@ export default function ProfileTab(props) {
   const handleImage = () => {
     // do something
   };
+
+  if (loadingMe) {
+    return <Spinner animation="border" role="status" />;
+  }
+  if (!dataMe) {
+    return null;
+  }
+  if (errorMe) {
+    return <p>Error loading your profile info</p>;
+  }
 
   return (
     <>
@@ -93,11 +119,11 @@ export default function ProfileTab(props) {
                   width="140"
                   height="140"
                   className={styles["profile-pic"]}
-                  src="/images/muhabpower.png"
+                  src={dataMe.me.profile.profilePic}
                 />
               </div>
-              <div className={styles["user-name"]}>{props.username}</div>
-              <div className={styles["user-email"]}>{props.email}</div>
+              <div className={styles["user-name"]}>{dataMe.me.username}</div>
+              <div className={styles["user-email"]}>{dataMe.me.email}</div>
               <Fade className={styles["fader"]}>
                 <Row className={styles["stats-container"]}>
                   <Col
@@ -114,7 +140,9 @@ export default function ProfileTab(props) {
                         className={styles["rate-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>{props.evalNum}</div>
+                      <div className={styles["stat-num"]}>
+                        {dataMe.me.evaluationSet.count}
+                      </div>
                     </Card>
                   </Col>
                   <Col
@@ -131,7 +159,7 @@ export default function ProfileTab(props) {
                         className={styles["comms-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>{props.groupNum}</div>
+                      <div className={styles["stat-num"]}>#</div>
                     </Card>
                   </Col>
                   <Col
@@ -148,7 +176,7 @@ export default function ProfileTab(props) {
                         className={styles["chat-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>{props.chatNum}</div>
+                      <div className={styles["stat-num"]}>#</div>
                     </Card>
                   </Col>
                   <Col
@@ -165,7 +193,7 @@ export default function ProfileTab(props) {
                         className={styles["medal-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>{props.medalNum}</div>
+                      <div className={styles["stat-num"]}>#</div>
                     </Card>
                   </Col>
                 </Row>
@@ -183,7 +211,7 @@ export default function ProfileTab(props) {
                     width="140"
                     height="140"
                     className={styles["profile-pic"]}
-                    src="/images/muhabpower.png"
+                    src={dataMe.me.profile.profilePic}
                   ></Image>
                 </Fade>
               </div>
@@ -192,7 +220,7 @@ export default function ProfileTab(props) {
                   <Form.Group>
                     <Form.Label>اسم المستخدم</Form.Label>
                     <InputGroup>
-                      <FormControl type="text" value="مهاب أبوبكر" />
+                      <FormControl type="text" value={dataMe.me.username} />
                     </InputGroup>
                   </Form.Group>
                   <Form.Group controlId="formFile">
