@@ -1,4 +1,5 @@
 $txt-fill: #52575d;
+$txt-hg: #0091E7;
 
 .list_container {
   margin-right: 5rem !important;
@@ -94,29 +95,56 @@ $txt-fill: #52575d;
   position: fixed;
   left: calc(50vw - 5rem);
   top: calc(50vh - 50px);
-  padding: 8px;
-  width: 100px;
-  height: 120px;
-  border-radius: 3px !important;
-    -webkit-border-radius: 3px !important;
-  -moz-border-radius: 3px !important;
-  -ms-border-radius: 3px !important;
-  -o-border-radius: 3px !important;
+  padding: 4px;
+  width: 110px;
+  height: 110px;
+  border-radius: 55px !important;
+
   .loading-spinner
 {
     width: 65px;
     height: 65px;
-    background-color: #00ffe591 !important;
+    color: #00ffe591 !important;
   }
 
-  .loading-text {
+ 
+
+}
+
+.error-container{
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  flex-direction: column;
+  .error-img{
+    padding: 30px;
+  }
+
+  .error-txt{
     font-weight: 700;
-    font-size: 12px;
-    margin-top: 12px;
-    padding: 4px;
-    color: $txt-fill;
+    color: rgb(105, 105, 105);
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 16px;
+    transition: 500ms ease;
   }
 
+  .form-link{
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: $txt-hg;
+    font-weight: 600;
+    transition: 500ms ease;
+    &:hover{
+      transform: scale(1.05);
+      background-color: #00e0ce;
+    }
+  }
 }
 
 .picDiv {
