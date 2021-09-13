@@ -216,7 +216,7 @@ function instructorsList() {
               role="status"
               aria-hidden="true"
             />
-            <div className={styles["loading-text"]}>جاري التحميل </div>
+          
           </Button>
         </Container>
       </>

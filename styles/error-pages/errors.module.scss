@@ -33,12 +33,13 @@ $btn-hg: #0091e7;
   cursor: pointer;
   margin-top: 32px;
   font-weight: 700;
+  transition: 500ms ease;
   a {
     color: white !important;
   }
 
   &:hover {
     transform: scale(1.05);
-    background-color: #0076bb;
+    background-color: #0cf8f8;
   }
 }
