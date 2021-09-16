@@ -1,3 +1,6 @@
+$txt-fill: #52575d;
+$txt-hg: #0091E7;
+
 .list_container {
   margin-right: 5rem !important;
   max-width: calc(100vw - 5rem) !important;
@@ -25,6 +28,7 @@
 .search_btn {
   background-color: #00ead3 !important;
   border: none;
+  border-radius: 0;
   height: 100% !important;
   &:hover {
     background-color: #05e6cf !important;
@@ -87,32 +91,67 @@
 }
 
 .loading-container {
-  background-color: #00eed6ab !important;
+  background-color: #ffffff !important;
   border: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   left: calc(50vw - 5rem);
   top: calc(50vh - 50px);
-  padding: 8px;
-  width: 100px;
-  height: 120px;
-  border-radius: 3px !important;
-    -webkit-border-radius: 3px !important;
-  -moz-border-radius: 3px !important;
-  -ms-border-radius: 3px !important;
-  -o-border-radius: 3px !important;
+  padding: 0px;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px !important;
+    -webkit-border-radius: 40px !important;
+  -moz-border-radius: 40px !important;
+  -ms-border-radius: 40px !important;
+  -o-border-radius: 40px !important;
   .loading-spinner
 {
     width: 65px;
     height: 65px;
+    color: #00ffe591 !important;
   }
 
-  .loading-text {
+ 
+
+}
+
+.error-container{
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  flex-direction: column;
+  .error-img{
+    padding: 30px;
+  }
+
+  .error-txt{
     font-weight: 700;
-    font-size: 12px;
-    margin-top: 12px;
-    padding: 4px;
+    color: rgb(105, 105, 105);
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 16px;
+    transition: 500ms ease;
   }
 
+  .form-link{
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: $txt-hg;
+    font-weight: 600;
+    transition: 500ms ease;
+    &:hover{
+      transform: scale(1.05);
+      background-color: #00e0ce;
+    }
+  }
 }
 
 .picDiv {
@@ -126,7 +165,8 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 16px;
+  margin: auto;
+  margin-top: 16px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -135,9 +175,15 @@
     max-width: 100vw !important;
     height: calc(100vh - 5rem);
     top: 5rem;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 0%;
   }
 
   .loading-container{
-      margin-right: 0;
+      left: calc(50vw - 50px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
   }
 }

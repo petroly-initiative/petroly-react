@@ -1,66 +1,101 @@
+$txt-fill: #52575d;
 
-@mixin tagstyle($bg-color){
+@mixin tagstyle($bg-color) {
   background-color: $bg-color;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   font-weight: 700;
+  font-size: 16px;
   border-radius: 4px;
   color: white;
-  padding: 6px;
-  margin: 4px;
+  padding: 5px;
+  margin: 2px;
+  cursor: pointer;
+  box-shadow: 0 .225rem .3rem rgba(0, 0, 0, 0.171)!important;
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
-.cardHeader{
+.card-body {
+  padding: 14px;
+}
+
+.cardHeader {
   display: flex !important;
   justify-content: space-between !important;
-  background-color: #fcf9f9 !important;
+  background-color: #ffffff !important;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.125);
+  border-radius: 10px 10px 0 0 !important;
   align-items: center;
+  padding: 10px;
 }
 
-.feedback_container{
+.feedback_container {
   margin: 16px;
   margin-left: 0px;
   margin-right: 0px;
+  border-radius: 10px !important;
+  border: 1px solid rgba(128, 128, 128, 0.082) !important;
 }
 
-.course{
- @include tagstyle(rgb(45, 223, 223));
- transition: 300ms ease;
-  &:hover{
-    transform: scale(1.05);
- }
+.course {
+  @include tagstyle(#4d9aff);
+  transition: 300ms ease;
 }
 
-.term{
-  @include tagstyle(rgb(34, 159, 241));
+.term {
+  @include tagstyle(#34d5ff);
+  transition: 300ms ease;
+}
+
+.tags {
+  display: flex;
+  
+  width: 40%;
+  justify-content: flex-start;
+}
+
+.sections {
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.15) !important;
   transition: 300ms ease;
   &:hover{
     transform: scale(1.05);
- }
+  }
 }
 
-.tags{
-  display: flex;
-  width: 40%;
-  justify-content: flex-start;
-
-
+.section-icon {
+  margin-left: 8px;
 }
 
-.dates{
-  font-weight: 600 !important;
+.dates {
+  color: $txt-fill;
+  font-weight: 700 !important;
+  cursor: default;
+  padding: 6px;
+  border-radius: 8px;
+   box-shadow: 0 .125rem .3rem rgba(0, 0, 0, 0.171)!important;
 }
 
 .headers {
   width: 100%;
-  font-size: 20px;
-  color: #0091e7;
+ 
+
+  font-size: 2vmin;
   font-weight: 600;
-  text-align:right;
+  text-align: right;
+  padding-right: 8px;
 }
 
-.contentText{
+.contentText {
   width: 100%;
-  unicode-bidi: bidi-override !important;
   text-align: right;
+  color: $txt-fill;
+  padding: 10px;
 }
 
 .stars {
@@ -70,6 +105,26 @@
 }
 
 .stars span {
-    margin-left: 12px;
-    margin-left: 12px;
+  margin-left: 12px;
+  margin-left: 12px;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .headers{
+    font-size: 4vmin;
   }
+  .stars span{
+    font-size: 15px !important;
+  }
+
+  .sections{
+    &:hover{
+    transform: unset
+  }
+  }
+
+  .card-body{
+    padding: 6px;
+  }
+}

@@ -24,13 +24,14 @@ import { useQuery } from "@apollo/client";
 import { instructorsQuery, getDepartments } from "../api/queries";
 
 function instructorsReducer(state, action) {
-  console.log("instructorsReducer");
   switch (action.changeIn) {
     case "name":
       state.name = action.name;
+      state.offset = 0;
       return state;
     case "department":
       state.department = action.department;
+      state.offset = 0;
       return state;
     case "offset":
       state.offset = action.offset;
@@ -104,7 +105,6 @@ function instructorsList() {
 
   // ? detect page-number switching
   const switchPage = (pageNum) => {
-    console.log("switchPage", pageNum);
     instructorsDispatch({ changeIn: "offset", offset: (pageNum - 1) * ITEMS });
     refetch(instructorsState);
   };
@@ -112,9 +112,11 @@ function instructorsList() {
     setStackIndex(index);
   };
 
+  useEffect(() => {}, [stackIndex]);
+
   useEffect(() => {
-    console.log("New index", stackIndex);
-  }, [stackIndex]);
+    console.log(currentList);
+  });
 
   // ? Mappers
   const deptMapper = () =>
@@ -153,8 +155,6 @@ function instructorsList() {
       );
     });
 
-  console.log("Status", networkStatus);
-
   // Loading status
   if (loading || loadingDept) {
     return (
@@ -172,7 +172,7 @@ function instructorsList() {
               xl={7}
               style={{ width: "100% !important" }}
             >
-              <Form>
+              
                 <InputGroup className={styles["search-container"]}>
                   <Form.Control
                     style={{ direction: "rtl" }}
@@ -180,9 +180,17 @@ function instructorsList() {
                     placeholder="أدخِل اسم المحاضِر"
                   ></Form.Control>
                   <InputGroup.Append style={{ height: 38 }}>
-                    <Button className={styles["search_btn"]}>
+                    <Button
+                      type="submit"
+                      onClick={search}
+                      className={styles["search_btn"]}
+                    >
                       <BiSearch size="1.5rem" />
                     </Button>
+                  </InputGroup.Append>
+
+                  <InputGroup.Append>
+                    {/*popover for filters and order*/}
                     <DropdownButton
                       className={styles["dept-dropdown"]}
                       align="start"
@@ -194,33 +202,32 @@ function instructorsList() {
                       </Dropdown.Item>
                       <Dropdown.Divider style={{ height: "1" }} />
                       <Dropdown.Item
+                        id="null"
                         className={styles["depts"]}
                         as={"div"}
                         eventKey="1"
-                        active={true}
+                        onClick={selectDept}
+                        active={instructorsState.department === null}
                       >
-                        None
+                        All departments
                       </Dropdown.Item>
+                      {deptList}
+                      {data}
                     </DropdownButton>
                   </InputGroup.Append>
                 </InputGroup>
-              </Form>
             </Col>
-          </Row>
-          <center>
-            {" "}
-            <Button className={styles["loading-container"]} disabled>
-              <Spinner
-                className={styles["loading-spinner"]}
-                as="div"
-                animation="grow"
-                size="xl"
-                role="status"
-                aria-hidden="true"
-              />
-              <div className={styles["loading-text"]}>جاري التحميل </div>
-            </Button>
-          </center>
+          </Row>{" "}
+          <Button className={styles["loading-container"] + " shadow"} disabled>
+            <Spinner
+              className={styles["loading-spinner"]}
+              as="div"
+              animation="grow"
+              size="xl"
+              role="status"
+              aria-hidden="true"
+            />
+          </Button>
         </Container>
       </>
     );
@@ -228,7 +235,6 @@ function instructorsList() {
 
   // ! Error status
   if (error || errorDept) {
-    console.log("ERROR IN QUERY");
     return (
       <div>
         <h1>{error.name}</h1>
@@ -241,8 +247,6 @@ function instructorsList() {
   // ? Data loaded
   var currentList = instructorMapper();
   var deptList = deptMapper();
-  console.log("instructorsState", instructorsState);
-  console.log("query vars", variables);
 
   // ! No data
   if (data.instructors.data.length == 0) {
@@ -305,15 +309,31 @@ function instructorsList() {
                         All departments
                       </Dropdown.Item>
                       {deptList}
+                      {data}
                     </DropdownButton>
                   </InputGroup.Append>
                 </InputGroup>
               </Col>
             </Row>
-
-            <center>
-              <h1>No result :(</h1>
-            </center>
+            <div className={styles["error-container"]}>
+              <div className={styles["error-img"]}>
+                <Image
+                  src="/images/errors/NotFoundE2.svg"
+                  width="440"
+                  height="386"
+                />
+              </div>
+              <div className={styles["error-txt"]}>
+                عذرا, اسم المحاضر المدخل غير موجود
+              </div>
+              <a
+                href="https://forms.gle/s3PWGxWmck2fpPJo8"
+                target="_blank"
+                className={styles["form-link"] + " shadow"}
+              >
+                اطلب إضافة المحاضر
+              </a>
+            </div>
           </Container>
         </>
       </ClientOnly>
@@ -389,7 +409,7 @@ function instructorsList() {
             {" "}
             <Fade
               className={
-                "col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-4 my-2 w-100"
+                "col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-4"
               }
               cascade
               damping={0.02}
@@ -398,21 +418,21 @@ function instructorsList() {
             >
               {currentList}
             </Fade>
+            {/**!Number of pages should be provided by the api*/}
+            {Math.ceil(data.instructors.count / ITEMS) !== 1 && (
+              <div className={styles["pagination-container"]}>
+                <Fade triggerOnce>
+                  <CustomPagination
+                    pageNum={Math.ceil(data.instructors.count / ITEMS)}
+                    switchView={switchPage}
+                    switchIndex={switchStack}
+                    currentPage={instructorsState.offset / ITEMS + 1}
+                    currentIndex={stackIndex}
+                  />
+                </Fade>
+              </div>
+            )}
           </Row>
-          {/**!Number of pages should be provided by the api*/}
-          {Math.ceil(data.instructors.count / ITEMS) !== 1 && (
-            <div className={styles["pagination-container"]}>
-              <Fade delay="100">
-                <CustomPagination
-                  pageNum={Math.ceil(data.instructors.count / ITEMS)}
-                  switchView={switchPage}
-                  switchIndex={switchStack}
-                  currentPage={instructorsState.offset / ITEMS + 1}
-                  currentIndex={stackIndex}
-                />
-              </Fade>
-            </div>
-          )}
         </Container>
       </>
     </ClientOnly>

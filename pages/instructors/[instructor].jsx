@@ -6,22 +6,30 @@ import {
   Button,
   OverlayTrigger,
   Tooltip,
+  Spinner,
 } from "react-bootstrap";
-import Navbar from "../components/navbar";
-import styles from "../styles/evaluation-page/instructors-details.module.scss";
-import cardStyles from "../styles/evaluation-page/instructors-card.module.scss";
-import { CgProfile } from "react-icons/cg";
+import Navbar from "../../components/navbar";
+import styles from "../../styles/evaluation-page/instructors-details.module.scss";
+import cardStyles from "../../styles/evaluation-page/instructors-card.module.scss";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import { USER } from "../../constants";
 import { AiFillEdit } from "react-icons/ai";
-import Evaluation from "../components/evaluation/Evaluation";
-import InstructorRates from "../components/Instructros/InstructorRates";
-import EvaluationModal from "../components/evaluation/EvaluationModal";
-import { useContext, useEffect, useState } from "react";
+import Evaluation from "../../components/evaluation/Evaluation";
+import InstructorRates from "../../components/Instructros/InstructorRates";
+import EvaluationModal from "../../components/evaluation/EvaluationModal";
+import { useEffect, useState, useContext } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import { MdFolderSpecial } from "react-icons/md";
-import client from "../api/apollo-client";
-import { getInstructorName, getInstructorDetail } from "../api/queries";
-
+import client from "../../api/apollo-client";
+import { useQuery } from "@apollo/client";
+import {
+  getInstructorName,
+  getInstructorDetail,
+  hasEvaluatedQuery,
+} from "../../api/queries";
+import { Fade } from "react-awesome-reveal";
+import { useRouter } from 'next/router';
 
 export const getStaticPaths = async () => {
   //! Should be replaced by an API Call to get all instructor names for dynamic path creation
@@ -37,6 +45,7 @@ export const getStaticPaths = async () => {
       },
     };
   });
+  
 
   /**
    * we need to return an array of objects each with  param property
@@ -54,25 +63,65 @@ export const getStaticProps = async (context) => {
 
   const { data } = await client.query({
     query: getInstructorDetail,
-    variables: {id}});
+    variables: { id },
+  });
 
   return {
     props: { data: data },
-    revalidate: 5,
+    revalidate: 3,
   };
 };
 
 // TODO: Replacing static evaluations with mapped mock data
 
 export default function instructorDetails({ data }) {
+  const router = useRouter();
   const [modalVisible, setVisible] = useState(false);
+  const [msg, setMsg] = useState("");
+  const userContext = useContext(UserContext);
+
+
+  const { data: dataHasEvaluated, loading: loadingHasEvaluated } = useQuery(
+    hasEvaluatedQuery,
+    {
+      skip: userContext.user.status !== USER.LOGGED_IN,
+      variables: { instructorId:  data.instructor.id },
+    }
+  );
+
+ 
 
   useEffect(() => {
-    console.log(data);
-  }, []);
+    if (userContext.user.status === USER.LOGGED_IN) {
+      if (dataHasEvaluated) {
+        if (dataHasEvaluated.hasEvaluated) {
+          setMsg("قيمتَ المُحاضِر");
+          setVisible(false);
+          // we can redirect the user to the eavaluation edit page
+        } else setMsg("قيّم المحاضر");
+      }
+    } else setMsg("الرجاء تسجيل الدخول");
+  }, [loadingHasEvaluated, userContext.user.status]);
+
+  useEffect(() => {
+    console.log(data.instructor);
+  }, [data]);
+  
+    if (router.isFallback) {
+    return <div>Loading...</div>
+  }
+
 
   const closeModal = () => {
     setVisible(false);
+  };
+
+  const launchModal = () => {
+    if (
+      userContext.user.status === USER.LOGGED_IN &&
+      !dataHasEvaluated.hasEvaluated
+    )
+      setVisible(true);
   };
 
   const colors = [
@@ -83,15 +132,14 @@ export default function instructorDetails({ data }) {
   ];
 
   const randomColor = () => {
-    console.log("finished", Math.floor(Math.random() * colors.length));
     return (
       colors[Math.floor(Math.random() * colors.length)] +
       ' url("/images/background.svg")'
     );
   };
   // !WARNING: Change eval structure according to specified date
-  const evalMapper = () => 
-    data.instructor.evaluationSet.data.map(evaluation => 
+  const evalMapper = () =>
+    data.instructor.evaluationSet.data.map((evaluation) => (
       <Evaluation
         date={evaluation.date.split("T")[0]}
         grading={""}
@@ -102,18 +150,13 @@ export default function instructorDetails({ data }) {
           evaluation.teaching,
           evaluation.personality,
         ]}
+        comment={evaluation.comment}
         term={""}
         course={evaluation.course.toUpperCase()}
       />
-    );
-  
+    ));
 
   const evalList = evalMapper();
-
-
-  useEffect(() => {
-    console.log(data)
-  }, [])
 
   return (
     <>
@@ -123,19 +166,20 @@ export default function instructorDetails({ data }) {
       <Navbar page="rating" />
       <Container className={styles.container}>
         <Row
-          style={{
-            margin: "16px !important",
-            padding: "16px",
-            display: "flex !important",
-            alignItems: "center !important",
-            width: "100%"
-          }}
+        className={styles["col-container"]}
+          
         >
-          <Col xl={4} className={styles.statsCol}>
+          <Col xl={4} lg={6} className={styles.statsCol}>
             <Card style={{ borderRadius: 8 }} className={"shadow border-0"}>
-              <Card.Body style={{width: "100%"}} className={cardStyles.container}>
+              <Card.Body
+                style={{ width: "100%" }}
+                className={cardStyles.container}
+              >
                 <div
-                  style={{ background: randomColor() }}
+                  style={{
+                    background:
+                      'rgb(9, 248, 236) url("/images/background.svg")',
+                  }}
                   className={cardStyles.cardColor}
                 >
                   <div className={cardStyles.insuctor_pic + " shadow"}>
@@ -173,22 +217,24 @@ export default function instructorDetails({ data }) {
               style={{ borderRadius: 8 }}
               className={styles.statContainer + " shadow"}
             >
-              <Card.Body className={styles.statsCard}>
+              <Card.Body className={styles.statsCard + " shadow"}>
                 <div className={styles.containerHeaders}>التقييم العام</div>
                 <InstructorRates
                   overall={data.instructor.overallFloat}
                   //!WARNING: All category scores should be fetched from data
                   grading={(data.instructor.gradingAvg / 20).toPrecision(2)}
                   teaching={(data.instructor.teachingAvg / 20).toPrecision(2)}
-                  personality={(data.teachingAvg / 20).toPrecision(2)}
+                  personality={(
+                    data.instructor.personalityAvg / 20
+                  ).toPrecision(2)}
                 />
               </Card.Body>
             </Card>
           </Col>
-          <Col xl={8} className={styles.feedbackCol}>
+          <Col xl={8} lg={6} sm={12} className={styles.feedbackCol}>
             <Card className={styles.feedbackContainer + " shadow"}>
               <div className={styles.containerHeaders}>التقييمات السابقة</div>
-              <Card.Body style={{width: "100%"}}>
+              <Card.Body style={{ width: "100%" }}>
                 <Row
                   style={{ paddingTop: "0px !important" }}
                   className={styles.prev_list}
@@ -196,30 +242,62 @@ export default function instructorDetails({ data }) {
                   {/**
                    * The evaluations will also be a past of the response object in fetching
                    */}
-
+                  <Fade
+                    className={
+                      "col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-6"
+                    }
+                    duration={1200}
+                    cascade
+                    damping={0.02}
+                    triggerOnce
+                    direction="up"
+                  >
                     {evalList}
+                  </Fade>
                 </Row>
               </Card.Body>
             </Card>
           </Col>
         </Row>
-        <OverlayTrigger
-          placement="top"
-          delay={{ show: 350, hide: 400 }}
-          overlay={<Tooltip id="button-tooltip-2">قيّم المحاضِر</Tooltip>}
-        >
-          <Button
-            id="evaluate"
-            className={styles.evalBtn}
-            onClick={() => {
-              setVisible(true);
-            }}
+        {loadingHasEvaluated ? (
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 350, hide: 400 }}
+            overlay={<Tooltip id="button-tooltip-2">نتفقد بياناتك</Tooltip>}
           >
-            <AiFillEdit size={32} />
-          </Button>
-        </OverlayTrigger>
+            <Button
+              id="evaluate"
+              className={styles.evalBtn}
+              style={{ backgroundColor: "gray" }}
+            >
+              <Spinner animation="border" role="status" />
+            </Button>
+          </OverlayTrigger>
+        ) : (
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 350, hide: 400 }}
+            overlay={<Tooltip id="button-tooltip-2">{msg}</Tooltip>}
+          >
+            <Button
+              id="evaluate"
+              className={styles.evalBtn}
+              onClick={launchModal}
+              style={{
+                backgroundColor:
+                  userContext.user.status !== USER.LOGGED_IN ||
+                  dataHasEvaluated.hasEvaluated
+                    ? "gray"
+                    : "#00ead3",
+              }}
+            >
+              <AiFillEdit size={32} />
+            </Button>
+          </OverlayTrigger>
+        )}
         <EvaluationModal
           name={data.instructor.name}
+          id={data.instructor.id}
           image={
             <Image
               style={{ borderRadius: "30px !important" }}
@@ -229,7 +307,7 @@ export default function instructorDetails({ data }) {
               height="70"
             />
           }
-          dept= {data.instructor.department}
+          dept={data.instructor.department}
           close={closeModal}
           visible={modalVisible}
         />

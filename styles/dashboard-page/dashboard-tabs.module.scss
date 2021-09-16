@@ -1,0 +1,229 @@
+$txt-fill: #52575dc0;
+$btn-primary: #01dac4;
+$txt-high: #0091e7;
+
+.card-containers {
+  width: 100%;
+  height: 96%;
+  margin: 16px !important;
+  border-radius: 8px;
+}
+
+.body-structure {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-body {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 8px;
+}
+
+.stats-container {
+  width: 100%;
+  padding-top: 24px;
+}
+
+.fader {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.stat-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.stat-cards {
+  border-radius: 8px;
+  border: unset;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  height: 120px;
+  box-shadow: 0 0.125rem 0.7rem rgba(0, 0, 0, 0.125) !important;
+}
+
+.stat-title {
+  font-weight: 600;
+  color: $txt-fill;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.rate-icon {
+  color: rgb(255, 46, 151);
+}
+
+.comms-icon {
+  color: rgb(74, 130, 252);
+}
+
+.chat-icon {
+  color: rgb(122, 255, 122);
+}
+
+.medal-icon {
+  color: orange;
+}
+
+.stat-num {
+  margin: 8px;
+  font-weight: 700;
+  margin: 8px;
+  font-size: 26px;
+  color: rgb(88, 88, 88);
+}
+
+.img-input{
+      border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: .25rem;
+    
+}
+
+.user-name {
+  font-weight: 700;
+  font-size: 26px;
+  color: $btn-primary;
+  margin-top: 8px;
+}
+
+.evals-row{
+  width: 100%;
+  padding: 8px;
+  margin: 0;
+}
+
+
+
+.user-email {
+  font-weight: 600;
+  color: $txt-fill;
+  font-size: 18px;
+}
+
+.edit-form {
+  margin-top: 34px;
+  direction: rtl;
+  text-align: right;
+  width: 100%;
+  padding: 16px;
+}
+
+.search-set{
+  margin-left: auto;
+  justify-self: flex-start;
+  display: flex;
+  font-size: 2rem !important;
+}
+
+.header-search{
+  width: 100% !important;
+  margin-right: 5px;
+}
+.pic-border {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 8px;
+  height: 148px;
+  width: 148px;
+  border-radius: 74px;
+}
+
+
+.profile-pic {
+  border-radius: 70px;
+}
+
+.btns {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: unset !important;
+  border: unset !important;
+  padding: 0 !important;
+  margin-left: 4px;
+  color: $txt-fill;
+  &:hover {
+    color: $btn-primary;
+  }
+
+  &:active {
+    color: $btn-primary !important;
+    box-shadow: unset !important;
+    border: unset !important;
+    background-color: rgb(214, 214, 214);
+  }
+
+  &:focus {
+    color: $txt-fill;
+    box-shadow: unset !important;
+    border: unset !important;
+    background-color: unset;
+    
+  }
+}
+
+.cancel-btns {
+  &:hover {
+    color: rgb(255, 97, 97);
+  }
+  &:active {
+    color: $btn-primary !important;
+  }
+}
+
+.header-containers {
+  background-color: white;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.card-headers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: $txt-fill;
+}
+
+.eval-cards{
+  height: 400px;
+  padding: 16px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-bottom: 16px;
+}
+
+.eval-cards::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.eval-cards::-webkit-scrollbar-track {
+  background: white;
+  box-shadow: inset 0 0 0.3rem rgb(218, 218, 218);
+}
+
+.eval-cards::-webkit-scrollbar-thumb {
+  background: #969696;
+
+}
+
+@media only screen and (max-width: 600px) {
+  .eval-cards{
+    padding: 8px;
+  }
+}

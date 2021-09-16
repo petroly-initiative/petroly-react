@@ -1,9 +1,11 @@
 $fnt-size: 16px;
-$bg-primary: #2ea5eb;
-$fnt-clr: #6e737a;
+$bg-primary: #2ecfeb;
+$fnt-clr: rgb(187, 187, 187);
 $testing: #00dfc8;
+$clr-primary: #00ead3;
 .navbar_nav {
   width: 100%;
+  pointer-events: auto;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -15,26 +17,29 @@ $testing: #00dfc8;
   justify-content: center;
   background: rgb(247, 247, 247);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253);
-  transition: 600ms ease;
+  transition: 500ms ease;
 }
 
 .collapser {
   background: rgb(247, 247, 247);
   border: none;
-  transition: 600ms ease;
+  transition: 500ms ease;
   .collapse_icon {
     color: $fnt-clr;
-    transition: 600ms ease;
+    transition: 500ms ease;
   }
 
   &:focus {
     outline: none !important;
     box-shadow: none !important;
     background: rgb(247, 247, 247) !important;
+    .collapse_icon {
+      color: $clr-primary !important;
+    }
   }
 
   &:hover {
-    background: #00ead3 !important;
+    background: $clr-primary !important;
     .collapse_icon {
       color: white;
     }
@@ -66,7 +71,7 @@ $testing: #00dfc8;
     font-size: 10px;
     margin: 8px;
     white-space: nowrap;
-    transition: color 800ms ease;
+    transition: color 500ms ease;
     display: flex;
     justify-content: center;
   }
@@ -74,6 +79,7 @@ $testing: #00dfc8;
 
 .navbar {
   display: flex;
+  pointer-events: none;
   height: 100vh !important;
   position: fixed;
   right: 0 !important;
@@ -89,6 +95,7 @@ $testing: #00dfc8;
 
 .navbar_top {
   position: fixed;
+  pointer-events: auto;
   top: 0 !important;
   display: none;
   z-index: 99;
@@ -96,7 +103,7 @@ $testing: #00dfc8;
   background: rgb(247, 247, 247);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253);
   color: $fnt-clr;
-  height: 5rem;
+  height: 4rem;
   padding: 16px;
   justify-content: space-between;
   align-items: center;
@@ -104,6 +111,7 @@ $testing: #00dfc8;
 }
 
 .navbar_main {
+  pointer-events: auto;
   z-index: 100;
   position: fixed;
   height: 100vh;
@@ -117,20 +125,21 @@ $testing: #00dfc8;
 
 .navbar_side {
   z-index: 100;
+  pointer-events: auto;
   position: fixed;
-  height: calc(100vh - 5rem);
+  height: calc(100vh - 4rem);
   overflow-y: scroll;
-  top: 5rem;
+  top: 4rem;
   width: 5rem;
   background: rgb(247, 247, 247);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253);
   color: $fnt-clr;
   left: 100vw;
-  transition: 600ms ease, height 200ms ease;
-   -webkit-transition: 600ms ease, height 200ms ease;
-  -moz-transition: 600ms ease, height 200ms ease;
-  -ms-transition: 600ms ease, height 200ms ease;
-  -o-transition: 600ms ease, height 200ms ease;
+  transition: 500ms ease, height 200ms ease;
+  -webkit-transition: 500ms ease, height 200ms ease;
+  -moz-transition: 500ms ease, height 200ms ease;
+  -ms-transition: 500ms ease, height 200ms ease;
+  -o-transition: 500ms ease, height 200ms ease;
 }
 
 .navbar_side ul {
@@ -141,7 +150,7 @@ $testing: #00dfc8;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  transition: 600ms ease, height 50ms ease;
+  transition: 500ms ease, height 50ms ease;
   height: 100%;
   min-height: 640px;
 }
@@ -164,9 +173,11 @@ $testing: #00dfc8;
   border: none;
   color: $fnt-clr;
   &:hover,
-  &:active, &:focus {
+  &:active,
+  &:focus {
     color: $bg-primary !important;
     background: rgb(233, 233, 233);
+    box-shadow: unset !important;
   }
 }
 
@@ -187,6 +198,7 @@ $testing: #00dfc8;
 
 .nav_img {
   width: 1.8rem !important;
+  transition: 500ms ease;
 }
 
 .nav_overlay {
@@ -209,10 +221,29 @@ $testing: #00dfc8;
   height: 2rem !important;
   border-radius: 1.25em;
   background: rgb(233, 165, 233);
-  transition: 600ms ease;
+  transition: 500ms ease;
   &:hover {
     border-radius: 0.5rem;
   }
+}
+
+.popup-info {
+  display: flex;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+.popup-pic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  margin-right: 16px;
+}
+
+.popup-txt {
+  line-height: 1.2;
 }
 
 .navbar_main::-webkit-scrollbar {
@@ -232,6 +263,57 @@ $testing: #00dfc8;
 .navbar_main {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.btn-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  direction: rtl !important;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2px;
+  
+}
+
+.info-btn{
+  color: $bg-primary !important;
+  text-align: right;
+  font-weight: 600;
+  padding: 6px;
+  margin: 2px;
+  font-size: 13px;
+  font-family: "Cairo", sans-serif !important;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 0.25rem;
+  transition: 200ms ease;
+  &:hover{
+    background-color: $bg-primary;
+    color: white !important;
+  }
+}
+
+.signout-btn {
+  background: unset !important;
+  border: unset !important;
+  text-align: right;
+  color: rgb(255, 89, 89);
+  padding: 6px;
+  width: 100%;
+  margin:2px;
+  font-size: 13px;
+  font-family: "Cairo", sans-serif !important;
+  font-weight: 600;
+  transition: 200ms ease;
+  &:hover {
+    background: rgb(255, 107, 107) !important;
+    color: white !important;
+  }
+  &:focus {
+    border: none !important;
+    box-shadow: none !important;
+  }
 }
 
 @media only screen and (min-width: 600px) {
@@ -256,5 +338,11 @@ $testing: #00dfc8;
 
   .nav_pages {
     height: 50vh;
+  }
+}
+
+@media only screen and (max-height: 640px) {
+  .navbar_main {
+    overflow-y: scroll;
   }
 }

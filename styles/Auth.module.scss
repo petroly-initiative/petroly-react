@@ -1,6 +1,33 @@
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+
+@mixin tabNav {
+  width: 100%;
+  margin: 12px;
+    background-color: unset !important;
+    color: $txt-fill;
+    font-weight: 700;
+    border: unset !important;
+    border-radius: 4px;
+    transition: 600 ease;
+    &:hover{
+      background-color: $btn-high !important;
+      border-radius: 4px;
+      color: white;
+    }
+    &:focus{
+      background-color: unset !important;
+      border: unset !important;
+      color: $txt-fill;
+      box-shadow: unset !important;
+    }
+
+  }
+ 
+
 .modal-btn {
-  background-color: #00ead3 !important;
-  border-color: #00ead3 !important;
+  background-color: $btn-high !important;
+  border-color: $btn-high !important;
   display: flex;
   color: black !important;
   box-shadow: unset !important;
@@ -38,14 +65,14 @@
 .pwd-toggle:focus {
   border: #ced4da solid 1px !important;
   background-color: unset !important;
-  color: #00ead3 !important;
+  color: $btn-high !important;
   outline: none !important;
   box-shadow: unset !important;
 }
 
 .pwd-toggle:active {
   background-color: #e4e9ee !important;
-  color: #00ead3 !important;
+  color: $btn-high !important;
 }
 
 .login-btn {
@@ -53,8 +80,8 @@
   border-radius: 23px;
   background-color: unset !important;
   font-weight: bold;
-  border: #00ead3 solid 1px !important;
-  color: #00ead3 !important;
+  border: $btn-high solid 1px !important;
+  color: $btn-high !important;
   transition: 100ms ease-in;
   box-shadow: unset !important;
   -webkit-transition: 100ms ease-in;
@@ -64,7 +91,7 @@
 }
 
 .login-btn:hover {
-  background-color: #00ead3 !important;
+  background-color: $btn-high !important;
   color: white !important;
 }
 
@@ -77,6 +104,7 @@
 }
 
 .modal-overlay {
+  pointer-events: auto;
   position: fixed;
   top: 0;
   left: 0;
@@ -87,6 +115,7 @@
 }
 
 .modal-wrapper {
+  pointer-events: auto;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -127,7 +156,7 @@
   width: 130px;
   img {
     width: 100%;
-    height: 101%;
+    height: 103%;
     -o-object-fit: cover;
     object-fit: cover;
     position: absolute;
@@ -137,7 +166,7 @@
 
 .modal-footer {
   width: 75%;
-  height: 100%;
+  // height: 100%;
   display: flex;
   justify-content: center;
   form {
@@ -156,6 +185,7 @@
 .redirecter {
   display: flex;
   direction: rtl;
+  margin-top: 16px;
 }
 
 .redirectBtn {
@@ -169,8 +199,28 @@
   transition: 300ms ease;
   margin-right: 4px;
   &:hover {
-    color: #00ead3;
+    color: $btn-high;
   }
+}
+
+.rules {
+  padding: 8px !important;
+  display: flex;
+  align-items: center;
+  direction: rtl;
+  text-align: right;
+  font-weight: 600;
+  padding: 16px;
+  .rules-icon {
+    margin-left: 16px;
+  }
+}
+
+.reset-instructions {
+  text-align: right;
+  padding: 12px;
+  color: $txt-fill;
+  font-weight: 600;
 }
 
 .labels {
@@ -187,6 +237,32 @@
   color: #0091e7;
   font-weight: 600;
   margin-bottom: 26px;
+}
+
+.nav-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+ .nav-btns{
+   width: 140px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+
+ }
+}
+
+ .active-tab{
+   @include tabNav;
+   border-radius: 0;
+    border-bottom: 3px solid $btn-high !important;
+    &:focus{
+      border-bottom: 3px solid $btn-high !important;
+    }
+}
+  
+  .tab-btns{
+    @include tabNav;
 }
 
 @-webkit-keyframes modaltransition {

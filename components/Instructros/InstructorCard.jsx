@@ -14,7 +14,7 @@ import styles from "../../styles/evaluation-page/instructors-card.module.scss";
 function InstructorCard(props) {
   
   return (
-    <Link href={`/${props.instructorID}`}>
+    <Link href={`/instructors/${props.instructorID}`}>
       <Card
         style={{ borderRadius: 8 }}
         className={"shadow border-0 " + styles.Cardholder}

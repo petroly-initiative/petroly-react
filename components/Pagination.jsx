@@ -53,26 +53,21 @@ export default function CustomPagination(props) {
 
   // CORRECT
   const firstBtn = (e) => {
-    console.log(stacks[props.currentIndex]);
     switchPage(1);
     switchStIndex(0);
   };
  // CORRECT
   const lastBtn = (e) => {
-    console.log(stacks[props.currentIndex]);
     setStack(stacks[Object.keys(stacks).length - 1], switchStIndex(Object.keys(stacks).length - 1, switchPage(props.pageNum)));
     
   };
   // CORRECT
   const nextBtn = (e) => {
-    console.log("Out of stack?", stacks[props.currentIndex].indexOf(props.currentPage + 1) === -1);
     if (stacks[props.currentIndex].indexOf(props.currentPage + 1) === -1) {
-      console.log("old Stack: ", stacks[props]);
       
         setStack(stacks[props.currentIndex + 1],switchStIndex(
         (prev) => prev + 1), switchPage(props.currentPage + 1))
       
-      console.log("New Stack: ", stack);
     } else {
       switchPage(props.currentPage + 1);
     }
@@ -80,7 +75,6 @@ export default function CustomPagination(props) {
 
   // CORRECT
   const prevBtn = (e) => {
-    console.log("Out of stack?", stacks[props.currentIndex].indexOf(props.currentPage - 1) === -1);
     if (stacks[props.currentIndex].indexOf(props.currentPage - 1) === -1) {
        setStack(
          stacks[props.currentIndex - 1],
@@ -93,7 +87,6 @@ export default function CustomPagination(props) {
   };
 
   const pageMapper = (arr) => {
-    console.log("Current Array of pages:", arr);
     return arr.map((page) => {
       if (page == props.currentPage) {
         return (
@@ -101,7 +94,7 @@ export default function CustomPagination(props) {
             className={[styles["active-btn"], styles["buttons"]]}
             id={page.toString()}
             key={page.toString()}
-            active
+            
           >
             {page}
           </Pagination.Item>
@@ -125,52 +118,64 @@ export default function CustomPagination(props) {
 
   return (
     <>
-      <Pagination className = "shadow">
+      <Pagination className={styles["pagination-container"] + " shadow"}>
         {props.currentPage == 1 ? (
-          <Pagination.First
+          <Pagination.Item
             style={{ color: "#212529" }}
             className={styles["buttons"]}
             disabled
-          />
+          >
+            {"‹‹"}
+          </Pagination.Item>
         ) : (
-          <Pagination.First
+          <Pagination.Item
             onClick={firstBtn}
             className={styles["buttons"]}
             id="first"
-          />
+          >
+            {"‹‹"}
+          </Pagination.Item>
         )}
         {props.currentPage == 1 ? (
-          <Pagination.Prev
+          <Pagination.Item
             style={{ color: "#212529" }}
             className={styles["buttons"]}
             disabled
-          />
+          >
+            {"‹"}
+          </Pagination.Item>
         ) : (
-          <Pagination.Prev
+          <Pagination.Item
             onClick={prevBtn}
             className={styles["buttons"]}
             id="prev"
-          />
+          >
+            {"‹"}
+          </Pagination.Item>
         )}
         {pagesList}
 
         {props.currentPage == props.pageNum ? (
-          <Pagination.Next disabled />
+          <Pagination.Item disabled>{"›"}</Pagination.Item>
         ) : (
-          <Pagination.Next
+          <Pagination.Item
             onClick={nextBtn}
             className={styles["buttons"]}
             id="next"
-          />
+          >
+            {"›"}
+          </Pagination.Item>
         )}
         {props.currentPage == props.pageNum ? (
-          <Pagination.Last disabled />
+          <Pagination.Item disabled>{"››"}</Pagination.Item>
         ) : (
-          <Pagination.Last
+          <Pagination.Item
             onClick={lastBtn}
             className={styles["buttons"]}
             id="last"
-          />
+          >
+            {"››"}
+          </Pagination.Item>
         )}
       </Pagination>
     </>

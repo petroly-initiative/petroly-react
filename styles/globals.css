@@ -16,6 +16,11 @@ body {
   background: url("/images/background.svg") repeat  ;
   background-size: auto;
   overflow-x: hidden;
+  touch-action: pan-y pan-x;
+}
+
+a{
+  text-decoration: none !important;
 }
 
 

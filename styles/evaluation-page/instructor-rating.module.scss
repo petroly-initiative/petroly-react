@@ -1,14 +1,19 @@
 $colors: (
   blue: #14f7ef,
   green: #00e091,
-  orange: #fac218,
+  yellow: #fac218,
+  orange: #FF7600,
   red: #f51663,
 );
+
+$txt-fill: #6e737a;
 //
 
 @each $color, $value in $colors {
   .grading_#{$color} div {
     background-color: $value;
+    box-shadow: 0 0 0.4rem $value !important;
+    overflow: visible !important;
   }
 }
 
@@ -27,6 +32,7 @@ $colors: (
   height: 60%;
   justify-content: center;
   align-items: center;
+  padding: 16px;
 }
 
 .attrBars {
@@ -38,25 +44,35 @@ $colors: (
 
 .barHeaders {
   font-size: 18px;
-  font-weight: 600;
-  color: #52575d;
+  font-weight: 700;
+  color: $txt-fill;
   direction: rtl;
   text-align: right;
   padding-bottom: 8px;
-
 }
 
 .barContainer {
   padding: 1px;
 }
 
+.barValue {
+  background-color: rgb(255, 255, 255);
+  padding: 4px;
+  border-radius: 12px !important;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.15) !important;
+}
+
 .barValue > div {
   direction: rtl !important;
-  height: 15px;
+  height: 16px;
   margin: 2px;
-  border-radius: 6px;
+  border-radius: 8px !important;
   background: #e6e6e6;
-  box-shadow: 1px 1px 3px #c5c5c5, -1px -1px 3px #ffffff;
+  overflow: visible;
+  div{
+  border-radius: 12px !important;
+  }
+  // box-shadow: 1px 1px 3px #c5c5c5, -1px -1px 3px #ffffff;
 }
 
 .ovrcontainer {
@@ -64,12 +80,11 @@ $colors: (
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 7vw;
-  min-width: 100px;
-  height: 7vw;
-  min-height: 100px;
-  border: 1px solid rgba(0, 0, 0, 0.068);
-  border-radius:max(4vw, 50px);
+  width: 8vw;
+  min-width: 110px;
+  height: 8vw;
+  min-height: 110px;
+  border-radius: max(4vw, 55px);
   background: #f1f1f105;
 }
 
@@ -84,7 +99,7 @@ $colors: (
 
   .score {
     font-weight: 700;
-    font-size: 37px;
+    font-size: 4.5vmin;
     color: #52575d;
   }
 
@@ -106,4 +121,11 @@ $colors: (
 
 .bg-blue {
   background-color: rgb(20, 100, 9);
+}
+
+@media only screen and (max-width: 600px) {
+ .ovrDisplay .score{
+  font-size: 7vmin;
+}
+
 }
