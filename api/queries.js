@@ -92,3 +92,21 @@ export const hasEvaluatedQuery = gql`
     hasEvaluated(id: $instructorId)
   }
 `;
+
+export const meEvaluationSetQuery = gql`
+  query Me {
+    me {
+      evaluationSet {
+        count
+        data {
+          id
+          instructor {
+            name
+            profilePic
+            department
+          }
+        }
+      }
+    }
+  }
+`;
