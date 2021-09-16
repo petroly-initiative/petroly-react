@@ -112,8 +112,11 @@ function instructorsList() {
     setStackIndex(index);
   };
 
+  useEffect(() => {}, [stackIndex]);
+
   useEffect(() => {
-  }, [stackIndex]);
+    console.log(currentList);
+  });
 
   // ? Mappers
   const deptMapper = () =>
@@ -151,7 +154,6 @@ function instructorsList() {
         />
       );
     });
-
 
   // Loading status
   if (loading || loadingDept) {
@@ -204,21 +206,18 @@ function instructorsList() {
                 </InputGroup>
               </Form>
             </Col>
-          </Row>
-         
-            {" "}
-            <Button className={styles["loading-container"] + " shadow"} disabled>
-              <Spinner
-                className={styles["loading-spinner"]}
-                as="div"
-                animation="grow"
-                size="xl"
-                role="status"
-                aria-hidden="true"
-              />
-              <div className={styles["loading-text"]}>جاري التحميل </div>
-            </Button>
+          </Row>{" "}
+          <Button className={styles["loading-container"] + " shadow"} disabled>
+            <Spinner
+              className={styles["loading-spinner"]}
+              as="div"
+              animation="grow"
+              size="xl"
+              role="status"
+              aria-hidden="true"
+            />
           
+          </Button>
         </Container>
       </>
     );
@@ -300,15 +299,29 @@ function instructorsList() {
                         All departments
                       </Dropdown.Item>
                       {deptList}
+                      {data}
                     </DropdownButton>
                   </InputGroup.Append>
                 </InputGroup>
               </Col>
             </Row>
-
-            <center>
-              <h1>No result :(</h1>
-            </center>
+            <div className={styles["error-container"]}>
+              <div className={styles["error-img"]}>
+                <Image
+                  src="/images/errors/NotFoundE2.svg"
+                  width="440"
+                  height="386"
+                />
+              </div>
+              <div className={styles["error-txt"]}>عذرا, اسم المحاضر المدخل غير موجود</div>
+              <a
+                href="https://forms.gle/s3PWGxWmck2fpPJo8"
+                target="_blank"
+                className={styles["form-link"] + " shadow"}
+              >
+                اطلب إضافة المحاضر
+              </a>
+            </div>
           </Container>
         </>
       </ClientOnly>

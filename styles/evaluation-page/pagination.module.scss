@@ -15,6 +15,7 @@ $btn-pr: #1cbfff;
   width: 35px;
   margin: 1px;
   border: 2px solid rgba(255, 255, 255, 0);
+  
   transition: 500ms ease;
   a {
     border: unset;
@@ -35,6 +36,11 @@ $btn-pr: #1cbfff;
   &:hover {
     border: 2px solid #d8dbdf;
   }
+
+  &:active, &:focus{
+    box-shadow: unset !important;
+  }
+  
 }
 
 .active-btn {
