@@ -93,7 +93,7 @@ export default function EvaluationsTab(props) {
                 dept="Shinobi"
                 overall={5}
               />
-              <EvaluationPreview
+              {/* <EvaluationPreview
                 pic="/images/muhabpower.png"
                 name="Ammar"
                 dept="ICS"
@@ -122,7 +122,7 @@ export default function EvaluationsTab(props) {
                 name="Nawwaf"
                 dept="ICS"
                 overall={5}
-              />
+              /> */}
             </Fade>
           </Row>
         </Card.Body>

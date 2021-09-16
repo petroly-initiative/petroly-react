@@ -19,20 +19,20 @@ $txt-high: #0091e7;
   border-radius: 70px;
 }
 
-.card-body{
-    width: 100%;
-    padding: 2px;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    box-shadow: 0 0.125rem 0.4rem rgba(0, 0, 0, 0.125) !important;
-    border: unset;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    position: relative;
-    cursor: pointer;
-    transition: 500ms ease;
-   .btns{
+.card-body {
+  width: 100%;
+  padding: 2px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 0.125rem 0.4rem rgba(0, 0, 0, 0.125) !important;
+  border: unset;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+  cursor: pointer;
+  transition: 500ms ease;
+  .btns {
     height: 40px;
     width: 40px;
     font-size: 1.3rem;
@@ -47,66 +47,65 @@ $txt-high: #0091e7;
     border: unset;
     opacity: 0;
     transition: 500ms ease;
-}
+  }
 
-
-    &:hover, &:active, &:focus{
-        transform: scale(1.05);
-        .btns{
-            opacity: 1;
-        }
+  &:hover,
+  &:active,
+  &:focus {
+    transform: scale(1.02);
+    .btns {
+      opacity: 1;
     }
+  }
 }
 
-.btns-container{
-    margin-left:  auto;
-    display: flex;
-    width: fit-content;
+.btns-container {
+  margin-left: auto;
+  display: flex;
+  width: fit-content;
 }
 
-.group-name{
-    color: $txt-high;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1;
+.group-name {
+  color: $txt-high;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
 }
 
-.type-icon{
-    margin-right: 8px;
-    display: flex;
-    align-items: center;
+.type-icon {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
 }
 
-.group-type{
-    font-weight: 400;
-    margin-top: 4px;
-    display: flex;
-    align-items: center;
-    font-size: 16px;
+.group-type {
+  font-weight: 400;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
 }
 
-
-
-.edit-btn{
-    color: $btn-primary;
-    &:hover{
-        background-color: $txt-high;
-    }
+.edit-btn {
+  color: $btn-primary;
+  &:hover {
+    background-color: $txt-high;
+  }
 }
 
-.delete-btn{
-    color: rgb(253, 97, 97);
-    &:hover{
-        background-color: $txt-high;
-    }
+.delete-btn {
+  color: rgb(253, 97, 97);
+  &:hover {
+    background-color: $txt-high;
+  }
 }
 
 @media only screen and (max-width: 600px) {
-    .btns{
-        width: 32px !important;
-        height: 32px !important;
-        font-size: 1.2rem !important;
-        padding: 1px !important;
-        margin: 2px !important;
-    }
+  .btns {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 1.2rem !important;
+    padding: 1px !important;
+    margin: 2px !important;
+  }
 }
