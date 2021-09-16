@@ -50,7 +50,9 @@
 }
 
 .evaluation-data {
-  width: 80%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .ar-labels {
