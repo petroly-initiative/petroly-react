@@ -94,7 +94,7 @@ export default function CustomPagination(props) {
             className={[styles["active-btn"], styles["buttons"]]}
             id={page.toString()}
             key={page.toString()}
-            active
+            
           >
             {page}
           </Pagination.Item>
@@ -120,50 +120,62 @@ export default function CustomPagination(props) {
     <>
       <Pagination className={styles["pagination-container"] + " shadow"}>
         {props.currentPage == 1 ? (
-          <Pagination.First
+          <Pagination.Item
             style={{ color: "#212529" }}
             className={styles["buttons"]}
             disabled
-          />
+          >
+            {"‹‹"}
+          </Pagination.Item>
         ) : (
-          <Pagination.First
+          <Pagination.Item
             onClick={firstBtn}
             className={styles["buttons"]}
             id="first"
-          />
+          >
+            {"‹‹"}
+          </Pagination.Item>
         )}
         {props.currentPage == 1 ? (
-          <Pagination.Prev
+          <Pagination.Item
             style={{ color: "#212529" }}
             className={styles["buttons"]}
             disabled
-          />
+          >
+            {"‹"}
+          </Pagination.Item>
         ) : (
-          <Pagination.Prev
+          <Pagination.Item
             onClick={prevBtn}
             className={styles["buttons"]}
             id="prev"
-          />
+          >
+            {"‹"}
+          </Pagination.Item>
         )}
         {pagesList}
 
         {props.currentPage == props.pageNum ? (
-          <Pagination.Next disabled />
+          <Pagination.Item disabled>{"›"}</Pagination.Item>
         ) : (
-          <Pagination.Next
+          <Pagination.Item
             onClick={nextBtn}
             className={styles["buttons"]}
             id="next"
-          />
+          >
+            {"›"}
+          </Pagination.Item>
         )}
         {props.currentPage == props.pageNum ? (
-          <Pagination.Last disabled />
+          <Pagination.Item disabled>{"››"}</Pagination.Item>
         ) : (
-          <Pagination.Last
+          <Pagination.Item
             onClick={lastBtn}
             className={styles["buttons"]}
             id="last"
-          />
+          >
+            {"››"}
+          </Pagination.Item>
         )}
       </Pagination>
     </>

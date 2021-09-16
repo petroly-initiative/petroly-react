@@ -40,7 +40,7 @@ export default function Dashboard(props) {
             damping="0.02"
             className={
               styles["tab-containers"] +
-              " col-sm-12 col-xs-12 col-md-12 col-lg-6 col-xl-6"
+              "col col-sm-12 col-xs-12 col-md-12 col-lg-6 col-xl-6"
             }
           >
             <ProfileTab

@@ -28,6 +28,7 @@ $txt-hg: #0091E7;
 .search_btn {
   background-color: #00ead3 !important;
   border: none;
+  border-radius: 0;
   height: 100% !important;
   &:hover {
     background-color: #05e6cf !important;
@@ -92,14 +93,20 @@ $txt-hg: #0091E7;
 .loading-container {
   background-color: #ffffff !important;
   border: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   left: calc(50vw - 5rem);
   top: calc(50vh - 50px);
-  padding: 4px;
-  width: 110px;
-  height: 110px;
-  border-radius: 55px !important;
-
+  padding: 0px;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px !important;
+    -webkit-border-radius: 40px !important;
+  -moz-border-radius: 40px !important;
+  -ms-border-radius: 40px !important;
+  -o-border-radius: 40px !important;
   .loading-spinner
 {
     width: 65px;
