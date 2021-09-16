@@ -238,7 +238,7 @@ export default function EvaluationModal(props) {
               </div>
 
               <Form.Row className={styles["evaluation-data"]}>
-                <Col xs={12} sm={12} md={6}>
+                <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Form.Label className={styles["labels"]}>
                     الفصل الدراسي
                   </Form.Label>
@@ -265,7 +265,7 @@ export default function EvaluationModal(props) {
                     </FormControl.Feedback>
                   </InputGroup>
                 </Col>
-                <Col xs={12} sm={12} md={6}>
+                <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Form.Label className={styles["labels"]}>
                     المادة الدراسية
                   </Form.Label>
