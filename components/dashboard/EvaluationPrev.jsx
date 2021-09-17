@@ -68,9 +68,7 @@ export default function EvaluationPreview(props) {
           </div>
         </Card>
         <EvaluationModal
-          comments={["aaaaa", "bbbbb", "cccccc"]}
-          rates={(4, 2, 3)}
-          name={"data.instructor.name"}
+          name={props.data.name}
           id={"data.instructor.id"}
           image={
             <Image

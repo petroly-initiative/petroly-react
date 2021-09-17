@@ -48,7 +48,52 @@ export default function EvaluationsTab(props) {
 
   if (loadingEval) {
     console.log("loading");
-    return <Spinner animation="border" role="status" />;
+    return (
+      <Card className={styles["card-containers"] + " shadow"}>
+        <Card.Header className={styles["header-containers"]}>
+          {mode === "view-all" && (
+            <Fade triggerOnce>
+              <div className={styles["card-headers"]}>
+                <span className={styles["card-title"]}>تقييماتي</span>
+                <Button on onClick={switchMode} className={styles["btns"]}>
+                  <FiSearch size="1.6rem" />
+                </Button>
+              </div>
+            </Fade>
+          )}
+          {mode === "search" && (
+            <Fade triggerOnce>
+              <div className={styles["card-headers"]}>
+                <Form className={styles["header-search"]}>
+                  <InputGroup>
+                    <FormControl />
+                  </InputGroup>
+                </Form>
+                <div className={styles["search-set"]}>
+                  <Button onClick={switchMode} className={styles["btns"]}>
+                    <FiSearch size="1.6rem" />
+                  </Button>
+                </div>
+              </div>
+            </Fade>
+          )}
+        </Card.Header>
+        <Card.Body
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          className={styles["card-body"] + " " + styles["eval-cards"]}
+        >
+          <Spinner
+            className={styles["loading-spinner"] + " shadow"}
+            animation="border"
+            role="status"
+          />
+        </Card.Body>
+      </Card>
+    );
   }
   if (errorEval) {
     return <p>Error whilst getting your evaluations</p>;
@@ -68,6 +113,8 @@ export default function EvaluationsTab(props) {
         />
       );
     });
+
+
 
   // ? The mapped componentes will be stores in either according to mode
   const fullList = dataEval.me.evaluationSet.data.map((evaluation) => {
@@ -121,90 +168,7 @@ export default function EvaluationsTab(props) {
               damping={0.05}
               className={"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"}
             >
-              <EvaluationPreview
-                pic="/images/spongy.png"
-                name="Muhab"
-                dept="ICS"
-                overall={5}
-                gradingRating={5}
-                gradingCom={"An easyily achieavable A+"}
-                teachingRating={3}
-                teachingCom={"Not that good  in delivering"}
-                personRating={5}
-                personCom={"Really helpful"}
-                term={"211"}
-                course={"ICS108"}
-              />
-              <EvaluationPreview
-                pic="/images/muhabpower.png"
-                name="Naruto"
-                dept="Shinobi"
-                overall={3}
-                gradingRating={5}
-                gradingCom={"An easyily achieavable A+"}
-                teachingRating={3}
-                teachingCom={"Not that good  in delivering"}
-                personRating={2}
-                personCom={"Really helpful"}
-                term={"211"}
-                course={"ICS104"}
-              />
-              <EvaluationPreview
-                pic="/images/muhabpower.png"
-                name="Naruto"
-                dept="Shinobi"
-                overall={3}
-                gradingRating={5}
-                gradingCom={"An easyily achieavable A+"}
-                teachingRating={3}
-                teachingCom={"Not that good  in delivering"}
-                personRating={2}
-                personCom={"Really helpful"}
-                term={"211"}
-                course={"ICS104"}
-              />
-              <EvaluationPreview
-                pic="/images/muhabpower.png"
-                name="Naruto"
-                dept="Shinobi"
-                overall={3}
-                gradingRating={5}
-                gradingCom={"An easyily achieavable A+"}
-                teachingRating={3}
-                teachingCom={"Not that good  in delivering"}
-                personRating={2}
-                personCom={"Really helpful"}
-                term={"211"}
-                course={"ICS104"}
-              />
-              <EvaluationPreview
-                pic="/images/muhabpower.png"
-                name="Naruto"
-                dept="Shinobi"
-                overall={3}
-                gradingRating={5}
-                gradingCom={"An easyily achieavable A+"}
-                teachingRating={3}
-                teachingCom={"Not that good  in delivering"}
-                personRating={2}
-                personCom={"Really helpful"}
-                term={"211"}
-                course={"ICS104"}
-              />
-              <EvaluationPreview
-                pic="/images/muhabpower.png"
-                name="Naruto"
-                dept="Shinobi"
-                overall={3}
-                gradingRating={5}
-                gradingCom={"An easyily achieavable A+"}
-                teachingRating={3}
-                teachingCom={"Not that good  in delivering"}
-                personRating={2}
-                personCom={"Really helpful"}
-                term={"211"}
-                course={"ICS104"}
-              />
+              {fullList}
             </Fade>
           </Row>
         </Card.Body>
