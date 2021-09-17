@@ -1,6 +1,6 @@
 $fnt-size: 16px;
 $bg-primary: #2ecfeb;
-$fnt-clr: rgb(168, 168, 168);
+$fnt-clr: rgb(139, 139, 139);
 $testing: #00dfc8;
 $clr-primary: #00ead3;
 .navbar_nav {
@@ -17,16 +17,16 @@ $clr-primary: #00ead3;
   justify-content: center;
   background: rgb(247, 247, 247);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253);
-  transition: 500ms ease;
+  transition: 200ms ease;
 }
 
 .collapser {
   background: rgb(247, 247, 247);
   border: none;
-  transition: 500ms ease;
+  transition: 200ms ease;
   .collapse_icon {
     color: $fnt-clr;
-    transition: 500ms ease;
+    transition: 200ms ease;
   }
 
   &:focus {
@@ -57,7 +57,7 @@ $clr-primary: #00ead3;
 
   font-weight: 700;
   cursor: pointer;
-  transition: 500ms ease;
+  transition: 200ms ease;
   &:hover,
   &:active {
     color: $bg-primary;
@@ -71,7 +71,7 @@ $clr-primary: #00ead3;
     font-size: 10px;
     margin: 8px;
     white-space: nowrap;
-    transition: color 500ms ease;
+    transition: color 200ms ease;
     display: flex;
     justify-content: center;
   }
@@ -135,11 +135,11 @@ $clr-primary: #00ead3;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253);
   color: $fnt-clr;
   left: 100vw;
-  transition: 500ms ease, height 200ms ease;
-  -webkit-transition: 500ms ease, height 200ms ease;
-  -moz-transition: 500ms ease, height 200ms ease;
-  -ms-transition: 500ms ease, height 200ms ease;
-  -o-transition: 500ms ease, height 200ms ease;
+  transition: 200ms ease, height 200ms ease;
+  -webkit-transition: 200ms ease, height 200ms ease;
+  -moz-transition: 200ms ease, height 200ms ease;
+  -ms-transition: 200ms ease, height 200ms ease;
+  -o-transition: 200ms ease, height 200ms ease;
 }
 
 .navbar_side ul {
@@ -150,7 +150,7 @@ $clr-primary: #00ead3;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  transition: 500ms ease, height 50ms ease;
+  transition: 200ms ease, height 50ms ease;
   height: 100%;
   min-height: 640px;
 }
@@ -198,7 +198,7 @@ $clr-primary: #00ead3;
 
 .nav_img {
   width: 1.8rem !important;
-  transition: 500ms ease;
+  transition: 200ms ease;
 }
 
 .nav_overlay {
@@ -221,7 +221,7 @@ $clr-primary: #00ead3;
   height: 2rem !important;
   border-radius: 1.25em;
   background: rgb(233, 165, 233);
-  transition: 500ms ease;
+  transition: 200ms ease;
   &:hover {
     border-radius: 0.5rem;
   }

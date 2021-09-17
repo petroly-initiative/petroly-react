@@ -85,7 +85,7 @@ export default function Navbar(props) {
   };
 
   useEffect(() => {
-    if (dataMe) {
+    if (dataMe && !loadingMe) {
       setUsername(
         dataMe.me.username,
         setProfilePic(dataMe.me.profile.profilePic, setEmail(dataMe.me.email))

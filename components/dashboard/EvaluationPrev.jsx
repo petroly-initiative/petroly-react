@@ -6,35 +6,36 @@ import { MdModeEdit } from "react-icons/md";
 import Image from "next/dist/client/image";
 import EvaluationModal from "../evaluation/EvaluationModal";
 import { useState } from "react";
+import { indexOf } from "lodash";
 /**
- * 
+ *
  * ? Evaluation preview setup
  * - Each card will trigger the previously created signInModal with populated parameters
- * - the edit icon will show up at the edge but users can click the whole card to edit 
+ * - the edit icon will show up at the edge but users can click the whole card to edit
  */
 
 /**
- * 
+ *
  * @param  props:data: {
  *  overall-rating,
  *  name,
  * pic,
  * department
- * } 
- * @returns 
+ * }
+ * @returns
  */
 
-export default function EvaluationPreview(props){
+export default function EvaluationPreview(props) {
+  const [modalVisible, setVisible] = useState(false);
 
-const [modalVisible, setVisible] = useState(false);
+  const closeModal = () => {
+    setVisible(false);
+  };
 
-const closeModal = () => {
-  setVisible(false);
-};
+  const launchModal = () => {
+    setVisible(true);
+  };
 
-const launchModal = () => {
-  setVisible(true);
-};
 
     return (
       <>
@@ -47,7 +48,7 @@ const launchModal = () => {
                 width="80"
                 height="80"
                 className={styles["profile-pic"]}
-                src= {props.pic}
+                src={props.pic}
               />
             </div>
             <div className={styles["instructor-name"]}>{props.name}</div>
@@ -67,22 +68,27 @@ const launchModal = () => {
           </div>
         </Card>
         <EvaluationModal
-          comments={["aaaaa", "bbbbb", "cccccc"]}
-          rates={(4, 2, 3)}
-          name={"data.instructor.name"}
+          name={props.data.name}
           id={"data.instructor.id"}
           image={
             <Image
-              style={{ borderRadius: "30px !important" }}
-              className={styles.picDiv}
-              src={"/images/muhabpower.png"}
-              width="140"
-              height="140"
+              width="80"
+              height="80"
+              className={styles["profile-pic"]}
+              src={props.data.profilePic}
             />
           }
           dept={"data"}
           close={closeModal}
           visible={modalVisible}
+          gradingRating={props.gradingRating}
+          gradingCom={props.gradingCom}
+          teachingRating={props.teachingRating}
+          teachingCom={props.teachingCom}
+          personRating={props.personRating}
+          personCom={props.personCom}
+          term={props.term}
+          course={props.course}
         />
       </>
     );
