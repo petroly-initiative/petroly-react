@@ -47,20 +47,20 @@ export default function EvaluationModal(props) {
   // evaluation form state
   // each category is an object with grade and comment attribute
   const [grading, setGrading] = useState({
-    rating: 0,
-    comment: "",
+    rating: props.gradingRating,
+    comment: props.gradingCom,
   });
   const [teaching, setTeaching] = useState({
-    rating: 0,
-    comment: "",
+    rating: props.teachingRating,
+    comment: props.teachingCom,
   });
   const [person, setPerson] = useState({
-    rating: 0,
-    comment: "",
+    rating: props.personRating,
+    comment: props.personCom,
   });
   const [extra, setExtra] = useState({
-    term: "",
-    course: "",
+    term: props.term,
+    course: props.course,
   });
 
   const [validationError, setError] = useState({
@@ -444,3 +444,4 @@ export default function EvaluationModal(props) {
     </>
   );
 }
+

@@ -6,6 +6,7 @@ import { MdModeEdit } from "react-icons/md";
 import Image from "next/dist/client/image";
 import EvaluationModal from "../evaluation/EvaluationModal";
 import { useState } from "react";
+import { indexOf } from "lodash";
 /**
  *
  * ? Evaluation preview setup
@@ -35,56 +36,62 @@ export default function EvaluationPreview(props) {
     setVisible(true);
   };
 
-  return (
-    <>
-      <Card onClick={launchModal} className={styles["card-body"] + " shadow"}>
-        <MdModeEdit size="1.2rem" className={styles["edit-icon"]} />
-        {/* img + name + dept container */}
-        <div className={styles["instructor-info"]}>
-          <div className={styles["pic-border"] + " shadow"}>
+
+    return (
+      <>
+        <Card onClick={launchModal} className={styles["card-body"] + " shadow"}>
+          <MdModeEdit size="1.2rem" className={styles["edit-icon"]} />
+          {/* img + name + dept container */}
+          <div className={styles["instructor-info"]}>
+            <div className={styles["pic-border"] + " shadow"}>
+              <Image
+                width="80"
+                height="80"
+                className={styles["profile-pic"]}
+                src={props.pic}
+              />
+            </div>
+            <div className={styles["instructor-name"]}>{props.name}</div>
+            <div className={styles["instructor-dept"]}>{props.dept}</div>
+          </div>
+          {/* eval stars container */}
+          <div className={styles["rate-container"]}>
+            <ReactStars
+              size={14}
+              count={5}
+              edit={false}
+              emptyIcon={<BsStar />}
+              filledIcon={<BsStarFill />}
+              value={props.overall}
+              activeColor="#ffd700"
+            />
+          </div>
+        </Card>
+        <EvaluationModal
+          comments={["aaaaa", "bbbbb", "cccccc"]}
+          rates={(4, 2, 3)}
+          name={"data.instructor.name"}
+          id={"data.instructor.id"}
+          image={
             <Image
               width="80"
               height="80"
               className={styles["profile-pic"]}
               src={props.data.profilePic}
             />
-          </div>
-          <div className={styles["instructor-name"]}>{props.data.name}</div>
-          <div className={styles["instructor-dept"]}>
-            {props.data.department}
-          </div>
-        </div>
-        {/* eval stars container */}
-        <div className={styles["rate-container"]}>
-          <ReactStars
-            size={14}
-            count={5}
-            edit={false}
-            emptyIcon={<BsStar />}
-            filledIcon={<BsStarFill />}
-            value={props.data.overall}
-            activeColor="#ffd700"
-          />
-        </div>
-      </Card>
-      <EvaluationModal
-        comments={["aaaaa", "bbbbb", "cccccc"]}
-        rates={(4, 2, 3)}
-        name={props.data.name}
-        id={"data.instructor.id"}
-        image={
-          <Image
-            style={{ borderRadius: "30px !important" }}
-            className={styles.picDiv}
-            src={props.data.profilePic}
-            width="140"
-            height="140"
-          />
-        }
-        dept={props.data.department}
-        close={closeModal}
-        visible={modalVisible}
-      />
-    </>
-  );
+          }
+          dept={"data"}
+          close={closeModal}
+          visible={modalVisible}
+          gradingRating={props.gradingRating}
+          gradingCom={props.gradingCom}
+          teachingRating={props.teachingRating}
+          teachingCom={props.teachingCom}
+          personRating={props.personRating}
+          personCom={props.personCom}
+          term={props.term}
+          course={props.course}
+        />
+      </>
+    );
 }

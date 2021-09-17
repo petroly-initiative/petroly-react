@@ -11,8 +11,6 @@ import {
 import { useContext, useEffect, useState } from "react";
 import EvaluationPreview from "./EvaluationPrev";
 import styles from "../../styles/dashboard-page/dashboard-tabs.module.scss";
-import { MdCancel } from "react-icons/md";
-import Image from "next/image";
 import { Fade } from "react-awesome-reveal";
 import { FiSearch } from "react-icons/fi";
 import { UserContext } from "../../state-management/user-state/UserContext";
@@ -123,7 +121,90 @@ export default function EvaluationsTab(props) {
               damping={0.05}
               className={"col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"}
             >
-              {fullList}
+              <EvaluationPreview
+                pic="/images/spongy.png"
+                name="Muhab"
+                dept="ICS"
+                overall={5}
+                gradingRating={5}
+                gradingCom={"An easyily achieavable A+"}
+                teachingRating={3}
+                teachingCom={"Not that good  in delivering"}
+                personRating={5}
+                personCom={"Really helpful"}
+                term={"211"}
+                course={"ICS108"}
+              />
+              <EvaluationPreview
+                pic="/images/muhabpower.png"
+                name="Naruto"
+                dept="Shinobi"
+                overall={3}
+                gradingRating={5}
+                gradingCom={"An easyily achieavable A+"}
+                teachingRating={3}
+                teachingCom={"Not that good  in delivering"}
+                personRating={2}
+                personCom={"Really helpful"}
+                term={"211"}
+                course={"ICS104"}
+              />
+              <EvaluationPreview
+                pic="/images/muhabpower.png"
+                name="Naruto"
+                dept="Shinobi"
+                overall={3}
+                gradingRating={5}
+                gradingCom={"An easyily achieavable A+"}
+                teachingRating={3}
+                teachingCom={"Not that good  in delivering"}
+                personRating={2}
+                personCom={"Really helpful"}
+                term={"211"}
+                course={"ICS104"}
+              />
+              <EvaluationPreview
+                pic="/images/muhabpower.png"
+                name="Naruto"
+                dept="Shinobi"
+                overall={3}
+                gradingRating={5}
+                gradingCom={"An easyily achieavable A+"}
+                teachingRating={3}
+                teachingCom={"Not that good  in delivering"}
+                personRating={2}
+                personCom={"Really helpful"}
+                term={"211"}
+                course={"ICS104"}
+              />
+              <EvaluationPreview
+                pic="/images/muhabpower.png"
+                name="Naruto"
+                dept="Shinobi"
+                overall={3}
+                gradingRating={5}
+                gradingCom={"An easyily achieavable A+"}
+                teachingRating={3}
+                teachingCom={"Not that good  in delivering"}
+                personRating={2}
+                personCom={"Really helpful"}
+                term={"211"}
+                course={"ICS104"}
+              />
+              <EvaluationPreview
+                pic="/images/muhabpower.png"
+                name="Naruto"
+                dept="Shinobi"
+                overall={3}
+                gradingRating={5}
+                gradingCom={"An easyily achieavable A+"}
+                teachingRating={3}
+                teachingCom={"Not that good  in delivering"}
+                personRating={2}
+                personCom={"Really helpful"}
+                term={"211"}
+                course={"ICS104"}
+              />
             </Fade>
           </Row>
         </Card.Body>
