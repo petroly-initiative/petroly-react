@@ -104,6 +104,7 @@ export const meEvaluationSetQuery = gql`
             name
             profilePic
             department
+            overall
           }
         }
       }

@@ -72,7 +72,9 @@ export default function EvaluationsTab(props) {
     });
 
   // ? The mapped componentes will be stores in either according to mode
-  const fullList = evalMapper();
+  const fullList = dataEval.me.evaluationSet.data.map((evaluation) => {
+    return <EvaluationPreview data={evaluation.instructor} />;
+  });
   const matchingList = "matching only";
   console.log(fullList);
 
