@@ -156,7 +156,13 @@ export default function CustomPagination(props) {
         {pagesList}
 
         {props.currentPage == props.pageNum ? (
-          <Pagination.Item disabled>{"›"}</Pagination.Item>
+          <Pagination.Item
+            className={styles["buttons"]}
+            disabled
+            
+          >
+            {"›"}
+          </Pagination.Item>
         ) : (
           <Pagination.Item
             onClick={nextBtn}
@@ -167,7 +173,13 @@ export default function CustomPagination(props) {
           </Pagination.Item>
         )}
         {props.currentPage == props.pageNum ? (
-          <Pagination.Item disabled>{"››"}</Pagination.Item>
+          <Pagination.Item
+            className={styles["buttons"]}
+            
+            disabled
+          >
+            {"››"}
+          </Pagination.Item>
         ) : (
           <Pagination.Item
             onClick={lastBtn}

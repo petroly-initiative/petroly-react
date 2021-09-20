@@ -44,7 +44,7 @@ function instructorsReducer(state, action) {
       throw new Error("instructorsReducer didn't find what to do");
   }
 }
-const ITEMS = 6; // Number of InstructorCards per page
+const ITEMS = 18; // Number of InstructorCards per page
 const initialInstructorsState = {
   limit: ITEMS,
   offset: 0,
