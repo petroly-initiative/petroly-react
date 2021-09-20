@@ -29,7 +29,7 @@ export default function HomeScreen() {
           <Row className={styles["containers"]}>
             <Col
               xl={4}
-              l={4}
+              lg={4}
               md={6}
               sm={12}
               className={[styles["news"], styles["columns"]]}
@@ -42,7 +42,7 @@ export default function HomeScreen() {
             </Col>
             <Col
               xl={4}
-              l={4}
+              lg={4}
               md={6}
               sm={12}
               className={[styles["news"], styles["columns"]]}
@@ -55,7 +55,7 @@ export default function HomeScreen() {
             </Col>
             <Col
               xl={4}
-              l={4}
+              lg={4}
               md={6}
               sm={12}
               className={[styles["news"], styles["columns"]]}
@@ -68,7 +68,7 @@ export default function HomeScreen() {
             </Col>
             <Col
               xl={4}
-              l={4}
+              lg={4}
               md={6}
               sm={12}
               className={[styles["news"], styles["columns"]]}
@@ -81,7 +81,7 @@ export default function HomeScreen() {
             </Col>
             <Col
               xl={4}
-              l={4}
+              lg={4}
               md={6}
               sm={12}
               className={[styles["news"], styles["columns"]]}
@@ -94,7 +94,7 @@ export default function HomeScreen() {
             </Col>
             <Col
               xl={4}
-              l={4}
+              lg={4}
               md={6}
               sm={12}
               className={[styles["news"], styles["columns"]]}

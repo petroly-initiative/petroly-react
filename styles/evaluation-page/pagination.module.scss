@@ -10,6 +10,8 @@ $btn-pr: #1cbfff;
 }
 
 .buttons {
+  display: flex;
+  justify-content: center;
   border-radius: 4px;
   width: 35px;
   margin: 1px;
@@ -18,7 +20,9 @@ $btn-pr: #1cbfff;
   transition: 500ms ease;
   a {
     border: unset;
+
     color: $btn-pr !important;
+    text-align: center;
     background-color: unset !important;
     font-size: 18px;
     font-weight: 600;
@@ -28,6 +32,7 @@ $btn-pr: #1cbfff;
     height: 100% !important;
     font-size: 18px;
     font-weight: 600;
+    text-align: center;
     border: unset;
     background-color: unset !important;
   }
