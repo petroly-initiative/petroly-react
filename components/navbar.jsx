@@ -77,15 +77,15 @@ export default function Navbar(props) {
   };
 
   var navStyles = {
-    home: { color: props.page == "home" ? "#2ecfeb" : "" },
-    rating: { color: props.page == "rating" ? "#2ecfeb" : "" },
-    resources: { color: props.page == "resources" ? "#2ecfeb" : "" },
-    communities: { color: props.page == "communities" ? "#2ecfeb" : "" },
-    chat: { color: props.page == "chat" ? "#2ecfeb" : "" },
+    home: props.page === "home" ? styles["active-link"] : "",
+    rating: props.page === "rating" ? styles["active-link"] : "",
+    resources: props.page == "resources" ? styles["active-link"] : "",
+    communities: props.page == "communities" ? styles["active-link"] : "",
+    chat: props.page == "chat" ? styles["active-link"] : "",
   };
 
   useEffect(() => {
-    if (dataMe) {
+    if (dataMe && !loadingMe) {
       setUsername(
         dataMe.me.username,
         setProfilePic(dataMe.me.profile.profilePic, setEmail(dataMe.me.email))
@@ -120,12 +120,12 @@ export default function Navbar(props) {
               <Image
                 style={{ margin: 0 }}
                 src="/favicon.png"
-                width={35}
-                height={35}
+                width={30}
+                height={30}
               />
             </li>
             <Button className={styles.collapser} onClick={showSidebar}>
-              <FiMenu className={styles.collapse_icon} size="1.6em" />
+              <FiMenu className={styles.collapse_icon} size="1.3em" />
             </Button>
             <div className={styles.navbar_side} style={sideBarStyle}>
               <div
@@ -138,53 +138,53 @@ export default function Navbar(props) {
                   <Spinner animation="border" role="status" />
                 </li>
                 <div className={styles.nav_pages}>
-                  <li style={navStyles.home} className={styles.navbar_item}>
+                  <li className={styles.navbar_item}>
                     <Link href="/" className={styles.navbar_link}>
-                      <div className={styles.link_btn}>
-                        <AiFillHome className={styles.nav_img} size="1.6em" />
+                      <div className={styles.link_btn + " " + navStyles.home}>
+                        <AiFillHome className={styles.nav_img} size="1.3em" />
                         <div className={styles.link_text}>الرئيسية</div>
                       </div>
                     </Link>
                   </li>
-                  <li
-                    style={navStyles.resources}
-                    className={styles.navbar_item}
-                  >
+                  <li className={styles.navbar_item}>
                     <Link href="/" className={styles.navbar_link}>
-                      <div className={styles.link_btn}>
-                        <ImBook className={styles.nav_img} size="1.6em" />
+                      <div
+                        className={styles.link_btn + " " + navStyles.resources}
+                      >
+                        <ImBook className={styles.nav_img} size="1.3em" />
                         <div className={styles.link_text}>الموارد</div>
                       </div>
                     </Link>
                   </li>
-                  <li style={navStyles.rating} className={styles.navbar_item}>
+                  <li className={styles.navbar_item}>
                     <Link href="/instructors" className={styles.navbar_link}>
-                      <div className={styles.link_btn}>
-                        <BsStarFill className={styles.nav_img} size="1.6em" />
+                      <div className={styles.link_btn + " " + navStyles.rating}>
+                        <BsStarFill className={styles.nav_img} size="1.3em" />
                         <div className={styles.link_text}>التقييم</div>
                       </div>
                     </Link>
                   </li>
-                  <li style={navStyles.chat} className={styles.navbar_item}>
+                  <li className={styles.navbar_item}> 
                     <Link href="/" className={styles.navbar_link}>
-                      <div className={styles.link_btn}>
+                      <div className={styles.link_btn + " " + navStyles.chat}>
                         <BsChatSquareDotsFill
                           className={styles.nav_img}
-                          size="1.6em"
+                          size="1.3em"
                         />
                         <div className={styles.link_text}>المحادثات</div>
                       </div>
                     </Link>
                   </li>
-                  <li
-                    style={navStyles.communities}
-                    className={styles.navbar_item}
-                  >
+                  <li className={styles.navbar_item}>
                     <Link href="/" className={styles.navbar_link}>
-                      <div className={styles.link_btn}>
+                      <div
+                        className={
+                          styles.link_btn + " " + navStyles.communities
+                        }
+                      >
                         <BsFillPeopleFill
                           className={styles.nav_img}
-                          size="1.6em"
+                          size="1.3em"
                         />
                         <div className={styles.link_text}>المجتمعات</div>
                       </div>
@@ -208,7 +208,7 @@ export default function Navbar(props) {
             <ul className={styles.navbar_nav}>
               <li className={styles.navbar_item}>
                 <Link href="/" className={styles.navbar_link}>
-                  <Image src="/favicon.png" width={35} height={35} />
+                  <Image src="/favicon.png" width={30} height={30} />
                 </Link>
               </li>
 
@@ -219,51 +219,52 @@ export default function Navbar(props) {
                 <Spinner animation="border" role="status" />
               </li>
               <div className={styles.nav_pages}>
-                <li style={navStyles.home} className={styles.navbar_item}>
+                <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
-                    <div className={styles.link_btn}>
-                      <AiFillHome className={styles.nav_img} size="1.6em" />
+                    <div className={styles.link_btn + " " + navStyles.home}>
+                      <AiFillHome className={styles.nav_img} size="1.3em" />
                       <div className={styles.link_text}>الرئيسية</div>
                     </div>
                   </Link>
                 </li>
 
-                <li style={navStyles.resources} className={styles.navbar_item}>
+                <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
-                    <div className={styles.link_btn}>
-                      <ImBook className={styles.nav_img} size="1.6em" />
+                    <div
+                      className={styles.link_btn + " " + navStyles.resources}
+                    >
+                      <ImBook className={styles.nav_img} size="1.3em" />
                       <div className={styles.link_text}>الموارد</div>
                     </div>
                   </Link>
                 </li>
-                <li style={navStyles.rating} className={styles.navbar_item}>
+                <li className={styles.navbar_item}>
                   <Link href="/instructors" className={styles.navbar_link}>
-                    <div className={styles.link_btn}>
-                      <BsStarFill className={styles.nav_img} size="1.6em" />
+                    <div className={styles.link_btn + " " + navStyles.rating}>
+                      <BsStarFill className={styles.nav_img} size="1.3em" />
                       <div className={styles.link_text}>التقييم</div>
                     </div>
                   </Link>
                 </li>
-                <li style={navStyles.chat} className={styles.navbar_item}>
+                <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
-                    <div className={styles.link_btn}>
+                    <div className={styles.link_btn + " " + navStyles.chat}>
                       <BsChatSquareDotsFill
                         className={styles.nav_img}
-                        size="1.6em"
+                        size="1.3em"
                       />
                       <div className={styles.link_text}>المحادثات</div>
                     </div>
                   </Link>
                 </li>
-                <li
-                  style={navStyles.communities}
-                  className={styles.navbar_item}
-                >
+                <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
-                    <div className={styles.link_btn}>
+                    <div
+                      className={styles.link_btn + " " + navStyles.communities}
+                    >
                       <BsFillPeopleFill
                         className={styles.nav_img}
-                        size="1.6em"
+                        size="1.3em"
                       />
                       <div className={styles.link_text}>المجتمعات</div>
                     </div>
@@ -292,12 +293,12 @@ export default function Navbar(props) {
             <Image
               style={{ margin: 0 }}
               src="/favicon.png"
-              width={35}
-              height={35}
+              width={30}
+              height={30}
             />
           </li>
           <Button className={styles.collapser} onClick={showSidebar}>
-            <FiMenu className={styles.collapse_icon} size="1.6em" />
+            <FiMenu className={styles.collapse_icon} size="1.3em" />
           </Button>
           <div className={styles.navbar_side} style={sideBarStyle}>
             <div
@@ -392,50 +393,51 @@ export default function Navbar(props) {
                 )}
               </li>
               <div className={styles.nav_pages}>
-                <li style={navStyles.home} className={styles.navbar_item}>
+                <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
-                    <div className={styles.link_btn}>
-                      <AiFillHome className={styles.nav_img} size="1.6em" />
+                    <div className={styles.link_btn + " " + navStyles.home}>
+                      <AiFillHome className={styles.nav_img} size="1.3em" />
                       <div className={styles.link_text}>الرئيسية</div>
                     </div>
                   </Link>
                 </li>
-                <li style={navStyles.resources} className={styles.navbar_item}>
+                <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
-                    <div className={styles.link_btn}>
-                      <ImBook className={styles.nav_img} size="1.6em" />
+                    <div
+                      className={styles.link_btn + " " + navStyles.resources}
+                    >
+                      <ImBook className={styles.nav_img} size="1.3em" />
                       <div className={styles.link_text}>الموارد</div>
                     </div>
                   </Link>
                 </li>
-                <li style={navStyles.rating} className={styles.navbar_item}>
+                <li className={styles.navbar_item}>
                   <Link href="/instructors" className={styles.navbar_link}>
-                    <div className={styles.link_btn}>
-                      <BsStarFill className={styles.nav_img} size="1.6em" />
+                    <div className={styles.link_btn + " " + navStyles.rating}>
+                      <BsStarFill className={styles.nav_img} size="1.3em" />
                       <div className={styles.link_text}>التقييم</div>
                     </div>
                   </Link>
                 </li>
-                <li style={navStyles.chat} className={styles.navbar_item}>
+                <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
-                    <div className={styles.link_btn}>
+                    <div className={styles.link_btn + " " + navStyles.chat}>
                       <BsChatSquareDotsFill
                         className={styles.nav_img}
-                        size="1.6em"
+                        size="1.3em"
                       />
                       <div className={styles.link_text}>المحادثات</div>
                     </div>
                   </Link>
                 </li>
-                <li
-                  style={navStyles.communities}
-                  className={styles.navbar_item}
-                >
-                  <Link href="/" className={styles.navbar_link}>
-                    <div className={styles.link_btn}>
+                <li className={styles.navbar_item}>
+                  <Link href="/Groups" className={styles.navbar_link}>
+                    <div
+                      className={styles.link_btn + +" " + navStyles.communities}
+                    >
                       <BsFillPeopleFill
                         className={styles.nav_img}
-                        size="1.6em"
+                        size="1.3em"
                       />
                       <div className={styles.link_text}>المجتمعات</div>
                     </div>
@@ -553,46 +555,48 @@ export default function Navbar(props) {
               )}
             </li>
             <div className={styles.nav_pages}>
-              <li style={navStyles.home} className={styles.navbar_item}>
+              <li className={styles.navbar_item}>
                 <Link href="/" className={styles.navbar_link}>
-                  <div className={styles.link_btn}>
-                    <AiFillHome className={styles.nav_img} size="1.6em" />
+                  <div className={styles.link_btn + " " + navStyles.home}>
+                    <AiFillHome className={styles.nav_img} size="1.3em" />
                     <div className={styles.link_text}>الرئيسية</div>
                   </div>
                 </Link>
               </li>
 
-              <li style={navStyles.resources} className={styles.navbar_item}>
+              <li className={styles.navbar_item}>
                 <Link href="/" className={styles.navbar_link}>
-                  <div className={styles.link_btn}>
-                    <ImBook className={styles.nav_img} size="1.6em" />
+                  <div className={styles.link_btn + " " + navStyles.resources}>
+                    <ImBook className={styles.nav_img} size="1.3em" />
                     <div className={styles.link_text}>الموارد</div>
                   </div>
                 </Link>
               </li>
-              <li style={navStyles.rating} className={styles.navbar_item}>
+              <li className={styles.navbar_item}>
                 <Link href="/instructors" className={styles.navbar_link}>
-                  <div className={styles.link_btn}>
-                    <BsStarFill className={styles.nav_img} size="1.6em" />
+                  <div className={styles.link_btn + " " + navStyles.rating}>
+                    <BsStarFill className={styles.nav_img} size="1.3em" />
                     <div className={styles.link_text}>التقييم</div>
                   </div>
                 </Link>
               </li>
-              <li style={navStyles.chat} className={styles.navbar_item}>
+              <li className={styles.navbar_item}>
                 <Link href="/" className={styles.navbar_link}>
-                  <div className={styles.link_btn}>
+                  <div className={styles.link_btn + " " + navStyles.chat}>
                     <BsChatSquareDotsFill
                       className={styles.nav_img}
-                      size="1.6em"
+                      size="1.3em"
                     />
                     <div className={styles.link_text}>المحادثات</div>
                   </div>
                 </Link>
               </li>
-              <li style={navStyles.communities} className={styles.navbar_item}>
-                <Link href="/" className={styles.navbar_link}>
-                  <div className={styles.link_btn}>
-                    <BsFillPeopleFill className={styles.nav_img} size="1.6em" />
+              <li className={styles.navbar_item}>
+                <Link href="/Groups" className={styles.navbar_link}>
+                  <div
+                    className={styles.link_btn + " " + navStyles.communities}
+                  >
+                    <BsFillPeopleFill className={styles.nav_img} size="1.3em" />
                     <div className={styles.link_text}>المجتمعات</div>
                   </div>
                 </Link>

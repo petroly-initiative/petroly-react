@@ -62,6 +62,8 @@ $txt-high: #0091e7;
 .btns-container {
   margin-left: auto;
   display: flex;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
 }
 

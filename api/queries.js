@@ -72,13 +72,16 @@ export const getDepartments = gql`
 `;
 
 export const meQuery = gql`
-  query ME {
+  query Me {
     me {
       id
       username
       email
       profile {
         profilePic
+      }
+      evaluationSet {
+        count
       }
     }
   }
@@ -87,5 +90,24 @@ export const meQuery = gql`
 export const hasEvaluatedQuery = gql`
   query ($instructorId: Int) {
     hasEvaluated(id: $instructorId)
+  }
+`;
+
+export const meEvaluationSetQuery = gql`
+  query Me {
+    me {
+      evaluationSet {
+        count
+        data {
+          id
+          instructor {
+            name
+            profilePic
+            department
+            overall
+          }
+        }
+      }
+    }
   }
 `;

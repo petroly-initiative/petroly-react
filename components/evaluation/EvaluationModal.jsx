@@ -47,20 +47,20 @@ export default function EvaluationModal(props) {
   // evaluation form state
   // each category is an object with grade and comment attribute
   const [grading, setGrading] = useState({
-    rating: 0,
-    comment: "",
+    rating: props.gradingRating,
+    comment: props.gradingCom,
   });
   const [teaching, setTeaching] = useState({
-    rating: 0,
-    comment: "",
+    rating: props.teachingRating,
+    comment: props.teachingCom,
   });
   const [person, setPerson] = useState({
-    rating: 0,
-    comment: "",
+    rating: props.personRating,
+    comment: props.personCom,
   });
   const [extra, setExtra] = useState({
-    term: "",
-    course: "",
+    term: props.term,
+    course: props.course,
   });
 
   const [validationError, setError] = useState({
@@ -238,7 +238,7 @@ export default function EvaluationModal(props) {
               </div>
 
               <Form.Row className={styles["evaluation-data"]}>
-                <Col xs={12} sm={12} md={6}>
+                <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Form.Label className={styles["labels"]}>
                     الفصل الدراسي
                   </Form.Label>
@@ -265,7 +265,7 @@ export default function EvaluationModal(props) {
                     </FormControl.Feedback>
                   </InputGroup>
                 </Col>
-                <Col xs={12} sm={12} md={6}>
+                <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Form.Label className={styles["labels"]}>
                     المادة الدراسية
                   </Form.Label>
@@ -444,3 +444,4 @@ export default function EvaluationModal(props) {
     </>
   );
 }
+

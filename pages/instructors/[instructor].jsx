@@ -165,10 +165,7 @@ export default function instructorDetails({ data }) {
       </Head>
       <Navbar page="rating" />
       <Container className={styles.container}>
-        <Row
-        className={styles["col-container"]}
-          
-        >
+        <Row className={styles["col-container"]}>
           <Col xl={4} lg={6} className={styles.statsCol}>
             <Card style={{ borderRadius: 8 }} className={"shadow border-0"}>
               <Card.Body
@@ -177,8 +174,8 @@ export default function instructorDetails({ data }) {
               >
                 <div
                   style={{
-                    background:
-                      'rgb(9, 248, 236) url("/images/background.svg")',
+                    borderBottom:
+                      '2.5px solid rgb(9, 248, 236) ',
                   }}
                   className={cardStyles.cardColor}
                 >
@@ -310,6 +307,14 @@ export default function instructorDetails({ data }) {
           dept={data.instructor.department}
           close={closeModal}
           visible={modalVisible}
+          gradingRating = {0}
+          gradingCom = {""}
+          teachingRating = {0}
+          teachingCom = {""}
+          personRating = {0}
+          personCom = {""}
+          term={""}
+          course = {""}
         />
       </Container>
     </>
