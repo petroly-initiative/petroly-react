@@ -174,8 +174,8 @@ export default function instructorDetails({ data }) {
               >
                 <div
                   style={{
-                    background:
-                      'rgb(9, 248, 236) url("/images/background.svg")',
+                    borderBottom:
+                      '2.5px solid rgb(9, 248, 236) ',
                   }}
                   className={cardStyles.cardColor}
                 >

@@ -1,0 +1,207 @@
+$txt-fill: rgb(146, 146, 146);
+$txt-hg: #0091e7;
+$btn-prim: #00ead3;
+$x: #622edb;
+.Cardholder {
+  transition: 300ms ease;
+  border: none;
+  cursor: pointer;
+  align-self: center;
+  background: #ffffff;
+  margin: 8px;
+  &:hover {
+    transform: scale(1.02);
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.cardBody {
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 !important;
+  padding-bottom: 16px !important;
+  overflow: hidden;
+
+  .group-pic {
+    width: 70px;
+    height: 70px;
+    margin: auto;
+    margin-top: 10px;
+    padding-bottom: 8px;
+    padding: 4px;
+    border-radius: 35px;
+    overflow: hidden;
+    background-color: white;
+    color: white !important;
+
+    img {
+      border-radius: 35px;
+    }
+  }
+}
+
+.cardHeader {
+  background-color: white;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgb(146, 146, 146);
+  .btns-container {
+    display: flex;
+    width: 90px;
+    justify-content: space-between;
+  }
+
+  .date-tag {
+    color: $txt-fill;
+    font-size: 12px;
+  }
+
+  .btns {
+    -moz-transform: scale(0.9, 0.9); /* Moz-browsers */
+    zoom: 0.9; /* Other non-webkit browsers */
+    zoom: 90%;
+  }
+  .likes-btn {
+    display: flex;
+    margin-right: 4px;
+
+    width: 50px;
+    justify-content: space-between;
+    align-items: center;
+    transition: 300ms ease;
+
+    span {
+      font-size: 14px;
+      transition: 300ms ease;
+    }
+
+    button {
+      transition: 300ms ease;
+    }
+
+    &:hover {
+      button {
+        background-color: unset;
+        color: $btn-prim !important;
+      }
+      span {
+        color: $btn-prim;
+      }
+    }
+  }
+
+  .report-btn {
+    -moz-transform: scale(0.9, 0.9); /* Moz-browsers */
+    zoom: 0.9; /* Other non-webkit browsers */
+    zoom: 90%;
+    &:hover {
+      background-color: unset;
+      color: red;
+    }
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: $txt-fill;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2px;
+    font-size: 1rem;
+    border-radius: 15px;
+    transition: 300ms ease;
+    &:active,
+    &:focus {
+      background-color: white !important;
+      color: $txt-fill !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+  }
+}
+
+.group-name {
+  font-size: 28px;
+  width: 80%;
+  color: #52575d;
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.group-info {
+  display: flex;
+  width: 100%;
+
+  font-weight: 700;
+  justify-content: center;
+}
+
+.tags {
+  color: white;
+  padding: 4px 8px;
+  margin: 4px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 17px;
+  transition: 300ms ease;
+
+  .tag-icon {
+    padding: 0;
+    width: 18px;
+    height: 18px;
+  }
+
+  .tag-text {
+    margin-left: 0;
+    visibility: hidden;
+    opacity: 0;
+    max-width: 0;
+    white-space: nowrap;
+    text-align: center;
+    transition: opacity 0.8s ease;
+    font-size: 13px;
+  }
+
+  &:hover {
+    .tag-text {
+      margin-left: 8px;
+      max-width: 6rem;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.type-tag {
+  width: 34px;
+  padding: 4px 8px;
+  &:hover {
+    width: 100px;
+  }
+}
+
+.platform-tag {
+  width: 34px;
+
+  &:hover {
+    width: 110px;
+    &:hover {
+      .tag-text {
+        margin-left: 12px;
+      }
+    }
+  }
+}
