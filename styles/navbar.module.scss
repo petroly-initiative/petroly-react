@@ -1,6 +1,6 @@
 $fnt-size: 16px;
 $bg-primary: #2ecfeb;
-$fnt-clr: rgb(139, 139, 139);
+$fnt-clr: rgb(170, 170, 170);
 $testing: #00dfc8;
 $clr-primary: #00ead3;
 .navbar_nav {
@@ -62,18 +62,38 @@ $clr-primary: #00ead3;
   &:active {
     color: $bg-primary;
     .link_text {
-      color: $bg-primary;
+      opacity: 1;
+    }
+  }
+
+  .active-link {
+    background-color: $bg-primary;
+    transition: 200ms ease;
+    color: white !important;
+    .link_text {
+      color: white !important;
+      opacity: 1;
+    }
+    box-shadow: 0 0 6px $bg-primary;
+    &:hover,
+    &:active {
+      .link_text {
+        color: white !important;
+      }
     }
   }
 
   .link_text {
     width: 100%;
+    opacity: 0;
     font-size: 10px;
-    margin: 8px;
+    margin: 6px;
     white-space: nowrap;
-    transition: color 200ms ease;
+    transition: 500ms ease;
+    font-weight: 700;
     display: flex;
     justify-content: center;
+    color: $bg-primary;
   }
 }
 
@@ -178,6 +198,9 @@ $clr-primary: #00ead3;
     color: $bg-primary !important;
     background: rgb(233, 233, 233);
     box-shadow: unset !important;
+    .link_text {
+      opacity: 1;
+    }
   }
 }
 
@@ -199,6 +222,7 @@ $clr-primary: #00ead3;
 .nav_img {
   width: 1.8rem !important;
   transition: 200ms ease;
+  margin-top: 3px;
 }
 
 .nav_overlay {
@@ -211,9 +235,12 @@ $clr-primary: #00ead3;
 }
 
 .link_btn {
+  width: 3.6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 4px;
+  padding: 4px;
 }
 
 .profile {
@@ -238,6 +265,8 @@ $clr-primary: #00ead3;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   margin-right: 16px;
 }
@@ -273,10 +302,9 @@ $clr-primary: #00ead3;
   flex-direction: column;
   align-items: flex-start;
   padding: 2px;
-  
 }
 
-.info-btn{
+.info-btn {
   color: $bg-primary !important;
   text-align: right;
   font-weight: 600;
@@ -288,7 +316,7 @@ $clr-primary: #00ead3;
   width: 100%;
   border-radius: 0.25rem;
   transition: 200ms ease;
-  &:hover{
+  &:hover {
     background-color: $bg-primary;
     color: white !important;
   }
@@ -301,7 +329,7 @@ $clr-primary: #00ead3;
   color: rgb(255, 89, 89);
   padding: 6px;
   width: 100%;
-  margin:2px;
+  margin: 2px;
   font-size: 13px;
   font-family: "Cairo", sans-serif !important;
   font-weight: 600;

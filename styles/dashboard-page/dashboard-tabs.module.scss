@@ -83,12 +83,12 @@ $txt-high: #0091e7;
   color: rgb(88, 88, 88);
 }
 
-.img-input{
-      border: 1px solid #ced4da;
-    -webkit-appearance: none;
-    appearance: none;
-    border-radius: .25rem;
-    
+.img-input {
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
 }
 
 .user-name {
@@ -98,13 +98,11 @@ $txt-high: #0091e7;
   margin-top: 8px;
 }
 
-.evals-row{
+.evals-row {
   width: 100%;
   padding: 8px;
   margin: 0;
 }
-
-
 
 .user-email {
   font-weight: 600;
@@ -120,14 +118,14 @@ $txt-high: #0091e7;
   padding: 16px;
 }
 
-.search-set{
+.search-set {
   margin-left: auto;
   justify-self: flex-start;
   display: flex;
   font-size: 2rem !important;
 }
 
-.header-search{
+.header-search {
   width: 100% !important;
   margin-right: 5px;
 }
@@ -142,7 +140,6 @@ $txt-high: #0091e7;
   width: 148px;
   border-radius: 74px;
 }
-
 
 .profile-pic {
   border-radius: 70px;
@@ -173,7 +170,6 @@ $txt-high: #0091e7;
     box-shadow: unset !important;
     border: unset !important;
     background-color: unset;
-    
   }
 }
 
@@ -186,7 +182,7 @@ $txt-high: #0091e7;
   }
 }
 
-.loading-spinner{
+.loading-spinner {
   width: 50px;
   height: 50px;
   margin: 12px !important;
@@ -212,7 +208,7 @@ $txt-high: #0091e7;
   color: $txt-fill;
 }
 
-.eval-cards{
+.eval-cards {
   height: 400px;
   padding: 16px;
   overflow-y: scroll;
@@ -231,11 +227,10 @@ $txt-high: #0091e7;
 
 .eval-cards::-webkit-scrollbar-thumb {
   background: #969696;
-
 }
 
 @media only screen and (max-width: 600px) {
-  .eval-cards{
+  .eval-cards {
     padding: 8px;
   }
 }
