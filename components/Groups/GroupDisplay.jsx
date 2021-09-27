@@ -12,11 +12,6 @@ import classNames from "classnames";
  * @returns A modal to preview the group to enter it
  */
 export default function GroupDisplay(props) {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const arTitles = {
     platform: "المنصة",
     type: "تصنيف المجموعة",
@@ -26,49 +21,63 @@ export default function GroupDisplay(props) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        style={{ direction: "rtl" }}
+        show={props.showModal}
+        onHide={props.handleClose}
+      >
         <Modal.Header className="justify-content-center text-center">
           <Col className="justify-content-center">
             {/* group image */}
-            <img src="" alt="" />
+            <div>{props.image}</div>
 
             {/* group name */}
-            <Modal.Title>{props.group.name}</Modal.Title>
+            <Modal.Title>{props.name}</Modal.Title>
+            <div className="d-flex justify-content-center ">
+              <ReactStars
+                sytle={{ direction: "rtl" }}
+                className="justify-content-center"
+                size={14}
+                count={5}
+                edit={false}
+                emptyIcon={<BsStar />}
+                filledIcon={<BsStarFill />}
+                value={3}
+                activeColor="#ffd700"
+              />
+            </div>
 
             {/* rating */}
-            <ReactStars
-              className="justify-content-center text-center"
-              size={14}
-              count={5}
-              edit={false}
-              emptyIcon={<BsStar />}
-              filledIcon={<BsStarFill />}
-              value={props.starValue}
-              activeColor="#ffd700"
-            />
           </Col>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="text-right">
           {/* platform */}
-          <Row>
+          <Row className="align-items-center justify-content-between">
             <Col sm={8}>
               <h2 className={styles.title}>{arTitles.platform}</h2>
             </Col>
             <Col>
-              <h4>platform2</h4>
+              <div
+                className={styles.highlightText}
+                style={{ background: props.platformColor(props.platform) }}
+              >
+                {props.platform}
+              </div>
             </Col>
           </Row>
 
           {/* group type */}
-          <Row>
+          <Row className="align-items-center">
             <Col sm={8}>
               <h2 className={styles.title}>{arTitles.type}</h2>
             </Col>
             <Col>
-              <h4>Educational</h4>
+              <div
+                className={styles.highlightText}
+                style={{ background: props.typeColor(props.type) }}
+              >
+                {props.type}
+              </div>
             </Col>
           </Row>
 
@@ -78,10 +87,12 @@ export default function GroupDisplay(props) {
               <Col sm={8}>
                 <h2 className={styles.title}>{arTitles.description}</h2>
               </Col>
-              <Col className={classNames(styles.description,"px-4")}>
+              <Col className={classNames(styles.description, "px-4")}>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Iusto, ullam?
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
                 </p>
               </Col>
             </div>
@@ -89,9 +100,7 @@ export default function GroupDisplay(props) {
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
           {/* join button */}
-          <Button variant="primary" onClick={handleShow}>
-            {arTitles.joinCommunity}
-          </Button>
+          <Button variant="primary">{arTitles.joinCommunity}</Button>
         </Modal.Footer>
       </Modal>
     </>
