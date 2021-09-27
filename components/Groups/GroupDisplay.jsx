@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Modal, Button, Col, Row } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
 import { BsStarFill, BsStar } from "react-icons/bs";
+import styles from "../../styles/groups-page/groups-display.module.scss";
+import classNames from "classnames";
 
 /**
  *
@@ -16,7 +18,7 @@ export default function GroupDisplay(props) {
   const handleShow = () => setShow(true);
 
   const arTitles = {
-    platform: "platform",
+    platform: "المنصة",
     type: "تصنيف المجموعة",
     description: "الوصف",
     joinCommunity: "انضم للمجموعة",
@@ -34,7 +36,7 @@ export default function GroupDisplay(props) {
             <img src="" alt="" />
 
             {/* group name */}
-            <Modal.Title>Group Name</Modal.Title>
+            <Modal.Title>{props.group.name}</Modal.Title>
 
             {/* rating */}
             <ReactStars
@@ -53,7 +55,7 @@ export default function GroupDisplay(props) {
           {/* platform */}
           <Row>
             <Col sm={8}>
-              <h2>Platform</h2>
+              <h2 className={styles.title}>{arTitles.platform}</h2>
             </Col>
             <Col>
               <h4>platform2</h4>
@@ -63,7 +65,7 @@ export default function GroupDisplay(props) {
           {/* group type */}
           <Row>
             <Col sm={8}>
-              <h2>{arTitles.type}</h2>
+              <h2 className={styles.title}>{arTitles.type}</h2>
             </Col>
             <Col>
               <h4>Educational</h4>
@@ -74,9 +76,9 @@ export default function GroupDisplay(props) {
           <Row>
             <div>
               <Col sm={8}>
-                <h3>{arTitles.description}</h3>
+                <h2 className={styles.title}>{arTitles.description}</h2>
               </Col>
-              <Col className="px-4">
+              <Col className={classNames(styles.description,"px-4")}>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   Iusto, ullam?

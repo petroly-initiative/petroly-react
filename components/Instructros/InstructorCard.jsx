@@ -12,7 +12,9 @@ import styles from "../../styles/evaluation-page/instructors-card.module.scss";
  * TODO: Create an overlay for evaluation numbers
  */
 function InstructorCard(props) {
-  
+  const btnClass = classNames("foo", "bar");
+  console.log(btnClass);
+
   return (
     <Link href={`/instructors/${props.instructorID}`}>
       <Card
@@ -21,7 +23,9 @@ function InstructorCard(props) {
       >
         <Card.Body className={styles.container}>
           <div
-            style={{ background: "rgb(9, 248, 236) url('/images/background.svg')" }}
+            style={{
+              background: "rgb(9, 248, 236) url('/images/background.svg')",
+            }}
             className={styles.cardColor}
           >
             <div className={styles.insuctor_pic + " shadow"}>{props.image}</div>
