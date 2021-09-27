@@ -20,6 +20,8 @@ import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
 import { useEffect, useState } from "react";
 import GroupsFilter from "../components/Groups/GroupsFilter";
+import GroupCreationCard from "../components/Groups/GroupCreationCard";
+
 
 /**
  * TODO:
@@ -42,6 +44,7 @@ function Groups(state, action) {
     Entertainment: true,
     Section: { find: false, course: "" },
   });
+
 
   const launchModal = () => {
     setVisible(true);
@@ -271,9 +274,11 @@ function Groups(state, action) {
           />
         </Container>
       </>
+
+      <GroupCreationCard />
+
     </ClientOnly>
   );
 }
 
 export default Groups;
-// import styles from "../styles/groups-page/groups-list.module";
