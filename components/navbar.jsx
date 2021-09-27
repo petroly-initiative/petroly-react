@@ -165,11 +165,7 @@ export default function Navbar(props) {
                       </div>
                     </Link>
                   </li>
-<<<<<<< Updated upstream
                   <li style={navStyles.chat} className={styles.navbar_item}>
-=======
-                  <li className={styles.navbar_item}>
->>>>>>> Stashed changes
                     <Link href="/" className={styles.navbar_link}>
                       <div className={styles.link_btn}>
                         <BsChatSquareDotsFill

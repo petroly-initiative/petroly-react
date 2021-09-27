@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-import styles from "../styles/groups-page/groups-list.module";
-=======
 import styles from "../styles/groups-page/groups-list.module.scss";
 import ClientOnly from "../components/ClientOnly";
 import {
@@ -24,14 +21,7 @@ import GroupCard from "../components/Groups/GroupCard";
 import { useEffect, useState } from "react";
 import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
->>>>>>> Stashed changes
 
-export default function(props){
-
-<<<<<<< Updated upstream
-    return(<></>)
-}
-=======
 function Groups(state, action) {
   // search filter modal state
   const [modalVisible, setVisible] = useState(false);
@@ -280,5 +270,3 @@ function Groups(state, action) {
 }
 
 export default Groups;
-// import styles from "../styles/groups-page/groups-list.module";
->>>>>>> Stashed changes
