@@ -1,0 +1,7 @@
+{"autoprefixer.options": {
+        "browsers": [
+            "last 4 versions",
+            "ie >= 9",
+            "> 5%"
+        ]
+    }}

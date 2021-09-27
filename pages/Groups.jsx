@@ -22,6 +22,15 @@ import { useEffect, useState } from "react";
 import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
 
+
+/**
+ * TODO:
+ * * Create a mapper for the new GroupCardComponent
+ * * Fire a search filter modal on the filters' button
+ * * Create a mock dataset file to preview the mapping procedure
+ * @returns
+ */
+
 function Groups(state, action) {
   // search filter modal state
   const [modalVisible, setVisible] = useState(false);
@@ -35,6 +44,7 @@ function Groups(state, action) {
     Entertainment: true,
     Section: { find: false, course: "" },
   });
+
 
   const launchModal = () => {
     setVisible(true);
@@ -264,7 +274,9 @@ function Groups(state, action) {
           />
         </Container>
       </>
+
       <GroupCreationCard />
+
     </ClientOnly>
   );
 }

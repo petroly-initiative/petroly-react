@@ -52,15 +52,9 @@ export default function Evaluation(props) {
               </OverlayTrigger>
             )}
           </div>
-          <OverlayTrigger
-            placement="top"
-            delay={{ show: 0, hide: 50 }}
-            overlay={
-              <Tooltip id="button-tooltip-2">تاريخ تسليم التقييم</Tooltip>
-            }
-          >
+         
             <div className={styles.dates}>{props.date}</div>
-          </OverlayTrigger>
+         
         </Card.Header>
         <Card.Body className={styles["card-body"]}>
           <section

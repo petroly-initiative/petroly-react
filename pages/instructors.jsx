@@ -44,7 +44,7 @@ function instructorsReducer(state, action) {
       throw new Error("instructorsReducer didn't find what to do");
   }
 }
-const ITEMS = 6; // Number of InstructorCards per page
+const ITEMS = 18; // Number of InstructorCards per page
 const initialInstructorsState = {
   limit: ITEMS,
   offset: 0,
@@ -172,50 +172,49 @@ function instructorsList() {
               xl={7}
               style={{ width: "100% !important" }}
             >
-              
-                <InputGroup className={styles["search-container"]}>
-                  <Form.Control
-                    style={{ direction: "rtl" }}
-                    type="text"
-                    placeholder="أدخِل اسم المحاضِر"
-                  ></Form.Control>
-                  <InputGroup.Append style={{ height: 38 }}>
-                    <Button
-                      type="submit"
-                      onClick={search}
-                      className={styles["search_btn"]}
-                    >
-                      <BiSearch size="1.5rem" />
-                    </Button>
-                  </InputGroup.Append>
+              <InputGroup className={styles["search-container"]}>
+                <Form.Control
+                  style={{ direction: "rtl" }}
+                  type="text"
+                  placeholder="أدخِل اسم المحاضِر"
+                ></Form.Control>
+                <InputGroup.Append style={{ height: 38 }}>
+                  <Button
+                    type="submit"
+                    onClick={search}
+                    className={styles["search_btn"]}
+                  >
+                    <BiSearch size="1.5rem" />
+                  </Button>
+                </InputGroup.Append>
 
-                  <InputGroup.Append>
-                    {/*popover for filters and order*/}
-                    <DropdownButton
-                      className={styles["dept-dropdown"]}
-                      align="start"
-                      id="dropdown-menu-align-right"
-                      title={<GoSettings size="1.5rem" />}
+                <InputGroup.Append>
+                  {/*popover for filters and order*/}
+                  <DropdownButton
+                    className={styles["dept-dropdown"]}
+                    align="start"
+                    id="dropdown-menu-align-right"
+                    title={<GoSettings size="1.5rem" />}
+                  >
+                    <Dropdown.Item className={styles["dropdown-h"]} disabled>
+                      القسم الجامعي
+                    </Dropdown.Item>
+                    <Dropdown.Divider style={{ height: "1" }} />
+                    <Dropdown.Item
+                      id="null"
+                      className={styles["depts"]}
+                      as={"div"}
+                      eventKey="1"
+                      onClick={selectDept}
+                      active={instructorsState.department === null}
                     >
-                      <Dropdown.Item className={styles["dropdown-h"]} disabled>
-                        القسم الجامعي
-                      </Dropdown.Item>
-                      <Dropdown.Divider style={{ height: "1" }} />
-                      <Dropdown.Item
-                        id="null"
-                        className={styles["depts"]}
-                        as={"div"}
-                        eventKey="1"
-                        onClick={selectDept}
-                        active={instructorsState.department === null}
-                      >
-                        All departments
-                      </Dropdown.Item>
-                      {deptList}
-                      {data}
-                    </DropdownButton>
-                  </InputGroup.Append>
-                </InputGroup>
+                      All departments
+                    </Dropdown.Item>
+                    {deptList}
+                    {data}
+                  </DropdownButton>
+                </InputGroup.Append>
+              </InputGroup>
             </Col>
           </Row>{" "}
           <Button className={styles["loading-container"] + " shadow"} disabled>
@@ -408,9 +407,7 @@ function instructorsList() {
           <Row className={styles.instructor_list}>
             {" "}
             <Fade
-              className={
-                "col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-4"
-              }
+              className={"col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-4"}
               cascade
               damping={0.02}
               triggerOnce
