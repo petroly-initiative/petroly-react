@@ -20,6 +20,8 @@ import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
 import { useEffect, useState } from "react";
 import GroupsFilter from "../components/Groups/GroupsFilter";
+import GroupCreationCard from "../components/Groups/GroupCreationCard";
+
 
 /**
  * TODO:
@@ -32,8 +34,17 @@ import GroupsFilter from "../components/Groups/GroupsFilter";
 function Groups(state, action) {
   // search filter modal state
   const [modalVisible, setVisible] = useState(false);
-  const [platform, setPlatform] = useState({Discord: true, Telegram: true, Whatsapp: true});
-  const [type, setType] = useState({Educational: true, Entertainment: true, Section: {find: false, course: ""}});
+  const [platform, setPlatform] = useState({
+    Discord: true,
+    Telegram: true,
+    Whatsapp: true,
+  });
+  const [type, setType] = useState({
+    Educational: true,
+    Entertainment: true,
+    Section: { find: false, course: "" },
+  });
+
 
   const launchModal = () => {
     setVisible(true);
@@ -116,7 +127,6 @@ function Groups(state, action) {
       />
     );
   };
-
   // Loading status
 
   return (
@@ -264,6 +274,9 @@ function Groups(state, action) {
           />
         </Container>
       </>
+
+      <GroupCreationCard />
+
     </ClientOnly>
   );
 }

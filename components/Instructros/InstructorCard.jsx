@@ -10,19 +10,15 @@ import styles from "../../styles/evaluation-page/instructors-card.module.scss";
 
 /**
  * TODO: Create an overlay for evaluation numbers
- * 
- * 
+ *
+ *
  */
 
-
-
 function InstructorCard(props) {
-
-   const tooltip = useRef();
-   
+  const tooltip = useRef();
 
   const gradientColor = () => {
-    switch(props.starValue){
+    switch (props.starValue) {
       case 5:
       case 4:
         return `rgb(0, 183, 255),
@@ -30,7 +26,7 @@ function InstructorCard(props) {
       case 3:
         return `yellow,
               rgb(255, 120, 120)`;
-              break;
+        break;
       case 2:
       case 1:
         return `orange,
@@ -38,8 +34,8 @@ function InstructorCard(props) {
       default:
         return `rgb(204, 204, 204), rgb(163, 163, 163)`;
     }
-  }
-  
+  };
+
   return (
     <>
       <Link href={`/instructors/${props.instructorID}`}>
@@ -61,13 +57,7 @@ function InstructorCard(props) {
               <OverlayTrigger
                 style={{ position: "absolute", right: 0 }}
                 delay={{ show: 150, hide: 200 }}
-                overlay={ <Tooltip
-      
-      id="button-tooltip"
-     
-    >
-      عدد المقيمين
-    </Tooltip>}
+                overlay={<Tooltip id="button-tooltip">عدد المقيمين</Tooltip>}
                 target={tooltip.current}
               >
                 <Container id="cunter" className={styles.eval_counter}>
