@@ -102,26 +102,11 @@ export default function EvaluationsTab(props) {
     return null;
   }
 
-  const evalMapper = () =>
-    dataEval.me.evaluationSet.data.map((evaluation) => {
-      return (
-        <EvaluationPreview
-          pic={evaluation.instructor.profilePic}
-          name={evaluation.instructor.name}
-          dept={evaluation.instructor.department}
-          overall={5}
-        />
-      );
-    });
-
-
-
   // ? The mapped componentes will be stores in either according to mode
   const fullList = dataEval.me.evaluationSet.data.map((evaluation) => {
     return <EvaluationPreview data={evaluation.instructor} />;
   });
   const matchingList = "matching only";
-  console.log(fullList);
 
   return (
     <>
