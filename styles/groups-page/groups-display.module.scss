@@ -1,19 +1,174 @@
+$txt-fill: rgb(112, 112, 112);
+$txt-hg: #0091e7;
+$btn-prim: #00ead3;
+$golden: rgb(255, 174, 0);
+
 .title {
   font-size: 16px;
-  font-weight: bold;
-  color: #52575d;
+  font-weight: 700;
+  color: $txt-hg;
+  margin-top: 12px;
 }
+
+.group-name{
+  font-size: 28px;
+  font-weight: 600;
+  
+}
+
+.card-body{
+  padding-top: 0;
+}
+
+.header{
+background: url("/images/background.svg") repeat;
+  background-size: auto;
+  padding-bottom: 12px;
+} 
 
 .description {
   font-weight: 400;
   color: #52575d;
 }
 
+.desc-container{
+  padding: 20px;
+
+  p{
+    padding: 8px;
+    line-height: 1.4;
+    padding-bottom: 0;
+    color: $txt-fill;
+  }
+}
+
 .highlightText {
   color: white;
   font-weight: bold;
+  height: 40px;
   padding: 0.5rem;
   text-align: center;
   border-radius: 8px;
   margin: 0.25rem;
 }
+
+.group-pic {
+    width: 90px;
+    height: 90px;
+    margin: auto;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 45px;
+    overflow: hidden;
+    background-color: white;
+
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 40px;
+    }
+  }
+
+  .active-btn{
+    &:hover{
+      background-color: unset;
+       border: 2px solid $golden;
+    }
+  }
+
+  .join-link{
+    background-color: unset;
+    border:  2px solid $btn-prim;
+    color: $btn-prim !important;
+    .join-txt{
+      margin-left: 10px;
+    }
+
+    .join-icon{
+      fill: $btn-prim !important;
+    }
+    padding: 15px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    border-radius: 20px;
+    transition: 300ms ease;
+    &:hover, &:active{
+      background-color: $btn-prim;
+      border: $btn-prim;
+       .join-txt, .join-icon{
+         
+      color: white;
+  
+       }
+    }
+  }
+  .btns-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    
+   
+  }
+
+  .like-btn{
+    display: flex;
+    align-items: center;
+    border: unset;
+    margin-left: 3px;
+    color: rgb(168, 168, 168);
+    font-weight: 600;
+    background-color: unset;
+    font-size: 16px;
+    width: 80px;
+    margin-top: 8px;
+    border-radius: 15px;
+    height: 30px;
+    justify-content: center;
+    transition: 300ms ease;
+    span{
+      margin-left: 8px;
+    }
+    
+    &:hover{
+      border: unset !important;
+      background: unset !important;
+      color: $golden;
+    }
+
+    &:active{
+      background: unset !important;
+      color: $golden;
+      border: unset;
+      box-shadow: unset !important;
+    }
+
+    &:focus{
+      color: rgb(168, 168, 168);
+      background: unset !important;
+      border: unset;
+      box-shadow: unset !important;
+    }
+  }
+
+  .share-btn{
+    margin-right: 3px;
+    background-color: unset;
+    height: 40px;
+    border: unset;
+    width: 40px;
+    border-radius: 20px;
+    margin-top: 8px;
+    padding: 0;
+    color: rgb(168, 168, 168);
+    &:hover, &:active{
+      background: unset;
+      color: rgb(63, 123, 252);
+    }
+  }
+

@@ -9,7 +9,7 @@ export default function FourOhFour() {
       <Container className={styles["main-container"]}>
         <div className={styles["content-div"]}>
           <div className={styles["error-txt"]}>
-            عذرا, الصفحة المطلوبة غير تماحة حاليا
+            عذرا, الصفحة المطلوبة غير متاحة حاليا
           </div>
 
           <Image

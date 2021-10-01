@@ -72,7 +72,6 @@ export const getStaticProps = async (context) => {
   };
 };
 
-// TODO: Replacing static evaluations with mapped mock data
 
 export default function instructorDetails({ data }) {
   const router = useRouter();

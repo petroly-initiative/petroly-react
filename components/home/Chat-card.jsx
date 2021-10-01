@@ -25,12 +25,6 @@ export default function ChatCard(props) {
     </span>
   ));
 
-  {
-    /**
-    TODO: Create a Dicitonary to mimic the color of each tag in the service
-    
- */
-  }
 
   return (
     <>
