@@ -6,22 +6,15 @@ import { MdGames } from "react-icons/md";
 import { RiBook2Fill } from "react-icons/ri";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { GoSettings } from "react-icons/go";
-/**
- *
- * @param {*} props
- * @returns a modal to receive filtering options from users
- */
 
-/**
- * 
- * TODO: 
- *  *Create a value prop to connect the chekboxes to state
- *  
- */
+
+
 export default function GroupsFilter(props) {
 
   
   const [show, setShow] = useState(false);
+  const [invalidCourse, validateCourse] = useState(false);
+
   const [platforms, setPlatforms] = useState({
     Discord: true,
     Telegram: true,
@@ -74,7 +67,11 @@ const course = useRef();
     props.changeType(Object.assign(types, {Section: {find: types.Section.find, course: course.current.value}}))
   }
 
-  
+  const setCourse = (e) => {
+    if (course.current.value.length !== 0) {
+      validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value));
+    }
+  }
 
 
 
@@ -95,7 +92,7 @@ useEffect(() => {
   return (
     <>
       <Modal
-      centered
+        centered
         show={show}
         onHide={() => {
           props.close();
@@ -112,48 +109,50 @@ useEffect(() => {
           <Row className={styles["cols-container"]}>
             <Col className={styles["cols"]}>
               <div className={styles["titles"]}>منصة المجتمع</div>
-              <Form onSele>
-                <Form.Check
-                  checked={platforms.Discord}
-                  type="checkbox"
-                  className={styles["filters"]}
-                  onChange={platformSwitch}
-                  id="Discord"
-                  label={
-                    <div>
-                      <FaDiscord color={"#5865F2"} />
-                      <span>Discord</span>
-                    </div>
-                  }
-                />
-                <Form.Check
-                  checked={platforms.Whatsapp}
-                  type="checkbox"
-                  className={styles["filters"]}
-                  onChange={platformSwitch}
-                  id="Whatsapp"
-                  label={
-                    <div>
-                      {" "}
-                      <IoLogoWhatsapp color={"#25D366"} />
-                      <span>Whatsapp</span>
-                    </div>
-                  }
-                />
-                <Form.Check
-                  checked={platforms.Telegram}
-                  type="checkbox"
-                  className={styles["filters"]}
-                  onChange={platformSwitch}
-                  id="Telegram"
-                  label={
-                    <div>
-                      {" "}
-                      <FaTelegramPlane color={"#0088cc"} />
-                      <span>Telegram</span>
-                    </div>
-                  }
-                />
+              <Form>
+                <div>
+                  <Form.Check
+                    checked={platforms.Discord}
+                    type="checkbox"
+                    className={styles["filters"]}
+                    onChange={platformSwitch}
+                    id="Discord"
+                    label={
+                      <div>
+                        <FaDiscord color={"#5865F2"} />
+                        <span>Discord</span>
+                      </div>
+                    }
+                  />
+                  <Form.Check
+                    checked={platforms.Whatsapp}
+                    type="checkbox"
+                    className={styles["filters"]}
+                    onChange={platformSwitch}
+                    id="Whatsapp"
+                    label={
+                      <div>
+                        {" "}
+                        <IoLogoWhatsapp color={"#25D366"} />
+                        <span>Whatsapp</span>
+                      </div>
+                    }
+                  />
+                  <Form.Check
+                    checked={platforms.Telegram}
+                    type="checkbox"
+                    className={styles["filters"]}
+                    onChange={platformSwitch}
+                    id="Telegram"
+                    label={
+                      <div>
+                        {" "}
+                        <FaTelegramPlane color={"#0088cc"} />
+                        <span>Telegram</span>
+                      </div>
+                    }
+                  />
+                </div>
               </Form>
             </Col>
             <Col className={styles["cols"]}>
@@ -192,7 +191,7 @@ useEffect(() => {
                   className={styles["filters"] + " " + styles["section-filter"]}
                   onChange={typeSwitch}
                   id="Sections"
-                  style={{ height: types.Section.find ? 90 : 50 }}
+                  style={{ height: types.Section.find ? 100 : 50 }}
                   label={
                     <div>
                       <RiBook2Fill color="#622edb" />
@@ -210,10 +209,23 @@ useEffect(() => {
                           ref={course}
                           defaultValue={props.type.Section.course}
                           type="text"
+                          onChange={setCourse}
                           disabled={!types.Section.find}
                           placeholder={"المادة الدراسية"}
+                          isInvalid={invalidCourse}
                           // onChange = {setCourse}
                         />
+                        <Form.Text
+                          style={{
+                            fontSize: 10,
+                            width: "100%",
+                            marginBottom: 6,
+                          }}
+                          id="passwordHelpBlock"
+                          muted
+                        >
+                          الرجاء استخدام صيغة ABCDXXX
+                        </Form.Text>
                       </InputGroup>
                     </div>
                   }

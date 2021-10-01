@@ -11,15 +11,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
 import GroupDisplay from "./GroupDisplay";
+import GroupReport from "./GroupReport";
 
-/**
- * TODO:
- * * a report modal
- *
- */
 
 function GroupCard(props) {
-  const [showModal, setModal] = useState(false);
+  const [displayGroup, setDisplay] = useState(false);
+  const [showReport, setReport] = useState(false);
 
   const [likes, setLikes] = useState({
     number: props.likes,
@@ -83,29 +80,47 @@ function GroupCard(props) {
     else setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
   };
 
-  const fireModal = () => {
+  const fireDisplay = (e) => {
     console.log("Modal launched!");
-    setModal(true);
+    setDisplay(true);
+    e.stopPropagation()
+
   };
-  const handleClose = () => {
-    setModal(false);
+  const closeDisplay = () => {
+    setDisplay(false);
   };
+  const fireReport = () => {
+    // console.log("Modal launched!");
+    setReport(true);
+  };
+const closeReport = () => {
+  setReport(false);
+};
 
   return (
     <>
+    <GroupReport
+    showModal={showReport}
+    handleClose = {closeReport} 
+    />
       <GroupDisplay
         {...props}
+        liked = {likes.liked}
+        likeNum = {likes.number}
+        addLike = {addLike}
         group={group}
-        showModal={showModal}
-        handleClose={handleClose}
+        showModal={displayGroup}
+        handleClose={closeDisplay}
         platformColor={platformColor}
         typeColor={typeColor}
+        typeIcon = {typeIcon}
+        platformIcon = {platformIcon}
       />
       {/* // We will fire an onClick listener for modal instead of a new page link */}
       <Card
         style={{ borderRadius: 8 }}
         className={"shadow border-0 " + styles.Cardholder}
-        onClick={fireModal}
+       
       >
         <Card.Header className={styles.cardHeader}>
           <div className={styles["date-tag"]}>{props.date}</div>
@@ -139,15 +154,13 @@ function GroupCard(props) {
               delay={{ show: 150, hide: 200 }}
               overlay={<Tooltip id="button-tooltip">تقديم بلاغ</Tooltip>}
             >
-              <a HREF="https://forms.gle/8JxD2g1RJzfE3FQ38" target="_blank">
-                <Button className={styles["btns"] + " " + styles["report-btn"]}>
+                <Button onClick  ={fireReport} className={styles["btns"] + " " + styles["report-btn"]}>
                   <HiOutlineSpeakerphone />
                 </Button>
-              </a>
             </OverlayTrigger>
           </div>
         </Card.Header>
-        <Card.Body className={styles.cardBody}>
+        <Card.Body  onClick={fireDisplay} className={styles.cardBody}>
           <div className={styles["group-pic"] + " shadow"}>{props.image}</div>
 
           <div className={styles["group-name"]}>{props.name}</div>

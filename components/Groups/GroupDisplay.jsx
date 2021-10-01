@@ -1,106 +1,148 @@
-// import styles from "../../styles/groups-page/groups-display.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Button, Col, Row } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
+import { HiOutlineUserAdd } from "react-icons/hi";
+import { BiShareAlt } from "react-icons/bi";
 import { BsStarFill, BsStar } from "react-icons/bs";
 import styles from "../../styles/groups-page/groups-display.module.scss";
 import classNames from "classnames";
+import Image from "next/image";
 
 /**
  *
  * @param {*} props
  * @returns A modal to preview the group to enter it
+ *
  */
+
+
 export default function GroupDisplay(props) {
   const arTitles = {
     platform: "المنصة",
-    type: "تصنيف المجموعة",
+    type: "تصنيف المجتمع",
     description: "الوصف",
     joinCommunity: "انضم للمجموعة",
+   
   };
+
+  useEffect(() => {
+    console.log(props.course);
+  }, [props.showModal])
 
   return (
     <>
       <Modal
-        style={{ direction: "rtl" }}
+        style={{ direction: "rtl", overflow: "hidden" }}
         show={props.showModal}
         onHide={props.handleClose}
       >
-        <Modal.Header className="justify-content-center text-center">
-          <Col className="justify-content-center">
-            {/* group image */}
-            <div>{props.image}</div>
-
-            {/* group name */}
-            <Modal.Title>{props.name}</Modal.Title>
-            <div className="d-flex justify-content-center ">
-              <ReactStars
-                sytle={{ direction: "rtl" }}
-                className="justify-content-center"
-                size={14}
-                count={5}
-                edit={false}
-                emptyIcon={<BsStar />}
-                filledIcon={<BsStarFill />}
-                value={3}
-                activeColor="#ffd700"
-              />
-            </div>
-
-            {/* rating */}
-          </Col>
-        </Modal.Header>
-        <Modal.Body className="text-right">
+        <Modal.Body className={"text-right " + styles["card-body"]}>
           {/* platform */}
           <Row className="align-items-center justify-content-between">
-            <Col sm={8}>
-              <h2 className={styles.title}>{arTitles.platform}</h2>
-            </Col>
-            <Col>
+            <Col
+              xs={12}
+              className={
+                "justify-content-center text-center " + styles["header"]
+              }
+            >
+              {/* group image */}
+
+              <div className={styles["group-pic"] + " shadow"}>
+                {props.image}
+              </div>
+
+              {/* group name */}
+              <div className={styles["group-name"]}>{props.name}</div>
               <div
-                className={styles.highlightText}
-                style={{ background: props.platformColor(props.platform) }}
+                className={
+                  "d-flex justify-content-center " + styles["btns-container"]
+                }
               >
-                {props.platform}
+                <Button
+                  style={{ color: props.liked ? "rgb(255, 174, 0)" : "" }}
+                  onClick={props.addLike}
+                  className={
+                    styles["like-btn"] +
+                    " " +
+                    (props.liked ? styles["active-btn"] : "")
+                  }
+                >
+                  <span>{props.likeNum}</span>
+                  {props.liked ? (
+                    <BsStarFill size={"18px"} color={"rgb(255, 174, 0)"} />
+                  ) : (
+                    <BsStarFill size={"18px"} />
+                  )}
+                </Button>
+                <Button onClick={props.addLike} className={styles["share-btn"]}>
+                  {<BiShareAlt size={"1.3rem"} />}
+                </Button>
               </div>
             </Col>
-          </Row>
-
-          {/* group type */}
-          <Row className="align-items-center">
-            <Col sm={8}>
-              <h2 className={styles.title}>{arTitles.type}</h2>
-            </Col>
-            <Col>
+            <Col xs={12} sm={6}>
+              <h2 className={styles.title + " w-100 text-center"}>
+                {arTitles.platform}
+              </h2>
               <div
-                className={styles.highlightText}
-                style={{ background: props.typeColor(props.type) }}
+                className={styles.highlightText + " shadow"}
+                style={{ background: props.platformColor(props.platform) }}
               >
-                {props.type}
+                <span style={{ marginLeft: 8 }}>{props.platform}</span>
+                {props.platformIcon(props.platform)}
+              </div>
+            </Col>
+
+            <Col xs={12} sm={6}>
+              <h2 className={styles.title + " w-100 text-center"}>
+                {arTitles.type}
+              </h2>
+              <div
+                className={styles.highlightText + " shadow"}
+                style={{ background: props.typeColor(props.type), position: "relative" }}
+              >
+                {props.typeIcon(props.type)}
+                <span style={{ marginRight: 8 }}>{props.type}</span>
+
+                {props.type === "شعبة" && (
+                  <span
+                    style={{
+                      fontSize: 14,
+                      position: "absolute",
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "3px 6px",
+                      top: 0,
+                      left: 0,
+                      fontWeight: "600",
+                      marginRight: 8,
+                      height: "100%",
+                      borderRadius: "3px",
+                      backgroundColor: "#4a1eaf",
+                    }}
+                  >
+                    {props.course}
+                  </span>
+                )}
               </div>
             </Col>
           </Row>
 
           {/* description */}
           <Row>
-            <div>
-              <Col sm={8}>
-                <h2 className={styles.title}>{arTitles.description}</h2>
-              </Col>
-              <Col className={classNames(styles.description, "px-4")}>
-                <p>
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                </p>
-              </Col>
-            </div>
+            <Col className={styles["desc-container"]} xs={12}>
+              <h2 className={styles.title + " w-100 text-center"}>
+                {arTitles.description}
+              </h2>
+              <p>{props.description}</p>
+            </Col>
           </Row>
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
           {/* join button */}
-          <Button variant="primary">{arTitles.joinCommunity}</Button>
+          <a href="/" className={styles["join-link"]} variant="primary">
+            <span className={styles["join-txt"]}>{arTitles.joinCommunity}</span>
+            <HiOutlineUserAdd className={styles["join-icon"]} size="1.4rem" />
+          </a>
         </Modal.Footer>
       </Modal>
     </>

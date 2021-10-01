@@ -63,9 +63,10 @@ $x: #622edb;
   }
 
   .btns {
-    -moz-transform: scale(0.9, 0.9); /* Moz-browsers */
-    zoom: 0.9; /* Other non-webkit browsers */
-    zoom: 90%;
+   
+    width: 35px;
+    height: 35px;
+    pointer-events: visible;
   }
   .likes-btn {
     display: flex;
@@ -97,10 +98,8 @@ $x: #622edb;
   }
 
   .report-btn {
-    -moz-transform: scale(0.9, 0.9); /* Moz-browsers */
-    zoom: 0.9; /* Other non-webkit browsers */
-    zoom: 90%;
-    &:hover {
+  
+    &:hover, &:focus {
       background-color: unset;
       color: red;
     }
