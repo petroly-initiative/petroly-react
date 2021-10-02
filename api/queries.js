@@ -100,6 +100,14 @@ export const meEvaluationSetQuery = gql`
         count
         data {
           id
+          grading
+          teaching
+          personality
+          course
+          comment
+          gradingComment
+          teachingComment
+          personalityComment
           instructor {
             name
             profilePic
