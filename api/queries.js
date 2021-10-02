@@ -57,7 +57,11 @@ export const getInstructorDetail = gql`
           grading
           teaching
           personality
+          gradingComment
+          teachingComment
+          personalityComment
           course
+          term
           comment
         }
       }
