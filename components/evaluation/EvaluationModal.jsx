@@ -140,7 +140,7 @@ export default function EvaluationModal(props) {
     ) {
       setError({
         show: true,
-        msg: "الرجاء تعبئة الخانات المطلوبة لتسجيل الدخول",
+        msg: "الرجاء تعبئة الخانات المطلوبة",
       });
       setValidated(true);
     } else evaluationCreate();
