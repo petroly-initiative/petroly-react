@@ -127,9 +127,9 @@ export default function EvaluationModal(props) {
       grading: "A_" + String(grading.rating * 20),
       teaching: "A_" + String(teaching.rating * 20),
       personality: "A_" + String(person.rating * 20),
-      gradingComment: gradeComment,
-      teachingComment: teachComment,
-      personalityComment: personComment,
+      gradingComment: grading.comment,
+      teachingComment: teaching.comment,
+      personalityComment: person.comment,
       course: extra.course,
       term: extra.term,
       comment: "",
@@ -142,6 +142,7 @@ export default function EvaluationModal(props) {
       data: dataEvaluationUpdate,
       loading: loadingEvaluationUpdate,
       error: errorEvaluationUpdate,
+      variables: vars,
     },
   ] = useMutation(evaluationUpdateMutation, {
     notifyOnNetworkStatusChange: true,
@@ -150,12 +151,12 @@ export default function EvaluationModal(props) {
       grading: "A_" + String(grading.rating * 20),
       teaching: "A_" + String(teaching.rating * 20),
       personality: "A_" + String(person.rating * 20),
-      gradingComment: gradeComment,
-      teachingComment: teachComment,
-      personalityComment: personComment,
+      gradingComment: grading.comment,
+      teachingComment: teaching.comment,
+      personalityComment: person.comment,
       course: extra.course,
       term: extra.term,
-      comment: "",
+      comment: props.comment,
     },
   });
 
@@ -173,7 +174,7 @@ export default function EvaluationModal(props) {
         msg: "الرجاء تعبئة الخانات المطلوبة",
       });
       setValidated(true);
-    } else if (props.edit) evaluationCreate();
+    } else if (props.edit) evaluationUpdate();
     else evaluationCreate();
   };
 
@@ -186,10 +187,18 @@ export default function EvaluationModal(props) {
       console.log(dataEvaluationCreate);
       if (dataEvaluationCreate.evaluationCreate.ok) {
         setWaiting(true);
-        setTimeout(() => location.reload(), 1900);
+        setTimeout(() => location.reload(), 900);
+      }
+    } else if (dataEvaluationUpdate) {
+      console.log(dataEvaluationUpdate);
+      if (dataEvaluationUpdate.evaluationUpdate.ok) {
+        setWaiting(true);
+        setTimeout(() => props.close(), 900);
+      } else {
+        setError({ show: true, msg: "Error while updatig" });
       }
     }
-  }, [loadingEvaluationCreate]);
+  }, [loadingEvaluationCreate, loadingEvaluationUpdate]);
 
   return (
     <>

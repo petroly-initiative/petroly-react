@@ -68,7 +68,7 @@ export default function EvaluationPreview(props) {
       </Card>
       <EvaluationModal
         name={props.instructor.name}
-        id={"data.instructor.id"}
+        id={props.evaluation.id}
         image={
           <Image
             width="80"
@@ -85,7 +85,7 @@ export default function EvaluationPreview(props) {
         teachingRating={props.evaluation.teaching.slice(2) / 20}
         teachingCom={props.evaluation.teachingComment}
         personRating={props.evaluation.personality.slice(2) / 20}
-        personCom={props.evaluation.comment}
+        personCom={props.evaluation.personalityComment}
         comment={props.evaluation.comment}
         term={props.evaluation.term}
         course={props.evaluation.course}
