@@ -27,7 +27,10 @@ import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
 import { MdWarning, MdCancel } from "react-icons/md";
 import { evalReducer } from "../../state-management/evaluation-state/evaluationReducer";
-import { evaluationCreateMutation } from "../../api/mutations";
+import {
+  evaluationCreateMutation,
+  evaluationUpdateMutation,
+} from "../../api/mutations";
 import { useMutation } from "@apollo/client";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { USER } from "../../constants";
@@ -124,7 +127,34 @@ export default function EvaluationModal(props) {
       grading: "A_" + String(grading.rating * 20),
       teaching: "A_" + String(teaching.rating * 20),
       personality: "A_" + String(person.rating * 20),
+      gradingComment: gradeComment,
+      teachingComment: teachComment,
+      personalityComment: personComment,
       course: extra.course,
+      term: extra.term,
+      comment: "",
+    },
+  });
+
+  const [
+    evaluationUpdate,
+    {
+      data: dataEvaluationUpdate,
+      loading: loadingEvaluationUpdate,
+      error: errorEvaluationUpdate,
+    },
+  ] = useMutation(evaluationUpdateMutation, {
+    notifyOnNetworkStatusChange: true,
+    variables: {
+      id: props.id,
+      grading: "A_" + String(grading.rating * 20),
+      teaching: "A_" + String(teaching.rating * 20),
+      personality: "A_" + String(person.rating * 20),
+      gradingComment: gradeComment,
+      teachingComment: teachComment,
+      personalityComment: personComment,
+      course: extra.course,
+      term: extra.term,
       comment: "",
     },
   });
@@ -143,7 +173,8 @@ export default function EvaluationModal(props) {
         msg: "الرجاء تعبئة الخانات المطلوبة",
       });
       setValidated(true);
-    } else evaluationCreate();
+    } else if (props.edit) evaluationCreate();
+    else evaluationCreate();
   };
 
   useEffect(() => {
@@ -444,4 +475,3 @@ export default function EvaluationModal(props) {
     </>
   );
 }
-
