@@ -79,8 +79,12 @@ export const evaluationCreateMutation = gql`
     $grading: EvaluationGradingEnum!
     $teaching: EvaluationTeachingEnum!
     $personality: EvaluationPersonalityEnum!
+    $gradingComment: String
+    $teachingComment: String
+    $personalityComment: String
     $course: String
     $comment: String
+    $term: Int!
   ) {
     evaluationCreate(
       input: {
@@ -89,8 +93,12 @@ export const evaluationCreateMutation = gql`
         grading: $grading
         teaching: $teaching
         personality: $personality
+        gradingComment: $gradingComment
+        teachingComment: $teachingComment
+        personalityComment: $personalityComment
         course: $course
         comment: $comment
+        term: $term
       }
     ) {
       ok
