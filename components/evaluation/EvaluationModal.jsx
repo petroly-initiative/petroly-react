@@ -174,8 +174,13 @@ export default function EvaluationModal(props) {
         msg: "الرجاء تعبئة الخانات المطلوبة",
       });
       setValidated(true);
-    } else if (props.edit) evaluationUpdate();
-    else evaluationCreate();
+    } else if (props.edit) {
+      setWaiting(false);
+      evaluationUpdate();
+    } else {
+      setWaiting(false);
+      evaluationCreate();
+    }
   };
 
   useEffect(() => {
@@ -186,14 +191,14 @@ export default function EvaluationModal(props) {
     if (dataEvaluationCreate) {
       console.log(dataEvaluationCreate);
       if (dataEvaluationCreate.evaluationCreate.ok) {
-        setWaiting(true);
-        setTimeout(() => location.reload(), 900);
+        setWaiting(false);
+        setTimeout(() => location.reload(), 400);
       }
     } else if (dataEvaluationUpdate) {
       console.log(dataEvaluationUpdate);
       if (dataEvaluationUpdate.evaluationUpdate.ok) {
-        setWaiting(true);
-        setTimeout(() => props.close(), 900);
+        setWaiting(false);
+        setTimeout(() => props.close(), 400);
       } else {
         setError({ show: true, msg: "Error while updatig" });
       }
