@@ -5,7 +5,7 @@ import { BsStarFill, BsStar } from "react-icons/bs";
 import { MdModeEdit } from "react-icons/md";
 import Image from "next/dist/client/image";
 import EvaluationModal from "../evaluation/EvaluationModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { indexOf } from "lodash";
 /**
  *
@@ -61,7 +61,12 @@ export default function EvaluationPreview(props) {
             edit={false}
             emptyIcon={<BsStar />}
             filledIcon={<BsStarFill />}
-            value={props.instructor.overall}
+            value={Math.round(
+              (props.evaluation.grading.slice(2) / 20 +
+                props.evaluation.teaching.slice(2) / 20 +
+                props.evaluation.personality.slice(2) / 20) /
+                3
+            )}
             activeColor="#ffd700"
           />
         </div>
