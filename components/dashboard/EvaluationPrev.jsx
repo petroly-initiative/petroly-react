@@ -17,10 +17,6 @@ import { indexOf } from "lodash";
 /**
  *
  * @param  props:data: {
- *  overall-rating,
- *  name,
- * pic,
- * department
  * }
  * @returns
  */
@@ -36,60 +32,65 @@ export default function EvaluationPreview(props) {
     setVisible(true);
   };
 
-
-    return (
-      <>
-        <Card onClick={launchModal} className={styles["card-body"] + " shadow"}>
-          <MdModeEdit size="1.2rem" className={styles["edit-icon"]} />
-          {/* img + name + dept container */}
-          <div className={styles["instructor-info"]}>
-            <div className={styles["pic-border"] + " shadow"}>
-              <Image
-                width="80"
-                height="80"
-                className={styles["profile-pic"]}
-                src={props.pic}
-              />
-            </div>
-            <div className={styles["instructor-name"]}>{props.name}</div>
-            <div className={styles["instructor-dept"]}>{props.dept}</div>
-          </div>
-          {/* eval stars container */}
-          <div className={styles["rate-container"]}>
-            <ReactStars
-              size={14}
-              count={5}
-              edit={false}
-              emptyIcon={<BsStar />}
-              filledIcon={<BsStarFill />}
-              value={props.overall}
-              activeColor="#ffd700"
-            />
-          </div>
-        </Card>
-        <EvaluationModal
-          name={props.data.name}
-          id={"data.instructor.id"}
-          image={
+  return (
+    <>
+      <Card onClick={launchModal} className={styles["card-body"] + " shadow"}>
+        <MdModeEdit size="1.2rem" className={styles["edit-icon"]} />
+        {/* img + name + dept container */}
+        <div className={styles["instructor-info"]}>
+          <div className={styles["pic-border"] + " shadow"}>
             <Image
               width="80"
               height="80"
               className={styles["profile-pic"]}
-              src={props.data.profilePic}
+              src={props.instructor.profilePic}
             />
-          }
-          dept={"data"}
-          close={closeModal}
-          visible={modalVisible}
-          gradingRating={props.gradingRating}
-          gradingCom={props.gradingCom}
-          teachingRating={props.teachingRating}
-          teachingCom={props.teachingCom}
-          personRating={props.personRating}
-          personCom={props.personCom}
-          term={props.term}
-          course={props.course}
-        />
-      </>
-    );
+          </div>
+          <div className={styles["instructor-name"]}>
+            {props.instructor.name}
+          </div>
+          <div className={styles["instructor-dept"]}>
+            {props.instructor.department}
+          </div>
+        </div>
+        {/* eval stars container */}
+        <div className={styles["rate-container"]}>
+          <ReactStars
+            size={14}
+            count={5}
+            edit={false}
+            emptyIcon={<BsStar />}
+            filledIcon={<BsStarFill />}
+            value={props.instructor.overall}
+            activeColor="#ffd700"
+          />
+        </div>
+      </Card>
+      <EvaluationModal
+        name={props.instructor.name}
+        id={"data.instructor.id"}
+        image={
+          <Image
+            width="80"
+            height="80"
+            className={styles["profile-pic"]}
+            src={props.instructor.profilePic}
+          />
+        }
+        dept={props.instructor.department}
+        close={closeModal}
+        visible={modalVisible}
+        gradingRating={props.evaluation.grading.slice(2) / 20}
+        gradingCom={props.evaluation.gradingComment}
+        teachingRating={props.evaluation.teaching.slice(2) / 20}
+        teachingCom={props.evaluation.teachingComment}
+        personRating={props.evaluation.personality.slice(2) / 20}
+        personCom={props.evaluation.comment}
+        comment={props.evaluation.comment}
+        term={props.evaluation.term}
+        course={props.evaluation.course}
+        edit={true} // To indicate this isn't new eval
+      />
+    </>
+  );
 }
