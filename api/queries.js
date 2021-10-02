@@ -108,6 +108,7 @@ export const meEvaluationSetQuery = gql`
           teaching
           personality
           course
+          term
           comment
           gradingComment
           teachingComment
