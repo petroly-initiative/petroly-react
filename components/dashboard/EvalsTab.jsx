@@ -13,6 +13,7 @@ import EvaluationPreview from "./EvaluationPrev";
 import styles from "../../styles/dashboard-page/dashboard-tabs.module.scss";
 import { Fade } from "react-awesome-reveal";
 import { FiSearch } from "react-icons/fi";
+import { RiErrorWarningFill } from "react-icons/ri";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { useQuery } from "@apollo/client";
 import { meEvaluationSetQuery } from "../../api/queries";
@@ -96,7 +97,67 @@ export default function EvaluationsTab(props) {
     );
   }
   if (errorEval) {
-    return <p>Error whilst getting your evaluations</p>;
+    return (
+      <Card className={styles["card-containers"] + " shadow"}>
+        <Card.Header className={styles["header-containers"]}>
+          {mode === "view-all" && (
+            <Fade triggerOnce>
+              <div className={styles["card-headers"]}>
+                <span className={styles["card-title"]}>تقييماتي</span>
+                <Button on onClick={switchMode} className={styles["btns"]}>
+                  <FiSearch size="1.6rem" />
+                </Button>
+              </div>
+            </Fade>
+          )}
+          {mode === "search" && (
+            <Fade triggerOnce>
+              <div className={styles["card-headers"]}>
+                <Form className={styles["header-search"]}>
+                  <InputGroup>
+                    <FormControl />
+                  </InputGroup>
+                </Form>
+                <div className={styles["search-set"]}>
+                  <Button onClick={switchMode} className={styles["btns"]}>
+                    <FiSearch size="1.6rem" />
+                  </Button>
+                </div>
+              </div>
+            </Fade>
+          )}
+        </Card.Header>
+        <Card.Body
+          style={{
+            display: "flex",
+
+            justifyContent: "center",
+            alignItems: "center",
+            fontWeight: 600,
+            fontSize: 16,
+          }}
+          className={styles["card-body"] + " " + styles["eval-cards"]}
+        >
+          <div
+            style={{
+              borderRadius: 8,
+              padding: 16,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+            className="shadow text-center"
+          >
+            <RiErrorWarningFill
+              style={{ margin: 12, width: "100%" }}
+              color="#FF0075"
+              size="5rem"
+            />
+            <div style={{ color: "#4c5055c0" }}>خطأ في استعادة البيانات</div>
+          </div>
+        </Card.Body>
+      </Card>
+    );
   }
   if (!dataEval) {
     return null;
