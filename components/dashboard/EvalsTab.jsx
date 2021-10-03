@@ -102,17 +102,17 @@ export default function EvaluationsTab(props) {
     return null;
   }
 
-  const evalMapper = () =>
-    dataEval.me.evaluationSet.data.map((evaluation) => {
-      return (
-        <EvaluationPreview
-          pic={evaluation.instructor.profilePic}
-          name={evaluation.instructor.name}
-          dept={evaluation.instructor.department}
-          overall={5}
-        />
-      );
-    });
+  // const evalMapper = () =>
+  //   dataEval.me.evaluationSet.data.map((evaluation) => {
+  //     return (
+  //       <EvaluationPreview
+  //         pic={evaluation.instructor.profilePic}
+  //         name={evaluation.instructor.name}
+  //         dept={evaluation.instructor.department}
+  //         overall={5}
+  //       />
+  //     );
+  //   });
 
 
 
