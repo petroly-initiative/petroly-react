@@ -92,7 +92,7 @@ function InstructorCard(props) {
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 4.5px;
+            height: 4px;
             right: 0;
             background-image: linear-gradient(to right, ${gradientColor()});
           }

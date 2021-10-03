@@ -32,8 +32,7 @@ import { Fade } from "react-awesome-reveal";
 import { useRouter } from 'next/router';
 
 export const getStaticPaths = async () => {
-  //! Should be replaced by an API Call to get all instructor names for dynamic path creation
-
+ 
   const { data } = await client.query({
     query: getInstructorName,
     variables: {},
@@ -136,13 +135,14 @@ export default function instructorDetails({ data }) {
       ' url("/images/background.svg")'
     );
   };
-  // !WARNING: Change eval structure according to specified date
+  // FIXME: add an additional section for general comments
   const evalMapper = () =>
     data.instructor.evaluationSet.data.map((evaluation) => (
       <Evaluation
         date={evaluation.date.split("T")[0]}
         grading={""}
-        teaching={evaluation.comment}
+        general = {evaluation.comment}
+        teaching={""}
         personality=""
         rating={[
           evaluation.grading,
@@ -157,8 +157,40 @@ export default function instructorDetails({ data }) {
 
   const evalList = evalMapper();
 
+  const gradientColor = () => {
+    switch (Math.round(data.instructor.overallFloat)) {
+      case 5:
+      case 4:
+        return `rgb(0, 183, 255),
+              rgb(0, 255, 191)`;
+      case 3:
+        return `yellow,
+              rgb(255, 120, 120)`;
+        break;
+      case 2:
+      case 1:
+        return `orange,
+              rgb(255, 90, 90)`;
+      default:
+        return `rgb(204, 204, 204), rgb(163, 163, 163)`;
+    }
+  };
+
   return (
     <>
+      <style jsx>
+        {`
+          .cardColor::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 4px;
+            right: 0;
+            background-image: linear-gradient(to right, ${gradientColor()});
+          }
+        `}
+      </style>
       <Head>
         <title>Petroly | {data.instructor.name}</title>
       </Head>
@@ -172,11 +204,8 @@ export default function instructorDetails({ data }) {
                 className={cardStyles.container}
               >
                 <div
-                  style={{
-                    borderBottom:
-                      '2.5px solid rgb(9, 248, 236) ',
-                  }}
-                  className={cardStyles.cardColor}
+        
+                  className={cardStyles.cardColor + " cardColor"}
                 >
                   <div className={cardStyles.insuctor_pic + " shadow"}>
                     <Image
@@ -306,14 +335,14 @@ export default function instructorDetails({ data }) {
           dept={data.instructor.department}
           close={closeModal}
           visible={modalVisible}
-          gradingRating = {0}
-          gradingCom = {""}
-          teachingRating = {0}
-          teachingCom = {""}
-          personRating = {0}
-          personCom = {""}
+          gradingRating={0}
+          gradingCom={""}
+          teachingRating={0}
+          teachingCom={""}
+          personRating={0}
+          personCom={""}
           term={""}
-          course = {""}
+          course={""}
         />
       </Container>
     </>

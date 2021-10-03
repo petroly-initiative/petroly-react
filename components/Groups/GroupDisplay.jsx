@@ -15,23 +15,22 @@ import Image from "next/image";
  *
  */
 
-
 export default function GroupDisplay(props) {
   const arTitles = {
     platform: "المنصة",
     type: "تصنيف المجتمع",
     description: "الوصف",
     joinCommunity: "انضم للمجموعة",
-   
   };
 
   useEffect(() => {
     console.log(props.course);
-  }, [props.showModal])
+  }, [props.showModal]);
 
   return (
     <>
       <Modal
+        centered
         style={{ direction: "rtl", overflow: "hidden" }}
         show={props.showModal}
         onHide={props.handleClose}
@@ -98,7 +97,10 @@ export default function GroupDisplay(props) {
               </h2>
               <div
                 className={styles.highlightText + " shadow"}
-                style={{ background: props.typeColor(props.type), position: "relative" }}
+                style={{
+                  background: props.typeColor(props.type),
+                  position: "relative",
+                }}
               >
                 {props.typeIcon(props.type)}
                 <span style={{ marginRight: 8 }}>{props.type}</span>

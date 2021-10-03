@@ -22,7 +22,7 @@ import styles from "../../styles/evaluation-page/evaluation-modal.module.scss";
 import { BsStarFill, BsStar, BsPersonBoundingBox } from "react-icons/bs";
 import { FaChalkboardTeacher, FaClipboardCheck } from "react-icons/fa";
 import { Image } from "next/dist/client/image";
-import { FaSave } from "react-icons/fa";
+import { FaSave, FaInfoCircle } from "react-icons/fa";
 import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
 import { MdWarning, MdCancel } from "react-icons/md";
@@ -32,11 +32,9 @@ import { useMutation } from "@apollo/client";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { USER } from "../../constants";
 import { Fade } from "react-awesome-reveal";
-/**
- * TODO: State management for every form control
- * - creating a reducer to handle the evaluation request
- * - validation system for the suer input
- */
+
+
+// TODO: creating a forth section for general comments, and making non-manifest comments optional
 export default function EvaluationModal(props) {
   const userContext = useContext(UserContext);
   // modal state
@@ -68,6 +66,8 @@ export default function EvaluationModal(props) {
     msg: "",
   });
 
+  const [generalComment, setComment] = useState("");
+
   const [waiting, setWaiting] = useState(false);
   const [validated, setValidated] = useState(false);
   const [isTermInvalid, setTermInvalid] = useState(false);
@@ -75,9 +75,8 @@ export default function EvaluationModal(props) {
 
   const setCourse = (e) => {
     setExtra((state) => ({ term: state.term, course: e.target.value }));
-    if (/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value)) {
-      setCourseInvalid(false);
-    } else setCourseInvalid(true);
+
+    setCourseInvalid(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value));
   };
   const setTerm = (e) => {
     setExtra((state) => ({ term: e.target.value, course: state.course }));
@@ -104,11 +103,14 @@ export default function EvaluationModal(props) {
   const personComment = (e) => {
     setPerson((state) => ({ rating: state.rating, comment: e.target.value }));
   };
+  const setGeneralComment = (e) => {
+    setComment(e.target.value);
+  };
 
   useEffect(() => {
     setShow(props.visible);
   }, [props.visible]);
-
+  // FIXME: add an additional section for general comments
   const [
     evaluationCreate,
     {
@@ -134,13 +136,19 @@ export default function EvaluationModal(props) {
     if (
       extra.term === "" ||
       extra.course === "" ||
-      grading.comment === "" ||
-      teaching.comment === "" ||
-      person.comment === ""
+      grading.rating === 0 ||
+      teaching.rating === 0 ||
+      person.rating === 0
     ) {
       setError({
         show: true,
         msg: "الرجاء تعبئة الخانات المطلوبة لتسجيل الدخول",
+      });
+      setValidated(true);
+    } else if (isCourseInvalid || isTermInvalid) {
+      setError({
+        show: true,
+        msg: "الرجاء تعبئة الخانات  الإلزامية بالطريقة الصحيحة ",
       });
       setValidated(true);
     } else evaluationCreate();
@@ -195,7 +203,7 @@ export default function EvaluationModal(props) {
             <div className={styles["info-container"]}>
               <div
                 style={{ borderRadius: "35px" }}
-                className={styles.instructorPic + " shadow-sm"}
+                className={styles.instructorPic + " shadow"}
               >
                 {props.image}
               </div>
@@ -231,7 +239,13 @@ export default function EvaluationModal(props) {
           >
             <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
-                <div className={styles.titles}>معلومات التقييم</div>
+                <div style={{ color: "#316B83" }} className={styles.titles}>
+                  معلومات التقييم{" "}
+                  <FaInfoCircle
+                    color="#0091e7"
+                    className={styles["title-icons"]}
+                  />
+                </div>
                 <div className={styles.descriptions}>
                   معلومات ضرورية للاستفادة القصوى من تقييمك
                 </div>
@@ -299,9 +313,12 @@ export default function EvaluationModal(props) {
             </section>
             <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
-                <div style={{ color: "#F037A5" }} className={styles.titles}>
+                <div style={{ color: "#316B83" }} className={styles.titles}>
                   التصحيح والدرجات
-                  <FaClipboardCheck className={styles["title-icons"]} />
+                  <FaClipboardCheck
+                    color="F037A5"
+                    className={styles["title-icons"]}
+                  />
                 </div>
                 <div className={styles.descriptions}>
                   شفافية التصحيح والالتزام بمعايير محددة للدرجات
@@ -331,15 +348,17 @@ export default function EvaluationModal(props) {
                   as="textarea"
                   value={grading.comment}
                   onChange={gradeComment}
-                  required
                 ></FormControl>
               </InputGroup>
             </section>
             <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
-                <div style={{ color: "#3DB2FF" }} className={styles.titles}>
+                <div style={{ color: "#316B83" }} className={styles.titles}>
                   التدريس
-                  <FaChalkboardTeacher className={styles["title-icons"]} />
+                  <FaChalkboardTeacher
+                    color="#3DB2FF"
+                    className={styles["title-icons"]}
+                  />
                 </div>
                 <div className={styles.descriptions}>
                   سهولة إيصال المعلومة و فهم المنهج{" "}
@@ -368,15 +387,17 @@ export default function EvaluationModal(props) {
                   as="textarea"
                   value={teaching.comment}
                   onChange={teachComment}
-                  required
                 ></FormControl>
               </InputGroup>
             </section>
             <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
-                <div style={{ color: "#FF6666" }} className={styles.titles}>
+                <div style={{ color: "#316B83 " }} className={styles.titles}>
                   الشخصية
-                  <BsPersonBoundingBox className={styles["title-icons"]} />
+                  <BsPersonBoundingBox
+                    color="#FF6666"
+                    className={styles["title-icons"]}
+                  />
                 </div>
                 <div className={styles.descriptions}>
                   المزاج العام والتعامل مع الطلاب
@@ -404,7 +425,25 @@ export default function EvaluationModal(props) {
                   size="sm"
                   value={person.comment}
                   onChange={personComment}
-                  required
+                ></FormControl>
+              </InputGroup>
+            </section>
+            <section className={styles.sections + " shadow-sm"}>
+              <div className={styles.headers}>
+                <div style={{ color: "#316B83" }} className={styles.titles}>
+                  تعليق عام
+                </div>
+              </div>
+
+              <InputGroup hasValidation className={styles["input-containers"]}>
+                <FormControl
+                  maxLength="160"
+                  className={styles["comments"]}
+                  placeholder={"اكتب تعليقك العام  "}
+                  as="textarea"
+                  size="sm"
+                  value={generalComment}
+                  onChange={setGeneralComment}
                 ></FormControl>
               </InputGroup>
             </section>

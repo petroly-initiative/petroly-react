@@ -73,7 +73,7 @@ mutation Register($email: String!, $username: String!, $password1: String!, $pas
   }
 }
 `;
-
+// FIXME: We need to change the mutation parameters to pass the comments
 export const evaluationCreateMutation = gql`
 mutation EvaluationCreate($instructorId: Int, $username: String, $grading: EvaluationGradingEnum!, 
   $teaching: EvaluationTeachingEnum!, $personality: EvaluationPersonalityEnum!, $course: String, 
