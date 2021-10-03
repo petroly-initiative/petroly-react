@@ -5,7 +5,7 @@ import { BsStarFill, BsStar } from "react-icons/bs";
 import { MdModeEdit } from "react-icons/md";
 import Image from "next/dist/client/image";
 import EvaluationModal from "../evaluation/EvaluationModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { indexOf } from "lodash";
 /**
  *
@@ -17,10 +17,6 @@ import { indexOf } from "lodash";
 /**
  *
  * @param  props:data: {
- *  overall-rating,
- *  name,
- * pic,
- * department
  * }
  * @returns
  */
@@ -47,12 +43,14 @@ export default function EvaluationPreview(props) {
               width="80"
               height="80"
               className={styles["profile-pic"]}
-              src={props.data.profilePic}
+              src={props.instructor.profilePic}
             />
           </div>
-          <div className={styles["instructor-name"]}>{props.data.name}</div>
+          <div className={styles["instructor-name"]}>
+            {props.instructor.name}
+          </div>
           <div className={styles["instructor-dept"]}>
-            {props.data.department}
+            {props.instructor.department}
           </div>
         </div>
         {/* eval stars container */}
@@ -63,33 +61,40 @@ export default function EvaluationPreview(props) {
             edit={false}
             emptyIcon={<BsStar />}
             filledIcon={<BsStarFill />}
-            value={Math.round(props.data.overall)}
+            value={Math.round(
+              (props.evaluation.grading.slice(2) / 20 +
+                props.evaluation.teaching.slice(2) / 20 +
+                props.evaluation.personality.slice(2) / 20) /
+                3
+            )}
             activeColor="#ffd700"
           />
         </div>
       </Card>
       <EvaluationModal
-        name={props.data.name}
-        id={"data.instructor.id"}
+        name={props.instructor.name}
+        id={props.evaluation.id}
         image={
           <Image
             width="80"
             height="80"
             className={styles["profile-pic"]}
-            src={props.data.profilePic}
+            src={props.instructor.profilePic}
           />
         }
-        dept={"data"}
+        dept={props.instructor.department}
         close={closeModal}
         visible={modalVisible}
-        gradingRating={props.gradingRating}
-        gradingCom={props.gradingCom}
-        teachingRating={props.teachingRating}
-        teachingCom={props.teachingCom}
-        personRating={props.personRating}
-        personCom={props.personCom}
-        term={props.term}
-        course={props.course}
+        gradingRating={props.evaluation.grading.slice(2) / 20}
+        gradingCom={props.evaluation.gradingComment}
+        teachingRating={props.evaluation.teaching.slice(2) / 20}
+        teachingCom={props.evaluation.teachingComment}
+        personRating={props.evaluation.personality.slice(2) / 20}
+        personCom={props.evaluation.personalityComment}
+        comment={props.evaluation.comment}
+        term={props.evaluation.term}
+        course={props.evaluation.course}
+        edit={true} // To indicate this isn't new eval
       />
     </>
   );
