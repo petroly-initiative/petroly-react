@@ -20,20 +20,25 @@ import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
 import { useEffect, useState } from "react";
 import GroupsFilter from "../components/Groups/GroupsFilter";
+import GroupCreationCard from "../components/Groups/GroupCreationCard";
 
-/**
- * TODO:
- * * Create a mapper for the new GroupCardComponent
- * * Fire a search filter modal on the filters' button
- * * Create a mock dataset file to preview the mapping procedure
- * @returns
- */
+
+
 
 function Groups(state, action) {
   // search filter modal state
   const [modalVisible, setVisible] = useState(false);
-  const [platform, setPlatform] = useState({Discord: true, Telegram: true, Whatsapp: true});
-  const [type, setType] = useState({Educational: true, Entertainment: true, Section: {find: false, course: ""}});
+  const [platform, setPlatform] = useState({
+    Discord: true,
+    Telegram: true,
+    Whatsapp: true,
+  });
+  const [type, setType] = useState({
+    Educational: true,
+    Entertainment: true,
+    Section: { find: false, course: "" },
+  });
+
 
   const launchModal = () => {
     setVisible(true);
@@ -116,7 +121,6 @@ function Groups(state, action) {
       />
     );
   };
-
   // Loading status
 
   return (
@@ -185,6 +189,13 @@ function Groups(state, action) {
                 name=" CS Nerds"
                 platform="Telegram"
                 type="تعليمي"
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
+                course=""
                 likes={201}
                 image={
                   <Image
@@ -199,6 +210,7 @@ function Groups(state, action) {
                 date={"9-21-2021"}
                 platform="Whatsapp"
                 type="ترفيهي"
+                course=""
                 likes={201}
                 name="Computer Club yuh yuh yuh yuh"
                 image={
@@ -209,11 +221,18 @@ function Groups(state, action) {
                     height="70"
                   />
                 }
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
               />
               <GroupCard
                 date={"9-21-2021"}
                 platform="Discord"
                 type="شعبة"
+                course=""
                 likes={201}
                 image={
                   <Image
@@ -223,12 +242,25 @@ function Groups(state, action) {
                     height="70"
                   />
                 }
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
               />
               <GroupCard
                 date={"9-21-2021"}
                 platform="Telegram"
                 type="شعبة"
+                course="ICS102"
                 likes={201}
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
                 image={
                   <Image
                     className={styles.picDiv}
@@ -241,8 +273,229 @@ function Groups(state, action) {
               <GroupCard
                 date={"9-21-2021"}
                 platform="Telegram"
+                course=""
                 type="ترفيهي"
                 likes={201}
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
+                image={
+                  <Image
+                    className={styles.picDiv}
+                    src={"/images/spongy.png"}
+                    width="70"
+                    height="70"
+                  />
+                }
+              />
+              <GroupCard
+                date={"9-21-2021"}
+                name=" CS Nerds"
+                platform="Telegram"
+                type="تعليمي"
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
+                course=""
+                likes={201}
+                image={
+                  <Image
+                    className={styles.picDiv}
+                    src={"/images/spongy.png"}
+                    width="70"
+                    height="70"
+                  />
+                }
+              />
+              <GroupCard
+                date={"9-21-2021"}
+                platform="Whatsapp"
+                type="ترفيهي"
+                course=""
+                likes={201}
+                name="Computer Club yuh yuh yuh yuh"
+                image={
+                  <Image
+                    className={styles.picDiv}
+                    src={"/images/spongy.png"}
+                    width="70"
+                    height="70"
+                  />
+                }
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
+              />
+              <GroupCard
+                date={"9-21-2021"}
+                platform="Discord"
+                type="شعبة"
+                course=""
+                likes={201}
+                image={
+                  <Image
+                    className={styles.picDiv}
+                    src={"/images/spongy.png"}
+                    width="70"
+                    height="70"
+                  />
+                }
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
+              />
+              <GroupCard
+                date={"9-21-2021"}
+                platform="Telegram"
+                type="شعبة"
+                course="ICS102"
+                likes={201}
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
+                image={
+                  <Image
+                    className={styles.picDiv}
+                    src={"/images/spongy.png"}
+                    width="70"
+                    height="70"
+                  />
+                }
+              />
+              <GroupCard
+                date={"9-21-2021"}
+                platform="Telegram"
+                course=""
+                type="ترفيهي"
+                likes={201}
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
+                image={
+                  <Image
+                    className={styles.picDiv}
+                    src={"/images/spongy.png"}
+                    width="70"
+                    height="70"
+                  />
+                }
+              />
+              <GroupCard
+                date={"9-21-2021"}
+                name=" CS Nerds"
+                platform="Telegram"
+                type="تعليمي"
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
+                course=""
+                likes={201}
+                image={
+                  <Image
+                    className={styles.picDiv}
+                    src={"/images/spongy.png"}
+                    width="70"
+                    height="70"
+                  />
+                }
+              />
+              <GroupCard
+                date={"9-21-2021"}
+                platform="Whatsapp"
+                type="ترفيهي"
+                course=""
+                likes={201}
+                name="Computer Club yuh yuh yuh yuh"
+                image={
+                  <Image
+                    className={styles.picDiv}
+                    src={"/images/spongy.png"}
+                    width="70"
+                    height="70"
+                  />
+                }
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
+              />
+              <GroupCard
+                date={"9-21-2021"}
+                platform="Discord"
+                type="شعبة"
+                course=""
+                likes={201}
+                image={
+                  <Image
+                    className={styles.picDiv}
+                    src={"/images/spongy.png"}
+                    width="70"
+                    height="70"
+                  />
+                }
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
+              />
+              <GroupCard
+                date={"9-21-2021"}
+                platform="Telegram"
+                type="شعبة"
+                course="ICS102"
+                likes={201}
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
+                image={
+                  <Image
+                    className={styles.picDiv}
+                    src={"/images/spongy.png"}
+                    width="70"
+                    height="70"
+                  />
+                }
+              />
+              <GroupCard
+                date={"9-21-2021"}
+                platform="Telegram"
+                course=""
+                type="ترفيهي"
+                likes={201}
+                description="
+                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
+                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
+                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
+                  التى يولدها التطبيق.
+                "
                 image={
                   <Image
                     className={styles.picDiv}
@@ -264,6 +517,8 @@ function Groups(state, action) {
           />
         </Container>
       </>
+
+      <GroupCreationCard />
     </ClientOnly>
   );
 }

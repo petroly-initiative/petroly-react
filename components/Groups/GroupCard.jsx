@@ -10,21 +10,28 @@ import { Button, Card, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
+import GroupDisplay from "./GroupDisplay";
+import GroupReport from "./GroupReport";
 
-/**
- * TODO:
- * * a report modal
- *
- */
+
 function GroupCard(props) {
-  const [showModal, setModal] = useState(false);
+  const [displayGroup, setDisplay] = useState(false);
+  const [showReport, setReport] = useState(false);
+
   const [likes, setLikes] = useState({
     number: props.likes,
     liked: false,
   });
+  const group = {
+    name: "CS Nerds",
+    platform: "discord",
+    type: "educational",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita laborum ipsa est at cupiditate ut consectetur corporis, harum in voluptatum, ab exercitationem aliquid perferendis odio. Odio, voluptas. Molestias, sint nostrum.",
+  };
 
-  const platformColor = () => {
-    switch (props.platform) {
+  const platformColor = (platform) => {
+    switch (platform) {
       case "Telegram":
         return "#0088cc";
       case "Whatsapp":
@@ -34,8 +41,8 @@ function GroupCard(props) {
     }
   };
 
-  const platformIcon = () => {
-    switch (props.platform) {
+  const platformIcon = (platform) => {
+    switch (platform) {
       case "Telegram":
         return <FaTelegramPlane className={styles["tag-icon"]} />;
       case "Whatsapp":
@@ -45,8 +52,8 @@ function GroupCard(props) {
     }
   };
 
-  const typeColor = () => {
-    switch (props.type) {
+  const typeColor = (type) => {
+    switch (type) {
       case "تعليمي":
         return "#FFB830";
       case "ترفيهي":
@@ -73,84 +80,115 @@ function GroupCard(props) {
     else setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
   };
 
-  const fireModal = () => {
+  const fireDisplay = (e) => {
     console.log("Modal launched!");
-    setModal(true);
+    setDisplay(true);
+    e.stopPropagation()
+
   };
+  const closeDisplay = () => {
+    setDisplay(false);
+  };
+  const fireReport = () => {
+    // console.log("Modal launched!");
+    setReport(true);
+  };
+const closeReport = () => {
+  setReport(false);
+};
 
   return (
-    //   We will fire an onClick listener for modal instead of a new page link
-    <Card
-      style={{ borderRadius: 8 }}
-      className={"shadow border-0 " + styles.Cardholder}
-      onClick={fireModal}
-    >
-      <Card.Header className={styles.cardHeader}>
-        <div className={styles["date-tag"]}>{props.date}</div>
-        <div className={styles["btns-container"]}>
-          <OverlayTrigger
-            style={{ position: "absolute", right: 0 }}
-            delay={{ show: 150, hide: 200 }}
-            overlay={<Tooltip id="button-tooltip">إعجاب</Tooltip>}
-          >
-            <div
-              style={{ color: likes.liked ? "#00ead3" : "" }}
-              className={styles["likes-btn"]}
+    <>
+    <GroupReport
+    showModal={showReport}
+    handleClose = {closeReport} 
+    />
+      <GroupDisplay
+        {...props}
+        liked = {likes.liked}
+        likeNum = {likes.number}
+        addLike = {addLike}
+        group={group}
+        showModal={displayGroup}
+        handleClose={closeDisplay}
+        platformColor={platformColor}
+        typeColor={typeColor}
+        typeIcon = {typeIcon}
+        platformIcon = {platformIcon}
+      />
+      {/* // We will fire an onClick listener for modal instead of a new page link */}
+      <Card
+        style={{ borderRadius: 8 }}
+        className={"shadow border-0 " + styles.Cardholder}
+       
+      >
+        <Card.Header className={styles.cardHeader}>
+          <div className={styles["date-tag"]}>{props.date}</div>
+          <div className={styles["btns-container"]}>
+            <OverlayTrigger
+              style={{ position: "absolute", right: 0 }}
+              delay={{ show: 150, hide: 200 }}
+              overlay={<Tooltip id="button-tooltip">إعجاب</Tooltip>}
             >
-              <Button
+              <div
                 style={{ color: likes.liked ? "#00ead3" : "" }}
-                onClick={addLike}
-                className={styles["btns"]}
+                className={styles["likes-btn"]}
               >
-                {likes.liked ? (
-                  <BsFillStarFill color={"#00ead3"} />
-                ) : (
-                  <BsStar />
-                )}
-              </Button>
+                <Button
+                  style={{ color: likes.liked ? "#00ead3" : "" }}
+                  onClick={addLike}
+                  className={styles["btns"]}
+                >
+                  {likes.liked ? (
+                    <BsFillStarFill color={"#00ead3"} />
+                  ) : (
+                    <BsStar />
+                  )}
+                </Button>
 
-              <span>{likes.number}</span>
+                <span>{likes.number}</span>
+              </div>
+            </OverlayTrigger>
+            <OverlayTrigger
+              style={{ position: "absolute", right: 0 }}
+              delay={{ show: 150, hide: 200 }}
+              overlay={<Tooltip id="button-tooltip">تقديم بلاغ</Tooltip>}
+            >
+                <Button onClick  ={fireReport} className={styles["btns"] + " " + styles["report-btn"]}>
+                  <HiOutlineSpeakerphone />
+                </Button>
+            </OverlayTrigger>
+          </div>
+        </Card.Header>
+        <Card.Body  onClick={fireDisplay} className={styles.cardBody}>
+          <div className={styles["group-pic"] + " shadow"}>{props.image}</div>
+
+          <div className={styles["group-name"]}>{props.name}</div>
+          <div className={styles["group-info"]}>
+            <div
+              style={{ background: platformColor(props.platform) }}
+              className={
+                styles["tags"] + " shadow-sm" + " " + styles["platform-tag"]
+              }
+            >
+              {platformIcon(props.platform)}
+              <span className={styles["tag-text"]}>{props.platform}</span>
             </div>
-          </OverlayTrigger>
-          <OverlayTrigger
-            style={{ position: "absolute", right: 0 }}
-            delay={{ show: 150, hide: 200 }}
-            overlay={<Tooltip id="button-tooltip">تقديم بلاغ</Tooltip>}
-          >
-            <a HREF="https://forms.gle/8JxD2g1RJzfE3FQ38" target="_blank">
-              <Button className={styles["btns"] + " " + styles["report-btn"]}>
-                <HiOutlineSpeakerphone />
-              </Button>
-            </a>
-          </OverlayTrigger>
-        </div>
-      </Card.Header>
-      <Card.Body className={styles.cardBody}>
-        <div className={styles["group-pic"] + " shadow"}>{props.image}</div>
-
-        <div className={styles["group-name"]}>{props.name}</div>
-        <div className={styles["group-info"]}>
-          <div
-            style={{ background: platformColor() }}
-            className={
-              styles["tags"] + " shadow-sm" + " " + styles["platform-tag"]
-            }
-          >
-            {platformIcon()}
-            <span className={styles["tag-text"]}>{props.platform}</span>
+            <div
+              style={{
+                background: typeColor(props.type),
+              }}
+              className={
+                styles["tags"] + " shadow-sm" + " " + styles["type-tag"]
+              }
+            >
+              {typeIcon()}
+              <span className={styles["tag-text"]}>{props.type}</span>
+            </div>
           </div>
-          <div
-            style={{
-              background: typeColor(),
-            }}
-            className={styles["tags"] + " shadow-sm" + " " + styles["type-tag"]}
-          >
-            {typeIcon()}
-            <span className={styles["tag-text"]}>{props.type}</span>
-          </div>
-        </div>
-      </Card.Body>
-    </Card>
+        </Card.Body>
+      </Card>
+    </>
   );
 }
 

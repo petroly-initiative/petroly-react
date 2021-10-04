@@ -1,5 +1,5 @@
 <p  align="center">
-<img  width="100" height="100" src="https://i.postimg.cc/m2RMzQZT/twitter-icon.png">
+<img  width="100" height="100" src="https://i.postimg.cc/L6NPJzgv/new-favicon.png">
 </p>
 
 # Petroly <span style="color: #22eaaa">V2.0</span>
