@@ -29,7 +29,7 @@ import {
   hasEvaluatedQuery,
 } from "../../api/queries";
 import { Fade } from "react-awesome-reveal";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 export const getStaticPaths = async () => {
  
@@ -44,7 +44,6 @@ export const getStaticPaths = async () => {
       },
     };
   });
-  
 
   /**
    * we need to return an array of objects each with  param property
@@ -53,7 +52,7 @@ export const getStaticPaths = async () => {
    */
   return {
     paths: ids,
-    fallback: true,
+    fallback: false,
   };
 };
 // This function will run for each path we provided
@@ -78,16 +77,13 @@ export default function instructorDetails({ data }) {
   const [msg, setMsg] = useState("");
   const userContext = useContext(UserContext);
 
-
   const { data: dataHasEvaluated, loading: loadingHasEvaluated } = useQuery(
     hasEvaluatedQuery,
     {
       skip: userContext.user.status !== USER.LOGGED_IN,
-      variables: { instructorId:  data.instructor.id },
+      variables: { instructorId: data.instructor.id },
     }
   );
-
- 
 
   useEffect(() => {
     if (userContext.user.status === USER.LOGGED_IN) {
@@ -104,11 +100,10 @@ export default function instructorDetails({ data }) {
   useEffect(() => {
     console.log(data.instructor);
   }, [data]);
-  
-    if (router.isFallback) {
-    return <div>Loading...</div>
-  }
 
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
   const closeModal = () => {
     setVisible(false);
@@ -140,17 +135,18 @@ export default function instructorDetails({ data }) {
     data.instructor.evaluationSet.data.map((evaluation) => (
       <Evaluation
         date={evaluation.date.split("T")[0]}
-        grading={""}
-        general = {evaluation.comment}
-        teaching={""}
-        personality=""
+
+        grading={evaluation.gradingComment}
+        teaching={evaluation.teachingComment}
+        personality={evaluation.personalityComment}
+
         rating={[
           evaluation.grading,
           evaluation.teaching,
           evaluation.personality,
         ]}
         comment={evaluation.comment}
-        term={""}
+        term={evaluation.term}
         course={evaluation.course.toUpperCase()}
       />
     ));
@@ -203,8 +199,7 @@ export default function instructorDetails({ data }) {
                 style={{ width: "100%" }}
                 className={cardStyles.container}
               >
-                <div
-        
+                <div        
                   className={cardStyles.cardColor + " cardColor"}
                 >
                   <div className={cardStyles.insuctor_pic + " shadow"}>

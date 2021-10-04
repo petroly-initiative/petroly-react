@@ -27,7 +27,10 @@ import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
 import { MdWarning, MdCancel } from "react-icons/md";
 import { evalReducer } from "../../state-management/evaluation-state/evaluationReducer";
-import { evaluationCreateMutation } from "../../api/mutations";
+import {
+  evaluationCreateMutation,
+  evaluationUpdateMutation,
+} from "../../api/mutations";
 import { useMutation } from "@apollo/client";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { USER } from "../../constants";
@@ -126,8 +129,36 @@ export default function EvaluationModal(props) {
       grading: "A_" + String(grading.rating * 20),
       teaching: "A_" + String(teaching.rating * 20),
       personality: "A_" + String(person.rating * 20),
+      gradingComment: grading.comment,
+      teachingComment: teaching.comment,
+      personalityComment: person.comment,
       course: extra.course,
+      term: extra.term,
       comment: "",
+    },
+  });
+
+  const [
+    evaluationUpdate,
+    {
+      data: dataEvaluationUpdate,
+      loading: loadingEvaluationUpdate,
+      error: errorEvaluationUpdate,
+      variables: vars,
+    },
+  ] = useMutation(evaluationUpdateMutation, {
+    notifyOnNetworkStatusChange: true,
+    variables: {
+      id: props.id,
+      grading: "A_" + String(grading.rating * 20),
+      teaching: "A_" + String(teaching.rating * 20),
+      personality: "A_" + String(person.rating * 20),
+      gradingComment: grading.comment,
+      teachingComment: teaching.comment,
+      personalityComment: person.comment,
+      course: extra.course,
+      term: extra.term,
+      comment: props.comment,
     },
   });
 
@@ -142,16 +173,24 @@ export default function EvaluationModal(props) {
     ) {
       setError({
         show: true,
-        msg: "الرجاء تعبئة الخانات المطلوبة لتسجيل الدخول",
+        msg: "الرجاء تعبئة الخانات المطلوبة",
       });
       setValidated(true);
+
     } else if (isCourseInvalid || isTermInvalid) {
       setError({
         show: true,
         msg: "الرجاء تعبئة الخانات  الإلزامية بالطريقة الصحيحة ",
       });
       setValidated(true);
-    } else evaluationCreate();
+    } else if (props.edit) {
+      setWaiting(false);
+      evaluationUpdate();
+    } else {
+      setWaiting(false);
+      evaluationCreate();
+    }
+    } 
   };
 
   useEffect(() => {
@@ -162,11 +201,19 @@ export default function EvaluationModal(props) {
     if (dataEvaluationCreate) {
       console.log(dataEvaluationCreate);
       if (dataEvaluationCreate.evaluationCreate.ok) {
-        setWaiting(true);
-        setTimeout(() => location.reload(), 1900);
+        setWaiting(false);
+        setTimeout(() => location.reload(), 400);
+      }
+    } else if (dataEvaluationUpdate) {
+      console.log(dataEvaluationUpdate);
+      if (dataEvaluationUpdate.evaluationUpdate.ok) {
+        setWaiting(false);
+        setTimeout(() => props.close(), 400);
+      } else {
+        setError({ show: true, msg: "Error while updatig" });
       }
     }
-  }, [loadingEvaluationCreate]);
+  }, [loadingEvaluationCreate, loadingEvaluationUpdate]);
 
   return (
     <>
@@ -483,4 +530,3 @@ export default function EvaluationModal(props) {
     </>
   );
 }
-
