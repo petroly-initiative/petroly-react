@@ -96,16 +96,23 @@ export default function GroupDisplay(props) {
                 {arTitles.type}
               </h2>
               <div
-                className={styles.highlightText + " shadow"}
+                className={
+                  styles.highlightText +
+                  ` shadow text-${
+                    props.type === "Sections" ? "right pr-4" : "center"
+                  } `
+                }
                 style={{
                   background: props.typeColor(props.type),
                   position: "relative",
                 }}
               >
                 {props.typeIcon(props.type)}
-                <span style={{ marginRight: 8 }}>{props.type}</span>
+                <span style={{ marginRight: 8 }}>
+                  {props.arLabels(props.type)}
+                </span>
 
-                {props.type === "شعبة" && (
+                {props.type === "Sections" && (
                   <span
                     style={{
                       fontSize: 14,
@@ -116,7 +123,8 @@ export default function GroupDisplay(props) {
                       top: 0,
                       left: 0,
                       fontWeight: "600",
-                      marginRight: 8,
+                      paddingRight: 15,
+                      paddingLeft: 15,
                       height: "100%",
                       borderRadius: "3px",
                       backgroundColor: "#4a1eaf",

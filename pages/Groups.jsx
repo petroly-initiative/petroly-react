@@ -188,7 +188,7 @@ function Groups(state, action) {
                 date={"9-21-2021"}
                 name=" CS Nerds"
                 platform="Telegram"
-                type="تعليمي"
+                type="Educational"
                 description="
                   هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
                   توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
@@ -209,7 +209,7 @@ function Groups(state, action) {
               <GroupCard
                 date={"9-21-2021"}
                 platform="Whatsapp"
-                type="ترفيهي"
+                type="Entertainment"
                 course=""
                 likes={201}
                 name="Computer Club yuh yuh yuh yuh"
@@ -231,7 +231,7 @@ function Groups(state, action) {
               <GroupCard
                 date={"9-21-2021"}
                 platform="Discord"
-                type="شعبة"
+                type="Sections"
                 course=""
                 likes={201}
                 image={
@@ -252,7 +252,7 @@ function Groups(state, action) {
               <GroupCard
                 date={"9-21-2021"}
                 platform="Telegram"
-                type="شعبة"
+                type="Sections"
                 course="ICS102"
                 likes={201}
                 description="
@@ -274,7 +274,7 @@ function Groups(state, action) {
                 date={"9-21-2021"}
                 platform="Telegram"
                 course=""
-                type="ترفيهي"
+                type="Entertainment"
                 likes={201}
                 description="
                   هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
@@ -295,7 +295,7 @@ function Groups(state, action) {
                 date={"9-21-2021"}
                 name=" CS Nerds"
                 platform="Telegram"
-                type="تعليمي"
+                type="Educational"
                 description="
                   هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
                   توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
@@ -316,7 +316,7 @@ function Groups(state, action) {
               <GroupCard
                 date={"9-21-2021"}
                 platform="Whatsapp"
-                type="ترفيهي"
+                type="Entertainment"
                 course=""
                 likes={201}
                 name="Computer Club yuh yuh yuh yuh"
@@ -338,7 +338,7 @@ function Groups(state, action) {
               <GroupCard
                 date={"9-21-2021"}
                 platform="Discord"
-                type="شعبة"
+                type="Sections"
                 course=""
                 likes={201}
                 image={
@@ -359,7 +359,7 @@ function Groups(state, action) {
               <GroupCard
                 date={"9-21-2021"}
                 platform="Telegram"
-                type="شعبة"
+                type="Sections"
                 course="ICS102"
                 likes={201}
                 description="
@@ -381,7 +381,7 @@ function Groups(state, action) {
                 date={"9-21-2021"}
                 platform="Telegram"
                 course=""
-                type="ترفيهي"
+                type="Entertainment"
                 likes={201}
                 description="
                   هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
@@ -402,7 +402,7 @@ function Groups(state, action) {
                 date={"9-21-2021"}
                 name=" CS Nerds"
                 platform="Telegram"
-                type="تعليمي"
+                type="Educational"
                 description="
                   هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
                   توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
@@ -423,7 +423,7 @@ function Groups(state, action) {
               <GroupCard
                 date={"9-21-2021"}
                 platform="Whatsapp"
-                type="ترفيهي"
+                type="Entertainment"
                 course=""
                 likes={201}
                 name="Computer Club yuh yuh yuh yuh"
@@ -445,7 +445,7 @@ function Groups(state, action) {
               <GroupCard
                 date={"9-21-2021"}
                 platform="Discord"
-                type="شعبة"
+                type="Sections"
                 course=""
                 likes={201}
                 image={
@@ -466,7 +466,7 @@ function Groups(state, action) {
               <GroupCard
                 date={"9-21-2021"}
                 platform="Telegram"
-                type="شعبة"
+                type="Sections"
                 course="ICS102"
                 likes={201}
                 description="
@@ -488,7 +488,7 @@ function Groups(state, action) {
                 date={"9-21-2021"}
                 platform="Telegram"
                 course=""
-                type="ترفيهي"
+                type="Entertainment"
                 likes={201}
                 description="
                   هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم

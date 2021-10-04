@@ -30,6 +30,17 @@ function GroupCard(props) {
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita laborum ipsa est at cupiditate ut consectetur corporis, harum in voluptatum, ab exercitationem aliquid perferendis odio. Odio, voluptas. Molestias, sint nostrum.",
   };
 
+  const ArLabels = (type) => {
+    switch (type) {
+      case "Educational":
+        return "تعليمي";
+      case "Entertainment":
+        return "ترفيهي";
+      case "Sections":
+        return "شعبة";
+    }
+  }
+
   const platformColor = (platform) => {
     switch (platform) {
       case "Telegram":
@@ -54,22 +65,22 @@ function GroupCard(props) {
 
   const typeColor = (type) => {
     switch (type) {
-      case "تعليمي":
+      case "Educational":
         return "#FFB830";
-      case "ترفيهي":
+      case "Entertainment":
         return "#F037A5";
-      case "شعبة":
+      case "Sections":
         return "#622edb";
     }
   };
 
   const typeIcon = () => {
     switch (props.type) {
-      case "تعليمي":
+      case "Educational":
         return <FaGraduationCap className={styles["tag-icon"]} />;
-      case "ترفيهي":
+      case "Entertainment":
         return <MdGames className={styles["tag-icon"]} />;
-      case "شعبة":
+      case "Sections":
         return <RiBook2Fill className={styles["tag-icon"]} />;
     }
   };
@@ -105,6 +116,7 @@ const closeReport = () => {
     />
       <GroupDisplay
         {...props}
+        arLabels = {ArLabels}
         liked = {likes.liked}
         likeNum = {likes.number}
         addLike = {addLike}
@@ -120,7 +132,6 @@ const closeReport = () => {
       <Card
         style={{ borderRadius: 8 }}
         className={"shadow border-0 " + styles.Cardholder}
-       
       >
         <Card.Header className={styles.cardHeader}>
           <div className={styles["date-tag"]}>{props.date}</div>
@@ -183,7 +194,7 @@ const closeReport = () => {
               }
             >
               {typeIcon()}
-              <span className={styles["tag-text"]}>{props.type}</span>
+              <span className={styles["tag-text"]}>{ArLabels(props.type)}</span>
             </div>
           </div>
         </Card.Body>

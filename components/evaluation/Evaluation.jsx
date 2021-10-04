@@ -11,20 +11,20 @@ import { FaChalkboardTeacher, FaClipboardCheck } from "react-icons/fa";
 // TODO: if all sections are empty (excluding general comments ), display only the overall rating alongside course and term tags
 
 export default function Evaluation(props) {
-  const overall = Math.ceil(
-    (props.rating
-      .map((rate) => parseInt(rate.split("_")[1]))
-      .reduce((a, b) => a + b, 0) /
-      3) *
-      20
-  );
+  // const overall = Math.ceil(
+  //   (props.rating
+  //     .map((rate) => parseInt(rate.split("_")[1]))
+  //     .reduce((a, b) => a + b, 0) /
+  //     3) *
+  //     20
+  // );
 
-  const colorFilter = (value) => {
-    if (value >= 4) return "#74fffb";
-    else if (value >= 3) return "#65ffc9";
-    else if (value >= 2) return "#FAC218";
-    else return "#f76a9b";
-  };
+  // const colorFilter = (value) => {
+  //   if (value >= 4) return "#74fffb";
+  //   else if (value >= 3) return "#65ffc9";
+  //   else if (value >= 2) return "#FAC218";
+  //   else return "#f76a9b";
+  // };
 
 
 
@@ -134,7 +134,7 @@ export default function Evaluation(props) {
             id="general"
           >
             <div className={styles.headers}>تعليق عام</div>
-            <p className={styles.contentText}>{props.general}</p>
+            <p className={styles.contentText}>{props.comment}</p>
             <div className={styles.stars}>
               <ReactStars
                 size={20}

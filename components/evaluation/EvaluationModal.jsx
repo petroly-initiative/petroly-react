@@ -190,7 +190,7 @@ export default function EvaluationModal(props) {
       setWaiting(false);
       evaluationCreate();
     }
-    } 
+    
   };
 
   useEffect(() => {
@@ -530,3 +530,4 @@ export default function EvaluationModal(props) {
     </>
   );
 }
+
