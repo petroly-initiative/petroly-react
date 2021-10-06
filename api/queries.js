@@ -57,7 +57,11 @@ export const getInstructorDetail = gql`
           grading
           teaching
           personality
+          gradingComment
+          teachingComment
+          personalityComment
           course
+          term
           comment
         }
       }
@@ -100,6 +104,15 @@ export const meEvaluationSetQuery = gql`
         count
         data {
           id
+          grading
+          teaching
+          personality
+          course
+          term
+          comment
+          gradingComment
+          teachingComment
+          personalityComment
           instructor {
             name
             profilePic

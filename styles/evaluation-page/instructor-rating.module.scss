@@ -81,10 +81,11 @@ $txt-fill: #6e737a;
   justify-content: center;
   align-items: center;
   width: 8vw;
-  min-width: 110px;
+  min-width: 130px;
   height: 8vw;
-  min-height: 110px;
-  border-radius: max(4vw, 55px);
+  padding: 2px;
+  min-height: 130px;
+  border-radius: max(4vw, 75px);
   background: #f1f1f105;
 }
 
@@ -96,6 +97,7 @@ $txt-fill: #6e737a;
   align-items: center;
   justify-content: center;
   padding: 12px;
+  border-radius: calc(0.9 * 75px);
 
   .score {
     font-weight: 700;

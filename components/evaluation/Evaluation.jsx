@@ -4,6 +4,12 @@ import { BsStar, BsStarFill, BsPersonBoundingBox } from "react-icons/bs";
 import ReactStars from "react-rating-stars-component";
 import { useEffect } from "react";
 import { FaChalkboardTeacher, FaClipboardCheck } from "react-icons/fa";
+
+
+
+// TODO: in-line coniditons to stop displaying empty sections
+// TODO: if all sections are empty (excluding general comments ), display only the overall rating alongside course and term tags
+
 export default function Evaluation(props) {
   // const overall = Math.ceil(
   //   (props.rating
@@ -13,12 +19,12 @@ export default function Evaluation(props) {
   //     20
   // );
 
-  const colorFilter = (value) => {
-    if (value >= 4) return "#74fffb";
-    else if (value >= 3) return "#65ffc9";
-    else if (value >= 2) return "#FAC218";
-    else return "#f76a9b";
-  };
+  // const colorFilter = (value) => {
+  //   if (value >= 4) return "#74fffb";
+  //   else if (value >= 3) return "#65ffc9";
+  //   else if (value >= 2) return "#FAC218";
+  //   else return "#f76a9b";
+  // };
 
 
 
@@ -40,7 +46,7 @@ export default function Evaluation(props) {
                 </div>
               </OverlayTrigger>
             )}
-            {props.term !== "" && (
+            {props.term !== null && (
               <OverlayTrigger
                 placement="top"
                 delay={{ show: 0, hide: 50 }}
@@ -52,21 +58,19 @@ export default function Evaluation(props) {
               </OverlayTrigger>
             )}
           </div>
-         
-            <div className={styles.dates}>{props.date}</div>
-         
+
+          <div className={styles.dates}>{props.date}</div>
         </Card.Header>
         <Card.Body className={styles["card-body"]}>
-          <section
-            style={{ color: "#F037A5" }}
-            className={styles["sections"]}
-            id="grading"
-          >
-            <div className={styles.headers}>
+          <section className={styles["sections"]} id="grading">
+            <div style={{ color: "#316B83" }} className={styles.headers}>
               الدرجات
-              <FaClipboardCheck className={styles["section-icon"]} />
+              <FaClipboardCheck
+                style={{ color: "#F037A5" }}
+                className={styles["section-icon"]}
+              />
             </div>
-            <p className={styles.contentText}>{props.grading}</p>
+            {props.grading !== "" && <p className={styles.contentText}>{props.grading}</p>}
             <div className={styles.stars}>
               <ReactStars
                 size={20}
@@ -80,16 +84,15 @@ export default function Evaluation(props) {
               />
             </div>
           </section>
-          <section
-            style={{ color: "#3DB2FF" }}
-            className={styles["sections"]}
-            id="teaching"
-          >
-            <div className={styles.headers}>
+          <section className={styles["sections"]} id="teaching">
+            <div style={{ color: "#316B83" }} className={styles.headers}>
               التدريس
-              <FaChalkboardTeacher className={styles["section-icon"]} />
+              <FaChalkboardTeacher
+                style={{ color: "#3DB2FF" }}
+                className={styles["section-icon"]}
+              />
             </div>
-            <p className={styles.contentText}>{props.teaching}</p>
+            { props.teaching !== "" && <p className={styles.contentText}>{props.teaching}</p>}
             <div className={styles.stars}>
               <ReactStars
                 size={20}
@@ -103,16 +106,15 @@ export default function Evaluation(props) {
               />
             </div>
           </section>
-          <section
-            style={{ color: "#FF6666" }}
-            className={styles["sections"]}
-            id="personality"
-          >
-            <div className={styles.headers}>
+          <section className={styles["sections"]} id="personality">
+            <div style={{ color: "#316B83" }} className={styles.headers}>
               الشخصية
-              <BsPersonBoundingBox className={styles["section-icon"]} />
+              <BsPersonBoundingBox
+                style={{ color: "#FF6666" }}
+                className={styles["section-icon"]}
+              />
             </div>
-            <p className={styles.contentText}>{props.personality}</p>
+            {props.personality !== "" && <p className={styles.contentText}>{props.personality}</p>}
             <div className={styles.stars}>
               <ReactStars
                 size={20}
@@ -126,6 +128,16 @@ export default function Evaluation(props) {
               />
             </div>
           </section>
+          {(props.comment !== "") && <section
+            style={{ color: "#316B83" }}
+            className={styles["sections"]}
+            id="general"
+          >
+            <div className={styles.headers}>تعليق عام</div>
+            <p className={styles.contentText}>{props.comment}</p>
+            
+          </section>}
+          
         </Card.Body>
       </Card>
     </>

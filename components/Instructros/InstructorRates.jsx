@@ -31,13 +31,22 @@ function InstructorRates(props) {
       <div id="overall-section" className={styles.ovrSection}>
         <div
           style={{
-            boxShadow: `0 0 40px ${colorFilter(
-              props.overall)}, 0 0 10px rgba(0, 0, 0, 0.13)`,
+            boxShadow: `0 0 20px ${colorFilter(
+              props.overall
+            )}, 0 0 10px rgba(0, 0, 0, 0.13)`,
           }}
           id="overall-container"
           className={styles.ovrcontainer}
         >
-          <div id="num-display" className={styles.ovrDisplay}>
+          <div
+            style={{
+              boxShadow: `0 0 40px ${colorFilter(
+                props.overall
+              )}`,
+            }}
+            id="num-display"
+            className={styles.ovrDisplay}
+          >
             <div
               style={{ color: colorFilter(props.overall) }}
               id="overall-score"
