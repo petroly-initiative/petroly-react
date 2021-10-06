@@ -69,7 +69,7 @@ export default function EvaluationModal(props) {
     msg: "",
   });
 
-  const [generalComment, setComment] = useState("");
+  const [generalComment, setComment] = useState(props.comment);
 
   const [waiting, setWaiting] = useState(false);
   const [validated, setValidated] = useState(false);
@@ -134,7 +134,7 @@ export default function EvaluationModal(props) {
       personalityComment: person.comment,
       course: extra.course,
       term: extra.term,
-      comment: "",
+      comment: generalComment,
     },
   });
 
@@ -158,7 +158,7 @@ export default function EvaluationModal(props) {
       personalityComment: person.comment,
       course: extra.course,
       term: extra.term,
-      comment: props.comment,
+      comment: generalComment,
     },
   });
 

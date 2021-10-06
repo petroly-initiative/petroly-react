@@ -46,7 +46,7 @@ export default function Evaluation(props) {
                 </div>
               </OverlayTrigger>
             )}
-            {props.term !== "" && (
+            {props.term !== null && (
               <OverlayTrigger
                 placement="top"
                 delay={{ show: 0, hide: 50 }}
@@ -128,25 +128,14 @@ export default function Evaluation(props) {
               />
             </div>
           </section>
-          {props.general !== "" && <section
+          {(props.comment !== "") && <section
             style={{ color: "#316B83" }}
             className={styles["sections"]}
             id="general"
           >
             <div className={styles.headers}>تعليق عام</div>
             <p className={styles.contentText}>{props.comment}</p>
-            <div className={styles.stars}>
-              <ReactStars
-                size={20}
-                count={5}
-                edit={false}
-                edit={false}
-                emptyIcon={<BsStar />}
-                filledIcon={<BsStarFill />}
-                value={parseInt(props.rating[2].split("_")[1]) / 20}
-                activeColor="#ffd700"
-              />
-            </div>
+            
           </section>}
           
         </Card.Body>
