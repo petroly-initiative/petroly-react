@@ -31,9 +31,9 @@ function InstructorRates(props) {
       <div id="overall-section" className={styles.ovrSection}>
         <div
           style={{
-            boxShadow: `0 0 20px ${colorFilter(
+            boxShadow: `0 0 10px ${colorFilter(
               props.overall
-            )}, 0 0 10px rgba(0, 0, 0, 0.13)`,
+            )}, 0 0 1px rgba(0, 0, 0, 0.13)`,
           }}
           id="overall-container"
           className={styles.ovrcontainer}

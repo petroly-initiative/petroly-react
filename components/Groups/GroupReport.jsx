@@ -2,16 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Col, Row, Form, Button, InputGroup } from "react-bootstrap";
 import { BsCardImage } from "react-icons/bs";
-import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
-import { IoLogoWhatsapp } from "react-icons/io";
-import { MdGames } from "react-icons/md";
-import { RiBook2Fill } from "react-icons/ri";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
-import { FaIdCard, FaListUl } from "react-icons/fa";
+import { FaInfoCircle, FaEyeSlash, FaList } from "react-icons/fa";
+import { ImLink } from "react-icons/im";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
-import { BiCube } from "react-icons/bi";
-import { AiFillFileAdd } from "react-icons/ai";
-import { MdDescription } from "react-icons/md";
+
 import styles from "../../styles/groups-page/group-creation.module.scss";
 
 function GroupReport(props) {
@@ -65,7 +59,11 @@ function GroupReport(props) {
         <Form onSubmit={createReport} className={styles.formStyle} noValidate>
           <Modal.Body className={"show-grid " + styles["modal-body"]}>
             <InputGroup hasValidation as={Row} className={styles.group}>
-              <Form.Label className={styles.label} column xs="12"></Form.Label>
+              <Form.Label className={styles.label} column xs="12">
+                {" "}
+                <FaInfoCircle className={styles.icons} />
+                <span>سبب البلاغ</span>
+              </Form.Label>
               <Col>
                 <Form onChange={selectType} noValidate>
                   <Form.Check
@@ -73,8 +71,14 @@ function GroupReport(props) {
                     type={"radio"}
                     value="Educational"
                     label={
-                      <div className={styles["label-header"]}>
-                        <span>محتوى غير مناسب</span>
+                      <div
+                        style={{ paddingBottom: 0 }}
+                        className={styles["label-header"]}
+                      >
+                        <FaEyeSlash color="#FF0075" className={styles.icons} />
+                        <span style={{ fontSize: "14px" }}>
+                          محتوى غير مناسب
+                        </span>
                       </div>
                     }
                     id="1"
@@ -85,8 +89,12 @@ function GroupReport(props) {
                     type={"radio"}
                     value="Entertainment"
                     label={
-                      <div className={styles["label-header"]}>
-                        <span>الرابط لا يعمل</span>
+                      <div
+                        style={{ paddingBottom: 0 }}
+                        className={styles["label-header"]}
+                      >
+                        <ImLink color="#F0A500" className={styles.icons} />
+                        <span style={{ fontSize: "14px" }}>الرابط لا يعمل</span>
                       </div>
                     }
                     id="1"
@@ -98,8 +106,12 @@ function GroupReport(props) {
                     value="OtherCause"
                     label={
                       <div>
-                        <div className={styles["label-header"]}>
-                          <span>أسباب أخرى</span>
+                        <div
+                          style={{ paddingBottom: 0 }}
+                          className={styles["label-header"]}
+                        >
+                          <FaList color="#1DB9C3" className={styles.icons} />
+                          <span style={{ fontSize: "14px" }}>أسباب أخرى</span>
                         </div>
 
                         <InputGroup
@@ -149,7 +161,7 @@ function GroupReport(props) {
                   id="passwordHelpBlock"
                   muted
                 >
-                  الرجاء إرفاق صورة واضحة تبيّن سبب البلاغ
+                  الرجاء إرفاق ملف بإحدى الصيغ التالية: PNG, JPEG, MP4    
                 </Form.Text>
               </Col>
             </InputGroup>

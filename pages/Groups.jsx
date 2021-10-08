@@ -100,24 +100,26 @@ function Groups(state, action) {
   //     if (event.key === "Enter") search();
   //   };
 
-  // ? detect page-number switching
-
+  
   // ? Mappers
-  const groupMapper = () => {
+  // ? We will use a show-more mehcanism instead of pagination
+  const groupMapper = (group) => {
     return (
       <GroupCard
-        date={"9-21-2021"}
-        platform="Telegram"
-        type="educationa"
-        likes={201}
+        date={group.date}
+        key = {group.index * group.offset}
+        platform= {group.platform}
+        type= {group.type}
+        likes={group.likes}
         image={
           <Image
             className={styles.picDiv}
-            src={"/images/spongy.png"}
+            src={group.img}
             width="70"
             height="70"
           />
         }
+        description = {group.description}
       />
     );
   };
