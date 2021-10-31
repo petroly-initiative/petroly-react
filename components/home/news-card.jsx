@@ -1,7 +1,7 @@
 import styles from "../../styles/home-page/news-card.module.scss";
 import { Card } from "react-bootstrap";
 import { useEffect } from "react";
-
+import Image from "next/image";
 
 export default function NewsCard(props){
 
@@ -25,7 +25,8 @@ export default function NewsCard(props){
             backgroundBlendMode: "multiply",
           }}
         >
-          <div className={styles["card-title"]}>{props.title}</div>
+          <Image alt = "news card" src = {props.header} layout="fill" />
+          <div style={{position:"relative", zIndex:3}} className={styles["card-title"]}>{props.title}</div>
           <div className={styles["card-content"]}>{props.content}</div>
         </Card>
       </>

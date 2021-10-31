@@ -10,7 +10,7 @@ export default function ServiceCard(props){
           <Card className={[styles["md-card"], "shadow"]}>
             <div className={styles["card-title"]}>{props.title}</div>
             <div className={styles["card-header"]}>
-              <Image src={props.header} width={90} height={90} />
+              <Image alt = "service image" src={props.header} width={90} height={90} />
             </div>
           </Card>
         </Link>
