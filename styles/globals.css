@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap");
+
 
 * {
   margin: 0;
@@ -13,8 +13,7 @@ body {
   min-height: 100vh;
   position: absolute;
   font-family: "Cairo", sans-serif !important;
-  background: url("/images/background.svg") repeat;
-  background-size: auto;
+  background: rgb(250, 250, 250) !important;
   overflow-x: hidden;
   touch-action: pan-y pan-x;
   

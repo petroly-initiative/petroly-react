@@ -38,14 +38,14 @@ export default function ChatCard(props) {
               <div className={styles["tags-container"]}>{tagDivs}</div>
             </div>
             <div className={styles["vote-layout"]}>
-              <Button onClick={upvote} className={styles["voting"]}>
+              <Button onClick={upvote} className={styles["voting"]} aria-label="upvote">
                 <GoArrowUp
                   color={vote[0] === "upvote" ? "#00ead3" : ""}
                   size="1.6rem"
                 />
               </Button>
               <div className={styles["vote-count"]}>{vote[1]}</div>
-              <Button onClick={downvote} className={styles["voting"]}>
+              <Button aria-label="downvote" onClick={downvote} className={styles["voting"]}>
                 <GoArrowDown
                   color={vote[0] === "downvote" ? "#00ead3" : ""}
                   size="1.6rem"

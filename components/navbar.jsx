@@ -13,7 +13,6 @@ import { MdDashboard } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { Spinner } from "react-bootstrap";
-import SignInModal from "./SignInModal";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { FaSignInAlt } from "react-icons/fa";
 import { OverlayTrigger } from "react-bootstrap";
@@ -23,7 +22,9 @@ import { meQuery } from "../api/queries";
 import { revokeTokenMutation } from "../api/mutations";
 import ClientOnly from "./ClientOnly";
 import { USER, T } from "../constants";
+import dynamic from "next/dynamic";
 
+const SignInModal = dynamic(() => import("./SignInModal"));
 /**
  * TODO:
  * - Loading state before updating the context
@@ -116,15 +117,16 @@ export default function Navbar(props) {
         <nav className={styles.navbar}>
           <SignInModal visible={showSignIn} close={handleSignInClose} />
           <div className={styles.navbar_top}>
-            <li className={styles.navbar_item}>
+            <div className={styles.navbar_item}>
               <Image
                 style={{ margin: 0 }}
                 src="/favicon.png"
                 width={30}
                 height={30}
+                alt = "petroly icon"
               />
-            </li>
-            <Button className={styles.collapser} onClick={showSidebar}>
+            </div>
+            <Button aria-label="show sidebar" className={styles.collapser} onClick={showSidebar}>
               <FiMenu className={styles.collapse_icon} size="1.3em" />
             </Button>
             <div className={styles.navbar_side} style={sideBarStyle}>
@@ -137,7 +139,7 @@ export default function Navbar(props) {
                 <li className={styles.navbar_item}>
                   <Spinner animation="border" role="status" />
                 </li>
-                <div className={styles.nav_pages}>
+                <ul className={styles.nav_pages}>
                   <li className={styles.navbar_item}>
                     <Link href="/" className={styles.navbar_link}>
                       <div className={styles.link_btn + " " + navStyles.home}>
@@ -190,7 +192,7 @@ export default function Navbar(props) {
                       </div>
                     </Link>
                   </li>
-                </div>
+                </ul>
                 {
                   <li className={styles.navbar_item}>
                     <Link href="/" className={styles.navbar_link}>
@@ -208,7 +210,7 @@ export default function Navbar(props) {
             <ul className={styles.navbar_nav}>
               <li className={styles.navbar_item}>
                 <Link href="/" className={styles.navbar_link}>
-                  <Image src="/favicon.png" width={30} height={30} />
+                  <Image alt = "petroly icon" src="/favicon.png" width={30} height={30} />
                 </Link>
               </li>
 
@@ -218,7 +220,7 @@ export default function Navbar(props) {
               >
                 <Spinner animation="border" role="status" />
               </li>
-              <div className={styles.nav_pages}>
+              <ul className={styles.nav_pages}>
                 <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.home}>
@@ -270,7 +272,7 @@ export default function Navbar(props) {
                     </div>
                   </Link>
                 </li>
-              </div>
+              </ul>
               <li className={styles.navbar_item}>
                 <Link href="/" className={styles.navbar_link}>
                   <div className={styles.link_btn}>
@@ -289,15 +291,20 @@ export default function Navbar(props) {
       <nav className={styles.navbar}>
         <SignInModal visible={showSignIn} close={handleSignInClose} />
         <div className={styles.navbar_top}>
-          <li className={styles.navbar_item}>
+          <div className={styles.navbar_item}>
             <Image
               style={{ margin: 0 }}
               src="/favicon.png"
               width={30}
               height={30}
+              alt="Petroly icon"
             />
-          </li>
-          <Button className={styles.collapser} onClick={showSidebar}>
+          </div>
+          <Button
+            aria-label="show sidebar"
+            className={styles.collapser}
+            onClick={showSidebar}
+          >
             <FiMenu className={styles.collapse_icon} size="1.3em" />
           </Button>
           <div className={styles.navbar_side} style={sideBarStyle}>
@@ -332,6 +339,7 @@ export default function Navbar(props) {
                                 width={28}
                                 height={28}
                                 className={styles.profile}
+                                alt="Petroly Icon"
                               />
                             </div>
                             <div className={styles["popup-txt"]}>
@@ -355,6 +363,7 @@ export default function Navbar(props) {
                               </div>
                             </Link>
                             <Button
+                              aria-label="sign out"
                               className={styles["signout-btn"]}
                               onClick={signOut}
                             >
@@ -373,13 +382,17 @@ export default function Navbar(props) {
                     }
                     rootClose
                   >
-                    <Button className={styles.navbar_link}>
+                    <Button
+                      aria-label="profile"
+                      className={styles.navbar_link}
+                    >
                       <Image
                         style={{ margin: 0 }}
                         src={profilePic}
                         width={35}
                         height={35}
                         className={styles.profile}
+                        alt="Petroly Icon"
                       />
                     </Button>
                   </OverlayTrigger>
@@ -387,6 +400,7 @@ export default function Navbar(props) {
                   <Button
                     onClick={handleSignInShow}
                     className={styles.navbar_link}
+                    aria-label="sign in"
                   >
                     <FaSignInAlt size="1.4rem" />
                   </Button>
@@ -432,9 +446,7 @@ export default function Navbar(props) {
                 </li>
                 <li className={styles.navbar_item}>
                   <Link href="/Groups" className={styles.navbar_link}>
-                    <div
-                      className={styles.link_btn + +" " + navStyles.communities}
-                    >
+                    <div className={styles.link_btn + " " + navStyles.chat}>
                       <BsFillPeopleFill
                         className={styles.nav_img}
                         size="1.3em"
@@ -447,6 +459,7 @@ export default function Navbar(props) {
               {
                 <li className={styles.navbar_item}>
                   <a
+                  rel ="noopener"
                     target="_blank"
                     href="https://forms.gle/dFhnn6qSeTJBfc5ZA"
                     className={styles.navbar_link}
@@ -466,7 +479,12 @@ export default function Navbar(props) {
           <ul className={styles.navbar_nav}>
             <li className={styles.navbar_item}>
               <Link href="/" className={styles.navbar_link}>
-                <Image src="/favicon.png" width={35} height={35} />
+                <Image
+                  alt="Petroly Icon"
+                  src="/favicon.png"
+                  width={35}
+                  height={35}
+                />
               </Link>
             </li>
 
@@ -496,6 +514,7 @@ export default function Navbar(props) {
                               width={28}
                               height={28}
                               className={styles.profile}
+                              alt="Petroly Icon"
                             />
                           </div>
                           <div className={styles["popup-txt"]}>
@@ -519,6 +538,7 @@ export default function Navbar(props) {
                           <Button
                             className={styles["signout-btn"]}
                             onClick={signOut}
+                            aria-label="sign-out"
                           >
                             <div>
                               {" "}
@@ -535,13 +555,14 @@ export default function Navbar(props) {
                   }
                   rootClose
                 >
-                  <Button className={styles.navbar_link}>
+                  <Button aria-label="profile" className={styles.navbar_link}>
                     <Image
                       style={{ margin: 0 }}
                       src={profilePic}
                       width={35}
                       height={35}
                       className={styles.profile}
+                      alt="Petroly Icon"
                     />
                   </Button>
                 </OverlayTrigger>
@@ -549,6 +570,7 @@ export default function Navbar(props) {
                 <Button
                   onClick={handleSignInShow}
                   className={styles.navbar_link}
+                  aria-label = "sign-in"
                 >
                   <FaSignInAlt size="1.4rem" />
                 </Button>
@@ -605,6 +627,7 @@ export default function Navbar(props) {
             <li className={styles.navbar_item}>
               <a
                 target="_blank"
+                rel="noopener"
                 href="https://forms.gle/dFhnn6qSeTJBfc5ZA"
                 className={styles.navbar_link}
               >
