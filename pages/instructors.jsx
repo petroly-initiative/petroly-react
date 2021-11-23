@@ -238,7 +238,7 @@ function instructorsList() {
       <div>
         <h1>{error.name}</h1>
         <p>{error.message}</p>
-        <p>{error.networkError.result.errors[0].message}</p>
+        {/* <p>{error.networkError.result.errors[0].message}</p> */}
       </div>
     );
   }

@@ -3,13 +3,13 @@ import styles from "../styles/home-page/home.module.scss";
 import Navbar from "../components/navbar";
 import NewsCard from "../components/home/news-card";
 import ServiceCard from "../components/home/service-card";
-import Link from "next/link";
 import Image from "next/image";
 import Head from "next/head";
 import ChatCard from "../components/home/Chat-card";
 import { HiDesktopComputer } from "react-icons/hi";
 import { GiMaterialsScience } from "react-icons/gi";
 import { Fade } from "react-awesome-reveal";
+
 
 export default function HomeScreen() {
   /**
@@ -21,6 +21,7 @@ export default function HomeScreen() {
     <>
       <Head>
         <title>Petroly | home</title>
+        <meta name="description" content = "Petroly intiative is a platform to serve the digital needs for all kfupmers" />
       </Head>
       <Navbar page="home" />
       <Container className={styles["main-container"]}>
@@ -36,7 +37,7 @@ export default function HomeScreen() {
             >
               <NewsCard
                 title="COE Concentration Program"
-                header='url("/images/books.jpg")'
+                header='/images/coding.webp'
                 content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
               />
             </Col>
@@ -49,7 +50,7 @@ export default function HomeScreen() {
             >
               <NewsCard
                 title=" Concentration Program"
-                header='url("/images/books.jpg")'
+                header='/images/coding.webp'
                 content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
               />
             </Col>
@@ -62,7 +63,7 @@ export default function HomeScreen() {
             >
               <NewsCard
                 title="KFUPM  registration"
-                header=' url("/images/coding.jpg")'
+                header='/images/coding.webp'
                 content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
               />
             </Col>
@@ -75,7 +76,7 @@ export default function HomeScreen() {
             >
               <NewsCard
                 title="KFUPM 2021 registration"
-                header=' url("/images/coding.jpg")'
+                header='/images/coding.webp'
                 content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
               />
             </Col>
@@ -88,7 +89,7 @@ export default function HomeScreen() {
             >
               <NewsCard
                 title="Petroly  V2"
-                header=' url("/images/architecture.jpg")'
+                header='/images/coding.webp'
                 content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
               />
             </Col>
@@ -101,7 +102,7 @@ export default function HomeScreen() {
             >
               <NewsCard
                 title="Petroly  V2.0"
-                header=' url("/images/architecture.jpg")'
+                header='/images/coding.webp'
                 content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
               />
             </Col>
@@ -129,6 +130,7 @@ export default function HomeScreen() {
                           src="/images/muhabpower.png"
                           width="40"
                           height="40"
+                          alt = "profile pic"
                         />
                       }
                       tags={[
@@ -168,10 +170,10 @@ export default function HomeScreen() {
                   xl={6}
                   className={[styles["services"], styles["columns"]]}
                 >
-                  <ServiceCard title="التقييم" header="/images/home/rating.svg" />
+                  <ServiceCard title="التقييم" header="/images/home/rating.webp" />
                   <ServiceCard
                     title="المجتمعات"
-                    header="/images/home/communities-icon.svg"
+                    header="/images/home/communities-icon.webp"
                   />
                 </Col>
                 <Col
@@ -183,11 +185,11 @@ export default function HomeScreen() {
                 >
                   <ServiceCard
                     title="المحادثات"
-                    header="/images/home/chat.svg"
+                    header="/images/home/chat.webp"
                   />
                   <ServiceCard
                     title="الموارد"
-                    header="/images/home/resources-icon.svg"
+                    header="/images/home/resources-icon.webp"
                   />
                 </Col>
               </Row>
