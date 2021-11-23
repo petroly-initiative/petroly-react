@@ -10,7 +10,7 @@ export const instructorsQuery = gql`
     instructors(
       limit: $limit
       offset: $offset
-      where: { department: $department, name: { contains: $name } }
+      where: { department: $department, name: { icontains: $name } }
     ) {
       count
       data {
