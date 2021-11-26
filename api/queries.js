@@ -38,8 +38,8 @@ export const getInstructorName = gql`
 `;
 
 export const getInstructorDetail = gql`
-  query Instructor($id: Int) {
-    instructor(where: { id: { equals: $id } }) {
+  query Instructor($id: ID) {
+    instructor(where: { id: { exact: $id } }) {
       id
       name
       department
