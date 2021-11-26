@@ -97,10 +97,6 @@ export default function instructorDetails({ data }) {
     } else setMsg("الرجاء تسجيل الدخول");
   }, [loadingHasEvaluated, userContext.user.status]);
 
-  useEffect(() => {
-    console.log(data.instructor);
-  }, [data]);
-
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
