@@ -115,7 +115,7 @@ export const evaluationCreateMutation = gql`
 
 export const evaluationUpdateMutation = gql`
   mutation EvaluationUpdate(
-    $id: Int
+    $id: ID
     $grading: EvaluationGradingEnum
     $teaching: EvaluationTeachingEnum
     $personality: EvaluationPersonalityEnum
@@ -127,7 +127,7 @@ export const evaluationUpdateMutation = gql`
     $comment: String
   ) {
     evaluationUpdate(
-      where: { id: { equals: $id } }
+      where: { id: { exact: $id } }
       input: {
         grading: $grading
         teaching: $teaching
