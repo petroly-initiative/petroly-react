@@ -89,7 +89,7 @@ export default function ClientMutator({ children }) {
         localStorage.setItem("refreshToken", rToken);
         setClient(
           new ApolloClient({
-            uri: "http://localhost:8000/endpoint/",
+            uri: URL_ENDPOINT,
             cache: new InMemoryCache(),
             headers: {authorization: "JWT " + token},
           })

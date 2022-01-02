@@ -74,7 +74,7 @@ export const registerMutation = gql`
 // FIXME: We need to change the mutation parameters to pass the comments
 export const evaluationCreateMutation = gql`
   mutation EvaluationCreate(
-    $instructorId: Int
+    $instructorId: ID
     $username: String
     $grading: EvaluationGradingEnum!
     $teaching: EvaluationTeachingEnum!
@@ -88,8 +88,8 @@ export const evaluationCreateMutation = gql`
   ) {
     evaluationCreate(
       input: {
-        instructor: { connect: { id: { equals: $instructorId } } }
-        user: { connect: { username: { equals: $username } } }
+        instructor: { connect: { id: { exact: $instructorId } } }
+        user: { connect: { username: { exact: $username } } }
         grading: $grading
         teaching: $teaching
         personality: $personality
@@ -115,7 +115,7 @@ export const evaluationCreateMutation = gql`
 
 export const evaluationUpdateMutation = gql`
   mutation EvaluationUpdate(
-    $id: Int
+    $id: ID
     $grading: EvaluationGradingEnum
     $teaching: EvaluationTeachingEnum
     $personality: EvaluationPersonalityEnum
@@ -127,7 +127,7 @@ export const evaluationUpdateMutation = gql`
     $comment: String
   ) {
     evaluationUpdate(
-      where: { id: { equals: $id } }
+      where: { id: { exact: $id } }
       input: {
         grading: $grading
         teaching: $teaching
@@ -168,6 +168,15 @@ export const passwordResetMutation = gql`
       newPassword1: $newPassword1
       newPassword2: $newPassword2
     ) {
+      success
+      errors
+    }
+  }
+`;
+
+export const verifyAccountMutation = gql`
+  mutation ($token: String!) {
+    verifyAccount(token: $token) {
       success
       errors
     }
