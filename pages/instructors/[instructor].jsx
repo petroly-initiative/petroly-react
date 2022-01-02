@@ -32,7 +32,6 @@ import { Fade } from "react-awesome-reveal";
 import { useRouter } from "next/router";
 
 export const getStaticPaths = async () => {
- 
   const { data } = await client.query({
     query: getInstructorName,
     variables: {},
@@ -70,7 +69,6 @@ export const getStaticProps = async (context) => {
   };
 };
 
-
 export default function instructorDetails({ data }) {
   const router = useRouter();
   const [modalVisible, setVisible] = useState(false);
@@ -96,10 +94,6 @@ export default function instructorDetails({ data }) {
       }
     } else setMsg("الرجاء تسجيل الدخول");
   }, [loadingHasEvaluated, userContext.user.status]);
-
-  useEffect(() => {
-    console.log(data.instructor);
-  }, [data]);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -135,11 +129,9 @@ export default function instructorDetails({ data }) {
     data.instructor.evaluationSet.data.map((evaluation) => (
       <Evaluation
         date={evaluation.date.split("T")[0]}
-
         grading={evaluation.gradingComment}
         teaching={evaluation.teachingComment}
         personality={evaluation.personalityComment}
-
         rating={[
           evaluation.grading,
           evaluation.teaching,
@@ -199,9 +191,7 @@ export default function instructorDetails({ data }) {
                 style={{ width: "100%" }}
                 className={cardStyles.container}
               >
-                <div        
-                  className={cardStyles.cardColor + " cardColor"}
-                >
+                <div className={cardStyles.cardColor + " cardColor"}>
                   <div className={cardStyles.insuctor_pic + " shadow"}>
                     <Image
                       className={cardStyles.picDiv}
@@ -336,6 +326,7 @@ export default function instructorDetails({ data }) {
           teachingCom={""}
           personRating={0}
           personCom={""}
+          comment={""}
           term={""}
           course={""}
         />

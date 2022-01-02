@@ -22,6 +22,8 @@ import { useQuery } from "@apollo/client";
 import { meQuery } from "../../api/queries";
 import { USER } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
+import request from 'superagent';
+
 /**
  *
  * ? State management:
@@ -62,8 +64,18 @@ export default function ProfileTab(props) {
     setMode(mode === "view" ? "edit" : "view");
   };
 
-  const handleImage = () => {
-    // do something
+  const handleImage = (el) => {
+    const file = el.target.files[0];
+    const url = `https://api.cloudinary.com/v1_1/petroly-initiative/upload`;
+
+    request.post(url)
+      .field('upload_preset', 'hzzndnlv')
+      .field('file', file)
+      .field('public_id', userContext.user.username)
+      .end((error, response) => {
+        console.log(error, response);
+      });
+
   };
 
   if (loadingMe) {
