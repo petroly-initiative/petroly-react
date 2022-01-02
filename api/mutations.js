@@ -173,3 +173,12 @@ export const passwordResetMutation = gql`
     }
   }
 `;
+
+export const verifyAccountMutation = gql`
+  mutation ($token: String!) {
+    verifyAccount(token: $token) {
+      success
+      errors
+    }
+  }
+`;
