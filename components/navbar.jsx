@@ -120,7 +120,7 @@ export default function Navbar(props) {
             <div className={styles.navbar_item}>
               <Image
                 style={{ margin: 0 }}
-                src="/favicon.png"
+                src="/favicon.webp"
                 width={30}
                 height={30}
                 alt = "petroly icon"
@@ -210,7 +210,7 @@ export default function Navbar(props) {
             <ul className={styles.navbar_nav}>
               <li className={styles.navbar_item}>
                 <Link href="/" className={styles.navbar_link}>
-                  <Image alt = "petroly icon" src="/favicon.png" width={30} height={30} />
+                  <Image alt = "petroly icon" src="/favicon.webp" width={30} height={30} />
                 </Link>
               </li>
 
@@ -294,7 +294,7 @@ export default function Navbar(props) {
           <div className={styles.navbar_item}>
             <Image
               style={{ margin: 0 }}
-              src="/favicon.png"
+              src="/favicon.webp"
               width={30}
               height={30}
               alt="Petroly icon"
@@ -481,7 +481,7 @@ export default function Navbar(props) {
               <Link href="/" className={styles.navbar_link}>
                 <Image
                   alt="Petroly Icon"
-                  src="/favicon.png"
+                  src="/favicon.webp"
                   width={35}
                   height={35}
                 />
