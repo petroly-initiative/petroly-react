@@ -18,7 +18,7 @@ export default function NewsCard(props){
       <>
         <Card
         id = {props.title}
-          className={[styles["lg-card"], "shadow", "border-0"]}
+          className={styles["card"] + " shadow border-0 " + ` ${props.size == "lg" ? styles["large-card"]: ""}` }
           style={{
             background: "#00b7ff44 " + props.header,
             backgroundSize: "100% 100%",

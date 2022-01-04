@@ -21,24 +21,28 @@ export default function HomeScreen() {
     <>
       <Head>
         <title>Petroly | home</title>
-        <meta name="description" content = "Petroly intiative is a platform to serve the digital needs for all kfupmers" />
+        <meta
+          name="description"
+          content="Petroly intiative is a platform to serve the digital needs for all kfupmers"
+        />
       </Head>
       <Navbar page="home" />
       <Container className={styles["main-container"]}>
         <Fade cascade damping={0.05} triggerOnce direction="up">
           <div className={styles["titles"]}>أخبار بترولي</div>
-          <Row className={styles["containers"]}>
+          <Row style={{ direction: "rtl" }} className={styles["containers"]}>
             <Col
-              xl={4}
-              lg={4}
-              md={6}
+              xl={8}
+              lg={8}
+              md={12}
               sm={12}
               className={[styles["news"], styles["columns"]]}
             >
               <NewsCard
-                title="COE Concentration Program"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
+                title="بترولي بحلة جديدة!"
+                size="lg"
+                header="/images/home/update-news.jpg"
+                content="مبادرة بترولي تعود لكم بحلة جديدة. واجهة جديدة وسهلة للاستخدام. وخدمة المجتمعات الجديدة لتقريب المسافات بين أصحاب الاهتمامات المشتركة. والقادم أكثر"
               />
             </Col>
             <Col
@@ -49,62 +53,14 @@ export default function HomeScreen() {
               className={[styles["news"], styles["columns"]]}
             >
               <NewsCard
-                title=" Concentration Program"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
+                title="التقييم صار أسهل"
+                header="/images/home/rating-news.jpg"
+                content="واجهة جديدة تسهل لك عرض آخر التقييمات, وعملية تقييم أسلس من ذي قبل"
               />
-            </Col>
-            <Col
-              xl={4}
-              lg={4}
-              md={6}
-              sm={12}
-              className={[styles["news"], styles["columns"]]}
-            >
               <NewsCard
-                title="KFUPM  registration"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
-              />
-            </Col>
-            <Col
-              xl={4}
-              lg={4}
-              md={6}
-              sm={12}
-              className={[styles["news"], styles["columns"]]}
-            >
-              <NewsCard
-                title="KFUPM 2021 registration"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
-              />
-            </Col>
-            <Col
-              xl={4}
-              lg={4}
-              md={6}
-              sm={12}
-              className={[styles["news"], styles["columns"]]}
-            >
-              <NewsCard
-                title="Petroly  V2"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
-              />
-            </Col>
-            <Col
-              xl={4}
-              lg={4}
-              md={6}
-              sm={12}
-              className={[styles["news"], styles["columns"]]}
-            >
-              <NewsCard
-                title="Petroly  V2.0"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
-              />
+                title="البتروليين صاروا أقرب! "
+                header="/images/home/groups-news.jpg"
+                content="تعبت من البحث عن بتروليين يشاركونك اهتماماتك وتطلعاتك؟ ستجد ضالتك في مجتمعات بترولي بكل تأكيد"/>
             </Col>
           </Row>
           <Row className={styles["containers"]}>
@@ -115,68 +71,26 @@ export default function HomeScreen() {
               lg={6}
               xl={7}
               className={[styles["trending"], styles["columns"]]}
-            >
-              <Row style={{ width: "100%" }}>
-                <Col xs={12} xl={12} className={styles["titles"]}>
-                  المحادثات الشائعة
-                </Col>
-                <Col xs={12} xl={12} className={styles["columns"]}>
-                  {/*Grid Layout for 3 Messages*/}
-                  <Card className={[styles["xl-card"]]}>
-                    <ChatCard
-                      profile={
-                        <Image
-                          className={styles.profile}
-                          src="/images/muhabpower.png"
-                          width="40"
-                          height="40"
-                          alt = "profile pic"
-                        />
-                      }
-                      tags={[
-                        {
-                          name: "Tech",
-                          color: "#00ead3",
-                          icon: (
-                            <HiDesktopComputer size="1.2rem" color="white" />
-                          ),
-                        },
-                        {
-                          name: "Physics",
-                          color: "#0091E7",
-                          icon: (
-                            <GiMaterialsScience size="1.2rem" color="white" />
-                          ),
-                        },
-                      ]}
-                      content="دمة لأبنائها ادمة لأبنائها ادمة لأبنائها ادمة لأبنائها ادمة لأبنائها ا عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات للدفعة القادمة لأبنائها الطلاب والطالبات لأبنائها الطلاب و لأبنائها الطلاب و لأبنائها الطلاب و دفعة القادمة لأبنائها الطلاب والطالبا علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
-                      Title="ر استغرابي في الفترة الماضي ر استغرابي في الفترة الماضي ر استغرابي في الفترة الماضية"
-                      date="20-7-2021"
-                      upvote={72}
-                    />
-                  </Card>
-                </Col>
-              </Row>
-            </Col>
-            <Col xl={5} lg={6} sm={12} xs={12}>
+            ></Col>
+            <Col xl={12} lg={12} sm={12} xs={12}>
               <Row>
                 <Col xl={12} xs={12} className={styles["titles"]}>
                   خدماتنا
                 </Col>
-                <Col
-                  xs={12}
-                  sm={6}
-                  lg={6}
-                  xl={6}
-                  className={[styles["services"], styles["columns"]]}
-                >
-                  <ServiceCard title="التقييم" header="/images/home/rating.webp" />
+                <Col xl={6} xs={12}>
+                  <ServiceCard
+                    title="التقييم"
+                    header="/images/home/rating.webp"
+                  />
+                </Col>
+                <Col xl={6} xs={12}>
                   <ServiceCard
                     title="المجتمعات"
                     header="/images/home/communities-icon.webp"
                   />
                 </Col>
-                <Col
+
+                {/* <Col
                   xs={12}
                   sm={6}
                   lg={6}
@@ -191,7 +105,7 @@ export default function HomeScreen() {
                     title="الموارد"
                     header="/images/home/resources-icon.webp"
                   />
-                </Col>
+                </Col> */}
               </Row>
             </Col>
           </Row>

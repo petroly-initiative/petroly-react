@@ -148,7 +148,7 @@ export default function Navbar(props) {
                       </div>
                     </Link>
                   </li>
-                  <li className={styles.navbar_item}>
+                  {/* <li className={styles.navbar_item}>
                     <Link href="/" className={styles.navbar_link}>
                       <div
                         className={styles.link_btn + " " + navStyles.resources}
@@ -157,7 +157,7 @@ export default function Navbar(props) {
                         <div className={styles.link_text}>الموارد</div>
                       </div>
                     </Link>
-                  </li>
+                  </li> */}
                   <li className={styles.navbar_item}>
                     <Link href="/instructors" className={styles.navbar_link}>
                       <div className={styles.link_btn + " " + navStyles.rating}>
@@ -166,7 +166,7 @@ export default function Navbar(props) {
                       </div>
                     </Link>
                   </li>
-                  <li className={styles.navbar_item}> 
+                  {/* <li className={styles.navbar_item}> 
                     <Link href="/" className={styles.navbar_link}>
                       <div className={styles.link_btn + " " + navStyles.chat}>
                         <BsChatSquareDotsFill
@@ -176,7 +176,7 @@ export default function Navbar(props) {
                         <div className={styles.link_text}>المحادثات</div>
                       </div>
                     </Link>
-                  </li>
+                  </li> */}
                   <li className={styles.navbar_item}>
                     <Link href="/" className={styles.navbar_link}>
                       <div
@@ -230,7 +230,7 @@ export default function Navbar(props) {
                   </Link>
                 </li>
 
-                <li className={styles.navbar_item}>
+                {/* <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
                     <div
                       className={styles.link_btn + " " + navStyles.resources}
@@ -239,7 +239,7 @@ export default function Navbar(props) {
                       <div className={styles.link_text}>الموارد</div>
                     </div>
                   </Link>
-                </li>
+                </li> */}
                 <li className={styles.navbar_item}>
                   <Link href="/instructors" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.rating}>
@@ -248,7 +248,7 @@ export default function Navbar(props) {
                     </div>
                   </Link>
                 </li>
-                <li className={styles.navbar_item}>
+                {/* <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.chat}>
                       <BsChatSquareDotsFill
@@ -258,7 +258,7 @@ export default function Navbar(props) {
                       <div className={styles.link_text}>المحادثات</div>
                     </div>
                   </Link>
-                </li>
+                </li> */}
                 <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
                     <div
@@ -415,7 +415,7 @@ export default function Navbar(props) {
                     </div>
                   </Link>
                 </li>
-                <li className={styles.navbar_item}>
+                {/* <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
                     <div
                       className={styles.link_btn + " " + navStyles.resources}
@@ -424,7 +424,7 @@ export default function Navbar(props) {
                       <div className={styles.link_text}>الموارد</div>
                     </div>
                   </Link>
-                </li>
+                </li> */}
                 <li className={styles.navbar_item}>
                   <Link href="/instructors" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.rating}>
@@ -433,7 +433,7 @@ export default function Navbar(props) {
                     </div>
                   </Link>
                 </li>
-                <li className={styles.navbar_item}>
+                {/* <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.chat}>
                       <BsChatSquareDotsFill
@@ -443,7 +443,7 @@ export default function Navbar(props) {
                       <div className={styles.link_text}>المحادثات</div>
                     </div>
                   </Link>
-                </li>
+                </li> */}
                 <li className={styles.navbar_item}>
                   <Link href="/Groups" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.chat}>
@@ -586,14 +586,14 @@ export default function Navbar(props) {
                 </Link>
               </li>
 
-              <li className={styles.navbar_item}>
+              {/* <li className={styles.navbar_item}>
                 <Link href="/" className={styles.navbar_link}>
                   <div className={styles.link_btn + " " + navStyles.resources}>
                     <ImBook className={styles.nav_img} size="1.3em" />
                     <div className={styles.link_text}>الموارد</div>
                   </div>
                 </Link>
-              </li>
+              </li> */}
               <li className={styles.navbar_item}>
                 <Link href="/instructors" className={styles.navbar_link}>
                   <div className={styles.link_btn + " " + navStyles.rating}>
@@ -602,7 +602,7 @@ export default function Navbar(props) {
                   </div>
                 </Link>
               </li>
-              <li className={styles.navbar_item}>
+              {/* <li className={styles.navbar_item}>
                 <Link href="/" className={styles.navbar_link}>
                   <div className={styles.link_btn + " " + navStyles.chat}>
                     <BsChatSquareDotsFill
@@ -612,7 +612,7 @@ export default function Navbar(props) {
                     <div className={styles.link_text}>المحادثات</div>
                   </div>
                 </Link>
-              </li>
+              </li> */}
               <li className={styles.navbar_item}>
                 <Link href="/Groups" className={styles.navbar_link}>
                   <div

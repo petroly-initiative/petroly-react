@@ -29,7 +29,7 @@ export default function Evaluation(props) {
 
 
   return (
-    <>
+    
       <Card className={styles.feedback_container + " shadow"}>
         <Card.Header className={styles.cardHeader}>
           <div className={styles.tags}>
@@ -76,7 +76,7 @@ export default function Evaluation(props) {
                 size={20}
                 count={5}
                 edit={false}
-                edit={false}
+                
                 emptyIcon={<BsStar />}
                 filledIcon={<BsStarFill />}
                 value={parseInt(props.rating[0].split("_")[1]) / 20}
@@ -98,7 +98,7 @@ export default function Evaluation(props) {
                 size={20}
                 count={5}
                 edit={false}
-                edit={false}
+                
                 emptyIcon={<BsStar />}
                 filledIcon={<BsStarFill />}
                 value={parseInt(props.rating[1].split("_")[1]) / 20}
@@ -120,7 +120,6 @@ export default function Evaluation(props) {
                 size={20}
                 count={5}
                 edit={false}
-                edit={false}
                 emptyIcon={<BsStar />}
                 filledIcon={<BsStarFill />}
                 value={parseInt(props.rating[2].split("_")[1]) / 20}
@@ -140,6 +139,6 @@ export default function Evaluation(props) {
           
         </Card.Body>
       </Card>
-    </>
+    
   );
 }

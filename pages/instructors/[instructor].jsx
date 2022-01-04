@@ -252,18 +252,28 @@ export default function instructorDetails({ data }) {
                   {/**
                    * The evaluations will also be a past of the response object in fetching
                    */}
-                  <Fade
-                    className={
-                      "col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-6"
-                    }
-                    duration={1200}
-                    cascade
-                    damping={0.02}
-                    triggerOnce
-                    direction="up"
-                  >
-                    {evalList}
-                  </Fade>
+                  <Col sm={12} xs={12} md={12} lg={12} xl={6}>
+                    <Fade
+                      duration={1200}
+                      cascade
+                      damping={0.02}
+                      triggerOnce
+                      direction="up"
+                    >
+                      {evalList.filter((e, i) => i % 2 == 0)}
+                    </Fade>
+                  </Col>
+                  <Col sm={12} xs={12} md={12} lg={12} xl={6}>
+                    <Fade
+                      duration={1200}
+                      cascade
+                      damping={0.02}
+                      triggerOnce
+                      direction="up"
+                    >
+                      {evalList.filter((e, i) => i % 2 == 1)}
+                    </Fade>
+                  </Col>
                 </Row>
               </Card.Body>
             </Card>
