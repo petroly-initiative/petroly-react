@@ -13,7 +13,6 @@ import { CgProfile } from "react-icons/cg";
 import GroupDisplay from "./GroupDisplay";
 import GroupReport from "./GroupReport";
 
-
 function GroupCard(props) {
   const [displayGroup, setDisplay] = useState(false);
   const [showReport, setReport] = useState(false);
@@ -22,65 +21,58 @@ function GroupCard(props) {
     number: props.likes,
     liked: false,
   });
-  const group = {
-    name: "CS Nerds",
-    platform: "discord",
-    type: "educational",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita laborum ipsa est at cupiditate ut consectetur corporis, harum in voluptatum, ab exercitationem aliquid perferendis odio. Odio, voluptas. Molestias, sint nostrum.",
-  };
 
   const ArLabels = (type) => {
     switch (type) {
-      case "Educational":
+      case "EDU":
         return "تعليمي";
-      case "Entertainment":
+      case "ENTERTAINING":
         return "ترفيهي";
-      case "Sections":
+      case "SECTION":
         return "شعبة";
     }
-  }
+  };
 
   const platformColor = (platform) => {
     switch (platform) {
-      case "Telegram":
+      case "TELEGRAM":
         return "#0088cc";
-      case "Whatsapp":
+      case "WHATSAPP":
         return "#25D366";
-      case "Discord":
+      case "DISCORD":
         return "#5865F2";
     }
   };
 
   const platformIcon = (platform) => {
     switch (platform) {
-      case "Telegram":
+      case "TELEGRAM":
         return <FaTelegramPlane className={styles["tag-icon"]} />;
-      case "Whatsapp":
+      case "WHATSAPP":
         return <IoLogoWhatsapp className={styles["tag-icon"]} />;
-      case "Discord":
+      case "DISCORD":
         return <FaDiscord className={styles["tag-icon"]} />;
     }
   };
 
   const typeColor = (type) => {
     switch (type) {
-      case "Educational":
+      case "EDU":
         return "#FFB830";
-      case "Entertainment":
+      case "ENTERTAINING":
         return "#F037A5";
-      case "Sections":
+      case "SECTION":
         return "#622edb";
     }
   };
 
   const typeIcon = () => {
     switch (props.type) {
-      case "Educational":
+      case "EDU":
         return <FaGraduationCap className={styles["tag-icon"]} />;
-      case "Entertainment":
+      case "ENTERTAINING":
         return <MdGames className={styles["tag-icon"]} />;
-      case "Sections":
+      case "SECTION":
         return <RiBook2Fill className={styles["tag-icon"]} />;
     }
   };
@@ -88,45 +80,44 @@ function GroupCard(props) {
   const addLike = () => {
     if (!likes.liked)
       setLikes((prev) => ({ liked: true, number: prev.number + 1 }));
+    // TODO - mutations
     else setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
   };
 
   const fireDisplay = (e) => {
     console.log("Modal launched!");
     setDisplay(true);
-    e.stopPropagation()
-
+    e.stopPropagation();
   };
   const closeDisplay = () => {
     setDisplay(false);
   };
   const fireReport = () => {
     // console.log("Modal launched!");
+    // TODO - mutations
     setReport(true);
   };
-const closeReport = () => {
-  setReport(false);
-};
+  const closeReport = () => {
+    setReport(false);
+  };
 
   return (
     <>
-    <GroupReport
-    showModal={showReport}
-    handleClose = {closeReport} 
-    />
+      <GroupReport showModal={showReport} handleClose={closeReport} />
       <GroupDisplay
         {...props}
-        arLabels = {ArLabels}
-        liked = {likes.liked}
-        likeNum = {likes.number}
-        addLike = {addLike}
-        group={group}
+        arLabels={ArLabels}
+        liked={likes.liked}
+        likeNum={likes.number}
+        addLike={addLike}
+        // group={props.group}
+        link={props.link}
         showModal={displayGroup}
         handleClose={closeDisplay}
         platformColor={platformColor}
         typeColor={typeColor}
-        typeIcon = {typeIcon}
-        platformIcon = {platformIcon}
+        typeIcon={typeIcon}
+        platformIcon={platformIcon}
       />
       {/* // We will fire an onClick listener for modal instead of a new page link */}
       <Card
@@ -165,13 +156,16 @@ const closeReport = () => {
               delay={{ show: 150, hide: 200 }}
               overlay={<Tooltip id="button-tooltip">تقديم بلاغ</Tooltip>}
             >
-                <Button onClick  ={fireReport} className={styles["btns"] + " " + styles["report-btn"]}>
-                  <HiOutlineSpeakerphone />
-                </Button>
+              <Button
+                onClick={fireReport}
+                className={styles["btns"] + " " + styles["report-btn"]}
+              >
+                <HiOutlineSpeakerphone />
+              </Button>
             </OverlayTrigger>
           </div>
         </Card.Header>
-        <Card.Body  onClick={fireDisplay} className={styles.cardBody}>
+        <Card.Body onClick={fireDisplay} className={styles.cardBody}>
           <div className={styles["group-pic"] + " shadow"}>{props.image}</div>
 
           <div className={styles["group-name"]}>{props.name}</div>

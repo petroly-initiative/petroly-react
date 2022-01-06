@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 
+// -- Instructos' queries:
 export const instructorsQuery = gql`
   query Instructors(
     $limit: Int
@@ -124,3 +125,45 @@ export const meEvaluationSetQuery = gql`
     }
   }
 `;
+// -- communities' queries:
+export const getCommunity = gql`
+  query CommunityId($id: ID) {
+    community(where: { id: { exact: $id } }) {
+      name
+      platform
+      category
+      description
+      likes
+      section
+    }
+  }
+`;
+export const CommunitiesQuery = gql`
+  query Communities(
+    $name: String
+    $category: CommunityCategoryEnum
+    $platform: CommunityPlatformEnum
+  ) {
+    communities(
+      where: {
+        name: { contains: $name }
+        category: $category
+        platform: $platform
+      }
+    ) {
+      data {
+        id
+        date
+        category
+        description
+        likes
+        link
+        name
+        platform
+        report
+        section
+        verified
+      }
+    }
+  }
+`; // Modify this query to handle filter feature

@@ -149,7 +149,11 @@ export default function GroupDisplay(props) {
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
           {/* join button */}
-          <a href="/" className={styles["join-link"]} variant="primary">
+          <a
+            href={props.link}
+            className={styles["join-link"]}
+            variant="primary"
+          >
             <span className={styles["join-txt"]}>{arTitles.joinCommunity}</span>
             <HiOutlineUserAdd className={styles["join-icon"]} size="1.4rem" />
           </a>
