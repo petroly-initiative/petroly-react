@@ -128,7 +128,7 @@ function instructorsList() {
         onClick={selectDept}
         className={styles["depts"]}
         as={"div"}
-        eventKey="1"
+        
       >
         {dept}
       </Dropdown.Item>

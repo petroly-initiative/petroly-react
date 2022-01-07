@@ -67,21 +67,39 @@ $clr-primary: #00ead3;
   }
 
   .active-link {
-    background-color: $bg-primary;
     transition: 200ms ease;
-    color: white !important;
+    color:  $bg-primary !important;
     .link_text {
-      color: white !important;
-      opacity: 1;
+      color: $bg-primary !important;
+      
     }
-    box-shadow: 0 0 6px $bg-primary;
+    
     &:hover,
     &:active {
+
+      &::before{
+        opacity: 0;
+      }
       .link_text {
-        color: white !important;
+        color: $bg-primary !important;
       }
     }
+
+    
+    &::before{
+      transition: 200ms ease;
+      content: "";
+      box-shadow: 0 0 3px $bg-primary;
+      position: absolute;
+      left: 8px;
+      background-color: $bg-primary;
+      width: 4px;
+      margin-top: 2px;
+      height: 1.5rem;
+      border-radius: 2px;
+    }
   }
+
 
   .link_text {
     width: 100%;
@@ -180,7 +198,6 @@ $clr-primary: #00ead3;
 }
 
 .navbar_side ul > li {
-  box-shadow: 0 2px 3px rgb(204, 202, 202);
   margin-top: 0;
 }
 
@@ -243,6 +260,43 @@ $clr-primary: #00ead3;
   padding: 4px;
 }
 
+.lang-switch{
+  background-color: white;
+  width: 100%;
+  color: $fnt-clr;
+  font-size: 12px;
+  button:hover{
+    background-color: #00dfc8;
+    color: white;
+    border: 1px solid #00dfc8;
+    box-shadow: none;
+  }
+
+  button:focus{
+    box-shadow: none;
+  }
+
+  button{
+    width: 50% !important;
+    height: 35px !important;
+    border: 1px solid $fnt-clr;
+    margin: 2px;
+    border-radius: 2px !important;
+  }
+
+  button:active, button:focus{
+    background-color: #00dfc8;
+    color: white;
+    border: unset;
+  }
+}
+
+.lang-active{
+   background-color: #00dfc8;
+    color: white;
+    border: 1px solid #00dfc8 !important;
+}
+
 .profile {
   width: 2rem !important;
   height: 2rem !important;
@@ -258,6 +312,7 @@ $clr-primary: #00ead3;
   display: flex;
   align-items: center;
   padding-bottom: 8px;
+  margin-bottom: 8px;
   border-bottom: 1px solid rgb(204, 204, 204);
 }
 
@@ -339,6 +394,31 @@ $clr-primary: #00ead3;
     color: white !important;
   }
   &:focus {
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.signin-btn {
+  background: unset !important;
+  border: unset !important;
+  text-align: right;
+  color: $clr-primary;
+  padding: 6px;
+  width: 100%;
+  margin: 2px;
+  margin-top: 4px;
+  font-size: 13px;
+  font-family: "Cairo", sans-serif !important;
+  font-weight: 600;
+  transition: 200ms ease;
+  &:hover {
+    background: $clr-primary !important;
+    color: white !important;
+  }
+  &:focus {
+      background: $clr-primary !important;
+    color: white !important;
     border: none !important;
     box-shadow: none !important;
   }

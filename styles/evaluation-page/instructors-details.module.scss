@@ -16,8 +16,6 @@
   justify-self: flex-end;
 }
 
-
-
 .feedbackCol {
   height: 85vh;
   margin-bottom: 16px;
@@ -42,6 +40,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  border-color: white !important;
 }
 
 .statsCard {
@@ -80,6 +79,7 @@
   box-sizing: border-box;
   padding: 16px;
   overflow-y: hidden;
+  border-color: white !important;
 }
 
 .col-container {

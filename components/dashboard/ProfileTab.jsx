@@ -275,12 +275,12 @@ export default function ProfileTab(props) {
               </div>
               <Fade className={styles["fader"]}>
                 <Form className={styles["edit-form"]}>
-                  <Form.Group>
+                  {/* <Form.Group>
                     <Form.Label>اسم المستخدم</Form.Label>
                     <InputGroup>
                       <FormControl type="text" value={dataMe.me.username} />
                     </InputGroup>
-                  </Form.Group>
+                  </Form.Group> */}
                   <Form.Group controlId="formFile">
                     <InputGroup>
                       <Form.Label> صورة العرض</Form.Label>

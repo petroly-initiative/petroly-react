@@ -9,36 +9,73 @@ import ChatCard from "../components/home/Chat-card";
 import { HiDesktopComputer } from "react-icons/hi";
 import { GiMaterialsScience } from "react-icons/gi";
 import { Fade } from "react-awesome-reveal";
-
+import translator from "../dictionary/pages/home-dict";
+import { useEffect, useContext, useState } from "react";
+import { UserContext } from "../state-management/user-state/UserContext";
+import { T } from "../constants";
 
 export default function HomeScreen() {
   /**
    * TODO:
-   * - Create a Grid Layout for the trending Section
-   * - Create Discussion Cards
+   * - Translation to english while taking into consideration the text direction
    */
+
+  const { user, userDispatch } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+ 
+  useEffect(() => {
+    setLang(translator(user.lang))
+  }, [])
+  
+
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang))
+  }, [user.lang]);  
+
+   useEffect(() => {
+     console.log("changed language!");
+   }, [user.lang]);
+
   return (
     <>
       <Head>
         <title>Petroly | home</title>
-        <meta name="description" content = "Petroly intiative is a platform to serve the digital needs for all kfupmers" />
+        <meta name="title" content="Petroly | home" />
+        <meta
+          name="description"
+          content="Petroly intiative is a platform to serve the digital needs for all kfupmers"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://petroly.vercel.app/" />
+        <meta property="og:title" content="Petroly | home" />
+        <meta
+          property="og:description"
+          content="Petroly intiative is a platform to serve the digital needs for all kfupmers"
+        />
+        <meta property="og:image" content="/images/website-header.png" />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://petroly.vercel.app/" />
+        <meta property="twitter:title" content="Petroly | home" />
+        <meta
+          property="twitter:description"
+          content="Petroly intiative is a platform to serve the digital needs for all kfupmers"
+        />
+        <meta property="twitter:image" content="" />
       </Head>
       <Navbar page="home" />
       <Container className={styles["main-container"]}>
         <Fade cascade damping={0.05} triggerOnce direction="up">
-          <div className={styles["titles"]}>أخبار بترولي</div>
-          <Row className={styles["containers"]}>
-            <Col
-              xl={4}
-              lg={4}
-              md={6}
-              sm={12}
-              className={[styles["news"], styles["columns"]]}
-            >
+          <div className={styles["titles"]}>{langState.newsHeader}</div>
+
+          <Row style={{ direction: "rtl" }} className={styles["containers"]}>
+            <Col xl={6} lg={6} md={12} sm={12} className={[styles["columns"]]}>
               <NewsCard
-                title="COE Concentration Program"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
+                title={langState.news0.title}
+                size="lg"
+                header="/images/home/update-news.jpg"
+                content={langState.news0.content}
               />
             </Col>
             <Col
@@ -49,9 +86,18 @@ export default function HomeScreen() {
               className={[styles["news"], styles["columns"]]}
             >
               <NewsCard
-                title=" Concentration Program"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
+                title={langState.news1.title}
+                header="/images/home/rating-news.jpg"
+                content={langState.news1.content}
+                link="/instructors"
+                linked
+              />
+              <NewsCard
+                title={langState.news2.title}
+                header="/images/home/groups-news.jpg"
+                content={langState.news2.content}
+                link="/Groups"
+                linked
               />
             </Col>
             <Col
@@ -59,12 +105,14 @@ export default function HomeScreen() {
               lg={4}
               md={6}
               sm={12}
-              className={[styles["news"], styles["columns"]]}
+              className={[styles["small-news"], styles["columns"]]}
             >
               <NewsCard
-                title="KFUPM  registration"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
+                title={langState.news1.title}
+                header="/images/home/rating-news.jpg"
+                content={langState.news1.content}
+                link="/instructors"
+                linked
               />
             </Col>
             <Col
@@ -72,38 +120,14 @@ export default function HomeScreen() {
               lg={4}
               md={6}
               sm={12}
-              className={[styles["news"], styles["columns"]]}
+              className={[styles["small-news"], styles["columns"]]}
             >
               <NewsCard
-                title="KFUPM 2021 registration"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
-              />
-            </Col>
-            <Col
-              xl={4}
-              lg={4}
-              md={6}
-              sm={12}
-              className={[styles["news"], styles["columns"]]}
-            >
-              <NewsCard
-                title="Petroly  V2"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
-              />
-            </Col>
-            <Col
-              xl={4}
-              lg={4}
-              md={6}
-              sm={12}
-              className={[styles["news"], styles["columns"]]}
-            >
-              <NewsCard
-                title="Petroly  V2.0"
-                header='/images/coding.webp'
-                content=" علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
+                title={langState.news2.title}
+                header="/images/home/groups-news.jpg"
+                content={langState.news2.content}
+                link="/Groups"
+                linked
               />
             </Col>
           </Row>
@@ -115,68 +139,26 @@ export default function HomeScreen() {
               lg={6}
               xl={7}
               className={[styles["trending"], styles["columns"]]}
-            >
-              <Row style={{ width: "100%" }}>
-                <Col xs={12} xl={12} className={styles["titles"]}>
-                  المحادثات الشائعة
-                </Col>
-                <Col xs={12} xl={12} className={styles["columns"]}>
-                  {/*Grid Layout for 3 Messages*/}
-                  <Card className={[styles["xl-card"]]}>
-                    <ChatCard
-                      profile={
-                        <Image
-                          className={styles.profile}
-                          src="/images/muhabpower.png"
-                          width="40"
-                          height="40"
-                          alt = "profile pic"
-                        />
-                      }
-                      tags={[
-                        {
-                          name: "Tech",
-                          color: "#00ead3",
-                          icon: (
-                            <HiDesktopComputer size="1.2rem" color="white" />
-                          ),
-                        },
-                        {
-                          name: "Physics",
-                          color: "#0091E7",
-                          icon: (
-                            <GiMaterialsScience size="1.2rem" color="white" />
-                          ),
-                        },
-                      ]}
-                      content="دمة لأبنائها ادمة لأبنائها ادمة لأبنائها ادمة لأبنائها ادمة لأبنائها ا عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات للدفعة القادمة لأبنائها الطلاب والطالبات لأبنائها الطلاب و لأبنائها الطلاب و لأبنائها الطلاب و دفعة القادمة لأبنائها الطلاب والطالبا علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات  علنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات أعلنت الجامعة عن يرامج جديدة للدفعة القادمة لأبنائها الطلاب والطالبات"
-                      Title="ر استغرابي في الفترة الماضي ر استغرابي في الفترة الماضي ر استغرابي في الفترة الماضية"
-                      date="20-7-2021"
-                      upvote={72}
-                    />
-                  </Card>
-                </Col>
-              </Row>
-            </Col>
-            <Col xl={5} lg={6} sm={12} xs={12}>
+            ></Col>
+            <Col xl={12} lg={12} sm={12} xs={12}>
               <Row>
                 <Col xl={12} xs={12} className={styles["titles"]}>
                   خدماتنا
                 </Col>
-                <Col
-                  xs={12}
-                  sm={6}
-                  lg={6}
-                  xl={6}
-                  className={[styles["services"], styles["columns"]]}
-                >
-                  <ServiceCard title="التقييم" header="/images/home/rating.webp" />
+                <Col xl={6} lg={6} xs={12}>
                   <ServiceCard
-                    title="المجتمعات"
+                    title= {langState.service0}
+                    header="/images/home/rating.webp"
+                  />
+                </Col>
+                <Col xl={6} lg={6} xs={12}>
+                  <ServiceCard
+                    title={langState.service1}
                     header="/images/home/communities-icon.webp"
                   />
                 </Col>
-                <Col
+
+                {/* <Col
                   xs={12}
                   sm={6}
                   lg={6}
@@ -191,7 +173,7 @@ export default function HomeScreen() {
                     title="الموارد"
                     header="/images/home/resources-icon.webp"
                   />
-                </Col>
+                </Col> */}
               </Row>
             </Col>
           </Row>

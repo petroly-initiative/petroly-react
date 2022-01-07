@@ -12,4 +12,5 @@ export const T = {
   LOGIN: "login",
   LOGOUT: "logout",
   SET_CLIENT: "set_client",
+  CHANGE_LANG: "change_language"
 };
