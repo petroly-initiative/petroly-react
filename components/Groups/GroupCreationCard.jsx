@@ -1,12 +1,6 @@
 import React, { useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import {
-  Col,
-  Row,
-  Form,
-  Button,
-  InputGroup,
-} from "react-bootstrap";
+import { Col, Row, Form, Button, InputGroup } from "react-bootstrap";
 import { BsCardImage } from "react-icons/bs";
 import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
@@ -19,7 +13,8 @@ import { BiCube } from "react-icons/bi";
 import { AiFillFileAdd } from "react-icons/ai";
 import { MdDescription } from "react-icons/md";
 import styles from "../../styles/groups-page/group-creation.module.scss";
-
+import { createCommunnityMutation } from "../../api/mutations";
+import { useMutation } from "@apollo/client";
 
 function GroupCreationCard() {
   const [modalShow, setModalShow] = useState(false);
@@ -31,27 +26,56 @@ function GroupCreationCard() {
   const link = useRef();
   const name = useRef();
   const [invalidCourse, validateCourse] = useState(false);
-
+  const [createCommunnity, { data, loading, error }] = useMutation(
+    createCommunnityMutation
+  );
+  // TODO handle load and error status.
+  if (loading) return "Submitting...";
+  if (error) return `Submission error! ${error.message}`;
   const createGroup = (e) => {
-    e.preventDefault()
+    // TODO validate the form
+    e.preventDefault();
+
+    const groupName = name.current.value;
+    const groupLink = link.current.value;
+    const groupDesc = description.current.value;
+    const groupSection = course.current.value;
+    if (type == "SECTION")
+      createCommunnity({
+        variables: {
+          name: groupName,
+          link: groupLink,
+          platform: platform,
+          category: type,
+          description: groupDesc,
+          section: groupSection,
+        },
+      });
+    else
+      createCommunnity({
+        variables: {
+          name: groupName,
+          link: groupLink,
+          platform: platform,
+          category: type,
+          description: groupDesc,
+        },
+      });
+    setModalShow(false);
   };
 
   const selectPlatform = (e) => {
-    console.log(e.target.value);
     setPlatform(e.target.value);
   };
 
   const selectType = (e) => {
-    if(e.target.id !== "course-input")
-    setType(e.target.value, console.log(type));
-    else{
-      console.log(course.current.value.length);
-      if(course.current.value.length !== 0){
-      validateCourse(!(/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value)) );
+    if (e.target.id !== "course-input")
+      setType(e.target.value, console.log(type));
+    else {
+      if (course.current.value.length !== 0) {
+        validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value));
       }
     }
-
-    
   };
 
   return (
@@ -62,7 +86,7 @@ function GroupCreationCard() {
         show={modalShow}
         aria-labelledby="contained-modal-title-vcenter"
       >
-        <Modal.Header >
+        <Modal.Header>
           <Modal.Title
             className={styles.title}
             id="contained-modal-title-vcenter"
@@ -113,7 +137,7 @@ function GroupCreationCard() {
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
-                    value="Educational"
+                    value="EDU"
                     label={
                       <div>
                         <div className={styles["label-header"]}>
@@ -132,7 +156,7 @@ function GroupCreationCard() {
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
-                    value="Entertainment"
+                    value="ENTERTAINING"
                     label={
                       <div>
                         <div className={styles["label-header"]}>
@@ -151,7 +175,7 @@ function GroupCreationCard() {
                   <Form.Check
                     className={styles.radio + " " + styles["course-container"]}
                     type={"radio"}
-                    value="Sections"
+                    value="SECTION"
                     label={
                       <div>
                         <div className={styles["label-header"]}>
@@ -164,14 +188,14 @@ function GroupCreationCard() {
                         <InputGroup
                           hasValidation
                           style={{
-                            maxHeight: type === "Sections" ? 60 : 0,
-                            opacity: type === "Sections" ? "1" : "0",
+                            maxHeight: type === "SECTION" ? 60 : 0,
+                            opacity: type === "SECTION" ? "1" : "0",
                             transition: "150ms ease",
-                            marginTop: type === "Sections" ? 12 : 0,
+                            marginTop: type === "SECTION" ? 12 : 0,
                           }}
                         >
                           <Form.Control
-                          isInvalid = {invalidCourse}
+                            isInvalid={invalidCourse}
                             ref={course}
                             className={styles["course-input"]}
                             style={{ fontSize: 12 }}
@@ -211,7 +235,7 @@ function GroupCreationCard() {
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
-                    value="Whatsapp"
+                    value="WHATSAPP"
                     label={
                       <div>
                         <IoLogoWhatsapp color="#25D366" size="1.1rem" />{" "}
@@ -224,7 +248,7 @@ function GroupCreationCard() {
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
-                    value="Telegram"
+                    value="TELEGRAM"
                     label={
                       <div>
                         <FaTelegramPlane color="#0088cc" size="1.1rem" />{" "}
@@ -237,7 +261,7 @@ function GroupCreationCard() {
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
-                    value="Discord"
+                    value="DISCORD"
                     label={
                       <div>
                         <FaDiscord color="#5865F2" size="1.1rem" />{" "}

@@ -1,4 +1,5 @@
 import styles from "../../styles/groups-page/group-card.module.scss";
+
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { BsFillStarFill, BsStar } from "react-icons/bs";
 import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
@@ -6,13 +7,21 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { MdGames } from "react-icons/md";
 import { RiBook2Fill } from "react-icons/ri";
 import { useEffect, useState } from "react";
-import { Button, Card, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  OverlayTrigger,
+  Tooltip,
+  Spinner,
+} from "react-bootstrap";
 import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
 import GroupDisplay from "./GroupDisplay";
+import { useMutation } from "@apollo/client";
 import GroupReport from "./GroupReport";
-
+import { updateCommunityLikes } from "../../api/mutations";
 function GroupCard(props) {
   const [displayGroup, setDisplay] = useState(false);
   const [showReport, setReport] = useState(false);
@@ -76,12 +85,31 @@ function GroupCard(props) {
         return <RiBook2Fill className={styles["tag-icon"]} />;
     }
   };
-
+  const [updateLikes, { data, loading, error }] =
+    useMutation(updateCommunityLikes);
+  // TODO Handle loading and error properly
+  if (loading) {
+    return (
+      <Spinner
+        className={styles["loading-spinner"]}
+        as="div"
+        animation="grow"
+        size="xl"
+        role="status"
+        aria-hidden="true"
+      />
+    );
+  }
+  if (error) return `Submission error! ${error.message}`;
   const addLike = () => {
-    if (!likes.liked)
+    // TODO check if the user has liked this group before
+    if (!likes.liked) {
+      updateLikes({ variables: { id: props.id, likes: props.likes + 1 } });
       setLikes((prev) => ({ liked: true, number: prev.number + 1 }));
-    // TODO - mutations
-    else setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
+    } else {
+      updateLikes({ variables: { id: props.id, likes: props.likes - 1 } });
+      setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
+    }
   };
 
   const fireDisplay = (e) => {
@@ -94,7 +122,7 @@ function GroupCard(props) {
   };
   const fireReport = () => {
     // console.log("Modal launched!");
-    // TODO - mutations
+    // TODO - mutations for report
     setReport(true);
   };
   const closeReport = () => {

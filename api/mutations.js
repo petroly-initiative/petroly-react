@@ -173,3 +173,64 @@ export const passwordResetMutation = gql`
     }
   }
 `;
+
+// Community mutations:
+export const updateCommunityLikes = gql`
+  mutation UpdateLikes($id: ID, $likes: Int) {
+    communityUpdate(input: { likes: $likes }, where: { id: { exact: $id } }) {
+      ok
+      errors {
+        field
+        messages
+      }
+      result {
+        id
+        likes
+      }
+    }
+  }
+`;
+export const createCommunnityMutation = gql`
+  mutation CreateCommunity(
+    $name: String!
+    $link: String!
+    $platform: CommunityPlatformEnum!
+    $category: CommunityCategoryEnum!
+    $description: String!
+    $section: String = " "
+  ) {
+    communityCreate(
+      input: {
+        name: $name
+        link: $link
+        platform: $platform
+        category: $category
+        description: $description
+        section: $section
+      }
+    ) {
+      ok
+      errors {
+        field
+        messages
+      }
+      result {
+        id
+        archived
+        category
+        date
+        description
+        likes
+        link
+        name
+        platform
+        report
+        section
+        user {
+          id
+        }
+        verified
+      }
+    }
+  }
+`;

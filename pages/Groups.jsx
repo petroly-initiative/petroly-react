@@ -99,6 +99,7 @@ function Groups(state, action) {
       return jsonData.communities.data.map((community) => {
         return (
           <GroupCard
+            id={community.id}
             name={community.name}
             date={community.date}
             key={community.id}
@@ -145,7 +146,6 @@ function Groups(state, action) {
                   style={{ direction: "rtl" }}
                   type="text"
                   placeholder="أدخِل اسم القروب"
-                  defaultValue={"name"}
                   //   onChange={"changeName"}
                   //   onKeyDown={"enterSearch"}
                 ></Form.Control>
