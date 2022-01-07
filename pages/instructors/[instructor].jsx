@@ -124,7 +124,7 @@ export default function instructorDetails({ data }) {
       ' url("/images/background.svg")'
     );
   };
-  // FIXME: add an additional section for general comments
+  // FIXME: add a filler image for empty evals
   const evalMapper = () =>
     data.instructor.evaluationSet.data.map((evaluation) => (
       <Evaluation

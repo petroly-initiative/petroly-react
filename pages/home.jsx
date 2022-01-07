@@ -9,40 +9,73 @@ import ChatCard from "../components/home/Chat-card";
 import { HiDesktopComputer } from "react-icons/hi";
 import { GiMaterialsScience } from "react-icons/gi";
 import { Fade } from "react-awesome-reveal";
-
+import translator from "../dictionary/pages/home-dict";
+import { useEffect, useContext, useState } from "react";
+import { UserContext } from "../state-management/user-state/UserContext";
+import { T } from "../constants";
 
 export default function HomeScreen() {
   /**
    * TODO:
-   * - Create a Grid Layout for the trending Section
-   * - Create Discussion Cards
+   * - Translation to english while taking into consideration the text direction
    */
+
+  const { user, userDispatch } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+ 
+  useEffect(() => {
+    setLang(translator(user.lang))
+  }, [])
+  
+
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang))
+  }, [user.lang]);  
+
+   useEffect(() => {
+     console.log("changed language!");
+   }, [user.lang]);
+
   return (
     <>
       <Head>
         <title>Petroly | home</title>
+        <meta name="title" content="Petroly | home" />
         <meta
           name="description"
           content="Petroly intiative is a platform to serve the digital needs for all kfupmers"
         />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://petroly.vercel.app/" />
+        <meta property="og:title" content="Petroly | home" />
+        <meta
+          property="og:description"
+          content="Petroly intiative is a platform to serve the digital needs for all kfupmers"
+        />
+        <meta property="og:image" content="/images/website-header.png" />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://petroly.vercel.app/" />
+        <meta property="twitter:title" content="Petroly | home" />
+        <meta
+          property="twitter:description"
+          content="Petroly intiative is a platform to serve the digital needs for all kfupmers"
+        />
+        <meta property="twitter:image" content="" />
       </Head>
       <Navbar page="home" />
       <Container className={styles["main-container"]}>
         <Fade cascade damping={0.05} triggerOnce direction="up">
-          <div className={styles["titles"]}>أخبار بترولي</div>
+          <div className={styles["titles"]}>{langState.newsHeader}</div>
+
           <Row style={{ direction: "rtl" }} className={styles["containers"]}>
-            <Col
-              xl={8}
-              lg={8}
-              md={12}
-              sm={12}
-              className={[styles["news"], styles["columns"]]}
-            >
+            <Col xl={6} lg={6} md={12} sm={12} className={[styles["columns"]]}>
               <NewsCard
-                title="بترولي بحلة جديدة!"
+                title={langState.news0.title}
                 size="lg"
                 header="/images/home/update-news.jpg"
-                content="مبادرة بترولي تعود لكم بحلة جديدة. واجهة جديدة وسهلة للاستخدام. وخدمة المجتمعات الجديدة لتقريب المسافات بين أصحاب الاهتمامات المشتركة. والقادم أكثر"
+                content={langState.news0.content}
               />
             </Col>
             <Col
@@ -53,14 +86,49 @@ export default function HomeScreen() {
               className={[styles["news"], styles["columns"]]}
             >
               <NewsCard
-                title="التقييم صار أسهل"
+                title={langState.news1.title}
                 header="/images/home/rating-news.jpg"
-                content="واجهة جديدة تسهل لك عرض آخر التقييمات, وعملية تقييم أسلس من ذي قبل"
+                content={langState.news1.content}
+                link="/instructors"
+                linked
               />
               <NewsCard
-                title="البتروليين صاروا أقرب! "
+                title={langState.news2.title}
                 header="/images/home/groups-news.jpg"
-                content="تعبت من البحث عن بتروليين يشاركونك اهتماماتك وتطلعاتك؟ ستجد ضالتك في مجتمعات بترولي بكل تأكيد"/>
+                content={langState.news2.content}
+                link="/Groups"
+                linked
+              />
+            </Col>
+            <Col
+              xl={4}
+              lg={4}
+              md={6}
+              sm={12}
+              className={[styles["small-news"], styles["columns"]]}
+            >
+              <NewsCard
+                title={langState.news1.title}
+                header="/images/home/rating-news.jpg"
+                content={langState.news1.content}
+                link="/instructors"
+                linked
+              />
+            </Col>
+            <Col
+              xl={4}
+              lg={4}
+              md={6}
+              sm={12}
+              className={[styles["small-news"], styles["columns"]]}
+            >
+              <NewsCard
+                title={langState.news2.title}
+                header="/images/home/groups-news.jpg"
+                content={langState.news2.content}
+                link="/Groups"
+                linked
+              />
             </Col>
           </Row>
           <Row className={styles["containers"]}>
@@ -77,15 +145,15 @@ export default function HomeScreen() {
                 <Col xl={12} xs={12} className={styles["titles"]}>
                   خدماتنا
                 </Col>
-                <Col xl={6} xs={12}>
+                <Col xl={6} lg={6} xs={12}>
                   <ServiceCard
-                    title="التقييم"
+                    title= {langState.service0}
                     header="/images/home/rating.webp"
                   />
                 </Col>
-                <Col xl={6} xs={12}>
+                <Col xl={6} lg={6} xs={12}>
                   <ServiceCard
-                    title="المجتمعات"
+                    title={langState.service1}
                     header="/images/home/communities-icon.webp"
                   />
                 </Col>

@@ -1,6 +1,8 @@
 import { createContext } from "react";
 import { USER, T } from "../../constants";
 
+
+// TODO: create a language parameter in the user context
 /**
  * ? User State management: A JSON with the following attributes
  * - logged (boolean): indicating if the user entered his credientials or not
@@ -27,21 +29,30 @@ export const userReducer = (currentState, action) => {
     switch(action.type){
         case T.SET_CLIENT:
             return {
-                status: USER.LOGGED_IN,
-                token: action.token,
-                username: action.username,
-            }
+              status: USER.LOGGED_IN,
+              token: action.token,
+              username: action.username,
+              lang: action.lang
+           
+            };
         case T.LOGIN:
             return {
                 status: USER.VERIFING,
                 token: action.token,
+                lang: localStorage.getItem("lang") || "en"
+                
             }
         case T.LOGOUT:
             sessionStorage.removeItem('token');
             localStorage.removeItem('refreshToken');
             return {
                 status: USER.LOGGED_OUT,
+                lang: action.lang
             };
+        case T.CHANGE_LANG:
+            localStorage.setItem("lang", action.lang);
+            return {...Object.assign(currentState, {lang: action.lang})};
+
         case "create-new":
             break;        
     }

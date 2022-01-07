@@ -264,6 +264,7 @@ export default function SignInModal(props) {
           type: T.LOGIN,
           token: dataTokenAuth.tokenAuth.token,
           username: dataTokenAuth.tokenAuth.user.username,
+          lang: localStorage.getItem("lang") || "en"
         });
         props.close();
       }

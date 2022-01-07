@@ -48,7 +48,10 @@ export default function ClientMutator({ children }) {
           headers: {authorization: "JWT " + token},
         })
       );
-      userContext.userDispatch({ type: T.SET_CLIENT, token, username})
+      if(!localStorage.getItem("lang"))
+      localStorage.setItem("lang", "en");
+
+      userContext.userDispatch({ type: T.SET_CLIENT, token, username, lang: localStorage.getItem("lang") || "en"})
     }
 
     else if (token)
@@ -70,8 +73,10 @@ export default function ClientMutator({ children }) {
             headers: {authorization: "JWT " + token},
           })
         );
+        // TODO: provide language by the me query
         userContext.userDispatch({ type: T.SET_CLIENT, token, 
-          username:  dataVerifyToken.verifyToken.payload.username});
+          username:  dataVerifyToken.verifyToken.payload.username, 
+        lang: localStorage.getItem("lang") || "en"});
       }
 
       else if (rToken) {
@@ -95,7 +100,7 @@ export default function ClientMutator({ children }) {
           })
         );
         userContext.userDispatch({ type: T.SET_CLIENT, token, 
-          username: dataRefreshToken.refreshToken.payload.username })
+          username: dataRefreshToken.refreshToken.payload.username, lang: localStorage.getItem("lang") || "en" })
       }
     }
   }, [dataRefreshToken]);

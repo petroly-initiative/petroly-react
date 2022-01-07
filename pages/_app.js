@@ -18,10 +18,9 @@ import { USER } from "../constants";
  */
 
 function MyApp({ Component, pageProps }) {
-  console.log("_app.js");
 
-  const [user, userDispatch] = useReducer(userReducer, 
-      { status: USER.LOGGED_OUT, token: "" });
+  const [user, dispatch] = useReducer(userReducer, 
+      { status: USER.LOGGED_OUT, token: "", lang: "en"});
 
   return (
     <>
@@ -29,7 +28,7 @@ function MyApp({ Component, pageProps }) {
         <UserContext.Provider
           value={{
             user: user,
-            userDispatch: userDispatch,
+            userDispatch: dispatch,
           }}
         >
           <Head>
