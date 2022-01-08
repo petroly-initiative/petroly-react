@@ -36,6 +36,14 @@ export default function ClientMutator({ children }) {
   );
 
   // Excute `toketAuth` once if `token` is found
+  /*
+    All effects run once react mounted.
+    This effect runs when user status changes,that is, when user is just logged in, or logged out.
+    When user just logged in, its status would be VERIFING, meaning we need to apply that token to a new ApolloClient.
+    For not VERIFING case: if token in userContext is found we verify it, if not, we look for refreshToken in the 
+    localStorage, and we try to refresh it to get a vlid token, if not the user is logged out , so we reset the client cache 
+    to make sure that no senstive data is cahced.
+  */
   useEffect(async () => {
     if (userContext.user.status === USER.VERIFING) {
       var username = userContext.user.username;
