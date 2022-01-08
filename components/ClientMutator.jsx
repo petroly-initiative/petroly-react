@@ -40,6 +40,7 @@ export default function ClientMutator({ children }) {
     if (userContext.user.status === USER.VERIFING) {
       var username = userContext.user.username;
       token = userContext.user.token;
+      if (!localStorage.getItem("lang")) localStorage.setItem("lang", "en");
 
       setClient(
         new ApolloClient({
@@ -48,7 +49,6 @@ export default function ClientMutator({ children }) {
           headers: { authorization: "JWT " + token },
         })
       );
-      if (!localStorage.getItem("lang")) localStorage.setItem("lang", "en");
 
       userContext.userDispatch({
         type: T.SET_CLIENT,
