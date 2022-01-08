@@ -2,13 +2,11 @@ import { Card, Tooltip, OverlayTrigger, Col } from "react-bootstrap";
 import styles from "../../styles/evaluation-page/evaluation-card.module.scss";
 import { BsStar, BsStarFill, BsPersonBoundingBox } from "react-icons/bs";
 import ReactStars from "react-rating-stars-component";
-import { useEffect } from "react";
+import { useEffect, useContext, useState } from "react";
 import { FaChalkboardTeacher, FaClipboardCheck } from "react-icons/fa";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import translator from "../../dictionary/components/eval-card-dict";
 
-
-
-// TODO: in-line coniditons to stop displaying empty sections
-// TODO: if all sections are empty (excluding general comments ), display only the overall rating alongside course and term tags
 
 export default function Evaluation(props) {
   // const overall = Math.ceil(
@@ -26,7 +24,13 @@ export default function Evaluation(props) {
   //   else return "#f76a9b";
   // };
 
+const { user } = useContext(UserContext);
+const [langState, setLang] = useState(() => translator(user.lang));
 
+useEffect(() => {
+  // console.log(userContext.user.lang);
+  setLang(() => translator(user.lang));
+}, [user.lang]);
 
   return (
     
@@ -38,7 +42,7 @@ export default function Evaluation(props) {
                 placement="top"
                 delay={{ show: 0, hide: 50 }}
                 overlay={
-                  <Tooltip id="button-tooltip-2">المادة الدراسية</Tooltip>
+                  <Tooltip id="button-tooltip-2">{langState.course}</Tooltip>
                 }
               >
                 <div id="course_tag" className={styles.course}>
@@ -64,7 +68,7 @@ export default function Evaluation(props) {
         <Card.Body className={styles["card-body"]}>
           <section className={styles["sections"]} id="grading">
             <div style={{ color: "#316B83" }} className={styles.headers}>
-              الدرجات
+              {langState.grades}
               <FaClipboardCheck
                 style={{ color: "#F037A5" }}
                 className={styles["section-icon"]}
@@ -86,7 +90,7 @@ export default function Evaluation(props) {
           </section>
           <section className={styles["sections"]} id="teaching">
             <div style={{ color: "#316B83" }} className={styles.headers}>
-              التدريس
+              {langState.teaching}
               <FaChalkboardTeacher
                 style={{ color: "#3DB2FF" }}
                 className={styles["section-icon"]}
@@ -108,7 +112,7 @@ export default function Evaluation(props) {
           </section>
           <section className={styles["sections"]} id="personality">
             <div style={{ color: "#316B83" }} className={styles.headers}>
-              الشخصية
+              {langState.person}
               <BsPersonBoundingBox
                 style={{ color: "#FF6666" }}
                 className={styles["section-icon"]}
@@ -132,7 +136,7 @@ export default function Evaluation(props) {
             className={styles["sections"]}
             id="general"
           >
-            <div className={styles.headers}>تعليق عام</div>
+            <div className={styles.headers}>{langState.comment}</div>
             <p className={styles.contentText}>{props.comment}</p>
             
           </section>}

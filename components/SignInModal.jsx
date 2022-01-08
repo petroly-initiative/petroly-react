@@ -11,7 +11,7 @@ import { UserContext } from "../state-management/user-state/UserContext";
 import { MdVisibility, MdVisibilityOff, MdWarning } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-
+import translator from "../dictionary/components/login-modal-dict";
 import { Fade } from "react-awesome-reveal";
 import { useMutation } from "@apollo/client";
 import {
@@ -25,15 +25,22 @@ import { useRouter } from "next/router";
 export default function SignInModal(props) {
   /**
    * TODO:
-   * - Validation, and validation Error indicators
+   * - Correct text alignment for English and Arabic
    *
    */
   const router = useRouter();
-  const userContext = useContext(UserContext);
+  const { user, userDispatch } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
   const [tab, setTab] = useState("signIn");
   const [mode, setMode] = useState("user-input");
+  // language state
+  const [langState, setLang] = useState(() => translator(user.lang));
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+  }, [user.lang]);
+
   /**
    * ? Sign in modal modes
    * - user-input: basic sign in and create account tabs
@@ -214,7 +221,7 @@ export default function SignInModal(props) {
             } else if (password !== confirmPass) {
               setError({
                 show: true,
-                msg: "الرجاء التأكد من تطابق كلمة المرور وتأكيد كلمة المرور",
+                msg: `${langState.wrongPassword}`,
               });
             }
             // ? important to prevent unnecessary queries for wrong emails
@@ -260,11 +267,11 @@ export default function SignInModal(props) {
           dataTokenAuth.tokenAuth.refreshToken
         );
 
-        userContext.userDispatch({
+        userDispatch({
           type: T.LOGIN,
           token: dataTokenAuth.tokenAuth.token,
           username: dataTokenAuth.tokenAuth.user.username,
-          lang: localStorage.getItem("lang") || "en"
+          lang: localStorage.getItem("lang") || "en",
         });
         props.close();
       }
@@ -348,7 +355,7 @@ export default function SignInModal(props) {
                         onClick={switchTab}
                         id="signIn"
                       >
-                        تسجيل الدخول
+                        {langState.switch1}
                       </Button>
                       <Button
                         className={
@@ -359,8 +366,7 @@ export default function SignInModal(props) {
                         onClick={switchTab}
                         id="signUp"
                       >
-                        حساب جديد
-                      </Button>
+                        {langState.switch2}</Button>
                     </div>
                   </div>
                   {validationError.show && (
@@ -377,7 +383,7 @@ export default function SignInModal(props) {
                   <Fade duration="1000">
                     <Form.Group>
                       <Form.Label className={authStyle["labels"]}>
-                        اسم المستخدم
+                        {langState.textField1}
                       </Form.Label>
                       <InputGroup hasValidation>
                         <FormControl
@@ -394,7 +400,7 @@ export default function SignInModal(props) {
                     <Fade duration="1000">
                       <Form.Group>
                         <Form.Label className={authStyle["labels"]}>
-                          البريد الإلكتروني
+                          {langState.textField2}
                         </Form.Label>
                         <InputGroup hasValidation>
                           <FormControl
@@ -418,7 +424,7 @@ export default function SignInModal(props) {
                   <Fade duration="1000">
                     <Form.Group>
                       <Form.Label className={authStyle["labels"]}>
-                        كلمة المرور
+                        {langState.passField1}
                       </Form.Label>
                       <InputGroup hasValidation>
                         <FormControl
@@ -444,7 +450,7 @@ export default function SignInModal(props) {
                     <Fade duration="1000">
                       <Form.Group>
                         <Form.Label className={authStyle["labels"]}>
-                          تأكيد كلمة المرور
+                          {langState.passField2}
                         </Form.Label>
                         <InputGroup>
                           <FormControl
@@ -483,21 +489,24 @@ export default function SignInModal(props) {
                         className={authStyle["login-btn"]}
                         disabled={loadingTokenAuth}
                       >
-                        {tab === "signIn" ? "تسجيل الدخول" : "إنشاء حساب"}
+                        {tab === "signIn"
+                          ? `${langState.switch1}`
+                          : `${langState.switch2}`}
                       </Button>
                     )}
 
                     <div
                       className={authStyle.redirecter}
-                      style={{ fontSize: 12 }}
+                      style={{ fontSize: 12, direction: `${user.lang === "en" ? "ltr" : "rtl"}`, margin: 8 }}
                     >
-                      {"نسيت كلمة المرور؟ "}
+                      {langState.forgetPassword}
                       <button
                         type="button"
                         onClick={resetPassMode}
                         className={authStyle.redirectBtn}
+                        style={{marginLeft: 5}}
                       >
-                        {"أعد تعيين كلمة المرور"}
+                        {langState.replacePass}
                       </button>
                     </div>
                   </div>
@@ -535,7 +544,7 @@ export default function SignInModal(props) {
                     <FormControl
                       onChange={handleEmail}
                       value={email}
-                      placeholder="Email Address"
+                      placeholder= {langState.textField2}
                       type="email"
                       required
                       isInvalid={isEmailInvalid}

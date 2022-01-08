@@ -49,7 +49,7 @@ export default function Navbar(props) {
 
   useEffect(() => {
     userDispatch({type:T.CHANGE_LANG, lang: langState})
-    
+    localStorage.setItem("lang", user.lang)
   }, [langState])
 
   useEffect(() => {
@@ -130,7 +130,6 @@ export default function Navbar(props) {
     setVisible((prev) => !prev);
   };
 
-  // TODO: create a language switch popover
   if (loadingMe)
     return (
       <ClientOnly>

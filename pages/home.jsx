@@ -23,9 +23,7 @@ export default function HomeScreen() {
   const { user, userDispatch } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
  
-  useEffect(() => {
-    setLang(translator(user.lang))
-  }, [])
+  
   
 
   useEffect(() => {
@@ -33,9 +31,7 @@ export default function HomeScreen() {
     setLang(() => translator(user.lang))
   }, [user.lang]);  
 
-   useEffect(() => {
-     console.log("changed language!");
-   }, [user.lang]);
+   
 
   return (
     <>
@@ -143,8 +139,7 @@ export default function HomeScreen() {
             <Col xl={12} lg={12} sm={12} xs={12}>
               <Row>
                 <Col xl={12} xs={12} className={styles["titles"]}>
-                  خدماتنا
-                </Col>
+                  {langState.servicesHeader}                </Col>
                 <Col xl={6} lg={6} xs={12}>
                   <ServiceCard
                     title= {langState.service0}
