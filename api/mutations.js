@@ -12,6 +12,7 @@ export const tokenAuthMutation = gql`
         username
         verified
         profile {
+          id
           profilePic
           language
         }
