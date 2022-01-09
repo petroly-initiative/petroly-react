@@ -268,6 +268,7 @@ export default function SignInModal(props) {
           type: T.LOGIN,
           token: dataTokenAuth.tokenAuth.token,
           username: dataTokenAuth.tokenAuth.user.username,
+          profileId: dataTokenAuth.tokenAuth.user.profile.id,
           lang: dataTokenAuth.tokenAuth.user.profile.language,
         });
         props.close();
