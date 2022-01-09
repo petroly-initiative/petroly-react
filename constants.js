@@ -12,5 +12,14 @@ export const T = {
   LOGIN: "login",
   LOGOUT: "logout",
   SET_CLIENT: "set_client",
-  CHANGE_LANG: "change_language"
+  CHANGE_LANG: "change_language",
 };
+
+// Languages
+
+export const L = {
+  AR_SA: "AR_SA",
+  EN_US: "EN_US",
+};
+// Set a default const language
+export const DEF_LANG = L.EN_US;
