@@ -97,7 +97,7 @@ export default function instructorDetails({ data }) {
           setMsg(`${langState.evaluated}`);
           setVisible(false);
           // we can redirect the user to the eavaluation edit page
-        } else setMsg(`${langState.evalِAllow}`);
+        } else setMsg(`${langState.evalAllow}`);
       }
     } else setMsg("{langState.evalBlock}");
   }, [loadingHasEvaluated, user.status]);

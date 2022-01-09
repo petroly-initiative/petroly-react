@@ -7,7 +7,7 @@ const arabic = {
     checkingData: "نتفقد بياناتك"
 }
 
-const english = {
+const english = { 
   ratingHeader: "Rating",
   recentEvals: "Recent Evaluations",
   evalCount: "Evaluations Count",
