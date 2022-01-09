@@ -62,12 +62,7 @@ export default function ClientMutator({ children }) {
         })
       );
 
-      userDispatch({
-        ...Object.assign(user, {
-          type: T.SET_CLIENT,
-          username: dataVerifyToken.verifyToken.payload.username,
-        }),
-      });
+      userDispatch({ type: T.SET_CLIENT });
     } else if (token) verifyToken();
     else if (rToken) refreshToken();
     else if (user.status === USER.LOGGED_OUT) {
@@ -84,7 +79,7 @@ export default function ClientMutator({ children }) {
   }, [user.status, user.lang]);
 
   /*
-   * the folllowing twi effects is to handle recieved data after calling
+   * the folllowing two effects are to handle recieved data after calling
    * verifyToken() and/or refreshToken() above.
    */
 
@@ -103,13 +98,11 @@ export default function ClientMutator({ children }) {
       );
       // TODO: provide language by the me query
       userDispatch({
-        ...Object.assign(user, {
-          type: T.SET_CLIENT,
-          username: dataVerifyToken.verifyToken.payload.username,
-          token,
-        }),
+        type: T.SET_CLIENT,
+        username: dataVerifyToken.verifyToken.payload.username,
+        token,
       });
-    }
+    } else if (rToken) refreshToken();
   }, [dataVerifyToken]);
 
   useEffect(() => {
@@ -131,11 +124,9 @@ export default function ClientMutator({ children }) {
         })
       );
       userDispatch({
-        ...Object.assign(user, {
-          type: T.SET_CLIENT,
-          username: dataRefreshToken.refreshToken.payload.username,
-          token,
-        }),
+        type: T.SET_CLIENT,
+        username: dataRefreshToken.refreshToken.payload.username,
+        token,
       });
     }
   }, [dataRefreshToken]);
