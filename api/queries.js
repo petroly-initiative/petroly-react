@@ -82,7 +82,9 @@ export const meQuery = gql`
       username
       email
       profile {
+        id
         profilePic
+        language
       }
       evaluationSet {
         count

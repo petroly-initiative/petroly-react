@@ -22,16 +22,12 @@ export default function HomeScreen() {
 
   const { user, userDispatch } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
- 
-  
-  
 
   useEffect(() => {
     // console.log(userContext.user.lang);
-    setLang(() => translator(user.lang))
-  }, [user.lang]);  
-
-   
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
 
   return (
     <>
@@ -142,7 +138,7 @@ export default function HomeScreen() {
                   {langState.servicesHeader}                </Col>
                 <Col xl={6} lg={6} xs={12}>
                   <ServiceCard
-                    title= {langState.service0}
+                    title={langState.service0}
                     header="/images/home/rating.webp"
                   />
                 </Col>

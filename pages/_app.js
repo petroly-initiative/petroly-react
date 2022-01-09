@@ -9,8 +9,7 @@ import { useReducer } from "react";
 import client from "../api/apollo-client";
 import ClientMutator from "../components/ClientMutator";
 import { ApolloProvider } from "@apollo/client";
-import { USER } from "../constants";
-
+import { USER, DEF_LANG } from "../constants";
 
 /**
  *
@@ -18,9 +17,11 @@ import { USER } from "../constants";
  */
 
 function MyApp({ Component, pageProps }) {
-
-  const [user, dispatch] = useReducer(userReducer, 
-      { status: USER.LOGGED_OUT, token: "", lang: "en"});
+  const [user, dispatch] = useReducer(userReducer, {
+    status: USER.LOGGED_OUT,
+    token: "",
+    lang: DEF_LANG,
+  });
 
   return (
     <>
@@ -37,7 +38,7 @@ function MyApp({ Component, pageProps }) {
               name="viewport"
               content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
             />
-          
+
             <link rel="shortcut icon" href="/favicon.png" />
           </Head>
           <ClientMutator>

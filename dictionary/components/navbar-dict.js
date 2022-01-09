@@ -1,12 +1,12 @@
-const arabic = {}
+const arabic = {};
 
-const english = {}
+const english = {};
 
-export default function translator(lang){
-    switch(lang){
-        case "en":
-            return english;
-        case "ar":
-            return arabic
-    }
+export default function translator(lang) {
+  switch (lang) {
+    case "EN_US":
+      return english;
+    case "AR_SA":
+      return arabic;
+  }
 }
