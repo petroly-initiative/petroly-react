@@ -16,10 +16,11 @@ export default function ClientMutator({ children }) {
 
   if (typeof window !== "undefined") {
     token = sessionStorage.getItem("token");
-    if (!token) token = userContext.user.token;
+    // if (!token) token = userContext.user.token;  //seems the this line not needed
     rToken = localStorage.getItem("refreshToken");
   }
 
+  /* The default client with no authorization */
   const [client, setClient] = useState(
     new ApolloClient({
       uri: URL_ENDPOINT,
@@ -35,26 +36,28 @@ export default function ClientMutator({ children }) {
     { variables: { refreshToken: rToken } }
   );
 
-  // Excute `toketAuth` once if `token` is found
   /*
-    All effects run once react mounted.
-    This effect runs when user status changes,that is, when user is just logged in, or logged out.
-    When user just logged in, its status would be VERIFING, meaning we need to apply that token to a new ApolloClient.
-    For not VERIFING case: if token in userContext is found we verify it, if not, we look for refreshToken in the 
-    localStorage, and we try to refresh it to get a vlid token, if not the user is logged out , so we reset the client cache 
-    to make sure that no senstive data is cahced.
-  */
+   * All effects run once react mounted.
+   * This effect runs when user status changes,that is, when user is just logged in, or logged out.
+   * When user just logged in, its status would be VERIFING, meaning we need to apply that token to a new ApolloClient.
+   * For not VERIFING case: if token in userContext is found we verify it, if not, we look for refreshToken in the
+   * localStorage, and we try to refresh it to get a vlid token, if not the user is logged out , so we reset the client cache
+   * to make sure that no senstive data is cahced.
+   */
   useEffect(async () => {
     if (userContext.user.status === USER.VERIFING) {
       var username = userContext.user.username;
+      var lang = userContext.user.lang;
       token = userContext.user.token;
-      if (!localStorage.getItem("lang")) localStorage.setItem("lang", "en");
 
       setClient(
         new ApolloClient({
           uri: URL_ENDPOINT,
           cache: new InMemoryCache(),
-          headers: { authorization: "JWT " + token },
+          headers: {
+            Authorization: "JWT " + token,
+            "Accept-Language": lang,
+          },
         })
       );
 
@@ -62,57 +65,65 @@ export default function ClientMutator({ children }) {
         type: T.SET_CLIENT,
         token,
         username,
-        lang: localStorage.getItem("lang") || "en",
+        lang,
       });
-    } else if (token) await verifyToken();
-    else if (rToken) await refreshToken();
+    } else if (token) verifyToken();
+    else if (rToken) refreshToken();
     else if (userContext.user.status === USER.LOGGED_OUT) client.resetStore();
-  }, [userContext.user.status]);
+  }, [userContext.user.status, userContext.user.lang]);
+
+  /*
+   * the folllowing twi effects is to handle recieved data after calling
+   * verifyToken() and/or refreshToken() above.
+   */
 
   useEffect(() => {
-    if (dataVerifyToken) {
-      if (dataVerifyToken.verifyToken.success) {
-        setClient(
-          new ApolloClient({
-            uri: URL_ENDPOINT,
-            cache: new InMemoryCache(),
-            headers: { authorization: "JWT " + token },
-          })
-        );
-        // TODO: provide language by the me query
-        userContext.userDispatch({
-          type: T.SET_CLIENT,
-          token,
-          username: dataVerifyToken.verifyToken.payload.username,
-          lang: localStorage.getItem("lang") || "en",
-        });
-      } else if (rToken) {
-        refreshToken();
-      }
+    if (dataVerifyToken && dataVerifyToken.verifyToken.success) {
+      var lang = userContext.user.lang;
+      setClient(
+        new ApolloClient({
+          uri: URL_ENDPOINT,
+          cache: new InMemoryCache(),
+          headers: {
+            Authorization: "JWT " + token,
+            "Accept-Language": lang,
+          },
+        })
+      );
+      // TODO: provide language by the me query
+      userContext.userDispatch({
+        type: T.SET_CLIENT,
+        token,
+        lang,
+        username: dataVerifyToken.verifyToken.payload.username,
+      });
     }
   }, [dataVerifyToken]);
 
   useEffect(() => {
-    if (dataRefreshToken) {
-      if (dataRefreshToken.refreshToken.success) {
-        token = dataRefreshToken.refreshToken.token;
-        rToken = dataRefreshToken.refreshToken.refreshToken;
-        sessionStorage.setItem("token", token);
-        localStorage.setItem("refreshToken", rToken);
-        setClient(
-          new ApolloClient({
-            uri: URL_ENDPOINT,
-            cache: new InMemoryCache(),
-            headers: { authorization: "JWT " + token },
-          })
-        );
-        userContext.userDispatch({
-          type: T.SET_CLIENT,
-          token,
-          username: dataRefreshToken.refreshToken.payload.username,
-          lang: localStorage.getItem("lang") || "en",
-        });
-      }
+    if (dataRefreshToken && dataRefreshToken.refreshToken.success) {
+      var lang = userContext.user.lang;
+      token = dataRefreshToken.refreshToken.token;
+      rToken = dataRefreshToken.refreshToken.refreshToken;
+      sessionStorage.setItem("token", token);
+      localStorage.setItem("refreshToken", rToken);
+
+      setClient(
+        new ApolloClient({
+          uri: URL_ENDPOINT,
+          cache: new InMemoryCache(),
+          headers: {
+            Authorization: "JWT " + token,
+            "Accept-Language": lang,
+          },
+        })
+      );
+      userContext.userDispatch({
+        type: T.SET_CLIENT,
+        token,
+        username: dataRefreshToken.refreshToken.payload.username,
+        lang: lang,
+      });
     }
   }, [dataRefreshToken]);
 
