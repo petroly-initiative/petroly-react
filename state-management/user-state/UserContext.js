@@ -55,7 +55,6 @@ export const userReducer = (currentState, action) => {
         lang: action.lang,
       };
     case T.CHANGE_LANG:
-      console.log("change lang from", currentState.lang, "to", action.lang);
       localStorage.setItem("lang", action.lang);
       return { ...Object.assign(currentState, { lang: action.lang }) };
 
