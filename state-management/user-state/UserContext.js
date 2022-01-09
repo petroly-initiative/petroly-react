@@ -2,7 +2,6 @@ import { createContext } from "react";
 import { USER, T } from "../../constants";
 
 
-// TODO: create a language parameter in the user context
 /**
  * ? User State management: A JSON with the following attributes
  * - logged (boolean): indicating if the user entered his credientials or not

@@ -16,12 +16,14 @@ import styles from "../styles/evaluation-page/instructors-list.module.scss";
 import { GoSettings } from "react-icons/go";
 import Image from "next/image";
 import Head from "next/head";
-import { useEffect, useState, useReducer } from "react";
+import { useEffect, useState, useReducer, useContext } from "react";
+import { UserContext } from "../state-management/user-state/UserContext";
 import CustomPagination from "../components/Pagination";
 import { Fade } from "react-awesome-reveal";
 import ClientOnly from "../components/ClientOnly";
 import { useQuery } from "@apollo/client";
 import { instructorsQuery, getDepartments } from "../api/queries";
+import translator from "../dictionary/pages/instructors-dict";
 
 function instructorsReducer(state, action) {
   switch (action.changeIn) {
@@ -54,6 +56,14 @@ const initialInstructorsState = {
 
 function instructorsList() {
   const [stackIndex, setStackIndex] = useState(0);
+
+  // language state
+  const {user} = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+  useEffect(() => {
+    setLang(() => translator(user.lang));
+  }, [user.lang]);
+
   //Searchbar input management ----------
   const [instructorsState, instructorsDispatch] = useReducer(
     instructorsReducer,
@@ -174,9 +184,9 @@ function instructorsList() {
             >
               <InputGroup className={styles["search-container"]}>
                 <Form.Control
-                  style={{ direction: "rtl" }}
+                  style={{ direction: `${user.lang === "ar" ? "rtl": "ltr"}` }}
                   type="text"
-                  placeholder="أدخِل اسم المحاضِر"
+                  placeholder= {langState.searchbar}
                 ></Form.Control>
                 <InputGroup.Append style={{ height: 38 }}>
                   <Button
@@ -197,7 +207,7 @@ function instructorsList() {
                     title={<GoSettings size="1.5rem" />}
                   >
                     <Dropdown.Item className={styles["dropdown-h"]} disabled>
-                      القسم الجامعي
+                      {langState.searchbarFilter}
                     </Dropdown.Item>
                     <Dropdown.Divider style={{ height: "1" }} />
                     <Dropdown.Item
@@ -268,9 +278,11 @@ function instructorsList() {
                 <InputGroup className={styles["search-container"]}>
                   <Form.Control
                     id="name"
-                    style={{ direction: "rtl" }}
+                    style={{
+                      direction: `${user.lang === "ar" ? "rtl" : "ltr"}`,
+                    }}
                     type="text"
-                    placeholder="أدخِل اسم المحاضِر"
+                    placeholder={langState.searchbar}
                     value={name}
                     onKeyDown={enterSearch}
                     onChange={changeName}
@@ -294,7 +306,7 @@ function instructorsList() {
                       title={<GoSettings size="1.5rem" />}
                     >
                       <Dropdown.Item className={styles["dropdown-h"]} disabled>
-                        القسم الجامعي
+                        {langState.searchbarFilter}
                       </Dropdown.Item>
                       <Dropdown.Divider style={{ height: "1" }} />
                       <Dropdown.Item
@@ -358,9 +370,9 @@ function instructorsList() {
               <InputGroup className={styles["search-container"]}>
                 <Form.Control
                   id="name"
-                  style={{ direction: "rtl" }}
+                  style={{ direction: `${user.lang === "ar" ? "rtl" : "ltr"}` }}
                   type="text"
-                  placeholder="أدخِل اسم المحاضِر"
+                  placeholder={langState.searchbar}
                   value={name}
                   onChange={changeName}
                   onKeyDown={enterSearch}
@@ -384,7 +396,7 @@ function instructorsList() {
                     title={<GoSettings size="1.5rem" />}
                   >
                     <Dropdown.Item className={styles["dropdown-h"]} disabled>
-                      القسم الجامعي
+                      {langState.searchbarFilter}
                     </Dropdown.Item>
                     <Dropdown.Divider style={{ height: "1" }} />
                     <Dropdown.Item

@@ -7,6 +7,8 @@ import { BsStarFill, BsStar } from "react-icons/bs";
 import { MdFolderSpecial } from "react-icons/md";
 import ReactStars from "react-rating-stars-component";
 import styles from "../../styles/evaluation-page/instructors-card.module.scss";
+import { useContext } from "react";
+import { UserContext } from "../../state-management/user-state/UserContext";
 
 /**
  * TODO: Create an overlay for evaluation numbers
@@ -16,6 +18,8 @@ import styles from "../../styles/evaluation-page/instructors-card.module.scss";
 
 function InstructorCard(props) {
   const tooltip = useRef();
+  const {user} = useContext(UserContext);
+
 
   const gradientColor = () => {
     switch (props.starValue) {
@@ -57,7 +61,7 @@ function InstructorCard(props) {
               <OverlayTrigger
                 style={{ position: "absolute", right: 0 }}
                 delay={{ show: 150, hide: 200 }}
-                overlay={<Tooltip id="button-tooltip">عدد المقيمين</Tooltip>}
+                overlay={<Tooltip id="button-tooltip">{`${user.lang === "ar" ? "عدد المقيمين": "Evaluation Count"}`}</Tooltip>}
                 target={tooltip.current}
               >
                 <Container id="cunter" className={styles.eval_counter}>

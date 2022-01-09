@@ -1,7 +1,22 @@
 import React from "react";
+import { useContext, useState, useEffect } from "react";
 import { Row, Col, ProgressBar, Container } from "react-bootstrap";
+import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/evaluation-page/instructor-rating.module.scss";
+import  translator  from "../../dictionary/components/instructor-rating-dict";
+
+// TODO: handling text direction for both languages
+
 function InstructorRates(props) {
+
+  const {user} = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+  }, [user.lang]);
+
   const colorFilter = (value) => {
     if (value >= 4) return "#04F9F2";
     else if (value >= 3) return "#00E091";
@@ -63,7 +78,7 @@ function InstructorRates(props) {
       </div>
       <div id="attrBars" className={styles.attrBars}>
         <div className={styles.barContainer}>
-          <div className={styles.barHeaders}>الدرجات والتصحيح</div>
+          <div className={styles.barHeaders}>{langState.grades}</div>
           <div className={styles.barValue}>
             <ProgressBar
               id="grading"
@@ -74,7 +89,7 @@ function InstructorRates(props) {
           </div>
         </div>
         <div className={styles.barContainer}>
-          <div className={styles.barHeaders}>التدريس</div>
+          <div className={styles.barHeaders}>{langState.teaching}</div>
           <div className={styles.barValue}>
             <ProgressBar
               className={[styles.bars, barFilter(props.teaching)]}
@@ -83,7 +98,7 @@ function InstructorRates(props) {
           </div>
         </div>
         <div className={styles.barContainer}>
-          <div className={styles.barHeaders}>الشخصية</div>
+          <div className={styles.barHeaders}>{langState.person}</div>
           <div className={styles.barValue}>
             <ProgressBar
               className={[styles.bars, barFilter(props.personality)]}

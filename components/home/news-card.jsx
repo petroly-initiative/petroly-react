@@ -39,12 +39,16 @@ export default function NewsCard(props){
             {props.title}
           </div>
           <div className={styles["card-content"]}>
-            <div style={{height: "70%"}}>{props.content} </div>
+            <div style={{ height: "70%" }}>{props.content} </div>
           </div>
           {props.linked && (
             <Link className="mt-2" href={props.link}>
               <span className={styles["card-link"]}>
-                <FaArrowAltCircleRight />{`${user.lang === "ar" ? "زيارة الخدمة" : "Visit Service"}`} </span>
+                <FaArrowAltCircleRight />
+                <span style={{margin: 8}}>
+                  {`${user.lang === "ar" ? "زيارة الخدمة" : "Visit Service"}`}{" "}
+                </span>
+              </span>
             </Link>
           )}
         </Card>
