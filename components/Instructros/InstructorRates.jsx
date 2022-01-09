@@ -34,7 +34,7 @@ function InstructorRates(props) {
   };
 
   const format = (num, decimals) =>
-    num.toLocaleString("en-US", {
+    num.toLocaleString("EN_US", {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1,
     });
@@ -55,9 +55,7 @@ function InstructorRates(props) {
         >
           <div
             style={{
-              boxShadow: `0 0 40px ${colorFilter(
-                props.overall
-              )}`,
+              boxShadow: `0 0 40px ${colorFilter(props.overall)}`,
             }}
             id="num-display"
             className={styles.ovrDisplay}

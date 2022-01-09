@@ -21,9 +21,9 @@ import { OverlayTrigger } from "react-bootstrap";
 import Popover from "react-bootstrap/Popover";
 import { useQuery, useMutation } from "@apollo/client";
 import { meQuery } from "../api/queries";
-import { revokeTokenMutation } from "../api/mutations";
+import { revokeTokenMutation, profileUpdateMutation } from "../api/mutations";
 import ClientOnly from "./ClientOnly";
-import { USER, T } from "../constants";
+import { USER, T, L } from "../constants";
 import dynamic from "next/dynamic";
 
 const SignInModal = dynamic(() => import("./SignInModal"));
@@ -34,12 +34,13 @@ const SignInModal = dynamic(() => import("./SignInModal"));
  */
 
 export default function Navbar(props) {
-  const {user, userDispatch} = useContext(UserContext);
+  const { user, userDispatch } = useContext(UserContext);
   const [sideVisible, setVisible] = useState(false);
   const [sideBarStyle, setStyle] = useState({ left: "100vw" });
   const [overlayStyle, setOverlay] = useState({ display: "none" });
   const [showSignIn, setShowSignIn] = useState(false);
   const [langState, setLang] = useState(user.lang);
+  const [SaveMsg, setSaveMsg] = useState("");
 
   //--- signed off state
 
@@ -48,14 +49,9 @@ export default function Navbar(props) {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    userDispatch({type:T.CHANGE_LANG, lang: langState})
-    localStorage.setItem("lang", user.lang)
-  }, [langState])
-
-  useEffect(() => {
-    console.log("changed language!");
-  }, [user.lang])
-  
+    userDispatch({ type: T.CHANGE_LANG, lang: langState });
+    if (dataMe) profileUpdate();
+  }, [langState]);
 
   //--------
 
@@ -69,18 +65,7 @@ export default function Navbar(props) {
     notifyOnNetworkStatusChange: true,
     skip: user.status !== USER.LOGGED_IN,
   });
-  const [
-    revokeToken,
-    {
-      data: dataRevokeToken,
-      loading: loadingRevokeToken,
-      error: errorRevokeToken,
-    },
-  ] = useMutation(revokeTokenMutation);
-
-  // -------------
-
-  
+  const [revokeToken] = useMutation(revokeTokenMutation);
 
   const handleSignInClose = () => setShowSignIn(false);
   const handleSignInShow = () => {
@@ -93,7 +78,10 @@ export default function Navbar(props) {
       ? localStorage.getItem("refreshToken")
       : "";
     await revokeToken({ variables: { refreshToken } });
-    await userDispatch({ type: T.LOGOUT, lang: localStorage.getItem("lang") || "en" });
+    await userDispatch({
+      type: T.LOGOUT,
+      lang: localStorage.getItem("lang") || L.EN_US,
+    });
   };
 
   var navStyles = {
@@ -106,12 +94,41 @@ export default function Navbar(props) {
 
   useEffect(() => {
     if (dataMe && !loadingMe) {
-      setUsername(
-        dataMe.me.username,
-        setProfilePic(dataMe.me.profile.profilePic, setEmail(dataMe.me.email))
-      );
+      setUsername(dataMe.me.username);
+      setProfilePic(dataMe.me.profile.profilePic);
+      setEmail(dataMe.me.email);
+      setLang(dataMe.me.profile.language);
+
+      userDispatch({
+        type: T.SET_CLIENT,
+        profileId: dataMe.me.profile.id,
+      });
     }
   }, [dataMe]);
+
+  // updating user's profile
+  const [
+    profileUpdate,
+    {
+      data: dataProfileUpdate,
+      loading: loadingProfileUpdate,
+      error: errorProfileUpdate,
+    },
+  ] = useMutation(profileUpdateMutation, {
+    notifyOnNetworkStatusChange: true,
+    variables: { id: user.profileId, lang: langState },
+  });
+
+  useEffect(() => {
+    if (loadingProfileUpdate) {
+      setSaveMsg("Saving");
+    } else if (dataProfileUpdate && dataProfileUpdate.profileUpdate.ok) {
+      setSaveMsg("Saved");
+    } else if (errorProfileUpdate) {
+      setSaveMsg("Error");
+    }
+  }, [loadingProfileUpdate, dataProfileUpdate]);
+  // -------------------------------------
 
   useEffect(() => {
     setStyle(() => {
@@ -182,7 +199,7 @@ export default function Navbar(props) {
                         >
                           <div className={styles["popup-info"]}>settings</div>
                           <div className={styles["btn-container"]}>
-                            {langState === "ar" ? (
+                            {langState === L.AR_SA ? (
                               <div
                                 className="mb-2"
                                 style={{ direction: "rtl", fontSize: 12 }}
@@ -220,14 +237,12 @@ export default function Navbar(props) {
                             <ButtonGroup className={styles["lang-switch"]}>
                               <Button
                                 onClick={() => {
-                                  
-                                  
-                                  setLang("ar")
+                                  setLang(L.AR_SA);
                                 }}
                                 className={
                                   styles["lang-switch"] +
                                   ` ${
-                                    langState === "ar"
+                                    langState === L.AR_SA
                                       ? styles["lang-active"]
                                       : ""
                                   }`
@@ -237,13 +252,12 @@ export default function Navbar(props) {
                               </Button>
                               <Button
                                 onClick={() => {
-                                  setLang("en")
-                                
+                                  setLang(L.EN_US);
                                 }}
                                 className={
                                   styles["lang-switch"] +
                                   ` ${
-                                    langState === "en"
+                                    langState === L.EN_US
                                       ? styles["lang-active"]
                                       : ""
                                   }`
@@ -363,7 +377,7 @@ export default function Navbar(props) {
                       <Popover.Content style={{ marginRight: "12 !important" }}>
                         <div className={styles["popup-info"]}>settings</div>
                         <div className={styles["btn-container"]}>
-                          {langState === "ar" ? (
+                          {langState === L.AR_SA ? (
                             <div
                               className="mb-2"
                               style={{ direction: "rtl", fontSize: 12 }}
@@ -401,13 +415,12 @@ export default function Navbar(props) {
                           <ButtonGroup className={styles["lang-switch"]}>
                             <Button
                               onClick={() => {
-                                setLang("ar");
-                                
+                                setLang(L.AR_SA);
                               }}
                               className={
                                 styles["lang-switch"] +
                                 ` ${
-                                  langState === "ar"
+                                  langState === L.AR_SA
                                     ? styles["lang-active"]
                                     : ""
                                 }`
@@ -417,12 +430,12 @@ export default function Navbar(props) {
                             </Button>
                             <Button
                               onClick={() => {
-                                setLang("en");
+                                setLang(L.EN_US);
                               }}
                               className={
                                 styles["lang-switch"] +
                                 ` ${
-                                  langState === "en"
+                                  langState === L.EN_US
                                     ? styles["lang-active"]
                                     : ""
                                 }`
@@ -645,7 +658,7 @@ export default function Navbar(props) {
                         >
                           <div className={styles["popup-info"]}>settings</div>
                           <div className={styles["btn-container"]}>
-                            {langState === "ar" ? (
+                            {langState === L.AR_SA ? (
                               <div
                                 className="mb-2"
                                 style={{ direction: "rtl", fontSize: 12 }}
@@ -664,19 +677,20 @@ export default function Navbar(props) {
                                   color="rgb(170, 170, 170)"
                                   size="1.4rem"
                                 />
-                                <span style={{ marginRight: 6 }}>language</span>
+                                <span style={{ marginRight: 6 }}>
+                                  language <strong>{SaveMsg}</strong>
+                                </span>
                               </div>
                             )}
                             <ButtonGroup className={styles["lang-switch"]}>
                               <Button
                                 onClick={() => {
-                                  setLang("ar")
-                                  
+                                  setLang(L.AR_SA);
                                 }}
                                 className={
                                   styles["lang-switch"] +
                                   ` ${
-                                    langState === "ar"
+                                    langState === L.AR_SA
                                       ? styles["lang-active"]
                                       : ""
                                   }`
@@ -686,13 +700,12 @@ export default function Navbar(props) {
                               </Button>
                               <Button
                                 onClick={() => {
-                                 setLang("en")
-                                  
+                                  setLang(L.EN_US);
                                 }}
                                 className={
                                   styles["lang-switch"] +
                                   ` ${
-                                    langState === "en"
+                                    langState === L.EN_US
                                       ? styles["lang-active"]
                                       : ""
                                   }`
@@ -728,7 +741,7 @@ export default function Navbar(props) {
                         >
                           <div className={styles["popup-info"]}>settings</div>
                           <div className={styles["btn-container"]}>
-                            {langState === "ar" ? (
+                            {langState === L.AR_SA ? (
                               <div
                                 className="mb-2"
                                 style={{ direction: "rtl", fontSize: 12 }}
@@ -766,12 +779,12 @@ export default function Navbar(props) {
                             <ButtonGroup className={styles["lang-switch"]}>
                               <Button
                                 onClick={() => {
-                                 setLang("ar") 
+                                  setLang(L.AR_SA);
                                 }}
                                 className={
                                   styles["lang-switch"] +
                                   ` ${
-                                    langState === "ar"
+                                    langState === L.AR_SA
                                       ? styles["lang-active"]
                                       : ""
                                   }`
@@ -781,12 +794,12 @@ export default function Navbar(props) {
                               </Button>
                               <Button
                                 onClick={() => {
-                                  setLang("en")
+                                  setLang(L.EN_US);
                                 }}
                                 className={
                                   styles["lang-switch"] +
                                   ` ${
-                                    langState === "en"
+                                    langState === L.EN_US
                                       ? styles["lang-active"]
                                       : ""
                                   }`
@@ -990,9 +1003,18 @@ export default function Navbar(props) {
                       show={{ show: 350, hide: 400 }}
                     >
                       <Popover.Content style={{ marginRight: "12 !important" }}>
-                        <div style={{direction: `${langState === "en" ? "ltr": "rtl"}`}} className={styles["popup-info"]}>{`${langState === "ar" ? 'الإعدادات': "settings"}`}</div>
+                        <div
+                          style={{
+                            direction: `${
+                              langState === L.EN_US ? "ltr" : "rtl"
+                            }`,
+                          }}
+                          className={styles["popup-info"]}
+                        >{`${
+                          langState === L.AR_SA ? "الإعدادات" : "settings"
+                        }`}</div>
                         <div className={styles["btn-container"]}>
-                          {langState === "ar" ? (
+                          {langState === L.AR_SA ? (
                             <div
                               className="mb-2"
                               style={{ direction: "rtl", fontSize: 12 }}
@@ -1005,25 +1027,33 @@ export default function Navbar(props) {
                               <span style={{ marginRight: 6 }}> اللغة</span>
                             </div>
                           ) : (
-                            <div className="mb-2" style={{direction: "ltr", fontSize: 12, width: "100%" }}>
+                            <div
+                              className="mb-2"
+                              style={{
+                                direction: "ltr",
+                                fontSize: 12,
+                                width: "100%",
+                              }}
+                            >
                               {" "}
                               <MdLanguage
                                 color="rgb(170, 170, 170)"
                                 size="1.4rem"
                               />
-                              <span style={{ marginLeft: 6 }}>language</span>
+                              <span style={{ marginLeft: 6 }}>
+                                language <strong>{SaveMsg}</strong>
+                              </span>
                             </div>
                           )}
                           <ButtonGroup className={styles["lang-switch"]}>
                             <Button
                               onClick={() => {
-                                setLang("ar")
-
+                                setLang(L.AR_SA);
                               }}
                               className={
                                 styles["lang-switch"] +
                                 ` ${
-                                  langState === "ar"
+                                  langState === L.AR_SA
                                     ? styles["lang-active"]
                                     : ""
                                 }`
@@ -1033,12 +1063,12 @@ export default function Navbar(props) {
                             </Button>
                             <Button
                               onClick={() => {
-                                setLang("en")
+                                setLang(L.EN_US);
                               }}
                               className={
                                 styles["lang-switch"] +
                                 ` ${
-                                  langState === "en"
+                                  langState === L.EN_US
                                     ? styles["lang-active"]
                                     : ""
                                 }`
@@ -1072,7 +1102,7 @@ export default function Navbar(props) {
                       <Popover.Content style={{ marginRight: "12 !important" }}>
                         <div className={styles["popup-info"]}>settings</div>
                         <div className={styles["btn-container"]}>
-                          {langState === "ar" ? (
+                          {langState === L.AR_SA ? (
                             <div
                               className="mb-2"
                               style={{ direction: "rtl", fontSize: 12 }}
@@ -1110,12 +1140,12 @@ export default function Navbar(props) {
                           <ButtonGroup className={styles["lang-switch"]}>
                             <Button
                               onClick={() => {
-                                setLang("ar")
+                                setLang(L.AR_SA);
                               }}
                               className={
                                 styles["lang-switch"] +
                                 ` ${
-                                  langState === "ar"
+                                  langState === L.AR_SA
                                     ? styles["lang-active"]
                                     : ""
                                 }`
@@ -1125,12 +1155,12 @@ export default function Navbar(props) {
                             </Button>
                             <Button
                               onClick={() => {
-                                setLang("en")
+                                setLang(L.EN_US);
                               }}
                               className={
                                 styles["lang-switch"] +
                                 ` ${
-                                  langState === "en"
+                                  langState === L.EN_US
                                     ? styles["lang-active"]
                                     : ""
                                 }`
