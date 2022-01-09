@@ -18,8 +18,8 @@ export const T = {
 // Languages
 
 export const L = {
-  AR_SA: "AR_SA",
-  EN_US: "EN_US",
+  AR_SA: "ar-SA",
+  EN_US: "en-US",
 };
 // Set a default const language
 export const DEF_LANG = L.EN_US;

@@ -6,48 +6,49 @@ import Link from "next/link";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { UserContext } from "../../state-management/user-state/UserContext";
 
-export default function NewsCard(props){
+export default function NewsCard(props) {
+  const { user } = useContext(UserContext);
 
-  
-  const {user} = useContext(UserContext);
+  useEffect(() => {
+    document.getElementById(props.title).setAttribute("tabindex", 0);
+  }, []);
 
-    useEffect(() => {
-      document.getElementById(props.title).setAttribute("tabindex", 0);
-
-    }, []);
-
-    return (
-      <>
-        <Card
-          id={props.title}
-          className={
-            styles["card"] +
-            " shadow border-0 " +
-            ` ${props.size == "lg" ? styles["large-card"] : ""}`
-          }
-          style={{
-            background: "#00b7ff44 " + props.header,
-            backgroundSize: "100% 100%",
-            backgroundBlendMode: "multiply",
-          }}
+  return (
+    <>
+      <Card
+        id={props.title}
+        className={
+          styles["card"] +
+          " shadow border-0 " +
+          ` ${props.size == "lg" ? styles["large-card"] : ""}`
+        }
+        style={{
+          background: "#00b7ff44 " + props.header,
+          backgroundSize: "100% 100%",
+          backgroundBlendMode: "multiply",
+        }}
+      >
+        <Image alt="news card" src={props.header} layout="fill" />
+        <div
+          style={{ position: "relative", zIndex: 3 }}
+          className={styles["card-title"]}
         >
-          <Image alt="news card" src={props.header} layout="fill" />
-          <div
-            style={{ position: "relative", zIndex: 3 }}
-            className={styles["card-title"]}
-          >
-            {props.title}
-          </div>
-          <div className={styles["card-content"]}>
-            <div style={{height: "70%"}}>{props.content} </div>
-          </div>
-          {props.linked && (
-            <Link className="mt-2" href={props.link}>
-              <span className={styles["card-link"]}>
-                <FaArrowAltCircleRight />{`${user.lang === "ar" ? "زيارة الخدمة" : "Visit Service"}`} </span>
-            </Link>
-          )}
-        </Card>
-      </>
-    );
+          {props.title}
+        </div>
+        <div className={styles["card-content"]}>
+          <div style={{ height: "70%" }}>{props.content} </div>
+        </div>
+        {props.linked && (
+          <Link className="mt-2" href={props.link}>
+            <span className={styles["card-link"]}>
+              <FaArrowAltCircleRight />
+              {`${
+                user.lang === "AR_SA" ? "زيارة الخدمة" : "Visit Service"
+              }`}{" "}
+            </span>
+          </Link>
+        )}
+      </Card>
+    </>
+  );
 }

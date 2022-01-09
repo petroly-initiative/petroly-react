@@ -19,7 +19,7 @@ import {
   registerMutation,
   sendPasswordResetEmailMutation,
 } from "../api/mutations";
-import { T } from "../constants";
+import { T, L } from "../constants";
 import { useRouter } from "next/router";
 
 export default function SignInModal(props) {
@@ -259,12 +259,16 @@ export default function SignInModal(props) {
           "refreshToken",
           dataTokenAuth.tokenAuth.refreshToken
         );
+        localStorage.setItem(
+          "lang",
+          dataTokenAuth.tokenAuth.user.profile.language
+        );
 
         userContext.userDispatch({
           type: T.LOGIN,
           token: dataTokenAuth.tokenAuth.token,
           username: dataTokenAuth.tokenAuth.user.username,
-          lang: localStorage.getItem("lang") || "en"
+          lang: dataTokenAuth.tokenAuth.user.profile.language,
         });
         props.close();
       }

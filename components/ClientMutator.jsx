@@ -7,7 +7,7 @@ import {
 import { verifyTokenMutation, refreshTokenMutation } from "../api/mutations";
 import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
-import { USER, T, URL_ENDPOINT } from "../constants";
+import { USER, T, URL_ENDPOINT, formatL } from "../constants";
 
 export default function ClientMutator({ children }) {
   const userContext = useContext(UserContext);
@@ -27,6 +27,7 @@ export default function ClientMutator({ children }) {
       cache: new InMemoryCache(),
     })
   );
+
   const [verifyToken, { data: dataVerifyToken }] = useMutation(
     verifyTokenMutation,
     { variables: { token } }
@@ -69,7 +70,17 @@ export default function ClientMutator({ children }) {
       });
     } else if (token) verifyToken();
     else if (rToken) refreshToken();
-    else if (userContext.user.status === USER.LOGGED_OUT) client.resetStore();
+    else if (userContext.user.status === USER.LOGGED_OUT) {
+      client.resetStore();
+
+      setClient(
+        new ApolloClient({
+          uri: URL_ENDPOINT,
+          cache: new InMemoryCache(),
+          headers: { "Accept-Language": userContext.user.lang },
+        })
+      );
+    }
   }, [userContext.user.status, userContext.user.lang]);
 
   /*
