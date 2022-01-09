@@ -109,7 +109,11 @@ export default function Navbar(props) {
   // updating user's profile
   const [
     profileUpdate,
-    { data: dataProfileUpdate, loading: loadingProfileUpdate },
+    {
+      data: dataProfileUpdate,
+      loading: loadingProfileUpdate,
+      error: errorProfileUpdate,
+    },
   ] = useMutation(profileUpdateMutation, {
     notifyOnNetworkStatusChange: true,
     variables: { id: user.profileId, lang: langState },
@@ -120,10 +124,10 @@ export default function Navbar(props) {
       setSaveMsg("Saving");
     } else if (dataProfileUpdate && dataProfileUpdate.profileUpdate.ok) {
       setSaveMsg("Saved");
-    } else {
+    } else if (errorProfileUpdate) {
       setSaveMsg("Error");
     }
-  }, [loadingProfileUpdate]);
+  }, [loadingProfileUpdate, dataProfileUpdate]);
   // -------------------------------------
 
   useEffect(() => {
@@ -675,7 +679,7 @@ export default function Navbar(props) {
                                   size="1.4rem"
                                 />
                                 <span style={{ marginRight: 6 }}>
-                                  language {SaveMsg}
+                                  language <strong>{SaveMsg}</strong>
                                 </span>
                               </div>
                             )}
@@ -1037,7 +1041,9 @@ export default function Navbar(props) {
                                 color="rgb(170, 170, 170)"
                                 size="1.4rem"
                               />
-                              <span style={{ marginLeft: 6 }}>language</span>
+                              <span style={{ marginLeft: 6 }}>
+                                language <strong>{SaveMsg}</strong>
+                              </span>
                             </div>
                           )}
                           <ButtonGroup className={styles["lang-switch"]}>
