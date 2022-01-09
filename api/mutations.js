@@ -183,3 +183,14 @@ export const verifyAccountMutation = gql`
     }
   }
 `;
+
+export const profileUpdateMutation = gql`
+  mutation ($id: ID, $lang: String) {
+    profileUpdate(where: { id: { exact: $id } }, input: { language: $lang }) {
+      ok
+      result {
+        id
+      }
+    }
+  }
+`;
