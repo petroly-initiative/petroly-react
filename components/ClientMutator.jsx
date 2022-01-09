@@ -10,13 +10,13 @@ import { UserContext } from "../state-management/user-state/UserContext";
 import { USER, T, URL_ENDPOINT, formatL } from "../constants";
 
 export default function ClientMutator({ children }) {
-  const userContext = useContext(UserContext);
+  const { user, userDispatch } = useContext(UserContext);
   var token = "";
   var rToken = "";
 
   if (typeof window !== "undefined") {
     token = sessionStorage.getItem("token");
-    // if (!token) token = userContext.user.token;  //seems the this line not needed
+    // if (!token) token = user.token;  //seems the this line not needed
     rToken = localStorage.getItem("refreshToken");
   }
 
@@ -46,10 +46,10 @@ export default function ClientMutator({ children }) {
    * to make sure that no senstive data is cahced.
    */
   useEffect(async () => {
-    if (userContext.user.status === USER.VERIFING) {
-      var username = userContext.user.username;
-      var lang = userContext.user.lang;
-      token = userContext.user.token;
+    if (user.status === USER.VERIFING) {
+      var username = user.username;
+      var lang = user.lang;
+      token = user.token;
 
       setClient(
         new ApolloClient({
@@ -62,26 +62,26 @@ export default function ClientMutator({ children }) {
         })
       );
 
-      userContext.userDispatch({
-        type: T.SET_CLIENT,
-        token,
-        username,
-        lang,
+      userDispatch({
+        ...Object.assign(user, {
+          type: T.SET_CLIENT,
+          username: dataVerifyToken.verifyToken.payload.username,
+        }),
       });
     } else if (token) verifyToken();
     else if (rToken) refreshToken();
-    else if (userContext.user.status === USER.LOGGED_OUT) {
+    else if (user.status === USER.LOGGED_OUT) {
       client.resetStore();
 
       setClient(
         new ApolloClient({
           uri: URL_ENDPOINT,
           cache: new InMemoryCache(),
-          headers: { "Accept-Language": userContext.user.lang },
+          headers: { "Accept-Language": user.lang },
         })
       );
     }
-  }, [userContext.user.status, userContext.user.lang]);
+  }, [user.status, user.lang]);
 
   /*
    * the folllowing twi effects is to handle recieved data after calling
@@ -90,7 +90,7 @@ export default function ClientMutator({ children }) {
 
   useEffect(() => {
     if (dataVerifyToken && dataVerifyToken.verifyToken.success) {
-      var lang = userContext.user.lang;
+      var lang = user.lang;
       setClient(
         new ApolloClient({
           uri: URL_ENDPOINT,
@@ -102,18 +102,19 @@ export default function ClientMutator({ children }) {
         })
       );
       // TODO: provide language by the me query
-      userContext.userDispatch({
-        type: T.SET_CLIENT,
-        token,
-        lang,
-        username: dataVerifyToken.verifyToken.payload.username,
+      userDispatch({
+        ...Object.assign(user, {
+          type: T.SET_CLIENT,
+          username: dataVerifyToken.verifyToken.payload.username,
+          token,
+        }),
       });
     }
   }, [dataVerifyToken]);
 
   useEffect(() => {
     if (dataRefreshToken && dataRefreshToken.refreshToken.success) {
-      var lang = userContext.user.lang;
+      var lang = user.lang;
       token = dataRefreshToken.refreshToken.token;
       rToken = dataRefreshToken.refreshToken.refreshToken;
       sessionStorage.setItem("token", token);
@@ -129,11 +130,12 @@ export default function ClientMutator({ children }) {
           },
         })
       );
-      userContext.userDispatch({
-        type: T.SET_CLIENT,
-        token,
-        username: dataRefreshToken.refreshToken.payload.username,
-        lang: lang,
+      userDispatch({
+        ...Object.assign(user, {
+          type: T.SET_CLIENT,
+          username: dataRefreshToken.refreshToken.payload.username,
+          token,
+        }),
       });
     }
   }, [dataRefreshToken]);
