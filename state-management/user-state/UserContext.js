@@ -31,6 +31,14 @@ export const UserContext = createContext(null);
  *     image: (A file from cloudiary)
  * }
  * }
+ *
+ * normally this context contains (after when T.LOGIN):
+ *    status
+ *		token
+ *		username
+ *		profileId
+ *		lang
+ *
  */
 export const userReducer = (currentState, action) => {
   switch (action.type) {
@@ -38,15 +46,19 @@ export const userReducer = (currentState, action) => {
       return {
         status: USER.VERIFING,
         token: action.token,
+        username: action.username,
+        profileId: action.profileId,
         lang: action.lang,
       };
+
     case T.SET_CLIENT:
       return {
-        status: USER.LOGGED_IN,
-        token: action.token,
-        username: action.username,
-        lang: action.lang,
+        ...Object.assign(currentState, {
+          status: USER.LOGGED_IN,
+          profileId: action.profileId,
+        }),
       };
+
     case T.LOGOUT:
       sessionStorage.removeItem("token");
       localStorage.removeItem("refreshToken");

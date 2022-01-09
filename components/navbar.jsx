@@ -21,7 +21,7 @@ import { OverlayTrigger } from "react-bootstrap";
 import Popover from "react-bootstrap/Popover";
 import { useQuery, useMutation } from "@apollo/client";
 import { meQuery } from "../api/queries";
-import { revokeTokenMutation } from "../api/mutations";
+import { revokeTokenMutation, profileUpdateMutation } from "../api/mutations";
 import ClientOnly from "./ClientOnly";
 import { USER, T, L } from "../constants";
 import dynamic from "next/dynamic";
@@ -40,6 +40,7 @@ export default function Navbar(props) {
   const [overlayStyle, setOverlay] = useState({ display: "none" });
   const [showSignIn, setShowSignIn] = useState(false);
   const [langState, setLang] = useState(user.lang);
+  const [SaveMsg, setSaveMsg] = useState("");
 
   //--- signed off state
 
@@ -49,6 +50,7 @@ export default function Navbar(props) {
 
   useEffect(() => {
     userDispatch({ type: T.CHANGE_LANG, lang: langState });
+    if (dataMe) profileUpdate();
   }, [langState]);
 
   //--------
@@ -63,16 +65,7 @@ export default function Navbar(props) {
     notifyOnNetworkStatusChange: true,
     skip: user.status !== USER.LOGGED_IN,
   });
-  const [
-    revokeToken,
-    {
-      data: dataRevokeToken,
-      loading: loadingRevokeToken,
-      error: errorRevokeToken,
-    },
-  ] = useMutation(revokeTokenMutation);
-
-  // -------------
+  const [revokeToken] = useMutation(revokeTokenMutation);
 
   const handleSignInClose = () => setShowSignIn(false);
   const handleSignInShow = () => {
@@ -102,10 +95,36 @@ export default function Navbar(props) {
   useEffect(() => {
     if (dataMe && !loadingMe) {
       setUsername(dataMe.me.username);
-      setProfilePic(dataMe.me.profile.profilePic, setEmail(dataMe.me.email));
+      setProfilePic(dataMe.me.profile.profilePic);
+      setEmail(dataMe.me.email);
       setLang(dataMe.me.profile.language);
+
+      userDispatch({
+        type: T.SET_CLIENT,
+        profileId: dataMe.me.profile.id,
+      });
     }
   }, [dataMe]);
+
+  // updating user's profile
+  const [
+    profileUpdate,
+    { data: dataProfileUpdate, loading: loadingProfileUpdate },
+  ] = useMutation(profileUpdateMutation, {
+    notifyOnNetworkStatusChange: true,
+    variables: { id: user.profileId, lang: langState },
+  });
+
+  useEffect(() => {
+    if (loadingProfileUpdate) {
+      setSaveMsg("Saving");
+    } else if (dataProfileUpdate && dataProfileUpdate.profileUpdate.ok) {
+      setSaveMsg("Saved");
+    } else {
+      setSaveMsg("Error");
+    }
+  }, [loadingProfileUpdate]);
+  // -------------------------------------
 
   useEffect(() => {
     setStyle(() => {
@@ -655,7 +674,9 @@ export default function Navbar(props) {
                                   color="rgb(170, 170, 170)"
                                   size="1.4rem"
                                 />
-                                <span style={{ marginRight: 6 }}>language</span>
+                                <span style={{ marginRight: 6 }}>
+                                  language {SaveMsg}
+                                </span>
                               </div>
                             )}
                             <ButtonGroup className={styles["lang-switch"]}>
