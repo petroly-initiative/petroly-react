@@ -30,6 +30,7 @@ import {
 } from "../../api/queries";
 import { Fade } from "react-awesome-reveal";
 import { useRouter } from "next/router";
+import translator from "../../dictionary/pages/instructor-details-dict"
 
 export const getStaticPaths = async () => {
   const { data } = await client.query({
@@ -73,27 +74,33 @@ export default function instructorDetails({ data }) {
   const router = useRouter();
   const [modalVisible, setVisible] = useState(false);
   const [msg, setMsg] = useState("");
-  const userContext = useContext(UserContext);
+  const {user} = useContext(UserContext);
+   const [langState, setLang] = useState(() => translator(user.lang));
+
+   useEffect(() => {
+     // console.log(userContext.user.lang);
+     setLang(() => translator(user.lang));
+   }, [user.lang]);
 
   const { data: dataHasEvaluated, loading: loadingHasEvaluated } = useQuery(
     hasEvaluatedQuery,
     {
-      skip: userContext.user.status !== USER.LOGGED_IN,
+      skip: user.status !== USER.LOGGED_IN,
       variables: { instructorId: data.instructor.id },
     }
   );
 
   useEffect(() => {
-    if (userContext.user.status === USER.LOGGED_IN) {
+    if (user.status === USER.LOGGED_IN) {
       if (dataHasEvaluated) {
         if (dataHasEvaluated.hasEvaluated) {
-          setMsg("قيمتَ المُحاضِر");
+          setMsg(`${langState.evaluated}`);
           setVisible(false);
           // we can redirect the user to the eavaluation edit page
-        } else setMsg("قيّم المحاضر");
+        } else setMsg(`${langState.evalAllow}`);
       }
-    } else setMsg("الرجاء تسجيل الدخول");
-  }, [loadingHasEvaluated, userContext.user.status]);
+    } else setMsg("{langState.evalBlock}");
+  }, [loadingHasEvaluated, user.status]);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -105,7 +112,7 @@ export default function instructorDetails({ data }) {
 
   const launchModal = () => {
     if (
-      userContext.user.status === USER.LOGGED_IN &&
+      user.status === USER.LOGGED_IN &&
       !dataHasEvaluated.hasEvaluated
     )
       setVisible(true);
@@ -204,7 +211,7 @@ export default function instructorDetails({ data }) {
                     placement="top"
                     delay={{ show: 150, hide: 200 }}
                     overlay={
-                      <Tooltip id="button-tooltip-2">عدد المقيّمين</Tooltip>
+                      <Tooltip id="button-tooltip-2">{langState.evalCount}</Tooltip>
                     }
                   >
                     <div className={cardStyles.eval_counter}>
@@ -228,7 +235,7 @@ export default function instructorDetails({ data }) {
               className={styles.statContainer + " shadow"}
             >
               <Card.Body className={styles.statsCard + " shadow"}>
-                <div className={styles.containerHeaders}>التقييم العام</div>
+                <div className={styles.containerHeaders}>{langState.ratingHeader}</div>
                 <InstructorRates
                   overall={data.instructor.overallFloat}
                   //!WARNING: All category scores should be fetched from data
@@ -243,7 +250,7 @@ export default function instructorDetails({ data }) {
           </Col>
           <Col xl={8} lg={6} sm={12} className={styles.feedbackCol}>
             <Card className={styles.feedbackContainer + " shadow"}>
-              <div className={styles.containerHeaders}>التقييمات السابقة</div>
+              <div className={styles.containerHeaders}>{langState.recentEvals}</div>
               <Card.Body style={{ width: "100%" }}>
                 <Row
                   style={{ paddingTop: "0px !important" }}
@@ -283,7 +290,7 @@ export default function instructorDetails({ data }) {
           <OverlayTrigger
             placement="top"
             delay={{ show: 350, hide: 400 }}
-            overlay={<Tooltip id="button-tooltip-2">نتفقد بياناتك</Tooltip>}
+            overlay={<Tooltip id="button-tooltip-2">{langState.checkingData}</Tooltip>}
           >
             <Button
               id="evaluate"
@@ -305,7 +312,7 @@ export default function instructorDetails({ data }) {
               onClick={launchModal}
               style={{
                 backgroundColor:
-                  userContext.user.status !== USER.LOGGED_IN ||
+                  user.status !== USER.LOGGED_IN ||
                   dataHasEvaluated.hasEvaluated
                     ? "gray"
                     : "#00ead3",

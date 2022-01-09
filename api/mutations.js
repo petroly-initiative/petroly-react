@@ -73,7 +73,6 @@ export const registerMutation = gql`
     }
   }
 `;
-// FIXME: We need to change the mutation parameters to pass the comments
 export const evaluationCreateMutation = gql`
   mutation EvaluationCreate(
     $instructorId: ID

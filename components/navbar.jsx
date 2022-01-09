@@ -147,7 +147,6 @@ export default function Navbar(props) {
     setVisible((prev) => !prev);
   };
 
-  // TODO: create a language switch popover
   if (loadingMe)
     return (
       <ClientOnly>
