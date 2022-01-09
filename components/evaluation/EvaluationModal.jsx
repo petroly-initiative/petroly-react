@@ -33,12 +33,13 @@ import {
 } from "../../api/mutations";
 import { useMutation } from "@apollo/client";
 import { UserContext } from "../../state-management/user-state/UserContext";
-import { USER } from "../../constants";
+import { USER, L } from "../../constants";
 import { Fade } from "react-awesome-reveal";
+import translator from "../../dictionary/components/eval-modal-dict";
 
-// TODO: creating a forth section for general comments, and making non-manifest comments optional
+// TODO: aligning corectly with respect to the language
 export default function EvaluationModal(props) {
-  const userContext = useContext(UserContext);
+  const {user} = useContext(UserContext);
   // modal state
   const [submissionState, dispatch] = useReducer(evalReducer, {
     sucess: false,
@@ -74,6 +75,14 @@ export default function EvaluationModal(props) {
   const [validated, setValidated] = useState(false);
   const [isTermInvalid, setTermInvalid] = useState(false);
   const [isCourseInvalid, setCourseInvalid] = useState(false);
+  // language state
+   const [langState, setLang] = useState(() => translator(user.lang));
+
+   useEffect(() => {
+     // console.log(userContext.user.lang);
+     setLang(() => translator(user.lang));
+     console.log("changed language!");
+   }, [user.lang]);
 
   const setCourse = (e) => {
     setExtra((state) => ({ term: state.term, course: e.target.value }));
@@ -123,7 +132,7 @@ export default function EvaluationModal(props) {
   ] = useMutation(evaluationCreateMutation, {
     notifyOnNetworkStatusChange: true,
     variables: {
-      username: userContext.user.username,
+      username: user.username,
       instructorId: props.id,
       grading: "A_" + String(grading.rating * 20),
       teaching: "A_" + String(teaching.rating * 20),
@@ -231,7 +240,7 @@ export default function EvaluationModal(props) {
             className={styles.modalTitle}
             id="example-custom-modal-styling-title"
           >
-            استمارة التقييم
+            {langState.modalHeader}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body
@@ -259,9 +268,7 @@ export default function EvaluationModal(props) {
           </section>
           <Alert className={styles["rules"]} key={0} variant="warning">
             <BiInfoCircle className={styles["rules-icon"]} size="1.4rem" />
-            <div>
-              نرجو عدم استخدام الألفاظ النابية تجاه أساتذتنا الكرام في استمارة
-              التقييم
+            <div>{langState.politeMsg}
             </div>
           </Alert>
           {validationError.show && (
@@ -284,22 +291,19 @@ export default function EvaluationModal(props) {
             <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div style={{ color: "#316B83" }} className={styles.titles}>
-                  معلومات التقييم{" "}
-                  <FaInfoCircle
+                 {langState.infoHeader} <FaInfoCircle
                     color="#0091e7"
                     className={styles["title-icons"]}
                   />
                 </div>
                 <div className={styles.descriptions}>
-                  معلومات ضرورية للاستفادة القصوى من تقييمك
-                </div>
+               {langState.infoSubHeader} </div>
               </div>
 
               <Form.Row className={styles["evaluation-data"]}>
                 <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Form.Label className={styles["labels"]}>
-                    الفصل الدراسي
-                  </Form.Label>
+                 {langState.termSubHeader} </Form.Label>
                   <InputGroup hasValidation className="mb-4">
                     <InputGroup.Prepend>
                       <InputGroup.Text id="basic-addon1">T</InputGroup.Text>
@@ -318,15 +322,12 @@ export default function EvaluationModal(props) {
                     <FormControl.Feedback
                       style={{ textAlign: "right" }}
                       type="invalid"
-                    >
-                      الرجاء استخدام 3 أرقام فقط
-                    </FormControl.Feedback>
+                    >{langState.termErr}</FormControl.Feedback>
                   </InputGroup>
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Form.Label className={styles["labels"]}>
-                    المادة الدراسية
-                  </Form.Label>
+                {langState.courseSubHeader}  </Form.Label>
                   <InputGroup hasValidation className="mb-3">
                     <InputGroup.Prepend>
                       <InputGroup.Text id="basic-addon1">
@@ -349,8 +350,7 @@ export default function EvaluationModal(props) {
                       style={{ textAlign: "right" }}
                       type="invalid"
                     >
-                      ABCDXXX :الرجاء كتابة اسم المدة الدراسية كالآتي
-                    </FormControl.Feedback>
+                     {langState.courseErr}</FormControl.Feedback>
                   </InputGroup>
                 </Col>
               </Form.Row>
@@ -358,15 +358,13 @@ export default function EvaluationModal(props) {
             <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div style={{ color: "#316B83" }} className={styles.titles}>
-                  التصحيح والدرجات
-                  <FaClipboardCheck
+                 {langState.gradeHeader} <FaClipboardCheck
                     color="F037A5"
                     className={styles["title-icons"]}
                   />
                 </div>
                 <div className={styles.descriptions}>
-                  شفافية التصحيح والالتزام بمعايير محددة للدرجات
-                </div>
+                {langState.gradeSubHeader}</div>
               </div>
               <div className={styles.ratingStars}>
                 <div className={styles.stars}>
@@ -387,7 +385,7 @@ export default function EvaluationModal(props) {
                 <FormControl
                   maxLength="160"
                   className={styles["comments"]}
-                  placeholder={"اكتب تعليقك عن تصحيح المحاضِر"}
+                  placeholder={langState.gradePlaceholder}
                   size="sm"
                   as="textarea"
                   value={grading.comment}
@@ -398,15 +396,13 @@ export default function EvaluationModal(props) {
             <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div style={{ color: "#316B83" }} className={styles.titles}>
-                  التدريس
-                  <FaChalkboardTeacher
+                 {langState.teachHeader} <FaChalkboardTeacher
                     color="#3DB2FF"
                     className={styles["title-icons"]}
                   />
                 </div>
                 <div className={styles.descriptions}>
-                  سهولة إيصال المعلومة و فهم المنهج{" "}
-                </div>
+               {langState.teachSubHeader} </div>
               </div>
               <div className={styles.ratingStars}>
                 <ReactStars
@@ -426,7 +422,7 @@ export default function EvaluationModal(props) {
                 <FormControl
                   maxLength="160"
                   className={styles["comments"]}
-                  placeholder={"اكتب تعليقك عن تدريس المحاضِر"}
+                  placeholder={langState.teachPlaceholder}
                   size="sm"
                   as="textarea"
                   value={teaching.comment}
@@ -437,15 +433,13 @@ export default function EvaluationModal(props) {
             <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div style={{ color: "#316B83 " }} className={styles.titles}>
-                  الشخصية
-                  <BsPersonBoundingBox
+                 {langState.personHeader} <BsPersonBoundingBox
                     color="#FF6666"
                     className={styles["title-icons"]}
                   />
                 </div>
                 <div className={styles.descriptions}>
-                  المزاج العام والتعامل مع الطلاب
-                </div>
+              {langState.personSubHeader}  </div>
               </div>
               <div className={styles.ratingStars}>
                 <ReactStars
@@ -464,7 +458,7 @@ export default function EvaluationModal(props) {
                 <FormControl
                   maxLength="160"
                   className={styles["comments"]}
-                  placeholder={"اكتب تعليقك عن شخصية المحاضِر"}
+                  placeholder={langState.personPlaceholder}
                   as="textarea"
                   size="sm"
                   value={person.comment}
@@ -475,15 +469,14 @@ export default function EvaluationModal(props) {
             <section className={styles.sections + " shadow-sm"}>
               <div className={styles.headers}>
                 <div style={{ color: "#316B83" }} className={styles.titles}>
-                  تعليق عام
-                </div>
+                {langState.commentHeader}</div>
               </div>
 
               <InputGroup hasValidation className={styles["input-containers"]}>
                 <FormControl
                   maxLength="160"
                   className={styles["comments"]}
-                  placeholder={"اكتب تعليقك العام  "}
+                  placeholder={langState.commentPlaceholder}
                   as="textarea"
                   size="sm"
                   value={generalComment}
@@ -497,7 +490,7 @@ export default function EvaluationModal(props) {
           <OverlayTrigger
             placement="top"
             delay={{ show: 1000, hide: 300 }}
-            overlay={<Tooltip id="button-tooltip-2">حذف التقييم</Tooltip>}
+            overlay={<Tooltip id="button-tooltip-2">{langState.cancelHover}</Tooltip>}
           >
             <Button
               onClick={props.close}
@@ -509,7 +502,7 @@ export default function EvaluationModal(props) {
           <OverlayTrigger
             placement="top"
             delay={{ show: 1000, hide: 300 }}
-            overlay={<Tooltip id="button-tooltip-2">تسليم التقييم</Tooltip>}
+            overlay={<Tooltip id="button-tooltip-2"> {langState.submitHover}</Tooltip>}
           >
             {waiting ? (
               <Spinner animation="border" role="status" />

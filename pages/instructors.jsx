@@ -187,6 +187,7 @@ function instructorsList() {
                   style={{ direction: `${user.lang === "ar" ? "rtl": "ltr"}` }}
                   type="text"
                   placeholder= {langState.searchbar}
+                  disabled
                 ></Form.Control>
                 <InputGroup.Append style={{ height: 38 }}>
                   <Button

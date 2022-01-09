@@ -25,6 +25,8 @@ import { revokeTokenMutation, profileUpdateMutation } from "../api/mutations";
 import ClientOnly from "./ClientOnly";
 import { USER, T, L } from "../constants";
 import dynamic from "next/dynamic";
+import { useCallback } from "react";
+import translator from "../dictionary/components/navbar-dict";
 
 const SignInModal = dynamic(() => import("./SignInModal"));
 /**
@@ -39,7 +41,7 @@ export default function Navbar(props) {
   const [sideBarStyle, setStyle] = useState({ left: "100vw" });
   const [overlayStyle, setOverlay] = useState({ display: "none" });
   const [showSignIn, setShowSignIn] = useState(false);
-  const [langState, setLang] = useState(user.lang);
+  
   const [SaveMsg, setSaveMsg] = useState("");
 
   //--- signed off state
@@ -48,10 +50,20 @@ export default function Navbar(props) {
   const [profilePic, setProfilePic] = useState("/favicon.png");
   const [email, setEmail] = useState("");
 
+  // language state
+  const [lang, setLang] = useState(user.lang);
+  const [langState, setLangState] = useState(() => translator(user.lang))
   useEffect(() => {
-    userDispatch({ type: T.CHANGE_LANG, lang: langState });
+    updateLang()
+  }, [lang]);
+
+  const updateLang = 
+    useCallback(() => {
+      userDispatch({ type: T.CHANGE_LANG, lang: lang });
+      setLangState(translator(user.lang))
     if (dataMe) profileUpdate();
-  }, [langState]);
+  }, [lang])
+  
 
   //--------
 
@@ -116,7 +128,7 @@ export default function Navbar(props) {
     },
   ] = useMutation(profileUpdateMutation, {
     notifyOnNetworkStatusChange: true,
-    variables: { id: user.profileId, lang: langState },
+    variables: { id: user.profileId, lang: lang },
   });
 
   useEffect(() => {
@@ -147,380 +159,7 @@ export default function Navbar(props) {
     setVisible((prev) => !prev);
   };
 
-  if (loadingMe)
-    return (
-      <ClientOnly>
-        <nav className={styles.navbar}>
-          <SignInModal visible={showSignIn} close={handleSignInClose} />
-          <div className={styles.navbar_top}>
-            <div className={styles.navbar_item}>
-              <Image
-                style={{ margin: 0 }}
-                src="/favicon.webp"
-                width={30}
-                height={30}
-                alt="petroly icon"
-              />
-            </div>
-            <Button
-              aria-label="show sidebar"
-              className={styles.collapser}
-              onClick={showSidebar}
-            >
-              <FiMenu className={styles.collapse_icon} size="1.3em" />
-            </Button>
-            <div className={styles.navbar_side} style={sideBarStyle}>
-              <div
-                onClick={showSidebar}
-                className={styles.nav_overlay}
-                style={overlayStyle}
-              ></div>
-              <ul>
-                <li className={styles.navbar_item}>
-                  <Spinner animation="border" role="status" />
-                </li>
-                <li
-                  className={styles.navbar_item}
-                  style={{ boxShadow: "0 2px 3px rgb(204, 202, 202)" }}
-                >
-                  <OverlayTrigger
-                    trigger="click"
-                    className={styles.navbar_link}
-                    placement={"left"}
-                    delay={{ show: 350, hide: 400 }}
-                    overlay={
-                      <Popover
-                        style={{ marginRight: "12 !important" }}
-                        id="popover-basic"
-                        show={{ show: 350, hide: 400 }}
-                      >
-                        <Popover.Content
-                          style={{ marginRight: "12 !important" }}
-                        >
-                          <div className={styles["popup-info"]}>settings</div>
-                          <div className={styles["btn-container"]}>
-                            {langState === L.AR_SA ? (
-                              <div
-                                className="mb-2"
-                                style={{ direction: "rtl", fontSize: 12 }}
-                              >
-                                <MdLanguage
-                                  size="1.4rem"
-                                  style={{ margin: "5px !important" }}
-                                  color="rgb(170, 170, 170)"
-                                />
-                                <span style={{ marginRight: 6 }}> اللغة</span>
-                              </div>
-                            ) : (
-                              <div
-                                className="mb-2"
-                                style={{
-                                  fontSize: 12,
-                                  color: "rgb(170, 170, 170)",
-                                }}
-                              >
-                                {" "}
-                                <MdLanguage
-                                  color="rgb(170, 170, 170)"
-                                  size="1.4rem"
-                                />
-                                <span
-                                  style={{
-                                    marginRight: 6,
-                                    color: "rgb(170, 170, 170)",
-                                  }}
-                                >
-                                  language
-                                </span>
-                              </div>
-                            )}
-                            <ButtonGroup className={styles["lang-switch"]}>
-                              <Button
-                                onClick={() => {
-                                  setLang(L.AR_SA);
-                                }}
-                                className={
-                                  styles["lang-switch"] +
-                                  ` ${
-                                    langState === L.AR_SA
-                                      ? styles["lang-active"]
-                                      : ""
-                                  }`
-                                }
-                              >
-                                العربية
-                              </Button>
-                              <Button
-                                onClick={() => {
-                                  setLang(L.EN_US);
-                                }}
-                                className={
-                                  styles["lang-switch"] +
-                                  ` ${
-                                    langState === L.EN_US
-                                      ? styles["lang-active"]
-                                      : ""
-                                  }`
-                                }
-                              >
-                                English
-                              </Button>
-                            </ButtonGroup>
-                          </div>
-                        </Popover.Content>
-                      </Popover>
-                    }
-                    rootClose
-                  >
-                    <Button aria-label="profile" className={styles.navbar_link}>
-                      <MdSettings size="24px" />
-                    </Button>
-                  </OverlayTrigger>
-                </li>
-                <div className={styles.nav_pages}>
-                  <li className={styles.navbar_item}>
-                    <Link href="/" className={styles.navbar_link}>
-                      <div className={styles.link_btn + " " + navStyles.home}>
-                        <AiFillHome className={styles.nav_img} size="1.3em" />
-                        <div className={styles.link_text}>الرئيسية</div>
-                      </div>
-                    </Link>
-                  </li>
-                  {/* <li className={styles.navbar_item}>
-                    <Link href="/" className={styles.navbar_link}>
-                      <div
-                        className={styles.link_btn + " " + navStyles.resources}
-                      >
-                        <ImBook className={styles.nav_img} size="1.3em" />
-                        <div className={styles.link_text}>الموارد</div>
-                      </div>
-                    </Link>
-                  </li> */}
-                  <li className={styles.navbar_item}>
-                    <Link href="/instructors" className={styles.navbar_link}>
-                      <div className={styles.link_btn + " " + navStyles.rating}>
-                        <BsStarFill className={styles.nav_img} size="1.3em" />
-                        <div className={styles.link_text}>التقييم</div>
-                      </div>
-                    </Link>
-                  </li>
-                  {/* <li className={styles.navbar_item}> 
-                    <Link href="/" className={styles.navbar_link}>
-                      <div className={styles.link_btn + " " + navStyles.chat}>
-                        <BsChatSquareDotsFill
-                          className={styles.nav_img}
-                          size="1.3em"
-                        />
-                        <div className={styles.link_text}>المحادثات</div>
-                      </div>
-                    </Link>
-                  </li> */}
-                  <li className={styles.navbar_item}>
-                    <Link href="/" className={styles.navbar_link}>
-                      <div
-                        className={
-                          styles.link_btn + " " + navStyles.communities
-                        }
-                      >
-                        <BsFillPeopleFill
-                          className={styles.nav_img}
-                          size="1.3em"
-                        />
-                        <div className={styles.link_text}>المجتمعات</div>
-                      </div>
-                    </Link>
-                  </li>
-                </div>
-                {
-                  <li className={styles.navbar_item}>
-                    <Link href="/" className={styles.navbar_link}>
-                      <div className={styles.link_btn}>
-                        <FiHelpCircle className={styles.nav_img} size="1.2em" />
-                      </div>
-                    </Link>
-                  </li>
-                }
-              </ul>
-            </div>
-          </div>
-          {/*layout for big screens*/}
-          <div className={styles.navbar_main}>
-            <ul className={styles.navbar_nav}>
-              <li className={styles.navbar_item}>
-                <Link href="/" className={styles.navbar_link}>
-                  <Image
-                    alt="petroly icon"
-                    src="/favicon.webp"
-                    width={30}
-                    height={30}
-                  />
-                </Link>
-              </li>
-              <li className={styles.navbar_item}>
-                <Spinner animation="border" role="status" />
-              </li>
-              <li
-                className={styles.navbar_item}
-                style={{ boxShadow: "0 2px 3px rgb(204, 202, 202)" }}
-              >
-                <OverlayTrigger
-                  trigger="click"
-                  className={styles.navbar_link}
-                  placement={"left"}
-                  delay={{ show: 350, hide: 400 }}
-                  overlay={
-                    <Popover
-                      style={{ marginRight: "12 !important" }}
-                      id="popover-basic"
-                      show={{ show: 350, hide: 400 }}
-                    >
-                      <Popover.Content style={{ marginRight: "12 !important" }}>
-                        <div className={styles["popup-info"]}>settings</div>
-                        <div className={styles["btn-container"]}>
-                          {langState === L.AR_SA ? (
-                            <div
-                              className="mb-2"
-                              style={{ direction: "rtl", fontSize: 12 }}
-                            >
-                              <MdLanguage
-                                size="1.4rem"
-                                style={{ margin: "5px !important" }}
-                                color="rgb(170, 170, 170)"
-                              />
-                              <span style={{ marginRight: 6 }}> اللغة</span>
-                            </div>
-                          ) : (
-                            <div
-                              className="mb-2"
-                              style={{
-                                fontSize: 12,
-                                color: "rgb(170, 170, 170)",
-                              }}
-                            >
-                              {" "}
-                              <MdLanguage
-                                color="rgb(170, 170, 170)"
-                                size="1.4rem"
-                              />
-                              <span
-                                style={{
-                                  marginRight: 6,
-                                  color: "rgb(170, 170, 170)",
-                                }}
-                              >
-                                language
-                              </span>
-                            </div>
-                          )}
-                          <ButtonGroup className={styles["lang-switch"]}>
-                            <Button
-                              onClick={() => {
-                                setLang(L.AR_SA);
-                              }}
-                              className={
-                                styles["lang-switch"] +
-                                ` ${
-                                  langState === L.AR_SA
-                                    ? styles["lang-active"]
-                                    : ""
-                                }`
-                              }
-                            >
-                              العربية
-                            </Button>
-                            <Button
-                              onClick={() => {
-                                setLang(L.EN_US);
-                              }}
-                              className={
-                                styles["lang-switch"] +
-                                ` ${
-                                  langState === L.EN_US
-                                    ? styles["lang-active"]
-                                    : ""
-                                }`
-                              }
-                            >
-                              English
-                            </Button>
-                          </ButtonGroup>
-                        </div>
-                      </Popover.Content>
-                    </Popover>
-                  }
-                  rootClose
-                >
-                  <Button aria-label="profile" className={styles.navbar_link}>
-                    <MdSettings size="24px" />
-                  </Button>
-                </OverlayTrigger>
-              </li>
-              <ul className={styles.nav_pages}>
-                <li className={styles.navbar_item}>
-                  <Link href="/" className={styles.navbar_link}>
-                    <div className={styles.link_btn + " " + navStyles.home}>
-                      <AiFillHome className={styles.nav_img} size="1.3em" />
-                      <div className={styles.link_text}>الرئيسية</div>
-                    </div>
-                  </Link>
-                </li>
-
-                {/* <li className={styles.navbar_item}>
-                  <Link href="/" className={styles.navbar_link}>
-                    <div
-                      className={styles.link_btn + " " + navStyles.resources}
-                    >
-                      <ImBook className={styles.nav_img} size="1.3em" />
-                      <div className={styles.link_text}>الموارد</div>
-                    </div>
-                  </Link>
-                </li> */}
-                <li className={styles.navbar_item}>
-                  <Link href="/instructors" className={styles.navbar_link}>
-                    <div className={styles.link_btn + " " + navStyles.rating}>
-                      <BsStarFill className={styles.nav_img} size="1.3em" />
-                      <div className={styles.link_text}>التقييم</div>
-                    </div>
-                  </Link>
-                </li>
-                {/* <li className={styles.navbar_item}>
-                  <Link href="/" className={styles.navbar_link}>
-                    <div className={styles.link_btn + " " + navStyles.chat}>
-                      <BsChatSquareDotsFill
-                        className={styles.nav_img}
-                        size="1.3em"
-                      />
-                      <div className={styles.link_text}>المحادثات</div>
-                    </div>
-                  </Link>
-                </li> */}
-                <li className={styles.navbar_item}>
-                  <Link href="/" className={styles.navbar_link}>
-                    <div
-                      className={styles.link_btn + " " + navStyles.communities}
-                    >
-                      <BsFillPeopleFill
-                        className={styles.nav_img}
-                        size="1.3em"
-                      />
-                      <div className={styles.link_text}>المجتمعات</div>
-                    </div>
-                  </Link>
-                </li>
-              </ul>
-              <li className={styles.navbar_item}>
-                <Link href="/" className={styles.navbar_link}>
-                  <div className={styles.link_btn}>
-                    <FiHelpCircle className={styles.nav_img} size="1.2em" />
-                  </div>
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </ClientOnly>
-    );
-
+  
   return (
     <ClientOnly>
       <nav className={styles.navbar}>
@@ -548,7 +187,10 @@ export default function Navbar(props) {
               className={styles.nav_overlay}
               style={overlayStyle}
             ></div>
-            <ul>
+            <ul>{loadingMe ? 
+             <li className={styles.navbar_item}>
+                  <Spinner animation="border" role="status" />
+                </li> :
               <li className={styles.navbar_item}>
                 {user.status === USER.LOGGED_IN ? (
                   <OverlayTrigger
@@ -593,7 +235,7 @@ export default function Navbar(props) {
                                   size="1rem"
                                   style={{ marginLeft: 8 }}
                                 />
-                                لوحة التحكم
+                                {langState.dashboard}
                               </div>
                             </Link>
                             <Button
@@ -607,7 +249,7 @@ export default function Navbar(props) {
                                   size="1rem"
                                   style={{ marginLeft: 8 }}
                                 />
-                                تسجيل الخروج
+                                {langState.logout}
                               </div>
                             </Button>
                           </div>
@@ -636,7 +278,7 @@ export default function Navbar(props) {
                     <FaSignInAlt size="1rem" />{" "}
                   </Button>
                 )}
-              </li>
+              </li>}
               <li
                 className={styles.navbar_item}
                 style={{ boxShadow: "0 2px 3px rgb(204, 202, 202)" }}
@@ -658,7 +300,7 @@ export default function Navbar(props) {
                         >
                           <div className={styles["popup-info"]}>settings</div>
                           <div className={styles["btn-container"]}>
-                            {langState === L.AR_SA ? (
+                            {lang === L.AR_SA ? (
                               <div
                                 className="mb-2"
                                 style={{ direction: "rtl", fontSize: 12 }}
@@ -690,7 +332,7 @@ export default function Navbar(props) {
                                 className={
                                   styles["lang-switch"] +
                                   ` ${
-                                    langState === L.AR_SA
+                                    lang === L.AR_SA
                                       ? styles["lang-active"]
                                       : ""
                                   }`
@@ -705,7 +347,7 @@ export default function Navbar(props) {
                                 className={
                                   styles["lang-switch"] +
                                   ` ${
-                                    langState === L.EN_US
+                                    lang === L.EN_US
                                       ? styles["lang-active"]
                                       : ""
                                   }`
@@ -741,7 +383,7 @@ export default function Navbar(props) {
                         >
                           <div className={styles["popup-info"]}>settings</div>
                           <div className={styles["btn-container"]}>
-                            {langState === L.AR_SA ? (
+                            {lang === L.AR_SA ? (
                               <div
                                 className="mb-2"
                                 style={{ direction: "rtl", fontSize: 12 }}
@@ -784,7 +426,7 @@ export default function Navbar(props) {
                                 className={
                                   styles["lang-switch"] +
                                   ` ${
-                                    langState === L.AR_SA
+                                    lang === L.AR_SA
                                       ? styles["lang-active"]
                                       : ""
                                   }`
@@ -799,7 +441,7 @@ export default function Navbar(props) {
                                 className={
                                   styles["lang-switch"] +
                                   ` ${
-                                    langState === L.EN_US
+                                    lang === L.EN_US
                                       ? styles["lang-active"]
                                       : ""
                                   }`
@@ -825,9 +467,9 @@ export default function Navbar(props) {
                   <Link href="/" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.home}>
                       <AiFillHome className={styles.nav_img} size="1.3em" />
-                      <div className={styles.link_text}>الرئيسية</div>
+                      <div className={styles.link_text}>{langState.home}</div>
                     </div>
-                  </Link>
+                  </Link>ت
                 </li>
                 {/* <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
@@ -843,7 +485,7 @@ export default function Navbar(props) {
                   <Link href="/instructors" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.rating}>
                       <BsStarFill className={styles.nav_img} size="1.3em" />
-                      <div className={styles.link_text}>التقييم</div>
+                      <div className={styles.link_text}>{langState.rating}</div>
                     </div>
                   </Link>
                 </li>
@@ -865,7 +507,7 @@ export default function Navbar(props) {
                         className={styles.nav_img}
                         size="1.3em"
                       />
-                      <div className={styles.link_text}>المجتمعات</div>
+                      <div className={styles.link_text}>{langState.Groups}</div>
                     </div>
                   </Link>
                 </li>
@@ -880,7 +522,7 @@ export default function Navbar(props) {
                   >
                     <div className={styles.link_btn}>
                       <FiHelpCircle className={styles.nav_img} size="1.2em" />
-                      <div className={styles.link_text}>الدعم</div>
+                      <div className={styles.link_text}>{langState.support}</div>
                     </div>
                   </a>
                 </li>
@@ -901,7 +543,10 @@ export default function Navbar(props) {
                 />
               </Link>
             </li>
-
+            { loadingMe ?
+             <li className={styles.navbar_item}>
+                  <Spinner animation="border" role="status" />
+                </li> :
             <li className={styles.navbar_item}>
               {user.status === USER.LOGGED_IN ? (
                 <OverlayTrigger
@@ -942,7 +587,7 @@ export default function Navbar(props) {
                                 size="1rem"
                                 style={{ marginLeft: 8 }}
                               />
-                              لوحة التحكم
+                              {langState.dashboard}
                             </div>
                           </Link>
                           <Button
@@ -956,7 +601,7 @@ export default function Navbar(props) {
                                 size="1rem"
                                 style={{ marginLeft: 8 }}
                               />
-                              تسجيل الخروج
+                              {langState.logout}
                             </div>
                           </Button>
                         </div>
@@ -985,7 +630,7 @@ export default function Navbar(props) {
                   <FaSignInAlt size="1rem" />{" "}
                 </Button>
               )}
-            </li>
+            </li>}
             <li
               className={styles.navbar_item}
               style={{ boxShadow: "0 2px 3px rgb(204, 202, 202)" }}
@@ -1006,15 +651,13 @@ export default function Navbar(props) {
                         <div
                           style={{
                             direction: `${
-                              langState === L.EN_US ? "ltr" : "rtl"
+                              lang === L.EN_US ? "ltr" : "rtl"
                             }`,
                           }}
                           className={styles["popup-info"]}
-                        >{`${
-                          langState === L.AR_SA ? "الإعدادات" : "settings"
-                        }`}</div>
+                        >{langState.settings}</div>
                         <div className={styles["btn-container"]}>
-                          {langState === L.AR_SA ? (
+                          {lang === L.AR_SA ? (
                             <div
                               className="mb-2"
                               style={{ direction: "rtl", fontSize: 12 }}
@@ -1053,7 +696,7 @@ export default function Navbar(props) {
                               className={
                                 styles["lang-switch"] +
                                 ` ${
-                                  langState === L.AR_SA
+                                  lang === L.AR_SA
                                     ? styles["lang-active"]
                                     : ""
                                 }`
@@ -1068,7 +711,7 @@ export default function Navbar(props) {
                               className={
                                 styles["lang-switch"] +
                                 ` ${
-                                  langState === L.EN_US
+                                  lang === L.EN_US
                                     ? styles["lang-active"]
                                     : ""
                                 }`
@@ -1102,7 +745,7 @@ export default function Navbar(props) {
                       <Popover.Content style={{ marginRight: "12 !important" }}>
                         <div className={styles["popup-info"]}>settings</div>
                         <div className={styles["btn-container"]}>
-                          {langState === L.AR_SA ? (
+                          {lang === L.AR_SA ? (
                             <div
                               className="mb-2"
                               style={{ direction: "rtl", fontSize: 12 }}
@@ -1145,7 +788,7 @@ export default function Navbar(props) {
                               className={
                                 styles["lang-switch"] +
                                 ` ${
-                                  langState === L.AR_SA
+                                  lang === L.AR_SA
                                     ? styles["lang-active"]
                                     : ""
                                 }`
@@ -1160,7 +803,7 @@ export default function Navbar(props) {
                               className={
                                 styles["lang-switch"] +
                                 ` ${
-                                  langState === L.EN_US
+                                  lang === L.EN_US
                                     ? styles["lang-active"]
                                     : ""
                                 }`
@@ -1186,7 +829,7 @@ export default function Navbar(props) {
                 <Link href="/" className={styles.navbar_link}>
                   <div className={styles.link_btn + " " + navStyles.home}>
                     <AiFillHome className={styles.nav_img} size="1.3em" />
-                    <div className={styles.link_text}>الرئيسية</div>
+                    <div className={styles.link_text}>{langState.home}</div>
                   </div>
                 </Link>
               </li>
@@ -1203,7 +846,7 @@ export default function Navbar(props) {
                 <Link href="/instructors" className={styles.navbar_link}>
                   <div className={styles.link_btn + " " + navStyles.rating}>
                     <BsStarFill className={styles.nav_img} size="1.3em" />
-                    <div className={styles.link_text}>التقييم</div>
+                    <div className={styles.link_text}>{langState.rating}</div>
                   </div>
                 </Link>
               </li>
@@ -1224,7 +867,7 @@ export default function Navbar(props) {
                     className={styles.link_btn + " " + navStyles.communities}
                   >
                     <BsFillPeopleFill className={styles.nav_img} size="1.3em" />
-                    <div className={styles.link_text}>المجتمعات</div>
+                    <div className={styles.link_text}>{langState.groups}</div>
                   </div>
                 </Link>
               </li>
@@ -1239,7 +882,7 @@ export default function Navbar(props) {
                 <div className={styles.link_btn}>
                   <FiHelpCircle className={styles.nav_img} size="1.2em" />
 
-                  <div className={styles.link_text}>الدعم</div>
+                  <div className={styles.link_text}>{langState.support}</div>
                 </div>
               </a>
             </li>

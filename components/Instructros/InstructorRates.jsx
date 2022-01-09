@@ -34,7 +34,7 @@ function InstructorRates(props) {
   };
 
   const format = (num, decimals) =>
-    num.toLocaleString("EN_US", {
+    num.toLocaleString("en-US", {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1,
     });

@@ -17,7 +17,6 @@ import { UserContext } from "../../state-management/user-state/UserContext";
  */
 
 function InstructorCard(props) {
-  const tooltip = useRef();
   const {user} = useContext(UserContext);
 
 
@@ -59,10 +58,10 @@ function InstructorCard(props) {
                 {props.image}
               </div>
               <OverlayTrigger
-                style={{ position: "absolute", right: 0 }}
+                placement="top"
                 delay={{ show: 150, hide: 200 }}
                 overlay={<Tooltip id="button-tooltip">{`${user.lang === "ar" ? "عدد المقيمين": "Evaluation Count"}`}</Tooltip>}
-                target={tooltip.current}
+                trigger={"hover"}
               >
                 <Container id="cunter" className={styles.eval_counter}>
                   <MdFolderSpecial />

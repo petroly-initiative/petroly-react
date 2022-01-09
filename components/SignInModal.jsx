@@ -504,7 +504,7 @@ export default function SignInModal(props) {
 
                     <div
                       className={authStyle.redirecter}
-                      style={{ fontSize: 12, direction: `${user.lang === "en" ? "ltr" : "rtl"}`, margin: 8 }}
+                      style={{ fontSize: 12, direction: `${user.lang === L.EN_US ? "ltr" : "rtl"}`, margin: 8 }}
                     >
                       {langState.forgetPassword}
                       <button
