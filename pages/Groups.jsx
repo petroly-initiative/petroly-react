@@ -18,12 +18,13 @@ import { BiSearch } from "react-icons/bi";
 import { GoSettings } from "react-icons/go";
 import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useQuery } from "@apollo/client";
 import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
 import { CommunitiesQuery } from "../api/queries";
 import { USER } from "../constants";
+import { UserContext } from "../state-management/user-state/UserContext";
 
 function Groups(state, action) {
   const { data, loading, error, refetch, networkStatus, variables } = useQuery(
@@ -36,6 +37,7 @@ function Groups(state, action) {
   );
 
   // search filter modal state
+  const [user, userDispatch] = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
   const [platform, setPlatform] = useState({
     Discord: true,
@@ -96,7 +98,8 @@ function Groups(state, action) {
           platform={community.platform}
           type={community.category}
           link={community.link}
-          likes={community.likes}
+          likesCount={community.likes.count}
+          liked={false} // false until API provides a way to know
           image={
             <Image
               className={styles.picDiv}
