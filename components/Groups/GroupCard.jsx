@@ -21,8 +21,9 @@ import { CgProfile } from "react-icons/cg";
 import GroupDisplay from "./GroupDisplay";
 import { useMutation, useQuery } from "@apollo/client";
 import GroupReport from "./GroupReport";
-import { updateCommunityLikes } from "../../api/mutations";
+import { toggleLikeCommunityMutation } from "../../api/mutations";
 import { userHasLiked } from "../../api/queries";
+
 function GroupCard(props) {
   const [displayGroup, setDisplay] = useState(false);
   const [showReport, setReport] = useState(false);
@@ -40,6 +41,10 @@ function GroupCard(props) {
     number: props.likesCount,
     liked: props.liked,
   });
+
+  const [toggleLikeCommunity, { data }] = useMutation(
+    toggleLikeCommunityMutation
+  );
 
   const ArLabels = (type) => {
     switch (type) {
@@ -111,12 +116,13 @@ function GroupCard(props) {
   //   );
   // }
   // if (error) return `Submission error! ${error.message}`;
-  const addLike = () => {
+  const addLike = (e) => {
+    console.log(e.target.id);
     if (!likes.liked) {
-      // updateLikes({ variables: { id: props.id, likes: props.likes + 1 } });
+      toggleLikeCommunity({ variables: { id: e.target.id } });
       setLikes((prev) => ({ liked: true, number: prev.number + 1 }));
     } else {
-      // updateLikes({ variables: { id: props.id, likes: props.likes - 1 } });
+      toggleLikeCommunity({ variables: { id: e.target.id } });
       setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
     }
   };
@@ -177,6 +183,7 @@ function GroupCard(props) {
                   style={{ color: likes.liked ? "#00ead3" : "" }}
                   onClick={addLike}
                   className={styles["btns"]}
+                  id={props.id}
                 >
                   {likes.liked ? (
                     <BsFillStarFill color={"#00ead3"} />
