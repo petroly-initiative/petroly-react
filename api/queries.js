@@ -146,7 +146,7 @@ export const CommunitiesQuery = gql`
   ) {
     communities(
       where: {
-        name: { contains: $name }
+        name: { icontains: $name }
         category: $category
         platform: $platform
       }
@@ -156,18 +156,17 @@ export const CommunitiesQuery = gql`
         date
         category
         description
-        likes {
-          count
-          data {
-            id
-          }
-        }
         link
         name
         platform
-        report
         section
         verified
+        likes {
+          count
+        }
+        reports {
+          count
+        }
       }
     }
   }
