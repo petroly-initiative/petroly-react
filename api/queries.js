@@ -156,7 +156,12 @@ export const CommunitiesQuery = gql`
         date
         category
         description
-        likes
+        likes {
+          count
+          data {
+            id
+          }
+        }
         link
         name
         platform
@@ -167,3 +172,19 @@ export const CommunitiesQuery = gql`
     }
   }
 `; // Modify this query to handle filter feature
+export const userID = gql`
+  query UserId {
+    me {
+      id
+    }
+  }
+`;
+export const userHasLiked = gql`
+  query hasLiked($communityId: ID) {
+    me {
+      likedCommunities(where: { id: { exact: $communityId } }) {
+        count
+      }
+    }
+  }
+`;

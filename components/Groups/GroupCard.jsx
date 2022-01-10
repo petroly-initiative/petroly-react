@@ -19,15 +19,25 @@ import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
 import GroupDisplay from "./GroupDisplay";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import GroupReport from "./GroupReport";
 import { updateCommunityLikes } from "../../api/mutations";
+import { userHasLiked } from "../../api/queries";
 function GroupCard(props) {
   const [displayGroup, setDisplay] = useState(false);
   const [showReport, setReport] = useState(false);
-
+  // const isLiked = () => {
+  //   // TODO complete this function
+  //   const { data, loading, error, refetch, networkStatus, variables } =
+  //     useQuery(userHasLiked, { variables: { id: props.id } });
+  //   // TODO handle both loading and error
+  //   if (!loading && typeof data !== "undefined") {
+  //     if (data.me.likedCommunities.count == 1) return true;
+  //   }
+  //   return false;
+  // };
   const [likes, setLikes] = useState({
-    number: props.likes,
+    number: props.likes.count,
     liked: false,
   });
 
@@ -85,29 +95,28 @@ function GroupCard(props) {
         return <RiBook2Fill className={styles["tag-icon"]} />;
     }
   };
-  const [updateLikes, { data, loading, error }] =
-    useMutation(updateCommunityLikes);
+  // const [updateLikes, { data, loading, error }] = // TODO update this mutation
+  // useMutation(updateCommunityLikes);
   // TODO Handle loading and error properly
-  if (loading) {
-    return (
-      <Spinner
-        className={styles["loading-spinner"]}
-        as="div"
-        animation="grow"
-        size="xl"
-        role="status"
-        aria-hidden="true"
-      />
-    );
-  }
-  if (error) return `Submission error! ${error.message}`;
+  // if (loading) {
+  //   return (
+  //     <Spinner
+  //       className={styles["loading-spinner"]}
+  //       as="div"
+  //       animation="grow"
+  //       size="xl"
+  //       role="status"
+  //       aria-hidden="true"
+  //     />
+  //   );
+  // }
+  // if (error) return `Submission error! ${error.message}`;
   const addLike = () => {
-    // TODO check if the user has liked this group before
     if (!likes.liked) {
-      updateLikes({ variables: { id: props.id, likes: props.likes + 1 } });
+      // updateLikes({ variables: { id: props.id, likes: props.likes + 1 } });
       setLikes((prev) => ({ liked: true, number: prev.number + 1 }));
     } else {
-      updateLikes({ variables: { id: props.id, likes: props.likes - 1 } });
+      // updateLikes({ variables: { id: props.id, likes: props.likes - 1 } });
       setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
     }
   };

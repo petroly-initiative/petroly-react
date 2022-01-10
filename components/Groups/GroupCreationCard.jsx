@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { Col, Row, Form, Button, InputGroup } from "react-bootstrap";
+import { Col, Row, Form, Button, InputGroup, Spinner } from "react-bootstrap";
 import { BsCardImage } from "react-icons/bs";
 import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
@@ -14,10 +14,13 @@ import { AiFillFileAdd } from "react-icons/ai";
 import { MdDescription } from "react-icons/md";
 import styles from "../../styles/groups-page/group-creation.module.scss";
 import { createCommunnityMutation } from "../../api/mutations";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
+import { userID } from "../../api/queries";
+import CreatedGroup from "./CreatedCard";
 
 function GroupCreationCard() {
   const [modalShow, setModalShow] = useState(false);
+  const [submittedForm, setSubmitted] = useState(false);
   const [type, setType] = useState("");
   const [platform, setPlatform] = useState("");
   const course = useRef();
@@ -25,16 +28,46 @@ function GroupCreationCard() {
   const description = useRef();
   const link = useRef();
   const name = useRef();
+
   const [invalidCourse, validateCourse] = useState(false);
+  const userId = () => {
+    const { data, loading, error } = useQuery(userID);
+    if (error) {
+      return -1;
+    }
+    if (!loading) {
+      return data.me.id;
+    }
+  };
+  const ownerId = userId();
+  console.log(ownerId);
   const [createCommunnity, { data, loading, error }] = useMutation(
     createCommunnityMutation
   );
   // TODO handle load and error status.
-  if (loading) return "Submitting...";
-  if (error) return `Submission error! ${error.message}`;
+  if (loading)
+    return (
+      <Button className={styles["loading-container"] + " shadow"} disabled>
+        <Spinner
+          className={styles["loading-spinner"]}
+          as="div"
+          animation="grow"
+          size="xl"
+          role="status"
+          aria-hidden="true"
+        />
+      </Button>
+    );
+  if (error) return <CreatedGroup success={false} />;
   const createGroup = (e) => {
     // TODO validate the form
     e.preventDefault();
+    if (ownerId == -1) {
+      // this should be handled on groups page
+      setModalShow(false);
+      console.log("User is not signed up or failed to retrieve his id.");
+      return;
+    }
 
     const groupName = name.current.value;
     const groupLink = link.current.value;
@@ -49,6 +82,7 @@ function GroupCreationCard() {
           category: type,
           description: groupDesc,
           section: groupSection,
+          owner: { connect: { id: { exact: ownerId } } },
         },
       });
     else
@@ -59,9 +93,11 @@ function GroupCreationCard() {
           platform: platform,
           category: type,
           description: groupDesc,
+          owner: { connect: { id: { exact: ownerId } } },
         },
       });
     setModalShow(false);
+    setSubmitted(true);
   };
 
   const selectPlatform = (e) => {
@@ -337,6 +373,7 @@ function GroupCreationCard() {
           <AiFillFileAdd size={32} />
         </Button>
       </>
+      {submittedForm ? <CreatedGroup success={true} /> : <></>}
     </div>
   );
 }

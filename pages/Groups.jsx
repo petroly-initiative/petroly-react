@@ -23,18 +23,16 @@ import { useQuery } from "@apollo/client";
 import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
 import { CommunitiesQuery } from "../api/queries";
+import { USER } from "../constants";
 function Groups(state, action) {
-  // ? API hooks
-  // const {
-  //   data: dataDept,
-  //   error: errorDept,
-  //   loading: loadingDept,
-  // } = useQuery(getDepartments, {
-  //   variables: { short: true },
-  // });
-
-  const { data, loading, error, refetch, networkStatus, variables } =
-    useQuery(CommunitiesQuery);
+  const { data, loading, error, refetch, networkStatus, variables } = useQuery(
+    CommunitiesQuery,
+    {
+      notifyOnNetworkStatusChange: true,
+      fetchPolicy: "network-only",
+      nextFetchPolicy: "cache-first",
+    }
+  );
   // search filter modal state
   const [modalVisible, setVisible] = useState(false);
   const [platform, setPlatform] = useState({
@@ -121,9 +119,15 @@ function Groups(state, action) {
       });
     }
   };
-  // TODO handle both loading and error status
+  if (error) {
+    return (
+      <div>
+        <h1>{error.name}</h1>
+        <p>{error.message}</p>
+      </div>
+    );
+  }
   var communities = groupMapper();
-  console.log(groupMapper());
   return (
     <ClientOnly>
       <>
@@ -182,34 +186,24 @@ function Groups(state, action) {
               triggerOnce
               direction="up"
             >
-              {/* I should iterate over the groups here. */}
               {/**!Number of pages should be provided by the api*/}
 
               {typeof communities !== "undefined" ? (
                 communities
               ) : (
-                <GroupCard
-                  date={"9-21-2021"}
-                  name=" CS Nerds"
-                  platform="Telegram"
-                  type="Educational"
-                  description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-                  course=""
-                  likes={201}
-                  image={
-                    <Image
-                      className={styles.picDiv}
-                      src={"/images/spongy.png"}
-                      width="70"
-                      height="70"
-                    />
-                  }
-                />
+                <Button
+                  className={styles["loading-container"] + " shadow"}
+                  disabled
+                >
+                  <Spinner
+                    className={styles["loading-spinner"]}
+                    as="div"
+                    animation="grow"
+                    size="xl"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                </Button>
               )}
             </Fade>
           </Row>
@@ -224,7 +218,7 @@ function Groups(state, action) {
         </Container>
       </>
 
-      <GroupCreationCard />
+      {<GroupCreationCard /> /* Show only when the user is logged in */}
     </ClientOnly>
   );
 }

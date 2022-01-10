@@ -175,21 +175,8 @@ export const passwordResetMutation = gql`
 `;
 
 // Community mutations:
-export const updateCommunityLikes = gql`
-  mutation UpdateLikes($id: ID, $likes: Int) {
-    communityUpdate(input: { likes: $likes }, where: { id: { exact: $id } }) {
-      ok
-      errors {
-        field
-        messages
-      }
-      result {
-        id
-        likes
-      }
-    }
-  }
-`;
+
+// export const updateCommunityLikes = gql``; // TODO
 export const createCommunnityMutation = gql`
   mutation CreateCommunity(
     $name: String!
@@ -198,6 +185,7 @@ export const createCommunnityMutation = gql`
     $category: CommunityCategoryEnum!
     $description: String!
     $section: String = " "
+    $owner: UserCreateNestedInput
   ) {
     communityCreate(
       input: {
@@ -207,6 +195,7 @@ export const createCommunnityMutation = gql`
         category: $category
         description: $description
         section: $section
+        owner: $owner
       }
     ) {
       ok
@@ -216,20 +205,6 @@ export const createCommunnityMutation = gql`
       }
       result {
         id
-        archived
-        category
-        date
-        description
-        likes
-        link
-        name
-        platform
-        report
-        section
-        user {
-          id
-        }
-        verified
       }
     }
   }
