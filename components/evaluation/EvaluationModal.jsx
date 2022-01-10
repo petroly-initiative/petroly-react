@@ -36,7 +36,6 @@ import { UserContext } from "../../state-management/user-state/UserContext";
 import { USER } from "../../constants";
 import { Fade } from "react-awesome-reveal";
 
-
 // TODO: creating a forth section for general comments, and making non-manifest comments optional
 export default function EvaluationModal(props) {
   const userContext = useContext(UserContext);
@@ -176,7 +175,6 @@ export default function EvaluationModal(props) {
         msg: "الرجاء تعبئة الخانات المطلوبة",
       });
       setValidated(true);
-
     } else if (isCourseInvalid || isTermInvalid) {
       setError({
         show: true,
@@ -190,7 +188,6 @@ export default function EvaluationModal(props) {
       setWaiting(false);
       evaluationCreate();
     }
-    
   };
 
   useEffect(() => {
@@ -199,13 +196,11 @@ export default function EvaluationModal(props) {
 
   useEffect(() => {
     if (dataEvaluationCreate) {
-      console.log(dataEvaluationCreate);
       if (dataEvaluationCreate.evaluationCreate.ok) {
         setWaiting(false);
         setTimeout(() => location.reload(), 400);
       }
     } else if (dataEvaluationUpdate) {
-      console.log(dataEvaluationUpdate);
       if (dataEvaluationUpdate.evaluationUpdate.ok) {
         setWaiting(false);
         setTimeout(() => props.close(), 400);
@@ -530,4 +525,3 @@ export default function EvaluationModal(props) {
     </>
   );
 }
-
