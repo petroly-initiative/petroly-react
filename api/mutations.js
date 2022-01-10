@@ -184,8 +184,7 @@ export const createCommunnityMutation = gql`
     $platform: CommunityPlatformEnum!
     $category: CommunityCategoryEnum!
     $description: String!
-    $section: String = " "
-    $owner: UserCreateNestedInput
+    $section: String
   ) {
     communityCreate(
       input: {
@@ -195,7 +194,6 @@ export const createCommunnityMutation = gql`
         category: $category
         description: $description
         section: $section
-        owner: $owner
       }
     ) {
       ok

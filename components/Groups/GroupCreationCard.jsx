@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Col, Row, Form, Button, InputGroup, Spinner } from "react-bootstrap";
 import { BsCardImage } from "react-icons/bs";
@@ -28,59 +28,22 @@ function GroupCreationCard() {
   const description = useRef();
   const link = useRef();
   const name = useRef();
-
   const [invalidCourse, validateCourse] = useState(false);
-  const userId = () => {
-    const { data, loading, error } = useQuery(userID);
-    if (error) {
-      return -1;
-    }
-    if (!loading) {
-      return data.me.id;
-    }
-  };
-  const ownerId = userId();
-  console.log(ownerId);
+  const [waiting, setWaiting] = useState(false);
+
   const [createCommunnity, { data, loading, error }] = useMutation(
-    createCommunnityMutation,
-    {
-      variables: {},
-    }
+    createCommunnityMutation
   );
-
-  // TODO handle load and error status.
-  if (loading)
-    return (
-      <Button className={styles["loading-container"] + " shadow"} disabled>
-        <Spinner
-          className={styles["loading-spinner"]}
-          as="div"
-          animation="grow"
-          size="xl"
-          role="status"
-          aria-hidden="true"
-        />
-      </Button>
-    );
-
-  if (error) {
-    return <CreatedGroup success={false} />;
-  }
 
   const createGroup = (e) => {
     // TODO validate the form
     e.preventDefault();
-    if (ownerId == -1) {
-      // this should be handled on groups page
-      setModalShow(false);
-      console.log("User is not signed up or failed to retrieve his id.");
-      return;
-    }
 
     const groupName = name.current.value;
     const groupLink = link.current.value;
     const groupDesc = description.current.value;
     const groupSection = course.current.value;
+
     if (type == "SECTION")
       createCommunnity({
         variables: {
@@ -90,7 +53,6 @@ function GroupCreationCard() {
           category: type,
           description: groupDesc,
           section: groupSection,
-          owner: { connect: { id: { exact: ownerId } } },
         },
       });
     else
@@ -101,11 +63,9 @@ function GroupCreationCard() {
           platform: platform,
           category: type,
           description: groupDesc,
-          owner: { connect: { id: { exact: ownerId } } },
+          section: "", //  this empty string is a must
         },
       });
-    setModalShow(false);
-    setSubmitted(true);
   };
 
   const selectPlatform = (e) => {
@@ -113,14 +73,33 @@ function GroupCreationCard() {
   };
 
   const selectType = (e) => {
-    if (e.target.id !== "course-input")
-      setType(e.target.value, console.log(type));
+    if (e.target.id !== "course-input") setType(e.target.value);
     else {
       if (course.current.value.length !== 0) {
         validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value));
       }
     }
   };
+
+  // handle load and error status.
+  useEffect(() => {
+    if (loading) {
+      setWaiting(true);
+    } else if (data) {
+      setWaiting(false);
+      setModalShow(false);
+      setSubmitted(true);
+      if (data.communityCreate.ok) {
+        setWaiting(false);
+      } else {
+        // this error belongs to API itself, user does not care about it
+        console.log(error);
+        // TODO we need help from front dev to map these errors mesages
+        // or ignore if there are enough validation, i.e., regex
+        console.log(data.communityCreate.errors);
+      }
+    }
+  }, [data, loading]);
 
   return (
     <div>
@@ -362,13 +341,29 @@ function GroupCreationCard() {
             </InputGroup>
           </Modal.Body>
           <Modal.Footer className={styles.footer}>
-            <Button
-              className={styles.createButton}
-              type="submit"
-              // onClick={() => setModalShow(false)}
-            >
-              أنشئ المجموعة
-            </Button>
+            {waiting ? (
+              <Button
+                className={styles["loading-container"] + " shadow"}
+                disabled
+              >
+                <Spinner
+                  className={styles["loading-spinner"]}
+                  as="div"
+                  animation="grow"
+                  size="xl"
+                  role="status"
+                  aria-hidden="true"
+                />
+              </Button>
+            ) : (
+              <Button
+                className={styles.createButton}
+                type="submit"
+                // onClick={() => setModalShow(false)}
+              >
+                أنشئ المجموعة
+              </Button>
+            )}
           </Modal.Footer>
         </Form>
       </Modal>
@@ -381,7 +376,11 @@ function GroupCreationCard() {
           <AiFillFileAdd size={32} />
         </Button>
       </>
-      {submittedForm ? <CreatedGroup success={true} /> : <></>}
+      {submittedForm ? (
+        <CreatedGroup success={data.communityCreate.ok} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
