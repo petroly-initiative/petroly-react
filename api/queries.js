@@ -149,6 +149,7 @@ export const CommunitiesQuery = gql`
         name: { icontains: $name }
         category: $category
         platform: $platform
+        archived: { exact: false }
       }
     ) {
       data {
