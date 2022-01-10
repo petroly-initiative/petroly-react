@@ -24,6 +24,7 @@ import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
 import { CommunitiesQuery } from "../api/queries";
 import { USER } from "../constants";
+
 function Groups(state, action) {
   const { data, loading, error, refetch, networkStatus, variables } = useQuery(
     CommunitiesQuery,
@@ -33,6 +34,7 @@ function Groups(state, action) {
       nextFetchPolicy: "cache-first",
     }
   );
+
   // search filter modal state
   const [modalVisible, setVisible] = useState(false);
   const [platform, setPlatform] = useState({
@@ -62,14 +64,6 @@ function Groups(state, action) {
     setType(obj);
   };
 
-  useEffect(() => {
-    console.log(platform);
-  }, [platform]);
-  useEffect(() => {
-    console.log(type);
-  }, [type]);
-  //
-
   //  ? To handle the search event
   // const selectDept = (e) => {
   //   var value = e.target.id;
@@ -90,35 +84,47 @@ function Groups(state, action) {
 
   // ? Mappers
   // ? We will use a show-more mehcanism instead of pagination
-  const groupMapper = () => {
-    if (!loading) {
-      let jsonData = JSON.parse(JSON.stringify(data));
 
-      return jsonData.communities.data.map((community) => {
-        return (
-          <GroupCard
-            id={community.id}
-            name={community.name}
-            date={community.date}
-            key={community.id}
-            platform={community.platform}
-            type={community.category}
-            link={community.link}
-            likes={community.likes}
-            image={
-              <Image
-                className={styles.picDiv}
-                src={"/images/spongy.png"} // TODO
-                width="70"
-                height="70"
-              />
-            }
-            description={community.description}
-          />
-        );
-      });
-    }
-  };
+  const groupMapper = () =>
+    data.communities.data.map((community) => {
+      return (
+        <GroupCard
+          id={community.id}
+          name={community.name}
+          date={community.date}
+          key={community.id}
+          platform={community.platform}
+          type={community.category}
+          link={community.link}
+          likes={community.likes}
+          image={
+            <Image
+              className={styles.picDiv}
+              src={"/images/spongy.png"} // TODO
+              width="70"
+              height="70"
+            />
+          }
+          description={community.description}
+        />
+      );
+    });
+
+  if (loading) {
+    return (
+      <Button className={styles["loading-container"] + " shadow"} disabled>
+        <Spinner
+          className={styles["loading-spinner"]}
+          as="div"
+          animation="grow"
+          size="xl"
+          role="status"
+          aria-hidden="true"
+        />
+      </Button>
+    ); // TODO: return somthing while loading
+  }
+
   if (error) {
     return (
       <div>
@@ -127,7 +133,9 @@ function Groups(state, action) {
       </div>
     );
   }
+
   var communities = groupMapper();
+
   return (
     <ClientOnly>
       <>
@@ -188,23 +196,7 @@ function Groups(state, action) {
             >
               {/**!Number of pages should be provided by the api*/}
 
-              {typeof communities !== "undefined" ? (
-                communities
-              ) : (
-                <Button
-                  className={styles["loading-container"] + " shadow"}
-                  disabled
-                >
-                  <Spinner
-                    className={styles["loading-spinner"]}
-                    as="div"
-                    animation="grow"
-                    size="xl"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                </Button>
-              )}
+              {communities}
             </Fade>
           </Row>
           <GroupsFilter
