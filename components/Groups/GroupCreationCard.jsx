@@ -42,8 +42,12 @@ function GroupCreationCard() {
   const ownerId = userId();
   console.log(ownerId);
   const [createCommunnity, { data, loading, error }] = useMutation(
-    createCommunnityMutation
+    createCommunnityMutation,
+    {
+      variables: {},
+    }
   );
+
   // TODO handle load and error status.
   if (loading)
     return (
@@ -58,7 +62,11 @@ function GroupCreationCard() {
         />
       </Button>
     );
-  if (error) return <CreatedGroup success={false} />;
+
+  if (error) {
+    return <CreatedGroup success={false} />;
+  }
+
   const createGroup = (e) => {
     // TODO validate the form
     e.preventDefault();
