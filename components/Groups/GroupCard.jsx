@@ -37,8 +37,8 @@ function GroupCard(props) {
   //   return false;
   // };
   const [likes, setLikes] = useState({
-    number: props.likes.count,
-    liked: false,
+    number: props.likesCount,
+    liked: props.liked,
   });
 
   const ArLabels = (type) => {
