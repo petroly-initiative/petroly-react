@@ -5,14 +5,15 @@ import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { MdGames } from "react-icons/md";
 import { RiBook2Fill } from "react-icons/ri";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Button, Card, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
 import GroupDisplay from "./GroupDisplay";
 import GroupReport from "./GroupReport";
-
+import { UserContext } from "../../state-management/user-state/UserContext";
+import translator from "../../dictionary/components/groups-card-dict";
 
 function GroupCard(props) {
   const [displayGroup, setDisplay] = useState(false);
@@ -30,14 +31,23 @@ function GroupCard(props) {
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita laborum ipsa est at cupiditate ut consectetur corporis, harum in voluptatum, ab exercitationem aliquid perferendis odio. Odio, voluptas. Molestias, sint nostrum.",
   };
 
+    const { user, userDispatch } = useContext(UserContext);
+    const [langState, setLang] = useState(() => translator(user.lang));
+
+    useEffect(() => {
+      // console.log(userContext.user.lang);
+      setLang(() => translator(user.lang));
+      console.log("changed language!");
+    }, [user.lang]);
+
   const ArLabels = (type) => {
     switch (type) {
       case "Educational":
-        return "تعليمي";
+        return `${langState.edu}`;
       case "Entertainment":
-        return "ترفيهي";
+        return `${langState.fun}`;
       case "Sections":
-        return "شعبة";
+        return `${langState.section}`;
     }
   }
 
@@ -139,7 +149,7 @@ const closeReport = () => {
             <OverlayTrigger
               style={{ position: "absolute", right: 0 }}
               delay={{ show: 150, hide: 200 }}
-              overlay={<Tooltip id="button-tooltip">إعجاب</Tooltip>}
+              overlay={<Tooltip id="button-tooltip">{langState.like}</Tooltip>}
             >
               <div
                 style={{ color: likes.liked ? "#00ead3" : "" }}
@@ -163,7 +173,7 @@ const closeReport = () => {
             <OverlayTrigger
               style={{ position: "absolute", right: 0 }}
               delay={{ show: 150, hide: 200 }}
-              overlay={<Tooltip id="button-tooltip">تقديم بلاغ</Tooltip>}
+              overlay={<Tooltip id="button-tooltip">{langState.report}</Tooltip>}
             >
                 <Button onClick  ={fireReport} className={styles["btns"] + " " + styles["report-btn"]}>
                   <HiOutlineSpeakerphone />

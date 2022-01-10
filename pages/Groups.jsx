@@ -18,10 +18,11 @@ import { BiSearch } from "react-icons/bi";
 import { GoSettings } from "react-icons/go";
 import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
-
+import { UserContext } from "../state-management/user-state/UserContext";
+import translator from "../dictionary/pages/groups-dict";
 
 
 
@@ -38,6 +39,15 @@ function Groups(state, action) {
     Entertainment: true,
     Section: { find: false, course: "" },
   });
+  // language state
+   const { user, userDispatch } = useContext(UserContext);
+   const [langState, setLang] = useState(() => translator(user.lang));
+
+   useEffect(() => {
+     // console.log(userContext.user.lang);
+     setLang(() => translator(user.lang));
+     console.log("changed language!");
+   }, [user.lang]);
 
 
   const launchModal = () => {
@@ -146,8 +156,8 @@ function Groups(state, action) {
                   id="name"
                   style={{ direction: "rtl" }}
                   type="text"
-                  placeholder="أدخِل اسم المحاضِر"
-                  defaultValue={"name"}
+                  placeholder={langState.searchbar}
+                 
                   //   onChange={"changeName"}
                   //   onKeyDown={"enterSearch"}
                 ></Form.Control>

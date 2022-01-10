@@ -36,7 +36,7 @@ const SignInModal = dynamic(() => import("./SignInModal"));
  */
 
 export default function Navbar(props) {
-  const { user, userDispatch } = useContext(UserContext);
+  const { user, userDispatch } = useContext((() => UserContext)());
   const [sideVisible, setVisible] = useState(false);
   const [sideBarStyle, setStyle] = useState({ left: "100vw" });
   const [overlayStyle, setOverlay] = useState({ display: "none" });

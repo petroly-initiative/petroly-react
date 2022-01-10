@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Modal, Button, Col, Row } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import { BiShareAlt } from "react-icons/bi";
 import { BsStarFill, BsStar } from "react-icons/bs";
 import styles from "../../styles/groups-page/groups-display.module.scss";
-import classNames from "classnames";
+import { UserContext } from "../../state-management/user-state/UserContext";
 import Image from "next/image";
+import translator from "../../dictionary/components/groups-modal-dict";
 
 /**
  *
@@ -16,12 +17,16 @@ import Image from "next/image";
  */
 
 export default function GroupDisplay(props) {
-  const arTitles = {
-    platform: "المنصة",
-    type: "تصنيف المجتمع",
-    description: "الوصف",
-    joinCommunity: "انضم للمجموعة",
-  };
+
+    const { user, userDispatch } = useContext(UserContext);
+    const [langState, setLang] = useState(() => translator(user.lang));
+
+    useEffect(() => {
+      // console.log(userContext.user.lang);
+      setLang(() => translator(user.lang));
+      console.log("changed language!");
+    }, [user.lang]);
+
 
   useEffect(() => {
     console.log(props.course);
@@ -80,7 +85,7 @@ export default function GroupDisplay(props) {
             </Col>
             <Col xs={12} sm={6}>
               <h2 className={styles.title + " w-100 text-center"}>
-                {arTitles.platform}
+                {langState.platform}
               </h2>
               <div
                 className={styles.highlightText + " shadow"}
@@ -93,7 +98,7 @@ export default function GroupDisplay(props) {
 
             <Col xs={12} sm={6}>
               <h2 className={styles.title + " w-100 text-center"}>
-                {arTitles.type}
+                {langState.type}
               </h2>
               <div
                 className={
@@ -141,7 +146,7 @@ export default function GroupDisplay(props) {
           <Row>
             <Col className={styles["desc-container"]} xs={12}>
               <h2 className={styles.title + " w-100 text-center"}>
-                {arTitles.description}
+                {langState.desc}
               </h2>
               <p>{props.description}</p>
             </Col>
@@ -150,7 +155,7 @@ export default function GroupDisplay(props) {
         <Modal.Footer className="justify-content-center">
           {/* join button */}
           <a href="/" className={styles["join-link"]} variant="primary">
-            <span className={styles["join-txt"]}>{arTitles.joinCommunity}</span>
+            <span className={styles["join-txt"]}>{langState.submit}</span>
             <HiOutlineUserAdd className={styles["join-icon"]} size="1.4rem" />
           </a>
         </Modal.Footer>

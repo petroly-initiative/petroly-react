@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import {
   Col,
@@ -19,7 +19,8 @@ import { BiCube } from "react-icons/bi";
 import { AiFillFileAdd } from "react-icons/ai";
 import { MdDescription } from "react-icons/md";
 import styles from "../../styles/groups-page/group-creation.module.scss";
-
+import { UserContext } from "../../state-management/user-state/UserContext";
+import translator from "../../dictionary/components/groups-create-dict";
 
 function GroupCreationCard() {
   const [modalShow, setModalShow] = useState(false);
@@ -31,6 +32,15 @@ function GroupCreationCard() {
   const link = useRef();
   const name = useRef();
   const [invalidCourse, validateCourse] = useState(false);
+
+    const { user, userDispatch } = useContext(UserContext);
+    const [langState, setLang] = useState(() => translator(user.lang));
+
+    useEffect(() => {
+      // console.log(userContext.user.lang);
+      setLang(() => translator(user.lang));
+      console.log("changed language!");
+    }, [user.lang]);
 
   const createGroup = (e) => {
     e.preventDefault()
@@ -67,7 +77,7 @@ function GroupCreationCard() {
             className={styles.title}
             id="contained-modal-title-vcenter"
           >
-            إنشاء مجتمع{" "}
+            {langState.header}{" "}
             <AiOutlineUsergroupAdd color="#00ead3" className={styles.icons} />
           </Modal.Title>
         </Modal.Header>
@@ -76,7 +86,7 @@ function GroupCreationCard() {
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
                 <FaIdCard className={styles.icons} />
-                <span> الاسم</span>
+                <span> {langState.name}</span>
               </Form.Label>
               <Col>
                 <Form.Control
@@ -84,7 +94,7 @@ function GroupCreationCard() {
                   required
                   className={styles.input}
                   type="text"
-                  placeholder="ادخل اسم المجموعة"
+                  placeholder="{langState.namePlaceholder}"
                 />
               </Col>
             </InputGroup>
@@ -92,21 +102,20 @@ function GroupCreationCard() {
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
                 <BsCardImage className={styles.icons} />
-                <span>صورة العرض</span>
+                <span>{langState.pic}</span>
               </Form.Label>
               <Col>
                 <Form.Control
                   ref={image}
                   className={styles.input}
                   type="file"
-                  placeholder="اختر صورة العرض"
-                />
+                 />
               </Col>
             </InputGroup>
 
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
-                <FaListUl className={styles.icons} /> <span>نوع المجموعة</span>
+                <FaListUl className={styles.icons} /> <span>{langState.type}</span>
               </Form.Label>
               <Col>
                 <Form onChange={selectType} noValidate>
@@ -118,12 +127,10 @@ function GroupCreationCard() {
                       <div>
                         <div className={styles["label-header"]}>
                           <FaGraduationCap color="#FFB830" size="1.1rem" />
-                          <span>تعليمي</span>
+                          <span>{langState.edu}</span>
                         </div>
                         <div className={styles["label-content"]}>
-                          لتجمعات طلاب المواد الدراسية والاهتمامات العلمية
-                          المشتركة
-                        </div>
+                         {langState.eduSub}</div>
                       </div>
                     }
                     id="1"
@@ -137,12 +144,10 @@ function GroupCreationCard() {
                       <div>
                         <div className={styles["label-header"]}>
                           <MdGames color="#F037A5" size="1.1rem" />
-                          <span>ترفيهي</span>
+                          <span>{langState.fun}</span>
                         </div>
                         <div className={styles["label-content"]}>
-                          للأنشطة الغير أكاديمية, كالرياضات البدنية
-                          والإلكترونية, والهوايات المتعددة
-                        </div>
+                          {langState.funSub}</div>
                       </div>
                     }
                     id="1"
@@ -156,11 +161,10 @@ function GroupCreationCard() {
                       <div>
                         <div className={styles["label-header"]}>
                           <RiBook2Fill color="#622edb" size="1.1rem" />
-                          <span>شعبة</span>
+                          <span>{langState.section}</span>
                         </div>
                         <div className={styles["label-content"]}>
-                          لطلاب الشعبة الدراسية الواحدة
-                        </div>
+                        {langState.sectionSub}</div>
                         <InputGroup
                           hasValidation
                           style={{
@@ -178,7 +182,7 @@ function GroupCreationCard() {
                             id="course-input"
                             type="text"
                             // disabled={!types.Section.find}
-                            placeholder={"المادة الدراسية"}
+                            placeholder={langState.course}
                           />
                           <Form.Text
                             style={{
@@ -189,8 +193,7 @@ function GroupCreationCard() {
                             id="passwordHelpBlock"
                             muted
                           >
-                            الرجاء استخدام صيغة ABCDXXX
-                          </Form.Text>
+                           {langState.courseErr} </Form.Text>
                         </InputGroup>
                       </div>
                     }
@@ -204,7 +207,7 @@ function GroupCreationCard() {
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
                 <BiCube className={styles.icons} />
-                <span> المنصة</span>
+                <span> {langState.platform}</span>
               </Form.Label>
               <Col>
                 <Form onChange={selectPlatform} noValidate>
@@ -215,7 +218,7 @@ function GroupCreationCard() {
                     label={
                       <div>
                         <IoLogoWhatsapp color="#25D366" size="1.1rem" />{" "}
-                        <span>واتساب</span>
+                        <span>{langState.whatsapp}</span>
                       </div>
                     }
                     id="1"
@@ -228,7 +231,7 @@ function GroupCreationCard() {
                     label={
                       <div>
                         <FaTelegramPlane color="#0088cc" size="1.1rem" />{" "}
-                        <span>تيليقرام</span>
+                        <span>{langState.telegram}</span>
                       </div>
                     }
                     id="2"
@@ -241,7 +244,7 @@ function GroupCreationCard() {
                     label={
                       <div>
                         <FaDiscord color="#5865F2" size="1.1rem" />{" "}
-                        <span>ديسكورد</span>
+                        <span>{langState.discord}</span>
                       </div>
                     }
                     id="3"
@@ -254,7 +257,7 @@ function GroupCreationCard() {
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column sm="12">
                 <MdDescription className={styles.icons} />
-                <span> الوصف</span>
+                <span> {langState.desc}</span>
               </Form.Label>
               {/* <FloatingLabel label="Comments"> */}
               <Col>
@@ -263,7 +266,7 @@ function GroupCreationCard() {
                   required
                   className={`${styles.input} ${styles.description}`}
                   as="textarea"
-                  placeholder="اكتب وصفًا للمجموعة"
+                  placeholder= {langState.descPlaceHolder}
                   style={{ height: "100px" }}
                   maxLength="500"
                 />
@@ -271,16 +274,14 @@ function GroupCreationCard() {
                   style={{ fontSize: 12 }}
                   id="passwordHelpBlock"
                   muted
-                >
-                  الحد الأقصى للوصف هو 500 حرف
-                </Form.Text>
+                >{langState.descHelper}</Form.Text>
               </Col>
             </InputGroup>
 
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column sm="12">
                 <FiLink className={styles.icons} />
-                <span> الرابط</span>
+                <span> {langState.link}</span>
               </Form.Label>
               <Col>
                 <Form.Control
@@ -288,7 +289,7 @@ function GroupCreationCard() {
                   ref={link}
                   className={`${styles.input} ${styles.link}`}
                   type="text"
-                  placeholder="ادخل رابط المجموعة"
+                  placeholder={langState.linkPlaceholder}
                 />
               </Col>
             </InputGroup>
@@ -298,9 +299,7 @@ function GroupCreationCard() {
               className={styles.createButton}
               type="submit"
               // onClick={() => setModalShow(false)}
-            >
-              أنشئ المجموعة
-            </Button>
+            >{langState.create} </Button>
           </Modal.Footer>
         </Form>
       </Modal>

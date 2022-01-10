@@ -188,7 +188,11 @@ $x: #622edb;
   width: 34px;
   padding: 4px 8px;
   &:hover {
-    width: 100px;
+    width: 120px;
+    .tag-text{
+      width: 100%;
+      text-align: center;
+    }
   }
 }
 
@@ -199,7 +203,8 @@ $x: #622edb;
     width: 110px;
     &:hover {
       .tag-text {
-        margin-left: 12px;
+         width: 100%;
+      text-align: center;
       }
     }
   }

@@ -207,6 +207,12 @@ $btn-prim: #00ead3;
   &:active {
     transform: scale(0.95);
   }
+
+  &::after{
+  -moz-transform: scale(0.9, 0.9); /* Moz-browsers */
+  zoom: 0.9; /* Other non-webkit browsers */
+  -webkit-zoom: 90%; /* Webkit browsers */
+    }
 }
 
 .course-input {

@@ -1,10 +1,14 @@
 import { L } from "../../constants";
 
 // TODO: arabic translation for groups screen
-const arabic = {};
+const arabic = {
+  searchbar: "أدخل اسم المجتمع"
+};
 
 // TODO: english translation for groups screen
-const english = {};
+const english = {
+  searchbar: "Search for community name"
+};
 
 export default function translator(lang) {
   switch (lang) {

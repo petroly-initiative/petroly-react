@@ -1,20 +1,21 @@
-
 import { L } from "../../constants";
 
 // TODO: arabic translation for groups screen
 const arabic = {
-  platform: "المنصة",
-  type: "تصنيف المجتمع",
-  desc: "الوصف",
-  submit: "انضم للمجموعة",
+  edu: "تعليمي",
+  fun: "ترفيهي",
+  section: "شعبة",
+  like: "إعجاب",
+  report: "بلاغ",
 };
 
 // TODO: english translation for groups screen
 const english = {
-  platform: "Platform",
-  type: "Group Type",
-  desc: "Description",
-  submit: "Join Group",
+  edu: "Education",
+  fun: "Entertainment",
+  section: "Section",
+  like: "Like",
+  report: "Report",
 };
 
 export default function translator(lang) {
