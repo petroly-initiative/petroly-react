@@ -41,8 +41,7 @@ function GroupCard(props) {
 
   useEffect(() => {
     setLikes((prev) => ({
-      liked:
-        typeof likedData != "undefined" ? likedData.hasLikedCommunity : false,
+      liked: likedData ? likedData.hasLikedCommunity : prev.liked,
       number: prev.number,
     }));
   }, [likedData]); // I am not sure if this is the best practice. Please check.
