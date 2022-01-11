@@ -27,6 +27,11 @@ import { userHasLiked } from "../../api/queries";
 function GroupCard(props) {
   const [displayGroup, setDisplay] = useState(false);
   const [showReport, setReport] = useState(false);
+  const [likes, setLikes] = useState({
+    number: props.likesCount,
+    liked: false,
+  });
+
   const {
     data: likedData,
     loading: likedLoading,
@@ -39,20 +44,16 @@ function GroupCard(props) {
     nextFetchPolicy: "cache-first",
   });
 
+  const [toggleLikeCommunity, { data, loading, error }] = useMutation(
+    toggleLikeCommunityMutation
+  );
+
   useEffect(() => {
     setLikes((prev) => ({
       liked: likedData ? likedData.hasLikedCommunity : prev.liked,
       number: prev.number,
     }));
   }, [likedData]); // I am not sure if this is the best practice. Please check.
-
-  const [likes, setLikes] = useState({
-    number: props.likesCount,
-    liked: false,
-  });
-  const [toggleLikeCommunity, { data, loading, error }] = useMutation(
-    toggleLikeCommunityMutation
-  );
 
   const ArLabels = (type) => {
     switch (type) {
