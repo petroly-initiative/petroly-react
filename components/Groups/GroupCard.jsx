@@ -121,19 +121,20 @@ function GroupCard(props) {
       />
     );
   }
+
   if (error || likedError) return `Submission error! ${error.message}`;
+
   const addLike = () => {
-    if (!likes.liked) {
-      toggleLikeCommunity({ variables: { id: props.id } });
-      setLikes((prev) => ({ liked: true, number: prev.number + 1 }));
-    } else {
+    if (likes.liked) {
       toggleLikeCommunity({ variables: { id: props.id } });
       setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
+    } else {
+      toggleLikeCommunity({ variables: { id: props.id } });
+      setLikes((prev) => ({ liked: true, number: prev.number + 1 }));
     }
   };
 
   const fireDisplay = (e) => {
-    console.log("Modal launched!");
     setDisplay(true);
     e.stopPropagation();
   };
@@ -167,7 +168,6 @@ function GroupCard(props) {
         typeIcon={typeIcon}
         platformIcon={platformIcon}
       />
-      <h3>{likedData.hasLikedCommunity}</h3>
       {/* // We will fire an onClick listener for modal instead of a new page link */}
       <Card
         style={{ borderRadius: 8 }}
@@ -189,7 +189,6 @@ function GroupCard(props) {
                   style={{ color: likes.liked ? "#00ead3" : "" }}
                   onClick={addLike}
                   className={styles["btns"]}
-                  id={props.id}
                 >
                   {likes.liked ? (
                     <BsFillStarFill color={"#00ead3"} />

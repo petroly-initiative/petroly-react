@@ -23,10 +23,6 @@ export default function GroupDisplay(props) {
     joinCommunity: "انضم للمجموعة",
   };
 
-  useEffect(() => {
-    console.log(props.course);
-  }, [props.showModal]);
-
   return (
     <>
       <Modal

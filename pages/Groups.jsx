@@ -26,14 +26,11 @@ import { CommunitiesQuery } from "../api/queries";
 import { UserContext } from "../state-management/user-state/UserContext";
 
 function Groups(state, action) {
-  const { data, loading, error, refetch, networkStatus, variables } = useQuery(
-    CommunitiesQuery,
-    {
-      notifyOnNetworkStatusChange: true,
-      fetchPolicy: "network-only",
-      nextFetchPolicy: "cache-first",
-    }
-  );
+  const { data, loading, error } = useQuery(CommunitiesQuery, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
+  });
 
   // search filter modal state
   const [user, userDispatch] = useContext(UserContext);
