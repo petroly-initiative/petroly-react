@@ -112,6 +112,7 @@ function Groups(state, action) {
         <GroupCard
           id={community.id}
           name={community.name}
+          section={community.section}
           date={community.date}
           key={community.id}
           platform={community.platform}

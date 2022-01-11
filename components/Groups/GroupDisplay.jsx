@@ -108,7 +108,7 @@ export default function GroupDisplay(props) {
                   {props.arLabels(props.type)}
                 </span>
 
-                {props.type === "Sections" && (
+                {props.type === "SECTION" && (
                   <span
                     style={{
                       fontSize: 14,
@@ -126,7 +126,7 @@ export default function GroupDisplay(props) {
                       backgroundColor: "#4a1eaf",
                     }}
                   >
-                    {props.course}
+                    {props.section}
                   </span>
                 )}
               </div>

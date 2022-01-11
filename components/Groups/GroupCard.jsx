@@ -151,7 +151,7 @@ function GroupCard(props) {
         liked={likes.liked}
         likeNum={likes.number}
         addLike={addLike}
-        // group={props.group}
+        section={props.section}
         link={props.link}
         showModal={displayGroup}
         handleClose={closeDisplay}
