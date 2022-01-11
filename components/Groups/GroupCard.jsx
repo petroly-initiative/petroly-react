@@ -40,7 +40,7 @@ function GroupCard(props) {
       console.log("changed language!");
     }, [user.lang]);
 
-  const ArLabels = (type) => {
+  const labels = (type) => {
     switch (type) {
       case "Educational":
         return `${langState.edu}`;
@@ -126,7 +126,7 @@ const closeReport = () => {
     />
       <GroupDisplay
         {...props}
-        arLabels = {ArLabels}
+        labels = {labels}
         liked = {likes.liked}
         likeNum = {likes.number}
         addLike = {addLike}
@@ -204,7 +204,7 @@ const closeReport = () => {
               }
             >
               {typeIcon()}
-              <span className={styles["tag-text"]}>{ArLabels(props.type)}</span>
+              <span className={styles["tag-text"]}>{labels(props.type)}</span>
             </div>
           </div>
         </Card.Body>

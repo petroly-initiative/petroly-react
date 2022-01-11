@@ -114,7 +114,7 @@ export default function GroupDisplay(props) {
               >
                 {props.typeIcon(props.type)}
                 <span style={{ marginRight: 8 }}>
-                  {props.arLabels(props.type)}
+                  {props.labels(props.type)}
                 </span>
 
                 {props.type === "Sections" && (

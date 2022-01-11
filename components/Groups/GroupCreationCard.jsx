@@ -5,12 +5,12 @@ import {
   Row,
   Form,
   Button,
-  InputGroup,
+  InputGroup, Alert
 } from "react-bootstrap";
 import { BsCardImage } from "react-icons/bs";
 import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
-import { MdGames } from "react-icons/md";
+import { MdGames, MdWarning } from "react-icons/md";
 import { RiBook2Fill } from "react-icons/ri";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { FaIdCard, FaListUl } from "react-icons/fa";
@@ -32,8 +32,12 @@ function GroupCreationCard() {
   const link = useRef();
   const name = useRef();
   const [invalidCourse, validateCourse] = useState(false);
+  const [invalidName, validateName] = useState(false);
+  const [invalidLink, validateLink] = useState(false);
+  const [invalidType, validateType] = useState(false);
+  const [invalidPlatform, validatePlatform] = useState(false);
 
-    const { user, userDispatch } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [langState, setLang] = useState(() => translator(user.lang));
 
     useEffect(() => {
@@ -44,6 +48,26 @@ function GroupCreationCard() {
 
   const createGroup = (e) => {
     e.preventDefault()
+    validateName(name.current.value.length === 0)
+    validateLink(link.current.value.length === 0)
+    validateType(type.length === 0)
+    validatePlatform(platform.length === 0)
+    if (course.current.value.length !== 0) {
+      validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(course.current.value));
+    }else
+    validateCourse(true)
+    console.table(invalidCourse, invalidName, invalidLink, invalidPlatform, invalidType);
+    console.log(name.current.value);
+    console.log(link.current.value);
+    if(!(invalidName || invalidLink || invalidType || invalidPlatform))
+    {
+      if(type === "Section")
+      if(!invalidCourse){
+      //TODO: check for duplicate naming in the DB, then submit in the DB
+      setModalShow(false)}
+    }else{
+      validateCourse(true)
+    }
   };
 
   const selectPlatform = (e) => {
@@ -53,9 +77,9 @@ function GroupCreationCard() {
 
   const selectType = (e) => {
     if(e.target.id !== "course-input")
-    setType(e.target.value, console.log(type));
+    setType(e.target.value);
     else{
-      console.log(course.current.value.length);
+      console.log(course.current.value);
       if(course.current.value.length !== 0){
       validateCourse(!(/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value)) );
       }
@@ -63,6 +87,10 @@ function GroupCreationCard() {
 
     
   };
+
+  useEffect(() => {
+     console.log(type);
+  }, [type])
 
   return (
     <div>
@@ -72,7 +100,7 @@ function GroupCreationCard() {
         show={modalShow}
         aria-labelledby="contained-modal-title-vcenter"
       >
-        <Modal.Header >
+        <Modal.Header>
           <Modal.Title
             className={styles.title}
             id="contained-modal-title-vcenter"
@@ -86,16 +114,23 @@ function GroupCreationCard() {
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
                 <FaIdCard className={styles.icons} />
-                <span> {langState.name}</span>
+                <span> *{langState.name}</span>
               </Form.Label>
               <Col>
                 <Form.Control
+                  isInvalid={invalidName}
                   ref={name}
                   required
                   className={styles.input}
                   type="text"
-                  placeholder="{langState.namePlaceholder}"
+                  placeholder={langState.namePlaceholder}
                 />
+                <Form.Control.Feedback
+                  style={{ textAlign: "right" }}
+                  type="invalid"
+                >
+                  {langState.nameErr}
+                </Form.Control.Feedback>
               </Col>
             </InputGroup>
 
@@ -109,16 +144,26 @@ function GroupCreationCard() {
                   ref={image}
                   className={styles.input}
                   type="file"
-                 />
+                />
               </Col>
             </InputGroup>
 
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
-                <FaListUl className={styles.icons} /> <span>{langState.type}</span>
+                <FaListUl className={styles.icons} />{" "}
+                <span>*{langState.type}</span>
               </Form.Label>
               <Col>
                 <Form onChange={selectType} noValidate>
+                  {invalidType && (
+                    <Alert className={styles["rules"]} variant="danger">
+                      <MdWarning
+                        className={styles["rules-icon"]}
+                        size="1.4rem"
+                      />
+                      <div>{langState.typeErr}</div>
+                    </Alert>
+                  )}
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
@@ -130,7 +175,8 @@ function GroupCreationCard() {
                           <span>{langState.edu}</span>
                         </div>
                         <div className={styles["label-content"]}>
-                         {langState.eduSub}</div>
+                          {langState.eduSub}
+                        </div>
                       </div>
                     }
                     id="1"
@@ -147,7 +193,8 @@ function GroupCreationCard() {
                           <span>{langState.fun}</span>
                         </div>
                         <div className={styles["label-content"]}>
-                          {langState.funSub}</div>
+                          {langState.funSub}
+                        </div>
                       </div>
                     }
                     id="1"
@@ -164,7 +211,8 @@ function GroupCreationCard() {
                           <span>{langState.section}</span>
                         </div>
                         <div className={styles["label-content"]}>
-                        {langState.sectionSub}</div>
+                          {langState.sectionSub}
+                        </div>
                         <InputGroup
                           hasValidation
                           style={{
@@ -175,7 +223,7 @@ function GroupCreationCard() {
                           }}
                         >
                           <Form.Control
-                          isInvalid = {invalidCourse}
+                            isInvalid={invalidCourse}
                             ref={course}
                             className={styles["course-input"]}
                             style={{ fontSize: 12 }}
@@ -184,7 +232,13 @@ function GroupCreationCard() {
                             // disabled={!types.Section.find}
                             placeholder={langState.course}
                           />
-                          <Form.Text
+                          <Form.Control.Feedback
+                            style={{ textAlign: "right" }}
+                            type="invalid"
+                          >
+                            {langState.courseErr}
+                          </Form.Control.Feedback>
+                          {!invalidCourse && <Form.Text
                             style={{
                               fontSize: 12,
                               width: "100%",
@@ -193,7 +247,8 @@ function GroupCreationCard() {
                             id="passwordHelpBlock"
                             muted
                           >
-                           {langState.courseErr} </Form.Text>
+                            {langState.courseErr}{" "}
+                          </Form.Text>}
                         </InputGroup>
                       </div>
                     }
@@ -207,10 +262,19 @@ function GroupCreationCard() {
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
                 <BiCube className={styles.icons} />
-                <span> {langState.platform}</span>
+                <span> *{langState.platform}</span>
               </Form.Label>
               <Col>
                 <Form onChange={selectPlatform} noValidate>
+                  {invalidPlatform && (
+                    <Alert className={styles["rules"]} variant="danger">
+                      <MdWarning
+                        className={styles["rules-icon"]}
+                        size="1.4rem"
+                      />
+                      <div>{langState.platformErr}</div>
+                    </Alert>
+                  )}
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
@@ -266,7 +330,7 @@ function GroupCreationCard() {
                   required
                   className={`${styles.input} ${styles.description}`}
                   as="textarea"
-                  placeholder= {langState.descPlaceHolder}
+                  placeholder={langState.descPlaceHolder}
                   style={{ height: "100px" }}
                   maxLength="500"
                 />
@@ -274,23 +338,32 @@ function GroupCreationCard() {
                   style={{ fontSize: 12 }}
                   id="passwordHelpBlock"
                   muted
-                >{langState.descHelper}</Form.Text>
+                >
+                  {langState.descHelper}
+                </Form.Text>
               </Col>
             </InputGroup>
 
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column sm="12">
                 <FiLink className={styles.icons} />
-                <span> {langState.link}</span>
+                <span> *{langState.link}</span>
               </Form.Label>
               <Col>
                 <Form.Control
+                  isInvalid={invalidLink}
                   required
                   ref={link}
                   className={`${styles.input} ${styles.link}`}
                   type="text"
                   placeholder={langState.linkPlaceholder}
                 />
+                <Form.Control.Feedback
+                  style={{ textAlign: "right" }}
+                  type="invalid"
+                >
+                  {langState.linkErr}
+                </Form.Control.Feedback>
               </Col>
             </InputGroup>
           </Modal.Body>
@@ -299,7 +372,10 @@ function GroupCreationCard() {
               className={styles.createButton}
               type="submit"
               // onClick={() => setModalShow(false)}
-            >{langState.create} </Button>
+              onClick={createGroup}
+            >
+              {langState.create}{" "}
+            </Button>
           </Modal.Footer>
         </Form>
       </Modal>

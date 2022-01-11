@@ -26,6 +26,10 @@ const arabic = {
   create: "أنشئ المجتمع",
   course: "المادة الدراسية",
   courseErr: "الرجاء استخدام صيغة ABCDXXX",
+  nameErr: "الرجاء ملء خانة اسم المجموعة",
+  linkErr: "الرجاء تزويدنا برابط المجتمع المراد إضافته",
+  typeErr: "الرجاء اختيار نوع المجتمع المراد إضافته",
+  platformErr: "الرجاء اختيار المنصة الإلكترونية للمجتمع",
 };
 
 // TODO: english translation for groups screen
@@ -52,8 +56,11 @@ const english = {
   linkPlaceholder: "Enter the Group link",
   create: "Create Group",
   course: "Course",
-  courseErr: "Please use the following format : ABCDXXX"
-                          
+  courseErr: "Please use the following format : ABCDXXX",
+  nameErr: "Please fill the name field",
+  linkErr: "Please provide us with a working link",
+  typeErr: "Please Select the Group Type",
+  platformErr: "Please Select the Group Platform"
 };
 
 export default function translator(lang) {

@@ -25,13 +25,15 @@ $x: #622edb;
   padding: 0 !important;
   padding-bottom: 16px !important;
   overflow: hidden;
+  height: 190px;
 
   .group-pic {
     width: 70px;
     height: 70px;
-    margin: auto;
+    min-height: 70px;
     margin-top: 10px;
     padding-bottom: 8px;
+    align-items: flex-end;
     padding: 4px;
     border-radius: 35px;
     overflow: hidden;
@@ -130,9 +132,13 @@ $x: #622edb;
 }
 
 .group-name {
-  font-size: 28px;
+  font-size: 24px;
   width: 80%;
+  height: 50px;
   color: #52575d;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   text-align: center;
   margin-top: 8px;
   margin-bottom: 4px;
@@ -142,7 +148,8 @@ $x: #622edb;
 .group-info {
   display: flex;
   width: 100%;
-
+  
+  align-items: flex-end;
   font-weight: 700;
   justify-content: center;
 }
