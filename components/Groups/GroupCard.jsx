@@ -36,7 +36,6 @@ function GroupCard(props) {
     data: likedData,
     loading: likedLoading,
     error: likedError,
-    networkStatus,
   } = useQuery(userHasLiked, {
     variables: { id: props.id },
     notifyOnNetworkStatusChange: true,
@@ -122,8 +121,6 @@ function GroupCard(props) {
     );
   }
 
-  if (error || likedError) return `Submission error! ${error.message}`;
-
   const addLike = () => {
     if (likes.liked) {
       toggleLikeCommunity({ variables: { id: props.id } });
@@ -149,6 +146,10 @@ function GroupCard(props) {
   const closeReport = () => {
     setReport(false);
   };
+
+  if (error || likedError) {
+    console.error("we could not save your like or check it");
+  }
 
   return (
     <>
