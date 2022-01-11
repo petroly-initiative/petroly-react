@@ -1,4 +1,6 @@
-// TODO: arabic translation for login modal screen
+
+import { L } from "../../constants";
+
 const arabic = {
   switch1: "تسجيل الدخول",
   switch2: "إنشاء حساب",
@@ -27,11 +29,9 @@ const english = {
 
 export default function translator(lang) {
   switch (lang) {
-    case "ar":
-      return arabic;
-    case "en":
+    case L.EN_US:
       return english;
-    default:
-      return lang;
+    case L.AR_SA:
+      return arabic;
   }
 }

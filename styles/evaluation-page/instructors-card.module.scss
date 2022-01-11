@@ -67,9 +67,7 @@ $x: rgb(255, 90, 90);
   background-blend-mode: multiply;
   background-size: cover;
   .eval_counter{
-  -moz-transform: scale(0.9, 0.9); /* Moz-browsers */
-  zoom: 0.9; /* Other non-webkit browsers */
-  zoom: 90%; /* Webkit browsers */
+  
     pointer-events: text;
     height: 40px;
     width: 58px;
@@ -86,6 +84,12 @@ $x: rgb(255, 90, 90);
     transition: 300ms ease;
     &:hover{
       transform: scale(1.05);
+    }
+
+    &::after{
+      -moz-transform: scale(0.9, 0.9); /* Moz-browsers */
+  zoom: 0.9; /* Other non-webkit browsers */
+  zoom: 90%; /* Webkit browsers */
     }
     
   }

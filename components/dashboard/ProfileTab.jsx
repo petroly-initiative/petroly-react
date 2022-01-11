@@ -17,12 +17,13 @@ import { HiUserGroup } from "react-icons/hi";
 import { IoMdChatbubbles } from "react-icons/io";
 import { Fade } from "react-awesome-reveal";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { meQuery } from "../../api/queries";
 import { USER } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import request from 'superagent';
+import translator from "../../dictionary/components/profile-tab-dict";
 
 /**
  *
@@ -49,7 +50,15 @@ import request from 'superagent';
 
 export default function ProfileTab(props) {
   const [mode, setMode] = useState("view");
-  const userContext = useContext(UserContext);
+  const {user} = useContext(UserContext);
+   const [langState, setLang] = useState(() => translator(user.lang));
+
+   useEffect(() => {
+     // console.log(userContext.user.lang);
+     setLang(() => translator(user.lang));
+     console.log("changed language!");
+   }, [user.lang]);
+
 
   const {
     data: dataMe,
@@ -57,7 +66,7 @@ export default function ProfileTab(props) {
     error: errorMe,
   } = useQuery(meQuery, {
     notifyOnNetworkStatusChange: true,
-    skip: userContext.user.status !== USER.LOGGED_IN,
+    skip: user.status !== USER.LOGGED_IN,
   });
 
   const switchMode = () => {
@@ -71,7 +80,7 @@ export default function ProfileTab(props) {
     request.post(url)
       .field('upload_preset', 'hzzndnlv')
       .field('file', file)
-      .field('public_id', userContext.user.username)
+      .field('public_id', user.username)
       .end((error, response) => {
         console.log(error, response);
       });
@@ -83,7 +92,7 @@ export default function ProfileTab(props) {
       <Card className={styles["card-containers"] + " shadow"}>
         <Card.Header className={styles["header-containers"]}>
           <div className={styles["card-headers"]}>
-            <span className={styles["card-title"]}>حسابي الشخصي</span>
+            <span className={styles["card-title"]}>{langState.header}</span>
             {/* Edit btn / cancel editing button / Saving button */}
             {mode === "view" && (
               <Fade duration="1200">
@@ -139,7 +148,7 @@ export default function ProfileTab(props) {
       <Card className={styles["card-containers"] + " shadow"}>
         <Card.Header className={styles["header-containers"]}>
           <div className={styles["card-headers"]}>
-            <span className={styles["card-title"]}>حسابي الشخصي</span>
+            <span className={styles["card-title"]}>{langState.header}</span>
             {/* Edit btn / cancel editing button / Saving button */}
             {mode === "view" && (
               <Fade duration="1200">
@@ -189,10 +198,10 @@ export default function ProfileTab(props) {
                     lg={6}
                     md={6}
                     sm={6}
-                    xl={3}
+                    xl={6}
                     className={styles["stat-col"]}
                   >
-                    <div className={styles["stat-title"]}>التقييمات</div>
+                    <div className={styles["stat-title"]}>{langState.evals}</div>
                     <Card className={styles["stat-cards"]}>
                       <RiMailStarFill
                         className={styles["rate-icon"]}
@@ -208,10 +217,10 @@ export default function ProfileTab(props) {
                     lg={6}
                     md={6}
                     sm={6}
-                    xl={3}
+                    xl={6}
                     className={styles["stat-col"]}
                   >
-                    <div className={styles["stat-title"]}>المجتمعات</div>
+                    <div className={styles["stat-title"]}>{langState.groups}</div>
                     <Card className={styles["stat-cards"]}>
                       <HiUserGroup
                         className={styles["comms-icon"]}
@@ -220,7 +229,7 @@ export default function ProfileTab(props) {
                       <div className={styles["stat-num"]}>#</div>
                     </Card>
                   </Col>
-                  <Col
+                  {/* <Col
                     xs={6}
                     lg={6}
                     md={6}
@@ -236,8 +245,8 @@ export default function ProfileTab(props) {
                       />
                       <div className={styles["stat-num"]}>#</div>
                     </Card>
-                  </Col>
-                  <Col
+                  </Col> */}
+                  {/* <Col
                     xs={6}
                     lg={6}
                     md={6}
@@ -253,7 +262,7 @@ export default function ProfileTab(props) {
                       />
                       <div className={styles["stat-num"]}>#</div>
                     </Card>
-                  </Col>
+                  </Col> */}
                 </Row>
               </Fade>
             </div>
@@ -283,7 +292,7 @@ export default function ProfileTab(props) {
                   </Form.Group> */}
                   <Form.Group controlId="formFile">
                     <InputGroup>
-                      <Form.Label> صورة العرض</Form.Label>
+                      <Form.Label> {langState.pic}</Form.Label>
                       <Form.Control
                         type="file"
                         className={styles["img-input"]}

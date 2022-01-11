@@ -99,7 +99,7 @@ export default function instructorDetails({ data }) {
           // we can redirect the user to the eavaluation edit page
         } else setMsg(`${langState.evalAllow}`);
       }
-    } else setMsg("{langState.evalBlock}");
+    } else setMsg(`${langState.evalBlock}`);
   }, [loadingHasEvaluated, user.status]);
 
   if (router.isFallback) {

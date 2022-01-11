@@ -1,3 +1,5 @@
+import { L } from "../../constants";
+
 const arabic = {
   grades: "الدرجات والتصحيح",
   teaching: "التدريس",
@@ -12,9 +14,9 @@ const english = {
 
 export default function translator(lang) {
   switch (lang) {
-    case "en":
+    case L.EN_US:
       return english;
-    case "ar":
+    case L.AR_SA:
       return arabic;
   }
 }

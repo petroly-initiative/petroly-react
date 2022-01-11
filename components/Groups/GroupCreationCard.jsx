@@ -1,16 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import {
   Col,
   Row,
   Form,
   Button,
-  InputGroup,
+  InputGroup, Alert
 } from "react-bootstrap";
 import { BsCardImage } from "react-icons/bs";
 import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
-import { MdGames } from "react-icons/md";
+import { MdGames, MdWarning } from "react-icons/md";
 import { RiBook2Fill } from "react-icons/ri";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { FaIdCard, FaListUl } from "react-icons/fa";
@@ -19,7 +19,8 @@ import { BiCube } from "react-icons/bi";
 import { AiFillFileAdd } from "react-icons/ai";
 import { MdDescription } from "react-icons/md";
 import styles from "../../styles/groups-page/group-creation.module.scss";
-
+import { UserContext } from "../../state-management/user-state/UserContext";
+import translator from "../../dictionary/components/groups-create-dict";
 
 function GroupCreationCard() {
   const [modalShow, setModalShow] = useState(false);
@@ -31,9 +32,42 @@ function GroupCreationCard() {
   const link = useRef();
   const name = useRef();
   const [invalidCourse, validateCourse] = useState(false);
+  const [invalidName, validateName] = useState(false);
+  const [invalidLink, validateLink] = useState(false);
+  const [invalidType, validateType] = useState(false);
+  const [invalidPlatform, validatePlatform] = useState(false);
+
+    const { user } = useContext(UserContext);
+    const [langState, setLang] = useState(() => translator(user.lang));
+
+    useEffect(() => {
+      // console.log(userContext.user.lang);
+      setLang(() => translator(user.lang));
+      console.log("changed language!");
+    }, [user.lang]);
 
   const createGroup = (e) => {
     e.preventDefault()
+    validateName(name.current.value.length === 0)
+    validateLink(link.current.value.length === 0)
+    validateType(type.length === 0)
+    validatePlatform(platform.length === 0)
+    if (course.current.value.length !== 0) {
+      validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(course.current.value));
+    }else
+    validateCourse(true)
+    console.table(invalidCourse, invalidName, invalidLink, invalidPlatform, invalidType);
+    console.log(name.current.value);
+    console.log(link.current.value);
+    if(!(invalidName || invalidLink || invalidType || invalidPlatform))
+    {
+      if(type === "Section")
+      if(!invalidCourse){
+      //TODO: check for duplicate naming in the DB, then submit in the DB
+      setModalShow(false)}
+    }else{
+      validateCourse(true)
+    }
   };
 
   const selectPlatform = (e) => {
@@ -43,9 +77,9 @@ function GroupCreationCard() {
 
   const selectType = (e) => {
     if(e.target.id !== "course-input")
-    setType(e.target.value, console.log(type));
+    setType(e.target.value);
     else{
-      console.log(course.current.value.length);
+      console.log(course.current.value);
       if(course.current.value.length !== 0){
       validateCourse(!(/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value)) );
       }
@@ -53,6 +87,10 @@ function GroupCreationCard() {
 
     
   };
+
+  useEffect(() => {
+     console.log(type);
+  }, [type])
 
   return (
     <div>
@@ -62,12 +100,12 @@ function GroupCreationCard() {
         show={modalShow}
         aria-labelledby="contained-modal-title-vcenter"
       >
-        <Modal.Header >
+        <Modal.Header>
           <Modal.Title
             className={styles.title}
             id="contained-modal-title-vcenter"
           >
-            إنشاء مجتمع{" "}
+            {langState.header}{" "}
             <AiOutlineUsergroupAdd color="#00ead3" className={styles.icons} />
           </Modal.Title>
         </Modal.Header>
@@ -76,40 +114,56 @@ function GroupCreationCard() {
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
                 <FaIdCard className={styles.icons} />
-                <span> الاسم</span>
+                <span> *{langState.name}</span>
               </Form.Label>
               <Col>
                 <Form.Control
+                  isInvalid={invalidName}
                   ref={name}
                   required
                   className={styles.input}
                   type="text"
-                  placeholder="ادخل اسم المجموعة"
+                  placeholder={langState.namePlaceholder}
                 />
+                <Form.Control.Feedback
+                  style={{ textAlign: "right" }}
+                  type="invalid"
+                >
+                  {langState.nameErr}
+                </Form.Control.Feedback>
               </Col>
             </InputGroup>
 
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
                 <BsCardImage className={styles.icons} />
-                <span>صورة العرض</span>
+                <span>{langState.pic}</span>
               </Form.Label>
               <Col>
                 <Form.Control
                   ref={image}
                   className={styles.input}
                   type="file"
-                  placeholder="اختر صورة العرض"
                 />
               </Col>
             </InputGroup>
 
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
-                <FaListUl className={styles.icons} /> <span>نوع المجموعة</span>
+                <FaListUl className={styles.icons} />{" "}
+                <span>*{langState.type}</span>
               </Form.Label>
               <Col>
                 <Form onChange={selectType} noValidate>
+                  {invalidType && (
+                    <Alert className={styles["rules"]} variant="danger">
+                      <MdWarning
+                        className={styles["rules-icon"]}
+                        size="1.4rem"
+                      />
+                      <div>{langState.typeErr}</div>
+                    </Alert>
+                  )}
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
@@ -118,11 +172,10 @@ function GroupCreationCard() {
                       <div>
                         <div className={styles["label-header"]}>
                           <FaGraduationCap color="#FFB830" size="1.1rem" />
-                          <span>تعليمي</span>
+                          <span>{langState.edu}</span>
                         </div>
                         <div className={styles["label-content"]}>
-                          لتجمعات طلاب المواد الدراسية والاهتمامات العلمية
-                          المشتركة
+                          {langState.eduSub}
                         </div>
                       </div>
                     }
@@ -137,11 +190,10 @@ function GroupCreationCard() {
                       <div>
                         <div className={styles["label-header"]}>
                           <MdGames color="#F037A5" size="1.1rem" />
-                          <span>ترفيهي</span>
+                          <span>{langState.fun}</span>
                         </div>
                         <div className={styles["label-content"]}>
-                          للأنشطة الغير أكاديمية, كالرياضات البدنية
-                          والإلكترونية, والهوايات المتعددة
+                          {langState.funSub}
                         </div>
                       </div>
                     }
@@ -156,10 +208,10 @@ function GroupCreationCard() {
                       <div>
                         <div className={styles["label-header"]}>
                           <RiBook2Fill color="#622edb" size="1.1rem" />
-                          <span>شعبة</span>
+                          <span>{langState.section}</span>
                         </div>
                         <div className={styles["label-content"]}>
-                          لطلاب الشعبة الدراسية الواحدة
+                          {langState.sectionSub}
                         </div>
                         <InputGroup
                           hasValidation
@@ -171,16 +223,22 @@ function GroupCreationCard() {
                           }}
                         >
                           <Form.Control
-                          isInvalid = {invalidCourse}
+                            isInvalid={invalidCourse}
                             ref={course}
                             className={styles["course-input"]}
                             style={{ fontSize: 12 }}
                             id="course-input"
                             type="text"
                             // disabled={!types.Section.find}
-                            placeholder={"المادة الدراسية"}
+                            placeholder={langState.course}
                           />
-                          <Form.Text
+                          <Form.Control.Feedback
+                            style={{ textAlign: "right" }}
+                            type="invalid"
+                          >
+                            {langState.courseErr}
+                          </Form.Control.Feedback>
+                          {!invalidCourse && <Form.Text
                             style={{
                               fontSize: 12,
                               width: "100%",
@@ -189,8 +247,8 @@ function GroupCreationCard() {
                             id="passwordHelpBlock"
                             muted
                           >
-                            الرجاء استخدام صيغة ABCDXXX
-                          </Form.Text>
+                            {langState.courseErr}{" "}
+                          </Form.Text>}
                         </InputGroup>
                       </div>
                     }
@@ -204,10 +262,19 @@ function GroupCreationCard() {
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
                 <BiCube className={styles.icons} />
-                <span> المنصة</span>
+                <span> *{langState.platform}</span>
               </Form.Label>
               <Col>
                 <Form onChange={selectPlatform} noValidate>
+                  {invalidPlatform && (
+                    <Alert className={styles["rules"]} variant="danger">
+                      <MdWarning
+                        className={styles["rules-icon"]}
+                        size="1.4rem"
+                      />
+                      <div>{langState.platformErr}</div>
+                    </Alert>
+                  )}
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
@@ -215,7 +282,7 @@ function GroupCreationCard() {
                     label={
                       <div>
                         <IoLogoWhatsapp color="#25D366" size="1.1rem" />{" "}
-                        <span>واتساب</span>
+                        <span>{langState.whatsapp}</span>
                       </div>
                     }
                     id="1"
@@ -228,7 +295,7 @@ function GroupCreationCard() {
                     label={
                       <div>
                         <FaTelegramPlane color="#0088cc" size="1.1rem" />{" "}
-                        <span>تيليقرام</span>
+                        <span>{langState.telegram}</span>
                       </div>
                     }
                     id="2"
@@ -241,7 +308,7 @@ function GroupCreationCard() {
                     label={
                       <div>
                         <FaDiscord color="#5865F2" size="1.1rem" />{" "}
-                        <span>ديسكورد</span>
+                        <span>{langState.discord}</span>
                       </div>
                     }
                     id="3"
@@ -254,7 +321,7 @@ function GroupCreationCard() {
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column sm="12">
                 <MdDescription className={styles.icons} />
-                <span> الوصف</span>
+                <span> {langState.desc}</span>
               </Form.Label>
               {/* <FloatingLabel label="Comments"> */}
               <Col>
@@ -263,7 +330,7 @@ function GroupCreationCard() {
                   required
                   className={`${styles.input} ${styles.description}`}
                   as="textarea"
-                  placeholder="اكتب وصفًا للمجموعة"
+                  placeholder={langState.descPlaceHolder}
                   style={{ height: "100px" }}
                   maxLength="500"
                 />
@@ -272,7 +339,7 @@ function GroupCreationCard() {
                   id="passwordHelpBlock"
                   muted
                 >
-                  الحد الأقصى للوصف هو 500 حرف
+                  {langState.descHelper}
                 </Form.Text>
               </Col>
             </InputGroup>
@@ -280,16 +347,23 @@ function GroupCreationCard() {
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column sm="12">
                 <FiLink className={styles.icons} />
-                <span> الرابط</span>
+                <span> *{langState.link}</span>
               </Form.Label>
               <Col>
                 <Form.Control
+                  isInvalid={invalidLink}
                   required
                   ref={link}
                   className={`${styles.input} ${styles.link}`}
                   type="text"
-                  placeholder="ادخل رابط المجموعة"
+                  placeholder={langState.linkPlaceholder}
                 />
+                <Form.Control.Feedback
+                  style={{ textAlign: "right" }}
+                  type="invalid"
+                >
+                  {langState.linkErr}
+                </Form.Control.Feedback>
               </Col>
             </InputGroup>
           </Modal.Body>
@@ -298,8 +372,9 @@ function GroupCreationCard() {
               className={styles.createButton}
               type="submit"
               // onClick={() => setModalShow(false)}
+              onClick={createGroup}
             >
-              أنشئ المجموعة
+              {langState.create}{" "}
             </Button>
           </Modal.Footer>
         </Form>

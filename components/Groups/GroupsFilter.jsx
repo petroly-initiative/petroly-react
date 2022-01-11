@@ -4,10 +4,10 @@ import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { MdGames } from "react-icons/md";
 import { RiBook2Fill } from "react-icons/ri";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useContext } from "react";
 import { GoSettings } from "react-icons/go";
-
-
+import { UserContext } from "../../state-management/user-state/UserContext";
+import translator from "../../dictionary/components/groups-filter-dict";
 
 export default function GroupsFilter(props) {
 
@@ -29,6 +29,16 @@ const [types, setTypes] = useState({
 const course = useRef();
 // Forcing a re- render
  const [, updateState] = useState();
+
+   const { user } = useContext(UserContext);
+   const [langState, setLang] = useState(() => translator(user.lang));
+
+   useEffect(() => {
+     // console.log(userContext.user.lang);
+     setLang(() => translator(user.lang));
+     console.log("changed language!");
+   }, [user.lang]);
+
  const forceUpdate = useCallback(() => updateState({}), []);
 
   const platformSwitch = (e) => {
@@ -103,12 +113,12 @@ useEffect(() => {
       >
         <Modal.Header className={styles["modal-header"]}>
           <GoSettings />
-          <span>إعدادت البحث</span>
+          <span>{langState.modalHeader}</span>
         </Modal.Header>
         <Modal.Body className={styles["modal-body"]}>
           <Row className={styles["cols-container"]}>
             <Col className={styles["cols"]}>
-              <div className={styles["titles"]}>منصة المجتمع</div>
+              <div className={styles["titles"]}>{langState.platformSubHeader}</div>
               <Form>
                 <div>
                   <Form.Check
@@ -156,7 +166,7 @@ useEffect(() => {
               </Form>
             </Col>
             <Col className={styles["cols"]}>
-              <div className={styles["titles"]}>نوع المجتمع</div>
+              <div className={styles["titles"]}>{langState.typeSubHeader}</div>
               <Form>
                 <Form.Check
                   checked={types.Educational}
@@ -167,7 +177,7 @@ useEffect(() => {
                   label={
                     <div>
                       <FaGraduationCap color="#FFB830" />
-                      <span>تعليمي</span>
+                      <span>{langState.edu}</span>
                     </div>
                   }
                 />
@@ -181,7 +191,7 @@ useEffect(() => {
                   label={
                     <div>
                       <MdGames color="#F037A5" />
-                      <span>ترفيهي</span>
+                      <span>{langState.fun}</span>
                     </div>
                   }
                 />
@@ -195,7 +205,7 @@ useEffect(() => {
                   label={
                     <div>
                       <RiBook2Fill color="#622edb" />
-                      <span>شعبة</span>
+                      <span>{langState.section}</span>
                       <InputGroup
                         className={styles["input-container"]}
                         style={{

@@ -42,10 +42,11 @@ $txt-high: #0091e7;
 .stat-cards {
   border-radius: 8px;
   border: unset;
-  width: 100%;
+  width: 70%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
   padding: 12px;
   height: 120px;
   box-shadow: 0 0.125rem 0.7rem rgba(0, 0, 0, 0.125) !important;
@@ -75,9 +76,8 @@ $txt-high: #0091e7;
 }
 
 .stat-num {
-  margin: 8px;
-  font-weight: 700;
-  margin: 8px;
+  font-weight: 600;
+  margin: 16px;
   font-size: 26px;
   color: rgb(88, 88, 88);
 }

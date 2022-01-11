@@ -173,7 +173,7 @@ function instructorsList() {
           <title>Petroly | Rating</title>
         </Head>
         <Navbar page="rating" />
-        <Container className={"mt-4 " + styles.list_container}>
+        <Container className={styles.list_container}>
           <Row style={{ justifyContent: "center" }}>
             <Col
               l={8}
@@ -187,6 +187,7 @@ function instructorsList() {
                   style={{ direction: `${user.lang === "ar" ? "rtl": "ltr"}` }}
                   type="text"
                   placeholder= {langState.searchbar}
+                  disabled
                 ></Form.Control>
                 <InputGroup.Append style={{ height: 38 }}>
                   <Button

@@ -5,7 +5,6 @@ import {
   Button,
   Form,
   InputGroup,
-  FormControl,
   Spinner,
 } from "react-bootstrap";
 import { useContext, useEffect, useState } from "react";
@@ -18,7 +17,7 @@ import { UserContext } from "../../state-management/user-state/UserContext";
 import { useQuery } from "@apollo/client";
 import { meEvaluationSetQuery } from "../../api/queries";
 import { USER } from "../../constants";
-
+import translator from "../../dictionary/components/eval-tab-dict";
 /**
  *
  * ? Evaluation Tab setup
@@ -32,7 +31,14 @@ import { USER } from "../../constants";
 
 export default function EvaluationsTab(props) {
   const [mode, setMode] = useState("view-all");
-  const userContext = useContext(UserContext);
+  const {user} = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+
+    useEffect(() => {
+      // console.log(userContext.user.lang);
+      setLang(() => translator(user.lang));
+      console.log("changed language!");
+    }, [user.lang]);
 
   const switchMode = () => {
     setMode(mode === "view-all" ? "search" : "view-all");
@@ -44,7 +50,7 @@ export default function EvaluationsTab(props) {
     error: errorEval,
   } = useQuery(meEvaluationSetQuery, {
     notifyOnNetworkStatusChange: true,
-    skip: userContext.user.status !== USER.LOGGED_IN,
+    skip: user.status !== USER.LOGGED_IN,
   });
 
   if (loadingEval) {
@@ -55,7 +61,7 @@ export default function EvaluationsTab(props) {
           {mode === "view-all" && (
             <Fade triggerOnce>
               <div className={styles["card-headers"]}>
-                <span className={styles["card-title"]}>تقييماتي</span>
+                <span className={styles["card-title"]}>{langState.header}</span>
                 <Button on onClick={switchMode} className={styles["btns"]}>
                   <FiSearch size="1.6rem" />
                 </Button>
@@ -67,7 +73,7 @@ export default function EvaluationsTab(props) {
               <div className={styles["card-headers"]}>
                 <Form className={styles["header-search"]}>
                   <InputGroup>
-                    <FormControl />
+                    <Form.Control placeholder={langState.searchbar} />
                   </InputGroup>
                 </Form>
                 <div className={styles["search-set"]}>
@@ -103,7 +109,7 @@ export default function EvaluationsTab(props) {
           {mode === "view-all" && (
             <Fade triggerOnce>
               <div className={styles["card-headers"]}>
-                <span className={styles["card-title"]}>تقييماتي</span>
+                <span className={styles["card-title"]}>{langState.header}</span>
                 <Button on onClick={switchMode} className={styles["btns"]}>
                   <FiSearch size="1.6rem" />
                 </Button>
@@ -115,7 +121,7 @@ export default function EvaluationsTab(props) {
               <div className={styles["card-headers"]}>
                 <Form className={styles["header-search"]}>
                   <InputGroup>
-                    <FormControl />
+                    <Form.Control placeholder={langState.searchbar} />
                   </InputGroup>
                 </Form>
                 <div className={styles["search-set"]}>
@@ -181,7 +187,7 @@ export default function EvaluationsTab(props) {
           {mode === "view-all" && (
             <Fade triggerOnce>
               <div className={styles["card-headers"]}>
-                <span className={styles["card-title"]}>تقييماتي</span>
+                <span className={styles["card-title"]}>{langState.header}</span>
                 <Button on onClick={switchMode} className={styles["btns"]}>
                   <FiSearch size="1.6rem" />
                 </Button>
@@ -193,7 +199,7 @@ export default function EvaluationsTab(props) {
               <div className={styles["card-headers"]}>
                 <Form className={styles["header-search"]}>
                   <InputGroup>
-                    <FormControl />
+                    <Form.Control placeholder={langState.searchbar} />
                   </InputGroup>
                 </Form>
                 <div className={styles["search-set"]}>

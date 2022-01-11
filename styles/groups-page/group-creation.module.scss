@@ -207,6 +207,12 @@ $btn-prim: #00ead3;
   &:active {
     transform: scale(0.95);
   }
+
+  &::after{
+  -moz-transform: scale(0.9, 0.9); /* Moz-browsers */
+  zoom: 0.9; /* Other non-webkit browsers */
+  -webkit-zoom: 90%; /* Webkit browsers */
+    }
 }
 
 .course-input {
@@ -221,6 +227,19 @@ $btn-prim: #00ead3;
       opacity: 1 !important;
       margin-top: 12px !important;
     }
+  }
+}
+
+.rules {
+  padding: 8px !important;
+  display: flex;
+  align-items: center;
+  direction: rtl;
+  text-align: right;
+  font-weight: 600;
+  padding: 16px;
+  .rules-icon {
+    margin-left: 16px;
   }
 }
 

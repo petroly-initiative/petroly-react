@@ -1,12 +1,15 @@
-import {L} from "../../constants";
+import { L } from "../../constants";
+
+// TODO: arabic translation for groups screen
 const arabic = {
   searchbar: "أدخل اسم المحاضر",
-  searchbarFilter: "القسم الجامعي",
+  header: "تقييماتي"
 };
 
+// TODO: english translation for groups screen
 const english = {
-  searchbar: "Search for Instructor",
-  searchbarFilter: "Department",
+  searchbar: "Search for instructor name",
+  header: "My Evaluations"
 };
 
 export default function translator(lang) {
@@ -15,7 +18,5 @@ export default function translator(lang) {
       return arabic;
     case L.EN_US:
       return english;
-    default:
-      return lang;
   }
 }
