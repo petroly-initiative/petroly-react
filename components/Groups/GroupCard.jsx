@@ -108,18 +108,6 @@ function GroupCard(props) {
         return <RiBook2Fill className={styles["tag-icon"]} />;
     }
   };
-  if (loading || likedLoading) {
-    return (
-      <Spinner
-        className={styles["loading-spinner"]}
-        as="div"
-        animation="grow"
-        size="xl"
-        role="status"
-        aria-hidden="true"
-      />
-    );
-  }
 
   const addLike = () => {
     if (likes.liked) {
@@ -182,24 +170,35 @@ function GroupCard(props) {
               delay={{ show: 150, hide: 200 }}
               overlay={<Tooltip id="button-tooltip">إعجاب</Tooltip>}
             >
-              <div
-                style={{ color: likes.liked ? "#00ead3" : "" }}
-                className={styles["likes-btn"]}
-              >
-                <Button
+              {loading ? (
+                <Spinner
+                  className={styles["loading-spinner"]}
+                  as="div"
+                  animation="grow"
+                  size="xl"
+                  role="status"
+                  aria-hidden="true"
+                />
+              ) : (
+                <div
                   style={{ color: likes.liked ? "#00ead3" : "" }}
-                  onClick={addLike}
-                  className={styles["btns"]}
+                  className={styles["likes-btn"]}
                 >
-                  {likes.liked ? (
-                    <BsFillStarFill color={"#00ead3"} />
-                  ) : (
-                    <BsStar />
-                  )}
-                </Button>
+                  <Button
+                    style={{ color: likes.liked ? "#00ead3" : "" }}
+                    onClick={addLike}
+                    className={styles["btns"]}
+                  >
+                    {likes.liked ? (
+                      <BsFillStarFill color={"#00ead3"} />
+                    ) : (
+                      <BsStar />
+                    )}
+                  </Button>
 
-                <span>{likes.number}</span>
-              </div>
+                  <span>{likes.number}</span>
+                </div>
+              )}
             </OverlayTrigger>
             <OverlayTrigger
               style={{ position: "absolute", right: 0 }}
