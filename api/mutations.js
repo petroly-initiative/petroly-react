@@ -215,3 +215,14 @@ export const toggleLikeCommunityMutation = gql`
     }
   }
 `;
+export const deleteCommunity = gql`
+  mutation DeleteCommunity($id: ID) {
+    communityDelete(where: { id: { exact: $id } }) {
+      ok
+      errors {
+        field
+        messages
+      }
+    }
+  }
+`;

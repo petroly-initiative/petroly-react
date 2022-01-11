@@ -1,5 +1,5 @@
 import {
-  Col,
+  Spinner,
   Card,
   Button,
   Row,
@@ -7,12 +7,15 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../../styles/dashboard-page/dashboard-tabs.module.scss";
 import GroupPreview from "./GroupPrev";
 import { MdCancel } from "react-icons/md";
 import { Fade } from "react-awesome-reveal";
 import { FiSearch } from "react-icons/fi";
+import { myCommunities } from "../../api/queries";
+import { useQuery } from "@apollo/client";
+
 /**
  * ? Groups tab setup
  * - There will be two states for this tab
@@ -22,14 +25,53 @@ import { FiSearch } from "react-icons/fi";
  */
 
 export default function GroupsTab(props) {
-  const [mode, setMode] = useState("view-all");
-
+  const { data, loading, error, refetch, networkStatus, variables } = useQuery(
+    myCommunities,
+    {
+      notifyOnNetworkStatusChange: true,
+      fetchPolicy: "network-only",
+      nextFetchPolicy: "cache-first",
+    }
+  );
   const fullList = "all of it";
   const matchingList = "matching only";
-
+  const [mode, setMode] = useState("view-all");
   const switchMode = () => {
     setMode(mode === "view-all" ? "search" : "view-all");
   };
+
+  if (loading) {
+    return (
+      <Button className={styles["loading-container"] + " shadow"} disabled>
+        <Spinner
+          className={styles["loading-spinner"] + " shadow"}
+          animation="border"
+          role="status"
+        />
+      </Button>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <h1>{error.name}</h1>
+        <p>{error.message}</p>
+      </div>
+    );
+  }
+  const myCommunitiesMapper = () =>
+    data.me.ownedCommunities.data.map((community) => {
+      return (
+        <GroupPreview // TODO Modify this component
+          pic="/images/muhabpower.png" // TODO
+          id={community.id}
+          name={community.name}
+          platform={community.platform}
+        />
+      );
+    });
+  var communities = myCommunitiesMapper();
 
   return (
     <>
@@ -71,31 +113,7 @@ export default function GroupsTab(props) {
                 "col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
               }
             >
-              <GroupPreview
-                pic="/images/muhabpower.png"
-                name="ICS Nerds"
-                type="Discord"
-              />
-              <GroupPreview
-                pic="/images/muhabpower.png"
-                name="ICS202 Section6"
-                type="Whatsapp"
-              />
-              <GroupPreview
-                pic="/images/muhabpower.png"
-                name="Web development"
-                type="Discord"
-              />
-              <GroupPreview
-                pic="/images/muhabpower.png"
-                name="ICS Nerds"
-                type="Telegram"
-              />
-              <GroupPreview
-                pic="/images/muhabpower.png"
-                name="ICS Nerds"
-                type="Telegram"
-              />
+              {communities}
             </Fade>
           </Row>
         </Card.Body>

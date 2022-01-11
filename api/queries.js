@@ -125,6 +125,19 @@ export const meEvaluationSetQuery = gql`
     }
   }
 `;
+export const myCommunities = gql`
+  query MyCommunities {
+    me {
+      ownedCommunities {
+        data {
+          id
+          name
+          platform
+        }
+      }
+    }
+  }
+`;
 // -- communities' queries:
 export const getCommunity = gql`
   query CommunityId($id: ID) {
