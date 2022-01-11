@@ -19,7 +19,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
 import GroupDisplay from "./GroupDisplay";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, NetworkStatus } from "@apollo/client";
 import GroupReport from "./GroupReport";
 import { toggleLikeCommunityMutation } from "../../api/mutations";
 import { userHasLiked } from "../../api/queries";
@@ -27,22 +27,31 @@ import { userHasLiked } from "../../api/queries";
 function GroupCard(props) {
   const [displayGroup, setDisplay] = useState(false);
   const [showReport, setReport] = useState(false);
-  // const isLiked = () => {
-  //   // TODO complete this function
-  //   const { data, loading, error, refetch, networkStatus, variables } =
-  //     useQuery(userHasLiked, { variables: { id: props.id } });
-  //   // TODO handle both loading and error
-  //   if (!loading && typeof data !== "undefined") {
-  //     if (data.me.likedCommunities.count == 1) return true;
-  //   }
-  //   return false;
-  // };
-  const [likes, setLikes] = useState({
-    number: props.likesCount,
-    liked: props.liked,
+  const {
+    data: likedData,
+    loading: likedLoading,
+    error: likedError,
+    networkStatus,
+  } = useQuery(userHasLiked, {
+    variables: { id: props.id },
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
   });
 
-  const [toggleLikeCommunity, { data }] = useMutation(
+  useEffect(() => {
+    setLikes((prev) => ({
+      liked:
+        typeof likedData != "undefined" ? likedData.hasLikedCommunity : false,
+      number: prev.number,
+    }));
+  }, [likedData]); // I am not sure if this is the best practice. Please check.
+
+  const [likes, setLikes] = useState({
+    number: props.likesCount,
+    liked: false,
+  });
+  const [toggleLikeCommunity, { data, loading, error }] = useMutation(
     toggleLikeCommunityMutation
   );
 
@@ -100,29 +109,25 @@ function GroupCard(props) {
         return <RiBook2Fill className={styles["tag-icon"]} />;
     }
   };
-  // const [updateLikes, { data, loading, error }] = // TODO update this mutation
-  // useMutation(updateCommunityLikes);
-  // TODO Handle loading and error properly
-  // if (loading) {
-  //   return (
-  //     <Spinner
-  //       className={styles["loading-spinner"]}
-  //       as="div"
-  //       animation="grow"
-  //       size="xl"
-  //       role="status"
-  //       aria-hidden="true"
-  //     />
-  //   );
-  // }
-  // if (error) return `Submission error! ${error.message}`;
-  const addLike = (e) => {
-    console.log(e.target.id);
+  if (loading || likedLoading) {
+    return (
+      <Spinner
+        className={styles["loading-spinner"]}
+        as="div"
+        animation="grow"
+        size="xl"
+        role="status"
+        aria-hidden="true"
+      />
+    );
+  }
+  if (error || likedError) return `Submission error! ${error.message}`;
+  const addLike = () => {
     if (!likes.liked) {
-      toggleLikeCommunity({ variables: { id: e.target.id } });
+      toggleLikeCommunity({ variables: { id: props.id } });
       setLikes((prev) => ({ liked: true, number: prev.number + 1 }));
     } else {
-      toggleLikeCommunity({ variables: { id: e.target.id } });
+      toggleLikeCommunity({ variables: { id: props.id } });
       setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
     }
   };
@@ -162,6 +167,7 @@ function GroupCard(props) {
         typeIcon={typeIcon}
         platformIcon={platformIcon}
       />
+      <h3>{likedData.hasLikedCommunity}</h3>
       {/* // We will fire an onClick listener for modal instead of a new page link */}
       <Card
         style={{ borderRadius: 8 }}

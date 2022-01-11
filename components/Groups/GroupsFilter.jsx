@@ -1,5 +1,12 @@
 import styles from "../../styles/groups-page/groups-filter.module.scss";
-import { Modal, Col, Row, Form, InputGroup, FormControl } from "react-bootstrap";
+import {
+  Modal,
+  Col,
+  Row,
+  Form,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { MdGames } from "react-icons/md";
@@ -7,87 +14,75 @@ import { RiBook2Fill } from "react-icons/ri";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { GoSettings } from "react-icons/go";
 
-
-
 export default function GroupsFilter(props) {
-
-  
   const [show, setShow] = useState(false);
   const [invalidCourse, validateCourse] = useState(false);
 
   const [platforms, setPlatforms] = useState({
-    Discord: true,
-    Telegram: true,
-    Whatsapp: true,
+    DISCORD: true,
+    TELEGRAM: true,
+    WHATSAPP: true,
   });
- 
-const [types, setTypes] = useState({
-  Educational: true,
-  Entertainment: true,
-  Section: { find: false, course: "" },
-});
-const course = useRef();
-// Forcing a re- render
- const [, updateState] = useState();
- const forceUpdate = useCallback(() => updateState({}), []);
+
+  const [types, setTypes] = useState({
+    EDU: true,
+    ENTERTAINING: true,
+    SECTION: { find: false, course: "" },
+  });
+  const course = useRef();
+  // Forcing a re- render
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
 
   const platformSwitch = (e) => {
     const key = e.target.id;
-    console.log(key);  
-    setPlatforms(prev => Object.assign(prev, { [`${key}`]: !prev[key] }));
-     forceUpdate();
+    console.log(key);
+    setPlatforms((prev) => Object.assign(prev, { [`${key}`]: !prev[key] }));
+    forceUpdate();
   };
 
   const typeSwitch = (e) => {
-   
     const key = e.target.id;
     console.log(key);
-    if(key === "Sections"){
+    if (key === "Sections") {
       setTypes((prev) =>
         Object.assign(prev, {
-          Section: { find: !prev.Section.find, course: course },
+          SECTION: { find: !prev.SECTION.find, course: course },
         })
       );
       forceUpdate();
-      
-    }
-    else
-    setTypes((prev) => Object.assign(prev, { [`${key}`]: !prev[key] }));
-    forceUpdate()
+    } else setTypes((prev) => Object.assign(prev, { [`${key}`]: !prev[key] }));
+    forceUpdate();
     console.log(course.current.value);
-  }
+  };
 
   const saveChanges = () => {
     props.changePlatform(platforms);
     console.log(
       Object.assign(types, {
-        Section: { find: types.Section.find, course: course.current.value },
+        SECTION: { find: types.SECTION.find, course: course.current.value },
       })
     );
-    props.changeType(Object.assign(types, {Section: {find: types.Section.find, course: course.current.value}}))
-  }
+    props.changeType(
+      Object.assign(types, {
+        SECTION: { find: types.SECTION.find, course: course.current.value },
+      })
+    );
+  };
 
   const setCourse = (e) => {
     if (course.current.value.length !== 0) {
       validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value));
     }
-  }
+  };
 
-
-
-
-  
-useEffect(() => {
-
-  setPlatforms(props.platform)
-}, [props.platform])
+  useEffect(() => {
+    setPlatforms(props.platform);
+  }, [props.platform]);
 
   useEffect(() => {
     setShow(props.visible);
   }, [props.visible]);
-
-
-
 
   return (
     <>
@@ -112,7 +107,7 @@ useEffect(() => {
               <Form>
                 <div>
                   <Form.Check
-                    checked={platforms.Discord}
+                    checked={platforms.DISCORD}
                     type="checkbox"
                     className={styles["filters"]}
                     onChange={platformSwitch}
@@ -125,7 +120,7 @@ useEffect(() => {
                     }
                   />
                   <Form.Check
-                    checked={platforms.Whatsapp}
+                    checked={platforms.WHATSAPP}
                     type="checkbox"
                     className={styles["filters"]}
                     onChange={platformSwitch}
@@ -139,7 +134,7 @@ useEffect(() => {
                     }
                   />
                   <Form.Check
-                    checked={platforms.Telegram}
+                    checked={platforms.TELEGRAM}
                     type="checkbox"
                     className={styles["filters"]}
                     onChange={platformSwitch}
@@ -159,7 +154,7 @@ useEffect(() => {
               <div className={styles["titles"]}>نوع المجتمع</div>
               <Form>
                 <Form.Check
-                  checked={types.Educational}
+                  checked={types.EDU}
                   type="checkbox"
                   className={styles["filters"]}
                   onChange={typeSwitch}
@@ -173,7 +168,7 @@ useEffect(() => {
                 />
 
                 <Form.Check
-                  checked={types.Entertainment}
+                  checked={types.ENTERTAINING}
                   type="checkbox"
                   className={styles["filters"]}
                   onChange={typeSwitch}
@@ -186,12 +181,12 @@ useEffect(() => {
                   }
                 />
                 <Form.Check
-                  checked={types.Section.find}
+                  checked={types.SECTION.find}
                   type="checkbox"
                   className={styles["filters"] + " " + styles["section-filter"]}
                   onChange={typeSwitch}
                   id="Sections"
-                  style={{ height: types.Section.find ? 100 : 50 }}
+                  style={{ height: types.SECTION.find ? 100 : 50 }}
                   label={
                     <div>
                       <RiBook2Fill color="#622edb" />
@@ -199,18 +194,18 @@ useEffect(() => {
                       <InputGroup
                         className={styles["input-container"]}
                         style={{
-                          maxHeight: types.Section.find ? 90 : 0,
-                          opacity: types.Section.find ? "1" : "0",
+                          maxHeight: types.SECTION.find ? 90 : 0,
+                          opacity: types.SECTION.find ? "1" : "0",
                           transition: "150ms ease",
-                          marginTop: types.Section.find ? 12 : 0,
+                          marginTop: types.SECTION.find ? 12 : 0,
                         }}
                       >
                         <Form.Control
                           ref={course}
-                          defaultValue={props.type.Section.course}
+                          defaultValue={props.type.SECTION.course}
                           type="text"
                           onChange={setCourse}
-                          disabled={!types.Section.find}
+                          disabled={!types.SECTION.find}
                           placeholder={"المادة الدراسية"}
                           isInvalid={invalidCourse}
                           // onChange = {setCourse}

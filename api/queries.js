@@ -137,7 +137,7 @@ export const getCommunity = gql`
       section
     }
   }
-`;
+`; // TODO update this query to match the new model.
 export const CommunitiesQuery = gql`
   query Communities(
     $name: String
@@ -180,11 +180,7 @@ export const userID = gql`
   }
 `;
 export const userHasLiked = gql`
-  query hasLiked($communityId: ID) {
-    me {
-      likedCommunities(where: { id: { exact: $communityId } }) {
-        count
-      }
-    }
+  query HasLikedCommunity($id: ID) {
+    hasLikedCommunity(id: $id)
   }
 `;

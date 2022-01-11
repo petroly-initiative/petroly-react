@@ -19,11 +19,10 @@ import { GoSettings } from "react-icons/go";
 import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
 import { useEffect, useState, useContext } from "react";
-import { useQuery } from "@apollo/client";
+import { useQuery, useLazyQuery } from "@apollo/client";
 import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
 import { CommunitiesQuery } from "../api/queries";
-import { USER } from "../constants";
 import { UserContext } from "../state-management/user-state/UserContext";
 
 function Groups(state, action) {
@@ -40,14 +39,14 @@ function Groups(state, action) {
   const [user, userDispatch] = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
   const [platform, setPlatform] = useState({
-    Discord: true,
-    Telegram: true,
-    Whatsapp: true,
+    DISCORD: true,
+    TELEGRAM: true,
+    WHATSAPP: true,
   });
   const [type, setType] = useState({
-    Educational: true,
-    Entertainment: true,
-    Section: { find: false, course: "" },
+    EDU: true,
+    ENTERTAINING: true,
+    SECTION: { find: false, course: "" },
   });
 
   const launchModal = () => {
@@ -87,32 +86,6 @@ function Groups(state, action) {
   // ? Mappers
   // ? We will use a show-more mehcanism instead of pagination
 
-  const groupMapper = () =>
-    data.communities.data.map((community) => {
-      return (
-        <GroupCard
-          id={community.id}
-          name={community.name}
-          date={community.date}
-          key={community.id}
-          platform={community.platform}
-          type={community.category}
-          link={community.link}
-          likesCount={community.likes.count}
-          liked={false} // false until API provides a way to know
-          image={
-            <Image
-              className={styles.picDiv}
-              src={"/images/spongy.png"} // TODO
-              width="70"
-              height="70"
-            />
-          }
-          description={community.description}
-        />
-      );
-    });
-
   if (loading) {
     return (
       <Button className={styles["loading-container"] + " shadow"} disabled>
@@ -125,7 +98,7 @@ function Groups(state, action) {
           aria-hidden="true"
         />
       </Button>
-    ); // TODO: return somthing while loading
+    );
   }
 
   if (error) {
@@ -136,7 +109,30 @@ function Groups(state, action) {
       </div>
     );
   }
-
+  const groupMapper = () =>
+    data.communities.data.map((community) => {
+      return (
+        <GroupCard
+          id={community.id}
+          name={community.name}
+          date={community.date}
+          key={community.id}
+          platform={community.platform}
+          type={community.category}
+          link={community.link}
+          likesCount={community.likes.count}
+          image={
+            <Image
+              className={styles.picDiv}
+              src={"/images/spongy.png"} // TODO
+              width="70"
+              height="70"
+            />
+          }
+          description={community.description}
+        />
+      );
+    });
   var communities = groupMapper();
 
   return (
