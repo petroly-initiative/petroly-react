@@ -173,7 +173,7 @@ function instructorsList() {
           <title>Petroly | Rating</title>
         </Head>
         <Navbar page="rating" />
-        <Container className={"mt-4 " + styles.list_container}>
+        <Container className={styles.list_container}>
           <Row style={{ justifyContent: "center" }}>
             <Col
               l={8}

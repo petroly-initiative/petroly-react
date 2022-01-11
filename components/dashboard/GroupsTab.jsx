@@ -13,6 +13,9 @@ import GroupPreview from "./GroupPrev";
 import { MdCancel } from "react-icons/md";
 import { Fade } from "react-awesome-reveal";
 import { FiSearch } from "react-icons/fi";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import translator from "../../dictionary/components/groups-tab-dict";
 /**
  * ? Groups tab setup
  * - There will be two states for this tab
@@ -23,6 +26,14 @@ import { FiSearch } from "react-icons/fi";
 
 export default function GroupsTab(props) {
   const [mode, setMode] = useState("view-all");
+  const {user} = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
 
   const fullList = "all of it";
   const matchingList = "matching only";
@@ -38,7 +49,7 @@ export default function GroupsTab(props) {
           {mode === "view-all" && (
             <Fade triggerOnce>
               <div className={styles["card-headers"]}>
-                <span className={styles["card-title"]}>مجتمعاتي</span>
+                <span className={styles["card-title"]}>{langState.header}</span>
                 <Button onClick={switchMode} className={styles["btns"]}>
                   <FiSearch size="1.6rem" />
                 </Button>
@@ -50,7 +61,7 @@ export default function GroupsTab(props) {
               <div className={styles["card-headers"]}>
                 <Form className={styles["header-search"]}>
                   <InputGroup>
-                    <FormControl />
+                    <FormControl placeholder={langState.searchbar}/>
                   </InputGroup>
                 </Form>
                 <div className={styles["search-set"]}>
