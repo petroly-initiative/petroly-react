@@ -44,7 +44,10 @@ function GroupCard(props) {
   });
 
   const [toggleLikeCommunity, { data, loading, error }] = useMutation(
-    toggleLikeCommunityMutation
+    toggleLikeCommunityMutation,
+    {
+      nextFetchPolicy: "cache-first",
+    }
   );
 
   useEffect(() => {

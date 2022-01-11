@@ -15,7 +15,6 @@ import { MdDescription } from "react-icons/md";
 import styles from "../../styles/groups-page/group-creation.module.scss";
 import { createCommunnityMutation } from "../../api/mutations";
 import { useMutation, useQuery } from "@apollo/client";
-import { userID } from "../../api/queries";
 import CreatedGroup from "./CreatedCard";
 
 function GroupCreationCard() {

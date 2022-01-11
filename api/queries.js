@@ -185,13 +185,7 @@ export const CommunitiesQuery = gql`
     }
   }
 `; // Modify this query to handle filter feature
-export const userID = gql`
-  query UserId {
-    me {
-      id
-    }
-  }
-`;
+
 export const userHasLiked = gql`
   query HasLikedCommunity($id: ID) {
     hasLikedCommunity(id: $id)
