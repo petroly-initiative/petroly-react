@@ -4,8 +4,7 @@ import { Row, Col, ProgressBar, Container } from "react-bootstrap";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/evaluation-page/instructor-rating.module.scss";
 import  translator  from "../../dictionary/components/instructor-rating-dict";
-
-// TODO: handling text direction for both languages
+import { langDirection } from "../../constants";
 
 function InstructorRates(props) {
 
@@ -76,9 +75,12 @@ function InstructorRates(props) {
       </div>
       <div id="attrBars" className={styles.attrBars}>
         <div className={styles.barContainer}>
-          <div className={styles.barHeaders}>{langState.grades}</div>
+          <div style={langDirection(user.lang)} className={styles.barHeaders}>
+            {langState.grades}
+          </div>
           <div className={styles.barValue}>
             <ProgressBar
+              style={langDirection(user.lang)}
               id="grading"
               className={[styles.bars, barFilter(props.grading)]}
               color={"blue"}
@@ -87,18 +89,24 @@ function InstructorRates(props) {
           </div>
         </div>
         <div className={styles.barContainer}>
-          <div className={styles.barHeaders}>{langState.teaching}</div>
+          <div style={langDirection(user.lang)} className={styles.barHeaders}>
+            {langState.teaching}
+          </div>
           <div className={styles.barValue}>
             <ProgressBar
+              style={langDirection(user.lang)}
               className={[styles.bars, barFilter(props.teaching)]}
               now={(props.teaching / 5) * 100}
             />
           </div>
         </div>
         <div className={styles.barContainer}>
-          <div className={styles.barHeaders}>{langState.person}</div>
+          <div style={langDirection(user.lang)} className={styles.barHeaders}>
+            {langState.person}
+          </div>
           <div className={styles.barValue}>
             <ProgressBar
+              style={langDirection(user.lang)}
               className={[styles.bars, barFilter(props.personality)]}
               now={(props.personality / 5) * 100}
             />

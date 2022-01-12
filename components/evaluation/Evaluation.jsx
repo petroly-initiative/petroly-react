@@ -6,7 +6,7 @@ import { useEffect, useContext, useState } from "react";
 import { FaChalkboardTeacher, FaClipboardCheck } from "react-icons/fa";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/eval-card-dict";
-
+import { langDirection } from "../../constants";
 
 export default function Evaluation(props) {
   // const overall = Math.ceil(
@@ -67,7 +67,8 @@ useEffect(() => {
         </Card.Header>
         <Card.Body className={styles["card-body"]}>
           <section className={styles["sections"]} id="grading">
-            <div style={{ color: "#316B83" }} className={styles.headers}>
+            {/* ERR: COLOR IS SPECIFIED LOCALLY */}
+            <div style={langDirection(user.lang)} className={styles.headers}>
               {langState.grades}
               <FaClipboardCheck
                 style={{ color: "#F037A5" }}
@@ -89,7 +90,7 @@ useEffect(() => {
             </div>
           </section>
           <section className={styles["sections"]} id="teaching">
-            <div style={{ color: "#316B83" }} className={styles.headers}>
+            <div style={langDirection(user.lang)} className={styles.headers}>
               {langState.teaching}
               <FaChalkboardTeacher
                 style={{ color: "#3DB2FF" }}
@@ -111,7 +112,7 @@ useEffect(() => {
             </div>
           </section>
           <section className={styles["sections"]} id="personality">
-            <div style={{ color: "#316B83" }} className={styles.headers}>
+            <div style={langDirection(user.lang)} className={styles.headers}>
               {langState.person}
               <BsPersonBoundingBox
                 style={{ color: "#FF6666" }}
@@ -136,7 +137,7 @@ useEffect(() => {
             className={styles["sections"]}
             id="general"
           >
-            <div className={styles.headers}>{langState.comment}</div>
+            <div style={langDirection(user.lang)} className={styles.headers}>{langState.comment}</div>
             <p className={styles.contentText}>{props.comment}</p>
             
           </section>}

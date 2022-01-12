@@ -166,7 +166,7 @@ useEffect(() => {
               </Form>
             </Col>
             <Col className={styles["cols"]}>
-              <div className={styles["titles"]}>{langState.typeSubHeader}</div>
+              <div className={styles["titles"]}>{langState.typesubHeader}</div>
               <Form>
                 <Form.Check
                   checked={types.Educational}

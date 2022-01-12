@@ -12,7 +12,7 @@ import Navbar from "../../components/navbar";
 import styles from "../../styles/evaluation-page/instructors-details.module.scss";
 import cardStyles from "../../styles/evaluation-page/instructors-card.module.scss";
 import { UserContext } from "../../state-management/user-state/UserContext";
-import { USER } from "../../constants";
+import { langDirection, USER } from "../../constants";
 import { AiFillEdit } from "react-icons/ai";
 import Evaluation from "../../components/evaluation/Evaluation";
 import InstructorRates from "../../components/Instructros/InstructorRates";

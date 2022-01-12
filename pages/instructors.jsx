@@ -24,6 +24,7 @@ import ClientOnly from "../components/ClientOnly";
 import { useQuery } from "@apollo/client";
 import { instructorsQuery, getDepartments } from "../api/queries";
 import translator from "../dictionary/pages/instructors-dict";
+import { L, langDirection } from "../constants";
 
 function instructorsReducer(state, action) {
   switch (action.changeIn) {
@@ -184,10 +185,11 @@ function instructorsList() {
             >
               <InputGroup className={styles["search-container"]}>
                 <Form.Control
-                  style={{ direction: `${user.lang === "ar" ? "rtl": "ltr"}` }}
+                 
                   type="text"
-                  placeholder= {langState.searchbar}
+                  placeholder={langState.searchbar}
                   disabled
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                 ></Form.Control>
                 <InputGroup.Append style={{ height: 38 }}>
                   <Button
@@ -279,14 +281,13 @@ function instructorsList() {
                 <InputGroup className={styles["search-container"]}>
                   <Form.Control
                     id="name"
-                    style={{
-                      direction: `${user.lang === "ar" ? "rtl" : "ltr"}`,
-                    }}
+                   
                     type="text"
                     placeholder={langState.searchbar}
                     value={name}
                     onKeyDown={enterSearch}
                     onChange={changeName}
+                    dir= {`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   ></Form.Control>
                   <InputGroup.Append style={{ height: 38 }}>
                     <Button
@@ -371,11 +372,12 @@ function instructorsList() {
               <InputGroup className={styles["search-container"]}>
                 <Form.Control
                   id="name"
-                  style={{ direction: `${user.lang === "ar" ? "rtl" : "ltr"}` }}
+                 
                   type="text"
                   placeholder={langState.searchbar}
                   value={name}
                   onChange={changeName}
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   onKeyDown={enterSearch}
                 ></Form.Control>
                 <InputGroup.Append style={{ height: 38 }}>

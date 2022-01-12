@@ -5,9 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { UserContext } from "../../state-management/user-state/UserContext";
+import { langDirection } from "../../constants";
+
 
 export default function NewsCard(props) {
+
   const { user } = useContext(UserContext);
+
 
   useEffect(() => {
     document.getElementById(props.title).setAttribute("tabindex", 0);
@@ -22,11 +26,11 @@ export default function NewsCard(props) {
           " shadow border-0 " +
           ` ${props.size == "lg" ? styles["large-card"] : ""}`
         }
-        style={{
+        style={Object.assign({
           background: "#00b7ff44 " + props.header,
           backgroundSize: "100% 100%",
           backgroundBlendMode: "multiply",
-        }}
+        }, langDirection(user.lang))}
       >
         <Image alt="news card" src={props.header} layout="fill" />
         <div
@@ -36,12 +40,12 @@ export default function NewsCard(props) {
           {props.title}
         </div>
         <div className={styles["card-content"]}>
-          <div style={{ height: "70%" }}>{props.content} </div>
+          <div style={(Object.assign({ height: "70%" }, langDirection(user.lang)))}>{props.content} </div>
         </div>
         {props.linked && (
           <Link className="mt-2" href={props.link}>
             <span className={styles["card-link"]}>
-              <FaArrowAltCircleRight />
+              <FaArrowAltCircleRight className="m-1"/>
               {`${
                 user.lang === "AR_SA" ? "زيارة الخدمة" : "Visit Service"
               }`}{" "}

@@ -9,6 +9,7 @@ import ReactStars from "react-rating-stars-component";
 import styles from "../../styles/evaluation-page/instructors-card.module.scss";
 import { useContext } from "react";
 import { UserContext } from "../../state-management/user-state/UserContext";
+import { L } from "../../constants";
 
 /**
  * TODO: Create an overlay for evaluation numbers
@@ -60,8 +61,8 @@ function InstructorCard(props) {
               <OverlayTrigger
                 placement="top"
                 delay={{ show: 150, hide: 200 }}
-                overlay={<Tooltip id="button-tooltip">{`${user.lang === "ar" ? "عدد المقيمين": "Evaluation Count"}`}</Tooltip>}
-                trigger={"hover"}
+                overlay={<Tooltip id="button-tooltip">{`${user.lang === L.AR_SA ? "عدد المقيمين": "Evaluation Count"}`}</Tooltip>}
+  
               >
                 <Container id="cunter" className={styles.eval_counter}>
                   <MdFolderSpecial />

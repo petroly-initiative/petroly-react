@@ -12,7 +12,7 @@ import { Fade } from "react-awesome-reveal";
 import translator from "../dictionary/pages/home-dict";
 import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
-import { T } from "../constants";
+import { T, L, langDirection } from "../constants";
 
 export default function HomeScreen() {
   /**
@@ -20,14 +20,15 @@ export default function HomeScreen() {
    * - Translation to english while taking into consideration the text direction
    */
 
-  const { user, userDispatch } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
     // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
-    console.log("changed language!");
   }, [user.lang]);
+
+
 
   return (
     <>
@@ -59,9 +60,11 @@ export default function HomeScreen() {
       <Navbar page="home" />
       <Container className={styles["main-container"]}>
         <Fade cascade damping={0.05} triggerOnce direction="up">
-          <div className={styles["titles"]}>{langState.newsHeader}</div>
+          <div style={langDirection(user.lang)} className={styles["titles"]}>
+            {langState.newsHeader}
+          </div>
 
-          <Row style={{ direction: "rtl" }} className={styles["containers"]}>
+          <Row style={langDirection(user.lang)} className={styles["containers"]}>
             <Col xl={6} lg={6} md={12} sm={12} className={[styles["columns"]]}>
               <NewsCard
                 title={langState.news0.title}
@@ -134,8 +137,14 @@ export default function HomeScreen() {
             ></Col>
             <Col xl={12} lg={12} sm={12} xs={12}>
               <Row>
-                <Col xl={12} xs={12} className={styles["titles"]}>
-                  {langState.servicesHeader}                </Col>
+                <Col
+                  style={langDirection(user.lang)}
+                  xl={12}
+                  xs={12}
+                  className={styles["titles"]}
+                >
+                  {langState.servicesHeader}{" "}
+                </Col>
                 <Col xl={6} lg={6} xs={12}>
                   <ServiceCard
                     title={langState.service0}

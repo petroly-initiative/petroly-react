@@ -23,7 +23,7 @@ import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
 import { UserContext } from "../state-management/user-state/UserContext";
 import translator from "../dictionary/pages/groups-dict";
-
+import { langDirection, L } from "../constants";
 
 
 function Groups(state, action) {
@@ -40,7 +40,7 @@ function Groups(state, action) {
     Section: { find: false, course: "" },
   });
   // language state
-   const { user, userDispatch } = useContext(UserContext);
+   const { user } = useContext(UserContext);
    const [langState, setLang] = useState(() => translator(user.lang));
 
    useEffect(() => {
@@ -151,16 +151,19 @@ function Groups(state, action) {
               xl={7}
               style={{ width: "100% !important" }}
             >
-              <InputGroup className={styles["search-container"]}>
+              <InputGroup
+                style={langDirection(user.lang)}
+                className={styles["search-container"]}
+              >
                 <Form.Control
                   id="name"
-                  style={{ direction: "rtl" }}
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   type="text"
                   placeholder={langState.searchbar}
-                 
+
                   //   onChange={"changeName"}
                   //   onKeyDown={"enterSearch"}
-                ></Form.Control>
+                />
                 <InputGroup.Append style={{ height: 38 }}>
                   <Button
                     type="submit"

@@ -23,3 +23,8 @@ export const L = {
 };
 // Set a default const language
 export const DEF_LANG = L.EN_US;
+
+export const langDirection = (inLang) => ({
+   direction: `${inLang === L.AR_SA ? "rtl !important" : "ltr !important"}`,
+   textAlign: `${inLang === L.AR_SA ? "right !important" : "left !important"}`,
+ });

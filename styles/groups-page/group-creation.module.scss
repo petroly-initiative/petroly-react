@@ -10,10 +10,9 @@ $btn-prim: #00ead3;
 
 .title {
   width: 100%;
-  text-align: right;
   position: relative;
-  margin-right: 0;
-  margin: auto;
+  display: flex;
+  justify-content: flex-start;
   font-weight: 600 !important;
   font-family: inherit;
   font-size: 1.4rem;
@@ -101,8 +100,8 @@ $btn-prim: #00ead3;
   background-color: rgba(212, 212, 212, 0.233);
   width: 100%;
   height: fit-content;
-  min-width: 60%;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
   min-height: 30px;
   font-size: 0.7rem;
@@ -113,6 +112,7 @@ $btn-prim: #00ead3;
   .label-header {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     font-weight: 600;
     font-size: 14px;
     color: $txt-fill;
@@ -121,12 +121,14 @@ $btn-prim: #00ead3;
       height: 100%;
       font-size: 16px;
       font-weight: 600;
-      margin-right: 8px;
+      margin-left: 8px;
     }
   }
 
   .label-content {
-    margin-right: 8px;
+    width: 100% !important;
+    display: flex;
+    justify-content: flex-start;
     font-weight: 400;
     font-size: 12px;
     line-height: 1.3;
@@ -146,18 +148,23 @@ $btn-prim: #00ead3;
 }
 
 .label {
+  direction: rtl;
+  text-align: right;
   padding-left: 10px;
+  width: 100%;
+  padding-right: 10px;
   font-weight: 600;
   margin-bottom: 8px;
   span {
     margin-right: 8px;
+    margin-left: 8px;
+    width: 100%;
   }
 }
 
 .formStyle {
-  direction: rtl;
-  text-align: right;
   margin-bottom: 30px !important;
+  
 }
 
 .group {
@@ -234,8 +241,6 @@ $btn-prim: #00ead3;
   padding: 8px !important;
   display: flex;
   align-items: center;
-  direction: rtl;
-  text-align: right;
   font-weight: 600;
   padding: 16px;
   .rules-icon {
