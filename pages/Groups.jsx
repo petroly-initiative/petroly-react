@@ -26,7 +26,7 @@ import { CommunitiesQuery } from "../api/queries";
 import { UserContext } from "../state-management/user-state/UserContext";
 
 function Groups(state, action) {
-  const { data, loading, error } = useQuery(CommunitiesQuery, {
+  const { data, loading, error, refetch } = useQuery(CommunitiesQuery, {
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-first",
@@ -35,6 +35,8 @@ function Groups(state, action) {
   // search filter modal state
   const [user, userDispatch] = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [platform, setPlatform] = useState({
     DISCORD: true,
     TELEGRAM: true,
@@ -70,15 +72,15 @@ function Groups(state, action) {
   //   refetch(groupssState);
   // };
 
-  // const search = (e) => {
-  //   var value = name;
-  //   groupssDispatch({ changeIn: "name", name: value });
-  //   refetch(groupssState);
-  // };
+  const search = () => {
+    const term = searchTerm.trim();
+    if (term != "") refetch({ name: term });
+  };
 
-  // const enterSearch = (event) => {
-  //   if (event.key === "Enter") search();
-  // };
+  const enterSearch = (event) => {
+    setSearchTerm(event.target.value);
+    if (event.key === "Enter") search();
+  };
 
   // ? Mappers
   // ? We will use a show-more mehcanism instead of pagination
@@ -155,13 +157,12 @@ function Groups(state, action) {
                   style={{ direction: "rtl" }}
                   type="text"
                   placeholder="أدخِل اسم القروب"
-                  //   onChange={"changeName"}
-                  //   onKeyDown={"enterSearch"}
+                  onKeyDown={enterSearch}
                 ></Form.Control>
                 <InputGroup.Append style={{ height: 38 }}>
                   <Button
                     type="submit"
-                    // onClick={"search"}
+                    onClick={search}
                     className={styles["search_btn"]}
                   >
                     <BiSearch size="1.5rem" />

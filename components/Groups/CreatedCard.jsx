@@ -1,12 +1,21 @@
 import React, { useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { Col, Row, Form, Button, InputGroup, Spinner } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Form,
+  Alert,
+  Button,
+  InputGroup,
+  Spinner,
+} from "react-bootstrap";
 
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 import styles from "../../styles/groups-page/group-creation.module.scss";
 
 // TODO Modify this component.
+/* It should show the created community to the user and allow him to share it or edit it. */
 function CreatedGroup(props) {
   const [successShow, setSuccessShow] = useState(props.success);
   const refreshPage = () => window.location.reload(false);
@@ -28,6 +37,9 @@ function CreatedGroup(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className={"show-grid " + styles["modal-body"]}>
+          <Alert variant={"success"}>
+            بإمكانك تعديل المجتمع او حذفه من صفحتك الشخصية
+          </Alert>
           <Button
             className={styles.createButton}
             type="submit"
