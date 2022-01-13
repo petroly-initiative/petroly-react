@@ -31,14 +31,14 @@ import translator from "../../dictionary/components/eval-tab-dict";
 
 export default function EvaluationsTab(props) {
   const [mode, setMode] = useState("view-all");
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
 
-    useEffect(() => {
-      // console.log(userContext.user.lang);
-      setLang(() => translator(user.lang));
-      console.log("changed language!");
-    }, [user.lang]);
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
 
   const switchMode = () => {
     setMode(mode === "view-all" ? "search" : "view-all");
@@ -54,7 +54,6 @@ export default function EvaluationsTab(props) {
   });
 
   if (loadingEval) {
-    console.log("loading");
     return (
       <Card className={styles["card-containers"] + " shadow"}>
         <Card.Header className={styles["header-containers"]}>
