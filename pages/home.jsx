@@ -135,7 +135,8 @@ export default function HomeScreen() {
             <Col xl={12} lg={12} sm={12} xs={12}>
               <Row>
                 <Col xl={12} xs={12} className={styles["titles"]}>
-                  {langState.servicesHeader}                </Col>
+                  {langState.servicesHeader}{" "}
+                </Col>
                 <Col xl={6} lg={6} xs={12}>
                   <ServiceCard
                     title={langState.service0}

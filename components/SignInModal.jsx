@@ -277,8 +277,6 @@ export default function SignInModal(props) {
           username: dataTokenAuth.tokenAuth.user.username,
           profileId: dataTokenAuth.tokenAuth.user.profile.id,
           lang: dataTokenAuth.tokenAuth.user.profile.language,
-          lang: localStorage.getItem("lang") || "en",
-
         });
         props.close();
       }
@@ -373,7 +371,8 @@ export default function SignInModal(props) {
                         onClick={switchTab}
                         id="signUp"
                       >
-                        {langState.switch2}</Button>
+                        {langState.switch2}
+                      </Button>
                     </div>
                   </div>
                   {validationError.show && (
@@ -504,14 +503,18 @@ export default function SignInModal(props) {
 
                     <div
                       className={authStyle.redirecter}
-                      style={{ fontSize: 12, direction: `${user.lang === L.EN_US ? "ltr" : "rtl"}`, margin: 8 }}
+                      style={{
+                        fontSize: 12,
+                        direction: `${user.lang === L.EN_US ? "ltr" : "rtl"}`,
+                        margin: 8,
+                      }}
                     >
                       {langState.forgetPassword}
                       <button
                         type="button"
                         onClick={resetPassMode}
                         className={authStyle.redirectBtn}
-                        style={{marginLeft: 5}}
+                        style={{ marginLeft: 5 }}
                       >
                         {langState.replacePass}
                       </button>
@@ -551,7 +554,7 @@ export default function SignInModal(props) {
                     <FormControl
                       onChange={handleEmail}
                       value={email}
-                      placeholder= {langState.textField2}
+                      placeholder={langState.textField2}
                       type="email"
                       required
                       isInvalid={isEmailInvalid}

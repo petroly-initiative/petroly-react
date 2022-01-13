@@ -3,11 +3,14 @@ import {
   ApolloClient,
   useMutation,
   InMemoryCache,
+  createHttpLink,
+  ApolloLink,
 } from "@apollo/client";
+import { createUploadLink } from "apollo-upload-client";
 import { verifyTokenMutation, refreshTokenMutation } from "../api/mutations";
 import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
-import { USER, T, URL_ENDPOINT, formatL } from "../constants";
+import { USER, T, URL_ENDPOINT, DEF_LANG } from "../constants";
 
 export default function ClientMutator({ children }) {
   const { user, userDispatch } = useContext(UserContext);
@@ -16,14 +19,30 @@ export default function ClientMutator({ children }) {
 
   if (typeof window !== "undefined") {
     token = sessionStorage.getItem("token");
-    // if (!token) token = user.token;  //seems the this line not needed
     rToken = localStorage.getItem("refreshToken");
   }
 
   /* The default client with no authorization */
+
+  const authLink = new ApolloLink((operation, forward) => {
+    var lang = localStorage.getItem("lang") || DEF_LANG;
+    operation.setContext({
+      headers: { Authorization: "JWT " + token, "Accept-Language": lang },
+    });
+
+    console.log(operation.getContext());
+    return forward(operation).map((data) => {
+      // ...modify result as desired here...
+      console.log(data);
+      return data;
+      return forward(operation);
+    });
+  });
+
+  const uploadLink = createUploadLink({ uri: URL_ENDPOINT });
   const [client, setClient] = useState(
     new ApolloClient({
-      uri: URL_ENDPOINT,
+      link: ApolloLink.from([authLink, uploadLink]),
       cache: new InMemoryCache(),
     })
   );
@@ -45,38 +64,31 @@ export default function ClientMutator({ children }) {
    * localStorage, and we try to refresh it to get a vlid token, if not the user is logged out , so we reset the client cache
    * to make sure that no senstive data is cahced.
    */
-  useEffect(async () => {
+  useEffect(() => {
     if (user.status === USER.VERIFING) {
-      var username = user.username;
       var lang = user.lang;
       token = user.token;
 
+      // set a new client to refetch all quries
       setClient(
         new ApolloClient({
-          uri: URL_ENDPOINT,
+          link: ApolloLink.from([authLink, uploadLink]),
           cache: new InMemoryCache(),
-          headers: {
-            Authorization: "JWT " + token,
-            "Accept-Language": lang,
-          },
         })
       );
-
-      userDispatch({ type: T.SET_CLIENT });
+      userDispatch({ type: T.SET_CLIENT, token });
     } else if (token) verifyToken();
     else if (rToken) refreshToken();
     else if (user.status === USER.LOGGED_OUT) {
       client.resetStore();
-
-      setClient(
-        new ApolloClient({
+      client.setLink(
+        createHttpLink({
           uri: URL_ENDPOINT,
-          cache: new InMemoryCache(),
           headers: { "Accept-Language": user.lang },
         })
       );
     }
-  }, [user.status, user.lang]);
+  }, [user.status]);
 
   /*
    * the folllowing two effects are to handle recieved data after calling
@@ -84,25 +96,20 @@ export default function ClientMutator({ children }) {
    */
 
   useEffect(() => {
-    if (dataVerifyToken && dataVerifyToken.verifyToken.success) {
-      var lang = user.lang;
-      setClient(
-        new ApolloClient({
-          uri: URL_ENDPOINT,
-          cache: new InMemoryCache(),
-          headers: {
-            Authorization: "JWT " + token,
-            "Accept-Language": lang,
-          },
-        })
-      );
-      // TODO: provide language by the me query
-      userDispatch({
-        type: T.SET_CLIENT,
-        username: dataVerifyToken.verifyToken.payload.username,
-        token,
-      });
-    } else if (rToken) refreshToken();
+    if (dataVerifyToken) {
+      if (dataVerifyToken.verifyToken.success) {
+        var lang = user.lang;
+
+        // since the found is token is valid
+        // no change in the client
+
+        userDispatch({
+          type: T.SET_CLIENT,
+          username: dataVerifyToken.verifyToken.payload.username,
+          token,
+        });
+      } else if (rToken) refreshToken();
+    }
   }, [dataVerifyToken]);
 
   useEffect(() => {
@@ -113,16 +120,16 @@ export default function ClientMutator({ children }) {
       sessionStorage.setItem("token", token);
       localStorage.setItem("refreshToken", rToken);
 
-      setClient(
-        new ApolloClient({
+      client.setLink(
+        createUploadLink({
           uri: URL_ENDPOINT,
-          cache: new InMemoryCache(),
           headers: {
             Authorization: "JWT " + token,
             "Accept-Language": lang,
           },
         })
       );
+
       userDispatch({
         type: T.SET_CLIENT,
         username: dataRefreshToken.refreshToken.payload.username,

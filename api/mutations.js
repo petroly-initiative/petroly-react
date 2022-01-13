@@ -190,7 +190,16 @@ export const profileUpdateMutation = gql`
       ok
       result {
         id
+        language
       }
+    }
+  }
+`;
+
+export const profilePicUpdateMutation = gql`
+  mutation ($file: Upload!) {
+    profilePicUpdate(file: $file) {
+      success
     }
   }
 `;
