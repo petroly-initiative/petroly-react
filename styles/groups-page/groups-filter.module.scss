@@ -1,6 +1,36 @@
-$txt-fill: rgb(126, 126, 126);
+@use "/styles/themes.module" as theme;
+
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-fill: rgb(146, 146, 146);
 $txt-hg: #0091e7;
 $btn-prim: #00ead3;
+$x: #622edb;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  border: 4px solid theme.$dark-fg !important;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg !important;
+    color: theme.$dark-fnt !important;
+    box-shadow: none !important;
+  }
+}
+
+.dark-header{
+  color: theme.$dark-fnt !important;
+}
+
+.dark-mode-input {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-xfg !important;
+  background: theme.$dark-xfg !important;
+  // border: 1px solid theme.$light-fnt;
+}
 
 .modal-header{
   direction: rtl;

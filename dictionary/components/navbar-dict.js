@@ -7,7 +7,8 @@ const arabic = {
   home: "الرئيسية",
   rating: "التقييم",
   groups: "المجتمعات",
-  support: "الدعم"
+  support: "الدعم",
+  theme: "وضع العرض"
 };
 
 const english = {
@@ -18,6 +19,7 @@ const english = {
   rating: "Evaluation",
   groups: "Groups",
   support: "Support",
+  theme: "Theme"
 };
 
 export default function translator(lang) {

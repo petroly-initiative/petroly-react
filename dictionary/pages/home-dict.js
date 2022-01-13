@@ -30,13 +30,13 @@ const english = {
   newsHeader: "Petroly News",
   servicesHeader: "Our Services",
   news0: {
-    title: "Petroly is Back and better than ever!",
+    title: "Petroly is Back and better than ever",
     content: `The Petroly Intiative is back with new user interface, easier user experience
-    , and new Groups Service!`,
+    , and new Groups Service`,
   },
   news1: {
     title: "Evaluation Revamp",
-    content: "Evaluating your instructors is easier than ever! Take a look",
+    content: "Evaluating your instructors is easier than ever",
   },
   news2: {
     title: "Your mates are now closer",

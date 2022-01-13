@@ -5,8 +5,10 @@ import { BsStarFill, BsStar } from "react-icons/bs";
 import { MdModeEdit } from "react-icons/md";
 import Image from "next/dist/client/image";
 import EvaluationModal from "../evaluation/EvaluationModal";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { indexOf } from "lodash";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import { M } from "../../constants";
 /**
  *
  * ? Evaluation preview setup
@@ -22,6 +24,8 @@ import { indexOf } from "lodash";
  */
 
 export default function EvaluationPreview(props) {
+
+  const { user } = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
 
   const closeModal = () => {
@@ -34,7 +38,14 @@ export default function EvaluationPreview(props) {
 
   return (
     <>
-      <Card onClick={launchModal} className={styles["card-body"] + " shadow"}>
+      <Card
+        onClick={launchModal}
+        className={
+          styles["card-body"] +
+          " shadow" +
+          ` ${user.theme === M.DARK ? styles["dark-card"] : ""}`
+        }
+      >
         <MdModeEdit size="1.2rem" className={styles["edit-icon"]} />
         {/* img + name + dept container */}
         <div className={styles["instructor-info"]}>
@@ -49,7 +60,12 @@ export default function EvaluationPreview(props) {
           <div className={styles["instructor-name"]}>
             {props.instructor.name}
           </div>
-          <div className={styles["instructor-dept"]}>
+          <div
+            className={
+              styles["instructor-dept"] +
+              ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+            }
+          >
             {props.instructor.department}
           </div>
         </div>

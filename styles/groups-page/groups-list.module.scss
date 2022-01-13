@@ -1,5 +1,16 @@
+@use '/styles/themes.module' as theme;
+
 $txt-fill: #52575d;
 $txt-hg: #0091e7;
+
+
+
+.dark-mode-input {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-bg !important;
+  background: theme.$dark-bg !important;
+  border: 1px solid theme.$light-fnt;
+}
 
 .list_container {
   margin-right: 5rem !important;

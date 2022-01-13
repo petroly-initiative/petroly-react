@@ -6,7 +6,6 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-  text-align: right;
   color: #ffffff;
   font-weight: 700;
   font-size: 24px;
@@ -30,12 +29,11 @@
 
 .card-title {
   text-shadow: 1px 1px rgb(112, 112, 112);
-  direction: rtl;
+  
 }
 
 .card-content {
   position: absolute;
-  direction: rtl;
   font-weight: 400;
   width: 101%;
   height: 101%;
@@ -44,13 +42,11 @@
   left: -1px;
   filter: opacity(0);
   transition: 300ms ease;
-
   padding-bottom: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-start !important;
   align-items: flex-start;
-  text-align: right;
   color: white;
   font-size: 14px;
   div {
@@ -78,10 +74,9 @@
   height: 416px;
 
   .card-content {
-    padding: 32px;
-    justify-content: center;
+    padding: 42px;
+    justify-content: flex-start !important;
     padding-top: 32px;
-    padding-left: 170px;
   }
 }
 
@@ -91,8 +86,9 @@
   color: white;
   height: 50px;
   position: absolute;
-  right: 16px;
   bottom: 0px;
+  right: 16px;
+  text-align: right;
   font-size: 20px;
   font-weight: 700;
   transition: 200ms ease;

@@ -21,6 +21,7 @@ import { MdDescription } from "react-icons/md";
 import styles from "../../styles/groups-page/group-creation.module.scss";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-create-dict";
+import { langDirection, L, M } from "../../constants";
 
 function GroupCreationCard() {
   const [modalShow, setModalShow] = useState(false);
@@ -94,25 +95,75 @@ function GroupCreationCard() {
 
   return (
     <div>
+      <style jsx>
+        {`
+        .label, .title{
+          direction: ${
+            user.lang === L.AR_SA ? "rtl !important" : "ltr !important"
+          },
+          textAlign: ${
+            user.lang === L.AR_SA ? "right !important" : "left !important"
+          }
+          }
+          .label-content {
+          direction: ${
+            user.lang === L.AR_SA ? "rtl !important" : "ltr !important"
+          },
+          textAlign: ${
+            user.lang === L.AR_SA ? "right !important" : "left !important"
+          }
+          }
+          
+          `}
+      </style>
       <Modal
-        contentClassName={styles.layout}
+        contentClassName={
+          styles.layout + `${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
         onHide={() => setModalShow(false)}
         show={modalShow}
         aria-labelledby="contained-modal-title-vcenter"
+        style={langDirection(user.lang)}
+        dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
       >
-        <Modal.Header>
+        <Modal.Header
+          style={langDirection(user.lang)}
+          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+          className={`${user.theme === M.DARK ? styles["dark-mode"] : ""}`}
+        >
           <Modal.Title
             className={styles.title}
             id="contained-modal-title-vcenter"
+            style={langDirection(user.lang)}
+            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
           >
             {langState.header}{" "}
             <AiOutlineUsergroupAdd color="#00ead3" className={styles.icons} />
           </Modal.Title>
         </Modal.Header>
-        <Form onSubmit={createGroup} className={styles.formStyle} noValidate>
-          <Modal.Body className={"show-grid " + styles["modal-body"]}>
+
+        <Modal.Body
+          className={
+            "show-grid " +
+            styles["modal-body"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
+          <Form
+            style={langDirection(user.lang)}
+            onSubmit={createGroup}
+            className={styles.formStyle}
+            noValidate
+            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+          >
             <InputGroup hasValidation as={Row} className={styles.group}>
-              <Form.Label className={styles.label} column xs="12">
+              <Form.Label
+                style={langDirection(user.lang)}
+                className={styles.label}
+                column
+                xs="12"
+                dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+              >
                 <FaIdCard className={styles.icons} />
                 <span> *{langState.name}</span>
               </Form.Label>
@@ -124,9 +175,10 @@ function GroupCreationCard() {
                   className={styles.input}
                   type="text"
                   placeholder={langState.namePlaceholder}
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                 />
                 <Form.Control.Feedback
-                  style={{ textAlign: "right" }}
+                  style={langDirection(user.lang)}
                   type="invalid"
                 >
                   {langState.nameErr}
@@ -144,6 +196,7 @@ function GroupCreationCard() {
                   ref={image}
                   className={styles.input}
                   type="file"
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                 />
               </Col>
             </InputGroup>
@@ -165,6 +218,7 @@ function GroupCreationCard() {
                     </Alert>
                   )}
                   <Form.Check
+                    dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                     className={styles.radio}
                     type={"radio"}
                     value="Educational"
@@ -184,6 +238,8 @@ function GroupCreationCard() {
                   />
                   <Form.Check
                     className={styles.radio}
+                    dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                    style={langDirection(user.lang)}
                     type={"radio"}
                     value="Entertainment"
                     label={
@@ -201,16 +257,25 @@ function GroupCreationCard() {
                     name="platform"
                   />
                   <Form.Check
+                    dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                     className={styles.radio + " " + styles["course-container"]}
                     type={"radio"}
                     value="Sections"
                     label={
                       <div>
-                        <div className={styles["label-header"]}>
+                        <div
+                          style={langDirection(user.lang)}
+                          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                          className={styles["label-header"]}
+                        >
                           <RiBook2Fill color="#622edb" size="1.1rem" />
                           <span>{langState.section}</span>
                         </div>
-                        <div className={styles["label-content"]}>
+                        <div
+                          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                          className={styles["label-content"]}
+                          style={langDirection(user.lang)}
+                        >
                           {langState.sectionSub}
                         </div>
                         <InputGroup
@@ -231,24 +296,31 @@ function GroupCreationCard() {
                             type="text"
                             // disabled={!types.Section.find}
                             placeholder={langState.course}
+                            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                           />
                           <Form.Control.Feedback
-                            style={{ textAlign: "right" }}
+                            style={langDirection(user.lang)}
                             type="invalid"
                           >
                             {langState.courseErr}
                           </Form.Control.Feedback>
-                          {!invalidCourse && <Form.Text
-                            style={{
-                              fontSize: 12,
-                              width: "100%",
-                              marginBottom: 6,
-                            }}
-                            id="passwordHelpBlock"
-                            muted
-                          >
-                            {langState.courseErr}{" "}
-                          </Form.Text>}
+                          {!invalidCourse && (
+                            <Form.Text
+                              style={Object.assign(
+                                {
+                                  fontSize: 12,
+                                  width: "100%",
+                                  marginBottom: 6,
+                                },
+                                langDirection(user.lang)
+                              )}
+                              id="passwordHelpBlock"
+                              muted
+                              dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                            >
+                              {langState.courseErr}{" "}
+                            </Form.Text>
+                          )}
                         </InputGroup>
                       </div>
                     }
@@ -332,10 +404,15 @@ function GroupCreationCard() {
                   as="textarea"
                   placeholder={langState.descPlaceHolder}
                   style={{ height: "100px" }}
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   maxLength="500"
                 />
                 <Form.Text
-                  style={{ fontSize: 12 }}
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  style={Object.assign(
+                    { fontSize: 12 },
+                    langDirection(user.lang)
+                  )}
                   id="passwordHelpBlock"
                   muted
                 >
@@ -357,27 +434,33 @@ function GroupCreationCard() {
                   className={`${styles.input} ${styles.link}`}
                   type="text"
                   placeholder={langState.linkPlaceholder}
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                 />
                 <Form.Control.Feedback
-                  style={{ textAlign: "right" }}
+                  style={langDirection(user.lang)}
                   type="invalid"
                 >
                   {langState.linkErr}
                 </Form.Control.Feedback>
               </Col>
             </InputGroup>
-          </Modal.Body>
-          <Modal.Footer className={styles.footer}>
-            <Button
-              className={styles.createButton}
-              type="submit"
-              // onClick={() => setModalShow(false)}
-              onClick={createGroup}
-            >
-              {langState.create}{" "}
-            </Button>
-          </Modal.Footer>
-        </Form>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer
+          className={
+            styles.footer +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
+          <Button
+            className={styles.createButton}
+            type="submit"
+            // onClick={() => setModalShow(false)}
+            onClick={createGroup}
+          >
+            {langState.create}{" "}
+          </Button>
+        </Modal.Footer>
       </Modal>
       <>
         <Button

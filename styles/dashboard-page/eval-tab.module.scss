@@ -1,6 +1,21 @@
+@use "/styles/themes.module" as theme;
+
 $txt-fill: #52575dc0;
-$btn-primary: #00ead3;
-$txt-high: #0091E7;
+$btn-primary: #01dac4;
+$txt-high: #0091e7;
+$x: #622edb;
+
+.dark-card{
+  background-color: theme.$dark-xfg !important;
+  border: unset !important;
+}
+
+.dark-header{
+  color: theme.$dark-fnt !important;
+}
+
+
+
 
 .profile-pic {
   border-radius: 70px;

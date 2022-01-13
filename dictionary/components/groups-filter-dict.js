@@ -2,7 +2,7 @@ import { L } from "../../constants";
 
 const arabic = {
 modalHeader: "إعدادات البحث",
-typesubHeader: "نزع المجتمع",
+typesubHeader: "نوع المجتمع",
 edu: "تعليمي",
 fun: "ترفيهي",
 section: "شعبة",

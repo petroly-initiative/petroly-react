@@ -1,29 +1,49 @@
+@use "/styles/themes.module" as theme;
+
 $btn-high: #00ead3;
 $txt-fill: #52575d;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg !important;
+    color: theme.$dark-fnt !important;
+    box-shadow: none !important;
+  }
+}
+
+.dark-mode-input {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-bg !important;
+  background: theme.$dark-bg !important;
+  border: 1px solid theme.$light-fnt;
+}
 
 @mixin tabNav {
   width: 100%;
   margin: 12px;
-    background-color: unset !important;
-    color: $txt-fill;
-    font-weight: 700;
-    border: unset !important;
+  background-color: unset !important;
+  color: $txt-fill;
+  font-weight: 700;
+  border: unset !important;
+  border-radius: 4px;
+  transition: 600 ease;
+  &:hover {
+    background-color: $btn-high !important;
     border-radius: 4px;
-    transition: 600 ease;
-    &:hover{
-      background-color: $btn-high !important;
-      border-radius: 4px;
-      color: white;
-    }
-    &:focus{
-      background-color: unset !important;
-      border: unset !important;
-      color: $txt-fill;
-      box-shadow: unset !important;
-    }
-
+    color: white;
   }
- 
+  &:focus {
+    background-color: unset !important;
+    border: unset !important;
+    color: $txt-fill;
+    box-shadow: unset !important;
+  }
+}
 
 .modal-btn {
   background-color: $btn-high !important;
@@ -56,7 +76,8 @@ $txt-fill: #52575d;
 }
 
 .pwd-toggle {
-  border: #ced4da solid 1px;
+  border: unset;
+  border-radius: 2px !important;
   background-color: unset;
   color: #52575d;
 }
@@ -184,11 +205,12 @@ $txt-fill: #52575d;
 
 .redirecter {
   display: flex;
-  direction: rtl;
   margin-top: 16px;
+  width: fit-content !important;
 }
 
 .redirectBtn {
+  width: fit-content !important;
   border: none;
   outline: none;
   box-shadow: none;
@@ -198,6 +220,7 @@ $txt-fill: #52575d;
 
   transition: 300ms ease;
   margin-right: 4px;
+  margin-left: 4px;
   &:hover {
     color: $btn-high;
   }
@@ -217,10 +240,10 @@ $txt-fill: #52575d;
 }
 
 .reset-instructions {
-  text-align: right;
   padding: 12px;
   color: $txt-fill;
   font-weight: 600;
+  width: 100%;
 }
 
 .labels {
@@ -239,30 +262,29 @@ $txt-fill: #52575d;
   margin-bottom: 26px;
 }
 
-.nav-container{
+.nav-container {
   width: 100%;
   display: flex;
   justify-content: space-around;
- .nav-btns{
-   width: 140px;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-
- }
+  .nav-btns {
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
- .active-tab{
-   @include tabNav;
-   border-radius: 0;
+.active-tab {
+  @include tabNav;
+  border-radius: 0;
+  border-bottom: 3px solid $btn-high !important;
+  &:focus {
     border-bottom: 3px solid $btn-high !important;
-    &:focus{
-      border-bottom: 3px solid $btn-high !important;
-    }
+  }
 }
-  
-  .tab-btns{
-    @include tabNav;
+
+.tab-btns {
+  @include tabNav;
 }
 
 @-webkit-keyframes modaltransition {

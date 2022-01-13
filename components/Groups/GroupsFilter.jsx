@@ -8,6 +8,7 @@ import { useEffect, useState, useCallback, useRef, useContext } from "react";
 import { GoSettings } from "react-icons/go";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-filter-dict";
+import { M } from "../../constants";
 
 export default function GroupsFilter(props) {
 
@@ -111,20 +112,42 @@ useEffect(() => {
         }}
         size="md"
       >
-        <Modal.Header className={styles["modal-header"]}>
+        <Modal.Header
+          className={
+            styles["modal-header"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           <GoSettings />
           <span>{langState.modalHeader}</span>
         </Modal.Header>
-        <Modal.Body className={styles["modal-body"]}>
+        <Modal.Body
+          className={
+            styles["modal-body"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           <Row className={styles["cols-container"]}>
             <Col className={styles["cols"]}>
-              <div className={styles["titles"]}>{langState.platformSubHeader}</div>
+              <div
+                className={
+                  styles["titles"] +
+                  ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                }
+              >
+                {langState.platformSubHeader}
+              </div>
               <Form>
                 <div>
                   <Form.Check
                     checked={platforms.Discord}
                     type="checkbox"
-                    className={styles["filters"]}
+                    className={
+                      styles["filters"] +
+                      ` ${
+                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                      }`
+                    }
                     onChange={platformSwitch}
                     id="Discord"
                     label={
@@ -137,7 +160,12 @@ useEffect(() => {
                   <Form.Check
                     checked={platforms.Whatsapp}
                     type="checkbox"
-                    className={styles["filters"]}
+                    className={
+                      styles["filters"] +
+                      ` ${
+                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                      }`
+                    }
                     onChange={platformSwitch}
                     id="Whatsapp"
                     label={
@@ -151,7 +179,12 @@ useEffect(() => {
                   <Form.Check
                     checked={platforms.Telegram}
                     type="checkbox"
-                    className={styles["filters"]}
+                    className={
+                      styles["filters"] +
+                      ` ${
+                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                      }`
+                    }
                     onChange={platformSwitch}
                     id="Telegram"
                     label={
@@ -166,12 +199,15 @@ useEffect(() => {
               </Form>
             </Col>
             <Col className={styles["cols"]}>
-              <div className={styles["titles"]}>{langState.typeSubHeader}</div>
+              <div className={styles["titles"]}>{langState.typesubHeader}</div>
               <Form>
                 <Form.Check
                   checked={types.Educational}
                   type="checkbox"
-                  className={styles["filters"]}
+                  className={
+                    styles["filters"] +
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
                   onChange={typeSwitch}
                   id="Educational"
                   label={
@@ -185,7 +221,10 @@ useEffect(() => {
                 <Form.Check
                   checked={types.Entertainment}
                   type="checkbox"
-                  className={styles["filters"]}
+                  className={
+                    styles["filters"] +
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
                   onChange={typeSwitch}
                   id="Entertainment"
                   label={
@@ -198,7 +237,12 @@ useEffect(() => {
                 <Form.Check
                   checked={types.Section.find}
                   type="checkbox"
-                  className={styles["filters"] + " " + styles["section-filter"]}
+                  className={
+                    styles["filters"] +
+                    " " +
+                    styles["section-filter"] +
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
                   onChange={typeSwitch}
                   id="Sections"
                   style={{ height: types.Section.find ? 100 : 50 }}
