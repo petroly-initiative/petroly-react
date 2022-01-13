@@ -170,7 +170,10 @@ function Groups(state, action) {
                   <Button
                     type="submit"
                     // onClick={"search"}
-                    className={styles["search_btn"]}
+                    className={
+                      styles["search_btn"] +
+                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                    }
                   >
                     <BiSearch size="1.5rem" />
                   </Button>
@@ -179,7 +182,10 @@ function Groups(state, action) {
                 <InputGroup.Append>
                   {/*popover for filters and order*/}
                   <Button
-                    className={styles["filter-btn"]}
+                    className={
+                      styles["filter-btn"] +
+                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                    }
                     align="start"
                     id="dropdown-menu-align-right"
                     onClick={launchModal}

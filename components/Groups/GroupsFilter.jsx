@@ -103,6 +103,7 @@ useEffect(() => {
   return (
     <>
       <Modal
+      className={styles["container"]}
         centered
         show={show}
         onHide={() => {

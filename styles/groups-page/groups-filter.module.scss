@@ -32,6 +32,12 @@ $x: #622edb;
   // border: 1px solid theme.$light-fnt;
 }
 
+.container{
+  div div{
+    border: none !important;
+  }
+}
+
 .modal-header{
   direction: rtl;
   font-weight: 600;

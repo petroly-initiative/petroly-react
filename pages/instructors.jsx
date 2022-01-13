@@ -200,7 +200,10 @@ function instructorsList() {
                   <Button
                     type="submit"
                     onClick={search}
-                    className={styles["search_btn"]}
+                    className={
+                      styles["search_btn"] +
+                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                    }
                     disabled
                   >
                     <BiSearch size="1.5rem" />
@@ -210,7 +213,7 @@ function instructorsList() {
                 <InputGroup.Append>
                   {/*popover for filters and order*/}
                   <DropdownButton
-                  disabled
+                    disabled
                     className={
                       styles["dept-dropdown"] +
                       ` ${
@@ -316,7 +319,10 @@ function instructorsList() {
                     <Button
                       type="submit"
                       onClick={search}
-                      className={styles["search_btn"]}
+                      className={
+                        styles["search_btn"] +
+                        ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                      }
                     >
                       <BiSearch size="1.5rem" />
                     </Button>
@@ -328,7 +334,9 @@ function instructorsList() {
                       className={
                         styles["dept-dropdown"] +
                         ` ${
-                          user.theme === M.DARK ? styles["dark-mode-dropper"] : ""
+                          user.theme === M.DARK
+                            ? styles["dark-mode-dropper"]
+                            : ""
                         }`
                       }
                       align="start"
@@ -338,11 +346,7 @@ function instructorsList() {
                       <Dropdown.Item
                         className={
                           styles["dropdown-h"] +
-                          ` ${
-                            user.theme === M.DARK
-                              ? styles["dark-mode"]
-                              : ""
-                          }`
+                          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
                         }
                         disabled
                       >
@@ -353,11 +357,7 @@ function instructorsList() {
                         id="null"
                         className={
                           styles["depts"] +
-                          ` ${
-                            user.theme === M.DARK
-                              ? styles["dark-mode"]
-                              : ""
-                          }`
+                          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
                         }
                         as={"div"}
                         eventKey="1"
@@ -418,7 +418,7 @@ function instructorsList() {
                 <Form.Control
                   id="name"
                   className={` ${
-                    user.theme === M.DARK ? styles["dark-mode"] : ""
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
                   }`}
                   type="text"
                   placeholder={langState.searchbar}
@@ -431,7 +431,10 @@ function instructorsList() {
                   <Button
                     type="submit"
                     onClick={search}
-                    className={styles["search_btn"]}
+                    className={
+                      styles["search_btn"] +
+                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                    }
                   >
                     <BiSearch size="1.5rem" />
                   </Button>
@@ -453,9 +456,7 @@ function instructorsList() {
                     <Dropdown.Item
                       className={
                         styles["dropdown-h"] +
-                        ` ${
-                          user.theme === M.DARK ? styles["dark-mode"] : ""
-                        }`
+                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
                       }
                       disabled
                     >
@@ -466,9 +467,7 @@ function instructorsList() {
                       id="null"
                       className={
                         styles["depts"] +
-                        ` ${
-                          user.theme === M.DARK ? styles["dark-mode"] : ""
-                        }`
+                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
                       }
                       as={"div"}
                       eventKey="1"

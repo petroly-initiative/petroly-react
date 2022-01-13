@@ -452,10 +452,11 @@ export default function EvaluationModal(props) {
 
               <InputGroup hasValidation className={styles["input-containers"]}>
                 <FormControl
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   style={langDirection(user.lang)}
                   maxLength="160"
                   className={
-                    styles["comments"] +
+                    
                     ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
                   }
                   placeholder={langState.gradePlaceholder}
@@ -513,9 +514,10 @@ export default function EvaluationModal(props) {
               <InputGroup hasValidation className={styles["input-containers"]}>
                 <Form.Label></Form.Label>
                 <FormControl
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   maxLength="160"
                   className={
-                    styles["comments"] +
+                  
                     ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
                   }
                   placeholder={langState.teachPlaceholder}
@@ -573,10 +575,11 @@ export default function EvaluationModal(props) {
 
               <InputGroup hasValidation className={styles["input-containers"]}>
                 <FormControl
+                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   style={langDirection(user.lang)}
                   maxLength="160"
                   className={
-                    styles["comments"] +
+                    
                     ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
                   }
                   placeholder={langState.personPlaceholder}
@@ -608,9 +611,13 @@ export default function EvaluationModal(props) {
 
               <InputGroup hasValidation className={styles["input-containers"]}>
                 <FormControl
+                 dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   style={langDirection(user.lang)}
                   maxLength="160"
-                  className={styles["comments"]}
+                  className={
+                  
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
                   placeholder={langState.commentPlaceholder}
                   as="textarea"
                   size="sm"
