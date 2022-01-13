@@ -16,6 +16,7 @@ import { FiSearch } from "react-icons/fi";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-tab-dict";
+import { M } from "../../constants";
 /**
  * ? Groups tab setup
  * - There will be two states for this tab
@@ -44,13 +45,35 @@ export default function GroupsTab(props) {
 
   return (
     <>
-      <Card className={styles["card-containers"] + " shadow"}>
-        <Card.Header className={styles["header-containers"]}>
+      <Card
+        className={
+          styles["card-containers"] +
+          " shadow" +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
+      >
+        <Card.Header
+          className={
+            styles["header-containers"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           {mode === "view-all" && (
             <Fade triggerOnce>
-              <div className={styles["card-headers"]}>
+              <div
+                className={
+                  styles["card-headers"] +
+                  ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                }
+              >
                 <span className={styles["card-title"]}>{langState.header}</span>
-                <Button onClick={switchMode} className={styles["btns"]}>
+                <Button
+                  onClick={switchMode}
+                  className={
+                    styles["btns"] +
+                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                  }
+                >
                   <FiSearch size="1.6rem" />
                 </Button>
               </div>
@@ -61,7 +84,12 @@ export default function GroupsTab(props) {
               <div className={styles["card-headers"]}>
                 <Form className={styles["header-search"]}>
                   <InputGroup>
-                    <FormControl placeholder={langState.searchbar}/>
+                    <FormControl
+                      className={` ${
+                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                      }`}
+                      placeholder={langState.searchbar}
+                    />
                   </InputGroup>
                 </Form>
                 <div className={styles["search-set"]}>

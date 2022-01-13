@@ -4,8 +4,7 @@ import { Row, Col, ProgressBar, Container } from "react-bootstrap";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/evaluation-page/instructor-rating.module.scss";
 import  translator  from "../../dictionary/components/instructor-rating-dict";
-
-// TODO: handling text direction for both languages
+import { langDirection, M,L } from "../../constants";
 
 function InstructorRates(props) {
 
@@ -68,17 +67,40 @@ function InstructorRates(props) {
               {format(props.overall, 1)}
             </div>
             <div id="divider" className={styles.divider}></div>
-            <div id="full-score" className={styles.ovrFull}>
+            <div
+              id="full-score"
+              className={
+                styles.ovrFull +
+                ` ${user.theme === M.DARK ? styles["dark-ovr"] : ""}`
+              }
+            >
               5
             </div>
           </div>
         </div>
       </div>
       <div id="attrBars" className={styles.attrBars}>
-        <div className={styles.barContainer}>
-          <div className={styles.barHeaders}>{langState.grades}</div>
-          <div className={styles.barValue}>
+        <div
+          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+          className={styles.barContainer}
+        >
+          <div
+            style={langDirection(user.lang)}
+            className={
+              styles.barHeaders +
+              ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+            }
+          >
+            {langState.grades}
+          </div>
+          <div
+            className={
+              styles.barValue +
+              ` ${user.theme === M.DARK ? styles["dark-bars"] : ""}`
+            }
+          >
             <ProgressBar
+              style={langDirection(user.lang)}
               id="grading"
               className={[styles.bars, barFilter(props.grading)]}
               color={"blue"}
@@ -86,19 +108,53 @@ function InstructorRates(props) {
             />
           </div>
         </div>
-        <div className={styles.barContainer}>
-          <div className={styles.barHeaders}>{langState.teaching}</div>
-          <div className={styles.barValue}>
+        <div
+          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+          className={styles.barContainer}
+        >
+          <div
+            style={langDirection(user.lang)}
+            className={
+              styles.barHeaders +
+              ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+            }
+          >
+            {langState.teaching}
+          </div>
+          <div
+            className={
+              styles.barValue +
+              ` ${user.theme === M.DARK ? styles["dark-bars"] : ""}`
+            }
+          >
             <ProgressBar
+              style={langDirection(user.lang)}
               className={[styles.bars, barFilter(props.teaching)]}
               now={(props.teaching / 5) * 100}
             />
           </div>
         </div>
-        <div className={styles.barContainer}>
-          <div className={styles.barHeaders}>{langState.person}</div>
-          <div className={styles.barValue}>
+        <div
+          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+          className={styles.barContainer}
+        >
+          <div
+            style={langDirection(user.lang)}
+            className={
+              styles.barHeaders +
+              ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+            }
+          >
+            {langState.person}
+          </div>
+          <div
+            className={
+              styles.barValue +
+              ` ${user.theme === M.DARK ? styles["dark-bars"] : ""}`
+            }
+          >
             <ProgressBar
+              style={langDirection(user.lang)}
               className={[styles.bars, barFilter(props.personality)]}
               now={(props.personality / 5) * 100}
             />

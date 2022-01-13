@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { USER, T } from "../../constants";
+import { USER, T, L } from "../../constants";
 
 /**
  * @param USER: indicates the user status in the userContext
@@ -49,6 +49,7 @@ export const userReducer = (currentState, action) => {
         username: action.username,
         profileId: action.profileId,
         lang: action.lang,
+        theme: action.theme
       };
 
     case T.SET_CLIENT:
@@ -65,11 +66,15 @@ export const userReducer = (currentState, action) => {
       return {
         status: USER.LOGGED_OUT,
         lang: action.lang,
+        theme: action.theme
       };
     case T.CHANGE_LANG:
       localStorage.setItem("lang", action.lang);
       return { ...Object.assign(currentState, { lang: action.lang }) };
 
+    case T.CHANGE_THEME:
+      localStorage.setItem("theme", action.theme);
+      return {...Object.assign(currentState, {theme: action.theme})}  
     case "create-new":
       break;
   }

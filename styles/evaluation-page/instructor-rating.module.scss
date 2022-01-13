@@ -1,3 +1,12 @@
+@use "/styles/themes.module" as theme;
+
+$btn-pr: #1cbfff;
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-hg: #0091E7;
+
+
+
 $colors: (
   blue: #14f7ef,
   green: #00e091,
@@ -9,9 +18,38 @@ $colors: (
 $txt-fill: #6e737a;
 //
 
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  border: unset !important;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg !important;
+    color: theme.$dark-fnt !important;
+    box-shadow: none !important;
+  }
+}
+
+.dark-ovr{
+  color: theme.$dark-fnt !important;
+}
+
+.dark-bars{
+  background-color: theme.$dark-bg !important;
+  border: theme.$dark-bg !important;
+
+  :nth-child(1){
+     background-color: theme.$dark-bg ;
+      border: theme.$dark-bg !important;
+  }
+}
+
 @each $color, $value in $colors {
   .grading_#{$color} div {
-    background-color: $value;
+    background-color: $value !important;
     box-shadow: 0 0 0.4rem $value !important;
     overflow: visible !important;
   }
@@ -39,15 +77,13 @@ $txt-fill: #6e737a;
   display: flex;
   flex-direction: column;
   width: 100%;
-  align-self: flex-end;
+  align-self: flex-start;
 }
 
 .barHeaders {
   font-size: 16px;
   font-weight: 600;
   color: $txt-fill;
-  direction: rtl;
-  text-align: right;
   margin-top: 4px;
   padding-bottom: 4px;
 }
@@ -64,7 +100,6 @@ $txt-fill: #6e737a;
 }
 
 .barValue > div {
-  direction: rtl !important;
   height: 16px;
   margin: 2px;
   border-radius: 8px !important;
@@ -124,6 +159,12 @@ $txt-fill: #6e737a;
 
 .bg-blue {
   background-color: rgb(20, 100, 9);
+}
+
+.headers{
+  color: #316B83 !important;
+  
+  
 }
 
 @media only screen and (max-width: 600px) {

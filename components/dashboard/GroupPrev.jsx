@@ -6,7 +6,9 @@ import { AiFillDelete } from "react-icons/ai";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaTelegram } from "react-icons/fa";
 import { SiDiscord } from "react-icons/si";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import { M } from "../../constants";
 
 /**
  *
@@ -19,6 +21,8 @@ import { useEffect } from "react";
  */
 
 export default function GroupPreview(props) {
+  const { user } = useContext(UserContext);
+
   const typeStyler = (() => {
     let output;
 
@@ -43,7 +47,12 @@ export default function GroupPreview(props) {
 
   return (
     <>
-      <Card className={styles["card-body"]}>
+      <Card
+        className={
+          styles["card-body"] +
+          ` ${user.theme === M.DARK ? styles["dark-card"] : ""}`
+        }
+      >
         {/* pic container */}
 
         <div className={styles["pic-container"]}>
