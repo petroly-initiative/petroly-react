@@ -30,12 +30,10 @@ export default function ClientMutator({ children }) {
       headers: { Authorization: "JWT " + token, "Accept-Language": lang },
     });
 
-    console.log(operation.getContext());
+    return forward(operation);
     return forward(operation).map((data) => {
       // ...modify result as desired here...
-      console.log(data);
       return data;
-      return forward(operation);
     });
   });
 
