@@ -250,6 +250,10 @@ export const editCommunnityMutation = gql`
         field
         messages
       }
+      result {
+        id
+        name
+      }
     }
   }
 `;

@@ -17,6 +17,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import CreatedGroup from "./CreatedCard";
 import { editCommunnityMutation } from "../../api/mutations";
 import { getCommunity } from "../../api/queries";
+import PopMsg from "../PopMsg";
 
 export default function EditGroup(props) {
   const [modalShow, setModalShow] = useState(props.show);
@@ -403,8 +404,13 @@ export default function EditGroup(props) {
           </Modal.Footer>
         </Form>
       </Modal>
+
       {submittedForm ? (
-        <CreatedGroup success={data.communityUpdate.ok} />
+        <PopMsg
+          success={editData.communityUpdate.ok}
+          successMsg={"تم تعديل القروب بنجاح."}
+          onClose={() => window.location.reload(false)}
+        />
       ) : (
         <></>
       )}
