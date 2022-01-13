@@ -6,9 +6,10 @@ import { AiFillDelete } from "react-icons/ai";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaTelegram } from "react-icons/fa";
 import { SiDiscord } from "react-icons/si";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { deleteCommunity } from "../../api/mutations";
+import EditGroup from "../Groups/EditGroup";
 /**
  *
  * @param props: {
@@ -19,6 +20,7 @@ import { deleteCommunity } from "../../api/mutations";
  * @returns the group preview card
  */
 export default function GroupPreview(props) {
+  const [showEdit, setShowEdit] = useState(false);
   const typeStyler = (() => {
     let output;
 
@@ -65,7 +67,6 @@ export default function GroupPreview(props) {
       </div>
     );
   }
-
   return (
     <>
       <Card className={styles["card-body"]}>
@@ -98,11 +99,16 @@ export default function GroupPreview(props) {
             <AiFillDelete />
           </Button>
           {/*  edit btn */}
-          <Button className={[styles["edit-btn"], styles["btns"]]}>
+          <Button
+            onClick={() => setShowEdit(true)}
+            className={[styles["edit-btn"], styles["btns"]]}
+          >
             <MdEdit />
           </Button>
         </div>
       </Card>
+      {/* TODO. I tried to make it show whenever edit btn is clicked, but it shows only the first time. */}
+      {showEdit ? <EditGroup show={true} id={props.id} /> : <></>}{" "}
     </>
   );
 }

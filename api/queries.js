@@ -140,14 +140,14 @@ export const myCommunities = gql`
 `;
 // -- communities' queries:
 export const getCommunity = gql`
-  query CommunityId($id: ID) {
+  query getCommunityInfo($id: ID) {
     community(where: { id: { exact: $id } }) {
       name
       platform
       category
       description
-      likes
       section
+      link
     }
   }
 `; // TODO update this query to match the new model.

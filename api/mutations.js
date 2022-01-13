@@ -175,8 +175,6 @@ export const passwordResetMutation = gql`
 `;
 
 // Community mutations:
-
-// export const updateCommunityLikes = gql``; // TODO
 export const createCommunnityMutation = gql`
   mutation CreateCommunity(
     $name: String!
@@ -218,6 +216,35 @@ export const toggleLikeCommunityMutation = gql`
 export const deleteCommunity = gql`
   mutation DeleteCommunity($id: ID) {
     communityDelete(where: { id: { exact: $id } }) {
+      ok
+      errors {
+        field
+        messages
+      }
+    }
+  }
+`;
+export const editCommunnityMutation = gql`
+  mutation EditCompetition(
+    $id: ID
+    $name: String!
+    $link: String!
+    $platform: CommunityPlatformEnum!
+    $category: CommunityCategoryEnum!
+    $description: String!
+    $section: String
+  ) {
+    communityUpdate(
+      input: {
+        name: $name
+        link: $link
+        platform: $platform
+        category: $category
+        description: $description
+        section: $section
+      }
+      where: { id: { exact: $id } }
+    ) {
       ok
       errors {
         field
