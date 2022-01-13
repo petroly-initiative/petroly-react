@@ -60,6 +60,7 @@ export default function ProfileTab(props) {
     data: dataMe,
     loading: loadingMe,
     error: errorMe,
+    refetch: refetchMe,
   } = useQuery(meQuery, {
     notifyOnNetworkStatusChange: true,
     skip: user.status !== USER.LOGGED_IN,
@@ -103,8 +104,9 @@ export default function ProfileTab(props) {
   useEffect(() => {
     if (loadingProfilePicUpdate) setWaitingPic(true);
     else if (dataProfilePicUpdate) {
+      setWaitingPic(false);
       if (dataProfilePicUpdate.profilePicUpdate.success) {
-        setWaitingPic(false); // this also refetches MeQuery
+        refetchMe();
       } else {
         // popup an error msg
         console.log("updating profilePic failed");
