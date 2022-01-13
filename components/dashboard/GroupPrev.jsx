@@ -67,6 +67,7 @@ export default function GroupPreview(props) {
       </div>
     );
   }
+  if (deleteData) return <></>; // Already checked that loading has finished and there are no errors.
   return (
     <>
       <Card className={styles["card-body"]}>
