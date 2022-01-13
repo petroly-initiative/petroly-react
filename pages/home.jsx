@@ -10,9 +10,9 @@ import { HiDesktopComputer } from "react-icons/hi";
 import { GiMaterialsScience } from "react-icons/gi";
 import { Fade } from "react-awesome-reveal";
 import translator from "../dictionary/pages/home-dict";
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useContext, useState, useCallback } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
-import { T, L, langDirection } from "../constants";
+import { T, L, langDirection, M } from "../constants";
 
 export default function HomeScreen() {
   /**
@@ -26,6 +26,8 @@ export default function HomeScreen() {
   useEffect(() => {
     // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
+    console.log(langDirection(user.lang));
+   
   }, [user.lang]);
 
 
@@ -60,11 +62,19 @@ export default function HomeScreen() {
       <Navbar page="home" />
       <Container className={styles["main-container"]}>
         <Fade cascade damping={0.05} triggerOnce direction="up">
-          <div style={langDirection(user.lang)} className={styles["titles"]}>
+          <div
+            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+            style={langDirection(user.lang)}
+            className={styles["titles"]}
+          >
             {langState.newsHeader}
           </div>
 
-          <Row style={langDirection(user.lang)} className={styles["containers"]}>
+          <Row
+            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+            style={langDirection(user.lang)}
+            className={styles["containers"]}
+          >
             <Col xl={6} lg={6} md={12} sm={12} className={[styles["columns"]]}>
               <NewsCard
                 title={langState.news0.title}
@@ -142,19 +152,20 @@ export default function HomeScreen() {
                   xl={12}
                   xs={12}
                   className={styles["titles"]}
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                 >
                   {langState.servicesHeader}{" "}
                 </Col>
                 <Col xl={6} lg={6} xs={12}>
                   <ServiceCard
                     title={langState.service0}
-                    header="/images/home/rating.webp"
+                    header="/images/home/groups.png"
                   />
                 </Col>
                 <Col xl={6} lg={6} xs={12}>
                   <ServiceCard
                     title={langState.service1}
-                    header="/images/home/communities-icon.webp"
+                    header="/images/home/rating.png"
                   />
                 </Col>
 

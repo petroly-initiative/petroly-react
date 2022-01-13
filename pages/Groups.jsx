@@ -23,7 +23,7 @@ import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
 import { UserContext } from "../state-management/user-state/UserContext";
 import translator from "../dictionary/pages/groups-dict";
-import { langDirection, L } from "../constants";
+import { langDirection, L, M } from "../constants";
 
 
 function Groups(state, action) {
@@ -160,7 +160,9 @@ function Groups(state, action) {
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   type="text"
                   placeholder={langState.searchbar}
-
+                  className={`${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`}
                   //   onChange={"changeName"}
                   //   onKeyDown={"enterSearch"}
                 />

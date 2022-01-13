@@ -24,7 +24,7 @@ import { USER } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import request from 'superagent';
 import translator from "../../dictionary/components/profile-tab-dict";
-
+import { M } from "../../constants";
 /**
  *
  * ? State management:
@@ -89,9 +89,25 @@ export default function ProfileTab(props) {
 
   if (loadingMe) {
     return (
-      <Card className={styles["card-containers"] + " shadow"}>
-        <Card.Header className={styles["header-containers"]}>
-          <div className={styles["card-headers"]}>
+      <Card
+        className={
+          styles["card-containers"] +
+          " shadow" +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
+      >
+        <Card.Header
+          className={
+            styles["header-containers"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
+          <div
+            className={
+              styles["card-headers"] +
+              ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+            }
+          >
             <span className={styles["card-title"]}>{langState.header}</span>
             {/* Edit btn / cancel editing button / Saving button */}
             {mode === "view" && (
@@ -121,8 +137,15 @@ export default function ProfileTab(props) {
         </Card.Header>
         {/* The content of the body will be a subject to local state management */}
         <Card.Body
-          style={{display: "flex", justifyContent: "center", alignItems: "center" }}
-          className={styles["card-body"]}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          className={
+            styles["card-body"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
         >
           {/* Container for stat attributes and profile info */}
 
@@ -130,7 +153,6 @@ export default function ProfileTab(props) {
             className={styles["loading-spinner"] + " shadow"}
             animation="border"
             role="status"
-            
           />
         </Card.Body>
       </Card>
@@ -145,14 +167,36 @@ export default function ProfileTab(props) {
 
   return (
     <>
-      <Card className={styles["card-containers"] + " shadow"}>
-        <Card.Header className={styles["header-containers"]}>
-          <div className={styles["card-headers"]}>
+      <Card
+        className={
+          styles["card-containers"] +
+          " shadow" +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
+      >
+        <Card.Header
+          className={
+            styles["header-containers"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
+          <div
+            className={
+              styles["card-headers"] +
+              ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+            }
+          >
             <span className={styles["card-title"]}>{langState.header}</span>
             {/* Edit btn / cancel editing button / Saving button */}
             {mode === "view" && (
               <Fade duration="1200">
-                <Button onClick={switchMode} className={styles["btns"]}>
+                <Button
+                  onClick={switchMode}
+                  className={
+                    styles["btns"] +
+                    ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                  }
+                >
                   <MdModeEdit size="1.6rem" />
                 </Button>
               </Fade>
@@ -190,7 +234,14 @@ export default function ProfileTab(props) {
                 />
               </div>
               <div className={styles["user-name"]}>{dataMe.me.username}</div>
-              <div className={styles["user-email"]}>{dataMe.me.email}</div>
+              <div
+                className={
+                  styles["user-email"] +
+                  ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                }
+              >
+                {dataMe.me.email}
+              </div>
               <Fade className={styles["fader"]}>
                 <Row className={styles["stats-container"]}>
                   <Col
@@ -201,13 +252,32 @@ export default function ProfileTab(props) {
                     xl={6}
                     className={styles["stat-col"]}
                   >
-                    <div className={styles["stat-title"]}>{langState.evals}</div>
-                    <Card className={styles["stat-cards"]}>
+                    <div
+                      className={
+                        styles["stat-title"] +
+                        ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                      }
+                    >
+                      {langState.evals}
+                    </div>
+                    <Card
+                      className={
+                        styles["stat-cards"] +
+                        ` ${user.theme === M.DARK ? styles["dark-card"] : ""}`
+                      }
+                    >
                       <RiMailStarFill
                         className={styles["rate-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>
+                      <div
+                        className={
+                          styles["stat-num"] +
+                          ` ${
+                            user.theme === M.DARK ? styles["dark-header"] : ""
+                          }`
+                        }
+                      >
                         {dataMe.me.evaluationSet.count}
                       </div>
                     </Card>
@@ -220,13 +290,32 @@ export default function ProfileTab(props) {
                     xl={6}
                     className={styles["stat-col"]}
                   >
-                    <div className={styles["stat-title"]}>{langState.groups}</div>
-                    <Card className={styles["stat-cards"]}>
+                    <div
+                      className={
+                        styles["stat-title"] +
+                        ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                      }
+                    >
+                      {langState.groups}
+                    </div>
+                    <Card
+                      className={
+                        styles["stat-cards"] +
+                        ` ${user.theme === M.DARK ? styles["dark-card"] : ""}`
+                      }
+                    >
                       <HiUserGroup
                         className={styles["comms-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>#</div>
+                      <div
+                        className={
+                          styles["stat-num"] +
+                          ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                        }
+                      >
+                        #
+                      </div>
                     </Card>
                   </Col>
                   {/* <Col

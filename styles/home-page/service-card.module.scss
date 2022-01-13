@@ -1,3 +1,5 @@
+@use '/styles/themes.module' as theme;
+
 .md-card{
   display: flex;
   flex-direction: column;
@@ -7,6 +9,9 @@
   height: 200px;
   width: 100%;
   border-radius: 4px !important;
+  image{
+    border-radius: 4px !important;
+  }
   transition: 300ms ease;
   cursor: pointer;
   &:hover{
@@ -31,5 +36,11 @@
     color: #52575d;
     font-weight: 700;
   }
+}
+
+.dark-mode{
+  
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important
 }
 

@@ -1,8 +1,32 @@
+@use '/styles/themes.module' as theme;
+
+
 $fnt-size: 16px;
 $bg-primary: #2ecfeb;
 $fnt-clr: rgb(170, 170, 170);
 $testing: #00dfc8;
 $clr-primary: #00ead3;
+
+.dark-mode{
+  
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none;
+  &::before, &::after{
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+   box-shadow: none !important;
+  }
+
+
+  &:active, &:focus{
+    background-color: transparent !important;
+  }
+}
+
+
+
 .navbar_nav {
   width: 100%;
   pointer-events: auto;
@@ -29,12 +53,12 @@ $clr-primary: #00ead3;
     transition: 200ms ease;
   }
 
-  &:focus {
+  &:focus, &:active {
     outline: none !important;
     box-shadow: none !important;
-    background: white !important;
+    background: transparent !important;
     .collapse_icon {
-      color: $clr-primary !important;
+      color: #fff !important;
     }
   }
 
@@ -139,7 +163,7 @@ $clr-primary: #00ead3;
   z-index: 99;
   width: 100vw;
   background: white;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.253) !important;
   color: $fnt-clr;
   height: 4rem;
   padding: 16px;
@@ -266,9 +290,9 @@ $clr-primary: #00ead3;
   color: $fnt-clr;
   font-size: 12px;
   button:hover{
-    background-color: #00dfc8;
+    background-color: #00dfc8 !important;
     color: white;
-    border: 1px solid #00dfc8;
+    border: 1px solid #00dfc8 !important;
     box-shadow: none;
     width:70px !important;
   }
@@ -288,14 +312,14 @@ $clr-primary: #00ead3;
 
   button:active, button:focus{
     width: 50% !important;
-    background-color: #00dfc8;
-    color: white;
+    background-color: #00dfc8 !important;
+    color: white !important;
     border: unset;
   }
 }
 
 .lang-active{
-   background-color: #00dfc8;
+   background-color: #00dfc8 !important;
     color: white;
     border: 1px solid #00dfc8 !important;
 }
@@ -331,6 +355,10 @@ $clr-primary: #00ead3;
 
 .popup-txt {
   line-height: 1.2;
+  strong{
+    color: #2ecfeb;
+     font-size: 18;
+  }
 }
 
 .navbar_main::-webkit-scrollbar {
@@ -345,6 +373,10 @@ $clr-primary: #00ead3;
 .navbar_side {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.lang-icon{
+  color: rgb(128, 128, 128);
 }
 
 .navbar_main {

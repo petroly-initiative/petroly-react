@@ -1,3 +1,5 @@
+@use '/styles/themes.module' as theme;
+
 .main-container {
   margin-right: 5rem !important;
   max-width: calc(100vw - 5rem) !important;
@@ -27,7 +29,7 @@
   text-align: right;
   padding: 16px;
   font-weight: 700;
-  color: #05a3ff;
+  color: #00dfc8;
 }
 
 .profile {
@@ -77,6 +79,8 @@
 .news{
   display: none; 
 }
+
+
 
 @media only screen and (min-width: 992px){
   .news{

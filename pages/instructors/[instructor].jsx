@@ -31,6 +31,7 @@ import {
 import { Fade } from "react-awesome-reveal";
 import { useRouter } from "next/router";
 import translator from "../../dictionary/pages/instructor-details-dict"
+import { M } from "../../constants";
 
 export const getStaticPaths = async () => {
   const { data } = await client.query({
@@ -162,10 +163,6 @@ export default function instructorDetails({ data }) {
         return `yellow,
               rgb(255, 120, 120)`;
         break;
-      case 2:
-      case 1:
-        return `orange,
-              rgb(255, 90, 90)`;
       default:
         return `rgb(204, 204, 204), rgb(163, 163, 163)`;
     }
@@ -193,13 +190,25 @@ export default function instructorDetails({ data }) {
       <Container className={styles.container}>
         <Row className={styles["col-container"]}>
           <Col xl={4} lg={6} className={styles.statsCol}>
-            <Card style={{ borderRadius: 8 }} className={"shadow border-0"}>
+            <Card
+              style={{ borderRadius: 8 }}
+              className={
+                "shadow border-0" +
+                ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+              }
+            >
               <Card.Body
                 style={{ width: "100%" }}
                 className={cardStyles.container}
               >
                 <div className={cardStyles.cardColor + " cardColor"}>
-                  <div className={cardStyles.insuctor_pic + " shadow"}>
+                  <div
+                    className={
+                      cardStyles.insuctor_pic +
+                      " shadow" +
+                      ` ${user.theme === M.DARK ? styles["dark-border"] : ""}`
+                    }
+                  >
                     <Image
                       className={cardStyles.picDiv}
                       src={data.instructor.profilePic}
@@ -211,10 +220,17 @@ export default function instructorDetails({ data }) {
                     placement="top"
                     delay={{ show: 150, hide: 200 }}
                     overlay={
-                      <Tooltip id="button-tooltip-2">{langState.evalCount}</Tooltip>
+                      <Tooltip id="button-tooltip-2">
+                        {langState.evalCount}
+                      </Tooltip>
                     }
                   >
-                    <div className={cardStyles.eval_counter}>
+                    <div
+                      className={
+                        cardStyles.eval_counter +
+                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                      }
+                    >
                       <MdFolderSpecial />
                       {/**! WARNING Needs to be fetched */}
                       <span>{data.instructor.evaluationSet.count}</span>
@@ -232,10 +248,22 @@ export default function instructorDetails({ data }) {
             </Card>
             <Card
               style={{ borderRadius: 8 }}
-              className={styles.statContainer + " shadow"}
+              className={
+                styles.statContainer +
+                " shadow" +
+                ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+              }
             >
-              <Card.Body className={styles.statsCard + " shadow"}>
-                <div className={styles.containerHeaders}>{langState.ratingHeader}</div>
+              <Card.Body
+                className={
+                  styles.statsCard +
+                  " shadow" +
+                  ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                }
+              >
+                <div className={styles.containerHeaders}>
+                  {langState.ratingHeader}
+                </div>
                 <InstructorRates
                   overall={data.instructor.overallFloat}
                   //!WARNING: All category scores should be fetched from data
@@ -249,8 +277,16 @@ export default function instructorDetails({ data }) {
             </Card>
           </Col>
           <Col xl={8} lg={6} sm={12} className={styles.feedbackCol}>
-            <Card className={styles.feedbackContainer + " shadow"}>
-              <div className={styles.containerHeaders}>{langState.recentEvals}</div>
+            <Card
+              className={
+                styles.feedbackContainer +
+                " shadow" +
+                ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+              }
+            >
+              <div className={styles.containerHeaders}>
+                {langState.recentEvals}
+              </div>
               <Card.Body style={{ width: "100%" }}>
                 <Row
                   style={{ paddingTop: "0px !important" }}
@@ -290,7 +326,9 @@ export default function instructorDetails({ data }) {
           <OverlayTrigger
             placement="top"
             delay={{ show: 350, hide: 400 }}
-            overlay={<Tooltip id="button-tooltip-2">{langState.checkingData}</Tooltip>}
+            overlay={
+              <Tooltip id="button-tooltip-2">{langState.checkingData}</Tooltip>
+            }
           >
             <Button
               id="evaluate"

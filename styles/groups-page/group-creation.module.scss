@@ -1,11 +1,44 @@
-$txt-fill: rgb(80, 80, 80);
-$txt-hg: #37b0f7;
+@use "/styles/themes.module" as theme;
+
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-fill: rgb(146, 146, 146);
+$txt-hg: #0091e7;
 $btn-prim: #00ead3;
+$x: #622edb;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  border: 2px solid  theme.$dark-bg !important;
+
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg !important;
+    color: theme.$dark-fnt !important;
+    box-shadow: none !important;
+  }
+}
+
+.dark-header{
+  color: theme.$dark-fnt !important;
+}
+
+.dark-mode-input {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-xfg !important;
+  background: theme.$dark-xfg !important;
+  border: 1px solid theme.$light-fnt;
+}
 
 .layout {
   border-radius: 10px;
   font-family: "Cairo", sans-serif inherit;
   font-weight: bold;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .title {
@@ -21,7 +54,7 @@ $btn-prim: #00ead3;
 }
 
 .icons {
-  color: $txt-hg;
+  color: $btn-prim;
   font-size: 1.3em;
   margin: 1px;
 }
@@ -31,7 +64,7 @@ $btn-prim: #00ead3;
   font-weight: inherit;
   font-family: inherit;
   font-size: 0.8rem;
-  width: 200px;
+  width: 200px !important;
   border-radius: 23px;
   background-color: unset !important;
   font-weight: bold;
@@ -106,11 +139,15 @@ $btn-prim: #00ead3;
   min-height: 30px;
   font-size: 0.7rem;
   padding: 10px;
+  padding-left: 28px;
+
   border-radius: 7px;
   margin-bottom: 6px;
 
   .label-header {
     display: flex;
+    width: 100%;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
     font-weight: 600;
@@ -164,6 +201,10 @@ $btn-prim: #00ead3;
 
 .formStyle {
   margin-bottom: 30px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   
 }
 
@@ -173,9 +214,6 @@ $btn-prim: #00ead3;
   margin-right: 0;
 }
 
-.footer {
-  height: 1.7rem;
-}
 
 @media only screen and (max-width: 420px) {
   .layout {

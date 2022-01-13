@@ -14,7 +14,7 @@ import GroupDisplay from "./GroupDisplay";
 import GroupReport from "./GroupReport";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-card-dict";
-
+import { M } from "../../constants";
 function GroupCard(props) {
   const [displayGroup, setDisplay] = useState(false);
   const [showReport, setReport] = useState(false);
@@ -31,7 +31,7 @@ function GroupCard(props) {
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita laborum ipsa est at cupiditate ut consectetur corporis, harum in voluptatum, ab exercitationem aliquid perferendis odio. Odio, voluptas. Molestias, sint nostrum.",
   };
 
-    const { user, userDispatch } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [langState, setLang] = useState(() => translator(user.lang));
 
     useEffect(() => {
@@ -120,30 +120,36 @@ const closeReport = () => {
 
   return (
     <>
-    <GroupReport
-    showModal={showReport}
-    handleClose = {closeReport} 
-    />
+      <GroupReport showModal={showReport} handleClose={closeReport} />
       <GroupDisplay
         {...props}
-        labels = {labels}
-        liked = {likes.liked}
-        likeNum = {likes.number}
-        addLike = {addLike}
+        labels={labels}
+        liked={likes.liked}
+        likeNum={likes.number}
+        addLike={addLike}
         group={group}
         showModal={displayGroup}
         handleClose={closeDisplay}
         platformColor={platformColor}
         typeColor={typeColor}
-        typeIcon = {typeIcon}
-        platformIcon = {platformIcon}
+        typeIcon={typeIcon}
+        platformIcon={platformIcon}
       />
       {/* // We will fire an onClick listener for modal instead of a new page link */}
       <Card
         style={{ borderRadius: 8 }}
-        className={"shadow border-0 " + styles.Cardholder}
+        className={
+          "shadow border-0 " +
+          styles.Cardholder +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
       >
-        <Card.Header className={styles.cardHeader}>
+        <Card.Header
+          className={
+            styles.cardHeader +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           <div className={styles["date-tag"]}>{props.date}</div>
           <div className={styles["btns-container"]}>
             <OverlayTrigger
@@ -173,18 +179,30 @@ const closeReport = () => {
             <OverlayTrigger
               style={{ position: "absolute", right: 0 }}
               delay={{ show: 150, hide: 200 }}
-              overlay={<Tooltip id="button-tooltip">{langState.report}</Tooltip>}
+              overlay={
+                <Tooltip id="button-tooltip">{langState.report}</Tooltip>
+              }
             >
-                <Button onClick  ={fireReport} className={styles["btns"] + " " + styles["report-btn"]}>
-                  <HiOutlineSpeakerphone />
-                </Button>
+              <Button
+                onClick={fireReport}
+                className={styles["btns"] + " " + styles["report-btn"]}
+              >
+                <HiOutlineSpeakerphone />
+              </Button>
             </OverlayTrigger>
           </div>
         </Card.Header>
-        <Card.Body  onClick={fireDisplay} className={styles.cardBody}>
+        <Card.Body onClick={fireDisplay} className={styles.cardBody}>
           <div className={styles["group-pic"] + " shadow"}>{props.image}</div>
 
-          <div className={styles["group-name"]}>{props.name}</div>
+          <div
+            className={
+              styles["group-name"] +
+              ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+            }
+          >
+            {props.name}
+          </div>
           <div className={styles["group-info"]}>
             <div
               style={{ background: platformColor(props.platform) }}

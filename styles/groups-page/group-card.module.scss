@@ -1,7 +1,33 @@
+@use "/styles/themes.module" as theme;
+
+$btn-high: #14645c;
+$txt-fill: #52575d;
 $txt-fill: rgb(146, 146, 146);
 $txt-hg: #0091e7;
 $btn-prim: #00ead3;
 $x: #622edb;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg !important;
+    color: theme.$dark-fnt !important;
+    box-shadow: none !important;
+  }
+}
+
+.dark-mode-input {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-bg !important;
+  background: theme.$dark-bg !important;
+  border: 1px solid theme.$light-fnt;
+}
+
+
 .Cardholder {
   transition: 300ms ease;
   border: none;
@@ -69,6 +95,10 @@ $x: #622edb;
     width: 35px;
     height: 35px;
     pointer-events: visible;
+
+    &:hover, &:focus, &:active {
+       background-color: transparent !important;
+      }
   }
   .likes-btn {
     display: flex;
@@ -88,15 +118,18 @@ $x: #622edb;
       transition: 300ms ease;
     }
 
-    &:hover {
+    &:hover, &:focus, &:active {
+       background-color: transparent !important;
       button {
-        background-color: unset;
+        background-color: transparent !important;
         color: $btn-prim !important;
       }
       span {
         color: $btn-prim;
       }
     }
+
+    
   }
 
   .report-btn {
@@ -132,7 +165,7 @@ $x: #622edb;
 }
 
 .group-name {
-  font-size: 24px;
+  font-size: 24px ;
   width: 80%;
   height: 50px;
   color: #52575d;

@@ -1,4 +1,45 @@
+@use "/styles/themes.module" as theme;
+
+$btn-pr: #1cbfff;
+$btn-high: #00ead3;
 $txt-fill: #52575d;
+$txt-hg: #0091E7;
+
+
+
+$colors: (
+  blue: #14f7ef,
+  green: #00e091,
+  yellow: #fac218,
+  orange: #FF7600,
+  red: #f51663,
+);
+
+$txt-fill: #6e737a;
+//
+
+
+.dark-mode {
+  background-color: theme.$dark-bg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-bg !important;
+  box-shadow: none !important;
+  border: unset !important;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg !important;
+    color: theme.$dark-fnt !important;
+    box-shadow: none !important;
+  }
+}
+
+.dark-section{
+  background-color: theme.$dark-fg !important;
+}
+
+.dark-extra{
+ color: theme.$dark-fnt !important;
+}
 
 @mixin tagstyle($bg-color) {
   background-color: $bg-color;
@@ -20,14 +61,16 @@ $txt-fill: #52575d;
 
 .card-body {
   padding: 14px;
+ border-radius: 0 0 10px 10px;
+
 }
 
 .cardHeader {
   display: flex !important;
   justify-content: space-between !important;
-  background-color: #ffffff !important;
+  background-color: #ffffff ;
   border-bottom: 2px solid rgba(0, 0, 0, 0.125);
-  border-radius: 10px 10px 0 0 !important;
+  border-radius: 10px !important;
   align-items: center;
   padding: 10px;
 }
@@ -36,7 +79,7 @@ $txt-fill: #52575d;
   margin: 16px;
   margin-left: 0px;
   margin-right: 0px;
-  border-radius: 10px !important;
+  border-radius: 5px !important;
   border: 1px solid rgba(128, 128, 128, 0.082) !important;
 }
 
@@ -82,11 +125,12 @@ $txt-fill: #52575d;
 .headers {
   width: 100%;
  
-
+  align-items: center;
   font-size: 2vmin;
   font-weight: 600;
   text-align: right;
   padding-right: 8px;
+  padding-left: 8px;
 }
 
 .contentText {
@@ -110,7 +154,7 @@ $txt-fill: #52575d;
 @media only screen and (max-width: 600px) {
 
   .headers{
-    font-size: 4vmin;
+    font-size: 3.5vmin;
   }
   .stars span{
     font-size: 15px !important;

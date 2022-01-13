@@ -21,7 +21,7 @@ import { MdDescription } from "react-icons/md";
 import styles from "../../styles/groups-page/group-creation.module.scss";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-create-dict";
-import { langDirection, L } from "../../constants";
+import { langDirection, L, M } from "../../constants";
 
 function GroupCreationCard() {
   const [modalShow, setModalShow] = useState(false);
@@ -117,7 +117,9 @@ function GroupCreationCard() {
           `}
       </style>
       <Modal
-        contentClassName={styles.layout}
+        contentClassName={
+          styles.layout + `${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
         onHide={() => setModalShow(false)}
         show={modalShow}
         aria-labelledby="contained-modal-title-vcenter"
@@ -127,6 +129,7 @@ function GroupCreationCard() {
         <Modal.Header
           style={langDirection(user.lang)}
           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+          className={`${user.theme === M.DARK ? styles["dark-mode"] : ""}`}
         >
           <Modal.Title
             className={styles.title}
@@ -138,14 +141,21 @@ function GroupCreationCard() {
             <AiOutlineUsergroupAdd color="#00ead3" className={styles.icons} />
           </Modal.Title>
         </Modal.Header>
-        <Form
-          style={langDirection(user.lang)}
-          onSubmit={createGroup}
-          className={styles.formStyle}
-          noValidate
-          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+
+        <Modal.Body
+          className={
+            "show-grid " +
+            styles["modal-body"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
         >
-          <Modal.Body className={"show-grid " + styles["modal-body"]}>
+          <Form
+            style={langDirection(user.lang)}
+            onSubmit={createGroup}
+            className={styles.formStyle}
+            noValidate
+            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+          >
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label
                 style={langDirection(user.lang)}
@@ -233,19 +243,12 @@ function GroupCreationCard() {
                     type={"radio"}
                     value="Entertainment"
                     label={
-                      <div
-                        dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                        style={langDirection(user.lang)}
-                      >
+                      <div>
                         <div className={styles["label-header"]}>
                           <MdGames color="#F037A5" size="1.1rem" />
                           <span>{langState.fun}</span>
                         </div>
-                        <div
-                          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                          className={styles["label-content"]}
-                          style={langDirection(user.lang)}
-                        >
+                        <div className={styles["label-content"]}>
                           {langState.funSub}
                         </div>
                       </div>
@@ -441,18 +444,23 @@ function GroupCreationCard() {
                 </Form.Control.Feedback>
               </Col>
             </InputGroup>
-          </Modal.Body>
-          <Modal.Footer className={styles.footer}>
-            <Button
-              className={styles.createButton}
-              type="submit"
-              // onClick={() => setModalShow(false)}
-              onClick={createGroup}
-            >
-              {langState.create}{" "}
-            </Button>
-          </Modal.Footer>
-        </Form>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer
+          className={
+            styles.footer +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
+          <Button
+            className={styles.createButton}
+            type="submit"
+            // onClick={() => setModalShow(false)}
+            onClick={createGroup}
+          >
+            {langState.create}{" "}
+          </Button>
+        </Modal.Footer>
       </Modal>
       <>
         <Button
