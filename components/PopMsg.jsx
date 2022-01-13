@@ -7,13 +7,14 @@ import styles from "../styles/groups-page/group-creation.module.scss";
 // TODO Modify this component.
 export default function PopMsg(props) {
   const [successShow, setSuccessShow] = useState(props.success);
-  const refreshPage = () => window.location.reload(false);
+  const [visible, setModalVisible] = useState(true); // This is gonna be useful when setting onClose prop.
+
   return (
     <>
       <Modal
         contentClassName={styles.layout}
-        onHide={() => refreshPage()}
-        show={successShow}
+        onHide={props.onClose ? props.onClose : () => setModalVisible(false)}
+        show={successShow && visible}
         aria-labelledby="contained-modal-title-vcenter"
       >
         <Modal.Header>
@@ -26,10 +27,18 @@ export default function PopMsg(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className={"show-grid " + styles["modal-body"]}>
+          <div
+            className="center-text"
+            style={{ textAlign: "center", marginBottom: "10px" }}
+          >
+            {props.msgBody}
+          </div>
           <Button
             className={styles.createButton}
             type="submit"
-            onClick={() => refreshPage()}
+            onClick={
+              props.onClose ? props.onClose : () => setModalVisible(false)
+            }
           >
             Close
           </Button>
@@ -38,8 +47,8 @@ export default function PopMsg(props) {
       </Modal>
       <Modal
         contentClassName={styles.layout}
-        onHide={() => refreshPage()}
-        show={!successShow}
+        onHide={props.onClose ? props.onClose : () => setModalVisible(false)}
+        show={!successShow && visible}
         aria-labelledby="contained-modal-title-vcenter"
       >
         <Modal.Header>
@@ -47,15 +56,23 @@ export default function PopMsg(props) {
             className={styles.title}
             id="contained-modal-title-vcenter"
           >
-            {props.successMsg}
+            {props.errorMsg}
             <AiOutlineUsergroupAdd color="#00ead3" className={styles.icons} />
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className={"show-grid " + styles["modal-body"]}>
+          <div
+            className="center-text"
+            style={{ textAlign: "center", marginBottom: "10px" }}
+          >
+            {props.msgBody}
+          </div>
           <Button
             className={styles.createButton}
             type="submit"
-            onClick={() => refreshPage()}
+            onClick={
+              props.onClose ? props.onClose : () => setModalVisible(false)
+            }
           >
             ok
           </Button>

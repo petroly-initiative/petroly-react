@@ -7,7 +7,7 @@ import { BsStarFill, BsStar } from "react-icons/bs";
 import styles from "../../styles/groups-page/groups-display.module.scss";
 import classNames from "classnames";
 import Image from "next/image";
-
+import PopMsg from "../PopMsg";
 /**
  *
  * @param {*} props
@@ -21,6 +21,21 @@ export default function GroupDisplay(props) {
     type: "تصنيف المجتمع",
     description: "الوصف",
     joinCommunity: "انضم للمجموعة",
+  };
+  const [ShowShared, setShowShared] = useState({
+    shareMsg: "",
+  });
+  const share = () => {
+    navigator.clipboard.writeText(props.link);
+    setShowShared({
+      shareMsg: (
+        <PopMsg
+          success={true}
+          successMsg={"تم نسخ رابط القروب بنجاح."}
+          msgBody={props.link}
+        />
+      ),
+    });
   };
 
   return (
@@ -69,9 +84,10 @@ export default function GroupDisplay(props) {
                     <BsStarFill size={"18px"} />
                   )}
                 </Button>
-                <Button onClick={props.addLike} className={styles["share-btn"]}>
+                <Button onClick={share} className={styles["share-btn"]}>
                   {<BiShareAlt size={"1.3rem"} />}
                 </Button>
+                {ShowShared.shareMsg}
               </div>
             </Col>
             <Col xs={12} sm={6}>
