@@ -162,15 +162,18 @@ export const CommunitiesQuery = gql`
     $name: String
     $category: CommunityCategoryEnum
     $platform: CommunityPlatformEnum
+    $section: String
   ) {
     communities(
       where: {
         name: { icontains: $name }
         category: $category
         platform: $platform
+        section: { contains: $section }
         archived: { exact: false }
       }
     ) {
+      count
       data {
         id
         date

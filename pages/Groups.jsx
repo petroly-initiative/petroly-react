@@ -32,7 +32,6 @@ function Groups(state, action) {
   const [modalVisible, setVisible] = useState(false);
   const name = useRef("");
   // search filter modal state
-  const [searchTerm, setSearchTerm] = useState("");
   const [platform, setPlatform] = useState({
     DISCORD: true,
     TELEGRAM: true,
@@ -65,6 +64,19 @@ function Groups(state, action) {
     setVisible(false);
   };
 
+  const whichType = () => {
+    if (type.EDU) return "EDU";
+    if (type.ENTERTAINING) return "ENTERTAINING";
+    if (type.SECTION.find) return "SECTION";
+    return null;
+  };
+  const whichPlatform = () => {
+    if (platform.DISCORD) return "DISCORD";
+    if (platform.WHATSAPP) return "WHATSAPP";
+    if (platform.TELEGRAM) return "TELEGRAM";
+    return null;
+  };
+
   const changePlatform = (obj) => {
     setPlatform(obj);
   };
@@ -74,12 +86,15 @@ function Groups(state, action) {
   };
 
   const search = () => {
-    const term = searchTerm.trim();
-    if (term != "") refetch({ name: term });
+    var res = refetch({
+      name: name.current.value,
+      category: whichType(),
+      platform: whichPlatform(),
+      section: type.SECTION.course,
+    });
   };
 
   const enterSearch = (event) => {
-    setSearchTerm(event.target.value);
     if (event.key === "Enter") search();
   };
 
@@ -109,6 +124,15 @@ function Groups(state, action) {
       </div>
     );
   }
+
+  if (data.communities.count === 0) {
+    return (
+      <>
+        <h1>No results</h1>
+      </>
+    );
+  }
+
   const groupMapper = () =>
     data.communities.data.map((community) => {
       return (

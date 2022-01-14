@@ -18,34 +18,31 @@ import translator from "../../dictionary/components/groups-filter-dict";
 import { M } from "../../constants";
 
 export default function GroupsFilter(props) {
+  const { user } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [invalidCourse, validateCourse] = useState(false);
-
+  const course = useRef();
   const [platforms, setPlatforms] = useState({
     DISCORD: true,
     TELEGRAM: true,
     WHATSAPP: true,
   });
-
   const [types, setTypes] = useState({
     EDU: true,
     ENTERTAINING: true,
     SECTION: { find: false, course: "" },
   });
-  const course = useRef();
+
   // Forcing a re- render
   const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
 
-  const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
-
   useEffect(() => {
     // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
     console.log("changed language!");
   }, [user.lang]);
-
-  const forceUpdate = useCallback(() => updateState({}), []);
 
   const platformSwitch = (e) => {
     const key = e.target.id;
@@ -57,7 +54,7 @@ export default function GroupsFilter(props) {
   const typeSwitch = (e) => {
     const key = e.target.id;
     console.log(key);
-    if (key === "Sections") {
+    if (key === "SECTION") {
       setTypes((prev) =>
         Object.assign(prev, {
           SECTION: { find: !prev.SECTION.find, course: course },
@@ -71,11 +68,6 @@ export default function GroupsFilter(props) {
 
   const saveChanges = () => {
     props.changePlatform(platforms);
-    console.log(
-      Object.assign(types, {
-        SECTION: { find: types.SECTION.find, course: course.current.value },
-      })
-    );
     props.changeType(
       Object.assign(types, {
         SECTION: { find: types.SECTION.find, course: course.current.value },
@@ -138,7 +130,7 @@ export default function GroupsFilter(props) {
               <Form>
                 <div>
                   <Form.Check
-                    checked={platforms.DISCORD}
+                    defaultChecked={platforms.DISCORD}
                     type="checkbox"
                     className={
                       styles["filters"] +
@@ -147,7 +139,7 @@ export default function GroupsFilter(props) {
                       }`
                     }
                     onChange={platformSwitch}
-                    id="Discord"
+                    id="DISCORD"
                     label={
                       <div>
                         <FaDiscord color={"#5865F2"} />
@@ -156,7 +148,7 @@ export default function GroupsFilter(props) {
                     }
                   />
                   <Form.Check
-                    checked={platforms.WHATSAPP}
+                    defaultChecked={platforms.WHATSAPP}
                     type="checkbox"
                     className={
                       styles["filters"] +
@@ -165,7 +157,7 @@ export default function GroupsFilter(props) {
                       }`
                     }
                     onChange={platformSwitch}
-                    id="Whatsapp"
+                    id="WHATSAPP"
                     label={
                       <div>
                         {" "}
@@ -175,7 +167,7 @@ export default function GroupsFilter(props) {
                     }
                   />
                   <Form.Check
-                    checked={platforms.TELEGRAM}
+                    defaultChecked={platforms.TELEGRAM}
                     type="checkbox"
                     className={
                       styles["filters"] +
@@ -184,7 +176,7 @@ export default function GroupsFilter(props) {
                       }`
                     }
                     onChange={platformSwitch}
-                    id="Telegram"
+                    id="TELEGRAM"
                     label={
                       <div>
                         {" "}
@@ -200,14 +192,14 @@ export default function GroupsFilter(props) {
               <div className={styles["titles"]}>{langState.typesubHeader}</div>
               <Form>
                 <Form.Check
-                  checked={types.EDU}
+                  defaultChecked={types.EDU}
                   type="checkbox"
                   className={
                     styles["filters"] +
                     ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
                   }
                   onChange={typeSwitch}
-                  id="Educational"
+                  id="EDU"
                   label={
                     <div>
                       <FaGraduationCap color="#FFB830" />
@@ -217,14 +209,14 @@ export default function GroupsFilter(props) {
                 />
 
                 <Form.Check
-                  checked={types.ENTERTAINING}
+                  defaultChecked={types.ENTERTAINING}
                   type="checkbox"
                   className={
                     styles["filters"] +
                     ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
                   }
                   onChange={typeSwitch}
-                  id="Entertainment"
+                  id="ENTERTAINING"
                   label={
                     <div>
                       <MdGames color="#F037A5" />
@@ -233,7 +225,7 @@ export default function GroupsFilter(props) {
                   }
                 />
                 <Form.Check
-                  checked={types.SECTION.find}
+                  defaultChecked={types.SECTION.find}
                   type="checkbox"
                   className={
                     styles["filters"] +
@@ -242,7 +234,7 @@ export default function GroupsFilter(props) {
                     ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
                   }
                   onChange={typeSwitch}
-                  id="Sections"
+                  id="SECTION"
                   style={{ height: types.SECTION.find ? 100 : 50 }}
                   label={
                     <div>
