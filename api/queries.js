@@ -88,6 +88,9 @@ export const meQuery = gql`
       evaluationSet {
         count
       }
+      ownedCommunities {
+        count
+      }
     }
   }
 `;

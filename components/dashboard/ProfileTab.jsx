@@ -100,7 +100,11 @@ export default function ProfileTab(props) {
         </Card.Header>
         {/* The content of the body will be a subject to local state management */}
         <Card.Body
-          style={{display: "flex", justifyContent: "center", alignItems: "center" }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
           className={styles["card-body"]}
         >
           {/* Container for stat attributes and profile info */}
@@ -109,7 +113,6 @@ export default function ProfileTab(props) {
             className={styles["loading-spinner"] + " shadow"}
             animation="border"
             role="status"
-            
           />
         </Card.Body>
       </Card>
@@ -205,7 +208,9 @@ export default function ProfileTab(props) {
                         className={styles["comms-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>#</div>
+                      <div className={styles["stat-num"]}>
+                        {dataMe.me.ownedCommunities.count}
+                      </div>
                     </Card>
                   </Col>
                   <Col
