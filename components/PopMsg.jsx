@@ -22,7 +22,7 @@ export default function PopMsg(props) {
             className={styles.title}
             id="contained-modal-title-vcenter"
           >
-            {props.successMsg}
+            {props.successTitle}
             <AiOutlineUsergroupAdd color="#00ead3" className={styles.icons} />
           </Modal.Title>
         </Modal.Header>
@@ -31,7 +31,7 @@ export default function PopMsg(props) {
             className="center-text"
             style={{ textAlign: "center", marginBottom: "10px" }}
           >
-            {props.msgBody}
+            {props.successMsg}
           </div>
           <Button
             className={styles.createButton}
@@ -56,7 +56,7 @@ export default function PopMsg(props) {
             className={styles.title}
             id="contained-modal-title-vcenter"
           >
-            {props.errorMsg}
+            {props.failTitle}
             <AiOutlineUsergroupAdd color="#00ead3" className={styles.icons} />
           </Modal.Title>
         </Modal.Header>
@@ -65,7 +65,7 @@ export default function PopMsg(props) {
             className="center-text"
             style={{ textAlign: "center", marginBottom: "10px" }}
           >
-            {props.msgBody}
+            {props.failMsg}
           </div>
           <Button
             className={styles.createButton}
