@@ -18,13 +18,15 @@ import { IoMdChatbubbles } from "react-icons/io";
 import { Fade } from "react-awesome-reveal";
 import Image from "next/image";
 import { useContext, useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { meQuery } from "../../api/queries";
+import { profilePicUpdateMutation } from "../../api/mutations";
 import { USER } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
-import request from 'superagent';
 import translator from "../../dictionary/components/profile-tab-dict";
+import { useRouter } from "next/router";
 import { M } from "../../constants";
+
 /**
  *
  * ? State management:
@@ -50,42 +52,68 @@ import { M } from "../../constants";
 
 export default function ProfileTab(props) {
   const [mode, setMode] = useState("view");
-  const {user} = useContext(UserContext);
-   const [langState, setLang] = useState(() => translator(user.lang));
-
-   useEffect(() => {
-     // console.log(userContext.user.lang);
-     setLang(() => translator(user.lang));
-     console.log("changed language!");
-   }, [user.lang]);
-
+  const [WaitingPic, setWaitingPic] = useState(false);
+  const { user, userDispatch } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+  const router = useRouter();
 
   const {
     data: dataMe,
     loading: loadingMe,
     error: errorMe,
+    refetch: refetchMe,
   } = useQuery(meQuery, {
     notifyOnNetworkStatusChange: true,
     skip: user.status !== USER.LOGGED_IN,
   });
 
+  const [
+    profilePicUpdate,
+    {
+      data: dataProfilePicUpdate,
+      loading: loadingProfilePicUpdate,
+      error: errorProfilePicUpdate,
+    },
+  ] = useMutation(profilePicUpdateMutation);
+
   const switchMode = () => {
     setMode(mode === "view" ? "edit" : "view");
   };
 
-  const handleImage = (el) => {
-    const file = el.target.files[0];
-    const url = `https://api.cloudinary.com/v1_1/petroly-initiative/upload`;
+  function handleImage({
+    target: {
+      validity,
+      files: [file],
+    },
+  }) {
+    if (validity.valid) {
+      profilePicUpdate({ variables: { file } });
+    }
+  }
 
-    request.post(url)
-      .field('upload_preset', 'hzzndnlv')
-      .field('file', file)
-      .field('public_id', user.username)
-      .end((error, response) => {
-        console.log(error, response);
-      });
+  useEffect(() => {
+    // prevent non logged user
+    // since any effect is loaded alwyas once
+    if (user.status !== USER.LOGGED_IN) router.push("/");
+  }, [user.status]);
 
-  };
+  useEffect(() => {
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
+
+  useEffect(() => {
+    if (loadingProfilePicUpdate) setWaitingPic(true);
+    else if (dataProfilePicUpdate) {
+      setWaitingPic(false);
+      if (dataProfilePicUpdate.profilePicUpdate.success) {
+        refetchMe();
+      } else {
+        // popup an error msg
+        console.log("updating profilePic failed");
+      }
+    }
+  }, [dataProfilePicUpdate, loadingProfilePicUpdate]);
 
   if (loadingMe) {
     return (
@@ -311,7 +339,9 @@ export default function ProfileTab(props) {
                       <div
                         className={
                           styles["stat-num"] +
-                          ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                          ` ${
+                            user.theme === M.DARK ? styles["dark-header"] : ""
+                          }`
                         }
                       >
                         #
@@ -362,14 +392,22 @@ export default function ProfileTab(props) {
               {/* profile pic editing */}
 
               <div className={styles["pic-border"] + " shadow"}>
-                <Fade style={{ width: "100%", height: "100%" }}>
-                  <Image
-                    width="140"
-                    height="140"
-                    className={styles["profile-pic"]}
-                    src={dataMe.me.profile.profilePic}
-                  ></Image>
-                </Fade>
+                {WaitingPic ? (
+                  <Spinner
+                    className={styles["loading-spinner"] + " shadow"}
+                    animation="border"
+                    role="status"
+                  />
+                ) : (
+                  <Fade style={{ width: "100%", height: "100%" }}>
+                    <Image
+                      width="140"
+                      height="140"
+                      className={styles["profile-pic"]}
+                      src={dataMe.me.profile.profilePic}
+                    ></Image>
+                  </Fade>
+                )}
               </div>
               <Fade className={styles["fader"]}>
                 <Form className={styles["edit-form"]}>

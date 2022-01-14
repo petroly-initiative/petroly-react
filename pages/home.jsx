@@ -27,10 +27,7 @@ export default function HomeScreen() {
     // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
     console.log(langDirection(user.lang));
-   
   }, [user.lang]);
-
-
 
   return (
     <>

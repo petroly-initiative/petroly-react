@@ -15,6 +15,7 @@ export const tokenAuthMutation = gql`
           id
           profilePic
           language
+          theme
         }
       }
     }
@@ -185,12 +186,27 @@ export const verifyAccountMutation = gql`
 `;
 
 export const profileUpdateMutation = gql`
-  mutation ($id: ID, $lang: String) {
-    profileUpdate(where: { id: { exact: $id } }, input: { language: $lang }) {
+  mutation ProfileUpdateMutation($id: ID, $lang: String, $theme: String) {
+    profileUpdate(
+      where: { id: { exact: $id } }
+      input: { language: $lang, theme: $theme }
+    ) {
       ok
+      errors {
+        field
+        messages
+      }
       result {
         id
       }
+    }
+  }
+`;
+
+export const profilePicUpdateMutation = gql`
+  mutation ($file: Upload!) {
+    profilePicUpdate(file: $file) {
+      success
     }
   }
 `;

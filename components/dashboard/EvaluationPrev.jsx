@@ -24,7 +24,6 @@ import { M } from "../../constants";
  */
 
 export default function EvaluationPreview(props) {
-
   const { user } = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
 
@@ -88,6 +87,7 @@ export default function EvaluationPreview(props) {
         </div>
       </Card>
       <EvaluationModal
+        refetch={props.refetch}
         name={props.instructor.name}
         id={props.evaluation.id}
         image={

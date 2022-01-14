@@ -5,29 +5,28 @@ import { MdEdit, MdModeEdit } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaTelegram } from "react-icons/fa";
-import {SiDiscord} from "react-icons/si";
+import { SiDiscord } from "react-icons/si";
 import { useEffect, useContext } from "react";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { M } from "../../constants";
 
 /**
- * 
+ *
  * @param props: {
  * name,
  * groupType (whatsapp, discord, telegram)
  * pic
- * } 
+ * }
  * @returns the group preview card
  */
 
 export default function GroupPreview(props) {
-
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const typeStyler = (() => {
     let output;
 
-    switch(props.type){
+    switch (props.type) {
       case "Whatsapp":
         output = { icon: <RiWhatsappFill />, color: "	#25D366" };
         break;
@@ -37,17 +36,14 @@ export default function GroupPreview(props) {
       case "Discord":
         output = { icon: <SiDiscord />, color: "#5865F2" };
     }
-    console.log("Creating div")
-    return (<div 
-              style={{color: output.color}}
-           className={styles["group-type"]}>
-            {" "}<span  className={styles["type-icon"]}>
-              {output.icon}
-            </span>
-            {props.type} </div>)
-  })()
-
- 
+    return (
+      <div style={{ color: output.color }} className={styles["group-type"]}>
+        {" "}
+        <span className={styles["type-icon"]}>{output.icon}</span>
+        {props.type}{" "}
+      </div>
+    );
+  })();
 
   return (
     <>

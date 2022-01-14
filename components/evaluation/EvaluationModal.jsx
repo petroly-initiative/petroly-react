@@ -40,7 +40,7 @@ import translator from "../../dictionary/components/eval-modal-dict";
 // TODO: Removing the local text color styling
 
 export default function EvaluationModal(props) {
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   // modal state
   const [submissionState, dispatch] = useReducer(evalReducer, {
     sucess: false,
@@ -77,13 +77,13 @@ export default function EvaluationModal(props) {
   const [isTermInvalid, setTermInvalid] = useState(false);
   const [isCourseInvalid, setCourseInvalid] = useState(false);
   // language state
-   const [langState, setLang] = useState(() => translator(user.lang));
+  const [langState, setLang] = useState(() => translator(user.lang));
 
-   useEffect(() => {
-     // console.log(userContext.user.lang);
-     setLang(() => translator(user.lang));
-     console.log("changed language!");
-   }, [user.lang]);
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
 
   const setCourse = (e) => {
     setExtra((state) => ({ term: state.term, course: e.target.value }));
@@ -215,7 +215,10 @@ export default function EvaluationModal(props) {
       console.log(dataEvaluationUpdate);
       if (dataEvaluationUpdate.evaluationUpdate.ok) {
         setWaiting(false);
-        setTimeout(() => props.close(), 400);
+        setTimeout(() => {
+          props.close();
+          props.refetch();
+        }, 400);
       } else {
         setError({ show: true, msg: "Error while updatig" });
       }
@@ -455,10 +458,9 @@ export default function EvaluationModal(props) {
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   style={langDirection(user.lang)}
                   maxLength="160"
-                  className={
-                    
-                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
-                  }
+                  className={` ${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`}
                   placeholder={langState.gradePlaceholder}
                   size="sm"
                   as="textarea"
@@ -516,10 +518,9 @@ export default function EvaluationModal(props) {
                 <FormControl
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   maxLength="160"
-                  className={
-                  
-                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
-                  }
+                  className={` ${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`}
                   placeholder={langState.teachPlaceholder}
                   size="sm"
                   as="textarea"
@@ -575,13 +576,12 @@ export default function EvaluationModal(props) {
 
               <InputGroup hasValidation className={styles["input-containers"]}>
                 <FormControl
-                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   style={langDirection(user.lang)}
                   maxLength="160"
-                  className={
-                    
-                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
-                  }
+                  className={` ${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`}
                   placeholder={langState.personPlaceholder}
                   as="textarea"
                   size="sm"
@@ -611,13 +611,12 @@ export default function EvaluationModal(props) {
 
               <InputGroup hasValidation className={styles["input-containers"]}>
                 <FormControl
-                 dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   style={langDirection(user.lang)}
                   maxLength="160"
-                  className={
-                  
-                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
-                  }
+                  className={` ${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`}
                   placeholder={langState.commentPlaceholder}
                   as="textarea"
                   size="sm"

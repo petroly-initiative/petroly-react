@@ -18,7 +18,7 @@ import { useQuery } from "@apollo/client";
 import { meEvaluationSetQuery } from "../../api/queries";
 import { USER } from "../../constants";
 import translator from "../../dictionary/components/eval-tab-dict";
-import {M} from "../../constants"
+import { M } from "../../constants";
 /**
  *
  * ? Evaluation Tab setup
@@ -32,14 +32,14 @@ import {M} from "../../constants"
 
 export default function EvaluationsTab(props) {
   const [mode, setMode] = useState("view-all");
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
 
-    useEffect(() => {
-      // console.log(userContext.user.lang);
-      setLang(() => translator(user.lang));
-      console.log("changed language!");
-    }, [user.lang]);
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
 
   const switchMode = () => {
     setMode(mode === "view-all" ? "search" : "view-all");
@@ -49,13 +49,13 @@ export default function EvaluationsTab(props) {
     data: dataEval,
     loading: loadingEval,
     error: errorEval,
+    refetch: refetchMe,
   } = useQuery(meEvaluationSetQuery, {
     notifyOnNetworkStatusChange: true,
     skip: user.status !== USER.LOGGED_IN,
   });
 
   if (loadingEval) {
-    console.log("loading");
     return (
       <Card
         className={
@@ -208,6 +208,7 @@ export default function EvaluationsTab(props) {
       <EvaluationPreview
         instructor={evaluation.instructor}
         evaluation={evaluation}
+        refetch={refetchMe}
       />
     );
   });
