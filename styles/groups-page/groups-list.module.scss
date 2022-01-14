@@ -2,7 +2,7 @@
 
 $txt-fill: #52575d;
 $txt-hg: #0091e7;
-
+$btn-high: #00ead3;
 
 
 .dark-mode-input {
@@ -10,6 +10,16 @@ $txt-hg: #0091e7;
   background-color: theme.$dark-bg !important;
   background: theme.$dark-bg !important;
   border: 1px solid theme.$light-fnt;
+}
+
+.dark-btn{
+  background-color: theme.$dark-xfg !important;
+  background: theme.$dark-xfg !important;
+  color: $btn-high !important;
+  // border: 2px solid theme.$dark-xfg !important;
+  &:hover{
+    color: #fff !important;
+  }
 }
 
 .list_container {
@@ -35,25 +45,29 @@ $txt-hg: #0091e7;
   z-index: 100;
   margin-bottom: 12px;
 }
+
 .search_btn {
-  background-color: #00ead3 !important;
+  background-color: #00ead3 ;
   border: none;
   border-radius: 0;
+  // border: 2px solid #00ead3;
   height: 100% !important;
   &:hover {
     background-color: #05e6cf !important;
   }
 }
 
+  
 
 
 .filter-btn {
-  background-color: #06d8c3 !important;
+  background-color: #00ead3 ;
   border: none;
-  border-radius: 0 6px 6px 0 !important;
-  height: 38px;
+  border-radius: 0 6px 6px;
+  // border: 2px solid #00ead3;
+  height: 100% !important;
   &:hover {
-    background-color: #04c0ad !important;
+    background-color: #05e6cf !important;
   }
 
   button::after {
