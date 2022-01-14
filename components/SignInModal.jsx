@@ -270,6 +270,10 @@ export default function SignInModal(props) {
           "lang",
           dataTokenAuth.tokenAuth.user.profile.language
         );
+        localStorage.setItem(
+          "theme",
+          dataTokenAuth.tokenAuth.user.profile.theme
+        );
 
         userDispatch({
           type: T.LOGIN,
@@ -277,7 +281,7 @@ export default function SignInModal(props) {
           username: dataTokenAuth.tokenAuth.user.username,
           profileId: dataTokenAuth.tokenAuth.user.profile.id,
           lang: dataTokenAuth.tokenAuth.user.profile.language,
-          theme: localStorage.getItem("theme") || M.LIGHT,
+          theme: dataTokenAuth.tokenAuth.user.profile.theme,
         });
         props.close();
       }

@@ -85,6 +85,7 @@ export const meQuery = gql`
         id
         profilePic
         language
+        theme
       }
       evaluationSet {
         count
