@@ -1,5 +1,12 @@
+@use "/styles/themes.module" as theme;
+$x: rgb(255, 90, 90);
 $txt-clr: #52575d;
 $btn-hg: #0091e7;
+
+.dark-header{
+  color: theme.$dark-fnt !important;
+}
+
 .main-container {
   width: 100vw;
   height: 100vh;

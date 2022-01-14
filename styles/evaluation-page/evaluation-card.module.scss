@@ -38,7 +38,7 @@ $txt-fill: #6e737a;
 }
 
 .dark-extra{
- color: theme.$dark-fnt !important;
+ color: theme.$dark-fnt-fg !important;
 }
 
 @mixin tagstyle($bg-color) {
@@ -111,6 +111,7 @@ $txt-fill: #6e737a;
 
 .section-icon {
   margin-left: 8px;
+  margin-right: 8px;
 }
 
 .dates {
@@ -124,9 +125,9 @@ $txt-fill: #6e737a;
 
 .headers {
   width: 100%;
- 
+  margin-bottom: 8px;
   align-items: center;
-  font-size: 2vmin;
+  font-size: 16px;
   font-weight: 600;
   text-align: right;
   padding-right: 8px;
@@ -154,7 +155,7 @@ $txt-fill: #6e737a;
 @media only screen and (max-width: 600px) {
 
   .headers{
-    font-size: 3.5vmin;
+    font-size: 16px !important;
   }
   .stars span{
     font-size: 15px !important;

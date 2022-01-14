@@ -287,7 +287,7 @@ export default function instructorDetails({ data }) {
               <div className={styles.containerHeaders}>
                 {langState.recentEvals}
               </div>
-              <Card.Body style={{ width: "100%" }}>
+              <Card.Body className={styles["evals-card"]} style={{ width: "100%" }}>
                 <Row
                   style={{ paddingTop: "0px !important" }}
                   className={styles.prev_list}
