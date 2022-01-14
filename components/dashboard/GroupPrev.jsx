@@ -109,7 +109,11 @@ export default function GroupPreview(props) {
         </div>
       </Card>
       {/* TODO. I tried to make it show whenever edit btn is clicked, but it shows only the first time. */}
-      {showEdit ? <EditGroup show={true} id={props.id} /> : <></>}{" "}
+      {showEdit ? (
+        <EditGroup refetch={props.refetch} show={true} id={props.id} />
+      ) : (
+        <></>
+      )}{" "}
     </>
   );
 }

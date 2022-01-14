@@ -120,19 +120,9 @@ export default function EditGroup(props) {
       }
     }
   }, [editData, editLoading]);
-  if (queryWaiting)
-    return (
-      <Button className={styles["loading-container"] + " shadow"} disabled>
-        <Spinner
-          className={styles["loading-spinner"]}
-          as="div"
-          animation="grow"
-          size="xl"
-          role="status"
-          aria-hidden="true"
-        />
-      </Button>
-    );
+
+  if (queryWaiting) return null;
+
   return (
     <div>
       <Modal
@@ -409,7 +399,7 @@ export default function EditGroup(props) {
         <PopMsg
           success={editData.communityUpdate.ok}
           successMsg={"تم تعديل القروب بنجاح."}
-          onClose={() => window.location.reload(false)}
+          onClose={() => props.refetch()}
         />
       ) : (
         <></>

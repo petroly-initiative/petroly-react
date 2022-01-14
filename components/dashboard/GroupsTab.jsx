@@ -40,17 +40,18 @@ export default function GroupsTab(props) {
     setMode(mode === "view-all" ? "search" : "view-all");
   };
 
-  if (loading) {
-    return (
-      <Button className={styles["loading-container"] + " shadow"} disabled>
-        <Spinner
-          className={styles["loading-spinner"] + " shadow"}
-          animation="border"
-          role="status"
+  const myCommunitiesMapper = () =>
+    data.me.ownedCommunities.data.map((community) => {
+      return (
+        <GroupPreview // TODO Modify this component
+          refetch={refetch}
+          pic="/images/muhabpower.png" // TODO
+          id={community.id}
+          name={community.name}
+          platform={community.platform}
         />
-      </Button>
-    );
-  }
+      );
+    });
 
   if (error) {
     return (
@@ -60,18 +61,59 @@ export default function GroupsTab(props) {
       </div>
     );
   }
-  const myCommunitiesMapper = () =>
-    data.me.ownedCommunities.data.map((community) => {
-      return (
-        <GroupPreview // TODO Modify this component
-          pic="/images/muhabpower.png" // TODO
-          id={community.id}
-          name={community.name}
-          platform={community.platform}
-        />
-      );
-    });
-  var communities = myCommunitiesMapper();
+
+  if (loading) {
+    return (
+      <Card className={styles["card-containers"] + " shadow"}>
+        <Card.Header className={styles["header-containers"]}>
+          <div className={styles["card-headers"]}>
+            <span className={styles["card-title"]}>حسابي الشخصي</span>
+            {/* Edit btn / cancel editing button / Saving button */}
+            {mode === "view" && (
+              <Fade duration="1200">
+                <Button onClick={switchMode} className={styles["btns"]}>
+                  <MdModeEdit size="1.6rem" />
+                </Button>
+              </Fade>
+            )}
+            {mode === "edit" && (
+              <Fade duration="1200">
+                <div>
+                  <Button
+                    onClick={switchMode}
+                    className={[styles["btns"], styles["cancel-btns"]]}
+                  >
+                    <MdCancel size="1.6rem" />
+                  </Button>
+                  <Button className={styles["btns"]}>
+                    {" "}
+                    <FaSave size="1.6rem" />
+                  </Button>
+                </div>
+              </Fade>
+            )}
+          </div>
+        </Card.Header>
+        {/* The content of the body will be a subject to local state management */}
+        <Card.Body
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          className={styles["card-body"]}
+        >
+          {/* Container for stat attributes and profile info */}
+
+          <Spinner
+            className={styles["loading-spinner"] + " shadow"}
+            animation="border"
+            role="status"
+          />
+        </Card.Body>
+      </Card>
+    );
+  }
 
   return (
     <>
@@ -113,7 +155,7 @@ export default function GroupsTab(props) {
                 "col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
               }
             >
-              {communities}
+              {myCommunitiesMapper()}
             </Fade>
           </Row>
         </Card.Body>
