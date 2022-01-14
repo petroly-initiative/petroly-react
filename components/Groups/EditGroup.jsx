@@ -37,7 +37,6 @@ export default function EditGroup(props) {
   const name = useRef();
   const [invalidCourse, validateCourse] = useState(false);
   const [waiting, setWaiting] = useState(false);
-  const [queryWaiting, setQueryWaiting] = useState(false);
   const { data, loading, error } = useQuery(getCommunity, {
     variables: { id: props.id },
   });
@@ -95,11 +94,11 @@ export default function EditGroup(props) {
   // handle load and error status on query.
   useEffect(() => {
     if (loading) {
-      setQueryWaiting(true);
     } else if (data) {
+      // to initialize the states with prev data
       setCommunity(data.community);
-      setType("EDU");
-      setQueryWaiting(false);
+      setType(data.community.category);
+      setPlatform(data.community.platform);
     }
   }, [data, loading]);
   // handle load and error status on mutation.
@@ -122,7 +121,7 @@ export default function EditGroup(props) {
     }
   }, [editData, editLoading]);
 
-  if (queryWaiting) return null;
+  if (loading) return null;
 
   return (
     <div>
