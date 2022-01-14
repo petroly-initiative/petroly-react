@@ -18,7 +18,7 @@ import { useQuery } from "@apollo/client";
 import { meEvaluationSetQuery } from "../../api/queries";
 import { USER } from "../../constants";
 import translator from "../../dictionary/components/eval-tab-dict";
-import {M} from "../../constants"
+import { M } from "../../constants";
 /**
  *
  * ? Evaluation Tab setup
@@ -49,6 +49,7 @@ export default function EvaluationsTab(props) {
     data: dataEval,
     loading: loadingEval,
     error: errorEval,
+    refetch: refetchMe,
   } = useQuery(meEvaluationSetQuery, {
     notifyOnNetworkStatusChange: true,
     skip: user.status !== USER.LOGGED_IN,
@@ -207,6 +208,7 @@ export default function EvaluationsTab(props) {
       <EvaluationPreview
         instructor={evaluation.instructor}
         evaluation={evaluation}
+        refetch={refetchMe}
       />
     );
   });
