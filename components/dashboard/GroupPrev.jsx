@@ -49,6 +49,7 @@ export default function GroupPreview(props) {
   ] = useMutation(deleteCommunity);
 
   const deleteCom = () => deleteThisCommunity({ variables: { id: props.id } }); // TODO Show a proper messeage for the user and update the group tab
+
   if (deleteLoading)
     return (
       <Button className={styles["loading-container"] + " shadow"} disabled>
@@ -59,6 +60,7 @@ export default function GroupPreview(props) {
         />
       </Button>
     );
+
   if (deleteError) {
     return (
       <div>
@@ -67,7 +69,9 @@ export default function GroupPreview(props) {
       </div>
     );
   }
+
   if (deleteData) return <></>; // Already checked that loading has finished and there are no errors.
+
   return (
     <>
       <Card className={styles["card-body"]}>

@@ -109,8 +109,8 @@ export default function EditGroup(props) {
       setWaiting(false);
       setSubmitted(true);
       if (editData.communityUpdate.ok) {
-        // TODO
-        setWaiting(false);
+        setModalShow(false);
+        props.refetch();
       } else {
         // this error belongs to API itself, user does not care about it
         console.log(error);
@@ -395,15 +395,16 @@ export default function EditGroup(props) {
         </Form>
       </Modal>
 
-      {submittedForm ? (
+      {/* {submittedForm ? (
         <PopMsg
           success={editData.communityUpdate.ok}
           successMsg={"تم تعديل القروب بنجاح."}
+          successTitle={"نجاح !"}
           onClose={() => props.refetch()}
         />
       ) : (
         <></>
-      )}
+      )} */}
     </div>
   );
 }

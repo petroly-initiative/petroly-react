@@ -25,14 +25,11 @@ import { useQuery } from "@apollo/client";
  */
 
 export default function GroupsTab(props) {
-  const { data, loading, error, refetch, networkStatus, variables } = useQuery(
-    myCommunities,
-    {
-      notifyOnNetworkStatusChange: true,
-      fetchPolicy: "network-only",
-      nextFetchPolicy: "cache-first",
-    }
-  );
+  const { data, loading, error, refetch } = useQuery(myCommunities, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
+  });
   const fullList = "all of it";
   const matchingList = "matching only";
   const [mode, setMode] = useState("view-all");
