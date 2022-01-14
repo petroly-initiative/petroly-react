@@ -22,12 +22,8 @@ function MyApp({ Component, pageProps }) {
     status: USER.LOGGED_OUT,
     token: "",
     lang: DEF_LANG,
-    theme: DEF_THEME
+    theme: DEF_THEME,
   });
-
-  useEffect(() => {
-    console.log(user);
-  }, [user.theme])
 
   return (
     <>
