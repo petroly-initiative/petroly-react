@@ -10,6 +10,8 @@ import { UserContext } from "../state-management/user-state/UserContext";
 import { useQuery } from "@apollo/client";
 import { meQuery } from "../api/queries";
 import { USER } from "../constants";
+import { useRouter } from "next/router";
+
 /**
  *
  * ? Dasboard page setup:
@@ -32,6 +34,7 @@ import { USER } from "../constants";
 
 export default function Dashboard(props) {
   const userContext = useContext(UserContext);
+  const router = useRouter();
 
   const {
     data: dataMe,
@@ -41,6 +44,12 @@ export default function Dashboard(props) {
     notifyOnNetworkStatusChange: true,
     skip: userContext.user.status !== USER.LOGGED_IN,
   });
+
+  useEffect(() => {
+    // prevent non logged user
+    // since any effect is loaded alwyas once
+    if (user.status !== USER.LOGGED_IN) router.push("/");
+  }, [user.status]);
 
   return (
     <>

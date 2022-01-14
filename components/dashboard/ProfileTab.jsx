@@ -24,7 +24,6 @@ import { profilePicUpdateMutation } from "../../api/mutations";
 import { USER } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/profile-tab-dict";
-import { useRouter } from "next/router";
 import { M } from "../../constants";
 
 /**
@@ -55,7 +54,6 @@ export default function ProfileTab(props) {
   const [WaitingPic, setWaitingPic] = useState(false);
   const { user, userDispatch } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
-  const router = useRouter();
 
   const {
     data: dataMe,
@@ -90,12 +88,6 @@ export default function ProfileTab(props) {
       profilePicUpdate({ variables: { file } });
     }
   }
-
-  useEffect(() => {
-    // prevent non logged user
-    // since any effect is loaded alwyas once
-    if (user.status !== USER.LOGGED_IN) router.push("/");
-  }, [user.status]);
 
   useEffect(() => {
     setLang(() => translator(user.lang));
