@@ -19,7 +19,7 @@ import { GoSettings } from "react-icons/go";
 import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
 import { useEffect, useState, useContext } from "react";
-import { useQuery, useLazyQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { CommunitiesQuery } from "../api/queries";
 import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
@@ -28,15 +28,10 @@ import translator from "../dictionary/pages/groups-dict";
 import { langDirection, L, M } from "../constants";
 
 function Groups(state, action) {
-  const [user, userDispatch] = useContext(UserContext);
+  const { user, userDispatch } = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
   // search filter modal state
   const [searchTerm, setSearchTerm] = useState("");
-  // language state
-  console.log(userDispatch);
-  console.log(user.lang);
-
-  const [langState, setLang] = useState(() => translator(user.lang));
   const [platform, setPlatform] = useState({
     DISCORD: true,
     TELEGRAM: true,
@@ -54,8 +49,9 @@ function Groups(state, action) {
     nextFetchPolicy: "cache-first",
   });
 
+  // language state
+  const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
-    // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
     console.log("changed language!");
   }, [user.lang]);
@@ -233,7 +229,11 @@ function Groups(state, action) {
         </Container>
       </>
 
-      {<GroupCreationCard /> /* Show only when the user is logged in */}
+      {
+        <GroupCreationCard
+          refetch={refetch}
+        /> /* Show only when the user is logged in */
+      }
     </ClientOnly>
   );
 }

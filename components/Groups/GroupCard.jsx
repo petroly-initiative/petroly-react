@@ -6,7 +6,7 @@ import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { MdGames } from "react-icons/md";
 import { RiBook2Fill } from "react-icons/ri";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Button,
   Card,
