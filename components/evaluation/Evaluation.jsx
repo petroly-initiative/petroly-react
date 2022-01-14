@@ -101,7 +101,14 @@ useEffect(() => {
             />
           </div>
           {props.grading !== "" && (
-            <p className={styles.contentText}>{props.grading}</p>
+            <p
+              className={
+                styles.contentText +
+                ` ${user.theme === M.DARK ? styles["dark-extra"] : ""}`
+              }
+            >
+              {props.grading}
+            </p>
           )}
           <div className={styles.stars}>
             <ReactStars
@@ -134,7 +141,14 @@ useEffect(() => {
             />
           </div>
           {props.teaching !== "" && (
-            <p className={styles.contentText}>{props.teaching}</p>
+            <p
+              className={
+                styles.contentText +
+                ` ${user.theme === M.DARK ? styles["dark-extra"] : ""}`
+              }
+            >
+              {props.teaching}
+            </p>
           )}
           <div className={styles.stars}>
             <ReactStars
@@ -167,7 +181,14 @@ useEffect(() => {
             />
           </div>
           {props.personality !== "" && (
-            <p className={styles.contentText}>{props.personality}</p>
+            <p
+              className={
+                styles.contentText +
+                ` ${user.theme === M.DARK ? styles["dark-extra"] : ""}`
+              }
+            >
+              {props.personality}
+            </p>
           )}
           <div className={styles.stars}>
             <ReactStars
@@ -194,12 +215,19 @@ useEffect(() => {
               style={langDirection(user.lang)}
               className={
                 styles.headers +
-                ` ${user.theme === M.DARK ? styles["dark-extra"] : ""}`
+                ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
               }
             >
               {langState.comment}
             </div>
-            <p className={styles.contentText}>{props.comment}</p>
+            <p
+              className={
+                styles.contentText +
+                ` ${user.theme === M.DARK ? styles["dark-extra"] : ""}`
+              }
+            >
+              {props.comment}
+            </p>
           </section>
         )}
       </Card.Body>

@@ -38,7 +38,7 @@ $txt-fill: #6e737a;
 }
 
 .dark-extra{
- color: theme.$dark-fnt !important;
+ color: theme.$dark-fnt-fg !important;
 }
 
 @mixin tagstyle($bg-color) {
