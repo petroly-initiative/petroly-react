@@ -47,7 +47,7 @@ function InstructorRates(props) {
           style={{
             boxShadow: `0 0 10px ${colorFilter(
               props.overall
-            )}, 0 0 1px rgba(0, 0, 0, 0.13)`,
+            )}, 0 0 2px rgba(0, 0, 0, 0.13)`,
           }}
           id="overall-container"
           className={styles.ovrcontainer}

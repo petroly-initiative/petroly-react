@@ -137,7 +137,7 @@ $txt-fill: #6e737a;
 
   .score {
     font-weight: 700;
-    font-size: 4.5vmin;
+    font-size: 24px;
     color: #52575d;
   }
 
@@ -169,7 +169,7 @@ $txt-fill: #6e737a;
 
 @media only screen and (max-width: 600px) {
  .ovrDisplay .score{
-  font-size: 7vmin;
+  font-size: 24px;
 }
 
 }

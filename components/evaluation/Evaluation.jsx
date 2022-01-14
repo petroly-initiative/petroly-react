@@ -90,11 +90,11 @@ useEffect(() => {
         >
           {/* ERR: COLOR IS SPECIFIED LOCALLY */}
           <div
-            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+            dir={`${user.lang === L.AR_SA ? "ltr" : "rtl"}`}
             style={langDirection(user.lang)}
             className={styles.headers}
           >
-            {langState.grades}
+            <span>{langState.grades}</span>
             <FaClipboardCheck
               style={{ color: "#F037A5" }}
               className={styles["section-icon"]}
@@ -123,15 +123,14 @@ useEffect(() => {
           id="teaching"
         >
           <div
-            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+            dir={`${user.lang === L.AR_SA ? "ltr" : "rtl"}`}
             style={langDirection(user.lang)}
             className={styles.headers}
           >
-            {langState.teaching}
+            <span>{langState.teaching}</span>
             <FaChalkboardTeacher
               style={{ color: "#3DB2FF" }}
               className={styles["section-icon"]}
-              size={"2vmin"}
             />
           </div>
           {props.teaching !== "" && (
@@ -157,15 +156,14 @@ useEffect(() => {
           id="personality"
         >
           <div
-            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+            dir={`${user.lang === L.AR_SA ? "ltr" : "rtl"}`}
             style={langDirection(user.lang)}
             className={styles.headers}
           >
-            {langState.person}
+            <span>{langState.person}</span>
             <BsPersonBoundingBox
               style={{ color: "#FF6666" }}
               className={styles["section-icon"]}
-              size={"2vmin"}
             />
           </div>
           {props.personality !== "" && (
@@ -185,7 +183,6 @@ useEffect(() => {
         </section>
         {props.comment !== "" && (
           <section
-            style={{ color: "#316B83" }}
             className={
               styles["sections"] +
               ` ${user.theme === M.DARK ? styles["dark-section"] : ""}`
@@ -193,7 +190,7 @@ useEffect(() => {
             id="general"
           >
             <div
-              dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+              dir={`${user.lang === L.AR_SA ? "ltr" : "rtl"}`}
               style={langDirection(user.lang)}
               className={
                 styles.headers +
