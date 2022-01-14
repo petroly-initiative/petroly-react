@@ -98,6 +98,7 @@ export default function EditGroup(props) {
       setQueryWaiting(true);
     } else if (data) {
       setCommunity(data.community);
+      setType("EDU");
       setQueryWaiting(false);
     }
   }, [data, loading]);
@@ -182,6 +183,7 @@ export default function EditGroup(props) {
               <Col>
                 <Form onChange={selectType} noValidate>
                   <Form.Check
+                    defaultChecked={data.community.category === "EDU"}
                     className={styles.radio}
                     type={"radio"}
                     value="EDU"
@@ -201,6 +203,7 @@ export default function EditGroup(props) {
                     name="platform"
                   />
                   <Form.Check
+                    defaultChecked={data.community.category === "ENTERTAINING"}
                     className={styles.radio}
                     type={"radio"}
                     value="ENTERTAINING"
@@ -220,6 +223,7 @@ export default function EditGroup(props) {
                     name="platform"
                   />
                   <Form.Check
+                    defaultChecked={data.community.category === "SECTION"}
                     className={styles.radio + " " + styles["course-container"]}
                     type={"radio"}
                     value="SECTION"
@@ -281,6 +285,7 @@ export default function EditGroup(props) {
               <Col>
                 <Form onChange={selectPlatform} noValidate>
                   <Form.Check
+                    defaultChecked={data.community.platform === "WHATSAPP"}
                     className={styles.radio}
                     type={"radio"}
                     value="WHATSAPP"
@@ -294,6 +299,7 @@ export default function EditGroup(props) {
                     name="type"
                   />
                   <Form.Check
+                    defaultChecked={data.community.platform === "TELEGRAM"}
                     className={styles.radio}
                     type={"radio"}
                     value="TELEGRAM"
@@ -307,6 +313,7 @@ export default function EditGroup(props) {
                     name="type"
                   />
                   <Form.Check
+                    defaultChecked={data.community.platform === "DISCORD"}
                     className={styles.radio}
                     type={"radio"}
                     value="DISCORD"
