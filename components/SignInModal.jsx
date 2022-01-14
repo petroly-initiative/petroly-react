@@ -6,12 +6,12 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
-import authStyle from "../styles/Auth.module.scss";
+import styles from "../styles/Auth.module.scss";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { MdVisibility, MdVisibilityOff, MdWarning } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-
+import translator from "../dictionary/components/login-modal-dict";
 import { Fade } from "react-awesome-reveal";
 import { useMutation } from "@apollo/client";
 import {
@@ -19,21 +19,28 @@ import {
   registerMutation,
   sendPasswordResetEmailMutation,
 } from "../api/mutations";
-import { T } from "../constants";
+import { T, L, M, langDirection } from "../constants";
 import { useRouter } from "next/router";
 
 export default function SignInModal(props) {
   /**
    * TODO:
-   * - Validation, and validation Error indicators
+   * - Correct text alignment for English and Arabic
    *
    */
   const router = useRouter();
-  const userContext = useContext(UserContext);
+  const { user, userDispatch } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
   const [tab, setTab] = useState("signIn");
   const [mode, setMode] = useState("user-input");
+  // language state
+  const [langState, setLang] = useState(() => translator(user.lang));
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+  }, [user.lang]);
+
   /**
    * ? Sign in modal modes
    * - user-input: basic sign in and create account tabs
@@ -189,7 +196,7 @@ export default function SignInModal(props) {
               setValidation(true);
               setError({
                 show: true,
-                msg: "الرجاء تعبئة الخانات المطلوبة لتسجيل الدخول",
+                msg: `${langState.emptyErr}`,
               });
             } else {
               setError({
@@ -214,7 +221,7 @@ export default function SignInModal(props) {
             } else if (password !== confirmPass) {
               setError({
                 show: true,
-                msg: "الرجاء التأكد من تطابق كلمة المرور وتأكيد كلمة المرور",
+                msg: `${langState.wrongPassword}`,
               });
             }
             // ? important to prevent unnecessary queries for wrong emails
@@ -259,11 +266,22 @@ export default function SignInModal(props) {
           "refreshToken",
           dataTokenAuth.tokenAuth.refreshToken
         );
+        localStorage.setItem(
+          "lang",
+          dataTokenAuth.tokenAuth.user.profile.language
+        );
+        localStorage.setItem(
+          "theme",
+          dataTokenAuth.tokenAuth.user.profile.theme
+        );
 
-        userContext.userDispatch({
+        userDispatch({
           type: T.LOGIN,
           token: dataTokenAuth.tokenAuth.token,
           username: dataTokenAuth.tokenAuth.user.username,
+          profileId: dataTokenAuth.tokenAuth.user.profile.id,
+          lang: dataTokenAuth.tokenAuth.user.profile.language,
+          theme: dataTokenAuth.tokenAuth.user.profile.theme,
         });
         props.close();
       }
@@ -317,10 +335,15 @@ export default function SignInModal(props) {
     <>
       {show ? (
         <>
-          <div className={authStyle["modal-overlay"]} onClick={hideModal} />
-          <div className={authStyle["modal-wrapper"]}>
-            <div className={authStyle["modal-bg"]} />
-            <div className={authStyle["modal-header"]}>
+          <div className={styles["modal-overlay"]} onClick={hideModal} />
+          <div
+            className={
+              styles["modal-wrapper"] +
+              ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+            }
+          >
+            <div className={styles["modal-bg"]} />
+            <div className={styles["modal-header"]}>
               <Image
                 layout="fill"
                 src={"/images/signIn/sign-in-header.svg"}
@@ -329,44 +352,56 @@ export default function SignInModal(props) {
             </div>
 
             {mode === "user-input" && (
-              <div className={authStyle["modal-footer"]}>
+              <div className={styles["modal-footer"]}>
                 <Form
                   validated={validated}
-                  className={authStyle["main-form"]}
+                  className={styles["main-form"]}
                   onSubmit={handleSubmit}
                   noValidate
                 >
-                  <div className={authStyle["text-header"]}>
-                    <div className={authStyle["nav-container"]}>
+                  <div className={styles["text-header"]}>
+                    <div className={styles["nav-container"]}>
                       <Button
                         className={
                           tab === "signIn"
-                            ? authStyle["active-tab"]
-                            : authStyle["tab-btns"]
+                            ? styles["active-tab"] +
+                              ` ${
+                                user.theme === M.DARK ? styles["dark-mode"] : ""
+                              }`
+                            : styles["tab-btns"] +
+                              ` ${
+                                user.theme === M.DARK ? styles["dark-mode"] : ""
+                              }`
                         }
                         onClick={switchTab}
                         id="signIn"
                       >
-                        تسجيل الدخول
+                        {langState.switch1}
                       </Button>
                       <Button
                         className={
                           tab === "signUp"
-                            ? authStyle["active-tab"]
-                            : authStyle["tab-btns"]
+                            ? styles["active-tab"] +
+                              ` ${
+                                user.theme === M.DARK ? styles["dark-mode"] : ""
+                              }`
+                            : styles["tab-btns"] +
+                              ` ${
+                                user.theme === M.DARK ? styles["dark-mode"] : ""
+                              }`
                         }
                         onClick={switchTab}
                         id="signUp"
                       >
-                        حساب جديد
+                        {langState.switch2}
                       </Button>
                     </div>
                   </div>
                   {validationError.show && (
                     <Fade duration="1000">
-                      <Alert className={authStyle["rules"]} variant="danger">
+                      <Alert className={styles["rules"]} variant="danger">
                         <MdWarning
-                          className={authStyle["rules-icon"]}
+                          className={styles["rules-icon"]}
                           size="1.4rem"
                         />
                         <div>{validationError.msg}</div>
@@ -375,14 +410,20 @@ export default function SignInModal(props) {
                   )}
                   <Fade duration="1000">
                     <Form.Group>
-                      <Form.Label className={authStyle["labels"]}>
-                        اسم المستخدم
+                      <Form.Label className={styles["labels"]}>
+                        {langState.textField1}
                       </Form.Label>
                       <InputGroup hasValidation>
                         <FormControl
+                          className={`${
+                            user.theme === M.DARK
+                              ? styles["dark-mode-input"]
+                              : ""
+                          }`}
+                          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                           onChange={handleUsername}
                           value={username}
-                          placeholder="Username"
+                          placeholder={langState.textField1}
                           type="text"
                           required
                         />
@@ -392,14 +433,20 @@ export default function SignInModal(props) {
                   {tab === "signUp" && (
                     <Fade duration="1000">
                       <Form.Group>
-                        <Form.Label className={authStyle["labels"]}>
-                          البريد الإلكتروني
+                        <Form.Label className={styles["labels"]}>
+                          {langState.textField2}
                         </Form.Label>
                         <InputGroup hasValidation>
                           <FormControl
+                            className={`${
+                              user.theme === M.DARK
+                                ? styles["dark-mode-input"]
+                                : ""
+                            }`}
+                            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                             onChange={handleEmail}
                             value={email}
-                            placeholder="Email Address"
+                            placeholder={langState.textField2}
                             type="email"
                             required
                             isInvalid={isEmailInvalid}
@@ -408,7 +455,7 @@ export default function SignInModal(props) {
                             style={{ textAlign: "right" }}
                             type="invalid"
                           >
-                            الرجاء استخدام بريد إلكتروني صالح
+                            {langState.emailErr}
                           </FormControl.Feedback>
                         </InputGroup>
                       </Form.Group>
@@ -416,21 +463,33 @@ export default function SignInModal(props) {
                   )}
                   <Fade duration="1000">
                     <Form.Group>
-                      <Form.Label className={authStyle["labels"]}>
-                        كلمة المرور
+                      <Form.Label className={styles["labels"]}>
+                        {langState.passField1}
                       </Form.Label>
                       <InputGroup hasValidation>
                         <FormControl
+                          className={`${
+                            user.theme === M.DARK
+                              ? styles["dark-mode-input"]
+                              : ""
+                          }`}
+                          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                           onChange={handlePassword}
                           value={password}
-                          placeholder="Password"
+                          placeholder={langState.passField1}
                           type={showPwd ? "text" : "password"}
                           required
                         />
 
-                        <InputGroup.Append>
+                        <InputGroup.Append
+                          className={` ${
+                            user.theme === M.DARK
+                              ? styles["dark-mode-input"]
+                              : ""
+                          }`}
+                        >
                           <Button
-                            className={authStyle["pwd-toggle"]}
+                            className={styles["pwd-toggle"]}
                             onClick={handleShowPwd}
                           >
                             {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
@@ -442,21 +501,33 @@ export default function SignInModal(props) {
                   {tab === "signUp" && (
                     <Fade duration="1000">
                       <Form.Group>
-                        <Form.Label className={authStyle["labels"]}>
-                          تأكيد كلمة المرور
+                        <Form.Label className={styles["labels"]}>
+                          {langState.passField2}
                         </Form.Label>
                         <InputGroup>
                           <FormControl
+                            className={`${
+                              user.theme === M.DARK
+                                ? styles["dark-mode-input"]
+                                : ""
+                            }`}
+                            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                             onChange={handleConfirmPass}
                             value={confirmPass}
-                            placeholder="Password Confirm"
+                            placeholder={`${langState.passField2}`}
                             type={showPwd ? "text" : "password"}
                             required
                             isInvalid={isConfirmPassInvalid}
                           />
-                          <InputGroup.Append>
+                          <InputGroup.Append
+                            className={` ${
+                              user.theme === M.DARK
+                                ? styles["dark-mode-input"]
+                                : ""
+                            }`}
+                          >
                             <Button
-                              className={authStyle["pwd-toggle"]}
+                              className={styles["pwd-toggle"]}
                               onClick={handleShowPwd}
                             >
                               {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
@@ -473,30 +544,37 @@ export default function SignInModal(props) {
                     </Fade>
                   )}
 
-                  <div className={authStyle["submitContainer"]}>
+                  <div className={styles["submitContainer"]}>
                     {loadingTokenAuth || loadingRegister ? (
                       <Spinner animation="border" role="status" />
                     ) : (
                       <Button
                         type="submit"
-                        className={authStyle["login-btn"]}
+                        className={styles["login-btn"]}
                         disabled={loadingTokenAuth}
                       >
-                        {tab === "signIn" ? "تسجيل الدخول" : "إنشاء حساب"}
+                        {tab === "signIn"
+                          ? `${langState.switch1}`
+                          : `${langState.switch2}`}
                       </Button>
                     )}
 
                     <div
-                      className={authStyle.redirecter}
-                      style={{ fontSize: 12 }}
+                      className={styles.redirecter}
+                      style={{
+                        fontSize: 12,
+                        direction: `${user.lang === L.EN_US ? "ltr" : "rtl"}`,
+                        margin: 8,
+                      }}
                     >
-                      {"نسيت كلمة المرور؟ "}
+                      {langState.forgetPassword}
                       <button
                         type="button"
                         onClick={resetPassMode}
-                        className={authStyle.redirectBtn}
+                        className={styles.redirectBtn}
+                        style={{ marginLeft: 5 }}
                       >
-                        {"أعد تعيين كلمة المرور"}
+                        {langState.replacePass}
                       </button>
                     </div>
                   </div>
@@ -504,26 +582,33 @@ export default function SignInModal(props) {
               </div>
             )}
             {mode === "ps-reset" && (
-              <div className={authStyle["modal-footer"]}>
+              <div className={styles["modal-footer"]}>
                 <Form
                   validated={validated}
-                  className={authStyle["main-form"]}
+                  className={styles["main-form"]}
                   onSubmit={handleSubmit}
                   noValidate
                 >
                   <Fade duration="1000">
-                    <div className={authStyle["text-header"]}>
-                      {"إعادة تعيين كلمة المرور"}
+                    <div className={styles["text-header"]}>
+                      {langState.replacePassHeader}
                     </div>
                   </Fade>
-                  <div className={authStyle["reset-instructions"]}>
-                    الرجاء كتابة بريدك الإلكتروني لإرسال كلمة المرور الجديدة
+                  <div
+                    dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                    className={
+                      styles["reset-instructions"] +
+                      ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                    }
+                    style={langDirection(user.lang)}
+                  >
+                    {langState.replacePassHelper}
                   </div>
                   {validationError.show && (
                     <Fade duration="1000">
-                      <Alert className={authStyle["rules"]} variant="danger">
+                      <Alert className={styles["rules"]} variant="danger">
                         <MdWarning
-                          className={authStyle["rules-icon"]}
+                          className={styles["rules-icon"]}
                           size="1.4rem"
                         />
                         <div>{validationError.msg}</div>
@@ -532,22 +617,26 @@ export default function SignInModal(props) {
                   )}
                   <InputGroup hasValidation>
                     <FormControl
+                      className={`${
+                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                      }`}
+                      dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                       onChange={handleEmail}
                       value={email}
-                      placeholder="Email Address"
+                      placeholder={langState.textField2}
                       type="email"
                       required
                       isInvalid={isEmailInvalid}
                     />
                     <FormControl.Feedback
-                      style={{ textAlign: "right" }}
+                      style={langDirection(user.lang)}
                       type="invalid"
                     >
-                      الرجاء استخدام بريد إلكتروني صالح
+                      {langState.emailErr}{" "}
                     </FormControl.Feedback>
                   </InputGroup>
                   <div
-                    className={authStyle["submitContainer"]}
+                    className={styles["submitContainer"]}
                     style={{ marginTop: 16 }}
                   >
                     {loadingSendPasswordResetEmail ? (
@@ -555,23 +644,28 @@ export default function SignInModal(props) {
                     ) : (
                       <Button
                         type="submit"
-                        className={authStyle["login-btn"]}
+                        className={styles["login-btn"]}
                         disabled={loadingTokenAuth}
                       >
-                        أرسل كلمة المرور الجديدة
+                        {langState.sendPass}
                       </Button>
                     )}
                     <div
-                      className={authStyle.redirecter}
-                      style={{ padding: 16, fontSize: 12 }}
+                      dir={`${user.lang === L.EN_US ? "ltr" : "rtl"}`}
+                      className={styles.redirecter}
+                      style={Object.assign(
+                        { padding: 16, fontSize: 12 },
+                        langDirection(user.lang)
+                      )}
                     >
-                      {" لديك حساب بترولي؟"}
+                      {langState.alreadyAcc}
                       <button
+                        style={langDirection(user.lang)}
                         type="button"
                         onClick={userInputMode}
-                        className={authStyle.redirectBtn}
+                        className={styles.redirectBtn}
                       >
-                        {"سجل دخولك"}
+                        {langState.alreadySignIn}
                       </button>
                     </div>
                   </div>
@@ -579,18 +673,18 @@ export default function SignInModal(props) {
               </div>
             )}
             {mode === "ps-sccuess" && (
-              <div className={authStyle["modal-footer"]}>
+              <div className={styles["modal-footer"]}>
                 <p>تفقد بريدك الإلكتروني لإعادة ضبط كلمة المرور</p>
               </div>
             )}
             {mode === "acc-confirm" && (
-              <div className={authStyle["main-form"]}>
+              <div className={styles["main-form"]}>
                 {" "}
-                <div className={authStyle["text-header"]}>
-                  {"تأكيد إنشاء الحساب"}
+                <div className={styles["text-header"]}>
+                  {langState.confirmer}
                 </div>
-                <div className={authStyle["reset-instructions"]}>
-                  الرجاء تأكيد إنشاء الحساب الخاص بك عن طريق بريدك الإلكتروني{" "}
+                <div className={styles["reset-instructions"]}>
+                  {langState.checker}
                 </div>
               </div>
             )}

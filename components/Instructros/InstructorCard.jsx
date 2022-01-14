@@ -7,6 +7,9 @@ import { BsStarFill, BsStar } from "react-icons/bs";
 import { MdFolderSpecial } from "react-icons/md";
 import ReactStars from "react-rating-stars-component";
 import styles from "../../styles/evaluation-page/instructors-card.module.scss";
+import { useContext } from "react";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import { L, M } from "../../constants";
 
 /**
  * TODO: Create an overlay for evaluation numbers
@@ -15,7 +18,8 @@ import styles from "../../styles/evaluation-page/instructors-card.module.scss";
  */
 
 function InstructorCard(props) {
-  const tooltip = useRef();
+  const {user} = useContext(UserContext);
+
 
   const gradientColor = () => {
     switch (props.starValue) {
@@ -41,7 +45,11 @@ function InstructorCard(props) {
       <Link href={`/instructors/${props.instructorID}`}>
         <Card
           style={{ borderRadius: 8 }}
-          className={"shadow border-0 " + styles.Cardholder}
+          className={
+            "shadow border-0 " +
+            styles.Cardholder +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
         >
           <Card.Body className={styles.container}>
             <div
@@ -50,17 +58,30 @@ function InstructorCard(props) {
             >
               <div
                 style={{ position: "relative" }}
-                className={styles.insuctor_pic + " shadow"}
+                className={
+                  styles.insuctor_pic +
+                  " shadow" +
+                  ` ${user.theme === M.DARK ? styles["dark-border"] : ""}`
+                }
               >
                 {props.image}
               </div>
               <OverlayTrigger
-                style={{ position: "absolute", right: 0 }}
+                placement="top"
                 delay={{ show: 150, hide: 200 }}
-                overlay={<Tooltip id="button-tooltip">عدد المقيمين</Tooltip>}
-                target={tooltip.current}
+                overlay={
+                  <Tooltip id="button-tooltip">{`${
+                    user.lang === L.AR_SA ? "عدد المقيمين" : "Evaluation Count"
+                  }`}</Tooltip>
+                }
               >
-                <Container id="cunter" className={styles.eval_counter}>
+                <Container
+                  id="cunter"
+                  className={
+                    styles.eval_counter +
+                    ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                  }
+                >
                   <MdFolderSpecial />
                   <span>{props.evalCount}</span>
                 </Container>

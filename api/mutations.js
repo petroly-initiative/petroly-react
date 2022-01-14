@@ -12,7 +12,10 @@ export const tokenAuthMutation = gql`
         username
         verified
         profile {
+          id
           profilePic
+          language
+          theme
         }
       }
     }
@@ -71,10 +74,9 @@ export const registerMutation = gql`
     }
   }
 `;
-// FIXME: We need to change the mutation parameters to pass the comments
 export const evaluationCreateMutation = gql`
   mutation EvaluationCreate(
-    $instructorId: Int
+    $instructorId: ID
     $username: String
     $grading: EvaluationGradingEnum!
     $teaching: EvaluationTeachingEnum!
@@ -88,8 +90,8 @@ export const evaluationCreateMutation = gql`
   ) {
     evaluationCreate(
       input: {
-        instructor: { connect: { id: { equals: $instructorId } } }
-        user: { connect: { username: { equals: $username } } }
+        instructor: { connect: { id: { exact: $instructorId } } }
+        user: { connect: { username: { exact: $username } } }
         grading: $grading
         teaching: $teaching
         personality: $personality
@@ -115,7 +117,7 @@ export const evaluationCreateMutation = gql`
 
 export const evaluationUpdateMutation = gql`
   mutation EvaluationUpdate(
-    $id: Int
+    $id: ID
     $grading: EvaluationGradingEnum
     $teaching: EvaluationTeachingEnum
     $personality: EvaluationPersonalityEnum
@@ -127,7 +129,7 @@ export const evaluationUpdateMutation = gql`
     $comment: String
   ) {
     evaluationUpdate(
-      where: { id: { equals: $id } }
+      where: { id: { exact: $id } }
       input: {
         grading: $grading
         teaching: $teaching
@@ -174,6 +176,15 @@ export const passwordResetMutation = gql`
   }
 `;
 
+export const verifyAccountMutation = gql`
+  mutation ($token: String!) {
+    verifyAccount(token: $token) {
+      success
+      errors
+    }
+  }
+`;
+
 // Community mutations:
 export const createCommunnityMutation = gql`
   mutation CreateCommunity(
@@ -213,6 +224,7 @@ export const toggleLikeCommunityMutation = gql`
     }
   }
 `;
+
 export const deleteCommunity = gql`
   mutation DeleteCommunity($id: ID) {
     communityDelete(where: { id: { exact: $id } }) {
@@ -224,6 +236,7 @@ export const deleteCommunity = gql`
     }
   }
 `;
+
 export const editCommunnityMutation = gql`
   mutation EditCompetition(
     $id: ID
@@ -254,6 +267,32 @@ export const editCommunnityMutation = gql`
         id
         name
       }
+    }
+  }
+`;
+
+export const profileUpdateMutation = gql`
+  mutation ProfileUpdateMutation($id: ID, $lang: String, $theme: String) {
+    profileUpdate(
+      where: { id: { exact: $id } }
+      input: { language: $lang, theme: $theme }
+    ) {
+      ok
+      errors {
+        field
+        messages
+      }
+      result {
+        id
+      }
+    }
+  }
+`;
+
+export const profilePicUpdateMutation = gql`
+  mutation ($file: Upload!) {
+    profilePicUpdate(file: $file) {
+      success
     }
   }
 `;

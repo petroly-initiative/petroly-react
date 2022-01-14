@@ -33,12 +33,14 @@ import {
 } from "../../api/mutations";
 import { useMutation } from "@apollo/client";
 import { UserContext } from "../../state-management/user-state/UserContext";
-import { USER } from "../../constants";
+import { USER, L, M, langDirection } from "../../constants";
 import { Fade } from "react-awesome-reveal";
+import translator from "../../dictionary/components/eval-modal-dict";
 
-// TODO: creating a forth section for general comments, and making non-manifest comments optional
+// TODO: Removing the local text color styling
+
 export default function EvaluationModal(props) {
-  const userContext = useContext(UserContext);
+  const { user } = useContext(UserContext);
   // modal state
   const [submissionState, dispatch] = useReducer(evalReducer, {
     sucess: false,
@@ -74,6 +76,14 @@ export default function EvaluationModal(props) {
   const [validated, setValidated] = useState(false);
   const [isTermInvalid, setTermInvalid] = useState(false);
   const [isCourseInvalid, setCourseInvalid] = useState(false);
+  // language state
+  const [langState, setLang] = useState(() => translator(user.lang));
+
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
 
   const setCourse = (e) => {
     setExtra((state) => ({ term: state.term, course: e.target.value }));
@@ -123,7 +133,7 @@ export default function EvaluationModal(props) {
   ] = useMutation(evaluationCreateMutation, {
     notifyOnNetworkStatusChange: true,
     variables: {
-      username: userContext.user.username,
+      username: user.username,
       instructorId: props.id,
       grading: "A_" + String(grading.rating * 20),
       teaching: "A_" + String(teaching.rating * 20),
@@ -182,10 +192,10 @@ export default function EvaluationModal(props) {
       });
       setValidated(true);
     } else if (props.edit) {
-      setWaiting(false);
+      setWaiting(true);
       evaluationUpdate();
     } else {
-      setWaiting(false);
+      setWaiting(true);
       evaluationCreate();
     }
   };
@@ -203,7 +213,10 @@ export default function EvaluationModal(props) {
     } else if (dataEvaluationUpdate) {
       if (dataEvaluationUpdate.evaluationUpdate.ok) {
         setWaiting(false);
-        setTimeout(() => props.close(), 400);
+        setTimeout(() => {
+          props.close();
+          props.refetch();
+        }, 400);
       } else {
         setError({ show: true, msg: "Error while updatig" });
       }
@@ -229,13 +242,14 @@ export default function EvaluationModal(props) {
             className={styles.modalTitle}
             id="example-custom-modal-styling-title"
           >
-            استمارة التقييم
+            {langState.modalHeader}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body
           className={[
             "d-flex flex-column align-items-center",
             styles["body-container"],
+            `${user.theme === M.DARK ? styles["dark-mode"] : ""}`,
           ]}
         >
           <section
@@ -245,22 +259,35 @@ export default function EvaluationModal(props) {
             <div className={styles["info-container"]}>
               <div
                 style={{ borderRadius: "35px" }}
-                className={styles.instructorPic + " shadow"}
+                className={
+                  styles.instructorPic +
+                  " shadow" +
+                  ` ${user.theme === M.DARK ? styles["dark-border"] : ""}`
+                }
               >
                 {props.image}
               </div>
               <div className={styles.instructorInfo}>
-                <div className={styles["instructor-name"]}>{props.name}</div>
+                <div
+                  className={
+                    styles["instructor-name"] +
+                    ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                  }
+                >
+                  {props.name}
+                </div>
                 <div className={styles["instructor-dept"]}>{props.dept}</div>
               </div>
             </div>
           </section>
-          <Alert className={styles["rules"]} key={0} variant="warning">
+          <Alert
+            style={langDirection(user.lang)}
+            className={styles["rules"]}
+            key={0}
+            variant="warning"
+          >
             <BiInfoCircle className={styles["rules-icon"]} size="1.4rem" />
-            <div>
-              نرجو عدم استخدام الألفاظ النابية تجاه أساتذتنا الكرام في استمارة
-              التقييم
-            </div>
+            <div>{langState.politeMsg}</div>
           </Alert>
           {validationError.show && (
             <Fade triggerOnce style={{ width: "95%" }} duration="1000">
@@ -279,24 +306,41 @@ export default function EvaluationModal(props) {
             id={"evalForm"}
             validated={validated}
           >
-            <section className={styles.sections + " shadow-sm"}>
+            <section
+              className={
+                styles.sections +
+                " shadow-sm" +
+                ` ${user.theme === M.DARK ? styles["dark-section"] : ""}`
+              }
+            >
               <div className={styles.headers}>
-                <div style={{ color: "#316B83" }} className={styles.titles}>
-                  معلومات التقييم{" "}
+                <div
+                  style={{ color: "#316B83" }}
+                  className={
+                    styles.titles +
+                    ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                  }
+                >
+                  {langState.infoHeader}{" "}
                   <FaInfoCircle
                     color="#0091e7"
                     className={styles["title-icons"]}
                   />
                 </div>
-                <div className={styles.descriptions}>
-                  معلومات ضرورية للاستفادة القصوى من تقييمك
+                <div
+                  className={
+                    styles.descriptions +
+                    ` ${user.theme === M.DARK ? styles["dark-subheader"] : ""}`
+                  }
+                >
+                  {langState.infoSubHeader}{" "}
                 </div>
               </div>
 
               <Form.Row className={styles["evaluation-data"]}>
                 <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Form.Label className={styles["labels"]}>
-                    الفصل الدراسي
+                    {langState.termSubHeader}{" "}
                   </Form.Label>
                   <InputGroup hasValidation className="mb-4">
                     <InputGroup.Prepend>
@@ -312,18 +356,21 @@ export default function EvaluationModal(props) {
                       onChange={setTerm}
                       required
                       isInvalid={isTermInvalid}
+                      className={` ${
+                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                      }`}
                     />
                     <FormControl.Feedback
-                      style={{ textAlign: "right" }}
+                      style={langDirection(user.lang)}
                       type="invalid"
                     >
-                      الرجاء استخدام 3 أرقام فقط
+                      {langState.termErr}
                     </FormControl.Feedback>
                   </InputGroup>
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Form.Label className={styles["labels"]}>
-                    المادة الدراسية
+                    {langState.courseSubHeader}{" "}
                   </Form.Label>
                   <InputGroup hasValidation className="mb-3">
                     <InputGroup.Prepend>
@@ -341,34 +388,57 @@ export default function EvaluationModal(props) {
                       onChange={setCourse}
                       required
                       isInvalid={isCourseInvalid}
-                      className={styles["course-input"]}
+                      className={
+                        styles["course-input"] +
+                        ` ${
+                          user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                        }`
+                      }
                     />
                     <FormControl.Feedback
-                      style={{ textAlign: "right" }}
+                      style={langDirection(user.lang)}
                       type="invalid"
                     >
-                      ABCDXXX :الرجاء كتابة اسم المدة الدراسية كالآتي
+                      {langState.courseErr}
                     </FormControl.Feedback>
                   </InputGroup>
                 </Col>
               </Form.Row>
             </section>
-            <section className={styles.sections + " shadow-sm"}>
+            <section
+              className={
+                styles.sections +
+                " shadow-sm" +
+                ` ${user.theme === M.DARK ? styles["dark-section"] : ""}`
+              }
+            >
               <div className={styles.headers}>
-                <div style={{ color: "#316B83" }} className={styles.titles}>
-                  التصحيح والدرجات
+                <div
+                  style={Object.assign({ color: "#316B83" })}
+                  className={
+                    styles.titles +
+                    ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                  }
+                >
+                  {langState.gradeHeader}{" "}
                   <FaClipboardCheck
                     color="F037A5"
                     className={styles["title-icons"]}
                   />
                 </div>
-                <div className={styles.descriptions}>
-                  شفافية التصحيح والالتزام بمعايير محددة للدرجات
+                <div
+                  className={
+                    styles.descriptions +
+                    ` ${user.theme === M.DARK ? styles["dark-subheader"] : ""}`
+                  }
+                >
+                  {langState.gradeSubHeader}
                 </div>
               </div>
               <div className={styles.ratingStars}>
                 <div className={styles.stars}>
                   <ReactStars
+                    style={langDirection(user.lang)}
                     size={14}
                     count={5}
                     edit={true}
@@ -383,9 +453,13 @@ export default function EvaluationModal(props) {
 
               <InputGroup hasValidation className={styles["input-containers"]}>
                 <FormControl
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  style={langDirection(user.lang)}
                   maxLength="160"
-                  className={styles["comments"]}
-                  placeholder={"اكتب تعليقك عن تصحيح المحاضِر"}
+                  className={` ${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`}
+                  placeholder={langState.gradePlaceholder}
                   size="sm"
                   as="textarea"
                   value={grading.comment}
@@ -393,21 +467,39 @@ export default function EvaluationModal(props) {
                 ></FormControl>
               </InputGroup>
             </section>
-            <section className={styles.sections + " shadow-sm"}>
+            <section
+              className={
+                styles.sections +
+                " shadow-sm" +
+                ` ${user.theme === M.DARK ? styles["dark-section"] : ""}`
+              }
+            >
               <div className={styles.headers}>
-                <div style={{ color: "#316B83" }} className={styles.titles}>
-                  التدريس
+                <div
+                  style={{ color: "#316B83" }}
+                  className={
+                    styles.titles +
+                    ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                  }
+                >
+                  {langState.teachHeader}{" "}
                   <FaChalkboardTeacher
                     color="#3DB2FF"
                     className={styles["title-icons"]}
                   />
                 </div>
-                <div className={styles.descriptions}>
-                  سهولة إيصال المعلومة و فهم المنهج{" "}
+                <div
+                  className={
+                    styles.descriptions +
+                    ` ${user.theme === M.DARK ? styles["dark-subheader"] : ""}`
+                  }
+                >
+                  {langState.teachSubHeader}{" "}
                 </div>
               </div>
               <div className={styles.ratingStars}>
                 <ReactStars
+                  style={langDirection(user.lang)}
                   size={14}
                   count={5}
                   edit={true}
@@ -422,31 +514,53 @@ export default function EvaluationModal(props) {
               <InputGroup hasValidation className={styles["input-containers"]}>
                 <Form.Label></Form.Label>
                 <FormControl
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   maxLength="160"
-                  className={styles["comments"]}
-                  placeholder={"اكتب تعليقك عن تدريس المحاضِر"}
+                  className={` ${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`}
+                  placeholder={langState.teachPlaceholder}
                   size="sm"
                   as="textarea"
                   value={teaching.comment}
                   onChange={teachComment}
+                  style={langDirection(user.lang)}
                 ></FormControl>
               </InputGroup>
             </section>
-            <section className={styles.sections + " shadow-sm"}>
+            <section
+              className={
+                styles.sections +
+                " shadow-sm" +
+                ` ${user.theme === M.DARK ? styles["dark-section"] : ""}`
+              }
+            >
               <div className={styles.headers}>
-                <div style={{ color: "#316B83 " }} className={styles.titles}>
-                  الشخصية
+                <div
+                  style={{ color: "#316B83 " }}
+                  className={
+                    styles.titles +
+                    ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                  }
+                >
+                  {langState.personHeader}{" "}
                   <BsPersonBoundingBox
                     color="#FF6666"
                     className={styles["title-icons"]}
                   />
                 </div>
-                <div className={styles.descriptions}>
-                  المزاج العام والتعامل مع الطلاب
+                <div
+                  className={
+                    styles.descriptions +
+                    ` ${user.theme === M.DARK ? styles["dark-subheader"] : ""}`
+                  }
+                >
+                  {langState.personSubHeader}{" "}
                 </div>
               </div>
               <div className={styles.ratingStars}>
                 <ReactStars
+                  style={langDirection(user.lang)}
                   size={14}
                   count={5}
                   edit={true}
@@ -460,9 +574,13 @@ export default function EvaluationModal(props) {
 
               <InputGroup hasValidation className={styles["input-containers"]}>
                 <FormControl
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  style={langDirection(user.lang)}
                   maxLength="160"
-                  className={styles["comments"]}
-                  placeholder={"اكتب تعليقك عن شخصية المحاضِر"}
+                  className={` ${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`}
+                  placeholder={langState.personPlaceholder}
                   as="textarea"
                   size="sm"
                   value={person.comment}
@@ -470,18 +588,34 @@ export default function EvaluationModal(props) {
                 ></FormControl>
               </InputGroup>
             </section>
-            <section className={styles.sections + " shadow-sm"}>
+            <section
+              className={
+                styles.sections +
+                " shadow-sm" +
+                ` ${user.theme === M.DARK ? styles["dark-section"] : ""}`
+              }
+            >
               <div className={styles.headers}>
-                <div style={{ color: "#316B83" }} className={styles.titles}>
-                  تعليق عام
+                <div
+                  style={{ color: "#316B83" }}
+                  className={
+                    styles.titles +
+                    ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                  }
+                >
+                  {langState.commentHeader}
                 </div>
               </div>
 
               <InputGroup hasValidation className={styles["input-containers"]}>
                 <FormControl
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  style={langDirection(user.lang)}
                   maxLength="160"
-                  className={styles["comments"]}
-                  placeholder={"اكتب تعليقك العام  "}
+                  className={` ${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`}
+                  placeholder={langState.commentPlaceholder}
                   as="textarea"
                   size="sm"
                   value={generalComment}
@@ -491,23 +625,32 @@ export default function EvaluationModal(props) {
             </section>
           </Form>
         </Modal.Body>
-        <Modal.Footer className={styles["modal-footer"]}>
+        <Modal.Footer
+          className={
+            styles["modal-footer"] +
+            ` ${user.theme === M.DARK ? styles["dark-footer"] : ""}`
+          }
+        >
           <OverlayTrigger
             placement="top"
             delay={{ show: 1000, hide: 300 }}
-            overlay={<Tooltip id="button-tooltip-2">حذف التقييم</Tooltip>}
+            overlay={
+              <Tooltip id="button-tooltip-2">{langState.cancelHover}</Tooltip>
+            }
           >
             <Button
               onClick={props.close}
               className={[styles["btns"], styles["cancel-btn"]]}
             >
-              <MdCancel size="2rem" />
+              <MdCancel size="1.2rem" /> {langState.cancelHover}
             </Button>
           </OverlayTrigger>
           <OverlayTrigger
             placement="top"
             delay={{ show: 1000, hide: 300 }}
-            overlay={<Tooltip id="button-tooltip-2">تسليم التقييم</Tooltip>}
+            overlay={
+              <Tooltip id="button-tooltip-2"> {langState.submitHover}</Tooltip>
+            }
           >
             {waiting ? (
               <Spinner animation="border" role="status" />
@@ -516,7 +659,7 @@ export default function EvaluationModal(props) {
                 onClick={fireEval}
                 className={[styles["btns"], styles["submit-btn"]]}
               >
-                <FaSave size="2rem" />
+                <FaSave size="1.2rem" /> {langState.submitHover}
               </Button>
             )}
           </OverlayTrigger>

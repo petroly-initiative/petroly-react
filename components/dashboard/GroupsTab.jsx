@@ -7,7 +7,7 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import styles from "../../styles/dashboard-page/dashboard-tabs.module.scss";
 import GroupPreview from "./GroupPrev";
 import { MdCancel } from "react-icons/md";
@@ -15,6 +15,9 @@ import { Fade } from "react-awesome-reveal";
 import { FiSearch } from "react-icons/fi";
 import { myCommunities } from "../../api/queries";
 import { useQuery } from "@apollo/client";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import translator from "../../dictionary/components/groups-tab-dict";
+import { M } from "../../constants";
 
 /**
  * ? Groups tab setup
@@ -30,9 +33,18 @@ export default function GroupsTab(props) {
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-first",
   });
+  const [mode, setMode] = useState("view-all");
+  const { user } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
+
   const fullList = "all of it";
   const matchingList = "matching only";
-  const [mode, setMode] = useState("view-all");
   const switchMode = () => {
     setMode(mode === "view-all" ? "search" : "view-all");
   };
@@ -114,13 +126,35 @@ export default function GroupsTab(props) {
 
   return (
     <>
-      <Card className={styles["card-containers"] + " shadow"}>
-        <Card.Header className={styles["header-containers"]}>
+      <Card
+        className={
+          styles["card-containers"] +
+          " shadow" +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
+      >
+        <Card.Header
+          className={
+            styles["header-containers"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           {mode === "view-all" && (
             <Fade triggerOnce>
-              <div className={styles["card-headers"]}>
-                <span className={styles["card-title"]}>مجتمعاتي</span>
-                <Button onClick={switchMode} className={styles["btns"]}>
+              <div
+                className={
+                  styles["card-headers"] +
+                  ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                }
+              >
+                <span className={styles["card-title"]}>{langState.header}</span>
+                <Button
+                  onClick={switchMode}
+                  className={
+                    styles["btns"] +
+                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                  }
+                >
                   <FiSearch size="1.6rem" />
                 </Button>
               </div>
@@ -131,7 +165,12 @@ export default function GroupsTab(props) {
               <div className={styles["card-headers"]}>
                 <Form className={styles["header-search"]}>
                   <InputGroup>
-                    <FormControl />
+                    <FormControl
+                      className={` ${
+                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                      }`}
+                      placeholder={langState.searchbar}
+                    />
                   </InputGroup>
                 </Form>
                 <div className={styles["search-set"]}>

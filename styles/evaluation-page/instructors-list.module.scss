@@ -1,10 +1,94 @@
+@use "/styles/themes.module" as theme;
+
+$btn-high: #00ead3;
 $txt-fill: #52575d;
 $txt-hg: #0091E7;
+
+
+.dark-mode {
+  background-color: theme.$dark-fg ;
+  color: theme.$dark-fnt ;
+  background: theme.$dark-fg ;
+  box-shadow: none ;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg ;
+    color: theme.$dark-fnt ;
+    box-shadow: none ;
+  }
+
+  &:active, &:focus{
+    background-color: $btn-high !important;
+  }
+
+  
+}
+
+.dark-btn{
+  background-color: theme.$dark-xfg !important;
+  background: theme.$dark-xfg !important;
+  color: $btn-high !important;
+  // border: 2px solid theme.$dark-xfg !important;
+  &:hover{
+    color: #fff !important;
+  }
+}
+
+.dark-mode-dropper{
+   background-color: theme.$dark-xfg !important;
+   border-radius: 0 6px 6px 0 !important;
+   &:hover{
+     background: theme.$dark-xfg !important;
+  color: $btn-high !important;
+   }
+  button{
+    background-color: theme.$dark-xfg !important;
+  background: theme.$dark-xfg !important;
+  color: $btn-high !important;
+  // border: 2px solid theme.$dark-xfg !important;
+   
+  &:hover{
+    color: #fff !important;
+  }
+  }
+
+  background-color: theme.$dark-xfg !important;
+  color: $btn-high !important;
+  div{
+     background-color: theme.$dark-fg ;
+  color: theme.$dark-fnt ;
+  background: theme.$dark-fg ;
+  box-shadow: none ;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg ;
+    color: theme.$dark-fnt ;
+    box-shadow: none ;
+  }
+
+  
+  }
+}
+
+.dark-mode-input {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-fg !important;
+  background: theme.$dark-fg !important;
+  border: 1px solid theme.$dark-bg !important;
+
+  &:focus, &:active{
+    background-color: theme.$dark-bg !important;
+    background: theme.$dark-bg !important;
+  }
+}
+
+
 
 .list_container {
   margin-right: 5rem !important;
   max-width: calc(100vw - 5rem) !important;
   padding-left: 52px;
+  padding-top: 1.5rem !important;
   padding-right: 52px;
   display: flex;
   flex-direction: column;
@@ -26,9 +110,10 @@ $txt-hg: #0091E7;
   
 }
 .search_btn {
-  background-color: #00ead3 !important;
+  background-color: #00ead3 ;
   border: none;
   border-radius: 0;
+  // border: 2px solid #00ead3;
   height: 100% !important;
   &:hover {
     background-color: #05e6cf !important;
@@ -43,7 +128,8 @@ $txt-hg: #0091E7;
 
 .dept-dropdown {
   button {
-    background-color: #06d8c3 !important;
+    // border: 2px solid #00ead3;
+    background-color: #06d8c3;
     border: none;
     border-radius: 0 6px 6px 0 !important;
     height: 38px;
@@ -76,11 +162,11 @@ $txt-hg: #0091E7;
 }
 
 .dept-dropdown div::-webkit-scrollbar-track {
-  background: white;
+  background: rgb(160, 160, 160);
 }
 
 .dept-dropdown div::-webkit-scrollbar-thumb {
-  background: #969696;
+  background: #5f5f5f;
 }
 
 .pages {

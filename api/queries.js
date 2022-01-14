@@ -11,7 +11,7 @@ export const instructorsQuery = gql`
     instructors(
       limit: $limit
       offset: $offset
-      where: { department: $department, name: { contains: $name } }
+      where: { department: $department, name: { icontains: $name } }
     ) {
       count
       data {
@@ -39,8 +39,8 @@ export const getInstructorName = gql`
 `;
 
 export const getInstructorDetail = gql`
-  query Instructor($id: Int) {
-    instructor(where: { id: { equals: $id } }) {
+  query Instructor($id: ID) {
+    instructor(where: { id: { exact: $id } }) {
       id
       name
       department
@@ -83,7 +83,10 @@ export const meQuery = gql`
       username
       email
       profile {
+        id
         profilePic
+        language
+        theme
       }
       evaluationSet {
         count

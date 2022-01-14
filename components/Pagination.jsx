@@ -2,6 +2,10 @@ import styles from "../styles/evaluation-page/pagination.module.scss";
 import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 import { range } from "lodash";
+import { useContext } from "react";
+import { UserContext } from "../state-management/user-state/UserContext";
+import { M } from "../constants";
+
 export default function CustomPagination(props) {
   /**
    * ? The operation of the pagination component
@@ -18,6 +22,9 @@ export default function CustomPagination(props) {
    * - switchView: a Parent function that recieves the new page number
    *
    */
+
+  const {user} = useContext(UserContext);
+
 
   let stacks = [];
 
@@ -118,7 +125,13 @@ export default function CustomPagination(props) {
 
   return (
     <>
-      <Pagination className={styles["pagination-container"] + " shadow"}>
+      <Pagination
+        className={
+          styles["pagination-container"] +
+          " shadow" +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
+      >
         {props.currentPage == 1 ? (
           <Pagination.Item
             style={{ color: "#212529" }}
@@ -156,11 +169,7 @@ export default function CustomPagination(props) {
         {pagesList}
 
         {props.currentPage == props.pageNum ? (
-          <Pagination.Item
-            className={styles["buttons"]}
-            disabled
-            
-          >
+          <Pagination.Item className={styles["buttons"]} disabled>
             {"›"}
           </Pagination.Item>
         ) : (
@@ -173,11 +182,7 @@ export default function CustomPagination(props) {
           </Pagination.Item>
         )}
         {props.currentPage == props.pageNum ? (
-          <Pagination.Item
-            className={styles["buttons"]}
-            
-            disabled
-          >
+          <Pagination.Item className={styles["buttons"]} disabled>
             {"››"}
           </Pagination.Item>
         ) : (

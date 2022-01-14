@@ -12,7 +12,7 @@ import Navbar from "../../components/navbar";
 import styles from "../../styles/evaluation-page/instructors-details.module.scss";
 import cardStyles from "../../styles/evaluation-page/instructors-card.module.scss";
 import { UserContext } from "../../state-management/user-state/UserContext";
-import { USER } from "../../constants";
+import { langDirection, USER } from "../../constants";
 import { AiFillEdit } from "react-icons/ai";
 import Evaluation from "../../components/evaluation/Evaluation";
 import InstructorRates from "../../components/Instructros/InstructorRates";
@@ -30,9 +30,10 @@ import {
 } from "../../api/queries";
 import { Fade } from "react-awesome-reveal";
 import { useRouter } from "next/router";
+import translator from "../../dictionary/pages/instructor-details-dict"
+import { M } from "../../constants";
 
 export const getStaticPaths = async () => {
- 
   const { data } = await client.query({
     query: getInstructorName,
     variables: {},
@@ -70,36 +71,37 @@ export const getStaticProps = async (context) => {
   };
 };
 
-
 export default function instructorDetails({ data }) {
   const router = useRouter();
   const [modalVisible, setVisible] = useState(false);
   const [msg, setMsg] = useState("");
-  const userContext = useContext(UserContext);
+  const {user} = useContext(UserContext);
+   const [langState, setLang] = useState(() => translator(user.lang));
+
+   useEffect(() => {
+     // console.log(userContext.user.lang);
+     setLang(() => translator(user.lang));
+   }, [user.lang]);
 
   const { data: dataHasEvaluated, loading: loadingHasEvaluated } = useQuery(
     hasEvaluatedQuery,
     {
-      skip: userContext.user.status !== USER.LOGGED_IN,
+      skip: user.status !== USER.LOGGED_IN,
       variables: { instructorId: data.instructor.id },
     }
   );
 
   useEffect(() => {
-    if (userContext.user.status === USER.LOGGED_IN) {
+    if (user.status === USER.LOGGED_IN) {
       if (dataHasEvaluated) {
         if (dataHasEvaluated.hasEvaluated) {
-          setMsg("قيمتَ المُحاضِر");
+          setMsg(`${langState.evaluated}`);
           setVisible(false);
           // we can redirect the user to the eavaluation edit page
-        } else setMsg("قيّم المحاضر");
+        } else setMsg(`${langState.evalAllow}`);
       }
-    } else setMsg("الرجاء تسجيل الدخول");
-  }, [loadingHasEvaluated, userContext.user.status]);
-
-  useEffect(() => {
-    console.log(data.instructor);
-  }, [data]);
+    } else setMsg(`${langState.evalBlock}`);
+  }, [loadingHasEvaluated, user.status]);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -111,7 +113,7 @@ export default function instructorDetails({ data }) {
 
   const launchModal = () => {
     if (
-      userContext.user.status === USER.LOGGED_IN &&
+      user.status === USER.LOGGED_IN &&
       !dataHasEvaluated.hasEvaluated
     )
       setVisible(true);
@@ -130,16 +132,14 @@ export default function instructorDetails({ data }) {
       ' url("/images/background.svg")'
     );
   };
-  // FIXME: add an additional section for general comments
+  // FIXME: add a filler image for empty evals
   const evalMapper = () =>
     data.instructor.evaluationSet.data.map((evaluation) => (
       <Evaluation
         date={evaluation.date.split("T")[0]}
-
         grading={evaluation.gradingComment}
         teaching={evaluation.teachingComment}
         personality={evaluation.personalityComment}
-
         rating={[
           evaluation.grading,
           evaluation.teaching,
@@ -163,10 +163,6 @@ export default function instructorDetails({ data }) {
         return `yellow,
               rgb(255, 120, 120)`;
         break;
-      case 2:
-      case 1:
-        return `orange,
-              rgb(255, 90, 90)`;
       default:
         return `rgb(204, 204, 204), rgb(163, 163, 163)`;
     }
@@ -194,15 +190,25 @@ export default function instructorDetails({ data }) {
       <Container className={styles.container}>
         <Row className={styles["col-container"]}>
           <Col xl={4} lg={6} className={styles.statsCol}>
-            <Card style={{ borderRadius: 8 }} className={"shadow border-0"}>
+            <Card
+              style={{ borderRadius: 8 }}
+              className={
+                "shadow border-0" +
+                ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+              }
+            >
               <Card.Body
                 style={{ width: "100%" }}
                 className={cardStyles.container}
               >
-                <div        
-                  className={cardStyles.cardColor + " cardColor"}
-                >
-                  <div className={cardStyles.insuctor_pic + " shadow"}>
+                <div className={cardStyles.cardColor + " cardColor"}>
+                  <div
+                    className={
+                      cardStyles.insuctor_pic +
+                      " shadow" +
+                      ` ${user.theme === M.DARK ? styles["dark-border"] : ""}`
+                    }
+                  >
                     <Image
                       className={cardStyles.picDiv}
                       src={data.instructor.profilePic}
@@ -214,10 +220,17 @@ export default function instructorDetails({ data }) {
                     placement="top"
                     delay={{ show: 150, hide: 200 }}
                     overlay={
-                      <Tooltip id="button-tooltip-2">عدد المقيّمين</Tooltip>
+                      <Tooltip id="button-tooltip-2">
+                        {langState.evalCount}
+                      </Tooltip>
                     }
                   >
-                    <div className={cardStyles.eval_counter}>
+                    <div
+                      className={
+                        cardStyles.eval_counter +
+                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                      }
+                    >
                       <MdFolderSpecial />
                       {/**! WARNING Needs to be fetched */}
                       <span>{data.instructor.evaluationSet.count}</span>
@@ -235,10 +248,22 @@ export default function instructorDetails({ data }) {
             </Card>
             <Card
               style={{ borderRadius: 8 }}
-              className={styles.statContainer + " shadow"}
+              className={
+                styles.statContainer +
+                " shadow" +
+                ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+              }
             >
-              <Card.Body className={styles.statsCard + " shadow"}>
-                <div className={styles.containerHeaders}>التقييم العام</div>
+              <Card.Body
+                className={
+                  styles.statsCard +
+                  " shadow" +
+                  ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                }
+              >
+                <div className={styles.containerHeaders}>
+                  {langState.ratingHeader}
+                </div>
                 <InstructorRates
                   overall={data.instructor.overallFloat}
                   //!WARNING: All category scores should be fetched from data
@@ -252,8 +277,16 @@ export default function instructorDetails({ data }) {
             </Card>
           </Col>
           <Col xl={8} lg={6} sm={12} className={styles.feedbackCol}>
-            <Card className={styles.feedbackContainer + " shadow"}>
-              <div className={styles.containerHeaders}>التقييمات السابقة</div>
+            <Card
+              className={
+                styles.feedbackContainer +
+                " shadow" +
+                ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+              }
+            >
+              <div className={styles.containerHeaders}>
+                {langState.recentEvals}
+              </div>
               <Card.Body style={{ width: "100%" }}>
                 <Row
                   style={{ paddingTop: "0px !important" }}
@@ -262,18 +295,28 @@ export default function instructorDetails({ data }) {
                   {/**
                    * The evaluations will also be a past of the response object in fetching
                    */}
-                  <Fade
-                    className={
-                      "col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-6"
-                    }
-                    duration={1200}
-                    cascade
-                    damping={0.02}
-                    triggerOnce
-                    direction="up"
-                  >
-                    {evalList}
-                  </Fade>
+                  <Col sm={12} xs={12} md={12} lg={12} xl={6}>
+                    <Fade
+                      duration={1200}
+                      cascade
+                      damping={0.02}
+                      triggerOnce
+                      direction="up"
+                    >
+                      {evalList.filter((e, i) => i % 2 == 0)}
+                    </Fade>
+                  </Col>
+                  <Col sm={12} xs={12} md={12} lg={12} xl={6}>
+                    <Fade
+                      duration={1200}
+                      cascade
+                      damping={0.02}
+                      triggerOnce
+                      direction="up"
+                    >
+                      {evalList.filter((e, i) => i % 2 == 1)}
+                    </Fade>
+                  </Col>
                 </Row>
               </Card.Body>
             </Card>
@@ -283,7 +326,9 @@ export default function instructorDetails({ data }) {
           <OverlayTrigger
             placement="top"
             delay={{ show: 350, hide: 400 }}
-            overlay={<Tooltip id="button-tooltip-2">نتفقد بياناتك</Tooltip>}
+            overlay={
+              <Tooltip id="button-tooltip-2">{langState.checkingData}</Tooltip>
+            }
           >
             <Button
               id="evaluate"
@@ -305,7 +350,7 @@ export default function instructorDetails({ data }) {
               onClick={launchModal}
               style={{
                 backgroundColor:
-                  userContext.user.status !== USER.LOGGED_IN ||
+                  user.status !== USER.LOGGED_IN ||
                   dataHasEvaluated.hasEvaluated
                     ? "gray"
                     : "#00ead3",
@@ -336,6 +381,7 @@ export default function instructorDetails({ data }) {
           teachingCom={""}
           personRating={0}
           personCom={""}
+          comment={""}
           term={""}
           course={""}
         />

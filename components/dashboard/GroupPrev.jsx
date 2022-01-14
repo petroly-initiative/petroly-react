@@ -6,10 +6,13 @@ import { AiFillDelete } from "react-icons/ai";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaTelegram } from "react-icons/fa";
 import { SiDiscord } from "react-icons/si";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { deleteCommunity } from "../../api/mutations";
 import EditGroup from "../Groups/EditGroup";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import { M } from "../../constants";
+
 /**
  *
  * @param props: {
@@ -21,6 +24,8 @@ import EditGroup from "../Groups/EditGroup";
  */
 export default function GroupPreview(props) {
   const [showEdit, setShowEdit] = useState(false);
+  const { user } = useContext(UserContext);
+
   const typeStyler = (() => {
     let output;
 
@@ -34,7 +39,7 @@ export default function GroupPreview(props) {
       case "DISCORD":
         output = { icon: <SiDiscord />, color: "#5865F2" };
     }
-    console.log("Creating div" + output);
+
     return (
       <div style={{ color: output.color }} className={styles["group-platfrom"]}>
         {" "}
@@ -43,6 +48,7 @@ export default function GroupPreview(props) {
       </div>
     );
   })();
+
   const [
     deleteThisCommunity,
     { data: deleteData, loading: deleteLoading, error: deleteError },
@@ -74,7 +80,12 @@ export default function GroupPreview(props) {
 
   return (
     <>
-      <Card className={styles["card-body"]}>
+      <Card
+        className={
+          styles["card-body"] +
+          ` ${user.theme === M.DARK ? styles["dark-card"] : ""}`
+        }
+      >
         {/* pic container */}
 
         <div className={styles["pic-container"]}>

@@ -1,3 +1,5 @@
+@use '/styles/themes.module' as theme;
+
 .main-container {
   margin-right: 5rem !important;
   max-width: calc(100vw - 5rem) !important;
@@ -19,13 +21,15 @@
   justify-content: center;
 }
 
+
+
 .titles {
   font-size: 28px;
   width: 100%;
   text-align: right;
   padding: 16px;
   font-weight: 700;
-  color: #05a3ff;
+  color: #00dfc8;
 }
 
 .profile {
@@ -68,6 +72,26 @@
   }
 }
 
+.small-news{
+  display: inherit;
+}
+
+.news{
+  display: none; 
+}
+
+
+
+@media only screen and (min-width: 992px){
+  .news{
+    display: inherit;
+  }
+
+  .small-news{
+    display: none;
+  }
+}
+
 @media only screen and (max-width: 600px) {
   .main-container {
     position: relative;
@@ -76,4 +100,6 @@
     padding-left: 15px;
     padding-right: 15px;
   }
+
+  
 }

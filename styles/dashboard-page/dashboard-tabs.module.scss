@@ -1,6 +1,66 @@
+@use "/styles/themes.module" as theme;
+
 $txt-fill: #52575dc0;
 $btn-primary: #01dac4;
 $txt-high: #0091e7;
+$x: #622edb;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  border: 2px solid theme.$dark-bg !important;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg !important;
+    color: theme.$dark-fnt !important;
+    box-shadow: none !important;
+  }
+}
+
+.dark-card{
+  background-color: theme.$dark-xfg !important;
+  border: unset !important;
+}
+
+.dark-btn{
+color: theme.$dark-fnt !important;
+&:hover{
+  color: $btn-primary !important;
+  background-color: transparent;
+}
+}
+
+.dark-section{
+  background-color: theme.$dark-xfg !important;
+  box-shadow: 0 2 2px 5px theme.$dark-bg !important;
+  border: unset !important;
+}
+
+.dark-header{
+  color: theme.$dark-fnt !important;
+}
+
+.dark-subheader{
+  color: theme.$dark-fnt-fg !important;
+}
+
+.dark-mode-input {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-xfg !important;
+  background: theme.$dark-xfg !important;
+  border: 1px solid theme.$light-fnt;
+}
+
+
+.dark-border{
+background: theme.$dark-xxfg !important;
+}
+
+
+
+
 
 .card-containers {
   height: 96%;
@@ -42,10 +102,11 @@ $txt-high: #0091e7;
 .stat-cards {
   border-radius: 8px;
   border: unset;
-  width: 100%;
+  width: 85%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
   padding: 12px;
   height: 120px;
   box-shadow: 0 0.125rem 0.7rem rgba(0, 0, 0, 0.125) !important;
@@ -75,9 +136,8 @@ $txt-high: #0091e7;
 }
 
 .stat-num {
-  margin: 8px;
-  font-weight: 700;
-  margin: 8px;
+  font-weight: 600;
+  margin: 16px;
   font-size: 26px;
   color: rgb(88, 88, 88);
 }
@@ -148,27 +208,28 @@ $txt-high: #0091e7;
   width: 50px;
   height: 50px;
   border-radius: 25px;
-  background-color: unset !important;
+  background-color: transparent ;
   border: unset !important;
   padding: 0 !important;
   margin-left: 4px;
   color: $txt-fill;
   &:hover {
-    color: $btn-primary;
+    color: $btn-primary !important;
+    background-color: transparent;
   }
 
   &:active {
     color: $btn-primary !important;
     box-shadow: unset !important;
     border: unset !important;
-    background-color: rgb(214, 214, 214);
+    background-color: transparent !important;
   }
 
   &:focus {
-    color: $txt-fill;
+    color: $btn-primary;
     box-shadow: unset !important;
     border: unset !important;
-    background-color: unset;
+    background-color: transparent !important;
   }
 }
 
@@ -220,12 +281,12 @@ $txt-high: #0091e7;
 }
 
 .eval-cards::-webkit-scrollbar-track {
-  background: white;
+  background: rgb(206, 206, 206);
   box-shadow: inset 0 0 0.3rem rgb(218, 218, 218);
 }
 
 .eval-cards::-webkit-scrollbar-thumb {
-  background: #969696;
+  background: #666666;
 }
 
 @media only screen and (max-width: 600px) {

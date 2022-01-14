@@ -20,23 +20,23 @@ import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
 import { useEffect, useState, useContext } from "react";
 import { useQuery, useLazyQuery } from "@apollo/client";
+import { CommunitiesQuery } from "../api/queries";
 import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
-import { CommunitiesQuery } from "../api/queries";
 import { UserContext } from "../state-management/user-state/UserContext";
+import translator from "../dictionary/pages/groups-dict";
+import { langDirection, L, M } from "../constants";
 
 function Groups(state, action) {
-  const { data, loading, error, refetch } = useQuery(CommunitiesQuery, {
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "cache-first",
-  });
-
-  // search filter modal state
   const [user, userDispatch] = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
+  // search filter modal state
   const [searchTerm, setSearchTerm] = useState("");
+  // language state
+  console.log(userDispatch);
+  console.log(user.lang);
 
+  const [langState, setLang] = useState(() => translator(user.lang));
   const [platform, setPlatform] = useState({
     DISCORD: true,
     TELEGRAM: true,
@@ -47,6 +47,18 @@ function Groups(state, action) {
     ENTERTAINING: true,
     SECTION: { find: false, course: "" },
   });
+
+  const { data, loading, error, refetch } = useQuery(CommunitiesQuery, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
+  });
+
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
 
   const launchModal = () => {
     setVisible(true);
@@ -151,19 +163,29 @@ function Groups(state, action) {
               xl={7}
               style={{ width: "100% !important" }}
             >
-              <InputGroup className={styles["search-container"]}>
+              <InputGroup
+                style={langDirection(user.lang)}
+                className={styles["search-container"]}
+              >
                 <Form.Control
                   id="name"
-                  style={{ direction: "rtl" }}
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   type="text"
-                  placeholder="أدخِل اسم القروب"
-                  onKeyDown={enterSearch}
-                ></Form.Control>
+                  placeholder={langState.searchbar}
+                  className={`${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`}
+                  //   onChange={"changeName"}
+                  //   onKeyDown={"enterSearch"}
+                />
                 <InputGroup.Append style={{ height: 38 }}>
                   <Button
                     type="submit"
-                    onClick={search}
-                    className={styles["search_btn"]}
+                    // onClick={"search"}
+                    className={
+                      styles["search_btn"] +
+                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                    }
                   >
                     <BiSearch size="1.5rem" />
                   </Button>
@@ -172,7 +194,10 @@ function Groups(state, action) {
                 <InputGroup.Append>
                   {/*popover for filters and order*/}
                   <Button
-                    className={styles["filter-btn"]}
+                    className={
+                      styles["filter-btn"] +
+                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                    }
                     align="start"
                     id="dropdown-menu-align-right"
                     onClick={launchModal}

@@ -1,4 +1,23 @@
+@use "/styles/themes.module" as theme;
+
 $btn-pr: #1cbfff;
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-hg: #0091E7;
+
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg !important;
+    color: theme.$dark-fnt !important;
+    box-shadow: none !important;
+  }
+}
 
 .pagination-container {
   height: 50px;
@@ -50,6 +69,7 @@ $btn-pr: #1cbfff;
 .active-btn {
   border: unset;
   box-shadow: 0 0.125rem 0.45rem $btn-pr !important;
+  background-color: $btn-pr !important;
   color: white !important;
   width: 35px;
   margin: 3px;

@@ -1,4 +1,4 @@
-.lg-card{
+.card {
   height: 200px;
   padding: 16px;
   margin: 8px;
@@ -6,7 +6,6 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-  text-align: right;
   color: #ffffff;
   font-weight: 700;
   font-size: 24px;
@@ -14,36 +13,97 @@
   transition: 300ms ease;
   overflow: hidden;
   cursor: pointer;
-  &:hover, &:focus, &:active{
+  &:hover,
+  &:focus,
+  &:active {
     transform: scale(1.05);
-    .card-title{
-        filter: blur(1px) opacity(0.1);
+    .card-title {
+      filter: blur(1.5px) opacity(0);
     }
-    .card-content{
+    .card-content,
+    .card-link {
       filter: opacity(1);
     }
   }
 }
 
-.card-title{
-    text-shadow: 1px 1px rgb(112, 112, 112);
+.card-title {
+  text-shadow: 1px 1px rgb(112, 112, 112);
+  
 }
 
-.card-content{
+.card-content {
   position: absolute;
+  font-weight: 400;
   width: 101%;
   height: 101%;
-  background-color: rgba(128, 128, 128, 0.5);
+  background-color: rgba(128, 128, 128, 0.664);
   top: -1px;
   left: -1px;
   filter: opacity(0);
   transition: 300ms ease;
-  padding: 16px;
+  padding-bottom: 10px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: right;
+  flex-direction: column;
+  justify-content: flex-start !important;
+  align-items: flex-start;
   color: white;
-  font-size: 12px;
-  
+  font-size: 14px;
+  div {
+    height: 150px;
+    padding: 16px 34px;
+    padding-bottom: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+.card-content div::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.card-content div::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.281);
+}
+
+.card-content div:-webkit-scrollbar-thumb {
+  background: #969696;
+}
+
+.large-card {
+  height: 416px;
+
+  .card-content {
+    padding: 42px;
+    justify-content: flex-start !important;
+    padding-top: 32px;
+  }
+}
+
+.card-link {
+  filter: opacity(0);
+  width: 100%;
+  color: white;
+  height: 50px;
+  position: absolute;
+  bottom: 0px;
+  right: 16px;
+  text-align: right;
+  font-size: 20px;
+  font-weight: 700;
+  transition: 200ms ease;
+
+  &:hover,
+  &:active {
+    transform: translateY(-4px);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .large-card {
+    height: 316px;
+    .card-content {
+      padding: 16px;
+    }
+  }
 }

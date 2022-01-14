@@ -11,8 +11,11 @@ import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { MdGames } from "react-icons/md";
 import { RiBook2Fill } from "react-icons/ri";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useContext } from "react";
 import { GoSettings } from "react-icons/go";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import translator from "../../dictionary/components/groups-filter-dict";
+import { M } from "../../constants";
 
 export default function GroupsFilter(props) {
   const [show, setShow] = useState(false);
@@ -25,13 +28,23 @@ export default function GroupsFilter(props) {
   });
 
   const [types, setTypes] = useState({
-    EDU: true,
-    ENTERTAINING: true,
-    SECTION: { find: false, course: "" },
+    Educational: true,
+    Entertainment: true,
+    Section: { find: false, course: "" },
   });
   const course = useRef();
   // Forcing a re- render
   const [, updateState] = useState();
+
+  const { user } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
+
   const forceUpdate = useCallback(() => updateState({}), []);
 
   const platformSwitch = (e) => {
@@ -87,6 +100,7 @@ export default function GroupsFilter(props) {
   return (
     <>
       <Modal
+        className={styles["container"]}
         centered
         show={show}
         onHide={() => {
@@ -96,20 +110,42 @@ export default function GroupsFilter(props) {
         }}
         size="md"
       >
-        <Modal.Header className={styles["modal-header"]}>
+        <Modal.Header
+          className={
+            styles["modal-header"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           <GoSettings />
-          <span>إعدادت البحث</span>
+          <span>{langState.modalHeader}</span>
         </Modal.Header>
-        <Modal.Body className={styles["modal-body"]}>
+        <Modal.Body
+          className={
+            styles["modal-body"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           <Row className={styles["cols-container"]}>
             <Col className={styles["cols"]}>
-              <div className={styles["titles"]}>منصة المجتمع</div>
+              <div
+                className={
+                  styles["titles"] +
+                  ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                }
+              >
+                {langState.platformSubHeader}
+              </div>
               <Form>
                 <div>
                   <Form.Check
                     checked={platforms.DISCORD}
                     type="checkbox"
-                    className={styles["filters"]}
+                    className={
+                      styles["filters"] +
+                      ` ${
+                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                      }`
+                    }
                     onChange={platformSwitch}
                     id="Discord"
                     label={
@@ -122,7 +158,12 @@ export default function GroupsFilter(props) {
                   <Form.Check
                     checked={platforms.WHATSAPP}
                     type="checkbox"
-                    className={styles["filters"]}
+                    className={
+                      styles["filters"] +
+                      ` ${
+                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                      }`
+                    }
                     onChange={platformSwitch}
                     id="Whatsapp"
                     label={
@@ -136,7 +177,12 @@ export default function GroupsFilter(props) {
                   <Form.Check
                     checked={platforms.TELEGRAM}
                     type="checkbox"
-                    className={styles["filters"]}
+                    className={
+                      styles["filters"] +
+                      ` ${
+                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                      }`
+                    }
                     onChange={platformSwitch}
                     id="Telegram"
                     label={
@@ -151,18 +197,21 @@ export default function GroupsFilter(props) {
               </Form>
             </Col>
             <Col className={styles["cols"]}>
-              <div className={styles["titles"]}>نوع المجتمع</div>
+              <div className={styles["titles"]}>{langState.typesubHeader}</div>
               <Form>
                 <Form.Check
                   checked={types.EDU}
                   type="checkbox"
-                  className={styles["filters"]}
+                  className={
+                    styles["filters"] +
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
                   onChange={typeSwitch}
                   id="Educational"
                   label={
                     <div>
                       <FaGraduationCap color="#FFB830" />
-                      <span>تعليمي</span>
+                      <span>{langState.edu}</span>
                     </div>
                   }
                 />
@@ -170,27 +219,35 @@ export default function GroupsFilter(props) {
                 <Form.Check
                   checked={types.ENTERTAINING}
                   type="checkbox"
-                  className={styles["filters"]}
+                  className={
+                    styles["filters"] +
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
                   onChange={typeSwitch}
                   id="Entertainment"
                   label={
                     <div>
                       <MdGames color="#F037A5" />
-                      <span>ترفيهي</span>
+                      <span>{langState.fun}</span>
                     </div>
                   }
                 />
                 <Form.Check
                   checked={types.SECTION.find}
                   type="checkbox"
-                  className={styles["filters"] + " " + styles["section-filter"]}
+                  className={
+                    styles["filters"] +
+                    " " +
+                    styles["section-filter"] +
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
                   onChange={typeSwitch}
                   id="Sections"
                   style={{ height: types.SECTION.find ? 100 : 50 }}
                   label={
                     <div>
                       <RiBook2Fill color="#622edb" />
-                      <span>شعبة</span>
+                      <span>{langState.section}</span>
                       <InputGroup
                         className={styles["input-container"]}
                         style={{

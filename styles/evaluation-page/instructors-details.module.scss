@@ -1,3 +1,45 @@
+@use "/styles/themes.module" as theme;
+
+$btn-pr: #1cbfff;
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-hg: #0091E7;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  border: unset !important;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg !important;
+    color: theme.$dark-fnt !important;
+    box-shadow: none !important;
+  }
+
+  .dark-border{
+background: theme.$dark-xxfg !important;
+
+}
+
+  .prev_list::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.prev_list::-webkit-scrollbar-track {
+  background: rgb(129, 129, 129) !important;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0.3rem rgb(218, 218, 218) !important;
+}
+
+.prev_list::-webkit-scrollbar-thumb {
+  background: #5e5e5e !important;
+  border-radius: 0.15rem;
+}
+}
+
+
 .container {
   margin-right: 5rem !important;
   min-width: calc(100vw - 5rem) !important;
@@ -15,8 +57,6 @@
   border-radius: 4px;
   justify-self: flex-end;
 }
-
-
 
 .feedbackCol {
   height: 85vh;
@@ -38,10 +78,10 @@
   width: 100%;
   margin-top: 16px;
   padding: 0px;
-  justify-self: flex-end !important;
   align-items: center;
   display: flex;
   flex-direction: column;
+  border-color: white !important;
 }
 
 .statsCard {
@@ -62,13 +102,13 @@
 }
 
 .prev_list::-webkit-scrollbar-track {
-  background: white;
+  background: rgb(235, 235, 235);
   border-radius: 2px;
   box-shadow: inset 0 0 0.3rem rgb(218, 218, 218);
 }
 
 .prev_list::-webkit-scrollbar-thumb {
-  background: #969696;
+  background: #bebebe;
   border-radius: 0.15rem;
 }
 
@@ -80,6 +120,7 @@
   box-sizing: border-box;
   padding: 16px;
   overflow-y: hidden;
+  border-color: white !important;
 }
 
 .col-container {

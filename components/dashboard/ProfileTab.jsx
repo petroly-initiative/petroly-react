@@ -17,11 +17,16 @@ import { HiUserGroup } from "react-icons/hi";
 import { IoMdChatbubbles } from "react-icons/io";
 import { Fade } from "react-awesome-reveal";
 import Image from "next/image";
-import { useContext } from "react";
-import { useQuery } from "@apollo/client";
+import { useContext, useEffect } from "react";
+import { useQuery, useMutation } from "@apollo/client";
 import { meQuery } from "../../api/queries";
+import { profilePicUpdateMutation } from "../../api/mutations";
 import { USER } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
+import translator from "../../dictionary/components/profile-tab-dict";
+import { useRouter } from "next/router";
+import { M } from "../../constants";
+
 /**
  *
  * ? State management:
@@ -47,31 +52,91 @@ import { UserContext } from "../../state-management/user-state/UserContext";
 
 export default function ProfileTab(props) {
   const [mode, setMode] = useState("view");
-  const userContext = useContext(UserContext);
+  const [WaitingPic, setWaitingPic] = useState(false);
+  const { user, userDispatch } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+  const router = useRouter();
 
   const {
     data: dataMe,
     loading: loadingMe,
     error: errorMe,
+    refetch: refetchMe,
   } = useQuery(meQuery, {
     notifyOnNetworkStatusChange: true,
-    skip: userContext.user.status !== USER.LOGGED_IN,
+    skip: user.status !== USER.LOGGED_IN,
   });
+
+  const [
+    profilePicUpdate,
+    {
+      data: dataProfilePicUpdate,
+      loading: loadingProfilePicUpdate,
+      error: errorProfilePicUpdate,
+    },
+  ] = useMutation(profilePicUpdateMutation);
 
   const switchMode = () => {
     setMode(mode === "view" ? "edit" : "view");
   };
 
-  const handleImage = () => {
-    // do something
-  };
+  function handleImage({
+    target: {
+      validity,
+      files: [file],
+    },
+  }) {
+    if (validity.valid) {
+      profilePicUpdate({ variables: { file } });
+    }
+  }
+
+  useEffect(() => {
+    // prevent non logged user
+    // since any effect is loaded alwyas once
+    if (user.status !== USER.LOGGED_IN) router.push("/");
+  }, [user.status]);
+
+  useEffect(() => {
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
+
+  useEffect(() => {
+    if (loadingProfilePicUpdate) setWaitingPic(true);
+    else if (dataProfilePicUpdate) {
+      setWaitingPic(false);
+      if (dataProfilePicUpdate.profilePicUpdate.success) {
+        refetchMe();
+      } else {
+        // popup an error msg
+        console.log("updating profilePic failed");
+      }
+    }
+  }, [dataProfilePicUpdate, loadingProfilePicUpdate]);
 
   if (loadingMe) {
     return (
-      <Card className={styles["card-containers"] + " shadow"}>
-        <Card.Header className={styles["header-containers"]}>
-          <div className={styles["card-headers"]}>
-            <span className={styles["card-title"]}>حسابي الشخصي</span>
+      <Card
+        className={
+          styles["card-containers"] +
+          " shadow" +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
+      >
+        <Card.Header
+          className={
+            styles["header-containers"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
+          <div
+            className={
+              styles["card-headers"] +
+              ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+            }
+          >
+            <span className={styles["card-title"]}>{langState.header}</span>
             {/* Edit btn / cancel editing button / Saving button */}
             {mode === "view" && (
               <Fade duration="1200">
@@ -105,7 +170,10 @@ export default function ProfileTab(props) {
             justifyContent: "center",
             alignItems: "center",
           }}
-          className={styles["card-body"]}
+          className={
+            styles["card-body"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
         >
           {/* Container for stat attributes and profile info */}
 
@@ -127,14 +195,36 @@ export default function ProfileTab(props) {
 
   return (
     <>
-      <Card className={styles["card-containers"] + " shadow"}>
-        <Card.Header className={styles["header-containers"]}>
-          <div className={styles["card-headers"]}>
-            <span className={styles["card-title"]}>حسابي الشخصي</span>
+      <Card
+        className={
+          styles["card-containers"] +
+          " shadow" +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
+      >
+        <Card.Header
+          className={
+            styles["header-containers"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
+          <div
+            className={
+              styles["card-headers"] +
+              ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+            }
+          >
+            <span className={styles["card-title"]}>{langState.header}</span>
             {/* Edit btn / cancel editing button / Saving button */}
             {mode === "view" && (
               <Fade duration="1200">
-                <Button onClick={switchMode} className={styles["btns"]}>
+                <Button
+                  onClick={switchMode}
+                  className={
+                    styles["btns"] +
+                    ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                  }
+                >
                   <MdModeEdit size="1.6rem" />
                 </Button>
               </Fade>
@@ -172,7 +262,14 @@ export default function ProfileTab(props) {
                 />
               </div>
               <div className={styles["user-name"]}>{dataMe.me.username}</div>
-              <div className={styles["user-email"]}>{dataMe.me.email}</div>
+              <div
+                className={
+                  styles["user-email"] +
+                  ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                }
+              >
+                {dataMe.me.email}
+              </div>
               <Fade className={styles["fader"]}>
                 <Row className={styles["stats-container"]}>
                   <Col
@@ -180,16 +277,35 @@ export default function ProfileTab(props) {
                     lg={6}
                     md={6}
                     sm={6}
-                    xl={3}
+                    xl={6}
                     className={styles["stat-col"]}
                   >
-                    <div className={styles["stat-title"]}>التقييمات</div>
-                    <Card className={styles["stat-cards"]}>
+                    <div
+                      className={
+                        styles["stat-title"] +
+                        ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                      }
+                    >
+                      {langState.evals}
+                    </div>
+                    <Card
+                      className={
+                        styles["stat-cards"] +
+                        ` ${user.theme === M.DARK ? styles["dark-card"] : ""}`
+                      }
+                    >
                       <RiMailStarFill
                         className={styles["rate-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>
+                      <div
+                        className={
+                          styles["stat-num"] +
+                          ` ${
+                            user.theme === M.DARK ? styles["dark-header"] : ""
+                          }`
+                        }
+                      >
                         {dataMe.me.evaluationSet.count}
                       </div>
                     </Card>
@@ -199,21 +315,40 @@ export default function ProfileTab(props) {
                     lg={6}
                     md={6}
                     sm={6}
-                    xl={3}
+                    xl={6}
                     className={styles["stat-col"]}
                   >
-                    <div className={styles["stat-title"]}>المجتمعات</div>
-                    <Card className={styles["stat-cards"]}>
+                    <div
+                      className={
+                        styles["stat-title"] +
+                        ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+                      }
+                    >
+                      {langState.groups}
+                    </div>
+                    <Card
+                      className={
+                        styles["stat-cards"] +
+                        ` ${user.theme === M.DARK ? styles["dark-card"] : ""}`
+                      }
+                    >
                       <HiUserGroup
                         className={styles["comms-icon"]}
                         size="2.5rem"
                       />
-                      <div className={styles["stat-num"]}>
-                        {dataMe.me.ownedCommunities.count}
+                      <div
+                        className={
+                          styles["stat-num"] +
+                          ` ${
+                            user.theme === M.DARK ? styles["dark-header"] : ""
+                          }`
+                        }
+                      >
+                        #
                       </div>
                     </Card>
                   </Col>
-                  <Col
+                  {/* <Col
                     xs={6}
                     lg={6}
                     md={6}
@@ -229,8 +364,8 @@ export default function ProfileTab(props) {
                       />
                       <div className={styles["stat-num"]}>#</div>
                     </Card>
-                  </Col>
-                  <Col
+                  </Col> */}
+                  {/* <Col
                     xs={6}
                     lg={6}
                     md={6}
@@ -246,7 +381,7 @@ export default function ProfileTab(props) {
                       />
                       <div className={styles["stat-num"]}>#</div>
                     </Card>
-                  </Col>
+                  </Col> */}
                 </Row>
               </Fade>
             </div>
@@ -257,26 +392,34 @@ export default function ProfileTab(props) {
               {/* profile pic editing */}
 
               <div className={styles["pic-border"] + " shadow"}>
-                <Fade style={{ width: "100%", height: "100%" }}>
-                  <Image
-                    width="140"
-                    height="140"
-                    className={styles["profile-pic"]}
-                    src={dataMe.me.profile.profilePic}
-                  ></Image>
-                </Fade>
+                {WaitingPic ? (
+                  <Spinner
+                    className={styles["loading-spinner"] + " shadow"}
+                    animation="border"
+                    role="status"
+                  />
+                ) : (
+                  <Fade style={{ width: "100%", height: "100%" }}>
+                    <Image
+                      width="140"
+                      height="140"
+                      className={styles["profile-pic"]}
+                      src={dataMe.me.profile.profilePic}
+                    ></Image>
+                  </Fade>
+                )}
               </div>
               <Fade className={styles["fader"]}>
                 <Form className={styles["edit-form"]}>
-                  <Form.Group>
+                  {/* <Form.Group>
                     <Form.Label>اسم المستخدم</Form.Label>
                     <InputGroup>
                       <FormControl type="text" value={dataMe.me.username} />
                     </InputGroup>
-                  </Form.Group>
+                  </Form.Group> */}
                   <Form.Group controlId="formFile">
                     <InputGroup>
-                      <Form.Label> صورة العرض</Form.Label>
+                      <Form.Label> {langState.pic}</Form.Label>
                       <Form.Control
                         type="file"
                         className={styles["img-input"]}

@@ -1,5 +1,61 @@
+@use "/styles/themes.module" as theme;
+
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-fill: rgb(146, 146, 146);
+$txt-hg: #0091e7;
+$btn-prim: #00ead3;
+$x: #622edb;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  border: 4px solid theme.$dark-fg !important;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg !important;
+    color: theme.$dark-fnt !important;
+    box-shadow: none !important;
+  }
+}
+
+.dark-footer{
+  background-color: theme.$dark-xfg !important;
+  border: unset !important;
+}
+
+.dark-section{
+  background-color: theme.$dark-xfg !important;
+  box-shadow: 0 2 2px 5px theme.$dark-bg !important;
+  border: unset !important;
+}
+
+.dark-header{
+  color: theme.$dark-fnt !important;
+}
+
+.dark-subheader{
+  color: theme.$dark-fnt-fg !important;
+}
+
+.dark-mode-input {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-xfg !important;
+  background: theme.$dark-xfg !important;
+  // border: 1px solid theme.$light-fnt;
+}
+
+
+.dark-border{
+background: theme.$dark-xxfg !important;
+
+}
+
+
 .modalHeader {
-  background: #00ead3 url("/images/background.svg");
+  background: #00ead3;
   background-blend-mode: multiply;
   background-size: cover;
   margin: 0 !important;
@@ -18,14 +74,16 @@
 
 .body-container::-webkit-scrollbar {
   width: 0.3rem;
+  border-radius: 0.15rem;
 }
 
 .body-container::-webkit-scrollbar-track {
-  background: white;
+  background: rgb(187, 187, 187);
+  border-radius: 0.15rem;
 }
 
 .body-container::-webkit-scrollbar-thumb {
-  background: #969696;
+  background: #444444;
 }
 .modalTitle {
   font-weight: 700;
@@ -85,9 +143,7 @@
   font-size: 16px;
 }
 
-.comments {
-  direction: rtl;
-}
+
 .comments::-webkit-scrollbar {
   width: 0.3rem;
 }
@@ -138,7 +194,6 @@
 
 .instructorInfo {
   height: 70px;
-  padding-left: 18px;
   padding-top: 10px;
 
   .instructor-name {
@@ -172,39 +227,44 @@
 }
 
 .btns {
-  width: 50px;
+  width: 100px;
+  padding-left: 8px;
+  padding-right: 8px;
   height: 50px;
   padding: 4px;
-  border-radius: 8px;
+  border-radius: 4px;
+  display: flex;
+  font-size: 15px !important;
+  align-items: center !important;
+  flex-direction: row;
+  justify-content: center !important;
+   color: #fff !important;
+   border: unset !important;
+  svg {
+    transition: 600ms ease;
+    margin: 8px;
+    margin-bottom: 10px;
+  }
+  &:hover {
+    svg {
+      transform: scale(1.1);
+    }
+  }
 }
 
 
 .cancel-btn {
-  color: rgb(224, 96, 96) !important;
-  background-color: unset !important;
-  border: unset !important;
-  svg {
-    transition: 600ms ease;
-  }
-  &:hover {
-    svg {
-      transform: scale(1.1);
-    }
-  }
+ 
+  background-color: rgb(224, 96, 96) !important;
+  
+  
+  
 }
 
 .submit-btn {
-  color: #00ead3 !important;
-  background-color: unset !important;
-  border: unset !important;
-  svg {
-    transition: 600ms ease;
-  }
-  &:hover {
-    svg {
-      transform: scale(1.1);
-    }
-  }
+  background-color: $btn-high !important;
+  
+
 }
 
 .eval-info input {
@@ -222,13 +282,12 @@
   padding: 8px !important;
   display: flex;
   align-items: center;
-  direction: rtl;
-  text-align: right;
   font-weight: 600;
   padding: 16px;
   width: 95%;
   .rules-icon {
     margin-left: 16px;
+    margin-right: 16px;
   }
 }
 

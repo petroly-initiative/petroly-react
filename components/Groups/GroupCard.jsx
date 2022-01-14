@@ -23,6 +23,9 @@ import { useMutation, useQuery, NetworkStatus } from "@apollo/client";
 import GroupReport from "./GroupReport";
 import { toggleLikeCommunityMutation } from "../../api/mutations";
 import { userHasLiked } from "../../api/queries";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import translator from "../../dictionary/components/groups-card-dict";
+import { M } from "../../constants";
 
 function GroupCard(props) {
   const [displayGroup, setDisplay] = useState(false);
@@ -57,14 +60,23 @@ function GroupCard(props) {
     }));
   }, [likedData]); // I am not sure if this is the best practice. Please check.
 
-  const ArLabels = (type) => {
+  const { user } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
+
+  const labels = (type) => {
     switch (type) {
       case "EDU":
-        return "تعليمي";
+        return `${langState.edu}`;
       case "ENTERTAINING":
-        return "ترفيهي";
+        return `${langState.fun}`;
       case "SECTION":
-        return "شعبة";
+        return `${langState.section}`;
     }
   };
 
@@ -147,7 +159,7 @@ function GroupCard(props) {
       <GroupReport showModal={showReport} handleClose={closeReport} />
       <GroupDisplay
         {...props}
-        arLabels={ArLabels}
+        labels={labels}
         liked={likes.liked}
         likeNum={likes.number}
         addLike={addLike}
@@ -163,15 +175,24 @@ function GroupCard(props) {
       {/* // We will fire an onClick listener for modal instead of a new page link */}
       <Card
         style={{ borderRadius: 8 }}
-        className={"shadow border-0 " + styles.Cardholder}
+        className={
+          "shadow border-0 " +
+          styles.Cardholder +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
       >
-        <Card.Header className={styles.cardHeader}>
+        <Card.Header
+          className={
+            styles.cardHeader +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           <div className={styles["date-tag"]}>{props.date}</div>
           <div className={styles["btns-container"]}>
             <OverlayTrigger
               style={{ position: "absolute", right: 0 }}
               delay={{ show: 150, hide: 200 }}
-              overlay={<Tooltip id="button-tooltip">إعجاب</Tooltip>}
+              overlay={<Tooltip id="button-tooltip">{langState.like}</Tooltip>}
             >
               {loading ? (
                 <Spinner
@@ -206,7 +227,9 @@ function GroupCard(props) {
             <OverlayTrigger
               style={{ position: "absolute", right: 0 }}
               delay={{ show: 150, hide: 200 }}
-              overlay={<Tooltip id="button-tooltip">تقديم بلاغ</Tooltip>}
+              overlay={
+                <Tooltip id="button-tooltip">{langState.report}</Tooltip>
+              }
             >
               <Button
                 onClick={fireReport}
@@ -220,7 +243,14 @@ function GroupCard(props) {
         <Card.Body onClick={fireDisplay} className={styles.cardBody}>
           <div className={styles["group-pic"] + " shadow"}>{props.image}</div>
 
-          <div className={styles["group-name"]}>{props.name}</div>
+          <div
+            className={
+              styles["group-name"] +
+              ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+            }
+          >
+            {props.name}
+          </div>
           <div className={styles["group-info"]}>
             <div
               style={{ background: platformColor(props.platform) }}
@@ -240,7 +270,7 @@ function GroupCard(props) {
               }
             >
               {typeIcon()}
-              <span className={styles["tag-text"]}>{ArLabels(props.type)}</span>
+              <span className={styles["tag-text"]}>{labels(props.type)}</span>
             </div>
           </div>
         </Card.Body>
