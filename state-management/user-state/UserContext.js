@@ -1,7 +1,6 @@
 import { createContext } from "react";
 import { USER, T, L } from "../../constants";
 
-
 /**
  * @param USER: indicates the user status in the userContext
  * USER.LOGGED_IN: the user successfully logged in.

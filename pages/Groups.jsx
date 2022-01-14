@@ -19,36 +19,42 @@ import { GoSettings } from "react-icons/go";
 import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
 import { useEffect, useState, useContext } from "react";
+import { useQuery } from "@apollo/client";
+import { CommunitiesQuery } from "../api/queries";
 import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
 import { UserContext } from "../state-management/user-state/UserContext";
 import translator from "../dictionary/pages/groups-dict";
 import { langDirection, L, M } from "../constants";
 
-
 function Groups(state, action) {
-  // search filter modal state
+  const { user, userDispatch } = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
+  // search filter modal state
+  const [searchTerm, setSearchTerm] = useState("");
   const [platform, setPlatform] = useState({
-    Discord: true,
-    Telegram: true,
-    Whatsapp: true,
+    DISCORD: true,
+    TELEGRAM: true,
+    WHATSAPP: true,
   });
   const [type, setType] = useState({
-    Educational: true,
-    Entertainment: true,
-    Section: { find: false, course: "" },
+    EDU: true,
+    ENTERTAINING: true,
+    SECTION: { find: false, course: "" },
   });
+
+  const { data, loading, error, refetch } = useQuery(CommunitiesQuery, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
+  });
+
   // language state
-   const { user } = useContext(UserContext);
-   const [langState, setLang] = useState(() => translator(user.lang));
-
-   useEffect(() => {
-     // console.log(userContext.user.lang);
-     setLang(() => translator(user.lang));
-     console.log("changed language!");
-   }, [user.lang]);
-
+  const [langState, setLang] = useState(() => translator(user.lang));
+  useEffect(() => {
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
 
   const launchModal = () => {
     setVisible(true);
@@ -66,74 +72,76 @@ function Groups(state, action) {
     setType(obj);
   };
 
-  useEffect(() => {
-    console.log(platform);
-  }, [platform]);
-  useEffect(() => {
-    console.log(type);
-  }, [type]);
-  //
-  // ? API hooks
-  //   const {
-  //     data: dataDept,
-  //     error: errorDept,
-  //     loading: loadingDept,
-  //   } = useQuery(getDepartments, {
-  //     variables: { short: true },
-  //   });
-
-  //   const { data, loading, error, refetch, networkStatus, variables } = useQuery(
-  //     groupssQuery,
-  //     {
-  //       variables: groupssState,
-  //       notifyOnNetworkStatusChange: true,
-  //       fetchPolicy: "network-only",
-  //       nextFetchPolicy: "cache-first",
-  //     }
-  //   );
-
   //  ? To handle the search event
-  //   const selectDept = (e) => {
-  //     var value = e.target.id;
-  //     if (value == "null") value = null;
-  //     groupssDispatch({ changeIn: "department", department: value });
-  //     refetch(groupssState);
-  //   };
+  // const selectDept = (e) => {
+  //   var value = e.target.id;
+  //   if (value == "null") value = null;
+  //   groupssDispatch({ changeIn: "department", department: value });
+  //   refetch(groupssState);
+  // };
 
-  //   const search = (e) => {
-  //     var value = name;
-  //     groupssDispatch({ changeIn: "name", name: value });
-  //     refetch(groupssState);
-  //   };
+  const search = () => {
+    const term = searchTerm.trim();
+    if (term != "") refetch({ name: term });
+  };
 
-  //   const enterSearch = (event) => {
-  //     if (event.key === "Enter") search();
-  //   };
+  const enterSearch = (event) => {
+    setSearchTerm(event.target.value);
+    if (event.key === "Enter") search();
+  };
 
-  
   // ? Mappers
   // ? We will use a show-more mehcanism instead of pagination
-  const groupMapper = (group) => {
+
+  if (loading) {
     return (
-      <GroupCard
-        date={group.date}
-        key = {group.index * group.offset}
-        platform= {group.platform}
-        type= {group.type}
-        likes={group.likes}
-        image={
-          <Image
-            className={styles.picDiv}
-            src={group.img}
-            width="70"
-            height="70"
-          />
-        }
-        description = {group.description}
-      />
+      <Button className={styles["loading-container"] + " shadow"} disabled>
+        <Spinner
+          className={styles["loading-spinner"]}
+          as="div"
+          animation="grow"
+          size="xl"
+          role="status"
+          aria-hidden="true"
+        />
+      </Button>
     );
-  };
-  // Loading status
+  }
+
+  if (error) {
+    return (
+      <div>
+        <h1>{error.name}</h1>
+        <p>{error.message}</p>
+      </div>
+    );
+  }
+  const groupMapper = () =>
+    data.communities.data.map((community) => {
+      return (
+        <GroupCard
+          id={community.id}
+          name={community.name}
+          section={community.section}
+          date={community.date}
+          key={community.id}
+          platform={community.platform}
+          type={community.category}
+          link={community.link}
+          likesCount={community.likes.count}
+          image={
+            <Image
+              className={styles.picDiv}
+              src={"/images/spongy.png"} // TODO
+              width="70"
+              height="70"
+            />
+          }
+          description={community.description}
+        />
+      );
+    });
+  var communities = groupMapper();
 
   return (
     <ClientOnly>
@@ -196,7 +204,6 @@ function Groups(state, action) {
               </InputGroup>
             </Col>
           </Row>
-
           <Row className={styles.groups_list}>
             {" "}
             <Fade
@@ -207,327 +214,8 @@ function Groups(state, action) {
               direction="up"
             >
               {/**!Number of pages should be provided by the api*/}
-              <GroupCard
-                date={"9-21-2021"}
-                name=" CS Nerds"
-                platform="Telegram"
-                type="Educational"
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-                course=""
-                likes={201}
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Whatsapp"
-                type="Entertainment"
-                course=""
-                likes={201}
-                name="Computer Club yuh yuh yuh yuh"
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Discord"
-                type="Sections"
-                course=""
-                likes={201}
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Telegram"
-                type="Sections"
-                course="ICS102"
-                likes={201}
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Telegram"
-                course=""
-                type="Entertainment"
-                likes={201}
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                name=" CS Nerds"
-                platform="Telegram"
-                type="Educational"
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-                course=""
-                likes={201}
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Whatsapp"
-                type="Entertainment"
-                course=""
-                likes={201}
-                name="Computer Club yuh yuh yuh yuh"
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Discord"
-                type="Sections"
-                course=""
-                likes={201}
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Telegram"
-                type="Sections"
-                course="ICS102"
-                likes={201}
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Telegram"
-                course=""
-                type="Entertainment"
-                likes={201}
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                name=" CS Nerds"
-                platform="Telegram"
-                type="Educational"
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-                course=""
-                likes={201}
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Whatsapp"
-                type="Entertainment"
-                course=""
-                likes={201}
-                name="Computer Club yuh yuh yuh yuh"
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Discord"
-                type="Sections"
-                course=""
-                likes={201}
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Telegram"
-                type="Sections"
-                course="ICS102"
-                likes={201}
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-              />
-              <GroupCard
-                date={"9-21-2021"}
-                platform="Telegram"
-                course=""
-                type="Entertainment"
-                likes={201}
-                description="
-                  هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم
-                  توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا
-                  النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف
-                  التى يولدها التطبيق.
-                "
-                image={
-                  <Image
-                    className={styles.picDiv}
-                    src={"/images/spongy.png"}
-                    width="70"
-                    height="70"
-                  />
-                }
-              />
+
+              {communities}
             </Fade>
           </Row>
           <GroupsFilter
@@ -541,7 +229,11 @@ function Groups(state, action) {
         </Container>
       </>
 
-      <GroupCreationCard />
+      {
+        <GroupCreationCard
+          refetch={refetch}
+        /> /* Show only when the user is logged in */
+      }
     </ClientOnly>
   );
 }

@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 
+// -- Instructos' queries:
 export const instructorsQuery = gql`
   query Instructors(
     $limit: Int
@@ -85,8 +86,12 @@ export const meQuery = gql`
         id
         profilePic
         language
+        theme
       }
       evaluationSet {
+        count
+      }
+      ownedCommunities {
         count
       }
     }
@@ -124,5 +129,71 @@ export const meEvaluationSetQuery = gql`
         }
       }
     }
+  }
+`;
+export const myCommunities = gql`
+  query MyCommunities {
+    me {
+      ownedCommunities {
+        data {
+          id
+          name
+          platform
+        }
+      }
+    }
+  }
+`;
+// -- communities' queries:
+export const getCommunity = gql`
+  query getCommunityInfo($id: ID) {
+    community(where: { id: { exact: $id } }) {
+      name
+      platform
+      category
+      description
+      section
+      link
+    }
+  }
+`; // TODO update this query to match the new model.
+export const CommunitiesQuery = gql`
+  query Communities(
+    $name: String
+    $category: CommunityCategoryEnum
+    $platform: CommunityPlatformEnum
+  ) {
+    communities(
+      where: {
+        name: { icontains: $name }
+        category: $category
+        platform: $platform
+        archived: { exact: false }
+      }
+    ) {
+      data {
+        id
+        date
+        category
+        description
+        link
+        name
+        platform
+        section
+        verified
+        likes {
+          count
+        }
+        reports {
+          count
+        }
+      }
+    }
+  }
+`; // Modify this query to handle filter feature
+
+export const userHasLiked = gql`
+  query HasLikedCommunity($id: ID) {
+    hasLikedCommunity(id: $id)
   }
 `;

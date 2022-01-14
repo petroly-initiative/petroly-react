@@ -13,7 +13,7 @@ import {
 import { RiSunFill } from "react-icons/ri";
 import { AiFillHome } from "react-icons/ai";
 import { MdDashboard } from "react-icons/md";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import { ButtonGroup } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
@@ -43,7 +43,6 @@ export default function Navbar(props) {
   const [sideBarStyle, setStyle] = useState({ left: "100vw" });
   const [overlayStyle, setOverlay] = useState({ display: "none" });
   const [showSignIn, setShowSignIn] = useState(false);
-
   const [SaveMsg, setSaveMsg] = useState("");
 
   //--- signed off state
@@ -59,11 +58,9 @@ export default function Navbar(props) {
     updateLang();
   }, [lang]);
 
-  const updateLang = useCallback(async () => {
+  const updateLang = useCallback(() => {
     userDispatch({ type: T.CHANGE_LANG, lang: lang });
-    setLangState(() => translator(user.lang));
-    console.log(translator(user.lang));
-    if (dataMe) await profileUpdate();
+    setLangState(translator(user.lang));
   }, [lang]);
 
   useEffect(() => {
@@ -115,7 +112,7 @@ export default function Navbar(props) {
       setProfilePic(dataMe.me.profile.profilePic);
       setEmail(dataMe.me.email);
       setLang(dataMe.me.profile.language);
-
+      setTheme(dataMe.me.profile.theme);
       userDispatch({
         type: T.SET_CLIENT,
         profileId: dataMe.me.profile.id,
@@ -133,7 +130,7 @@ export default function Navbar(props) {
     },
   ] = useMutation(profileUpdateMutation, {
     notifyOnNetworkStatusChange: true,
-    variables: { id: user.profileId, lang: lang },
+    variables: { id: user.profileId, theme, lang },
   });
 
   useEffect(() => {
@@ -162,6 +159,13 @@ export default function Navbar(props) {
 
   const showSidebar = () => {
     setVisible((prev) => !prev);
+  };
+
+  const savePreference = () => {
+    // wait for states to take place
+    setTimeout(() => {
+      profileUpdate();
+    }, 300);
   };
 
   return (
@@ -395,6 +399,7 @@ export default function Navbar(props) {
                               <Button
                                 onClick={() => {
                                   setLang(L.AR_SA);
+                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -413,6 +418,7 @@ export default function Navbar(props) {
                               <Button
                                 onClick={() => {
                                   setLang(L.EN_US);
+                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -456,6 +462,7 @@ export default function Navbar(props) {
                               <Button
                                 onClick={() => {
                                   setTheme(M.DARK);
+                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -471,6 +478,7 @@ export default function Navbar(props) {
                               <Button
                                 onClick={() => {
                                   setTheme(M.LIGHT);
+                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -579,6 +587,7 @@ export default function Navbar(props) {
                               <Button
                                 onClick={() => {
                                   setLang(L.AR_SA);
+                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -597,6 +606,7 @@ export default function Navbar(props) {
                               <Button
                                 onClick={() => {
                                   setLang(L.EN_US);
+                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -638,6 +648,7 @@ export default function Navbar(props) {
                               <Button
                                 onClick={() => {
                                   setTheme(M.DARK);
+                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -653,6 +664,7 @@ export default function Navbar(props) {
                               <Button
                                 onClick={() => {
                                   setTheme(M.LIGHT);
+                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -955,6 +967,7 @@ export default function Navbar(props) {
                             <Button
                               onClick={() => {
                                 setLang(L.AR_SA);
+                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -971,6 +984,7 @@ export default function Navbar(props) {
                             <Button
                               onClick={() => {
                                 setLang(L.EN_US);
+                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1008,6 +1022,7 @@ export default function Navbar(props) {
                             <Button
                               onClick={() => {
                                 setTheme(M.DARK);
+                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1021,6 +1036,7 @@ export default function Navbar(props) {
                             <Button
                               onClick={() => {
                                 setTheme(M.LIGHT);
+                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1124,6 +1140,7 @@ export default function Navbar(props) {
                             <Button
                               onClick={() => {
                                 setLang(L.AR_SA);
+                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1140,6 +1157,7 @@ export default function Navbar(props) {
                             <Button
                               onClick={() => {
                                 setLang(L.EN_US);
+                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1177,6 +1195,7 @@ export default function Navbar(props) {
                             <Button
                               onClick={() => {
                                 setTheme(M.DARK);
+                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1190,6 +1209,7 @@ export default function Navbar(props) {
                             <Button
                               onClick={() => {
                                 setTheme(M.LIGHT);
+                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +

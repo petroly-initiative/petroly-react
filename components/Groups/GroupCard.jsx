@@ -1,4 +1,5 @@
 import styles from "../../styles/groups-page/group-card.module.scss";
+
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { BsFillStarFill, BsStar } from "react-icons/bs";
 import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
@@ -6,117 +7,152 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { MdGames } from "react-icons/md";
 import { RiBook2Fill } from "react-icons/ri";
 import { useEffect, useState, useContext } from "react";
-import { Button, Card, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  OverlayTrigger,
+  Tooltip,
+  Spinner,
+} from "react-bootstrap";
 import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
 import GroupDisplay from "./GroupDisplay";
+import { useMutation, useQuery, NetworkStatus } from "@apollo/client";
 import GroupReport from "./GroupReport";
+import { toggleLikeCommunityMutation } from "../../api/mutations";
+import { userHasLiked } from "../../api/queries";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-card-dict";
 import { M } from "../../constants";
+
 function GroupCard(props) {
   const [displayGroup, setDisplay] = useState(false);
   const [showReport, setReport] = useState(false);
-
   const [likes, setLikes] = useState({
-    number: props.likes,
+    number: props.likesCount,
     liked: false,
   });
-  const group = {
-    name: "CS Nerds",
-    platform: "discord",
-    type: "educational",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita laborum ipsa est at cupiditate ut consectetur corporis, harum in voluptatum, ab exercitationem aliquid perferendis odio. Odio, voluptas. Molestias, sint nostrum.",
-  };
 
-    const { user } = useContext(UserContext);
-    const [langState, setLang] = useState(() => translator(user.lang));
+  const {
+    data: likedData,
+    loading: likedLoading,
+    error: likedError,
+  } = useQuery(userHasLiked, {
+    variables: { id: props.id },
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
+  });
 
-    useEffect(() => {
-      // console.log(userContext.user.lang);
-      setLang(() => translator(user.lang));
-      console.log("changed language!");
-    }, [user.lang]);
+  const [toggleLikeCommunity, { data, loading, error }] = useMutation(
+    toggleLikeCommunityMutation,
+    {
+      nextFetchPolicy: "cache-first",
+    }
+  );
+
+  useEffect(() => {
+    setLikes((prev) => ({
+      liked: likedData ? likedData.hasLikedCommunity : prev.liked,
+      number: prev.number,
+    }));
+  }, [likedData]); // I am not sure if this is the best practice. Please check.
+
+  const { user } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
 
   const labels = (type) => {
     switch (type) {
-      case "Educational":
+      case "EDU":
         return `${langState.edu}`;
-      case "Entertainment":
+      case "ENTERTAINING":
         return `${langState.fun}`;
-      case "Sections":
+      case "SECTION":
         return `${langState.section}`;
     }
-  }
+  };
 
   const platformColor = (platform) => {
     switch (platform) {
-      case "Telegram":
+      case "TELEGRAM":
         return "#0088cc";
-      case "Whatsapp":
+      case "WHATSAPP":
         return "#25D366";
-      case "Discord":
+      case "DISCORD":
         return "#5865F2";
     }
   };
 
   const platformIcon = (platform) => {
     switch (platform) {
-      case "Telegram":
+      case "TELEGRAM":
         return <FaTelegramPlane className={styles["tag-icon"]} />;
-      case "Whatsapp":
+      case "WHATSAPP":
         return <IoLogoWhatsapp className={styles["tag-icon"]} />;
-      case "Discord":
+      case "DISCORD":
         return <FaDiscord className={styles["tag-icon"]} />;
     }
   };
 
   const typeColor = (type) => {
     switch (type) {
-      case "Educational":
+      case "EDU":
         return "#FFB830";
-      case "Entertainment":
+      case "ENTERTAINING":
         return "#F037A5";
-      case "Sections":
+      case "SECTION":
         return "#622edb";
     }
   };
 
   const typeIcon = () => {
     switch (props.type) {
-      case "Educational":
+      case "EDU":
         return <FaGraduationCap className={styles["tag-icon"]} />;
-      case "Entertainment":
+      case "ENTERTAINING":
         return <MdGames className={styles["tag-icon"]} />;
-      case "Sections":
+      case "SECTION":
         return <RiBook2Fill className={styles["tag-icon"]} />;
     }
   };
 
   const addLike = () => {
-    if (!likes.liked)
+    if (likes.liked) {
+      toggleLikeCommunity({ variables: { id: props.id } });
+      setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
+    } else {
+      toggleLikeCommunity({ variables: { id: props.id } });
       setLikes((prev) => ({ liked: true, number: prev.number + 1 }));
-    else setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
+    }
   };
 
   const fireDisplay = (e) => {
-    console.log("Modal launched!");
     setDisplay(true);
-    e.stopPropagation()
-
+    e.stopPropagation();
   };
   const closeDisplay = () => {
     setDisplay(false);
   };
   const fireReport = () => {
     // console.log("Modal launched!");
+    // TODO - mutations for report
     setReport(true);
   };
-const closeReport = () => {
-  setReport(false);
-};
+  const closeReport = () => {
+    setReport(false);
+  };
+
+  if (error || likedError) {
+    console.error("we could not save your like or check it");
+  }
 
   return (
     <>
@@ -127,7 +163,8 @@ const closeReport = () => {
         liked={likes.liked}
         likeNum={likes.number}
         addLike={addLike}
-        group={group}
+        section={props.section}
+        link={props.link}
         showModal={displayGroup}
         handleClose={closeDisplay}
         platformColor={platformColor}
@@ -157,24 +194,35 @@ const closeReport = () => {
               delay={{ show: 150, hide: 200 }}
               overlay={<Tooltip id="button-tooltip">{langState.like}</Tooltip>}
             >
-              <div
-                style={{ color: likes.liked ? "#00ead3" : "" }}
-                className={styles["likes-btn"]}
-              >
-                <Button
+              {loading ? (
+                <Spinner
+                  className={styles["loading-spinner"]}
+                  as="div"
+                  animation="grow"
+                  size="xl"
+                  role="status"
+                  aria-hidden="true"
+                />
+              ) : (
+                <div
                   style={{ color: likes.liked ? "#00ead3" : "" }}
-                  onClick={addLike}
-                  className={styles["btns"]}
+                  className={styles["likes-btn"]}
                 >
-                  {likes.liked ? (
-                    <BsFillStarFill color={"#00ead3"} />
-                  ) : (
-                    <BsStar />
-                  )}
-                </Button>
+                  <Button
+                    style={{ color: likes.liked ? "#00ead3" : "" }}
+                    onClick={addLike}
+                    className={styles["btns"]}
+                  >
+                    {likes.liked ? (
+                      <BsFillStarFill color={"#00ead3"} />
+                    ) : (
+                      <BsStar />
+                    )}
+                  </Button>
 
-                <span>{likes.number}</span>
-              </div>
+                  <span>{likes.number}</span>
+                </div>
+              )}
             </OverlayTrigger>
             <OverlayTrigger
               style={{ position: "absolute", right: 0 }}

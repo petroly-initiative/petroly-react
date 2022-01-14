@@ -15,6 +15,7 @@ export const tokenAuthMutation = gql`
           id
           profilePic
           language
+          theme
         }
       }
     }
@@ -184,13 +185,114 @@ export const verifyAccountMutation = gql`
   }
 `;
 
-export const profileUpdateMutation = gql`
-  mutation ($id: ID, $lang: String) {
-    profileUpdate(where: { id: { exact: $id } }, input: { language: $lang }) {
+// Community mutations:
+export const createCommunnityMutation = gql`
+  mutation CreateCommunity(
+    $name: String!
+    $link: String!
+    $platform: CommunityPlatformEnum!
+    $category: CommunityCategoryEnum!
+    $description: String!
+    $section: String
+  ) {
+    communityCreate(
+      input: {
+        name: $name
+        link: $link
+        platform: $platform
+        category: $category
+        description: $description
+        section: $section
+      }
+    ) {
       ok
+      errors {
+        field
+        messages
+      }
       result {
         id
       }
+    }
+  }
+`;
+
+export const toggleLikeCommunityMutation = gql`
+  mutation ToggleLikeCommunity($id: ID!) {
+    toggleLikeCommunity(ID: $id) {
+      ok
+    }
+  }
+`;
+
+export const deleteCommunity = gql`
+  mutation DeleteCommunity($id: ID) {
+    communityDelete(where: { id: { exact: $id } }) {
+      ok
+      errors {
+        field
+        messages
+      }
+    }
+  }
+`;
+
+export const editCommunnityMutation = gql`
+  mutation EditCompetition(
+    $id: ID
+    $name: String!
+    $link: String!
+    $platform: CommunityPlatformEnum!
+    $category: CommunityCategoryEnum!
+    $description: String!
+    $section: String
+  ) {
+    communityUpdate(
+      input: {
+        name: $name
+        link: $link
+        platform: $platform
+        category: $category
+        description: $description
+        section: $section
+      }
+      where: { id: { exact: $id } }
+    ) {
+      ok
+      errors {
+        field
+        messages
+      }
+      result {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const profileUpdateMutation = gql`
+  mutation ProfileUpdateMutation($id: ID, $lang: String, $theme: String) {
+    profileUpdate(
+      where: { id: { exact: $id } }
+      input: { language: $lang, theme: $theme }
+    ) {
+      ok
+      errors {
+        field
+        messages
+      }
+      result {
+        id
+      }
+    }
+  }
+`;
+
+export const profilePicUpdateMutation = gql`
+  mutation ($file: Upload!) {
+    profilePicUpdate(file: $file) {
+      success
     }
   }
 `;
