@@ -23,7 +23,7 @@ function CreatedGroup(props) {
     <>
       <Modal
         contentClassName={styles.layout}
-        onHide={() => refreshPage()}
+        onHide={() => props.refetch()}
         show={successShow}
         aria-labelledby="contained-modal-title-vcenter"
       >
@@ -43,7 +43,7 @@ function CreatedGroup(props) {
           <Button
             className={styles.createButton}
             type="submit"
-            onClick={() => refreshPage()}
+            onClick={() => props.refetch()}
           >
             ok
           </Button>
@@ -52,7 +52,7 @@ function CreatedGroup(props) {
       </Modal>
       <Modal
         contentClassName={styles.layout}
-        onHide={() => refreshPage()}
+        onHide={() => props.refetch()}
         show={!successShow}
         aria-labelledby="contained-modal-title-vcenter"
       >
@@ -69,7 +69,7 @@ function CreatedGroup(props) {
           <Button
             className={styles.createButton}
             type="submit"
-            onClick={() => refreshPage()}
+            onClick={() => props.refetch()}
           >
             ok
           </Button>
