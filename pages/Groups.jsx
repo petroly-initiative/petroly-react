@@ -229,11 +229,7 @@ function Groups(state, action) {
         </Container>
       </>
 
-      {
-        <GroupCreationCard
-          refetch={refetch}
-        /> /* Show only when the user is logged in */
-      }
+      <GroupCreationCard refetch={refetch} />
     </ClientOnly>
   );
 }

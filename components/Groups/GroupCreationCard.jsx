@@ -26,7 +26,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import CreatedGroup from "./CreatedCard";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-create-dict";
-import { langDirection, L, M } from "../../constants";
+import { langDirection, L, M, USER } from "../../constants";
 
 function GroupCreationCard(props) {
   const [modalShow, setModalShow] = useState(false);
@@ -529,7 +529,8 @@ function GroupCreationCard(props) {
           )}
         </Modal.Footer>
       </Modal>
-      <>
+
+      {user.status === USER.LOGGED_IN ? (
         <Button
           className={styles.modalButton}
           variant="primary"
@@ -537,7 +538,10 @@ function GroupCreationCard(props) {
         >
           <AiFillFileAdd size={32} />
         </Button>
-      </>
+      ) : (
+        <></>
+      )}
+
       {submittedForm ? (
         <CreatedGroup
           success={data.communityCreate.ok}
