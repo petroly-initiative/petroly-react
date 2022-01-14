@@ -28,9 +28,9 @@ export default function GroupsFilter(props) {
   });
 
   const [types, setTypes] = useState({
-    Educational: true,
-    Entertainment: true,
-    Section: { find: false, course: "" },
+    EDU: true,
+    ENTERTAINING: true,
+    SECTION: { find: false, course: "" },
   });
   const course = useRef();
   // Forcing a re- render
