@@ -18,7 +18,7 @@ import { BiSearch } from "react-icons/bi";
 import { GoSettings } from "react-icons/go";
 import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useQuery } from "@apollo/client";
 import { CommunitiesQuery } from "../api/queries";
 import GroupsFilter from "../components/Groups/GroupsFilter";
@@ -30,6 +30,7 @@ import { langDirection, L, M } from "../constants";
 function Groups(state, action) {
   const { user, userDispatch } = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
+  const name = useRef("");
   // search filter modal state
   const [searchTerm, setSearchTerm] = useState("");
   const [platform, setPlatform] = useState({
@@ -71,14 +72,6 @@ function Groups(state, action) {
   const changeType = (obj) => {
     setType(obj);
   };
-
-  //  ? To handle the search event
-  // const selectDept = (e) => {
-  //   var value = e.target.id;
-  //   if (value == "null") value = null;
-  //   groupssDispatch({ changeIn: "department", department: value });
-  //   refetch(groupssState);
-  // };
 
   const search = () => {
     const term = searchTerm.trim();
@@ -165,19 +158,20 @@ function Groups(state, action) {
               >
                 <Form.Control
                   id="name"
+                  ref={name}
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   type="text"
                   placeholder={langState.searchbar}
                   className={`${
                     user.theme === M.DARK ? styles["dark-mode-input"] : ""
                   }`}
-                  //   onChange={"changeName"}
-                  //   onKeyDown={"enterSearch"}
+                  // onChange={ref}
+                  onKeyDown={enterSearch}
                 />
                 <InputGroup.Append style={{ height: 38 }}>
                   <Button
                     type="submit"
-                    // onClick={"search"}
+                    onClick={search}
                     className={
                       styles["search_btn"] +
                       ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
