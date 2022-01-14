@@ -5,7 +5,9 @@ import {
   Row,
   Form,
   Button,
-  InputGroup, Alert
+  InputGroup,
+  Alert,
+  Spinner,
 } from "react-bootstrap";
 import { BsCardImage } from "react-icons/bs";
 import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
@@ -19,12 +21,16 @@ import { BiCube } from "react-icons/bi";
 import { AiFillFileAdd } from "react-icons/ai";
 import { MdDescription } from "react-icons/md";
 import styles from "../../styles/groups-page/group-creation.module.scss";
+import { createCommunnityMutation } from "../../api/mutations";
+import { useMutation, useQuery } from "@apollo/client";
+import CreatedGroup from "./CreatedCard";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-create-dict";
 import { langDirection, L, M } from "../../constants";
 
-function GroupCreationCard() {
+function GroupCreationCard(props) {
   const [modalShow, setModalShow] = useState(false);
+  const [submittedForm, setSubmitted] = useState(false);
   const [type, setType] = useState("");
   const [platform, setPlatform] = useState("");
   const course = useRef();
@@ -33,65 +39,110 @@ function GroupCreationCard() {
   const link = useRef();
   const name = useRef();
   const [invalidCourse, validateCourse] = useState(false);
+  const [waiting, setWaiting] = useState(false);
+
+  const [createCommunnity, { data, loading, error }] = useMutation(
+    createCommunnityMutation
+  );
+
   const [invalidName, validateName] = useState(false);
   const [invalidLink, validateLink] = useState(false);
   const [invalidType, validateType] = useState(false);
   const [invalidPlatform, validatePlatform] = useState(false);
 
-    const { user } = useContext(UserContext);
-    const [langState, setLang] = useState(() => translator(user.lang));
+  const { user } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
 
-    useEffect(() => {
-      // console.log(userContext.user.lang);
-      setLang(() => translator(user.lang));
-      console.log("changed language!");
-    }, [user.lang]);
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
 
   const createGroup = (e) => {
-    e.preventDefault()
-    validateName(name.current.value.length === 0)
-    validateLink(link.current.value.length === 0)
-    validateType(type.length === 0)
-    validatePlatform(platform.length === 0)
+    e.preventDefault();
+    validateName(name.current.value.length === 0);
+    validateLink(link.current.value.length === 0);
+    validateType(type.length === 0);
+    validatePlatform(platform.length === 0);
     if (course.current.value.length !== 0) {
       validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(course.current.value));
-    }else
-    validateCourse(true)
-    console.table(invalidCourse, invalidName, invalidLink, invalidPlatform, invalidType);
+    } else validateCourse(true);
+    console.table(
+      invalidCourse,
+      invalidName,
+      invalidLink,
+      invalidPlatform,
+      invalidType
+    );
     console.log(name.current.value);
     console.log(link.current.value);
-    if(!(invalidName || invalidLink || invalidType || invalidPlatform))
-    {
-      if(type === "Section")
-      if(!invalidCourse){
-      //TODO: check for duplicate naming in the DB, then submit in the DB
-      setModalShow(false)}
-    }else{
-      validateCourse(true)
+
+    if (!(invalidName || invalidLink || invalidType || invalidPlatform)) {
+      if (type === "SECTION") {
+        if (!invalidCourse) {
+          //TODO: check for duplicate naming in the DB, then submit in the DB
+          createCommunnity({
+            variables: {
+              name: name.current.value,
+              link: link.current.value,
+              platform: platform,
+              category: type,
+              description: description.current.value,
+              section: course.current.value,
+            },
+          });
+        }
+      } else {
+        createCommunnity({
+          variables: {
+            name: name.current.value,
+            link: link.current.value,
+            platform: platform,
+            category: type,
+            description: description.current.value,
+            section: "", //  this empty string is a must
+          },
+        });
+      }
+    } else {
+      validateCourse(true);
     }
   };
 
   const selectPlatform = (e) => {
-    console.log(e.target.value);
     setPlatform(e.target.value);
   };
 
   const selectType = (e) => {
-    if(e.target.id !== "course-input")
-    setType(e.target.value);
-    else{
+    if (e.target.id !== "course-input") setType(e.target.value);
+    else {
       console.log(course.current.value);
-      if(course.current.value.length !== 0){
-      validateCourse(!(/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value)) );
+      if (course.current.value.length !== 0) {
+        validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value));
       }
     }
-
-    
   };
 
+  // handle load and error status.
   useEffect(() => {
-     console.log(type);
-  }, [type])
+    if (loading) {
+      setWaiting(true);
+    } else if (data) {
+      setWaiting(false);
+      setModalShow(false);
+      setWaiting(false);
+      if (data.communityCreate.ok) {
+        setSubmitted(true);
+      } else {
+        // this error belongs to API itself, user does not care about it
+        console.log(error);
+        // TODO we need help from front dev to map these errors mesages
+        // or ignore if there are enough validation, i.e., regex
+        console.log(JSON.stringify(data.communityCreate.errors));
+      }
+    }
+  }, [data, loading]);
 
   return (
     <div>
@@ -221,7 +272,7 @@ function GroupCreationCard() {
                     dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                     className={styles.radio}
                     type={"radio"}
-                    value="Educational"
+                    value="EDU"
                     label={
                       <div>
                         <div className={styles["label-header"]}>
@@ -241,7 +292,7 @@ function GroupCreationCard() {
                     dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                     style={langDirection(user.lang)}
                     type={"radio"}
-                    value="Entertainment"
+                    value="ENTERTAINING"
                     label={
                       <div>
                         <div className={styles["label-header"]}>
@@ -260,7 +311,7 @@ function GroupCreationCard() {
                     dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                     className={styles.radio + " " + styles["course-container"]}
                     type={"radio"}
-                    value="Sections"
+                    value="SECTION"
                     label={
                       <div>
                         <div
@@ -281,10 +332,10 @@ function GroupCreationCard() {
                         <InputGroup
                           hasValidation
                           style={{
-                            maxHeight: type === "Sections" ? 60 : 0,
-                            opacity: type === "Sections" ? "1" : "0",
+                            maxHeight: type === "SECTION" ? 60 : 0,
+                            opacity: type === "SECTION" ? "1" : "0",
                             transition: "150ms ease",
-                            marginTop: type === "Sections" ? 12 : 0,
+                            marginTop: type === "SECTION" ? 12 : 0,
                           }}
                         >
                           <Form.Control
@@ -350,7 +401,7 @@ function GroupCreationCard() {
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
-                    value="Whatsapp"
+                    value="WHATSAPP"
                     label={
                       <div>
                         <IoLogoWhatsapp color="#25D366" size="1.1rem" />{" "}
@@ -363,7 +414,7 @@ function GroupCreationCard() {
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
-                    value="Telegram"
+                    value="TELEGRAM"
                     label={
                       <div>
                         <FaTelegramPlane color="#0088cc" size="1.1rem" />{" "}
@@ -376,7 +427,7 @@ function GroupCreationCard() {
                   <Form.Check
                     className={styles.radio}
                     type={"radio"}
-                    value="Discord"
+                    value="DISCORD"
                     label={
                       <div>
                         <FaDiscord color="#5865F2" size="1.1rem" />{" "}
@@ -452,14 +503,30 @@ function GroupCreationCard() {
             ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
           }
         >
-          <Button
-            className={styles.createButton}
-            type="submit"
-            // onClick={() => setModalShow(false)}
-            onClick={createGroup}
-          >
-            {langState.create}{" "}
-          </Button>
+          {waiting ? (
+            <Button
+              className={styles["loading-container"] + " shadow"}
+              disabled
+            >
+              <Spinner
+                className={styles["loading-spinner"]}
+                as="div"
+                animation="grow"
+                size="xl"
+                role="status"
+                aria-hidden="true"
+              />
+            </Button>
+          ) : (
+            <Button
+              className={styles.createButton}
+              type="submit"
+              // onClick={() => setModalShow(false)}
+              onClick={createGroup}
+            >
+              {langState.create}{" "}
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
       <>
@@ -471,6 +538,14 @@ function GroupCreationCard() {
           <AiFillFileAdd size={32} />
         </Button>
       </>
+      {submittedForm ? (
+        <CreatedGroup
+          success={data.communityCreate.ok}
+          refetch={props.refetch}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { BsStarFill, BsStar } from "react-icons/bs";
 import styles from "../../styles/groups-page/groups-display.module.scss";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import Image from "next/image";
+import PopMsg from "../PopMsg";
 import translator from "../../dictionary/components/groups-modal-dict";
 
 /**
@@ -17,16 +18,36 @@ import translator from "../../dictionary/components/groups-modal-dict";
  */
 
 export default function GroupDisplay(props) {
+  const arTitles = {
+    platform: "المنصة",
+    type: "تصنيف المجتمع",
+    description: "الوصف",
+    joinCommunity: "انضم للمجموعة",
+  };
+  const [ShowShared, setShowShared] = useState({
+    shareMsg: "",
+  });
+  const share = () => {
+    navigator.clipboard.writeText(props.link);
+    setShowShared({
+      shareMsg: (
+        <PopMsg
+          success={true}
+          successMsg={"تم نسخ رابط القروب بنجاح."}
+          msgBody={props.link}
+        />
+      ),
+    });
+  };
 
-    const { user, userDispatch } = useContext(UserContext);
-    const [langState, setLang] = useState(() => translator(user.lang));
+  const { user, userDispatch } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
 
-    useEffect(() => {
-      // console.log(userContext.user.lang);
-      setLang(() => translator(user.lang));
-      console.log("changed language!");
-    }, [user.lang]);
-
+  useEffect(() => {
+    // console.log(userContext.user.lang);
+    setLang(() => translator(user.lang));
+    console.log("changed language!");
+  }, [user.lang]);
 
   useEffect(() => {
     console.log(props.course);
@@ -78,9 +99,10 @@ export default function GroupDisplay(props) {
                     <BsStarFill size={"18px"} />
                   )}
                 </Button>
-                <Button onClick={props.addLike} className={styles["share-btn"]}>
+                <Button onClick={share} className={styles["share-btn"]}>
                   {<BiShareAlt size={"1.3rem"} />}
                 </Button>
+                {ShowShared.shareMsg}
               </div>
             </Col>
             <Col xs={12} sm={6}>
@@ -117,7 +139,7 @@ export default function GroupDisplay(props) {
                   {props.labels(props.type)}
                 </span>
 
-                {props.type === "Sections" && (
+                {props.type === "SECTION" && (
                   <span
                     style={{
                       fontSize: 14,
@@ -135,7 +157,7 @@ export default function GroupDisplay(props) {
                       backgroundColor: "#4a1eaf",
                     }}
                   >
-                    {props.course}
+                    {props.section}
                   </span>
                 )}
               </div>

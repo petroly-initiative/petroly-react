@@ -1,5 +1,5 @@
 import {
-  Col,
+  Spinner,
   Card,
   Button,
   Row,
@@ -7,16 +7,18 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import styles from "../../styles/dashboard-page/dashboard-tabs.module.scss";
 import GroupPreview from "./GroupPrev";
 import { MdCancel } from "react-icons/md";
 import { Fade } from "react-awesome-reveal";
 import { FiSearch } from "react-icons/fi";
-import { useContext, useEffect } from "react";
+import { myCommunities } from "../../api/queries";
+import { useQuery } from "@apollo/client";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-tab-dict";
 import { M } from "../../constants";
+
 /**
  * ? Groups tab setup
  * - There will be two states for this tab
@@ -26,8 +28,13 @@ import { M } from "../../constants";
  */
 
 export default function GroupsTab(props) {
+  const { data, loading, error, refetch } = useQuery(myCommunities, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
+  });
   const [mode, setMode] = useState("view-all");
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
@@ -38,10 +45,84 @@ export default function GroupsTab(props) {
 
   const fullList = "all of it";
   const matchingList = "matching only";
-
   const switchMode = () => {
     setMode(mode === "view-all" ? "search" : "view-all");
   };
+
+  const myCommunitiesMapper = () =>
+    data.me.ownedCommunities.data.map((community) => {
+      return (
+        <GroupPreview // TODO Modify this component
+          refetch={refetch}
+          pic="/images/muhabpower.png" // TODO
+          id={community.id}
+          name={community.name}
+          platform={community.platform}
+        />
+      );
+    });
+
+  if (error) {
+    return (
+      <div>
+        <h1>{error.name}</h1>
+        <p>{error.message}</p>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <Card className={styles["card-containers"] + " shadow"}>
+        <Card.Header className={styles["header-containers"]}>
+          <div className={styles["card-headers"]}>
+            <span className={styles["card-title"]}>حسابي الشخصي</span>
+            {/* Edit btn / cancel editing button / Saving button */}
+            {mode === "view" && (
+              <Fade duration="1200">
+                <Button onClick={switchMode} className={styles["btns"]}>
+                  <MdModeEdit size="1.6rem" />
+                </Button>
+              </Fade>
+            )}
+            {mode === "edit" && (
+              <Fade duration="1200">
+                <div>
+                  <Button
+                    onClick={switchMode}
+                    className={[styles["btns"], styles["cancel-btns"]]}
+                  >
+                    <MdCancel size="1.6rem" />
+                  </Button>
+                  <Button className={styles["btns"]}>
+                    {" "}
+                    <FaSave size="1.6rem" />
+                  </Button>
+                </div>
+              </Fade>
+            )}
+          </div>
+        </Card.Header>
+        {/* The content of the body will be a subject to local state management */}
+        <Card.Body
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          className={styles["card-body"]}
+        >
+          {/* Container for stat attributes and profile info */}
+
+          <Spinner
+            className={styles["loading-spinner"] + " shadow"}
+            animation="border"
+            role="status"
+          />
+        </Card.Body>
+      </Card>
+    );
+  }
 
   return (
     <>
@@ -110,31 +191,7 @@ export default function GroupsTab(props) {
                 "col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
               }
             >
-              <GroupPreview
-                pic="/images/muhabpower.png"
-                name="ICS Nerds"
-                type="Discord"
-              />
-              <GroupPreview
-                pic="/images/muhabpower.png"
-                name="ICS202 Section6"
-                type="Whatsapp"
-              />
-              <GroupPreview
-                pic="/images/muhabpower.png"
-                name="Web development"
-                type="Discord"
-              />
-              <GroupPreview
-                pic="/images/muhabpower.png"
-                name="ICS Nerds"
-                type="Telegram"
-              />
-              <GroupPreview
-                pic="/images/muhabpower.png"
-                name="ICS Nerds"
-                type="Telegram"
-              />
+              {myCommunitiesMapper()}
             </Fade>
           </Row>
         </Card.Body>

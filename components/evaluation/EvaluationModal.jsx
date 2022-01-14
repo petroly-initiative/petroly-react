@@ -206,13 +206,11 @@ export default function EvaluationModal(props) {
 
   useEffect(() => {
     if (dataEvaluationCreate) {
-      console.log(dataEvaluationCreate);
       if (dataEvaluationCreate.evaluationCreate.ok) {
         setWaiting(false);
         setTimeout(() => location.reload(), 400);
       }
     } else if (dataEvaluationUpdate) {
-      console.log(dataEvaluationUpdate);
       if (dataEvaluationUpdate.evaluationUpdate.ok) {
         setWaiting(false);
         setTimeout(() => {
