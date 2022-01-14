@@ -40,10 +40,20 @@ export default function Dashboard(props) {
     // prevent non logged user
     // since any effect is loaded alwyas once
     if (user.status !== USER.LOGGED_IN) router.push("/");
-    setAllow(true);
+    setTimeout(() => setAllow(true), 700);
   }, [user.status]);
 
-  if (!Allow) return null;
+  if (!Allow)
+    return (
+      <>
+        <Navbar />
+        <Spinner
+          className={styles["loading-spinner"] + " shadow"}
+          animation="border"
+          role="status"
+        />
+      </>
+    );
 
   return (
     <ClientOnly>
