@@ -1,12 +1,12 @@
 import { L } from "../../constants";
 
-// TODO: arabic translation for groups screen
+
 const arabic = {
   searchbar: "أدخل اسم المحاضر",
   header: "تقييماتي"
 };
 
-// TODO: english translation for groups screen
+
 const english = {
   searchbar: "Search for instructor name",
   header: "My Evaluations"

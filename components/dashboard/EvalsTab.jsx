@@ -74,9 +74,9 @@ export default function EvaluationsTab(props) {
             <Fade triggerOnce>
               <div className={styles["card-headers"]}>
                 <span className={styles["card-title"]}>{langState.header}</span>
-                <Button on onClick={switchMode} className={styles["btns"]}>
+                {/* <Button on onClick={switchMode} className={styles["btns"]}>
                   <FiSearch size="1.6rem" />
-                </Button>
+                </Button> */}
               </div>
             </Fade>
           )}
@@ -94,9 +94,9 @@ export default function EvaluationsTab(props) {
                   </InputGroup>
                 </Form>
                 <div className={styles["search-set"]}>
-                  <Button onClick={switchMode} className={styles["btns"]}>
+                  {/* <Button onClick={switchMode} className={styles["btns"]}>
                     <FiSearch size="1.6rem" />
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </Fade>
@@ -111,7 +111,11 @@ export default function EvaluationsTab(props) {
           className={styles["card-body"] + " " + styles["eval-cards"]}
         >
           <Spinner
-            className={styles["loading-spinner"] + " shadow"}
+            className={
+              styles["loading-spinner"] +
+              " shadow" +
+              ` ${user.theme === M.DARK ? styles["dark-spinner"] : ""}`
+            }
             animation="border"
             role="status"
           />
@@ -138,9 +142,9 @@ export default function EvaluationsTab(props) {
             <Fade triggerOnce>
               <div className={styles["card-headers"]}>
                 <span className={styles["card-title"]}>{langState.header}</span>
-                <Button on onClick={switchMode} className={styles["btns"]}>
+                {/* <Button on onClick={switchMode} className={styles["btns"]}>
                   <FiSearch size="1.6rem" />
-                </Button>
+                </Button> */}
               </div>
             </Fade>
           )}
@@ -158,9 +162,9 @@ export default function EvaluationsTab(props) {
                   </InputGroup>
                 </Form>
                 <div className={styles["search-set"]}>
-                  <Button onClick={switchMode} className={styles["btns"]}>
+                  {/* <Button onClick={switchMode} className={styles["btns"]}>
                     <FiSearch size="1.6rem" />
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </Fade>
@@ -238,7 +242,7 @@ export default function EvaluationsTab(props) {
                 }
               >
                 <span className={styles["card-title"]}>{langState.header}</span>
-                <Button
+                {/* <Button
                   on
                   onClick={switchMode}
                   className={
@@ -247,7 +251,7 @@ export default function EvaluationsTab(props) {
                   }
                 >
                   <FiSearch size="1.6rem" />
-                </Button>
+                </Button> */}
               </div>
             </Fade>
           )}
@@ -265,9 +269,9 @@ export default function EvaluationsTab(props) {
                   </InputGroup>
                 </Form>
                 <div className={styles["search-set"]}>
-                  <Button onClick={switchMode} className={styles["btns"]}>
+                  {/* <Button onClick={switchMode} className={styles["btns"]}>
                     <FiSearch size="1.6rem" />
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </Fade>

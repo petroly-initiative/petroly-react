@@ -21,17 +21,19 @@ export default function GroupsFilter(props) {
   const { user } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [invalidCourse, validateCourse] = useState(false);
+
+  const [platform, setPlatform] = useState("WHATSAPP");
+
+  /** 
+   * ? state inputs can be the following
+   * {
+    {type: "Educational"}
+    type: "Entertainment",
+    {type: "Section", course: "ABCDXXX"}
+  }
+   */
+  const [groupType, setType] = useState({ type: "EDU" });
   const course = useRef();
-  const [platforms, setPlatforms] = useState({
-    DISCORD: false,
-    TELEGRAM: false,
-    WHATSAPP: false,
-  });
-  const [types, setTypes] = useState({
-    EDU: false,
-    ENTERTAINING: false,
-    SECTION: { find: false, course: "" },
-  });
 
   // Forcing a re- render
   const [, updateState] = useState();
@@ -47,32 +49,37 @@ export default function GroupsFilter(props) {
   const platformSwitch = (e) => {
     const key = e.target.id;
     console.log(key);
-    setPlatforms((prev) => Object.assign(prev, { [`${key}`]: !prev[key] }));
+    setPlatform(key);
     forceUpdate();
   };
 
   const typeSwitch = (e) => {
     const key = e.target.id;
     console.log(key);
+
     if (key === "SECTION") {
-      setTypes((prev) =>
-        Object.assign(prev, {
-          SECTION: { find: !prev.SECTION.find, course: course },
-        })
-      );
+      setType({ type: "SECTION", course: course.current.value });
+
       forceUpdate();
-    } else setTypes((prev) => Object.assign(prev, { [`${key}`]: !prev[key] }));
+    } else setType({ type: key });
     forceUpdate();
     console.log(course.current.value);
   };
 
   const saveChanges = () => {
-    props.changePlatform(platforms);
-    props.changeType(
-      Object.assign(types, {
-        SECTION: { find: types.SECTION.find, course: course.current.value },
-      })
+    props.changePlatform(platform);
+    console.log(
+      groupType
+
     );
+    
+    if(groupType.type !== "Sections")
+    props.changeType(groupType);
+    else{
+      if(!invalidCourse)
+      props.changeType({type: "Sections", course: course.current.value})
+    }
+    
   };
 
   const setCourse = (e) => {
@@ -82,7 +89,7 @@ export default function GroupsFilter(props) {
   };
 
   useEffect(() => {
-    setPlatforms(props.platform);
+    setPlatform(props.platform);
   }, [props.platform]);
 
   useEffect(() => {
@@ -130,8 +137,10 @@ export default function GroupsFilter(props) {
               <Form>
                 <div>
                   <Form.Check
-                    defaultChecked={platforms.DISCORD}
-                    type="checkbox"
+
+                    checked={platform === "DISCORD"}
+                    type="radio"
+
                     className={
                       styles["filters"] +
                       ` ${
@@ -139,6 +148,7 @@ export default function GroupsFilter(props) {
                       }`
                     }
                     onChange={platformSwitch}
+
                     id="DISCORD"
                     label={
                       <div>
@@ -148,8 +158,10 @@ export default function GroupsFilter(props) {
                     }
                   />
                   <Form.Check
-                    defaultChecked={platforms.WHATSAPP}
-                    type="checkbox"
+
+                    checked={platform === "WHATSAPP"}
+                    type="radio"
+
                     className={
                       styles["filters"] +
                       ` ${
@@ -157,7 +169,9 @@ export default function GroupsFilter(props) {
                       }`
                     }
                     onChange={platformSwitch}
+
                     id="WHATSAPP"
+
                     label={
                       <div>
                         {" "}
@@ -167,8 +181,10 @@ export default function GroupsFilter(props) {
                     }
                   />
                   <Form.Check
-                    defaultChecked={platforms.TELEGRAM}
-                    type="checkbox"
+
+                    checked={platform === "TELEGRAM"}
+                    type="radio"
+
                     className={
                       styles["filters"] +
                       ` ${
@@ -176,12 +192,32 @@ export default function GroupsFilter(props) {
                       }`
                     }
                     onChange={platformSwitch}
+
                     id="TELEGRAM"
+
                     label={
                       <div>
                         {" "}
                         <FaTelegramPlane color={"#0088cc"} />
                         <span>Telegram</span>
+                      </div>
+                    }
+                  />
+                  <Form.Check
+                    checked={platform === "all"}
+                    type="radio"
+                    className={
+                      styles["filters"] +
+                      ` ${
+                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                      }`
+                    }
+                    onChange={platformSwitch}
+                    id="all"
+                    label={
+                      <div>
+                        {" "}
+                        <span>{langState.all}</span>
                       </div>
                     }
                   />
@@ -192,8 +228,11 @@ export default function GroupsFilter(props) {
               <div className={styles["titles"]}>{langState.typesubHeader}</div>
               <Form>
                 <Form.Check
-                  defaultChecked={types.EDU}
-                  type="checkbox"
+
+                  checked={groupType.type === "EDU"}
+                  type="radio"
+
+
                   className={
                     styles["filters"] +
                     ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
@@ -209,8 +248,10 @@ export default function GroupsFilter(props) {
                 />
 
                 <Form.Check
-                  defaultChecked={types.ENTERTAINING}
-                  type="checkbox"
+
+                  checked={groupType.type === "ENTERTAINING"}
+                  type="radio"
+
                   className={
                     styles["filters"] +
                     ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
@@ -225,8 +266,10 @@ export default function GroupsFilter(props) {
                   }
                 />
                 <Form.Check
-                  defaultChecked={types.SECTION.find}
-                  type="checkbox"
+
+                  checked={groupType.type === "SECTION"}
+                  type="radio"
+
                   className={
                     styles["filters"] +
                     " " +
@@ -234,8 +277,10 @@ export default function GroupsFilter(props) {
                     ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
                   }
                   onChange={typeSwitch}
+
                   id="SECTION"
-                  style={{ height: types.SECTION.find ? 100 : 50 }}
+                  style={{ height: groupType.type === "SECTION" ? 100 : 50 }}
+
                   label={
                     <div>
                       <RiBook2Fill color="#622edb" />
@@ -243,21 +288,20 @@ export default function GroupsFilter(props) {
                       <InputGroup
                         className={styles["input-container"]}
                         style={{
-                          maxHeight: types.SECTION.find ? 90 : 0,
-                          opacity: types.SECTION.find ? "1" : "0",
+                          maxHeight: groupType.type === "Sections" ? 90 : 0,
+                          opacity: groupType.type === "Sections" ? "1" : "0",
                           transition: "150ms ease",
-                          marginTop: types.SECTION.find ? 12 : 0,
+                          marginTop: groupType.type === "Sections" ? 12 : 0,
                         }}
                       >
                         <Form.Control
                           ref={course}
-                          defaultValue={props.type.SECTION.course}
+                          defaultValue={props.type.course || ""}
                           type="text"
                           onChange={setCourse}
-                          disabled={!types.SECTION.find}
+                          disabled={!groupType.type === "Sections"}
                           placeholder={"المادة الدراسية"}
                           isInvalid={invalidCourse}
-                          // onChange = {setCourse}
                         />
                         <Form.Text
                           style={{
@@ -271,6 +315,22 @@ export default function GroupsFilter(props) {
                           الرجاء استخدام صيغة ABCDXXX
                         </Form.Text>
                       </InputGroup>
+                    </div>
+                  }
+                />
+                <Form.Check
+                  checked={groupType.type === "All"}
+                  type="radio"
+                  className={
+                    styles["filters"] +
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
+                  onChange={typeSwitch}
+                  id="All"
+                  label={
+                    <div>
+                      
+                      <span>{langState.all}</span>
                     </div>
                   }
                 />

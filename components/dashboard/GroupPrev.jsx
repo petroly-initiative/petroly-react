@@ -58,13 +58,22 @@ export default function GroupPreview(props) {
 
   if (deleteLoading)
     return (
-      <Button className={styles["loading-container"] + " shadow"} disabled>
+      <Card
+        className={
+          styles["card-body"] + " " + styles["loader"] + 
+          ` ${user.theme === M.DARK ? styles["dark-card"] : ""}`
+        }
+      >
         <Spinner
-          className={styles["loading-spinner"] + " shadow"}
+          className={
+            styles["loading-spinner"] +
+            " shadow" +
+            ` ${user.theme === M.DARK ? styles["dark-spinner"] : ""}`
+          }
           animation="border"
           role="status"
         />
-      </Button>
+      </Card>
     );
 
   if (deleteError) {
@@ -124,11 +133,9 @@ export default function GroupPreview(props) {
         </div>
       </Card>
       {/* TODO. I tried to make it show whenever edit btn is clicked, but it shows only the first time. */}
-      {showEdit ? (
+      {showEdit && (
         <EditGroup refetch={props.refetch} show={true} id={props.id} />
-      ) : (
-        <></>
-      )}{" "}
+      ) }{" "}
     </>
   );
 }

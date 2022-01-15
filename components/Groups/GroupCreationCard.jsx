@@ -8,6 +8,8 @@ import {
   InputGroup,
   Alert,
   Spinner,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
 import { BsCardImage } from "react-icons/bs";
 import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
@@ -23,14 +25,14 @@ import { MdDescription } from "react-icons/md";
 import styles from "../../styles/groups-page/group-creation.module.scss";
 import { createCommunnityMutation } from "../../api/mutations";
 import { useMutation, useQuery } from "@apollo/client";
-import CreatedGroup from "./CreatedCard";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-create-dict";
 import { langDirection, L, M, USER } from "../../constants";
 
 function GroupCreationCard(props) {
+  // UI control state
   const [modalShow, setModalShow] = useState(false);
-  const [submittedForm, setSubmitted] = useState(false);
+
   const [type, setType] = useState("");
   const [platform, setPlatform] = useState("");
   const course = useRef();
@@ -39,17 +41,21 @@ function GroupCreationCard(props) {
   const link = useRef();
   const name = useRef();
   const [invalidCourse, validateCourse] = useState(false);
-  const [waiting, setWaiting] = useState(false);
 
+  // TODO: another mutation for editing
+  // Mutations & Queries State
   const [createCommunnity, { data, loading, error }] = useMutation(
     createCommunnityMutation
   );
-
+  // -------
+  // TODO: pass in initial values according to the mode
+  // validation state
   const [invalidName, validateName] = useState(false);
   const [invalidLink, validateLink] = useState(false);
   const [invalidType, validateType] = useState(false);
   const [invalidPlatform, validatePlatform] = useState(false);
-
+  const [invalidDesc, validateDesc] = useState(false);
+  const [submit, setSubmit] = useState(false);
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
 
@@ -61,53 +67,20 @@ function GroupCreationCard(props) {
 
   const createGroup = (e) => {
     e.preventDefault();
-    validateName(name.current.value.length === 0);
+    validateName(name.current.value.length === 0 || name.current.length > 20);
     validateLink(link.current.value.length === 0);
     validateType(type.length === 0);
-    validatePlatform(platform.length === 0);
-    if (course.current.value.length !== 0) {
-      validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(course.current.value));
-    } else validateCourse(true);
-    console.table(
-      invalidCourse,
-      invalidName,
-      invalidLink,
-      invalidPlatform,
-      invalidType
+    validateDesc(
+      description.current.value.length === 0 &&
+        description.current.value.length <= 500
     );
+    validatePlatform(platform.length === 0);
+    if (course.current.value.length !== 0 && type === "SECTION") {
+      validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(course.current.value));
 
-    if (!(invalidName || invalidLink || invalidType || invalidPlatform)) {
-      if (type === "SECTION") {
-        if (!invalidCourse) {
-          //TODO: check for duplicate naming in the DB, then submit in the DB
-          createCommunnity({
-            variables: {
-              name: name.current.value,
-              link: link.current.value,
-              platform: platform,
-              category: type,
-              description: description.current.value,
-              section: course.current.value,
-              file: image.current.files[0],
-            },
-          });
-        }
-      } else {
-        createCommunnity({
-          variables: {
-            name: name.current.value,
-            link: link.current.value,
-            platform: platform,
-            category: type,
-            description: description.current.value,
-            section: "", //  this empty string is a must
-            file: image.current.files[0],
-          },
-        });
-      }
-    } else {
-      validateCourse(true);
-    }
+    } else validateCourse(false);
+    setSubmit(true);
+
   };
 
   const selectPlatform = (e) => {
@@ -124,19 +97,65 @@ function GroupCreationCard(props) {
     }
   };
 
+  // TODO: edit for tags
+  useEffect(() => {
+    if (submit) {
+      if (
+        !(
+          invalidName ||
+          invalidLink ||
+          invalidType ||
+          invalidPlatform ||
+          invalidDesc
+        )
+      ) {
+        if (type === "SECTION") {
+          if (!invalidCourse) {
+            //TODO: check for duplicate naming in the DB, then submit in the DB
+            createCommunnity({
+              variables: {
+                name: name.current.value,
+                link: link.current.value,
+                platform: platform,
+                category: type,
+                description: description.current.value,
+                section: course.current.value,
+              },
+            });
+          }
+        } else {
+          createCommunnity({
+            variables: {
+              name: name.current.value,
+              link: link.current.value,
+              platform: platform,
+              category: type,
+              description: description.current.value,
+              section: "", //  this empty string is a must
+            },
+          });
+        }
+      }
+    }
+  }, [submit]);
+
   // handle load and error status.
   useEffect(() => {
-    if (loading) {
-    } else if (data) {
-      setModalShow(false);
+    if (data) {
+      console.log(JSON.stringify(data.communityCreate));
+
       if (data.communityCreate.ok) {
-        setSubmitted(true);
+        setModalShow(false);
+        props.refetch();
+        props.handleMsg(true);
       } else {
         // this error belongs to API itself, user does not care about it
-        console.log(error);
-        // TODO we need help from front dev to map these errors mesages
+        validateLink(true);
+
+        // TODO: handle link error msg
         // or ignore if there are enough validation, i.e., regex
-        console.log(JSON.stringify(data.communityCreate.errors));
+        console.log(JSON.stringify(data.communityCreate));
+        setSubmit(false); // to use it for later
       }
     }
   }, [data, loading]);
@@ -166,7 +185,7 @@ function GroupCreationCard(props) {
       </style>
       <Modal
         contentClassName={
-          styles.layout + `${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          styles.layout + ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
         }
         onHide={() => setModalShow(false)}
         show={modalShow}
@@ -186,7 +205,10 @@ function GroupCreationCard(props) {
             dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
           >
             {langState.header}{" "}
-            <AiOutlineUsergroupAdd color="#00ead3" className={styles.icons} />
+            <AiOutlineUsergroupAdd
+              color="#00ead3"
+              className={styles["icons"]}
+            />
           </Modal.Title>
         </Modal.Header>
 
@@ -220,17 +242,38 @@ function GroupCreationCard(props) {
                   isInvalid={invalidName}
                   ref={name}
                   required
-                  className={styles.input}
+                  className={
+                    styles.input +
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
                   type="text"
                   placeholder={langState.namePlaceholder}
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                 />
-                <Form.Control.Feedback
-                  style={langDirection(user.lang)}
-                  type="invalid"
-                >
-                  {langState.nameErr}
-                </Form.Control.Feedback>
+                {invalidName && (
+                  <Form.Control.Feedback
+                    style={langDirection(user.lang)}
+                    type="invalid"
+                  >
+                    {langState.nameErr}
+                  </Form.Control.Feedback>
+                )}
+                {!invalidName && (
+                  <Form.Text
+                    style={Object.assign(
+                      {
+                        fontSize: 12,
+                        width: "100%",
+                        marginBottom: 6,
+                      },
+                      langDirection(user.lang)
+                    )}
+                    muted
+                    dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  >
+                    {langState.nameHelper}{" "}
+                  </Form.Text>
+                )}
               </Col>
             </InputGroup>
 
@@ -242,7 +285,10 @@ function GroupCreationCard(props) {
               <Col>
                 <Form.Control
                   ref={image}
-                  className={styles.input}
+                  className={
+                    styles.input +
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
                   type="file"
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                 />
@@ -251,7 +297,7 @@ function GroupCreationCard(props) {
 
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column xs="12">
-                <FaListUl className={styles.icons} />{" "}
+                <FaListUl className={styles["icons"]} />
                 <span>*{langState.type}</span>
               </Form.Label>
               <Col>
@@ -274,9 +320,22 @@ function GroupCreationCard(props) {
                       <div>
                         <div className={styles["label-header"]}>
                           <FaGraduationCap color="#FFB830" size="1.1rem" />
-                          <span>{langState.edu}</span>
+                          <span
+                            className={` ${
+                              user.theme === M.DARK ? styles["dark-header"] : ""
+                            }`}
+                          >
+                            {langState.edu}
+                          </span>
                         </div>
-                        <div className={styles["label-content"]}>
+                        <div
+                          className={
+                            styles["label-content"] +
+                            ` ${
+                              user.theme === M.DARK ? styles["dark-check"] : ""
+                            }`
+                          }
+                        >
                           {langState.eduSub}
                         </div>
                       </div>
@@ -294,9 +353,22 @@ function GroupCreationCard(props) {
                       <div>
                         <div className={styles["label-header"]}>
                           <MdGames color="#F037A5" size="1.1rem" />
-                          <span>{langState.fun}</span>
+                          <span
+                            className={` ${
+                              user.theme === M.DARK ? styles["dark-header"] : ""
+                            }`}
+                          >
+                            {langState.fun}
+                          </span>
                         </div>
-                        <div className={styles["label-content"]}>
+                        <div
+                          className={
+                            styles["label-content"] +
+                            ` ${
+                              user.theme === M.DARK ? styles["dark-check"] : ""
+                            }`
+                          }
+                        >
                           {langState.funSub}
                         </div>
                       </div>
@@ -316,12 +388,23 @@ function GroupCreationCard(props) {
                           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                           className={styles["label-header"]}
                         >
-                          <RiBook2Fill color="#622edb" size="1.1rem" />
-                          <span>{langState.section}</span>
+                          <RiBook2Fill color="#5865F2" size="1.1rem" />
+                          <span
+                            className={` ${
+                              user.theme === M.DARK ? styles["dark-header"] : ""
+                            }`}
+                          >
+                            {langState.section}
+                          </span>
                         </div>
                         <div
                           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                          className={styles["label-content"]}
+                          className={
+                            styles["label-content"] +
+                            ` ${
+                              user.theme === M.DARK ? styles["dark-check"] : ""
+                            }`
+                          }
                           style={langDirection(user.lang)}
                         >
                           {langState.sectionSub}
@@ -338,7 +421,14 @@ function GroupCreationCard(props) {
                           <Form.Control
                             isInvalid={invalidCourse}
                             ref={course}
-                            className={styles["course-input"]}
+                            className={
+                              styles["course-input"] +
+                              ` ${
+                                user.theme === M.DARK
+                                  ? styles["dark-mode-input"]
+                                  : ""
+                              }`
+                            }
                             style={{ fontSize: 12 }}
                             id="course-input"
                             type="text"
@@ -346,12 +436,14 @@ function GroupCreationCard(props) {
                             placeholder={langState.course}
                             dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                           />
-                          <Form.Control.Feedback
-                            style={langDirection(user.lang)}
-                            type="invalid"
-                          >
-                            {langState.courseErr}
-                          </Form.Control.Feedback>
+                          {invalidCourse && (
+                            <Form.Control.Feedback
+                              style={langDirection(user.lang)}
+                              type="invalid"
+                            >
+                              {langState.courseErr}
+                            </Form.Control.Feedback>
+                          )}
                           {!invalidCourse && (
                             <Form.Text
                               style={Object.assign(
@@ -362,7 +454,6 @@ function GroupCreationCard(props) {
                                 },
                                 langDirection(user.lang)
                               )}
-                              id="passwordHelpBlock"
                               muted
                               dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                             >
@@ -402,7 +493,14 @@ function GroupCreationCard(props) {
                     label={
                       <div>
                         <IoLogoWhatsapp color="#25D366" size="1.1rem" />{" "}
-                        <span>{langState.whatsapp}</span>
+                        <span
+                          style={{ marginLeft: 8, marginRight: 8 }}
+                          className={` ${
+                            user.theme === M.DARK ? styles["dark-header"] : ""
+                          }`}
+                        >
+                          {langState.whatsapp}
+                        </span>
                       </div>
                     }
                     id="1"
@@ -415,7 +513,14 @@ function GroupCreationCard(props) {
                     label={
                       <div>
                         <FaTelegramPlane color="#0088cc" size="1.1rem" />{" "}
-                        <span>{langState.telegram}</span>
+                        <span
+                          style={{ marginLeft: 8, marginRight: 8 }}
+                          className={` ${
+                            user.theme === M.DARK ? styles["dark-header"] : ""
+                          }`}
+                        >
+                          {langState.telegram}
+                        </span>
                       </div>
                     }
                     id="2"
@@ -428,7 +533,14 @@ function GroupCreationCard(props) {
                     label={
                       <div>
                         <FaDiscord color="#5865F2" size="1.1rem" />{" "}
-                        <span>{langState.discord}</span>
+                        <span
+                          style={{ marginLeft: 8, marginRight: 8 }}
+                          className={` ${
+                            user.theme === M.DARK ? styles["dark-header"] : ""
+                          }`}
+                        >
+                          {langState.discord}
+                        </span>
                       </div>
                     }
                     id="3"
@@ -441,31 +553,44 @@ function GroupCreationCard(props) {
             <InputGroup hasValidation as={Row} className={styles.group}>
               <Form.Label className={styles.label} column sm="12">
                 <MdDescription className={styles.icons} />
-                <span> {langState.desc}</span>
+                <span> *{langState.desc}</span>
               </Form.Label>
               {/* <FloatingLabel label="Comments"> */}
               <Col>
                 <Form.Control
                   ref={description}
                   required
-                  className={`${styles.input} ${styles.description}`}
+                  className={
+                    `${styles.input} ${styles.description}` +
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
                   as="textarea"
                   placeholder={langState.descPlaceHolder}
                   style={{ height: "100px" }}
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   maxLength="500"
+                  isInvalid={invalidDesc}
                 />
-                <Form.Text
-                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                  style={Object.assign(
-                    { fontSize: 12 },
-                    langDirection(user.lang)
-                  )}
-                  id="passwordHelpBlock"
-                  muted
-                >
-                  {langState.descHelper}
-                </Form.Text>
+                {invalidDesc && (
+                  <Form.Control.Feedback
+                    style={langDirection(user.lang)}
+                    type="invalid"
+                  >
+                    {langState.descErr}
+                  </Form.Control.Feedback>
+                )}
+                {!invalidDesc && (
+                  <Form.Text
+                    dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                    style={Object.assign(
+                      { fontSize: 12 },
+                      langDirection(user.lang)
+                    )}
+                    muted
+                  >
+                    {langState.descHelper}
+                  </Form.Text>
+                )}
               </Col>
             </InputGroup>
 
@@ -479,17 +604,22 @@ function GroupCreationCard(props) {
                   isInvalid={invalidLink}
                   required
                   ref={link}
-                  className={`${styles.input} ${styles.link}`}
+                  className={
+                    `${styles.input} ${styles.link}` +
+                    ` ${user.theme === M.DARK ? styles["dark-mode-input"] : ""}`
+                  }
                   type="text"
                   placeholder={langState.linkPlaceholder}
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                 />
-                <Form.Control.Feedback
-                  style={langDirection(user.lang)}
-                  type="invalid"
-                >
-                  {langState.linkErr}
-                </Form.Control.Feedback>
+                {invalidLink && (
+                  <Form.Control.Feedback
+                    style={langDirection(user.lang)}
+                    type="invalid"
+                  >
+                    {langState.linkErr}
+                  </Form.Control.Feedback>
+                )}
               </Col>
             </InputGroup>
           </Form>
@@ -501,10 +631,9 @@ function GroupCreationCard(props) {
           }
         >
           {loading ? (
-            <Button
-              className={styles["loading-container"] + " shadow"}
-              disabled
-            >
+
+            <Button className={styles["createButton"] + " shadow"} disabled>
+
               <Spinner
                 className={styles["loading-spinner"]}
                 as="div"
@@ -527,25 +656,35 @@ function GroupCreationCard(props) {
         </Modal.Footer>
       </Modal>
 
-      {user.status === USER.LOGGED_IN ? (
+      {user.status !== USER.LOGGED_IN ? (
+        <OverlayTrigger
+          trigger={"hover"}
+          placement="top"
+          delay={{ show: 100, hide: 300 }}
+          overlay={
+            <Tooltip>
+              {langState.createBlock}
+            </Tooltip>
+          }
+        >
+          <Button
+            className={styles.modalButton}
+            onClick={() => setModalShow(true)}
+            disabled={user.status !== USER.LOGGED_IN}
+          >
+            <AiFillFileAdd size={32} />
+          </Button>
+        </OverlayTrigger>
+      ) : (
+
         <Button
           className={styles.modalButton}
-          variant="primary"
           onClick={() => setModalShow(true)}
+          disabled={user.status !== USER.LOGGED_IN}
         >
           <AiFillFileAdd size={32} />
         </Button>
-      ) : (
-        <></>
-      )}
 
-      {submittedForm ? (
-        <CreatedGroup
-          success={data.communityCreate.ok}
-          refetch={props.refetch}
-        />
-      ) : (
-        <></>
       )}
     </div>
   );

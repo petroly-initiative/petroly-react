@@ -1,47 +1,49 @@
 @use "/styles/themes.module" as theme;
 
-$btn-high: #00ead3;
-$txt-fill: #52575d;
 $txt-fill: rgb(146, 146, 146);
 $txt-hg: #0091e7;
 $btn-prim: #00ead3;
-$x: #622edb;
 
 .dark-mode {
   background-color: theme.$dark-fg !important;
-  color: theme.$dark-fnt !important;
+  color: theme.$dark-fnt ;
   background: theme.$dark-fg !important;
   box-shadow: none !important;
   border: 2px solid  theme.$dark-bg !important;
 
-  &::before,
-  &::after {
-    background-color: theme.$dark-fg !important;
-    color: theme.$dark-fnt !important;
-    box-shadow: none !important;
-  }
+
 }
 
 .dark-header{
   color: theme.$dark-fnt !important;
 }
 
-.dark-mode-input {
-  color: theme.$dark-fnt !important;
-  background-color: theme.$dark-xfg !important;
-  background: theme.$dark-xfg !important;
-  border: 1px solid theme.$light-fnt;
+.dark-check{
+  color: theme.$dark-fnt-fg !important;
 }
 
-.layout {
+.dark-mode-input {
+  color: theme.$dark-fnt ;
+  background-color: rgba(212, 212, 212, 0.233) !important;
+  
+  border: 1px solid theme.$light-fnt;
+
+  &:focus, &:active{
+    color: theme.$dark-fnt !important;
+    background-color: rgba(226, 226, 226, 0.233) !important;
+  }
+  
+  .layout {
   border-radius: 10px;
   font-family: "Cairo", sans-serif inherit;
   font-weight: bold;
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
+  
 }
 
 .title {
+  
   width: 100%;
   position: relative;
   display: flex;
@@ -53,10 +55,14 @@ $x: #622edb;
 
 }
 
+}
+
 .icons {
-  color: $btn-prim;
-  font-size: 1.3em;
-  margin: 1px;
+  color: $btn-prim !important;
+  font-size: 1.3em !important;
+  margin: 2px !important;
+  padding: 0px !important;
+
 }
 
 .createButton {
@@ -66,7 +72,7 @@ $x: #622edb;
   font-size: 0.8rem;
   width: 200px !important;
   border-radius: 23px;
-  background-color: unset !important;
+  background-color: unset;
   font-weight: bold;
   border: $btn-prim solid 1px !important;
   color: $btn-prim !important;
@@ -83,21 +89,7 @@ $x: #622edb;
   border: $btn-prim solid 1px !important;
   color: white !important;
 }
-.modal-body {
-  padding: 23px;
-}
 
-.modal-body::-webkit-scrollbar {
-  width: 0.3rem;
-}
-
-.modal-body::-webkit-scrollbar-track {
-  background: white;
-}
-
-.modal-body::-webkit-scrollbar-thumb {
-  background: #969696;
-}
 
 .input {
   background-color: rgba(212, 212, 212, 0.233);
@@ -159,7 +151,10 @@ $x: #622edb;
       font-size: 16px;
       font-weight: 600;
       margin-left: 8px;
+      margin-right: 8px;
     }
+
+   
   }
 
   .label-content {
@@ -253,11 +248,7 @@ $x: #622edb;
     transform: scale(0.95);
   }
 
-  &::after{
-  -moz-transform: scale(0.9, 0.9); /* Moz-browsers */
-  zoom: 0.9; /* Other non-webkit browsers */
-  -webkit-zoom: 90%; /* Webkit browsers */
-    }
+ 
 }
 
 .course-input {
@@ -283,6 +274,7 @@ $x: #622edb;
   padding: 16px;
   .rules-icon {
     margin-left: 16px;
+    margin-right: 16px;
   }
 }
 

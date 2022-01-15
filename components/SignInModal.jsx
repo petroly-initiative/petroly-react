@@ -399,7 +399,11 @@ export default function SignInModal(props) {
                   </div>
                   {validationError.show && (
                     <Fade duration="1000">
-                      <Alert className={styles["rules"]} variant="danger">
+                      <Alert
+                        dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                        className={styles["rules"]}
+                        variant="danger"
+                      >
                         <MdWarning
                           className={styles["rules-icon"]}
                           size="1.4rem"
@@ -606,7 +610,11 @@ export default function SignInModal(props) {
                   </div>
                   {validationError.show && (
                     <Fade duration="1000">
-                      <Alert className={styles["rules"]} variant="danger">
+                      <Alert
+                        dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                        className={styles["rules"]}
+                        variant="danger"
+                      >
                         <MdWarning
                           className={styles["rules-icon"]}
                           size="1.4rem"

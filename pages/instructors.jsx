@@ -125,9 +125,6 @@ function instructorsList() {
 
   useEffect(() => {}, [stackIndex]);
 
-  useEffect(() => {
-    console.log(currentList);
-  });
 
   // ? Mappers
   const deptMapper = () =>

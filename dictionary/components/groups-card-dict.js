@@ -1,6 +1,6 @@
 import { L } from "../../constants";
 
-// TODO: arabic translation for groups screen
+
 const arabic = {
   edu: "تعليمي",
   fun: "ترفيهي",
@@ -9,7 +9,7 @@ const arabic = {
   report: "بلاغ",
 };
 
-// TODO: english translation for groups screen
+
 const english = {
   edu: "Education",
   fun: "Entertainment",

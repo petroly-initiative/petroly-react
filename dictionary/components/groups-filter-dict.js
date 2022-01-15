@@ -6,7 +6,8 @@ typesubHeader: "نوع المجتمع",
 edu: "تعليمي",
 fun: "ترفيهي",
 section: "شعبة",
-platformSubHeader: "منصة المجتمع"
+platformSubHeader: "منصة المجتمع",
+all: "كل ما سبق"
 };
 
 const english = {
@@ -16,6 +17,7 @@ const english = {
   fun: "Entertainment",
   section: "Section",
   platformSubHeader: "Group Platform",
+  all: "All"
 };
 
 export default function translator(lang) {
