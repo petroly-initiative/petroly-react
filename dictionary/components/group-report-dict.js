@@ -1,6 +1,6 @@
 import { L } from "../../constants";
 
-// TODO: arabic translation for groups screen
+
 const arabic = {
   header: "بلاغ عن مجتمع",
   reasonSub: "سبب البلاغ",
@@ -14,7 +14,7 @@ const arabic = {
   otherErr: "الرجاء كتابة سبب البلاغ في هذه الحالة"
 };
 
-// TODO: english translation for groups screen
+
 const english = {
   header: "Report a Group",
   reasonSub: "Report Cause" ,

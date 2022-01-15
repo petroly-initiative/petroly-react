@@ -7,6 +7,7 @@ const arabic = {
   evalAllow: "قيّم المحاضر",
   evaluated: "قيمتَ المُحاضِر",
   checkingData: "نتفقد بياناتك",
+  emptyMsg: "ساعدنا في تقييم المحاضر"
 };
 
 const english = {
@@ -17,6 +18,7 @@ const english = {
   evalAllow: "Evaluate Instructor",
   evaluated: "Already Evaluated",
   checkingData: "Checking Your data",
+  emptyMsg: "Help us evaluate This instructor"
 };
 
 export default function translator(lang) {

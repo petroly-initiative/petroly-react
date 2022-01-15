@@ -1,15 +1,14 @@
 import { useEffect, useState, useContext } from "react";
 import { Modal, Button, Col, Row } from "react-bootstrap";
-import ReactStars from "react-rating-stars-component";
 import { HiOutlineUserAdd } from "react-icons/hi";
-import { BiShareAlt } from "react-icons/bi";
-import { BsStarFill, BsStar } from "react-icons/bs";
+import { FiCopy } from "react-icons/fi";
+import { BsStarFill } from "react-icons/bs";
 import styles from "../../styles/groups-page/groups-display.module.scss";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import Image from "next/image";
 import PopMsg from "../PopMsg";
 import translator from "../../dictionary/components/groups-modal-dict";
-
+import { L, M } from "../../constants";
 /**
  *
  * @param {*} props
@@ -18,29 +17,16 @@ import translator from "../../dictionary/components/groups-modal-dict";
  */
 
 export default function GroupDisplay(props) {
-  const arTitles = {
-    platform: "المنصة",
-    type: "تصنيف المجتمع",
-    description: "الوصف",
-    joinCommunity: "انضم للمجموعة",
-  };
-  const [ShowShared, setShowShared] = useState({
-    shareMsg: "",
-  });
+  
+  const [msgVisible, setMessage] = useState(false);
+
   const share = () => {
     navigator.clipboard.writeText(props.link);
-    setShowShared({
-      shareMsg: (
-        <PopMsg
-          success={true}
-          successMsg={"تم نسخ رابط القروب بنجاح."}
-          msgBody={props.link}
-        />
-      ),
-    });
+    // self closing  mechanism
+    setMessage(true);
   };
 
-  const { user, userDispatch } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
@@ -57,11 +43,20 @@ export default function GroupDisplay(props) {
     <>
       <Modal
         centered
-        style={{ direction: "rtl", overflow: "hidden" }}
+        style={{ direction: "rtl", overflow: "hidden", borderRadius: "3px" }}
         show={props.showModal}
-        onHide={props.handleClose}
+        onHide={() => {
+          props.handleClose();
+        }}
+        className={styles["modal-container"]}
       >
-        <Modal.Body className={"text-right " + styles["card-body"]}>
+        <Modal.Body
+          className={
+            "text-right " +
+            styles["card-body"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           {/* platform */}
           <Row className="align-items-center justify-content-between">
             <Col
@@ -100,9 +95,8 @@ export default function GroupDisplay(props) {
                   )}
                 </Button>
                 <Button onClick={share} className={styles["share-btn"]}>
-                  {<BiShareAlt size={"1.3rem"} />}
+                  {<FiCopy size={"1.3rem"} />}
                 </Button>
-                {ShowShared.shareMsg}
               </div>
             </Col>
             <Col xs={12} sm={6}>
@@ -126,7 +120,7 @@ export default function GroupDisplay(props) {
                 className={
                   styles.highlightText +
                   ` shadow text-${
-                    props.type === "Sections" ? "right pr-4" : "center"
+                    props.type === "SECTION" ? "right pr-4" : "center"
                   } `
                 }
                 style={{
@@ -170,18 +164,46 @@ export default function GroupDisplay(props) {
               <h2 className={styles.title + " w-100 text-center"}>
                 {langState.desc}
               </h2>
-              <p>{props.description}</p>
+              <p
+                className={` ${
+                  user.theme === M.DARK ? styles["dark-extra"] : ""
+                }`}
+              >
+                {props.description}
+              </p>
             </Col>
           </Row>
         </Modal.Body>
-        <Modal.Footer className="justify-content-center">
+        <Modal.Footer
+          className={
+            "justify-content-center" +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           {/* join button */}
-          <a href="/" className={styles["join-link"]} variant="primary">
+          <a
+            target={"_blank"}
+            href={props.link}
+            className={styles["join-link"]}
+            variant="primary"
+          >
             <span className={styles["join-txt"]}>{langState.submit}</span>
             <HiOutlineUserAdd className={styles["join-icon"]} size="1.4rem" />
           </a>
         </Modal.Footer>
       </Modal>
+      {/* popup message modal */}
+      <PopMsg
+        visible={msgVisible}
+        msg={
+          user.lang === L.AR_SA
+            ? "تم نسخ رابط القروب بنجاح"
+            : "Group Link Copied successfully"
+        }
+        handleClose={setMessage}
+        success
+        // you can use failure or none for different message types
+      />
     </>
   );
 }

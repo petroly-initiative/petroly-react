@@ -1,0 +1,70 @@
+@use "/styles/themes.module" as theme;
+
+$btn-high: #00ead3;
+$txt-fill: rgb(146, 146, 146);
+$txt-hg: #0091e7;
+$btn-prim: #00ead3;
+$fail: #db422e;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  border: 2px solid  theme.$dark-bg !important;
+
+
+}
+
+.success{
+  color: $btn-prim;
+}
+
+.fail{
+  color: $fail;
+}
+
+.popup-body{
+    font-weight: 600;
+    border-radius: 3px !important;
+    border-width: 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+}
+
+.createButton {
+  
+  font-family: inherit;
+  font-size: 30px !important;
+  width: 30px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px !important;
+  padding: 0;
+  border: unset;
+  background: unset;
+  border-radius: 23px;
+  background-color: unset !important;
+  font-weight: bold;
+  border: unset !important;
+  color: $txt-fill !important;
+  transition: 100ms ease-in;
+  box-shadow: unset !important;
+  -webkit-transition: 100ms ease-in;
+  -moz-transition: 100ms ease-in;
+  -ms-transition: 100ms ease-in;
+  -o-transition: 100ms ease-in;
+
+  &:hover, &:active {
+  background-color:unset !important;
+  border: unset solid 1px !important;
+  color: $btn-prim !important;
+}
+}
+
+

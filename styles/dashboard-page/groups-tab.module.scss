@@ -14,6 +14,12 @@ $x: #622edb;
   color: theme.$dark-fnt !important;
 }
 
+.loader{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 
 .pic-border {
   display: flex;
@@ -115,6 +121,21 @@ $x: #622edb;
     background-color: rgb(253, 97, 97);
     color: #fff
   }
+}
+
+.loading-spinner {
+  width: 30px;
+  height: 30px;
+  margin: 12px !important;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #01dac4;
+}
+
+.dark-spinner{
+  background-color: unset !important;
 }
 
 @media only screen and (max-width: 600px) {

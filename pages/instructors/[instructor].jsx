@@ -14,6 +14,7 @@ import cardStyles from "../../styles/evaluation-page/instructors-card.module.scs
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { langDirection, USER } from "../../constants";
 import { AiFillEdit } from "react-icons/ai";
+import { FaBatteryEmpty } from "react-icons/fa";
 import Evaluation from "../../components/evaluation/Evaluation";
 import InstructorRates from "../../components/Instructros/InstructorRates";
 import EvaluationModal from "../../components/evaluation/EvaluationModal";
@@ -32,6 +33,7 @@ import { Fade } from "react-awesome-reveal";
 import { useRouter } from "next/router";
 import translator from "../../dictionary/pages/instructor-details-dict"
 import { M } from "../../constants";
+import { useCallback } from "react";
 
 export const getStaticPaths = async () => {
   const { data } = await client.query({
@@ -119,20 +121,7 @@ export default function instructorDetails({ data }) {
       setVisible(true);
   };
 
-  const colors = [
-    "rgb(235, 24, 122)",
-    "rgb(9, 248, 236)",
-    "rgb(9, 248, 236)",
-    "rgb(255 125 48)",
-  ];
-
-  const randomColor = () => {
-    return (
-      colors[Math.floor(Math.random() * colors.length)] +
-      ' url("/images/background.svg")'
-    );
-  };
-  // FIXME: add a filler image for empty evals
+ 
   const evalMapper = () =>
     data.instructor.evaluationSet.data.map((evaluation) => (
       <Evaluation
@@ -153,7 +142,8 @@ export default function instructorDetails({ data }) {
 
   const evalList = evalMapper();
 
-  const gradientColor = () => {
+  const gradientColor = useCallback(() => {
+    console.log(Math.round(data.instructor.overallFloat));
     switch (Math.round(data.instructor.overallFloat)) {
       case 5:
       case 4:
@@ -162,11 +152,13 @@ export default function instructorDetails({ data }) {
       case 3:
         return `yellow,
               rgb(255, 120, 120)`;
-        break;
+      
+      case 0:
+        return "unset, unset";        
       default:
         return `rgb(204, 204, 204), rgb(163, 163, 163)`;
     }
-  };
+  }, [data.instructor.overallFloat]);
 
   return (
     <>
@@ -287,7 +279,10 @@ export default function instructorDetails({ data }) {
               <div className={styles.containerHeaders}>
                 {langState.recentEvals}
               </div>
-              <Card.Body className={styles["evals-card"]} style={{ width: "100%" }}>
+              <Card.Body
+                className={styles["evals-card"]}
+                style={{ width: "100%" }}
+              >
                 <Row
                   style={{ paddingTop: "0px !important" }}
                   className={styles.prev_list}
@@ -295,28 +290,45 @@ export default function instructorDetails({ data }) {
                   {/**
                    * The evaluations will also be a past of the response object in fetching
                    */}
-                  <Col sm={12} xs={12} md={12} lg={12} xl={6}>
-                    <Fade
-                      duration={1200}
-                      cascade
-                      damping={0.02}
-                      triggerOnce
-                      direction="up"
-                    >
-                      {evalList.filter((e, i) => i % 2 == 0)}
-                    </Fade>
-                  </Col>
-                  <Col sm={12} xs={12} md={12} lg={12} xl={6}>
-                    <Fade
-                      duration={1200}
-                      cascade
-                      damping={0.02}
-                      triggerOnce
-                      direction="up"
-                    >
-                      {evalList.filter((e, i) => i % 2 == 1)}
-                    </Fade>
-                  </Col>
+                  {evalList.length !== 0 ? (
+                    <>
+                      <Col sm={12} xs={12} md={12} lg={12} xl={6}>
+                        <Fade
+                          duration={1200}
+                          cascade
+                          damping={0.02}
+                          triggerOnce
+                          direction="up"
+                        >
+                          {evalList.filter((e, i) => i % 2 == 0)}
+                        </Fade>
+                      </Col>
+                      <Col sm={12} xs={12} md={12} lg={12} xl={6}>
+                        <Fade
+                          duration={1200}
+                          cascade
+                          damping={0.02}
+                          triggerOnce
+                          direction="up"
+                        >
+                          {evalList.filter((e, i) => i % 2 == 1)}
+                        </Fade>
+                      </Col>
+                    </>
+                  ) : (
+                    <>
+                      <div className={styles["empty-container"]}>
+                        <FaBatteryEmpty size="15vmax" />
+                        <span
+                          className={` ${
+                            user.theme === M.DARK ? styles["dark-header"] : ""
+                          }`}
+                        >
+                          {langState.emptyMsg}
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Card.Body>
             </Card>

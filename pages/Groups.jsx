@@ -1,4 +1,4 @@
-import styles from "../styles/groups-page/groups-list.module.scss";
+  import styles from "../styles/groups-page/groups-list.module.scss";
 import ClientOnly from "../components/ClientOnly";
 import {
   Container,
@@ -26,22 +26,24 @@ import GroupCreationCard from "../components/Groups/GroupCreationCard";
 import { UserContext } from "../state-management/user-state/UserContext";
 import translator from "../dictionary/pages/groups-dict";
 import { langDirection, L, M } from "../constants";
+import PopMsg from "../components/PopMsg";
 
 function Groups(state, action) {
-  const { user, userDispatch } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
+  const [msgVisible, setMsg] = useState(false);
   // search filter modal state
   const [searchTerm, setSearchTerm] = useState("");
-  const [platform, setPlatform] = useState({
-    DISCORD: true,
-    TELEGRAM: true,
-    WHATSAPP: true,
-  });
-  const [type, setType] = useState({
-    EDU: true,
-    ENTERTAINING: true,
-    SECTION: { find: false, course: "" },
-  });
+  const [platform, setPlatform] = useState("whatsapp");
+  /** 
+   * ? state inputs can be the following
+   * {
+   {type: "Educational"}
+    type: "Entertainment",
+    {type: "Section", course: "ABCDXXX"}
+  }
+   */
+  const [type, setType] = useState({type: "Educational"});
 
   const { data, loading, error, refetch } = useQuery(CommunitiesQuery, {
     notifyOnNetworkStatusChange: true,
@@ -197,6 +199,7 @@ function Groups(state, action) {
                     align="start"
                     id="dropdown-menu-align-right"
                     onClick={launchModal}
+              
                   >
                     <GoSettings size="1.5rem" />
                   </Button>
@@ -232,8 +235,20 @@ function Groups(state, action) {
       {
         <GroupCreationCard
           refetch={refetch}
+          handleMsg={setMsg}
         /> /* Show only when the user is logged in */
       }
+      <PopMsg
+        visible={msgVisible}
+        msg={
+          user.lang === L.AR_SA
+            ? "تم إنشاءالمجتمع"
+            : "Group Created successfully"
+        }
+        handleClose={setMsg}
+        success
+        // you can use failure or none for different message types
+      />
     </ClientOnly>
   );
 }

@@ -37,7 +37,7 @@ import { USER, L, M, langDirection } from "../../constants";
 import { Fade } from "react-awesome-reveal";
 import translator from "../../dictionary/components/eval-modal-dict";
 
-// TODO: Removing the local text color styling
+
 
 export default function EvaluationModal(props) {
   const { user } = useContext(UserContext);
@@ -122,7 +122,7 @@ export default function EvaluationModal(props) {
   useEffect(() => {
     setShow(props.visible);
   }, [props.visible]);
-  // FIXME: add an additional section for general comments
+
   const [
     evaluationCreate,
     {
@@ -639,6 +639,7 @@ export default function EvaluationModal(props) {
             }
           >
             <Button
+            id="create-group-btn"
               onClick={props.close}
               className={[styles["btns"], styles["cancel-btn"]]}
             >

@@ -14,7 +14,7 @@ import { AiFillFileAdd } from "react-icons/ai";
 import { MdDescription } from "react-icons/md";
 import styles from "../../styles/groups-page/group-creation.module.scss";
 import { useMutation, useQuery } from "@apollo/client";
-import CreatedGroup from "./CreatedCard";
+
 import { editCommunnityMutation } from "../../api/mutations";
 import { getCommunity } from "../../api/queries";
 import PopMsg from "../PopMsg";
@@ -37,7 +37,10 @@ export default function EditGroup(props) {
   const name = useRef();
   const [invalidCourse, validateCourse] = useState(false);
   const [waiting, setWaiting] = useState(false);
-  const { data, loading, error } = useQuery(getCommunity, {
+
+
+  // Mutations and Query state
+  const { data, loading, error, refetch } = useQuery(getCommunity, {
     variables: { id: props.id },
   });
   const [
@@ -45,6 +48,7 @@ export default function EditGroup(props) {
     { data: editData, loading: editLoading, error: editError },
   ] = useMutation(editCommunnityMutation);
 
+  // ------
   const editGroup = (e) => {
     // TODO validate the form
     e.preventDefault();
@@ -101,6 +105,7 @@ export default function EditGroup(props) {
       setPlatform(data.community.platform);
     }
   }, [data, loading]);
+  // ---------------
   // handle load and error status on mutation.
   useEffect(() => {
     if (editLoading) {

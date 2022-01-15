@@ -22,6 +22,10 @@ $txt-hg: #0091e7;
     background: theme.$dark-xxfg !important;
   }
 
+  .dark-header{
+  color: theme.$dark-fnt !important;
+}
+
   .prev_list::-webkit-scrollbar {
     width: 0.3rem;
   }
@@ -121,6 +125,21 @@ $txt-hg: #0091e7;
   border-color: white !important;
 }
 
+.empty-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255, 46, 46);
+  flex-direction: column;
+
+  span{
+    font-size: 22px;
+    color:rgb(129, 129, 129)
+  }
+}
+
 .col-container {
   margin: 16px !important;
   padding: 16px;
@@ -192,5 +211,9 @@ $txt-hg: #0091e7;
 
   .col-container {
     padding: 0px;
+  }
+
+  .empty-container span{
+    font-size: 18px;
   }
 }

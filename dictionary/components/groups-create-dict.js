@@ -1,6 +1,6 @@
 import { L } from "../../constants";
 
-// TODO: arabic translation for groups screen
+
 const arabic = {
   header: "إنشاء مجتمع",
   name: "الاسم",
@@ -21,18 +21,21 @@ const arabic = {
   desc: "الوصف",
   descPlaceHolder: "اكتب وصفاً للمجموعة",
   descHelper: "الحد الأقصى للوصف هو 500 حرف",
+  nameHelper: "الحد الأقصى هو 20 حرفا",
   link: "الرابط",
   linkPlaceholder: "ادخل رابط المجموعة",
   create: "أنشئ المجتمع",
   course: "المادة الدراسية",
   courseErr: "الرجاء استخدام صيغة ABCDXXX",
   nameErr: "الرجاء ملء خانة اسم المجموعة",
-  linkErr: "الرجاء تزويدنا برابط المجتمع المراد إضافته",
+  linkErr: "الرجاء تزويدنا برابط صالح للمجتمع المراد إضافته",
   typeErr: "الرجاء اختيار نوع المجتمع المراد إضافته",
   platformErr: "الرجاء اختيار المنصة الإلكترونية للمجتمع",
+  descErr: "الرجاء كتابة وصف للمجموعة",
+  createBlock: "الرجاء تسجيل الدخول",
 };
 
-// TODO: english translation for groups screen
+
 const english = {
   header: "Create a Group",
   name: "Name",
@@ -52,15 +55,18 @@ const english = {
   desc: "Description",
   descPlaceHolder: "Enter Group Description",
   descHelper: "Description Should not exceed 500 letters",
+  nameHelper: "Name should not exceed 20 letters",
   link: "Link",
   linkPlaceholder: "Enter the Group link",
   create: "Create Group",
   course: "Course",
   courseErr: "Please use the following format : ABCDXXX",
   nameErr: "Please fill the name field",
-  linkErr: "Please provide us with a working link",
+  linkErr: "Please provide us with a valid link",
   typeErr: "Please Select the Group Type",
-  platformErr: "Please Select the Group Platform"
+  platformErr: "Please Select the Group Platform",
+  descErr: "Please provide a description for the group",
+  createBlock: "Please Sign in",
 };
 
 export default function translator(lang) {

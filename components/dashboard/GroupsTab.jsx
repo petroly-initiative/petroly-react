@@ -115,7 +115,11 @@ export default function GroupsTab(props) {
           {/* Container for stat attributes and profile info */}
 
           <Spinner
-            className={styles["loading-spinner"] + " shadow"}
+            className={
+              styles["loading-spinner"] +
+              " shadow" +
+              ` ${user.theme === M.DARK ? styles["dark-spinner"] : ""}`
+            }
             animation="border"
             role="status"
           />
@@ -148,7 +152,7 @@ export default function GroupsTab(props) {
                 }
               >
                 <span className={styles["card-title"]}>{langState.header}</span>
-                <Button
+                {/* <Button
                   onClick={switchMode}
                   className={
                     styles["btns"] +
@@ -156,7 +160,7 @@ export default function GroupsTab(props) {
                   }
                 >
                   <FiSearch size="1.6rem" />
-                </Button>
+                </Button> */}
               </div>
             </Fade>
           )}

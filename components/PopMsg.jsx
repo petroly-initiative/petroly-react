@@ -1,83 +1,76 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Col, Row, Form, Button, InputGroup, Spinner } from "react-bootstrap";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
-import styles from "../styles/groups-page/group-creation.module.scss";
+import { IoMdCloseCircle } from "react-icons/io";
+import styles from "../styles/utilities/popup.module.scss";
+import { useContext } from "react";
+import { UserContext } from "../state-management/user-state/UserContext";
+import { M } from "../constants";
+import { useCallback } from "react";
 
-// TODO Modify this component.
+// TODO: providing a dark mode
 export default function PopMsg(props) {
-  const [successShow, setSuccessShow] = useState(props.success);
-  const [visible, setModalVisible] = useState(true); // This is gonna be useful when setting onClose prop.
+
+
+
+ // This is gonna be useful when setting onClose prop.
+
+  const {user} = useContext(UserContext);
+
+  // auto closing mechanism
+  var timer = useCallback(() => {
+    if(props.visible){
+    timer = setTimeout(() => {
+      props.handleClose(false);
+    }, 2500);
+    console.log(timer);
+  }}, [props.visible]);
+  
+  useEffect(() => {
+  timer()
+  })
 
   return (
     <>
       <Modal
-        contentClassName={styles.layout}
-        onHide={props.onClose ? props.onClose : () => setModalVisible(false)}
-        show={successShow && visible}
+        show={props.visible}
         aria-labelledby="contained-modal-title-vcenter"
+        size="lg"
+        // making sure that no 2 fades conflict
+        onHide={() => {
+          console.log("leaving!");
+          clearTimeout(timer);
+          props.handleClose(false);
+        }}
+        backdrop={false}
+        style={{ borderRadius: "10px !important" }}
       >
-        <Modal.Header>
-          <Modal.Title
-            className={styles.title}
-            id="contained-modal-title-vcenter"
-          >
-            {props.successTitle}
-            <AiOutlineUsergroupAdd color="#00ead3" className={styles.icons} />
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className={"show-grid " + styles["modal-body"]}>
+        <Modal.Body
+          className={
+            styles["popup-body"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+          style={{ borderRadius: "10px !important" }}
+        >
           <div
-            className="center-text"
-            style={{ textAlign: "center", marginBottom: "10px" }}
+            className={
+              props.success
+                ? styles["success"]
+                : props.failure
+                ? styles["fail"]
+                : ""
+            }
           >
-            {props.successMsg}
+            {props.msg}
           </div>
           <Button
             className={styles.createButton}
             type="submit"
-            onClick={
-              props.onClose ? props.onClose : () => setModalVisible(false)
-            }
+            onClick={() => props.handleClose(false)}
           >
-            Close
+            <IoMdCloseCircle />
           </Button>
         </Modal.Body>
-        <Modal.Footer className={styles.footer}></Modal.Footer>
-      </Modal>
-      <Modal
-        contentClassName={styles.layout}
-        onHide={props.onClose ? props.onClose : () => setModalVisible(false)}
-        show={!successShow && visible}
-        aria-labelledby="contained-modal-title-vcenter"
-      >
-        <Modal.Header>
-          <Modal.Title
-            className={styles.title}
-            id="contained-modal-title-vcenter"
-          >
-            {props.failTitle}
-            <AiOutlineUsergroupAdd color="#00ead3" className={styles.icons} />
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className={"show-grid " + styles["modal-body"]}>
-          <div
-            className="center-text"
-            style={{ textAlign: "center", marginBottom: "10px" }}
-          >
-            {props.failMsg}
-          </div>
-          <Button
-            className={styles.createButton}
-            type="submit"
-            onClick={
-              props.onClose ? props.onClose : () => setModalVisible(false)
-            }
-          >
-            ok
-          </Button>
-        </Modal.Body>
-        <Modal.Footer className={styles.footer}></Modal.Footer>
       </Modal>
     </>
   );

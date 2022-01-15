@@ -178,7 +178,11 @@ export default function ProfileTab(props) {
           {/* Container for stat attributes and profile info */}
 
           <Spinner
-            className={styles["loading-spinner"] + " shadow"}
+            className={
+              styles["loading-spinner"] +
+              " shadow" +
+              ` ${user.theme === M.DARK ? styles["dark-spinner"] : ""}`
+            }
             animation="border"
             role="status"
           />
@@ -394,7 +398,11 @@ export default function ProfileTab(props) {
               <div className={styles["pic-border"] + " shadow"}>
                 {WaitingPic ? (
                   <Spinner
-                    className={styles["loading-spinner"] + " shadow"}
+                    className={
+                      styles["loading-spinner"] +
+                      " shadow" +
+                      ` ${user.theme === M.DARK ? styles["dark-spinner"] : ""}`
+                    }
                     animation="border"
                     role="status"
                   />

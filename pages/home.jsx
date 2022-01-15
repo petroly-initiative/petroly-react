@@ -58,7 +58,13 @@ export default function HomeScreen() {
       </Head>
       <Navbar page="home" />
       <Container className={styles["main-container"]}>
-        <Fade className={styles["fader"]} cascade damping={0.05} triggerOnce direction="up">
+        <Fade
+          className={styles["fader"]}
+          cascade
+          damping={0.05}
+          triggerOnce
+          direction="up"
+        >
           <div
             dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
             style={langDirection(user.lang)}
@@ -157,12 +163,14 @@ export default function HomeScreen() {
                   <ServiceCard
                     title={langState.service0}
                     header="/images/home/groups.png"
+                    link="/Groups"
                   />
                 </Col>
                 <Col xl={6} lg={12} md={12} xs={12}>
                   <ServiceCard
                     title={langState.service1}
                     header="/images/home/rating.png"
+                    link="/instructors"
                   />
                 </Col>
 

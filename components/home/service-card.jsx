@@ -21,7 +21,7 @@ export default function ServiceCard(props){
   }, [user.theme])
     return (
       <>
-        <Link href="/instructors">
+        <Link href= {props.link}>
           <Card
             className={[
               styles["md-card"],
