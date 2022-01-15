@@ -5,12 +5,12 @@ import GroupsTab from "../components/dashboard/GroupsTab";
 import styles from "../styles/dashboard-page/dashboard-container.module.scss";
 import Navbar from "../components/navbar";
 import { Fade } from "react-awesome-reveal";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
-import { USER } from "../constants";
-import { useRouter } from "next/router";
-import ClientOnly from "../components/ClientOnly";
-
+import { useQuery } from "@apollo/client";
+import { meQuery } from "../api/queries";
+import { USER, L } from "../constants";
+import PopMsg from "../components/PopMsg";
 /**
  *
  * ? Dasboard page setup:
@@ -32,54 +32,52 @@ import ClientOnly from "../components/ClientOnly";
 // }
 
 export default function Dashboard(props) {
-  const { user } = useContext(UserContext);
-  const [Allow, setAllow] = useState(false);
-  const router = useRouter();
+  const {user} = useContext(UserContext);
+   const [msgVisible, setMsg] = useState(false);
 
-  useEffect(() => {
-    // prevent non logged user
-    // since any effect is loaded alwyas once
-    if (user.status !== USER.LOGGED_IN) router.push("/");
-    setTimeout(() => setAllow(true), 700);
-  }, [user.status]);
-
-  if (!Allow)
-    return (
-      <>
-        <Navbar />
-        <Spinner
-          className={styles["loading-spinner"] + " shadow"}
-          animation="border"
-          role="status"
-        />
-      </>
-    );
+  const {
+    data: dataMe,
+    loading: loadingMe,
+    error: errorMe,
+  } = useQuery(meQuery, {
+    notifyOnNetworkStatusChange: true,
+    skip: user.status !== USER.LOGGED_IN,
+  });
 
   return (
-    <ClientOnly>
-      <>
-        <Navbar />
-        <Container className={styles["main-container"]}>
-          {/* It will be responsible for the main shadow drop */}
-          {/* The title */}
-          <div className={styles["title"]}>لوحة المعلومات</div>
-          <Row className={styles["cards-holder"]}>
-            <Fade
-              triggerOnce
-              direction="up"
-              damping="0.02"
-              className={
-                styles["tab-containers"] +
-                "col col-sm-12 col-xs-12 col-md-12 col-lg-6 col-xl-6"
-              }
-            >
-              <ProfileTab />
-              <EvaluationsTab />
-              <GroupsTab />
-            </Fade>
-          </Row>
-        </Container>
-      </>
-    </ClientOnly>
+    <>
+      <Navbar />
+      <Container className={styles["main-container"]}>
+        {/* It will be responsible for the main shadow drop */}
+        {/* The title */}
+        <div className={styles["title"]}>لوحة المعلومات</div>
+        <Row className={styles["cards-holder"]}>
+          <Fade
+            triggerOnce
+            direction="up"
+            damping="0.02"
+            className={
+              styles["tab-containers"] +
+              "col col-sm-12 col-xs-12 col-md-12 col-lg-6 col-xl-6"
+            }
+          >
+            <ProfileTab />
+            <EvaluationsTab />
+            <GroupsTab handleMsg = {setMsg} />
+          </Fade>
+        </Row>
+      </Container>
+      <PopMsg
+        visible={msgVisible}
+        msg={
+          user.lang === L.AR_SA
+            ? "تم حذف المجتمع"
+            : "Group Deleted successfully"
+        }
+        handleClose={setMsg}
+        failure
+        // you can use failure or none for different message types
+      />
+    </>
   );
 }

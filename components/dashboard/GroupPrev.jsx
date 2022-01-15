@@ -11,7 +11,10 @@ import { useMutation } from "@apollo/client";
 import { deleteCommunity } from "../../api/mutations";
 import EditGroup from "../Groups/EditGroup";
 import { UserContext } from "../../state-management/user-state/UserContext";
-import { M } from "../../constants";
+import { M, L } from "../../constants";
+import PopMsg from "../PopMsg";
+import { useCallback } from "react";
+
 
 /**
  *
@@ -25,6 +28,7 @@ import { M } from "../../constants";
 export default function GroupPreview(props) {
   const [showEdit, setShowEdit] = useState(false);
   const { user } = useContext(UserContext);
+ 
 
   const typeStyler = (() => {
     let output;
@@ -49,10 +53,18 @@ export default function GroupPreview(props) {
     );
   })();
 
+ 
+
   const [
     deleteThisCommunity,
     { data: deleteData, loading: deleteLoading, error: deleteError },
   ] = useMutation(deleteCommunity);
+
+ useEffect(() => {
+    if(deleteData){
+      props.handleMsg(true);
+    }
+  }, [deleteLoading])
 
   const deleteCom = () => deleteThisCommunity({ variables: { id: props.id } }); // TODO Show a proper messeage for the user and update the group tab
 
@@ -76,6 +88,8 @@ export default function GroupPreview(props) {
       </Card>
     );
 
+    
+
   if (deleteError) {
     return (
       <div>
@@ -85,7 +99,13 @@ export default function GroupPreview(props) {
     );
   }
 
-  if (deleteData) return <></>; // Already checked that loading has finished and there are no errors.
+  if (deleteData){
+    
+
+    return (
+      <>    
+      </>
+    );}; // Already checked that loading has finished and there are no errors.
 
   return (
     <>
@@ -132,10 +152,11 @@ export default function GroupPreview(props) {
           </Button>
         </div>
       </Card>
+      
       {/* TODO. I tried to make it show whenever edit btn is clicked, but it shows only the first time. */}
       {showEdit && (
         <EditGroup refetch={props.refetch} show={true} id={props.id} />
-      ) }{" "}
+      )}{" "}
     </>
   );
 }
