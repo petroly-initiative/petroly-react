@@ -190,6 +190,9 @@ export const CommunitiesQuery = gql`
         reports {
           count
         }
+        icon {
+          url
+        }
       }
     }
   }

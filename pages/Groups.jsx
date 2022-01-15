@@ -135,6 +135,7 @@ function Groups(state, action) {
 
   const groupMapper = () =>
     data.communities.data.map((community) => {
+      const icon = community.icon;
       return (
         <GroupCard
           id={community.id}
@@ -149,7 +150,7 @@ function Groups(state, action) {
           image={
             <Image
               className={styles.picDiv}
-              src={"/images/spongy.png"} // TODO
+              src={icon ? icon.url : "/images/spongy.png"} // TODO
               width="70"
               height="70"
             />
