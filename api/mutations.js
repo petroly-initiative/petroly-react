@@ -194,6 +194,7 @@ export const createCommunnityMutation = gql`
     $category: CommunityCategoryEnum!
     $description: String!
     $section: String
+    $file: Upload
   ) {
     communityCreate(
       input: {
@@ -203,6 +204,7 @@ export const createCommunnityMutation = gql`
         category: $category
         description: $description
         section: $section
+        icon: { upload: $file }
       }
     ) {
       ok

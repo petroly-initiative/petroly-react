@@ -75,8 +75,6 @@ function GroupCreationCard(props) {
       invalidPlatform,
       invalidType
     );
-    console.log(name.current.value);
-    console.log(link.current.value);
 
     if (!(invalidName || invalidLink || invalidType || invalidPlatform)) {
       if (type === "SECTION") {
@@ -90,6 +88,7 @@ function GroupCreationCard(props) {
               category: type,
               description: description.current.value,
               section: course.current.value,
+              file: image.current.files[0],
             },
           });
         }
@@ -102,6 +101,7 @@ function GroupCreationCard(props) {
             category: type,
             description: description.current.value,
             section: "", //  this empty string is a must
+            file: image.current.files[0],
           },
         });
       }
@@ -127,11 +127,8 @@ function GroupCreationCard(props) {
   // handle load and error status.
   useEffect(() => {
     if (loading) {
-      setWaiting(true);
     } else if (data) {
-      setWaiting(false);
       setModalShow(false);
-      setWaiting(false);
       if (data.communityCreate.ok) {
         setSubmitted(true);
       } else {
@@ -503,7 +500,7 @@ function GroupCreationCard(props) {
             ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
           }
         >
-          {waiting ? (
+          {loading ? (
             <Button
               className={styles["loading-container"] + " shadow"}
               disabled
