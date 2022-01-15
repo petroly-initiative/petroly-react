@@ -23,13 +23,13 @@ export default function GroupsFilter(props) {
   const [invalidCourse, validateCourse] = useState(false);
   const course = useRef();
   const [platforms, setPlatforms] = useState({
-    DISCORD: true,
-    TELEGRAM: true,
-    WHATSAPP: true,
+    DISCORD: false,
+    TELEGRAM: false,
+    WHATSAPP: false,
   });
   const [types, setTypes] = useState({
-    EDU: true,
-    ENTERTAINING: true,
+    EDU: false,
+    ENTERTAINING: false,
     SECTION: { find: false, course: "" },
   });
 

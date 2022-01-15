@@ -33,13 +33,13 @@ function Groups(state, action) {
   const name = useRef("");
   // search filter modal state
   const [platform, setPlatform] = useState({
-    DISCORD: true,
-    TELEGRAM: true,
-    WHATSAPP: true,
+    DISCORD: false,
+    TELEGRAM: false,
+    WHATSAPP: false,
   });
   const [type, setType] = useState({
-    EDU: true,
-    ENTERTAINING: true,
+    EDU: false,
+    ENTERTAINING: false,
     SECTION: { find: false, course: "" },
   });
 
