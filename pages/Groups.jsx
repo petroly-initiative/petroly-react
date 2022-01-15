@@ -18,7 +18,7 @@ import { BiSearch } from "react-icons/bi";
 import { GoSettings } from "react-icons/go";
 import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useQuery } from "@apollo/client";
 import { CommunitiesQuery } from "../api/queries";
 import GroupsFilter from "../components/Groups/GroupsFilter";
@@ -30,16 +30,16 @@ import { langDirection, L, M } from "../constants";
 function Groups(state, action) {
   const { user, userDispatch } = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
+  const name = useRef("");
   // search filter modal state
-  const [searchTerm, setSearchTerm] = useState("");
   const [platform, setPlatform] = useState({
-    DISCORD: true,
-    TELEGRAM: true,
-    WHATSAPP: true,
+    DISCORD: false,
+    TELEGRAM: false,
+    WHATSAPP: false,
   });
   const [type, setType] = useState({
-    EDU: true,
-    ENTERTAINING: true,
+    EDU: false,
+    ENTERTAINING: false,
     SECTION: { find: false, course: "" },
   });
 
@@ -64,6 +64,19 @@ function Groups(state, action) {
     setVisible(false);
   };
 
+  const whichType = () => {
+    if (type.EDU) return "EDU";
+    if (type.ENTERTAINING) return "ENTERTAINING";
+    if (type.SECTION.find) return "SECTION";
+    return null;
+  };
+  const whichPlatform = () => {
+    if (platform.DISCORD) return "DISCORD";
+    if (platform.WHATSAPP) return "WHATSAPP";
+    if (platform.TELEGRAM) return "TELEGRAM";
+    return null;
+  };
+
   const changePlatform = (obj) => {
     setPlatform(obj);
   };
@@ -72,21 +85,16 @@ function Groups(state, action) {
     setType(obj);
   };
 
-  //  ? To handle the search event
-  // const selectDept = (e) => {
-  //   var value = e.target.id;
-  //   if (value == "null") value = null;
-  //   groupssDispatch({ changeIn: "department", department: value });
-  //   refetch(groupssState);
-  // };
-
   const search = () => {
-    const term = searchTerm.trim();
-    if (term != "") refetch({ name: term });
+    var res = refetch({
+      name: name.current.value,
+      category: whichType(),
+      platform: whichPlatform(),
+      section: type.SECTION.course,
+    });
   };
 
   const enterSearch = (event) => {
-    setSearchTerm(event.target.value);
     if (event.key === "Enter") search();
   };
 
@@ -116,8 +124,18 @@ function Groups(state, action) {
       </div>
     );
   }
+
+  if (data.communities.count === 0) {
+    return (
+      <>
+        <h1>No results</h1>
+      </>
+    );
+  }
+
   const groupMapper = () =>
     data.communities.data.map((community) => {
+      const icon = community.icon;
       return (
         <GroupCard
           id={community.id}
@@ -132,7 +150,7 @@ function Groups(state, action) {
           image={
             <Image
               className={styles.picDiv}
-              src={"/images/spongy.png"} // TODO
+              src={icon ? icon.url : "/images/share.png"} // TODO
               width="70"
               height="70"
             />
@@ -165,19 +183,20 @@ function Groups(state, action) {
               >
                 <Form.Control
                   id="name"
+                  ref={name}
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   type="text"
                   placeholder={langState.searchbar}
                   className={`${
                     user.theme === M.DARK ? styles["dark-mode-input"] : ""
                   }`}
-                  //   onChange={"changeName"}
-                  //   onKeyDown={"enterSearch"}
+                  // onChange={ref}
+                  onKeyDown={enterSearch}
                 />
                 <InputGroup.Append style={{ height: 38 }}>
                   <Button
                     type="submit"
-                    // onClick={"search"}
+                    onClick={search}
                     className={
                       styles["search_btn"] +
                       ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
@@ -229,11 +248,7 @@ function Groups(state, action) {
         </Container>
       </>
 
-      {
-        <GroupCreationCard
-          refetch={refetch}
-        /> /* Show only when the user is logged in */
-      }
+      <GroupCreationCard refetch={refetch} />
     </ClientOnly>
   );
 }

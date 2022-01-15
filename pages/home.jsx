@@ -26,7 +26,6 @@ export default function HomeScreen() {
   useEffect(() => {
     // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
-    console.log(langDirection(user.lang));
   }, [user.lang]);
 
   return (
