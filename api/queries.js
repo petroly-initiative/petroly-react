@@ -128,6 +128,9 @@ export const meEvaluationSetQuery = gql`
           }
         }
       }
+      ownedCommunities {
+        count
+      }
     }
   }
 `;

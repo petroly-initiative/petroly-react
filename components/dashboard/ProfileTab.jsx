@@ -336,7 +336,7 @@ export default function ProfileTab(props) {
                           }`
                         }
                       >
-                        #
+                        {dataMe.me.ownedCommunities.count}
                       </div>
                     </Card>
                   </Col>
