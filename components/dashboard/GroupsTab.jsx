@@ -58,6 +58,7 @@ export default function GroupsTab(props) {
           id={community.id}
           name={community.name}
           platform={community.platform}
+          handleMsg={props.handleMsg}
         />
       );
     });
@@ -73,10 +74,20 @@ export default function GroupsTab(props) {
 
   if (loading) {
     return (
-      <Card className={styles["card-containers"] + " shadow"}>
-        <Card.Header className={styles["header-containers"]}>
+      <Card
+        className={
+          styles["card-containers"] +
+          " shadow" +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
+      >
+        <Card.Header
+          className={
+            styles["header-containers"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           <div className={styles["card-headers"]}>
-            <span className={styles["card-title"]}>حسابي الشخصي</span>
             {/* Edit btn / cancel editing button / Saving button */}
             {mode === "view" && (
               <Fade duration="1200">

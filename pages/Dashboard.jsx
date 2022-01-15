@@ -5,11 +5,12 @@ import GroupsTab from "../components/dashboard/GroupsTab";
 import styles from "../styles/dashboard-page/dashboard-container.module.scss";
 import Navbar from "../components/navbar";
 import { Fade } from "react-awesome-reveal";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { useQuery } from "@apollo/client";
 import { meQuery } from "../api/queries";
-import { USER } from "../constants";
+import { USER, L } from "../constants";
+import PopMsg from "../components/PopMsg";
 /**
  *
  * ? Dasboard page setup:
@@ -31,7 +32,8 @@ import { USER } from "../constants";
 // }
 
 export default function Dashboard(props) {
-  const userContext = useContext(UserContext);
+  const {user} = useContext(UserContext);
+   const [msgVisible, setMsg] = useState(false);
 
   const {
     data: dataMe,
@@ -39,7 +41,7 @@ export default function Dashboard(props) {
     error: errorMe,
   } = useQuery(meQuery, {
     notifyOnNetworkStatusChange: true,
-    skip: userContext.user.status !== USER.LOGGED_IN,
+    skip: user.status !== USER.LOGGED_IN,
   });
 
   return (
@@ -61,10 +63,21 @@ export default function Dashboard(props) {
           >
             <ProfileTab />
             <EvaluationsTab />
-            <GroupsTab />
+            <GroupsTab handleMsg = {setMsg} />
           </Fade>
         </Row>
       </Container>
+      <PopMsg
+        visible={msgVisible}
+        msg={
+          user.lang === L.AR_SA
+            ? "تم حذف المجتمع"
+            : "Group Deleted successfully"
+        }
+        handleClose={setMsg}
+        failure
+        // you can use failure or none for different message types
+      />
     </>
   );
 }
