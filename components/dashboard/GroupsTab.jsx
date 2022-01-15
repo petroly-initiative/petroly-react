@@ -17,7 +17,7 @@ import { myCommunities } from "../../api/queries";
 import { useQuery } from "@apollo/client";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-tab-dict";
-import { M } from "../../constants";
+import { M, USER } from "../../constants";
 
 /**
  * ? Groups tab setup
@@ -28,14 +28,16 @@ import { M } from "../../constants";
  */
 
 export default function GroupsTab(props) {
+  const [mode, setMode] = useState("view-all");
+  const { user } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
+
   const { data, loading, error, refetch } = useQuery(myCommunities, {
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-first",
+    skip: user.status !== USER.LOGGED_IN,
   });
-  const [mode, setMode] = useState("view-all");
-  const { user } = useContext(UserContext);
-  const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
     // console.log(userContext.user.lang);
@@ -61,15 +63,6 @@ export default function GroupsTab(props) {
         />
       );
     });
-
-  if (error) {
-    return (
-      <div>
-        <h1>{error.name}</h1>
-        <p>{error.message}</p>
-      </div>
-    );
-  }
 
   if (loading) {
     return (
@@ -126,6 +119,19 @@ export default function GroupsTab(props) {
         </Card.Body>
       </Card>
     );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <h1>{error.name}</h1>
+        <p>{error.message}</p>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return null;
   }
 
   return (

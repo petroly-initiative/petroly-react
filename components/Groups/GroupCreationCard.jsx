@@ -77,8 +77,10 @@ function GroupCreationCard(props) {
     validatePlatform(platform.length === 0);
     if (course.current.value.length !== 0 && type === "SECTION") {
       validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(course.current.value));
+
     } else validateCourse(false);
     setSubmit(true);
+
   };
 
   const selectPlatform = (e) => {
@@ -141,6 +143,7 @@ function GroupCreationCard(props) {
   useEffect(() => {
     if (data) {
       console.log(JSON.stringify(data.communityCreate));
+
       if (data.communityCreate.ok) {
         setModalShow(false);
         props.refetch();
@@ -628,7 +631,9 @@ function GroupCreationCard(props) {
           }
         >
           {loading ? (
+
             <Button className={styles["createButton"] + " shadow"} disabled>
+
               <Spinner
                 className={styles["loading-spinner"]}
                 as="div"
@@ -650,6 +655,7 @@ function GroupCreationCard(props) {
           )}
         </Modal.Footer>
       </Modal>
+
       {user.status !== USER.LOGGED_IN ? (
         <OverlayTrigger
           trigger={"hover"}
@@ -670,6 +676,7 @@ function GroupCreationCard(props) {
           </Button>
         </OverlayTrigger>
       ) : (
+
         <Button
           className={styles.modalButton}
           onClick={() => setModalShow(true)}
@@ -677,6 +684,7 @@ function GroupCreationCard(props) {
         >
           <AiFillFileAdd size={32} />
         </Button>
+
       )}
     </div>
   );
