@@ -1,4 +1,4 @@
-  import styles from "../styles/groups-page/groups-list.module.scss";
+import styles from "../styles/groups-page/groups-list.module.scss";
 import ClientOnly from "../components/ClientOnly";
 import {
   Container,
@@ -34,8 +34,9 @@ function Groups(state, action) {
 
   const [msgVisible, setMsg] = useState(false);
   // search filter modal state
-  const [searchTerm, setSearchTerm] = useState("");
-  const [platform, setPlatform] = useState("WHATSAPP");
+  const [platform, setPlatform] = useState("ALL");
+  const [type, setType] = useState({ type: "ALL" });
+  const name = useRef("");
   /** 
    * ? state inputs can be the following
    * {
@@ -44,8 +45,6 @@ function Groups(state, action) {
     {type: "Section", course: "ABCDXXX"}
   }
    */
-  const [type, setType] = useState({type: "EDU"});
-
 
   const { data, loading, error, refetch } = useQuery(CommunitiesQuery, {
     notifyOnNetworkStatusChange: true,
@@ -68,19 +67,6 @@ function Groups(state, action) {
     setVisible(false);
   };
 
-  const whichType = () => {
-    if (type.EDU) return "EDU";
-    if (type.ENTERTAINING) return "ENTERTAINING";
-    if (type.SECTION.find) return "SECTION";
-    return null;
-  };
-  const whichPlatform = () => {
-    if (platform.DISCORD) return "DISCORD";
-    if (platform.WHATSAPP) return "WHATSAPP";
-    if (platform.TELEGRAM) return "TELEGRAM";
-    return null;
-  };
-
   const changePlatform = (obj) => {
     setPlatform(obj);
   };
@@ -90,11 +76,11 @@ function Groups(state, action) {
   };
 
   const search = () => {
-    var res = refetch({
+    refetch({
       name: name.current.value,
-      category: whichType(),
-      platform: whichPlatform(),
-      section: type.SECTION.course,
+      category: type.type === "ALL" ? null : type.type,
+      platform: platform === "ALL" ? null : platform,
+      section: type.course,
     });
   };
 
@@ -220,7 +206,6 @@ function Groups(state, action) {
                     align="start"
                     id="dropdown-menu-align-right"
                     onClick={launchModal}
-              
                   >
                     <GoSettings size="1.5rem" />
                   </Button>
@@ -253,7 +238,6 @@ function Groups(state, action) {
         </Container>
       </>
 
-
       {
         <GroupCreationCard
           refetch={refetch}
@@ -271,7 +255,6 @@ function Groups(state, action) {
         success
         // you can use failure or none for different message types
       />
-
     </ClientOnly>
   );
 }
