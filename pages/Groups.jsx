@@ -150,7 +150,7 @@ function Groups(state, action) {
           image={
             <Image
               className={styles.picDiv}
-              src={icon ? icon.url : "/images/spongy.png"} // TODO
+              src={icon ? icon.url : "/images/share.png"} // TODO
               width="70"
               height="70"
             />
