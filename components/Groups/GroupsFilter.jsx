@@ -108,9 +108,12 @@ export default function GroupsFilter(props) {
             styles["modal-header"] +
             ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
           }
+          closeButton
         >
-          <GoSettings />
-          <span>{langState.modalHeader}</span>
+          <span>
+            <GoSettings />
+            <span dir="ltr">{langState.modalHeader}</span>
+          </span>
         </Modal.Header>
         <Modal.Body
           className={

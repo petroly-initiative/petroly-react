@@ -50,6 +50,7 @@ export default function GroupDisplay(props) {
         }}
         className={styles["modal-container"]}
       >
+        <Modal.Header closeButton></Modal.Header>
         <Modal.Body
           className={
             "text-right " +

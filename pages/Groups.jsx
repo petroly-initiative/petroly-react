@@ -16,6 +16,7 @@ import Head from "next/head";
 import Navbar from "../components/navbar";
 import { BiSearch } from "react-icons/bi";
 import { GoSettings } from "react-icons/go";
+import { AiFillFileAdd } from "react-icons/ai";
 import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
 import { useEffect, useState, useContext, useRef } from "react";
@@ -25,14 +26,14 @@ import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
 import { UserContext } from "../state-management/user-state/UserContext";
 import translator from "../dictionary/pages/groups-dict";
-import { langDirection, L, M } from "../constants";
+import { langDirection, L, M, USER } from "../constants";
 import PopMsg from "../components/PopMsg";
 
 function Groups(state, action) {
   const { user } = useContext(UserContext);
-  const [modalVisible, setVisible] = useState(false);
- const name = useRef("");
+  const [filterVisible, setVisible] = useState(false);
   const [msgVisible, setMsg] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   // search filter modal state
   const [platform, setPlatform] = useState("ALL");
   const [type, setType] = useState({ type: "ALL" });
@@ -193,17 +194,43 @@ function Groups(state, action) {
               close={closeModal}
               changePlatform={changePlatform}
               changeType={changeType}
-              visible={modalVisible}
+              visible={filterVisible}
               type={type}
               platform={platform}
             />
           </Container>
+          {user.status !== USER.LOGGED_IN ? (
+            <OverlayTrigger
+              trigger={"hover"}
+              placement="top"
+              delay={{ show: 100, hide: 300 }}
+              overlay={<Tooltip>{langState.createBlock}</Tooltip>}
+            >
+              <Button
+                className={styles.modalButton}
+                onClick={() => setModalVisible(true)}
+                disabled
+              >
+                <AiFillFileAdd size={32} />
+              </Button>
+            </OverlayTrigger>
+          ) : (
+            <Button
+              className={styles.modalButton}
+              onClick={() => setModalVisible(true)}
+            >
+              <AiFillFileAdd size={32} />
+            </Button>
+          )}
         </>
 
         {
           <GroupCreationCard
+            visible={modalVisible}
+            handleClose={setModalVisible}
             refetch={refetch}
             handleMsg={setMsg}
+            create
           /> /* Show only when the user is logged in */
         }
         <PopMsg
@@ -330,7 +357,7 @@ function Groups(state, action) {
             close={closeModal}
             changePlatform={changePlatform}
             changeType={changeType}
-            visible={modalVisible}
+            visible={filterVisible}
             type={type}
             platform={platform}
           />
@@ -339,8 +366,11 @@ function Groups(state, action) {
 
       {
         <GroupCreationCard
+          visible={modalVisible}
+          handleClose={setModalVisible}
           refetch={refetch}
           handleMsg={setMsg}
+          create
         /> /* Show only when the user is logged in */
       }
       <PopMsg
@@ -354,6 +384,29 @@ function Groups(state, action) {
         success
         // you can use failure or none for different message types
       />
+      {user.status !== USER.LOGGED_IN ? (
+        <OverlayTrigger
+          trigger={"hover"}
+          placement="top"
+          delay={{ show: 100, hide: 300 }}
+          overlay={<Tooltip>{langState.createBlock}</Tooltip>}
+        >
+          <Button
+            className={styles.modalButton}
+            onClick={() => setModalVisible(true)}
+            disabled
+          >
+            <AiFillFileAdd size={32} />
+          </Button>
+        </OverlayTrigger>
+      ) : (
+        <Button
+          className={styles.modalButton}
+          onClick={() => setModalVisible(true)}
+        >
+          <AiFillFileAdd size={32} />
+        </Button>
+      )}
     </ClientOnly>
   );
 }

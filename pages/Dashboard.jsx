@@ -71,11 +71,11 @@ export default function Dashboard(props) {
         visible={msgVisible}
         msg={
           user.lang === L.AR_SA
-            ? "تم حذف المجتمع"
-            : "Group Deleted successfully"
+            ? "تم حفظ التغييرات بنجاح"
+            : "Changes Updated successfully successfully"
         }
         handleClose={setMsg}
-        failure
+        success
         // you can use failure or none for different message types
       />
     </>

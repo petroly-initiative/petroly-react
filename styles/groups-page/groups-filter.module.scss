@@ -43,11 +43,16 @@ $x: #622edb;
   font-weight: 600;
   text-align: right;
    color: $txt-hg;
-   justify-content: flex-start;
-   align-items: center;
+   justify-content: space-between;
+   align-items: space-between;
 
    span{
      margin-right: 8px;
+   }
+
+   button{
+     margin-right: auto !important;
+     margin-left: 0 !important;
    }
 }
 

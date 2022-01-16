@@ -21,7 +21,7 @@ const arabic = {
   desc: "الوصف",
   descPlaceHolder: "اكتب وصفاً للمجموعة",
   descHelper: "الحد الأقصى للوصف هو 500 حرف",
-  nameHelper: "الحد الأقصى هو 20 حرفا",
+  nameHelper: "الحد الأقصى هو 100 حرفا",
   link: "الرابط",
   linkPlaceholder: "ادخل رابط المجموعة",
   create: "أنشئ المجتمع",
@@ -32,8 +32,7 @@ const arabic = {
   typeErr: "الرجاء اختيار نوع المجتمع المراد إضافته",
   platformErr: "الرجاء اختيار المنصة الإلكترونية للمجتمع",
   descErr: "الرجاء كتابة وصف للمجموعة",
-  createBlock: "الرجاء تسجيل الدخول",
-};
+  };
 
 
 const english = {
@@ -55,7 +54,7 @@ const english = {
   desc: "Description",
   descPlaceHolder: "Enter Group Description",
   descHelper: "Description Should not exceed 500 letters",
-  nameHelper: "Name should not exceed 20 letters",
+  nameHelper: "Name should not exceed 100 letters",
   link: "Link",
   linkPlaceholder: "Enter the Group link",
   create: "Create Group",
@@ -66,7 +65,7 @@ const english = {
   typeErr: "Please Select the Group Type",
   platformErr: "Please Select the Group Platform",
   descErr: "Please provide a description for the group",
-  createBlock: "Please Sign in",
+ 
 };
 
 export default function translator(lang) {
