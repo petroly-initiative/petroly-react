@@ -142,6 +142,9 @@ export const myCommunities = gql`
           id
           name
           platform
+          icon {
+            url
+          }
         }
       }
     }
@@ -157,6 +160,9 @@ export const getCommunity = gql`
       description
       section
       link
+      icon {
+        url
+      }
     }
   }
 `; // TODO update this query to match the new model.
