@@ -25,7 +25,7 @@ export default function ClientMutator({ children }) {
   /* The default client with no authorization */
 
   const authLink = new ApolloLink((operation, forward) => {
-    console.log(operation);
+    // console.log(operation);
     var lang = localStorage.getItem("lang") || DEF_LANG;
     operation.setContext({
       headers: { Authorization: "JWT " + token, "Accept-Language": lang },
@@ -33,7 +33,7 @@ export default function ClientMutator({ children }) {
 
     return forward(operation).map((data) => {
       // ...modify result as desired here...
-      console.log(data);
+      // console.log(data);
       return data;
     });
   });

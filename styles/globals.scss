@@ -10,11 +10,12 @@ html,
 body {
   padding: 0;
   min-width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   position: absolute;
   font-family: "Cairo", sans-serif !important;
   background: rgb(250, 250, 250) ;
   overflow-x: hidden;
+  overflow-y: scroll;
   touch-action: pan-y pan-x;
   transition: 300ms ease;
 }

@@ -1,5 +1,6 @@
 .card {
   height: 200px;
+  max-height: 200px;
   padding: 16px;
   margin: 8px;
   width: 100%;
@@ -11,11 +12,12 @@
   font-size: 24px;
   border-radius: 4px !important;
   transition: 300ms ease;
-  overflow: hidden;
+  overflow: hidden !important;
   cursor: pointer;
-  &:hover,
-  &:focus,
-  &:active {
+}
+
+.active-card{
+  
     transform: scale(1.05);
     .card-title {
       filter: blur(1.5px) opacity(0);
@@ -24,7 +26,7 @@
     .card-link {
       filter: opacity(1);
     }
-  }
+  
 }
 
 .card-title {
@@ -72,6 +74,7 @@
 
 .large-card {
   height: 416px;
+  max-height: 416px;
 
   .card-content {
     padding: 42px;

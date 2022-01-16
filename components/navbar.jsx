@@ -40,7 +40,7 @@ const SignInModal = dynamic(() => import("./SignInModal"));
 export default function Navbar(props) {
   const { user, userDispatch } = useContext((() => UserContext)());
   const [sideVisible, setVisible] = useState(false);
-  const [sideBarStyle, setStyle] = useState({ left: "100vw" });
+  const [sideBarStyle, setStyle] = useState({ left: "100vw", display: "flex" });
   const [overlayStyle, setOverlay] = useState({ display: "none" });
   const [showSignIn, setShowSignIn] = useState(false);
   const [SaveMsg, setSaveMsg] = useState("");
@@ -148,7 +148,7 @@ export default function Navbar(props) {
     setStyle(() => {
       if (sideVisible) {
         return { left: "calc(100vw - 5rem)" };
-      } else return { left: "100vw" };
+      } else return { left: "100vw"};
     });
     setOverlay(() => {
       if (sideVisible) {

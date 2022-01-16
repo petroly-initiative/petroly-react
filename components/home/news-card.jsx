@@ -13,10 +13,8 @@ export default function NewsCard(props) {
 
   const { user } = useContext(UserContext);
   const [direction, setDirection] = useState(() => langDirection(user.lang))
+  const [clicked, setClicked] = useState(false);
 
-  useEffect(() => {
-    document.getElementById(props.title).setAttribute("tabindex", 0);
-  }, []);
 
   useEffect(() => {
     setDirection(() => langDirection(user.lang))
@@ -38,7 +36,8 @@ export default function NewsCard(props) {
         className={
           styles["card"] +
           " shadow border-0 " +
-          ` ${props.size == "lg" ? styles["large-card"] : ""}`
+          ` ${props.size == "lg" ? styles["large-card"] : ""}` + 
+          ` ${clicked ? styles["active-card"] : ""}`
         }
         style={Object.assign(
           {
@@ -47,7 +46,9 @@ export default function NewsCard(props) {
             backgroundBlendMode: "multiply",
           },
           direction
-        )}
+        )
+      }
+      onClick={() => {setClicked(prev => !prev)}}
       >
         <Image alt="news card" src={props.header} layout="fill" />
         <div
@@ -59,7 +60,7 @@ export default function NewsCard(props) {
         <div  className={styles["card-content"] + " card-content"}>
           <div style={Object.assign({ height: "70%" })}>{props.content} </div>
         </div>
-        {props.linked && (
+        {(props.linked && clicked) && (
           <Link className="mt-2" href={props.link}>
             <span className={styles["card-link"]}>
               <FaArrowAltCircleRight className="m-1" />
@@ -73,3 +74,4 @@ export default function NewsCard(props) {
     </>
   );
 }
+ 

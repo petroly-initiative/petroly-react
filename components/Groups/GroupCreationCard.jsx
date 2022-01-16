@@ -20,10 +20,14 @@ import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { FaIdCard, FaListUl } from "react-icons/fa";
 import { FiLink } from "react-icons/fi";
 import { BiCube } from "react-icons/bi";
-import { AiFillFileAdd } from "react-icons/ai";
+
 import { MdDescription } from "react-icons/md";
 import styles from "../../styles/groups-page/group-creation.module.scss";
-import { createCommunnityMutation } from "../../api/mutations";
+import {
+  createCommunnityMutation,
+  editCommunnityMutation,
+} from "../../api/mutations";
+import { getCommunity } from "../../api/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-create-dict";
@@ -31,7 +35,6 @@ import { langDirection, L, M, USER } from "../../constants";
 
 function GroupCreationCard(props) {
   // UI control state
-  const [modalShow, setModalShow] = useState(false);
 
   const [type, setType] = useState("");
   const [platform, setPlatform] = useState("");
@@ -41,14 +44,52 @@ function GroupCreationCard(props) {
   const link = useRef();
   const name = useRef();
   const [invalidCourse, validateCourse] = useState(false);
+  // using a variable instead of state as we only change it once
+  const [defaultData, setDefaults] = useState({
+    name: "",
+    course: "",
+    description: "",
+    link: "",
+  });
 
-  // TODO: another mutation for editing
-  // Mutations & Queries State
-  const [createCommunnity, { data, loading, error }] = useMutation(
-    createCommunnityMutation
-  );
+  // ? API State Hooks
+  // New Community Creation Mutation
+  const [
+    createCommunnity,
+    { data: createData, loading: createLoading, error: createError },
+  ] = useMutation(createCommunnityMutation);
+  // Fetching existing communities query
+  const {
+    data: existingData,
+    loading: existingLoading,
+    error, refetch: refetchExisting
+  } = useQuery(getCommunity, {
+    variables: { id: props.id },
+    skip: props.create,
+  }); // skipping the query when at create mode
+  // Editing Existing Community Mutation
+  const [
+    editCommunnity,
+    { data: editData, loading: editLoading, error: editError },
+  ] = useMutation(editCommunnityMutation);
+  // handling existing community data loading
+  useEffect(() => {
+    if (existingData) {
+      console.log(existingData);
+      setType(existingData.community.category);
+      setPlatform(existingData.community.platform);
+      setDefaults({
+        name: existingData.community.name,
+        course: existingData.community.section,
+        description: existingData.community.description,
+        link: existingData.community.link,
+      });
+    }
+  }, [existingData]);
+
+  // handling modal output
+
   // -------
-  // TODO: pass in initial values according to the mode
   // validation state
   const [invalidName, validateName] = useState(false);
   const [invalidLink, validateLink] = useState(false);
@@ -62,13 +103,12 @@ function GroupCreationCard(props) {
   useEffect(() => {
     // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
-    console.log("changed language!");
+    // console.log("changed language!");
   }, [user.lang]);
 
-  const createGroup = (e) => {
-    console.log("1");
+  const submitGroup = (e) => {
     e.preventDefault();
-    validateName(name.current.value.length === 0 || name.current.length > 20);
+    validateName(name.current.value.length === 0 || name.current.length > 100);
     validateLink(link.current.value.length === 0);
     validateType(type.length === 0);
     validateDesc(
@@ -95,6 +135,67 @@ function GroupCreationCard(props) {
       }
     }
   };
+  // submission controllers
+  const createGroup = () => {
+    // TODO: create separate functions and call from this point
+    if (type === "SECTION") {
+      if (!invalidCourse) {
+        //TODO: check for duplicate naming in the DB, then submit in the DB
+        createCommunnity({
+          variables: {
+            name: name.current.value,
+            link: link.current.value,
+            platform: platform,
+            category: type,
+            description: description.current.value,
+            section: course.current.value,
+            file: image.current.files[0],
+          },
+        });
+      }
+    } else {
+      createCommunnity({
+        variables: {
+          name: name.current.value,
+          link: link.current.value,
+          platform: platform,
+          category: type,
+          description: description.current.value,
+          section: "", //  this empty string is a must
+          file: image.current.files[0],
+        },
+      });
+    }
+  };
+
+  const editGroup = () => {
+    if (type == "SECTION")
+      editCommunnity({
+        variables: {
+          id: props.id,
+          name: name.current.value,
+          link: link.current.value,
+          platform: platform,
+          category: type,
+          description: description.current.value,
+          section: course.current.value,
+          file: image.current.files[0],
+        },
+      });
+    else
+      editCommunnity({
+        variables: {
+          id: props.id,
+          name: name.current.value,
+          link: link.current.value,
+          platform: platform,
+          category: type,
+          description: description.current.value,
+          section: course.current.value, //  this empty string is a must
+          file: image.current.files[0],
+        },
+      });
+  };
 
   // TODO: edit for tags
   useEffect(() => {
@@ -108,45 +209,19 @@ function GroupCreationCard(props) {
           invalidDesc
         )
       ) {
-        if (type === "SECTION") {
-          if (!invalidCourse) {
-            //TODO: check for duplicate naming in the DB, then submit in the DB
-            createCommunnity({
-              variables: {
-                name: name.current.value,
-                link: link.current.value,
-                platform: platform,
-                category: type,
-                description: description.current.value,
-                section: course.current.value,
-                file: image.current.files[0],
-              },
-            });
-          }
-        } else {
-          createCommunnity({
-            variables: {
-              name: name.current.value,
-              link: link.current.value,
-              platform: platform,
-              category: type,
-              description: description.current.value,
-              section: "", //  this empty string is a must
-              file: image.current.files[0],
-            },
-          });
-        }
+        if (props.create) createGroup();
+        else if (props.edit) editGroup();
+        else throw new Error("No valid Operation prop was passed");
       } else setSubmit(false);
     }
   }, [submit]);
 
-  // handle load and error status.
+  // Enexpected error handling and logging for both creation and editing
   useEffect(() => {
-    if (data) {
-      console.log(JSON.stringify(data.communityCreate));
-
-      if (data.communityCreate.ok) {
-        setModalShow(false);
+    if (createData) {
+      console.log(JSON.stringify(createData.communityCreate));
+      if (createData.communityCreate.ok) {
+        props.handleClose(false);
         props.refetch();
         props.handleMsg(true);
       } else {
@@ -155,14 +230,35 @@ function GroupCreationCard(props) {
 
         // TODO: handle link error msg
         // or ignore if there are enough validation, i.e., regex
-        console.log(JSON.stringify(data.communityCreate));
+        
         setSubmit(false); // to use it for later
       }
     }
-  }, [data, loading]);
+  }, [createData, createLoading]);
+
+  useEffect(() => {
+    if (editData) {
+       console.log(JSON.stringify(editData.communityUpdate));
+      if (editData.communityUpdate.ok) {
+        props.handleClose(false);
+        props.refetch();
+        refetchExisting();
+        props.handleMsg(true);
+      } else {
+        // this error belongs to API itself, user does not care about it
+        validateLink(true);
+
+        // TODO: handle link error msg
+        // or ignore if there are enough validation, i.e., regex
+        setSubmit(false); // to use it for later
+      }
+    }
+  }, [editData, editLoading]);
+
+  if (existingLoading) return null;
 
   return (
-    <div>
+    <>
       <style jsx>
         {`
         .label, .title{
@@ -188,8 +284,9 @@ function GroupCreationCard(props) {
         contentClassName={
           styles.layout + ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
         }
-        onHide={() => setModalShow(false)}
-        show={modalShow}
+        // controlling visibility from outer button for flexibility
+        onHide={() => props.handleClose(false)}
+        show={props.visible}
         aria-labelledby="contained-modal-title-vcenter"
         style={langDirection(user.lang)}
         dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
@@ -222,7 +319,7 @@ function GroupCreationCard(props) {
         >
           <Form
             style={langDirection(user.lang)}
-            onSubmit={createGroup}
+            onSubmit={submitGroup}
             className={styles.formStyle}
             noValidate
             dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
@@ -240,6 +337,7 @@ function GroupCreationCard(props) {
               </Form.Label>
               <Col>
                 <Form.Control
+                  defaultValue={defaultData.name}
                   isInvalid={invalidName}
                   ref={name}
                   required
@@ -313,6 +411,7 @@ function GroupCreationCard(props) {
                     </Alert>
                   )}
                   <Form.Check
+                    defaultChecked={type === "EDU"}
                     dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                     className={styles.radio}
                     type={"radio"}
@@ -346,6 +445,7 @@ function GroupCreationCard(props) {
                   />
                   <Form.Check
                     className={styles.radio}
+                    defaultChecked={type === "ENTERTAINING"}
                     dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                     style={langDirection(user.lang)}
                     type={"radio"}
@@ -378,6 +478,7 @@ function GroupCreationCard(props) {
                     name="platform"
                   />
                   <Form.Check
+                    defaultChecked={type === "SECTION"}
                     dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                     className={styles.radio + " " + styles["course-container"]}
                     type={"radio"}
@@ -420,6 +521,7 @@ function GroupCreationCard(props) {
                           }}
                         >
                           <Form.Control
+                            defaultValue={defaultData.course}
                             isInvalid={invalidCourse}
                             ref={course}
                             className={
@@ -488,6 +590,7 @@ function GroupCreationCard(props) {
                     </Alert>
                   )}
                   <Form.Check
+                    defaultChecked={platform === "WHATSAPP"}
                     className={styles.radio}
                     type={"radio"}
                     value="WHATSAPP"
@@ -508,6 +611,7 @@ function GroupCreationCard(props) {
                     name="type"
                   />
                   <Form.Check
+                    defaultChecked={platform === "TELEGRAM"}
                     className={styles.radio}
                     type={"radio"}
                     value="TELEGRAM"
@@ -528,6 +632,7 @@ function GroupCreationCard(props) {
                     name="type"
                   />
                   <Form.Check
+                    defaultChecked={platform === "DISCORD"}
                     className={styles.radio}
                     type={"radio"}
                     value="DISCORD"
@@ -559,6 +664,7 @@ function GroupCreationCard(props) {
               {/* <FloatingLabel label="Comments"> */}
               <Col>
                 <Form.Control
+                  defaultValue={defaultData.description}
                   ref={description}
                   required
                   className={
@@ -602,6 +708,7 @@ function GroupCreationCard(props) {
               </Form.Label>
               <Col>
                 <Form.Control
+                  defaultValue={defaultData.link}
                   isInvalid={invalidLink}
                   required
                   ref={link}
@@ -631,8 +738,8 @@ function GroupCreationCard(props) {
             ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
           }
         >
-          {loading ? (
-            <Button className={styles["createButton"] + " shadow"} disabled>
+          {createLoading || editLoading ? (
+            <Button className={styles["createButton"] + " shadow "+ styles["loadingButton"] } disabled>
               <Spinner
                 className={styles["loading-spinner"]}
                 as="div"
@@ -646,40 +753,14 @@ function GroupCreationCard(props) {
             <Button
               className={styles.createButton}
               type="submit"
-              // onClick={() => setModalShow(false)}
-              onClick={createGroup}
+              onClick={submitGroup}
             >
               {langState.create}{" "}
             </Button>
           )}
         </Modal.Footer>
       </Modal>
-
-      {user.status !== USER.LOGGED_IN ? (
-        <OverlayTrigger
-          trigger={"hover"}
-          placement="top"
-          delay={{ show: 100, hide: 300 }}
-          overlay={<Tooltip>{langState.createBlock}</Tooltip>}
-        >
-          <Button
-            className={styles.modalButton}
-            onClick={() => setModalShow(true)}
-            disabled={user.status !== USER.LOGGED_IN}
-          >
-            <AiFillFileAdd size={32} />
-          </Button>
-        </OverlayTrigger>
-      ) : (
-        <Button
-          className={styles.modalButton}
-          onClick={() => setModalShow(true)}
-          disabled={user.status !== USER.LOGGED_IN}
-        >
-          <AiFillFileAdd size={32} />
-        </Button>
-      )}
-    </div>
+    </>
   );
 }
 

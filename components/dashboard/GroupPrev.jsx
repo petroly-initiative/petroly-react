@@ -14,7 +14,7 @@ import { UserContext } from "../../state-management/user-state/UserContext";
 import { M, L } from "../../constants";
 import PopMsg from "../PopMsg";
 import { useCallback } from "react";
-
+import GroupCreationCard from "../Groups/GroupCreationCard";
 
 /**
  *
@@ -28,7 +28,7 @@ import { useCallback } from "react";
 export default function GroupPreview(props) {
   const [showEdit, setShowEdit] = useState(false);
   const { user } = useContext(UserContext);
- 
+  const [modalVisible, setModalVisible] = useState(false);
 
   const typeStyler = (() => {
     let output;
@@ -53,18 +53,23 @@ export default function GroupPreview(props) {
     );
   })();
 
- 
-
   const [
     deleteThisCommunity,
     { data: deleteData, loading: deleteLoading, error: deleteError },
   ] = useMutation(deleteCommunity);
 
- useEffect(() => {
-    if(deleteData){
-      props.handleMsg(true);
+  useEffect(() => {
+    if (deleteData) {
+      props.handleMsg(Object.assign({
+        visisble: true,
+        msg: `${
+          user.lang === L.AR_SA
+            ? "تم  حذف المجتمع"
+            : "Group deleted Successfully"
+        }`,
+      }));
     }
-  }, [deleteLoading])
+  }, [deleteLoading]);
 
   const deleteCom = () => deleteThisCommunity({ variables: { id: props.id } }); // TODO Show a proper messeage for the user and update the group tab
 
@@ -72,7 +77,9 @@ export default function GroupPreview(props) {
     return (
       <Card
         className={
-          styles["card-body"] + " " + styles["loader"] + 
+          styles["card-body"] +
+          " " +
+          styles["loader"] +
           ` ${user.theme === M.DARK ? styles["dark-card"] : ""}`
         }
       >
@@ -88,8 +95,6 @@ export default function GroupPreview(props) {
       </Card>
     );
 
-    
-
   if (deleteError) {
     return (
       <div>
@@ -99,13 +104,9 @@ export default function GroupPreview(props) {
     );
   }
 
-  if (deleteData){
-    
-
-    return (
-      <>    
-      </>
-    );}; // Already checked that loading has finished and there are no errors.
+  if (deleteData) {
+    return <></>;
+  } // Already checked that loading has finished and there are no errors.
 
   return (
     <>
@@ -145,18 +146,23 @@ export default function GroupPreview(props) {
           </Button>
           {/*  edit btn */}
           <Button
-            onClick={() => setShowEdit(true)}
+            onClick={() => setModalVisible(true)}
             className={[styles["edit-btn"], styles["btns"]]}
           >
             <MdEdit />
           </Button>
         </div>
       </Card>
-      
+      <GroupCreationCard
+          handleMsg={props.handleMsg}
+          visible={modalVisible}
+          handleClose={setModalVisible}
+          refetch={props.refetch}
+          edit
+          id = {props.id}
+        />
       {/* TODO. I tried to make it show whenever edit btn is clicked, but it shows only the first time. */}
-      {showEdit && (
-        <EditGroup refetch={props.refetch} show={true} id={props.id} />
-      )}{" "}
+      
     </>
   );
 }

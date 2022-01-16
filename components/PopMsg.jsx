@@ -23,7 +23,6 @@ export default function PopMsg(props) {
     timer = setTimeout(() => {
       props.handleClose(false);
     }, 2500);
-    console.log(timer);
   }}, [props.visible]);
   
   useEffect(() => {
