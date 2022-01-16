@@ -31,7 +31,7 @@ import PopMsg from "../components/PopMsg";
 function Groups(state, action) {
   const { user } = useContext(UserContext);
   const [modalVisible, setVisible] = useState(false);
-
+ const name = useRef("");
   const [msgVisible, setMsg] = useState(false);
   // search filter modal state
   const [searchTerm, setSearchTerm] = useState("");
@@ -129,13 +129,13 @@ function Groups(state, action) {
     );
   }
 
-  if (data.communities.count === 0) {
-    return (
-      <>
-        <h1>No results</h1>
-      </>
-    );
-  }
+  // if (data.communities.count === 0) {
+  //   return (
+  //     <>
+  //       <h1>No results</h1>
+  //     </>
+  //   );
+  // }
 
   const groupMapper = () =>
     data.communities.data.map((community) => {
