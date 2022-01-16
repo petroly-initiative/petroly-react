@@ -117,9 +117,106 @@ function Groups(state, action) {
 
   if (data.communities.count === 0) {
     return (
-      <>
-        <h1>No results</h1>
-      </>
+      <ClientOnly>
+        <>
+          <Head>
+            <title>Petroly | Rating</title>
+          </Head>
+          <Navbar page="communities" />
+          <Container className={"mt-4 " + styles.list_container}>
+            <Row style={{ justifyContent: "center" }}>
+              <Col
+                l={8}
+                xs={11}
+                md={9}
+                xl={7}
+                style={{ width: "100% !important" }}
+              >
+                <InputGroup
+                  style={langDirection(user.lang)}
+                  className={styles["search-container"]}
+                >
+                  <Form.Control
+                    id="name"
+                    ref={name}
+                    dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                    type="text"
+                    placeholder={langState.searchbar}
+                    className={`${
+                      user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                    }`}
+                    // onChange={ref}
+                    onKeyDown={enterSearch}
+                  />
+                  <InputGroup.Append style={{ height: 38 }}>
+                    <Button
+                      type="submit"
+                      onClick={search}
+                      className={
+                        styles["search_btn"] +
+                        ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                      }
+                    >
+                      <BiSearch size="1.5rem" />
+                    </Button>
+                  </InputGroup.Append>
+
+                  <InputGroup.Append>
+                    {/*popover for filters and order*/}
+                    <Button
+                      className={
+                        styles["filter-btn"] +
+                        ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                      }
+                      align="start"
+                      id="dropdown-menu-align-right"
+                      onClick={launchModal}
+                    >
+                      <GoSettings size="1.5rem" />
+                    </Button>
+                  </InputGroup.Append>
+                </InputGroup>
+              </Col>
+            </Row>
+            <div className={styles["error-container"]}>
+              <div className={styles["error-img"]}>
+                <Image
+                  src="/images/errors/NotFoundE2.svg"
+                  width="440"
+                  height="386"
+                />
+              </div>
+              <div className={styles["error-txt"]}>No Reesult Found :(</div>
+            </div>
+            <GroupsFilter
+              close={closeModal}
+              changePlatform={changePlatform}
+              changeType={changeType}
+              visible={modalVisible}
+              type={type}
+              platform={platform}
+            />
+          </Container>
+        </>
+
+        {
+          <GroupCreationCard
+            refetch={refetch}
+            handleMsg={setMsg}
+          /> /* Show only when the user is logged in */
+        }
+        <PopMsg
+          visible={msgVisible}
+          msg={
+            user.lang === L.AR_SA
+              ? "تم إنشاءالمجتمع"
+              : "Group Created successfully"
+          }
+          handleClose={setMsg}
+          success
+          // you can use failure or none for different message types
+        />
+      </ClientOnly>
     );
   }
 
