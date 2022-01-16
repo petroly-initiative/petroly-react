@@ -60,14 +60,7 @@ export default function GroupPreview(props) {
 
   useEffect(() => {
     if (deleteData) {
-      props.handleMsg(Object.assign({
-        visisble: true,
-        msg: `${
-          user.lang === L.AR_SA
-            ? "تم  حذف المجتمع"
-            : "Group deleted Successfully"
-        }`,
-      }));
+      props.handleMsg(true);
     }
   }, [deleteLoading]);
 
