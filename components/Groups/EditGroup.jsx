@@ -26,7 +26,7 @@ export default function EditGroup(props) {
     name: "",
     link: "",
     description: "",
-    section: " ",
+    section: "",
   });
   const [type, setType] = useState("");
   const [platform, setPlatform] = useState("");
@@ -37,7 +37,6 @@ export default function EditGroup(props) {
   const name = useRef();
   const [invalidCourse, validateCourse] = useState(false);
   const [waiting, setWaiting] = useState(false);
-
 
   // Mutations and Query state
   const { data, loading, error, refetch } = useQuery(getCommunity, {
@@ -66,6 +65,7 @@ export default function EditGroup(props) {
           category: type,
           description: groupDesc,
           section: groupSection,
+          file: image.current.files[0],
         },
       });
     else
@@ -78,6 +78,7 @@ export default function EditGroup(props) {
           category: type,
           description: groupDesc,
           section: "", //  this empty string is a must
+          file: image.current.files[0],
         },
       });
   };
@@ -258,7 +259,7 @@ export default function EditGroup(props) {
                             type="text"
                             // disabled={!types.Section.find}
                             placeholder={"المادة الدراسية"}
-                            defaultValue={community.section}
+                            defaultValue={data.community.section}
                           />
                           <Form.Text
                             style={{
