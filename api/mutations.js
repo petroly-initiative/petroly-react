@@ -248,6 +248,7 @@ export const editCommunnityMutation = gql`
     $category: CommunityCategoryEnum!
     $description: String!
     $section: String
+    $file: Upload
   ) {
     communityUpdate(
       input: {
@@ -257,6 +258,7 @@ export const editCommunnityMutation = gql`
         category: $category
         description: $description
         section: $section
+        icon: { upload: $file }
       }
       where: { id: { exact: $id } }
     ) {

@@ -66,6 +66,7 @@ function GroupCreationCard(props) {
   }, [user.lang]);
 
   const createGroup = (e) => {
+    console.log("1");
     e.preventDefault();
     validateName(name.current.value.length === 0 || name.current.length > 20);
     validateLink(link.current.value.length === 0);
@@ -77,10 +78,8 @@ function GroupCreationCard(props) {
     validatePlatform(platform.length === 0);
     if (course.current.value.length !== 0 && type === "SECTION") {
       validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(course.current.value));
-
     } else validateCourse(false);
     setSubmit(true);
-
   };
 
   const selectPlatform = (e) => {
@@ -120,6 +119,7 @@ function GroupCreationCard(props) {
                 category: type,
                 description: description.current.value,
                 section: course.current.value,
+                file: image.current.files[0],
               },
             });
           }
@@ -132,10 +132,11 @@ function GroupCreationCard(props) {
               category: type,
               description: description.current.value,
               section: "", //  this empty string is a must
+              file: image.current.files[0],
             },
           });
         }
-      }
+      } else setSubmit(false);
     }
   }, [submit]);
 
@@ -631,9 +632,7 @@ function GroupCreationCard(props) {
           }
         >
           {loading ? (
-
             <Button className={styles["createButton"] + " shadow"} disabled>
-
               <Spinner
                 className={styles["loading-spinner"]}
                 as="div"
@@ -661,11 +660,7 @@ function GroupCreationCard(props) {
           trigger={"hover"}
           placement="top"
           delay={{ show: 100, hide: 300 }}
-          overlay={
-            <Tooltip>
-              {langState.createBlock}
-            </Tooltip>
-          }
+          overlay={<Tooltip>{langState.createBlock}</Tooltip>}
         >
           <Button
             className={styles.modalButton}
@@ -676,7 +671,6 @@ function GroupCreationCard(props) {
           </Button>
         </OverlayTrigger>
       ) : (
-
         <Button
           className={styles.modalButton}
           onClick={() => setModalShow(true)}
@@ -684,7 +678,6 @@ function GroupCreationCard(props) {
         >
           <AiFillFileAdd size={32} />
         </Button>
-
       )}
     </div>
   );
