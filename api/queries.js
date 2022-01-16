@@ -178,7 +178,7 @@ export const CommunitiesQuery = gql`
         name: { icontains: $name }
         category: $category
         platform: $platform
-        section: { contains: $section }
+        section: { icontains: $section }
         archived: { exact: false }
       }
     ) {
