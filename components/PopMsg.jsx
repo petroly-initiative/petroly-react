@@ -48,9 +48,9 @@ export default function PopMsg(props) {
         <Modal.Body
           className={
             styles["popup-body"] +
-            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}` + " shadow"
           }
-          style={{ borderRadius: "10px !important" }}
+          style={{ borderRadius: "10px !important"}}
         >
           <div
             className={
