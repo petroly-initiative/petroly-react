@@ -66,6 +66,7 @@ function GroupCreationCard(props) {
   }, [user.lang]);
 
   const createGroup = (e) => {
+    console.log("1");
     e.preventDefault();
     validateName(name.current.value.length === 0 || name.current.length > 20);
     validateLink(link.current.value.length === 0);
@@ -135,7 +136,7 @@ function GroupCreationCard(props) {
             },
           });
         }
-      }
+      } else setSubmit(false);
     }
   }, [submit]);
 
