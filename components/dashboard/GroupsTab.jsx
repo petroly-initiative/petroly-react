@@ -53,10 +53,11 @@ export default function GroupsTab(props) {
 
   const myCommunitiesMapper = () =>
     data.me.ownedCommunities.data.map((community) => {
+      const icon = community.icon;
       return (
         <GroupPreview // TODO Modify this component
           refetch={refetch}
-          pic="/images/muhabpower.png" // TODO
+          pic={icon ? icon.url : "/images/share.png"}
           id={community.id}
           name={community.name}
           platform={community.platform}
