@@ -1,4 +1,10 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
+import React, {
+  useRef,
+  useState,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+} from "react";
 import Modal from "react-bootstrap/Modal";
 import {
   Col,
@@ -32,12 +38,14 @@ import { useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-create-dict";
 import { langDirection, L, M, USER } from "../../constants";
+import mapErrorsToFields from "./utils";
 
 function GroupCreationCard(props) {
   // UI control state
 
   const [type, setType] = useState("");
   const [platform, setPlatform] = useState("");
+  const [APIErrors, setAPIErrors] = useState({});
   const course = useRef();
   const image = useRef();
   const description = useRef();
@@ -62,7 +70,8 @@ function GroupCreationCard(props) {
   const {
     data: existingData,
     loading: existingLoading,
-    error, refetch: refetchExisting
+    error,
+    refetch: refetchExisting,
   } = useQuery(getCommunity, {
     variables: { id: props.id },
     skip: props.create,
@@ -92,6 +101,7 @@ function GroupCreationCard(props) {
   // -------
   // validation state
   const [invalidName, validateName] = useState(false);
+  const [invalidImage, validateImage] = useState(false);
   const [invalidLink, validateLink] = useState(false);
   const [invalidType, validateType] = useState(false);
   const [invalidPlatform, validatePlatform] = useState(false);
@@ -225,12 +235,7 @@ function GroupCreationCard(props) {
         props.refetch();
         props.handleMsg(true);
       } else {
-        // this error belongs to API itself, user does not care about it
-        validateLink(true);
-
-        // TODO: handle link error msg
-        // or ignore if there are enough validation, i.e., regex
-        
+        setAPIErrors(mapErrorsToFields(createData.communityCreate));
         setSubmit(false); // to use it for later
       }
     }
@@ -238,22 +243,24 @@ function GroupCreationCard(props) {
 
   useEffect(() => {
     if (editData) {
-       console.log(JSON.stringify(editData.communityUpdate));
       if (editData.communityUpdate.ok) {
         props.handleClose(false);
         props.refetch();
         refetchExisting();
         props.handleMsg(true);
       } else {
-        // this error belongs to API itself, user does not care about it
-        validateLink(true);
-
-        // TODO: handle link error msg
-        // or ignore if there are enough validation, i.e., regex
+        setAPIErrors(mapErrorsToFields(editData.communityUpdate));
         setSubmit(false); // to use it for later
       }
     }
-  }, [editData, editLoading]);
+  }, [editData]);
+
+  useLayoutEffect(() => {
+    if (APIErrors.name) validateName(true);
+    if (APIErrors.icon) validateImage(true);
+    if (APIErrors.description) validateDesc(true);
+    if (APIErrors.link) validateLink(true);
+  }, [APIErrors]);
 
   if (existingLoading) return null;
 
@@ -355,7 +362,8 @@ function GroupCreationCard(props) {
                     style={langDirection(user.lang)}
                     type="invalid"
                   >
-                    {langState.nameErr}
+                    {langState.nameErr} <br />
+                    {APIErrors.name}
                   </Form.Control.Feedback>
                 )}
                 {!invalidName && (
@@ -392,6 +400,30 @@ function GroupCreationCard(props) {
                   type="file"
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                 />
+                {invalidImage && (
+                  <Form.Control.Feedback
+                    style={langDirection(user.lang)}
+                    type="invalid"
+                  >
+                    {APIErrors.icon}
+                  </Form.Control.Feedback>
+                )}
+                {!invalidImage && (
+                  <Form.Text
+                    style={Object.assign(
+                      {
+                        fontSize: 12,
+                        width: "100%",
+                        marginBottom: 6,
+                      },
+                      langDirection(user.lang)
+                    )}
+                    muted
+                    dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  >
+                    {langState.nameHelper}{" "}
+                  </Form.Text>
+                )}
               </Col>
             </InputGroup>
 
@@ -726,7 +758,8 @@ function GroupCreationCard(props) {
                     style={langDirection(user.lang)}
                     type="invalid"
                   >
-                    {langState.linkErr}
+                    {langState.linkErr} <br />
+                    {APIErrors.link}
                   </Form.Control.Feedback>
                 )}
               </Col>
@@ -740,7 +773,12 @@ function GroupCreationCard(props) {
           }
         >
           {createLoading || editLoading ? (
-            <Button className={styles["createButton"] + " shadow "+ styles["loadingButton"] } disabled>
+            <Button
+              className={
+                styles["createButton"] + " shadow " + styles["loadingButton"]
+              }
+              disabled
+            >
               <Spinner
                 className={styles["loading-spinner"]}
                 as="div"

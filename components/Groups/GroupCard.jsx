@@ -25,9 +25,10 @@ import { toggleLikeCommunityMutation } from "../../api/mutations";
 import { userHasLiked } from "../../api/queries";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-card-dict";
-import { M } from "../../constants";
+import { M, USER } from "../../constants";
 
 function GroupCard(props) {
+  const { user } = useContext(UserContext);
   const [displayGroup, setDisplay] = useState(false);
   const [showReport, setReport] = useState(false);
   const [likes, setLikes] = useState({
@@ -40,6 +41,7 @@ function GroupCard(props) {
     loading: likedLoading,
     error: likedError,
   } = useQuery(userHasLiked, {
+    skip: user.status !== USER.LOGGED_IN,
     variables: { id: props.id },
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "network-only",
@@ -60,7 +62,6 @@ function GroupCard(props) {
     }));
   }, [likedData]); // I am not sure if this is the best practice. Please check.
 
-  const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
