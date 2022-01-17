@@ -356,12 +356,12 @@ export default function EvaluationModal(props) {
                         user.theme === M.DARK ? styles["dark-mode-input"] : ""
                       }`}
                     />
-                    <FormControl.Feedback
+                    {isTermInvalid && <FormControl.Feedback
                       style={langDirection(user.lang)}
                       type="invalid"
                     >
                       {langState.termErr}
-                    </FormControl.Feedback>
+                    </FormControl.Feedback>}
                   </InputGroup>
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} xl={6}>
@@ -391,12 +391,12 @@ export default function EvaluationModal(props) {
                         }`
                       }
                     />
-                    <FormControl.Feedback
+                   {isCourseInvalid && <FormControl.Feedback
                       style={langDirection(user.lang)}
                       type="invalid"
                     >
                       {langState.courseErr}
-                    </FormControl.Feedback>
+                    </FormControl.Feedback>}
                   </InputGroup>
                 </Col>
               </Form.Row>
