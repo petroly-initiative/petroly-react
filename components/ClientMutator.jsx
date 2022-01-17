@@ -46,9 +46,7 @@ export default function ClientMutator({ children }) {
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
       graphQLErrors.forEach(({ message, locations, path }) => {
-        setMsg(
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-        );
+        setMsg(message);
         setMsgVisible(true);
         console.log(
           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
