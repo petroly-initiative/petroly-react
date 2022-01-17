@@ -2,12 +2,13 @@ import { L } from "../../constants";
 
 const arabic = {
   ratingHeader: "التقييم العام",
+  recentEvals: "التقييمات السابقة",
   evalCount: "عدد المقيمين",
   evalBlock: "الرجاء تسجيل الدخول",
   evalAllow: "قيّم المحاضر",
   evaluated: "قيمتَ المُحاضِر",
   checkingData: "نتفقد بياناتك",
-  emptyMsg: "ساعدنا في تقييم المحاضر"
+  emptyMsg: "ساعدنا في تقييم المحاضر",
 };
 
 const english = {
