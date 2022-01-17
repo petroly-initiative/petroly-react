@@ -43,8 +43,6 @@ export default function ConfirmAccount(props) {
         });
         setTimeout(() => location.assign("/"), 1200);
       } else {
-        console.log(error);
-        console.log(data.verifyAccount.errors.nonFieldErrors[0].message);
         setMsg({
           message: data.verifyAccount.errors.nonFieldErrors[0].message,
           show: true,

@@ -91,7 +91,6 @@ export default function ProfileTab(props) {
 
   useEffect(() => {
     setLang(() => translator(user.lang));
-    console.log("changed language!");
   }, [user.lang]);
 
   useEffect(() => {
@@ -102,7 +101,6 @@ export default function ProfileTab(props) {
         refetchMe();
       } else {
         // popup an error msg
-        console.log("updating profilePic failed");
       }
     }
   }, [dataProfilePicUpdate, loadingProfilePicUpdate]);

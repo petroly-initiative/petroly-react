@@ -75,9 +75,7 @@ export default function EvaluationModal(props) {
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
-    // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
-    console.log("changed language!");
   }, [user.lang]);
 
   const setCourse = (e) => {
@@ -190,8 +188,7 @@ export default function EvaluationModal(props) {
       setWaiting(true);
       evaluationUpdate();
     } else {
-      // setWaiting(true);
-      console.log(user);
+      setWaiting(true);
       evaluationCreate();
     }
   };

@@ -15,7 +15,6 @@ import { UserContext } from "../state-management/user-state/UserContext";
 import { T, L, langDirection, M } from "../constants";
 import { NavContext } from "../state-management/navbar-state/NavbarContext";
 
-
 export default function HomeScreen() {
   /**
    * TODO:
@@ -23,17 +22,16 @@ export default function HomeScreen() {
    */
 
   const { user } = useContext(UserContext);
-  const { navDispatch} = useContext(NavContext)
+  const { navDispatch } = useContext(NavContext);
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
-    // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
   }, [user.lang]);
 
   useEffect(() => {
-    navDispatch("home")
-  }, [])
+    navDispatch("home");
+  }, []);
 
   return (
     <>

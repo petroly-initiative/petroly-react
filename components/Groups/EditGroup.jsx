@@ -119,10 +119,8 @@ export default function EditGroup(props) {
         props.refetch();
       } else {
         // this error belongs to API itself, user does not care about it
-        console.log(error);
         // TODO we need help from front dev to map these errors mesages
         // or ignore if there are enough validation, i.e., regex
-        console.log(data.communityCreate.errors);
       }
     }
   }, [editData, editLoading]);

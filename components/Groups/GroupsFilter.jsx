@@ -40,21 +40,17 @@ export default function GroupsFilter(props) {
 
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
-    // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
-    console.log("changed language!");
   }, [user.lang]);
 
   const platformSwitch = (e) => {
     const key = e.target.id;
-    console.log(key);
     setPlatform(key);
     forceUpdate();
   };
 
   const typeSwitch = (e) => {
     const key = e.target.id;
-    console.log(key);
 
     if (key === "SECTION") {
       setType({ type: "SECTION", course: course.current.value });
@@ -62,12 +58,10 @@ export default function GroupsFilter(props) {
       forceUpdate();
     } else setType({ type: key });
     forceUpdate();
-    console.log(course.current.value);
   };
 
   const saveChanges = () => {
     props.changePlatform(platform);
-    console.log(groupType);
 
     if (groupType.type !== "SECTION") props.changeType(groupType);
     else {

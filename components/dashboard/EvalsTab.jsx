@@ -36,9 +36,7 @@ export default function EvaluationsTab(props) {
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
-    // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
-    console.log("changed language!");
   }, [user.lang]);
 
   const switchMode = () => {

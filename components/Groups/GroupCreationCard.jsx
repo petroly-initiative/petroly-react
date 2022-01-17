@@ -84,7 +84,6 @@ function GroupCreationCard(props) {
   // handling existing community data loading
   useEffect(() => {
     if (existingData) {
-      console.log(existingData);
       setType(existingData.community.category);
       setPlatform(existingData.community.platform);
       setDefaults({
@@ -111,9 +110,7 @@ function GroupCreationCard(props) {
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
-    // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
-    // console.log("changed language!");
   }, [user.lang]);
 
   const submitGroup = (e) => {
@@ -139,7 +136,6 @@ function GroupCreationCard(props) {
   const selectType = (e) => {
     if (e.target.id !== "course-input") setType(e.target.value);
     else {
-      console.log(course.current.value);
       if (course.current.value.length !== 0) {
         validateCourse(!/^[a-zA-Z]{2,4}[0-9]{3}$/g.test(e.target.value));
       }
@@ -229,7 +225,6 @@ function GroupCreationCard(props) {
   // Enexpected error handling and logging for both creation and editing
   useEffect(() => {
     if (createData) {
-      console.log(JSON.stringify(createData.communityCreate));
       if (createData.communityCreate.ok) {
         props.handleClose(false);
         props.refetch();

@@ -10,7 +10,6 @@ import {
   Spinner,
   OverlayTrigger,
   Tooltip,
-
 } from "react-bootstrap";
 import Image from "next/image";
 import Head from "next/head";
@@ -32,7 +31,6 @@ import { langDirection, L, M, USER } from "../constants";
 import PopMsg from "../components/PopMsg";
 
 function Groups(state, action) {
-
   const { user } = useContext(UserContext);
   const { navDispatch } = useContext(NavContext);
 
@@ -43,7 +41,7 @@ function Groups(state, action) {
   const [platform, setPlatform] = useState("ALL");
   const [type, setType] = useState({ type: "ALL" });
   const name = useRef("");
-  
+
   /** 
    * ? state inputs can be the following
    * {
@@ -63,7 +61,6 @@ function Groups(state, action) {
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
     setLang(() => translator(user.lang));
-    console.log("changed language!");
   }, [user.lang]);
 
   const launchModal = () => {

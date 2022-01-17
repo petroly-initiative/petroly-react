@@ -3,16 +3,14 @@ import { useContext, useState, useEffect } from "react";
 import { Row, Col, ProgressBar, Container } from "react-bootstrap";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/evaluation-page/instructor-rating.module.scss";
-import  translator  from "../../dictionary/components/instructor-rating-dict";
-import { langDirection, M,L } from "../../constants";
+import translator from "../../dictionary/components/instructor-rating-dict";
+import { langDirection, M, L } from "../../constants";
 
 function InstructorRates(props) {
-
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
-    // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
   }, [user.lang]);
 
