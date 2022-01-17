@@ -7,9 +7,9 @@ import {
   Form,
   Button,
   InputGroup,
-  DropdownButton,
-  Dropdown,
   Spinner,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
 import Image from "next/image";
 import Head from "next/head";
@@ -115,7 +115,6 @@ function Groups(state, action) {
       </div>
     );
   }
-
 
   if (data.communities.count === 0) {
     return (
@@ -247,7 +246,6 @@ function Groups(state, action) {
       </ClientOnly>
     );
   }
-
 
   const groupMapper = () =>
     data.communities.data.map((community) => {
