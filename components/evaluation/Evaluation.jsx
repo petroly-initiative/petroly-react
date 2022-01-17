@@ -24,13 +24,12 @@ export default function Evaluation(props) {
   //   else return "#f76a9b";
   // };
 
-const { user } = useContext(UserContext);
-const [langState, setLang] = useState(() => translator(user.lang));
+  const { user } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
 
-useEffect(() => {
-  // console.log(userContext.user.lang);
-  setLang(() => translator(user.lang));
-}, [user.lang]);
+  useEffect(() => {
+    setLang(() => translator(user.lang));
+  }, [user.lang]);
 
   return (
     <Card

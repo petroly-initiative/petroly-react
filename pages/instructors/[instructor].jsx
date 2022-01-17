@@ -31,7 +31,7 @@ import {
 } from "../../api/queries";
 import { Fade } from "react-awesome-reveal";
 import { useRouter } from "next/router";
-import translator from "../../dictionary/pages/instructor-details-dict"
+import translator from "../../dictionary/pages/instructor-details-dict";
 import { M } from "../../constants";
 import { useCallback } from "react";
 
@@ -77,13 +77,12 @@ export default function instructorDetails({ data }) {
   const router = useRouter();
   const [modalVisible, setVisible] = useState(false);
   const [msg, setMsg] = useState("");
-  const {user} = useContext(UserContext);
-   const [langState, setLang] = useState(() => translator(user.lang));
+  const { user } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
 
-   useEffect(() => {
-     // console.log(userContext.user.lang);
-     setLang(() => translator(user.lang));
-   }, [user.lang]);
+  useEffect(() => {
+    setLang(() => translator(user.lang));
+  }, [user.lang]);
 
   const { data: dataHasEvaluated, loading: loadingHasEvaluated } = useQuery(
     hasEvaluatedQuery,
@@ -114,14 +113,10 @@ export default function instructorDetails({ data }) {
   };
 
   const launchModal = () => {
-    if (
-      user.status === USER.LOGGED_IN &&
-      !dataHasEvaluated.hasEvaluated
-    )
+    if (user.status === USER.LOGGED_IN && !dataHasEvaluated.hasEvaluated)
       setVisible(true);
   };
 
- 
   const evalMapper = () =>
     data.instructor.evaluationSet.data.map((evaluation) => (
       <Evaluation
@@ -143,7 +138,6 @@ export default function instructorDetails({ data }) {
   const evalList = evalMapper();
 
   const gradientColor = useCallback(() => {
-    console.log(Math.round(data.instructor.overallFloat));
     switch (Math.round(data.instructor.overallFloat)) {
       case 5:
       case 4:
@@ -152,9 +146,9 @@ export default function instructorDetails({ data }) {
       case 3:
         return `yellow,
               rgb(255, 120, 120)`;
-      
+
       case 0:
-        return "unset, unset";        
+        return "unset, unset";
       default:
         return `rgb(204, 204, 204), rgb(163, 163, 163)`;
     }

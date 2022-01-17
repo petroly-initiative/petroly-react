@@ -65,9 +65,7 @@ function GroupCard(props) {
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
-    // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
-    console.log("changed language!");
   }, [user.lang]);
 
   const labels = (type) => {
@@ -143,7 +141,6 @@ function GroupCard(props) {
     setDisplay(false);
   };
   const fireReport = () => {
-    // console.log("Modal launched!");
     // TODO - mutations for report
     setReport(true);
   };

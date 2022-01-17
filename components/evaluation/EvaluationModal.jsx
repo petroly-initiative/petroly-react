@@ -36,8 +36,6 @@ import { USER, L, M, langDirection } from "../../constants";
 import { Fade } from "react-awesome-reveal";
 import translator from "../../dictionary/components/eval-modal-dict";
 
-
-
 export default function EvaluationModal(props) {
   const { user } = useContext(UserContext);
   // modal state
@@ -77,9 +75,7 @@ export default function EvaluationModal(props) {
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
-    // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
-    console.log("changed language!");
   }, [user.lang]);
 
   const setCourse = (e) => {
@@ -196,8 +192,6 @@ export default function EvaluationModal(props) {
       evaluationCreate();
     }
   };
-
-
 
   useEffect(() => {
     if (dataEvaluationCreate) {

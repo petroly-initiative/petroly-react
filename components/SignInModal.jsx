@@ -37,7 +37,6 @@ export default function SignInModal(props) {
   // language state
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
-    // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
   }, [user.lang]);
 
@@ -162,7 +161,6 @@ export default function SignInModal(props) {
   }, [tab]);
 
   const hideModal = () => {
-    console.log(mode);
     // ? blocking the window closing when in these modes
     switch (mode) {
       case "user-input":
@@ -180,7 +178,6 @@ export default function SignInModal(props) {
         setMode("user-input");
         break;
       default:
-        console.log("exit blocked in this mode");
     }
   };
   const handleShowPwd = () => setShowPwd(!showPwd);
@@ -297,7 +294,6 @@ export default function SignInModal(props) {
     if (tab === "signUp" && dataRegister) {
       //  Successful register
       if (dataRegister.register.success) {
-        console.log("registered");
         setMode("acc-confirm");
         setTimeout(() => router.reload(), 1000);
       } else {
@@ -320,11 +316,10 @@ export default function SignInModal(props) {
 
     if (mode === "ps-reset" && dataSendPasswordResetEmail) {
       if (dataSendPasswordResetEmail.sendPasswordResetEmail.success) {
-        console.log("Email was sent");
         setMode("ps-sccuess");
         setTimeout(() => router.reload(), 1000);
       } else
-        console.error(
+        console.log(
           "Email wasn't sent",
           dataSendPasswordResetEmail.sendPasswordResetEmail.errors
         );
