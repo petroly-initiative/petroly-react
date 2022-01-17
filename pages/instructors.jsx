@@ -63,6 +63,7 @@ function instructorsList() {
   // language state
   const {user} = useContext(UserContext);
   const { navDispatch } = useContext(NavContext);
+    const [clicked, setClicked] = useState(false);
 
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
@@ -157,6 +158,7 @@ function instructorsList() {
     data.instructors.data.map((instructor) => {
       return (
         <InstructorCard
+          setLoading = {setClicked}
           image={
             <Image
               className={styles.picDiv}
@@ -515,6 +517,16 @@ function instructorsList() {
             )}
           </Row>
         </Container>
+        {clicked && <Button className={styles["loading-container"] + " shadow"} disabled>
+          <Spinner
+            className={styles["loading-spinner"]}
+            as="div"
+            animation="grow"
+            size="xl"
+            role="status"
+            aria-hidden="true"
+          />
+        </Button>}
       </>
     </ClientOnly>
   );
