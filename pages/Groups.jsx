@@ -122,7 +122,7 @@ function Groups(state, action) {
       <ClientOnly>
         <>
           <Head>
-            <title>Petroly | Rating</title>
+            <title>Petroly | Groups</title>
           </Head>
           <Navbar page="communities" />
           <Container className={"mt-4 " + styles.list_container}>

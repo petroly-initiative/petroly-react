@@ -730,7 +730,13 @@ export default function Navbar(props) {
                 </li> */}
                 <li className={styles.navbar_item}>
                   <Link href="/Groups" className={styles.navbar_link}>
-                    <div className={styles.link_btn + " " + navStyles.chat}>
+                    <div
+                      className={
+                        styles.link_btn +
+                        " " +
+                        navStyles.communities
+                      }
+                    >
                       <BsFillPeopleFill
                         className={styles.nav_img}
                         size="1.3em"

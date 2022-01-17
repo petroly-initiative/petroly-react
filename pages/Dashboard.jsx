@@ -11,6 +11,7 @@ import { useQuery } from "@apollo/client";
 import { meQuery } from "../api/queries";
 import { USER, L } from "../constants";
 import PopMsg from "../components/PopMsg";
+import Head from "next/head";
 /**
  *
  * ? Dasboard page setup:
@@ -46,6 +47,9 @@ export default function Dashboard(props) {
 
   return (
     <>
+      <Head>
+        <title>Petroly | Groups</title>
+      </Head>
       <Navbar />
       <Container className={styles["main-container"]}>
         {/* It will be responsible for the main shadow drop */}
@@ -63,7 +67,7 @@ export default function Dashboard(props) {
           >
             <ProfileTab />
             <EvaluationsTab />
-            <GroupsTab handleMsg = {setMsg} />
+            <GroupsTab handleMsg={setMsg} />
           </Fade>
         </Row>
       </Container>
