@@ -15,12 +15,9 @@ $x: #622edb;
   box-shadow: none !important;
   border: 2px solid  theme.$dark-bg !important;
 
-  &::before,
-  &::after {
-    background-color: theme.$dark-fg !important;
+  button{
     color: theme.$dark-fnt !important;
-    box-shadow: none !important;
-  }
+}
 }
 
 .dark-extra{

@@ -178,7 +178,7 @@ export default function instructorDetails({ data }) {
       <Head>
         <title>Petroly | {data.instructor.name}</title>
       </Head>
-      <Navbar page="rating" />
+      {/* <Navbar page="rating" /> */}
       <Container className={styles.container}>
         <Row className={styles["col-container"]}>
           <Col xl={4} lg={6} className={styles.statsCol}>

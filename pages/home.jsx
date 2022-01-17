@@ -13,6 +13,8 @@ import translator from "../dictionary/pages/home-dict";
 import { useEffect, useContext, useState, useCallback } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { T, L, langDirection, M } from "../constants";
+import { NavContext } from "../state-management/navbar-state/NavbarContext";
+
 
 export default function HomeScreen() {
   /**
@@ -21,6 +23,7 @@ export default function HomeScreen() {
    */
 
   const { user } = useContext(UserContext);
+  const { navDispatch} = useContext(NavContext)
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
@@ -28,34 +31,36 @@ export default function HomeScreen() {
     setLang(() => translator(user.lang));
   }, [user.lang]);
 
+  useEffect(() => {
+    navDispatch("home")
+  }, [])
+
   return (
     <>
       <Head>
         <title>Petroly | home</title>
         <meta name="title" content="Petroly | home" />
-        <meta
-          name="description"
-          content="Petroly intiative is a platform to serve the digital needs for all kfupmers"
-        />
+        <meta name="description" content="Digital Platform for All KFUPMers" />
+
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://petroly.vercel.app/" />
+        <meta property="og:url" content="https://react.petroly.co/" />
         <meta property="og:title" content="Petroly | home" />
         <meta
           property="og:description"
-          content="Petroly intiative is a platform to serve the digital needs for all kfupmers"
+          content="Digital Platform for All KFUPMers"
         />
         <meta property="og:image" content="/images/website-header.png" />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://petroly.vercel.app/" />
+        <meta property="twitter:url" content="https://react.petroly.co/" />
         <meta property="twitter:title" content="Petroly | home" />
         <meta
           property="twitter:description"
-          content="Petroly intiative is a platform to serve the digital needs for all kfupmers"
+          content="Digital Platform for All KFUPMers"
         />
-        <meta property="twitter:image" content="" />
+        <meta property="twitter:image" content="/images/website-header.png" />
       </Head>
-      <Navbar page="home" />
+      {/* <Navbar page="home" /> */}
       <Container className={styles["main-container"]}>
         <Fade
           className={styles["fader"]}

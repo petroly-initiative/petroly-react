@@ -302,6 +302,7 @@ function GroupCreationCard(props) {
           style={langDirection(user.lang)}
           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
           className={`${user.theme === M.DARK ? styles["dark-mode"] : ""}`}
+          closeButton
         >
           <Modal.Title
             className={styles.title}

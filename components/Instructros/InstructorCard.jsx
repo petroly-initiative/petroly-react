@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Card, Col, Container, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Card, Col, Container, OverlayTrigger, Tooltip} from "react-bootstrap";
 import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
@@ -19,6 +19,7 @@ import { L, M } from "../../constants";
 
 function InstructorCard(props) {
   const {user} = useContext(UserContext);
+
 
 
   const gradientColor = () => {
@@ -42,8 +43,12 @@ function InstructorCard(props) {
 
   return (
     <>
+
       <Link href={`/instructors/${props.instructorID}`}>
         <Card
+          onClick={() => {
+            props.setLoading(true);
+          }}
           style={{ borderRadius: 8 }}
           className={
             "shadow border-0 " +

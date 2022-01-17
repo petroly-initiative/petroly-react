@@ -10,6 +10,7 @@ import {
   Spinner,
   OverlayTrigger,
   Tooltip,
+
 } from "react-bootstrap";
 import Image from "next/image";
 import Head from "next/head";
@@ -26,11 +27,15 @@ import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
 import { UserContext } from "../state-management/user-state/UserContext";
 import translator from "../dictionary/pages/groups-dict";
+import { NavContext } from "../state-management/navbar-state/NavbarContext";
 import { langDirection, L, M, USER } from "../constants";
 import PopMsg from "../components/PopMsg";
 
 function Groups(state, action) {
+
   const { user } = useContext(UserContext);
+  const { navDispatch } = useContext(NavContext);
+
   const [filterVisible, setVisible] = useState(false);
   const [msgVisible, setMsg] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -38,6 +43,7 @@ function Groups(state, action) {
   const [platform, setPlatform] = useState("ALL");
   const [type, setType] = useState({ type: "ALL" });
   const name = useRef("");
+  
   /** 
    * ? state inputs can be the following
    * {
@@ -89,6 +95,10 @@ function Groups(state, action) {
     if (event.key === "Enter") search();
   };
 
+  useEffect(() => {
+    navDispatch("communities");
+  }, []);
+
   // ? Mappers
   // ? We will use a show-more mehcanism instead of pagination
 
@@ -121,9 +131,9 @@ function Groups(state, action) {
       <ClientOnly>
         <>
           <Head>
-            <title>Petroly | Rating</title>
+            <title>Petroly | Groups</title>
           </Head>
-          <Navbar page="communities" />
+          {/* <Navbar page="communities" /> */}
           <Container className={"mt-4 " + styles.list_container}>
             <Row style={{ justifyContent: "center" }}>
               <Col
@@ -281,7 +291,7 @@ function Groups(state, action) {
         <Head>
           <title>Petroly | Rating</title>
         </Head>
-        <Navbar page="communities" />
+        {/* <Navbar page="communities" /> */}
         <Container className={"mt-4 " + styles.list_container}>
           <Row style={{ justifyContent: "center" }}>
             <Col

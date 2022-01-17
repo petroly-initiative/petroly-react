@@ -25,6 +25,8 @@ import { useQuery } from "@apollo/client";
 import { instructorsQuery, getDepartments } from "../api/queries";
 import translator from "../dictionary/pages/instructors-dict";
 import { L, langDirection, M } from "../constants";
+import { NavContext } from "../state-management/navbar-state/NavbarContext";
+
 
 function instructorsReducer(state, action) {
   switch (action.changeIn) {
@@ -60,6 +62,9 @@ function instructorsList() {
 
   // language state
   const {user} = useContext(UserContext);
+  const { navDispatch } = useContext(NavContext);
+    const [clicked, setClicked] = useState(false);
+
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
     setLang(() => translator(user.lang));
@@ -125,6 +130,10 @@ function instructorsList() {
 
   useEffect(() => {}, [stackIndex]);
 
+  useEffect(() => {
+    navDispatch("rating");
+  }, []);
+
 
   // ? Mappers
   const deptMapper = () =>
@@ -149,6 +158,7 @@ function instructorsList() {
     data.instructors.data.map((instructor) => {
       return (
         <InstructorCard
+          setLoading = {setClicked}
           image={
             <Image
               className={styles.picDiv}
@@ -173,7 +183,7 @@ function instructorsList() {
         <Head>
           <title>Petroly | Rating</title>
         </Head>
-        <Navbar page="rating" />
+        {/* <Navbar page="rating" /> */}
         <Container className={styles.list_container}>
           <Row style={{ justifyContent: "center" }}>
             <Col
@@ -289,7 +299,7 @@ function instructorsList() {
           <Head>
             <title>Petroly | Rating</title>
           </Head>
-          <Navbar page="rating" />
+          {/* <Navbar page="rating" /> */}
           <Container className={"mt-4 " + styles.list_container}>
             <Row style={{ justifyContent: "center" }}>
               <Col
@@ -401,7 +411,7 @@ function instructorsList() {
         <Head>
           <title>Petroly | Rating</title>
         </Head>
-        <Navbar page="rating" />
+        {/* <Navbar page="rating" /> */}
         <Container className={"mt-4 " + styles.list_container}>
           <Row style={{ justifyContent: "center" }}>
             <Col
@@ -507,6 +517,16 @@ function instructorsList() {
             )}
           </Row>
         </Container>
+        {clicked && <Button className={styles["loading-container"] + " shadow"} disabled>
+          <Spinner
+            className={styles["loading-spinner"]}
+            as="div"
+            animation="grow"
+            size="xl"
+            role="status"
+            aria-hidden="true"
+          />
+        </Button>}
       </>
     </ClientOnly>
   );
