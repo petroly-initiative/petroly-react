@@ -5,13 +5,15 @@ import GroupsTab from "../components/dashboard/GroupsTab";
 import styles from "../styles/dashboard-page/dashboard-container.module.scss";
 import Navbar from "../components/navbar";
 import { Fade } from "react-awesome-reveal";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { useQuery } from "@apollo/client";
 import { meQuery } from "../api/queries";
 import { USER, L } from "../constants";
 import PopMsg from "../components/PopMsg";
 import Head from "next/head";
+import { NavContext } from "../state-management/navbar-state/NavbarContext";
+
 /**
  *
  * ? Dasboard page setup:
@@ -33,7 +35,10 @@ import Head from "next/head";
 // }
 
 export default function Dashboard(props) {
+
   const {user} = useContext(UserContext);
+  const { navDispatch } = useContext(NavContext);
+
    const [msgVisible, setMsg] = useState(false);
 
   const {
@@ -45,12 +50,16 @@ export default function Dashboard(props) {
     skip: user.status !== USER.LOGGED_IN,
   });
 
+    useEffect(() => {
+      navDispatch("");
+    }, []);
+
   return (
     <>
       <Head>
         <title>Petroly | Groups</title>
       </Head>
-      <Navbar />
+      {/* <Navbar /> */}
       <Container className={styles["main-container"]}>
         {/* It will be responsible for the main shadow drop */}
         {/* The title */}

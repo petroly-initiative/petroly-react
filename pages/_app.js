@@ -11,7 +11,8 @@ import ClientMutator from "../components/ClientMutator";
 import { ApolloProvider } from "@apollo/client";
 import { USER, DEF_LANG, M, DEF_THEME } from "../constants";
 import { useEffect } from "react";
-
+import Navbar from "../components/navbar";
+import { NavContext, NavReducer } from "../state-management/navbar-state/NavbarContext";
 /**
  *
  * @WARNING This file exists to only apply globals assets and context for all pages
@@ -21,9 +22,12 @@ function MyApp({ Component, pageProps }) {
   const [user, dispatch] = useReducer(userReducer, {
     status: USER.LOGGED_OUT,
     token: "",
-    lang: DEF_LANG,
+    lang:  DEF_LANG,
     theme: DEF_THEME,
   });
+  const [navState, navDispatch] = useReducer(NavReducer, {
+    current: "home"
+  })
 
   return (
     <>
@@ -44,7 +48,13 @@ function MyApp({ Component, pageProps }) {
             <link rel="shortcut icon" href="/favicon.png" />
           </Head>
           <ClientMutator>
-            <Component {...pageProps} />
+            <NavContext.Provider value ={{
+              navState: navState,
+              navDispatch: navDispatch
+            }}>
+              <Navbar />
+              <Component {...pageProps} />
+            </NavContext.Provider>
           </ClientMutator>
         </UserContext.Provider>
       </ApolloProvider>

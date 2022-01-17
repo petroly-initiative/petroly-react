@@ -29,6 +29,7 @@ import { USER, T, L, M, langDirection } from "../constants";
 import dynamic from "next/dynamic";
 import { useCallback } from "react";
 import translator from "../dictionary/components/navbar-dict";
+import { NavContext } from "../state-management/navbar-state/NavbarContext";
 
 const SignInModal = dynamic(() => import("./SignInModal"));
 /**
@@ -38,12 +39,16 @@ const SignInModal = dynamic(() => import("./SignInModal"));
  */
 
 export default function Navbar(props) {
+
   const { user, userDispatch } = useContext((() => UserContext)());
+  const { navState } = useContext((() => NavContext)());
+
   const [sideVisible, setVisible] = useState(false);
   const [sideBarStyle, setStyle] = useState({ left: "100vw", display: "flex" });
   const [overlayStyle, setOverlay] = useState({ display: "none" });
   const [showSignIn, setShowSignIn] = useState(false);
   const [SaveMsg, setSaveMsg] = useState("");
+  const [activated, setActive] = useState(true);
 
   //--- signed off state
 
@@ -66,6 +71,10 @@ export default function Navbar(props) {
   useEffect(() => {
     userDispatch({ type: T.CHANGE_THEME, theme: theme });
   }, [theme]);
+
+  useEffect(() => {
+    console.log(user.theme);
+  }, [user.theme])
 
   //--------
 
@@ -99,11 +108,12 @@ export default function Navbar(props) {
   };
 
   var navStyles = {
-    home: props.page === "home" ? styles["active-link"] : "",
-    rating: props.page === "rating" ? styles["active-link"] : "",
-    resources: props.page == "resources" ? styles["active-link"] : "",
-    communities: props.page == "communities" ? styles["active-link"] : "",
-    chat: props.page == "chat" ? styles["active-link"] : "",
+    home: navState.current === "home" ? styles["active-link"] : "",
+    rating: navState.current === "rating" ? styles["active-link"] : "",
+    resources: navState.current === "resources" ? styles["active-link"] : "",
+    communities:
+      navState.current === "communities" ? styles["active-link"] : "",
+    chat: navState.current === "chat" ? styles["active-link"] : "",
   };
 
   useEffect(() => {
@@ -160,13 +170,22 @@ export default function Navbar(props) {
   const showSidebar = () => {
     setVisible((prev) => !prev);
   };
-
+// FIXME: incorrect way of handling async state
   const savePreference = () => {
     // wait for states to take place
     setTimeout(() => {
       profileUpdate();
     }, 300);
   };
+  useEffect(() => {
+    if (user.status === USER.LOGGED_IN){
+
+      profileUpdate();
+      
+    }
+  }, [lang, theme])
+
+  
 
   return (
     <ClientOnly>
@@ -397,9 +416,9 @@ export default function Navbar(props) {
                               }
                             >
                               <Button
+                               
                                 onClick={() => {
                                   setLang(L.AR_SA);
-                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -416,9 +435,9 @@ export default function Navbar(props) {
                                 العربية
                               </Button>
                               <Button
+                               
                                 onClick={() => {
                                   setLang(L.EN_US);
-                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -460,9 +479,9 @@ export default function Navbar(props) {
                               }
                             >
                               <Button
+                                
                                 onClick={() => {
                                   setTheme(M.DARK);
-                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -476,9 +495,9 @@ export default function Navbar(props) {
                                 <FaMoon />
                               </Button>
                               <Button
+                               
                                 onClick={() => {
                                   setTheme(M.LIGHT);
-                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -585,9 +604,9 @@ export default function Navbar(props) {
                               }
                             >
                               <Button
+                               
                                 onClick={() => {
                                   setLang(L.AR_SA);
-                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -604,9 +623,9 @@ export default function Navbar(props) {
                                 العربية
                               </Button>
                               <Button
+                               
                                 onClick={() => {
                                   setLang(L.EN_US);
-                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -646,9 +665,9 @@ export default function Navbar(props) {
                               }
                             >
                               <Button
+                               
                                 onClick={() => {
                                   setTheme(M.DARK);
-                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -662,9 +681,9 @@ export default function Navbar(props) {
                                 <FaMoon />
                               </Button>
                               <Button
+                               
                                 onClick={() => {
                                   setTheme(M.LIGHT);
-                                  savePreference();
                                 }}
                                 className={
                                   styles["lang-switch"] +
@@ -709,7 +728,7 @@ export default function Navbar(props) {
                     </div>
                   </Link>
                 </li> */}
-                <li className={styles.navbar_item}>
+                <li  className={styles.navbar_item}>
                   <Link href="/instructors" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.rating}>
                       <BsStarFill className={styles.nav_img} size="1.3em" />
@@ -731,11 +750,7 @@ export default function Navbar(props) {
                 <li className={styles.navbar_item}>
                   <Link href="/Groups" className={styles.navbar_link}>
                     <div
-                      className={
-                        styles.link_btn +
-                        " " +
-                        navStyles.communities
-                      }
+                      className={styles.link_btn + " " + navStyles.communities}
                     >
                       <BsFillPeopleFill
                         className={styles.nav_img}
@@ -971,9 +986,9 @@ export default function Navbar(props) {
                             }
                           >
                             <Button
+                             
                               onClick={() => {
                                 setLang(L.AR_SA);
-                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -988,9 +1003,9 @@ export default function Navbar(props) {
                               العربية
                             </Button>
                             <Button
+                             
                               onClick={() => {
                                 setLang(L.EN_US);
-                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1026,9 +1041,9 @@ export default function Navbar(props) {
                             }
                           >
                             <Button
+                             
                               onClick={() => {
                                 setTheme(M.DARK);
-                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1040,9 +1055,9 @@ export default function Navbar(props) {
                               <FaMoon />
                             </Button>
                             <Button
+                             
                               onClick={() => {
                                 setTheme(M.LIGHT);
-                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1144,9 +1159,9 @@ export default function Navbar(props) {
                             }
                           >
                             <Button
+                             
                               onClick={() => {
                                 setLang(L.AR_SA);
-                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1161,9 +1176,9 @@ export default function Navbar(props) {
                               العربية
                             </Button>
                             <Button
+                             
                               onClick={() => {
                                 setLang(L.EN_US);
-                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1199,9 +1214,9 @@ export default function Navbar(props) {
                             }
                           >
                             <Button
+                             
                               onClick={() => {
                                 setTheme(M.DARK);
-                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +
@@ -1213,9 +1228,9 @@ export default function Navbar(props) {
                               <FaMoon />
                             </Button>
                             <Button
+                             
                               onClick={() => {
                                 setTheme(M.LIGHT);
-                                savePreference();
                               }}
                               className={
                                 styles["lang-switch"] +

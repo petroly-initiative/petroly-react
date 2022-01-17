@@ -15,10 +15,7 @@ export default function ServiceCard(props){
       setDirection(() => langDirection(user.lang));
     }, [user.lang]);
 
-  useEffect(() => {
-    if(user.theme === M.DARK)
-    console.log(styles["dark-mode"]);
-  }, [user.theme])
+ 
     return (
       <>
         <Link href= {props.link}>

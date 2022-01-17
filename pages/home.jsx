@@ -13,6 +13,8 @@ import translator from "../dictionary/pages/home-dict";
 import { useEffect, useContext, useState, useCallback } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { T, L, langDirection, M } from "../constants";
+import { NavContext } from "../state-management/navbar-state/NavbarContext";
+
 
 export default function HomeScreen() {
   /**
@@ -21,12 +23,17 @@ export default function HomeScreen() {
    */
 
   const { user } = useContext(UserContext);
+  const { navDispatch} = useContext(NavContext)
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
     // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
   }, [user.lang]);
+
+  useEffect(() => {
+    navDispatch("home")
+  }, [])
 
   return (
     <>
@@ -53,7 +60,7 @@ export default function HomeScreen() {
         />
         <meta property="twitter:image" content="/images/website-header.png" />
       </Head>
-      <Navbar page="home" />
+      {/* <Navbar page="home" /> */}
       <Container className={styles["main-container"]}>
         <Fade
           className={styles["fader"]}
