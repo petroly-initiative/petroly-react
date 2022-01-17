@@ -11,9 +11,13 @@ import { verifyTokenMutation, refreshTokenMutation } from "../api/mutations";
 import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { USER, T, URL_ENDPOINT, DEF_LANG } from "../constants";
+import { onError } from "@apollo/client/link/error";
+import PopMsg from "./PopMsg";
 
 export default function ClientMutator({ children }) {
   const { user, userDispatch } = useContext(UserContext);
+  const [MsgVisible, setMsgVisible] = useState(false);
+  const [Msg, setMsg] = useState("");
   var token = "";
   var rToken = "";
 
@@ -38,10 +42,24 @@ export default function ClientMutator({ children }) {
     });
   });
 
+  // Log any GraphQL errors or network error that occurred
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.forEach(({ message, locations, path }) => {
+        setMsg(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        );
+        setMsgVisible(true);
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        );
+      });
+    if (networkError) console.log(`[Network error]: ${networkError}`);
+  });
   const uploadLink = createUploadLink({ uri: URL_ENDPOINT });
   const [client, setClient] = useState(
     new ApolloClient({
-      link: ApolloLink.from([authLink, uploadLink]),
+      link: ApolloLink.from([errorLink, authLink, uploadLink]),
       cache: new InMemoryCache(),
     })
   );
@@ -65,27 +83,25 @@ export default function ClientMutator({ children }) {
    */
   useEffect(() => {
     if (user.status === USER.VERIFING) {
-      var lang = user.lang;
-      token = user.token;
-
       // set a new client to refetch all quries
       setClient(
         new ApolloClient({
-          link: ApolloLink.from([authLink, uploadLink]),
+          link: ApolloLink.from([errorLink, authLink, uploadLink]),
           cache: new InMemoryCache(),
         })
       );
-      userDispatch({ type: T.SET_CLIENT, token });
+      userDispatch({ type: T.SET_CLIENT, token: user.token });
     } else if (token) verifyToken();
     else if (rToken) refreshToken();
     else if (user.status === USER.LOGGED_OUT) {
+      console.log("reset client");
       client.resetStore();
-      client.setLink(
-        createHttpLink({
-          uri: URL_ENDPOINT,
-          headers: { "Accept-Language": user.lang },
-        })
-      );
+      // client.setLink(
+      //   createHttpLink({
+      //     uri: URL_ENDPOINT,
+      //     headers: { "Accept-Language": user.lang },
+      //   })
+      // );
     }
   }, [user.status]);
 
@@ -97,11 +113,8 @@ export default function ClientMutator({ children }) {
   useEffect(() => {
     if (dataVerifyToken) {
       if (dataVerifyToken.verifyToken.success) {
-        var lang = user.lang;
-
         // since the found is token is valid
         // no change in the client
-
         userDispatch({
           type: T.SET_CLIENT,
           username: dataVerifyToken.verifyToken.payload.username,
@@ -137,5 +150,16 @@ export default function ClientMutator({ children }) {
     }
   }, [dataRefreshToken]);
 
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+  return (
+    <>
+      <PopMsg
+        visible={MsgVisible}
+        msg={Msg}
+        handleClose={setMsgVisible}
+        success
+        // you can use failure or none for different message types
+      />
+      <ApolloProvider client={client}>{children}</ApolloProvider>
+    </>
+  );
 }
