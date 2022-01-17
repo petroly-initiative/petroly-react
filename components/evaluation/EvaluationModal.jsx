@@ -232,7 +232,14 @@ export default function EvaluationModal(props) {
         className={styles["modal-container"] + " border-0"}
         scrollable
       >
-        <Modal.Header className={styles.modalHeader + " border-0"} closeButton>
+        <Modal.Header
+          className={
+            styles.modalHeader +
+            " border-0" +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+          closeButton
+        >
           <Modal.Title
             className={styles.modalTitle}
             id="example-custom-modal-styling-title"
@@ -634,7 +641,7 @@ export default function EvaluationModal(props) {
             }
           >
             <Button
-            id="create-group-btn"
+              id="create-group-btn"
               onClick={props.close}
               className={[styles["btns"], styles["cancel-btn"]]}
             >
