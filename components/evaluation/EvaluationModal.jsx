@@ -26,7 +26,6 @@ import { FaSave, FaInfoCircle } from "react-icons/fa";
 import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
 import { MdWarning, MdCancel } from "react-icons/md";
-import { evalReducer } from "../../state-management/evaluation-state/evaluationReducer";
 import {
   evaluationCreateMutation,
   evaluationUpdateMutation,
@@ -42,9 +41,7 @@ import translator from "../../dictionary/components/eval-modal-dict";
 export default function EvaluationModal(props) {
   const { user } = useContext(UserContext);
   // modal state
-  const [submissionState, dispatch] = useReducer(evalReducer, {
-    sucess: false,
-  });
+
   const [show, setShow] = useState(false);
   // evaluation form state
   // each category is an object with grade and comment attribute
@@ -200,9 +197,7 @@ export default function EvaluationModal(props) {
     }
   };
 
-  useEffect(() => {
-    if (submissionState.sucess) props.close();
-  }, [submissionState]);
+
 
   useEffect(() => {
     if (dataEvaluationCreate) {
@@ -237,7 +232,14 @@ export default function EvaluationModal(props) {
         className={styles["modal-container"] + " border-0"}
         scrollable
       >
-        <Modal.Header className={styles.modalHeader + " border-0"} closeButton>
+        <Modal.Header
+          className={
+            styles.modalHeader +
+            " border-0" +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+          closeButton
+        >
           <Modal.Title
             className={styles.modalTitle}
             id="example-custom-modal-styling-title"
@@ -639,7 +641,7 @@ export default function EvaluationModal(props) {
             }
           >
             <Button
-            id="create-group-btn"
+              id="create-group-btn"
               onClick={props.close}
               className={[styles["btns"], styles["cancel-btn"]]}
             >

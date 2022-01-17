@@ -13,11 +13,8 @@ $x: #622edb;
   background: theme.$dark-fg !important;
   box-shadow: none !important;
   border: 4px solid theme.$dark-fg !important;
-  &::before,
-  &::after {
-    background-color: theme.$dark-fg !important;
-    color: theme.$dark-fnt !important;
-    box-shadow: none !important;
+  button{
+     color: theme.$dark-fnt !important;
   }
 }
 

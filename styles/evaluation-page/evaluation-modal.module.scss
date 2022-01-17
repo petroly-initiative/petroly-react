@@ -13,12 +13,13 @@ $x: #622edb;
   background: theme.$dark-fg !important;
   box-shadow: none !important;
   border: 4px solid theme.$dark-fg !important;
-  &::before,
-  &::after {
-    background-color: theme.$dark-fg !important;
-    color: theme.$dark-fnt !important;
-    box-shadow: none !important;
-  }
+
+   button{
+     color:  rgb(202, 202, 202);
+     &:hover{
+      color: theme.$dark-fnt;
+     }
+    }
 }
 
 .dark-footer{
@@ -227,7 +228,7 @@ background: theme.$dark-xxfg !important;
 }
 
 .btns {
-  width: 100px;
+  width: 150px;
   padding-left: 8px;
   padding-right: 8px;
   height: 50px;
