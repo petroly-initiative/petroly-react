@@ -11,7 +11,12 @@ $btn-prim: #00ead3;
   box-shadow: none !important;
   border: 2px solid  theme.$dark-bg !important;
 
-
+  button{
+     color:  rgb(202, 202, 202);
+     &:hover{
+      color: theme.$dark-fnt;
+     }
+    }
 }
 
 .dark-header{
