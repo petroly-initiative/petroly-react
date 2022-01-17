@@ -77,7 +77,6 @@ export const registerMutation = gql`
 export const evaluationCreateMutation = gql`
   mutation EvaluationCreate(
     $instructorId: ID
-    $username: String
     $grading: EvaluationGradingEnum!
     $teaching: EvaluationTeachingEnum!
     $personality: EvaluationPersonalityEnum!
@@ -91,7 +90,6 @@ export const evaluationCreateMutation = gql`
     evaluationCreate(
       input: {
         instructor: { connect: { id: { exact: $instructorId } } }
-        user: { connect: { username: { exact: $username } } }
         grading: $grading
         teaching: $teaching
         personality: $personality

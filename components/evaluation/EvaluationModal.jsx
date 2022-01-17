@@ -36,8 +36,6 @@ import { USER, L, M, langDirection } from "../../constants";
 import { Fade } from "react-awesome-reveal";
 import translator from "../../dictionary/components/eval-modal-dict";
 
-
-
 export default function EvaluationModal(props) {
   const { user } = useContext(UserContext);
   // modal state
@@ -192,12 +190,11 @@ export default function EvaluationModal(props) {
       setWaiting(true);
       evaluationUpdate();
     } else {
-      setWaiting(true);
+      // setWaiting(true);
+      console.log(user);
       evaluationCreate();
     }
   };
-
-
 
   useEffect(() => {
     if (dataEvaluationCreate) {
