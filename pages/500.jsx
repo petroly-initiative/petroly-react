@@ -2,8 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/error-pages/errors.module.scss";
 import { Container } from "react-bootstrap";
+import { DEF_THEME, DEF_LANG, L, M } from "../constants";
 
 export default function Custom500() {
+  const user = {
+    theme: DEF_THEME,
+    lang: DEF_LANG,
+  };
+
   return (
     <Container className={styles["main-container"]}>
       <div className={styles["content-div"]}>

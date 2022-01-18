@@ -17,7 +17,6 @@ import { L, M } from "../../constants";
  */
 
 export default function GroupDisplay(props) {
-  
   const [msgVisible, setMessage] = useState(false);
 
   const share = () => {
@@ -30,14 +29,8 @@ export default function GroupDisplay(props) {
   const [langState, setLang] = useState(() => translator(user.lang));
 
   useEffect(() => {
-    // console.log(userContext.user.lang);
     setLang(() => translator(user.lang));
-    console.log("changed language!");
   }, [user.lang]);
-
-  useEffect(() => {
-    console.log(props.course);
-  }, [props.showModal]);
 
   return (
     <>

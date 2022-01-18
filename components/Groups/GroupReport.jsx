@@ -7,9 +7,8 @@ import { ImLink } from "react-icons/im";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import styles from "../../styles/groups-page/group-creation.module.scss";
 import translator from "../../dictionary/components/group-report-dict";
-import {UserContext} from "../../state-management/user-state/UserContext";
+import { UserContext } from "../../state-management/user-state/UserContext";
 import { MdWarning } from "react-icons/md";
-
 
 function GroupReport(props) {
   const [cause, setCause] = useState("");
@@ -19,39 +18,33 @@ function GroupReport(props) {
   const otherCause = useRef();
   const image = useRef();
 
-      const { user } = useContext(UserContext);
-      const [langState, setLang] = useState(() => translator(user.lang));
+  const { user } = useContext(UserContext);
+  const [langState, setLang] = useState(() => translator(user.lang));
 
-      useEffect(() => {
-        // console.log(userContext.user.lang);
-        setLang(() => translator(user.lang));
-        console.log("changed language!");
-      }, [user.lang]);
-
+  useEffect(() => {
+    setLang(() => translator(user.lang));
+  }, [user.lang]);
 
   //TODO: handle reports in backend
   const createReport = (e) => {
     e.preventDefault();
-    validateCause(cause.length === 0)
-    if(cause === "OtherCause"){
+    validateCause(cause.length === 0);
+    if (cause === "OtherCause") {
       if (!otherCause.current.value.length === 0) {
         setShow(false);
         props.handleClose();
-      } else{
+      } else {
         validateOther(true);
       }
-      
     }
   };
 
   const selectType = (e) => {
-    if (e.target.id !== "other-input")
-      setCause(e.target.value, console.log(cause));
+    if (e.target.id !== "other-input") setCause(e.target.value);
   };
 
   useEffect(() => {
     setShow(props.showModal);
-    console.log(props.showModal);
   }, [props.showModal]);
 
   return (
