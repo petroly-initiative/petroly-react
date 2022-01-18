@@ -144,7 +144,7 @@ export default function ProfileTab(props) {
                   >
                     <MdCancel size="1.6rem" />
                   </Button>
-                  <Button className={styles["btns"]}>
+                  <Button onClick={switchMode} className={styles["btns"]}>
                     {" "}
                     <FaSave size="1.6rem" />
                   </Button>
@@ -232,7 +232,7 @@ export default function ProfileTab(props) {
                   >
                     <MdCancel size="1.6rem" />
                   </Button>
-                  <Button className={styles["btns"]}>
+                  <Button onClick={switchMode} className={styles["btns"]}>
                     {" "}
                     <FaSave size="1.6rem" />
                   </Button>
