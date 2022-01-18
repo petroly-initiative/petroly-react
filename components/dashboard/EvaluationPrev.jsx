@@ -111,6 +111,7 @@ export default function EvaluationPreview(props) {
         term={props.evaluation.term}
         course={props.evaluation.course}
         edit={true} // To indicate this isn't new eval
+        handleMsg={props.handleMsg}
       />
     </>
   );

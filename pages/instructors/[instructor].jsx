@@ -23,7 +23,7 @@ import Image from "next/image";
 import Head from "next/head";
 import { MdFolderSpecial } from "react-icons/md";
 import client from "../../api/apollo-client";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import {
   getInstructorName,
   getInstructorDetail,
@@ -32,8 +32,10 @@ import {
 import { Fade } from "react-awesome-reveal";
 import { useRouter } from "next/router";
 import translator from "../../dictionary/pages/instructor-details-dict";
-import { M } from "../../constants";
+import { M, L } from "../../constants";
 import { useCallback } from "react";
+import PopMsg from "../../components/PopMsg";
+import { NavContext } from "../../state-management/navbar-state/NavbarContext";
 
 export const getStaticPaths = async () => {
   const { data } = await client.query({
@@ -69,16 +71,19 @@ export const getStaticProps = async (context) => {
 
   return {
     props: { data: data },
-    revalidate: 3,
+    revalidate: 1,
+    
   };
 };
 
 export default function instructorDetails({ data }) {
   const router = useRouter();
   const [modalVisible, setVisible] = useState(false);
-  const [msg, setMsg] = useState("");
+  const [msg, setEvalMsg] = useState("");
+  const [msgVisible, setMsg] = useState(false);
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
+   const { navDispatch } = useContext(NavContext);
 
   useEffect(() => {
     setLang(() => translator(user.lang));
@@ -92,16 +97,23 @@ export default function instructorDetails({ data }) {
     }
   );
 
+
+
+  useEffect(() => {
+    navDispatch("");
+    console.log(data);
+  }, []);
+
   useEffect(() => {
     if (user.status === USER.LOGGED_IN) {
       if (dataHasEvaluated) {
         if (dataHasEvaluated.hasEvaluated) {
-          setMsg(`${langState.evaluated}`);
+          setEvalMsg(`${langState.evaluated}`);
           setVisible(false);
           // we can redirect the user to the eavaluation edit page
-        } else setMsg(`${langState.evalAllow}`);
+        } else setEvalMsg(`${langState.evalAllow}`);
       }
-    } else setMsg(`${langState.evalBlock}`);
+    } else setEvalMsg(`${langState.evalBlock}`);
   }, [loadingHasEvaluated, user.status]);
 
   if (router.isFallback) {
@@ -390,6 +402,19 @@ export default function instructorDetails({ data }) {
           comment={""}
           term={""}
           course={""}
+          handleMsg={setMsg}
+         
+        />
+        <PopMsg
+          visible={msgVisible}
+          msg={
+            user.lang === L.AR_SA
+              ? "تم تقييم المحاضر بنجاح الرجاء الانتظار قليلا لظهور التقييم"
+              : "Instructor Evaluated successfully. Please wait for your evaluation to show up"
+          }
+          handleClose={setMsg}
+          success
+          // you can use failure or none for different message types
         />
       </Container>
     </>

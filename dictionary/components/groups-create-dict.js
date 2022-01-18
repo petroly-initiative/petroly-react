@@ -32,6 +32,7 @@ const arabic = {
   typeErr: "الرجاء اختيار نوع المجتمع المراد إضافته",
   platformErr: "الرجاء اختيار المنصة الإلكترونية للمجتمع",
   descErr: "الرجاء كتابة وصف للمجموعة",
+  imageHelper: "الرجاء استخدام صيغة PNG, JPG, JPEG"
   };
 
 
@@ -65,6 +66,7 @@ const english = {
   typeErr: "Please Select the Group Type",
   platformErr: "Please Select the Group Platform",
   descErr: "Please provide a description for the group",
+   imageHelper: "Please use PNG, JPG, or JPEG format"
  
 };
 

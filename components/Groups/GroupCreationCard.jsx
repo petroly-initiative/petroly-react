@@ -416,7 +416,7 @@ function GroupCreationCard(props) {
                     muted
                     dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   >
-                    {langState.nameHelper}{" "}
+                    {langState.imageHelper}{" "}
                   </Form.Text>
                 )}
               </Col>

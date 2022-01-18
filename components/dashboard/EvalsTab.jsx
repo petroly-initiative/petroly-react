@@ -211,6 +211,7 @@ export default function EvaluationsTab(props) {
         instructor={evaluation.instructor}
         evaluation={evaluation}
         refetch={refetchMe}
+        handleMsg = {props.handleMsg}
       />
     );
   });

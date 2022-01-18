@@ -42,6 +42,7 @@ export default function GroupDisplay(props) {
           props.handleClose();
         }}
         className={styles["modal-container"]}
+        scrollable
       >
         <Modal.Header
           className={` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`}
