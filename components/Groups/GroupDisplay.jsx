@@ -117,13 +117,12 @@ export default function GroupDisplay(props) {
               <div
                 className={
                   styles.highlightText +
-                  ` shadow text-${
-                    props.type === "SECTION" ? "right pr-4" : "center"
-                  } `
+                  ` shadow
+                  `
                 }
                 style={{
                   background: props.typeColor(props.type),
-                  position: "relative",
+                  position: "relative"
                 }}
               >
                 {props.typeIcon(props.type)}
@@ -135,7 +134,7 @@ export default function GroupDisplay(props) {
                   <span
                     style={{
                       fontSize: 14,
-                      position: "absolute",
+                      position: "relative",
                       display: "flex",
                       alignItems: "center",
                       padding: "3px 6px",
@@ -144,9 +143,10 @@ export default function GroupDisplay(props) {
                       fontWeight: "600",
                       paddingRight: 15,
                       paddingLeft: 15,
-                      height: "100%",
+                      height: "28px",
                       borderRadius: "3px",
                       backgroundColor: "#4a1eaf",
+                      marginRight: 16,
                     }}
                   >
                     {props.section}
