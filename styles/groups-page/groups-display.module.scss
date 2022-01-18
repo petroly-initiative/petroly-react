@@ -69,7 +69,11 @@ background: url("/images/background.svg") repeat;
 
 .highlightText {
   color: white;
+  display: flex;
+  flex-direction: row;
   font-weight: bold;
+  align-items: center;
+  justify-content: center;
   height: 40px;
   padding: 0.5rem;
   text-align: center;
