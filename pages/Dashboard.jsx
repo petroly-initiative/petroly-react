@@ -63,7 +63,9 @@ export default function Dashboard(props) {
       <Container className={styles["main-container"]}>
         {/* It will be responsible for the main shadow drop */}
         {/* The title */}
-        <div className={styles["title"]}>{ user.lang === L.AR_SA ? "لوحة المعلومات" : "Dashboard"}</div>
+        <div className={styles["title"]}>
+          {user.lang === L.AR_SA ? "لوحة المعلومات" : "Dashboard"}
+        </div>
         <Row className={styles["cards-holder"]}>
           <Fade
             triggerOnce
@@ -75,7 +77,7 @@ export default function Dashboard(props) {
             }
           >
             <ProfileTab />
-            <EvaluationsTab />
+            <EvaluationsTab handleMsg={setMsg} />
             <GroupsTab handleMsg={setMsg} />
           </Fade>
         </Row>

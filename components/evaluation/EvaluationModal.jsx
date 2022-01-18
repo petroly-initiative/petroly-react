@@ -197,14 +197,21 @@ export default function EvaluationModal(props) {
     if (dataEvaluationCreate) {
       if (dataEvaluationCreate.evaluationCreate.ok) {
         setWaiting(false);
-        setTimeout(() => location.reload(), 400);
+        props.close();
+         setTimeout(() => {
+           location.reload()
+          props.handleMsg(true);}, 1000);
+
+        
       }
     } else if (dataEvaluationUpdate) {
       if (dataEvaluationUpdate.evaluationUpdate.ok) {
         setWaiting(false);
         setTimeout(() => {
           props.close();
+          props.handleMsg(true);
           props.refetch();
+          
         }, 400);
       } else {
         setError({ show: true, msg: "Error while updatig" });
@@ -277,7 +284,8 @@ export default function EvaluationModal(props) {
             </div>
           </section>
           <Alert
-            style={langDirection(user.lang)}
+            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+            style={{ textAlign: `${user.lang === L.AR_SA ? "right" : "left"}` }}
             className={styles["rules"]}
             key={0}
             variant="warning"
@@ -356,12 +364,14 @@ export default function EvaluationModal(props) {
                         user.theme === M.DARK ? styles["dark-mode-input"] : ""
                       }`}
                     />
-                    {isTermInvalid && <FormControl.Feedback
-                      style={langDirection(user.lang)}
-                      type="invalid"
-                    >
-                      {langState.termErr}
-                    </FormControl.Feedback>}
+                    {isTermInvalid && (
+                      <FormControl.Feedback
+                        style={langDirection(user.lang)}
+                        type="invalid"
+                      >
+                        {langState.termErr}
+                      </FormControl.Feedback>
+                    )}
                   </InputGroup>
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6} xl={6}>
@@ -391,12 +401,14 @@ export default function EvaluationModal(props) {
                         }`
                       }
                     />
-                   {isCourseInvalid && <FormControl.Feedback
-                      style={langDirection(user.lang)}
-                      type="invalid"
-                    >
-                      {langState.courseErr}
-                    </FormControl.Feedback>}
+                    {isCourseInvalid && (
+                      <FormControl.Feedback
+                        style={langDirection(user.lang)}
+                        type="invalid"
+                      >
+                        {langState.courseErr}
+                      </FormControl.Feedback>
+                    )}
                   </InputGroup>
                 </Col>
               </Form.Row>
@@ -451,16 +463,28 @@ export default function EvaluationModal(props) {
                 <FormControl
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   style={langDirection(user.lang)}
-                  maxLength="160"
-                  className={` ${
-                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
-                  }`}
+                  maxLength="500"
+                  className={
+                    ` ${
+                      user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                    } ` + styles["eval-params"]
+                  }
                   placeholder={langState.gradePlaceholder}
                   size="sm"
                   as="textarea"
                   value={grading.comment}
                   onChange={gradeComment}
                 ></FormControl>
+                <Form.Text
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  style={Object.assign(
+                    { fontSize: 12 },
+                    langDirection(user.lang)
+                  )}
+                  muted
+                >
+                  {langState.limitHelper}
+                </Form.Text>
               </InputGroup>
             </section>
             <section
@@ -511,10 +535,12 @@ export default function EvaluationModal(props) {
                 <Form.Label></Form.Label>
                 <FormControl
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                  maxLength="160"
-                  className={` ${
-                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
-                  }`}
+                  maxLength="500"
+                  className={
+                    ` ${
+                      user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                    } ` + styles["eval-params"]
+                  }
                   placeholder={langState.teachPlaceholder}
                   size="sm"
                   as="textarea"
@@ -522,6 +548,16 @@ export default function EvaluationModal(props) {
                   onChange={teachComment}
                   style={langDirection(user.lang)}
                 ></FormControl>
+                <Form.Text
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  style={Object.assign(
+                    { fontSize: 12 },
+                    langDirection(user.lang)
+                  )}
+                  muted
+                >
+                  {langState.limitHelper}
+                </Form.Text>
               </InputGroup>
             </section>
             <section
@@ -572,16 +608,28 @@ export default function EvaluationModal(props) {
                 <FormControl
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   style={langDirection(user.lang)}
-                  maxLength="160"
-                  className={` ${
-                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
-                  }`}
+                  maxLength="500"
+                  className={
+                    ` ${
+                      user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                    } ` + styles["eval-params"]
+                  }
                   placeholder={langState.personPlaceholder}
                   as="textarea"
                   size="sm"
                   value={person.comment}
                   onChange={personComment}
                 ></FormControl>
+                <Form.Text
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  style={Object.assign(
+                    { fontSize: 12 },
+                    langDirection(user.lang)
+                  )}
+                  muted
+                >
+                  {langState.limitHelper}
+                </Form.Text>
               </InputGroup>
             </section>
             <section
@@ -608,15 +656,27 @@ export default function EvaluationModal(props) {
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   style={langDirection(user.lang)}
                   maxLength="160"
-                  className={` ${
-                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
-                  }`}
+                  className={
+                    ` ${
+                      user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                    } ` + styles["eval-params"]
+                  }
                   placeholder={langState.commentPlaceholder}
                   as="textarea"
                   size="sm"
                   value={generalComment}
                   onChange={setGeneralComment}
                 ></FormControl>
+                <Form.Text
+                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  style={Object.assign(
+                    { fontSize: 12 },
+                    langDirection(user.lang)
+                  )}
+                  muted
+                >
+                  {langState.limitHelper}
+                </Form.Text>
               </InputGroup>
             </section>
           </Form>
@@ -650,7 +710,12 @@ export default function EvaluationModal(props) {
             }
           >
             {waiting ? (
-              <Spinner animation="border" role="status" />
+              <Button
+                onClick={fireEval}
+                className={[styles["btns"], styles["submit-btn"]]}
+              >
+                <Spinner animation="border" role="status" />
+              </Button>
             ) : (
               <Button
                 onClick={fireEval}

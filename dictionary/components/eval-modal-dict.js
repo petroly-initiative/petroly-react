@@ -4,7 +4,7 @@ const arabic = {
 modalHeader: "استمارة التقييم",
 politeMsg: "نرجو عدم استخدام الألفاظ النابية تجاه أساتذتنا الكرام في استمارة التقييم",
 infoHeader: "معلومات التقييم",
-infoSubHeader: "معلومات ضرورية للاستفادةالقصوى من تقييمك",
+infoSubHeader: "معلومات ضرورية للاستفادة القصوى من تقييمك",
 termSubHeader: "الفصل الدراسي",
 courseSubHeader: "المادة الدراسية",
 gradeHeader: "التصحيح والدرجات",
@@ -21,7 +21,8 @@ commentPlaceholder: "اكتب تعليقك العام",
 submitHover: "تسلييم التقييم",
 cancelHover: "إلغاء التقييم",
 termErr: "الرجاء استخدام 3 أرقام فقط",
-courseErr: " ABCDXXX :الرجاء كتابة اسم المدة الدراسية كالآتي"
+courseErr: " ABCDXXX :الرجاء كتابة اسم المدة الدراسية كالآتي",
+limitHelper: "الحد الأقصى هو 500 حرف"
 };
 
 const english = {
@@ -45,7 +46,8 @@ const english = {
   submitHover: "Submit",
   cancelHover: "Cancel",
   termErr: "Please use 3 digits only",
-    courseErr: "Please use the following course format: ABCDXXX "
+  courseErr: "Please use the following course format: ABCDXXX ",
+  limitHelper: "The max limit is 500 letters"
 };
 
 export default function translator(lang) {
