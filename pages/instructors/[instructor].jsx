@@ -25,7 +25,7 @@ import { MdFolderSpecial } from "react-icons/md";
 import client from "../../api/apollo-client";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import {
-  getInstructorName,
+  getEvaluatedInstrucotrs,
   getInstructorDetail,
   hasEvaluatedQuery,
 } from "../../api/queries";
@@ -39,13 +39,14 @@ import { NavContext } from "../../state-management/navbar-state/NavbarContext";
 
 export const getStaticPaths = async () => {
   const { data } = await client.query({
-    query: getInstructorName,
+    query: getEvaluatedInstrucotrs,
     variables: {},
   });
-  const ids = data.instructors.data.map((element) => {
+
+  const ids = data.evaluatedInstructors.map((id) => {
     return {
       params: {
-        instructor: element.id,
+        instructor: id,
       },
     };
   });
