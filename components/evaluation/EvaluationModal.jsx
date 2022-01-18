@@ -201,7 +201,7 @@ export default function EvaluationModal(props) {
         props.handleMsg(true);
         setTimeout(() => {
           location.reload();
-        }, 1000);
+        }, 3000);
       }
     } else if (dataEvaluationUpdate) {
       if (dataEvaluationUpdate.evaluationUpdate.ok) {
