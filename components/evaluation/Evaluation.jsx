@@ -89,7 +89,7 @@ export default function Evaluation(props) {
         >
           {/* ERR: COLOR IS SPECIFIED LOCALLY */}
           <div
-            dir={`${user.lang === L.AR_SA ? "ltr" : "rtl"}`}
+            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
             style={langDirection(user.lang)}
             className={styles.headers}
           >
@@ -129,7 +129,7 @@ export default function Evaluation(props) {
           id="teaching"
         >
           <div
-            dir={`${user.lang === L.AR_SA ? "ltr" : "rtl"}`}
+            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
             style={langDirection(user.lang)}
             className={styles.headers}
           >
@@ -169,7 +169,7 @@ export default function Evaluation(props) {
           id="personality"
         >
           <div
-            dir={`${user.lang === L.AR_SA ? "ltr" : "rtl"}`}
+            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
             style={langDirection(user.lang)}
             className={styles.headers}
           >
@@ -210,7 +210,7 @@ export default function Evaluation(props) {
             id="general"
           >
             <div
-              dir={`${user.lang === L.AR_SA ? "ltr" : "rtl"}`}
+              dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
               style={langDirection(user.lang)}
               className={
                 styles.headers +

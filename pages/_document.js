@@ -8,8 +8,6 @@ class MyDocument extends Document {
         <Html lang="ar">
           <GoogleFonts href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" />
           <Head>
-            <title>Petroly | home</title>
-            <meta name="title" content="Petroly | home" />
             <meta
               name="description"
               content="Digital Platform for All KFUPMers"
