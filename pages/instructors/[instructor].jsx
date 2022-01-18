@@ -57,7 +57,7 @@ export const getStaticPaths = async () => {
    */
   return {
     paths: ids,
-    fallback: false,
+    fallback: "blocking",
   };
 };
 // This function will run for each path we provided
@@ -71,8 +71,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: { data: data },
-    revalidate: 1,
-    
+    revalidate: 60,
   };
 };
 
@@ -83,7 +82,7 @@ export default function instructorDetails({ data }) {
   const [msgVisible, setMsg] = useState(false);
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
-   const { navDispatch } = useContext(NavContext);
+  const { navDispatch } = useContext(NavContext);
 
   useEffect(() => {
     setLang(() => translator(user.lang));
@@ -96,8 +95,6 @@ export default function instructorDetails({ data }) {
       variables: { instructorId: data.instructor.id },
     }
   );
-
-
 
   useEffect(() => {
     navDispatch("");
@@ -403,7 +400,6 @@ export default function instructorDetails({ data }) {
           term={""}
           course={""}
           handleMsg={setMsg}
-         
         />
         <PopMsg
           visible={msgVisible}
