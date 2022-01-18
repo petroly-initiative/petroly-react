@@ -57,6 +57,11 @@ export default function HomeScreen() {
           content="Digital Platform for All KFUPMers"
         />
         <meta property="twitter:image" content="/images/website-header.png" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4435926247205725"
+          crossorigin="anonymous"
+        ></script>
       </Head>
       {/* <Navbar page="home" /> */}
       <Container className={styles["main-container"]}>
