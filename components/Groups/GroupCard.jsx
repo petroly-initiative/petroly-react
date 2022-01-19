@@ -57,7 +57,6 @@ function GroupCard(props) {
 
   useEffect(() => {
     if (interactions) {
-      console.log(interactions);
       setIactions((prev) => ({
         liked: interactions.hasInteractedCommunity.liked,
         number: prev.number,

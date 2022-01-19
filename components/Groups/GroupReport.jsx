@@ -43,11 +43,6 @@ function GroupReport(props) {
   const createReport = (e) => {
     e.preventDefault();
     validateCause(cause.length === 0);
-    console.log({
-      reason: cause,
-      otherReason: otherCause.current.value,
-      CommunityID: props.id,
-    });
     if (cause === "OTHER") {
       if (otherCause.current.value.length !== 0) {
         reportCommunity({
