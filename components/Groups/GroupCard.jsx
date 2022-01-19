@@ -19,10 +19,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
 import GroupDisplay from "./GroupDisplay";
-import { useMutation, useQuery, NetworkStatus } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import GroupReport from "./GroupReport";
-import { toggleLikeCommunityMutation } from "../../api/mutations";
-import { userHasLiked } from "../../api/queries";
+import {
+  interactedCommunityMutation,
+  toggleLikeCommunityMutation,
+} from "../../api/mutations";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-card-dict";
 import { M, USER } from "../../constants";
@@ -31,23 +33,13 @@ function GroupCard(props) {
   const { user } = useContext(UserContext);
   const [displayGroup, setDisplay] = useState(false);
   const [showReport, setReport] = useState(false);
-  const [likes, setLikes] = useState({
+  const [iactions, setIactions] = useState({
     number: props.likesCount,
     liked: false,
+    reported: false,
   });
 
-  const {
-    data: likedData,
-    loading: likedLoading,
-    error: likedError,
-  } = useQuery(userHasLiked, {
-    skip: user.status !== USER.LOGGED_IN,
-    variables: { id: props.id },
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "cache-first",
-  });
-
+  /* managing a community interactions: like and report */
   const [toggleLikeCommunity, { data, loading, error }] = useMutation(
     toggleLikeCommunityMutation,
     {
@@ -55,12 +47,24 @@ function GroupCard(props) {
     }
   );
 
+  const [getInteractions, { data: interactions }] = useMutation(
+    interactedCommunityMutation,
+    { variables: { id: props.id } }
+  );
   useEffect(() => {
-    setLikes((prev) => ({
-      liked: likedData ? likedData.hasLikedCommunity : prev.liked,
-      number: prev.number,
-    }));
-  }, [likedData]); // I am not sure if this is the best practice. Please check.
+    if (user.status === USER.LOGGED_IN) getInteractions();
+  }, [user.status]);
+
+  useEffect(() => {
+    if (interactions) {
+      setIactions((prev) => ({
+        liked: interactions.hasInteractedCommunity.liked,
+        number: prev.number,
+        reported: interactions.hasInteractedCommunity.reported,
+      }));
+    }
+  }, [interactions]);
+  //  -----------------------------------------------------------------------------
 
   const [langState, setLang] = useState(() => translator(user.lang));
 
@@ -124,12 +128,12 @@ function GroupCard(props) {
   };
 
   const addLike = () => {
-    if (likes.liked) {
+    if (iactions.liked) {
       toggleLikeCommunity({ variables: { id: props.id } });
-      setLikes((prev) => ({ liked: false, number: prev.number - 1 }));
+      setIactions((prev) => ({ liked: false, number: prev.number - 1 }));
     } else {
       toggleLikeCommunity({ variables: { id: props.id } });
-      setLikes((prev) => ({ liked: true, number: prev.number + 1 }));
+      setIactions((prev) => ({ liked: true, number: prev.number + 1 }));
     }
   };
 
@@ -148,18 +152,23 @@ function GroupCard(props) {
     setReport(false);
   };
 
-  if (error || likedError) {
+  if (error) {
     console.error("we could not save your like or check it");
   }
 
   return (
     <>
-      <GroupReport showModal={showReport} handleClose={closeReport} />
+      <GroupReport
+        id={props.id}
+        showModal={showReport}
+        handleClose={closeReport}
+        refetchIactions={getInteractions}
+      />
       <GroupDisplay
         {...props}
         labels={labels}
-        liked={likes.liked}
-        likeNum={likes.number}
+        liked={iactions.liked}
+        likeNum={iactions.number}
         addLike={addLike}
         section={props.section}
         link={props.link}
@@ -203,22 +212,22 @@ function GroupCard(props) {
                 />
               ) : (
                 <div
-                  style={{ color: likes.liked ? "#00ead3" : "" }}
+                  style={{ color: iactions.liked ? "#00ead3" : "" }}
                   className={styles["likes-btn"]}
                 >
                   <Button
-                    style={{ color: likes.liked ? "#00ead3" : "" }}
+                    style={{ color: iactions.liked ? "#00ead3" : "" }}
                     onClick={addLike}
                     className={styles["btns"]}
                   >
-                    {likes.liked ? (
+                    {iactions.liked ? (
                       <BsFillStarFill color={"#00ead3"} />
                     ) : (
                       <BsStar />
                     )}
                   </Button>
 
-                  <span>{likes.number}</span>
+                  <span>{iactions.number}</span>
                 </div>
               )}
             </OverlayTrigger>
@@ -230,6 +239,7 @@ function GroupCard(props) {
               }
             >
               <Button
+                disabled={iactions.reported}
                 onClick={fireReport}
                 className={styles["btns"] + " " + styles["report-btn"]}
               >

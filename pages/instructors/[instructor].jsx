@@ -99,7 +99,6 @@ export default function instructorDetails({ data }) {
 
   useEffect(() => {
     navDispatch("");
-    console.log(data);
   }, []);
 
   useEffect(() => {

@@ -10,24 +10,22 @@ import { useCallback } from "react";
 
 // TODO: providing a dark mode
 export default function PopMsg(props) {
+  // This is gonna be useful when setting onClose prop.
 
-
-
- // This is gonna be useful when setting onClose prop.
-
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   // auto closing mechanism
   var timer = useCallback(() => {
-    if(props.visible){
-    timer = setTimeout(() => {
-      props.handleClose(false);
-    }, 2500);
-  }}, [props.visible]);
-  
+    if (props.visible) {
+      timer = setTimeout(() => {
+        props.handleClose(false);
+      }, 2500);
+    }
+  }, [props.visible]);
+
   useEffect(() => {
-  timer()
-  })
+    timer();
+  });
 
   return (
     <>
@@ -37,7 +35,6 @@ export default function PopMsg(props) {
         size="lg"
         // making sure that no 2 fades conflict
         onHide={() => {
-          console.log("leaving!");
           clearTimeout(timer);
           props.handleClose(false);
         }}
@@ -47,9 +44,10 @@ export default function PopMsg(props) {
         <Modal.Body
           className={
             styles["popup-body"] +
-            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}` + " shadow"
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}` +
+            " shadow"
           }
-          style={{ borderRadius: "10px !important"}}
+          style={{ borderRadius: "10px !important" }}
         >
           <div
             className={
