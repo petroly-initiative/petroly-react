@@ -272,7 +272,34 @@ export const editCommunnityMutation = gql`
     }
   }
 `;
-
+export const reportCreateMutation = gql`
+  mutation CreateReport(
+    $reason: ReportReasonEnum!
+    $CommunityID: ID!
+    $otherReason: String = " "
+  ) {
+    reportCreate(
+      input: {
+        reason: $reason
+        community: { connect: { id: { exact: $CommunityID } } }
+        otherReason: $otherReason
+      }
+    ) {
+      ok
+      errors {
+        field
+        messages
+      }
+      result {
+        id
+        community {
+          name
+        }
+        reason
+      }
+    }
+  }
+`;
 export const profileUpdateMutation = gql`
   mutation ProfileUpdateMutation($id: ID, $lang: String, $theme: String) {
     profileUpdate(
