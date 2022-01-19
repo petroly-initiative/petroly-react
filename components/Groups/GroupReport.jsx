@@ -51,43 +51,45 @@ function GroupReport(props) {
   const createReport = (e) => {
     e.preventDefault();
     validateCause(cause.length === 0);
+    console.log({
+      reason: cause,
+      otherReason: otherCause.current.value,
+      CommunityID: props.id,
+    });
     if (cause === "OTHER") {
-      if (!otherCause.current.value.length === 0) {
-        // reportCommunity({
-        //   variables: {
-        //     reason: cause,
-        //     otherReason: otherCause,
-        //     CommunityID: props.id,
-        //   },
-        // });
+      if (otherCause.current.value.length !== 0) {
+        reportCommunity({
+          variables: {
+            reason: cause,
+            otherReason: otherCause.current.value,
+            CommunityID: props.id,
+          },
+        });
         setShow(false);
         props.handleClose();
       } else {
         validateOther(true);
       }
     } else {
-      // reportCommunity({
-      //   variables: {
-      //     reason: cause,
-      //     CommunityID: props.id,
-      //   },
-      // });
+      reportCommunity({
+        variables: {
+          reason: cause,
+          CommunityID: props.id,
+        },
+      });
       setShow(false);
       props.handleClose();
     }
   };
 
   const selectType = (e) => {
-    if (e.target.id !== "other-input") setCause(e.target.value);
+    if (e.target.id !== "OTHER") setCause(e.target.value);
   };
 
   useEffect(() => {
     setShow(props.showModal);
   }, [props.showModal]);
-  useEffect(() => {
-    setHasReported(true);
-  }, [data]);
-  // if (hasReported) return <></>;
+
   return (
     <div>
       <Modal
@@ -132,6 +134,7 @@ function GroupReport(props) {
               <Col>
                 <Form onChange={selectType} noValidate>
                   <Form.Check
+                    checked={cause === "CONTENT"}
                     className={styles.radio}
                     type={"radio"}
                     value="CONTENT"
@@ -150,6 +153,7 @@ function GroupReport(props) {
                     name="platform"
                   />
                   <Form.Check
+                    checked={cause === "LINK"}
                     className={styles.radio}
                     type={"radio"}
                     value="LINK"
@@ -168,8 +172,9 @@ function GroupReport(props) {
                     name="platform"
                   />
                   <Form.Check
+                    checked={cause === "OTHER"}
                     className={styles.radio + " " + styles["course-container"]}
-                    type={"radio"}
+                    type="radio"
                     value="OTHER"
                     label={
                       <div>
@@ -186,10 +191,10 @@ function GroupReport(props) {
                         <InputGroup
                           hasValidation
                           style={{
-                            maxHeight: cause === "OtherCause" ? 60 : 0,
-                            opacity: cause === "OtherCause" ? "1" : "0",
+                            maxHeight: cause === "OTHER" ? 60 : 0,
+                            opacity: cause === "OTHER" ? "1" : "0",
                             transition: "150ms ease",
-                            marginTop: cause === "OtherCause" ? 12 : 0,
+                            marginTop: cause === "OTHER" ? 12 : 0,
                           }}
                         >
                           <Form.Control
@@ -197,9 +202,9 @@ function GroupReport(props) {
                             ref={otherCause}
                             className={styles["other-input"]}
                             style={{ fontSize: 12 }}
-                            id="other-input"
+                            id="OTHER"
                             type="text"
-                            // disabled={!types.Section.find}
+                            disabled={cause !== "OTHER"}
                             placeholder={langState.reasonSub}
                           />
                           <Form.Control.Feedback
@@ -211,8 +216,6 @@ function GroupReport(props) {
                         </InputGroup>
                       </div>
                     }
-                    id="1"
-                    name="platform"
                   />
                 </Form>
               </Col>

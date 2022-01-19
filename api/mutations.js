@@ -276,7 +276,7 @@ export const reportCreateMutation = gql`
   mutation CreateReport(
     $reason: ReportReasonEnum!
     $CommunityID: ID!
-    $otherReason: String = " "
+    $otherReason: String = ""
   ) {
     reportCreate(
       input: {
