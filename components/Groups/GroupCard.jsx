@@ -154,7 +154,11 @@ function GroupCard(props) {
 
   return (
     <>
-      <GroupReport showModal={showReport} handleClose={closeReport} />
+      <GroupReport
+        id={props.id}
+        showModal={showReport}
+        handleClose={closeReport}
+      />
       <GroupDisplay
         {...props}
         labels={labels}
