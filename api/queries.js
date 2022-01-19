@@ -209,15 +209,3 @@ export const CommunitiesQuery = gql`
     }
   }
 `; // Modify this query to handle filter feature
-
-export const userHasLiked = gql`
-  query HasLikedCommunity($id: ID!) {
-    hasLikedCommunity(id: $id)
-  }
-`;
-
-export const UserHasReported = gql`
-  query HasReportedCommunity($id: ID!) {
-    hasReprotedCommunity(id: $id)
-  }
-`;

@@ -17,12 +17,11 @@ import styles from "../../styles/groups-page/group-creation.module.scss";
 import translator from "../../dictionary/components/group-report-dict";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { MdWarning } from "react-icons/md";
-import { useMutation, useQuery } from "@apollo/client";
-import { UserHasReported } from "../../api/queries";
+import { useMutation } from "@apollo/client";
 import { reportCreateMutation } from "../../api/mutations";
 import PopMsg from "../PopMsg";
+
 function GroupReport(props) {
-  const [hasReported, setHasReported] = useState(false);
   const [cause, setCause] = useState("");
   const [show, setShow] = useState(false);
   const [invalidCause, validateCause] = useState(false);
@@ -31,14 +30,7 @@ function GroupReport(props) {
 
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
-  const {
-    data,
-    loading,
-    error,
-    refetch: refetchExisting,
-  } = useQuery(UserHasReported, {
-    variables: { id: props.id },
-  });
+
   const [
     reportCommunity,
     { data: reportData, loading: reportLoading, error: reportError },
@@ -89,6 +81,10 @@ function GroupReport(props) {
   useEffect(() => {
     setShow(props.showModal);
   }, [props.showModal]);
+
+  useEffect(() => {
+    if (reportData) props.refetchIactions();
+  }, [reportData]);
 
   return (
     <div>
