@@ -198,11 +198,10 @@ export default function EvaluationModal(props) {
       if (dataEvaluationCreate.evaluationCreate.ok) {
         setWaiting(false);
         props.close();
-         setTimeout(() => {
-           location.reload()
-          props.handleMsg(true);}, 1000);
-
-        
+        props.handleMsg(true);
+        setTimeout(() => {
+          location.reload();
+        }, 3000);
       }
     } else if (dataEvaluationUpdate) {
       if (dataEvaluationUpdate.evaluationUpdate.ok) {
@@ -211,7 +210,6 @@ export default function EvaluationModal(props) {
           props.close();
           props.handleMsg(true);
           props.refetch();
-          
         }, 400);
       } else {
         setError({ show: true, msg: "Error while updatig" });

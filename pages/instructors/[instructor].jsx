@@ -25,7 +25,7 @@ import { MdFolderSpecial } from "react-icons/md";
 import client from "../../api/apollo-client";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import {
-  getInstructorName,
+  getEvaluatedInstrucotrs,
   getInstructorDetail,
   hasEvaluatedQuery,
 } from "../../api/queries";
@@ -39,13 +39,14 @@ import { NavContext } from "../../state-management/navbar-state/NavbarContext";
 
 export const getStaticPaths = async () => {
   const { data } = await client.query({
-    query: getInstructorName,
+    query: getEvaluatedInstrucotrs,
     variables: {},
   });
-  const ids = data.instructors.data.map((element) => {
+
+  const ids = data.evaluatedInstructors.map((id) => {
     return {
       params: {
-        instructor: element.id,
+        instructor: id,
       },
     };
   });
@@ -57,7 +58,7 @@ export const getStaticPaths = async () => {
    */
   return {
     paths: ids,
-    fallback: false,
+    fallback: "blocking",
   };
 };
 // This function will run for each path we provided
@@ -71,8 +72,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: { data: data },
-    revalidate: 1,
-    
+    revalidate: 10,
   };
 };
 
@@ -83,7 +83,7 @@ export default function instructorDetails({ data }) {
   const [msgVisible, setMsg] = useState(false);
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
-   const { navDispatch } = useContext(NavContext);
+  const { navDispatch } = useContext(NavContext);
 
   useEffect(() => {
     setLang(() => translator(user.lang));
@@ -96,8 +96,6 @@ export default function instructorDetails({ data }) {
       variables: { instructorId: data.instructor.id },
     }
   );
-
-
 
   useEffect(() => {
     navDispatch("");
@@ -403,7 +401,6 @@ export default function instructorDetails({ data }) {
           term={""}
           course={""}
           handleMsg={setMsg}
-         
         />
         <PopMsg
           visible={msgVisible}
