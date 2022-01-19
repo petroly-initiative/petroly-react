@@ -66,7 +66,7 @@ export default function ConfirmAccount(props) {
         </div>
         <div className={authStyle["modal-footer"]}>
           <Form className={authStyle["main-form"]} onSubmit={handleSubmit}>
-            <div className={authStyle["text-header"]}>أكد حسابك أحسن لك</div>
+            <div className={authStyle["text-header"]}>أكد حسابك</div>
 
             {msg.show && (
               <Fade duration="1000">
