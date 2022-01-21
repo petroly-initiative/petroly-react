@@ -85,7 +85,7 @@ export default function HomeScreen() {
             style={langDirection(user.lang)}
             className={styles["containers"]}
           >
-            <Col xl={6} lg={6} md={12} sm={12} className={[styles["columns"]]}>
+            <Col xl={8} lg={8} md={12} sm={12} className={[styles["columns"]]}>
               <NewsCard
                 title={langState.news0.title}
                 size="lg"
