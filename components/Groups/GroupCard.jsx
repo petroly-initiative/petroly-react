@@ -200,6 +200,7 @@ function GroupCard(props) {
               style={{ position: "absolute", right: 0 }}
               delay={{ show: 150, hide: 200 }}
               overlay={<Tooltip id="button-tooltip">{langState.like}</Tooltip>}
+              trigger="hover"
             >
               {loading ? (
                 <Spinner
@@ -237,6 +238,7 @@ function GroupCard(props) {
               overlay={
                 <Tooltip id="button-tooltip">{langState.report}</Tooltip>
               }
+              trigger="hover"
             >
               <Button
                 disabled={iactions.reported}

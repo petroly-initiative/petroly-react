@@ -789,7 +789,7 @@ function GroupCreationCard(props) {
               type="submit"
               onClick={submitGroup}
             >
-              {langState.create}{" "}
+              {props.create ? langState.create : langState.edit}{" "}
             </Button>
           )}
         </Modal.Footer>

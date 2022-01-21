@@ -25,6 +25,7 @@ const arabic = {
   link: "الرابط",
   linkPlaceholder: "ادخل رابط المجموعة",
   create: "أنشئ المجتمع",
+  edit: "حدث المجتمع",
   course: "المادة الدراسية",
   courseErr: "الرجاء استخدام صيغة ABCDXXX",
   nameErr: "الرجاء ملء خانة اسم المجموعة",
@@ -32,8 +33,8 @@ const arabic = {
   typeErr: "الرجاء اختيار نوع المجتمع المراد إضافته",
   platformErr: "الرجاء اختيار المنصة الإلكترونية للمجتمع",
   descErr: "الرجاء كتابة وصف للمجموعة",
-  imageHelper: "الرجاء استخدام صيغة PNG, JPG, JPEG"
-  };
+  imageHelper: "الرجاء استخدام صيغة PNG, JPG, JPEG",
+};
 
 
 const english = {
@@ -59,6 +60,7 @@ const english = {
   link: "Link",
   linkPlaceholder: "Enter the Group link",
   create: "Create Group",
+  edit: "Edit Group",
   course: "Course",
   courseErr: "Please use the following format : ABCDXXX",
   nameErr: "Please fill the name field",
