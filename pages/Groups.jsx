@@ -101,16 +101,18 @@ function Groups(state, action) {
 
   if (loading) {
     return (
-      <Button className={styles["loading-container"] + " shadow"} disabled>
-        <Spinner
-          className={styles["loading-spinner"]}
-          as="div"
-          animation="grow"
-          size="xl"
-          role="status"
-          aria-hidden="true"
-        />
-      </Button>
+      <Container className={"mt-4 " + styles.list_container}>
+        <Button className={styles["loading-container"] + " shadow"} disabled>
+          <Spinner
+            className={styles["loading-spinner"]}
+            as="div"
+            animation="grow"
+            size="xl"
+            role="status"
+            aria-hidden="true"
+          />
+        </Button>
+      </Container>
     );
   }
 

@@ -9,10 +9,11 @@ $btn-primary: #00ead3;
   padding-right: 52px;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 .tab-containers {
-  min-height: 560px;
+  height: 560px;
   margin-bottom: 16px !important;
   width: 100%;
   display: flex;
@@ -37,7 +38,6 @@ $btn-primary: #00ead3;
   .main-container {
     position: relative;
     max-width: 100vw !important;
-    height: calc(100vh - 5rem);
     top: 5rem;
     padding-left: 6px;
     padding-right: 6px;

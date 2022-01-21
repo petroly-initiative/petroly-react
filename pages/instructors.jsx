@@ -184,7 +184,7 @@ function instructorsList() {
           <title>Petroly | Rating</title>
         </Head>
         {/* <Navbar page="rating" /> */}
-        <Container className={styles.list_container}>
+        <Container style={{minHeight: "100vh"}} className={styles["list_container"]}>
           <Row style={{ justifyContent: "center" }}>
             <Col
               l={8}
