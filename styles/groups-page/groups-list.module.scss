@@ -29,6 +29,7 @@ $btn-high: #00ead3;
   padding-right: 52px;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 .search-container > input {
@@ -59,6 +60,7 @@ $btn-high: #00ead3;
 
   .modalButton {
   display: flex;
+  z-index: 10;
   align-items: center;
   justify-content: space-around;
   background-color: #00ead3;

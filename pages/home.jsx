@@ -77,7 +77,7 @@ export default function HomeScreen() {
             style={langDirection(user.lang)}
             className={styles["titles"]}
           >
-            {langState.newsHeader}
+            <Image className={styles["header-big"]} alt="petroly text icon" src={"/header-plain.svg" } width={194} height={67}/>
           </div>
 
           <Row
