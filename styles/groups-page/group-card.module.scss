@@ -138,6 +138,11 @@ $x: #622edb;
       background-color: unset;
       color: red;
     }
+
+    &:disabled{
+       background-color: unset;
+      color: red;
+    }
   }
 
   button {

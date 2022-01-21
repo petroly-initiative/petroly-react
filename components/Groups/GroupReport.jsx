@@ -19,6 +19,7 @@ import { UserContext } from "../../state-management/user-state/UserContext";
 import { MdWarning } from "react-icons/md";
 import { useMutation } from "@apollo/client";
 import { reportCreateMutation } from "../../api/mutations";
+import { langDirection, L, M } from "../../constants"; 
 import PopMsg from "../PopMsg";
 
 function GroupReport(props) {
@@ -94,7 +95,12 @@ function GroupReport(props) {
         }}
         aria-labelledby="contained-modal-title-vcenter"
       >
-        <Modal.Header className={styles.title}>
+        <Modal.Header
+          className={
+            styles.title +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           <Modal.Title
             className={styles.title}
             id="contained-modal-title-vcenter"
@@ -108,8 +114,21 @@ function GroupReport(props) {
             />
           </Modal.Title>
         </Modal.Header>
-        <Form onSubmit={createReport} className={styles.formStyle} noValidate>
-          <Modal.Body className={"show-grid " + styles["modal-body"]}>
+
+        <Modal.Body
+          className={
+            "show-grid " +
+            styles["modal-body"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
+          <Form
+            onSubmit={createReport}
+            className={
+              styles.formStyle
+            }
+            noValidate
+          >
             {invalidCause && (
               <Alert className={styles["rules"]} variant="danger">
                 <MdWarning className={styles["rules-icon"]} size="1.4rem" />
@@ -211,31 +230,36 @@ function GroupReport(props) {
                 </Form>
               </Col>
             </InputGroup>
-          </Modal.Body>
-          <Modal.Footer className={styles.footer}>
-            {reportLoading ? (
-              <Button
-                className={
-                  styles["createButton"] + " shadow " + styles["loadingButton"]
-                }
-                disabled
-              >
-                <Spinner
-                  className={styles["loading-spinner"]}
-                  as="div"
-                  animation="grow"
-                  size="xl"
-                  role="status"
-                  aria-hidden="true"
-                />
-              </Button>
-            ) : (
-              <Button className={styles.createButton} type="submit">
-                {langState.submit}
-              </Button>
-            )}
-          </Modal.Footer>
-        </Form>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer
+          className={
+            styles.footer +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
+          {reportLoading ? (
+            <Button
+              className={
+                styles["createButton"] + " shadow " + styles["loadingButton"]
+              }
+              disabled
+            >
+              <Spinner
+                className={styles["loading-spinner"]}
+                as="div"
+                animation="grow"
+                size="xl"
+                role="status"
+                aria-hidden="true"
+              />
+            </Button>
+          ) : (
+            <Button onClick={createReport} className={styles.createButton}>
+              {langState.submit}
+            </Button>
+          )}
+        </Modal.Footer>
       </Modal>
     </div>
   );
