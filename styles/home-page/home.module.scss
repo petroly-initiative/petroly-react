@@ -1,4 +1,4 @@
-@use '/styles/themes.module' as theme;
+
 
 .main-container {
   margin-right: 5rem !important;
@@ -19,6 +19,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.header-big{
+  padding-bottom: 8px !important;
+
 }
 
 .containers{

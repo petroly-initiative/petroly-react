@@ -13,6 +13,7 @@ import { USER, DEF_LANG, M, DEF_THEME } from "../constants";
 import { useEffect } from "react";
 import Navbar from "../components/navbar";
 import { NavContext, NavReducer } from "../state-management/navbar-state/NavbarContext";
+import Footer from "../components/footer";
 /**
  *
  * @WARNING This file exists to only apply globals assets and context for all pages
@@ -55,6 +56,7 @@ function MyApp({ Component, pageProps }) {
               <Navbar />
               <Component {...pageProps} />
             </NavContext.Provider>
+            <Footer />
           </ClientMutator>
         </UserContext.Provider>
       </ApolloProvider>
