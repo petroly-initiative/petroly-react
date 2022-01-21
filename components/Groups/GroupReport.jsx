@@ -1,6 +1,14 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import Modal from "react-bootstrap/Modal";
-import { Col, Row, Form, Button, InputGroup, Alert } from "react-bootstrap";
+import {
+  Col,
+  Spinner,
+  Row,
+  Form,
+  Button,
+  InputGroup,
+  Alert,
+} from "react-bootstrap";
 import { BsCardImage } from "react-icons/bs";
 import { FaInfoCircle, FaEyeSlash, FaList } from "react-icons/fa";
 import { ImLink } from "react-icons/im";
@@ -9,6 +17,9 @@ import styles from "../../styles/groups-page/group-creation.module.scss";
 import translator from "../../dictionary/components/group-report-dict";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { MdWarning } from "react-icons/md";
+import { useMutation } from "@apollo/client";
+import { reportCreateMutation } from "../../api/mutations";
+import PopMsg from "../PopMsg";
 
 function GroupReport(props) {
   const [cause, setCause] = useState("");
@@ -16,36 +27,59 @@ function GroupReport(props) {
   const [invalidCause, validateCause] = useState(false);
   const [invalidOther, validateOther] = useState(false);
   const otherCause = useRef();
-  const image = useRef();
 
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
+
+  const [
+    reportCommunity,
+    { data: reportData, loading: reportLoading, error: reportError },
+  ] = useMutation(reportCreateMutation);
 
   useEffect(() => {
     setLang(() => translator(user.lang));
   }, [user.lang]);
 
-  //TODO: handle reports in backend
   const createReport = (e) => {
     e.preventDefault();
     validateCause(cause.length === 0);
-    if (cause === "OtherCause") {
-      if (!otherCause.current.value.length === 0) {
+    if (cause === "OTHER") {
+      if (otherCause.current.value.length !== 0) {
+        reportCommunity({
+          variables: {
+            reason: cause,
+            otherReason: otherCause.current.value,
+            CommunityID: props.id,
+          },
+        });
         setShow(false);
         props.handleClose();
       } else {
         validateOther(true);
       }
+    } else {
+      reportCommunity({
+        variables: {
+          reason: cause,
+          CommunityID: props.id,
+        },
+      });
+      setShow(false);
+      props.handleClose();
     }
   };
 
   const selectType = (e) => {
-    if (e.target.id !== "other-input") setCause(e.target.value);
+    if (e.target.id !== "OTHER") setCause(e.target.value);
   };
 
   useEffect(() => {
     setShow(props.showModal);
   }, [props.showModal]);
+
+  useEffect(() => {
+    if (reportData) props.refetchIactions();
+  }, [reportData]);
 
   return (
     <div>
@@ -91,9 +125,10 @@ function GroupReport(props) {
               <Col>
                 <Form onChange={selectType} noValidate>
                   <Form.Check
+                    checked={cause === "CONTENT"}
                     className={styles.radio}
                     type={"radio"}
-                    value="Bad Content"
+                    value="CONTENT"
                     label={
                       <div
                         style={{ paddingBottom: 0 }}
@@ -109,9 +144,10 @@ function GroupReport(props) {
                     name="platform"
                   />
                   <Form.Check
+                    checked={cause === "LINK"}
                     className={styles.radio}
                     type={"radio"}
-                    value="Dead Link"
+                    value="LINK"
                     label={
                       <div
                         style={{ paddingBottom: 0 }}
@@ -127,9 +163,10 @@ function GroupReport(props) {
                     name="platform"
                   />
                   <Form.Check
+                    checked={cause === "OTHER"}
                     className={styles.radio + " " + styles["course-container"]}
-                    type={"radio"}
-                    value="OtherCause"
+                    type="radio"
+                    value="OTHER"
                     label={
                       <div>
                         <div
@@ -145,10 +182,10 @@ function GroupReport(props) {
                         <InputGroup
                           hasValidation
                           style={{
-                            maxHeight: cause === "OtherCause" ? 60 : 0,
-                            opacity: cause === "OtherCause" ? "1" : "0",
+                            maxHeight: cause === "OTHER" ? 60 : 0,
+                            opacity: cause === "OTHER" ? "1" : "0",
                             transition: "150ms ease",
-                            marginTop: cause === "OtherCause" ? 12 : 0,
+                            marginTop: cause === "OTHER" ? 12 : 0,
                           }}
                         >
                           <Form.Control
@@ -156,9 +193,9 @@ function GroupReport(props) {
                             ref={otherCause}
                             className={styles["other-input"]}
                             style={{ fontSize: 12 }}
-                            id="other-input"
+                            id="OTHER"
                             type="text"
-                            // disabled={!types.Section.find}
+                            disabled={cause !== "OTHER"}
                             placeholder={langState.reasonSub}
                           />
                           <Form.Control.Feedback
@@ -170,45 +207,33 @@ function GroupReport(props) {
                         </InputGroup>
                       </div>
                     }
-                    id="1"
-                    name="platform"
                   />
                 </Form>
               </Col>
             </InputGroup>
-            <InputGroup hasValidation as={Row} className={styles.group}>
-              <Form.Label className={styles.label} column xs="12">
-                <BsCardImage className={styles.icons} />
-                <span> {langState.clue}</span>
-              </Form.Label>
-              <Col>
-                <Form.Control
-                  ref={image}
-                  className={styles.input}
-                  type="file"
-                />
-                <Form.Text
-                  style={{
-                    fontSize: 12,
-                    width: "100%",
-                    marginBottom: 6,
-                  }}
-                  id="passwordHelpBlock"
-                  muted
-                >
-                  {langState.clueHelper}{" "}
-                </Form.Text>
-              </Col>
-            </InputGroup>
           </Modal.Body>
           <Modal.Footer className={styles.footer}>
-            <Button
-              className={styles.createButton}
-              type="submit"
-              // onClick={() => setModalShow(false)}
-            >
-              {langState.submit}
-            </Button>
+            {reportLoading ? (
+              <Button
+                className={
+                  styles["createButton"] + " shadow " + styles["loadingButton"]
+                }
+                disabled
+              >
+                <Spinner
+                  className={styles["loading-spinner"]}
+                  as="div"
+                  animation="grow"
+                  size="xl"
+                  role="status"
+                  aria-hidden="true"
+                />
+              </Button>
+            ) : (
+              <Button className={styles.createButton} type="submit">
+                {langState.submit}
+              </Button>
+            )}
           </Modal.Footer>
         </Form>
       </Modal>

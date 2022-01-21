@@ -38,6 +38,12 @@ export const getInstructorName = gql`
   }
 `;
 
+export const getEvaluatedInstrucotrs = gql`
+  query EvaluatedInstructors {
+    evaluatedInstructors
+  }
+`;
+
 export const getInstructorDetail = gql`
   query Instructor($id: ID) {
     instructor(where: { id: { exact: $id } }) {
@@ -165,7 +171,7 @@ export const getCommunity = gql`
       }
     }
   }
-`; // TODO update this query to match the new model.
+`;
 export const CommunitiesQuery = gql`
   query Communities(
     $name: String
@@ -196,9 +202,6 @@ export const CommunitiesQuery = gql`
         likes {
           count
         }
-        reports {
-          count
-        }
         icon {
           url
         }
@@ -206,9 +209,3 @@ export const CommunitiesQuery = gql`
     }
   }
 `; // Modify this query to handle filter feature
-
-export const userHasLiked = gql`
-  query HasLikedCommunity($id: ID) {
-    hasLikedCommunity(id: $id)
-  }
-`;
