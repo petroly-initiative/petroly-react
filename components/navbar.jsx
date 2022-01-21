@@ -62,14 +62,15 @@ export default function Navbar(props) {
     updateLang();
   }, [lang]);
 
+
   const updateLang = useCallback(() => {
     userDispatch({ type: T.CHANGE_LANG, lang: lang });
     setLangState(translator(user.lang));
-  }, [lang]);
+  }, [lang, user.status]);
 
   useEffect(() => {
     userDispatch({ type: T.CHANGE_THEME, theme: theme });
-  }, [theme]);
+  }, [theme, user.status]);
 
   //--------
 

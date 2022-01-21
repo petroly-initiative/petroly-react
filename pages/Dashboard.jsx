@@ -59,6 +59,17 @@ export default function Dashboard(props) {
       <Head>
         <title>Petroly | Groups</title>
       </Head>
+      <PopMsg
+        visible={msgVisible}
+        msg={
+          user.lang === L.AR_SA
+            ? "تم حفظ التغييرات بنجاح"
+            : "Changes Updated successfully successfully"
+        }
+        handleClose={setMsg}
+        success
+        // you can use failure or none for different message types
+      />
       {/* <Navbar /> */}
       <Container className={styles["main-container"]}>
         {/* It will be responsible for the main shadow drop */}
@@ -82,17 +93,6 @@ export default function Dashboard(props) {
           </Fade>
         </Row>
       </Container>
-      <PopMsg
-        visible={msgVisible}
-        msg={
-          user.lang === L.AR_SA
-            ? "تم حفظ التغييرات بنجاح"
-            : "Changes Updated successfully successfully"
-        }
-        handleClose={setMsg}
-        success
-        // you can use failure or none for different message types
-      />
     </>
   );
 }
