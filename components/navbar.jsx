@@ -190,6 +190,7 @@ export default function Navbar(props) {
           }
         >
           <div className={styles.navbar_item}>
+             <Link href="/" className={styles.navbar_link}>
             <Image
               style={{ margin: 0 }}
               src="/favicon.webp"
@@ -197,6 +198,7 @@ export default function Navbar(props) {
               height={30}
               alt="Petroly icon"
             />
+       </Link>
           </div>
           <Button
             aria-label="show sidebar"
