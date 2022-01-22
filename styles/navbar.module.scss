@@ -25,7 +25,18 @@ $clr-primary: #00ead3;
   }
 }
 
+.dark-topper{
+  
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none;
 
+
+  &:active, &:focus{
+    background-color: transparent !important;
+  }
+}
 
 .navbar_nav {
   width: 100%;

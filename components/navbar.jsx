@@ -186,7 +186,7 @@ export default function Navbar(props) {
         <div
           className={
             styles.navbar_top +
-            ` ${theme === M.DARK ? styles["dark-mode"] : ""}`
+            ` ${theme === M.DARK ? styles["dark-topper"] : ""}`
           }
         >
           <div className={styles.navbar_item}>

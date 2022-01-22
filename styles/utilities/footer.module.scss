@@ -97,7 +97,7 @@ $btn-prim: #00ead3;
 @media only screen and (max-width: 600px) {
 
 .footer-body{
-    width: 100%;
+    width: 100vw; // FIXME: potential bug
     margin-top: 5rem;
     .footer-arch{
         width: 100%;
