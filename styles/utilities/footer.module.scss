@@ -97,27 +97,13 @@ $btn-prim: #00ead3;
 @media only screen and (max-width: 600px) {
 
 .footer-body{
-    width: 100vw; // FIXME: potential bug
+    width: 100vw !important; // FIXME: potential bug
     margin-top: 5rem;
     .footer-arch{
         width: 100%;
         
     }
 
-    .logos-container{
-        
-        padding-top: 22px;
-
-        &::after{
-            background-color: $txt-fill;
-            content: "";
-            height: 2px;
-            border-radius: 1px;
-            width: 200px;
-            position: absolute;
-            top: 0;
-        }
-    }
 
     .service-container{
         padding-bottom: 22px;
