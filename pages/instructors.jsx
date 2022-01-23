@@ -349,6 +349,7 @@ function instructorsList() {
                       align="start"
                       id="dropdown-menu-align-right"
                       title={<GoSettings size="1.5rem" />}
+                      
                     >
                       <Dropdown.Item
                         className={
@@ -374,7 +375,7 @@ function instructorsList() {
                         All departments
                       </Dropdown.Item>
                       {deptList}
-                      {data}
+                      
                     </DropdownButton>
                   </InputGroup.Append>
                 </InputGroup>
