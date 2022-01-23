@@ -48,6 +48,10 @@ export default function HomeScreen() {
           content="Digital Platform for All KFUPMers"
         />
         <meta property="og:image" content="/images/website-header.png" />
+        <meta
+          property="og:image:secure_url"
+          content="/images/website-header.png"
+        />
 
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://petroly.co/" />
@@ -56,8 +60,12 @@ export default function HomeScreen() {
           property="twitter:description"
           content="Digital Platform for All KFUPMers"
         />
-        
+
         <meta property="twitter:image" content="/images/website-header.png" />
+        <meta
+          property="twitter:image:src"
+          content="/images/website-header.png"
+        />
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4435926247205725"
@@ -78,7 +86,13 @@ export default function HomeScreen() {
             style={langDirection(user.lang)}
             className={styles["titles"]}
           >
-            <Image className={styles["header-big"]} alt="petroly text icon" src={"/header-plain.svg" } width={194} height={67}/>
+            <Image
+              className={styles["header-big"]}
+              alt="petroly text icon"
+              src={"/header-plain.svg"}
+              width={194}
+              height={67}
+            />
           </div>
 
           <Row

@@ -21,6 +21,10 @@ class MyDocument extends Document {
               content="Digital Platform for All KFUPMers"
             />
             <meta property="og:image" content="/images/website-header.png" />
+            <meta
+              property="og:image:secure_url"
+              content="/images/website-header.png"
+            />
 
             <meta property="twitter:card" content="summary_large_image" />
             <meta property="twitter:url" content="https://petroly.co/" />
@@ -31,6 +35,10 @@ class MyDocument extends Document {
             />
             <meta
               property="twitter:image"
+              content="/images/website-header.png"
+            />
+            <meta
+              property="twitter:image:src"
               content="/images/website-header.png"
             />
           </Head>
