@@ -14,7 +14,7 @@ class MyDocument extends Document {
             />
 
             <meta property="og:type" content="website" />
-            <meta property="og:url" content="https://react.petroly.co/" />
+            <meta property="og:url" content="https://petroly.co/" />
             <meta property="og:title" content="Petroly | home" />
             <meta
               property="og:description"
@@ -23,7 +23,7 @@ class MyDocument extends Document {
             <meta property="og:image" content="/images/website-header.png" />
 
             <meta property="twitter:card" content="summary_large_image" />
-            <meta property="twitter:url" content="https://react.petroly.co/" />
+            <meta property="twitter:url" content="https://petroly.co/" />
             <meta property="twitter:title" content="Petroly | home" />
             <meta
               property="twitter:description"
