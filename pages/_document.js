@@ -20,10 +20,10 @@ class MyDocument extends Document {
               property="og:description"
               content="Digital Platform for All KFUPMers"
             />
-            <meta property="og:image" content="https://res.cloudinary.com/petroly-initiative/image/upload/c_scale,w_400/v1642599277/general/logo_oyfduw.png" />
+            <meta property="og:image" content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png" />
             <meta
               property="og:image:secure_url"
-              content="https://res.cloudinary.com/petroly-initiative/image/upload/c_scale,w_400/v1642599277/general/logo_oyfduw.png"
+              content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
             />
 
             <meta property="twitter:card" content="summary_large_image" />
@@ -35,11 +35,11 @@ class MyDocument extends Document {
             />
             <meta
               property="twitter:image"
-              content="https://res.cloudinary.com/petroly-initiative/image/upload/c_scale,w_400/v1642599277/general/logo_oyfduw.png"
+              content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
             />
             <meta
               property="twitter:image:src"
-              content="https://res.cloudinary.com/petroly-initiative/image/upload/c_scale,w_400/v1642599277/general/logo_oyfduw.png"
+              content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
             />
           </Head>
           <body>
