@@ -23,6 +23,11 @@ $txt-fill: #52575d;
   border: 1px solid theme.$light-fnt;
 }
 
+.dark-txt{
+  color: theme.$dark-fnt !important;
+}
+
+
 @mixin tabNav {
   width: 100%;
   margin: 12px;
@@ -244,6 +249,7 @@ $txt-fill: #52575d;
   color: $txt-fill;
   font-weight: 600;
   width: 100%;
+  text-align: right;
 }
 
 .labels {
