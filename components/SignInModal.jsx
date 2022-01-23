@@ -33,7 +33,7 @@ export default function SignInModal(props) {
   const [show, setShow] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
   const [tab, setTab] = useState("signIn");
-  const [mode, setMode] = useState("user-input");
+  const [mode, setMode] = useState("user-input"); // user-input: FIXME: revert to original
   // language state
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
@@ -173,9 +173,9 @@ export default function SignInModal(props) {
         setMode("user-input");
         break;
       case "acc-confirm":
-        setShow(false);
-        props.close();
-        setMode("user-input");
+        // setShow(false);
+        // props.close();
+        // setMode("user-input");
         break;
       default:
     }
@@ -686,7 +686,13 @@ export default function SignInModal(props) {
                 <div className={styles["text-header"]}>
                   {langState.confirmer}
                 </div>
-                <div className={styles["reset-instructions"]}>
+                <div
+                
+                  className={
+                    styles["reset-instructions"] +
+                    ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                  }
+                >
                   {langState.checker}
                 </div>
               </div>

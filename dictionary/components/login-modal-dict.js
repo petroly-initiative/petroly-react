@@ -43,7 +43,8 @@ const english = {
   emailErr: "Please use a valid email address",
   emptyErr: "Please fill empty fields",
   confirmErr: "Make sure to sign in using your email address",
-  confirmer: "Confirm New Account"
+  confirmer: "Confirm New Account",
+  checker: "Please Check your email address to activate your petroly account"
 };
 
 export default function translator(lang) {
