@@ -213,7 +213,7 @@ export default function Navbar(props) {
           <div
             className={
               styles.navbar_side +
-              ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+              ` ${user.theme === M.DARK ? styles["dark-topper"] : ""}`
             }
             style={sideBarStyle}
           >

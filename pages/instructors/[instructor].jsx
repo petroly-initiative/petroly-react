@@ -155,11 +155,13 @@ export default function instructorDetails({ data }) {
       case 3:
         return `yellow,
               rgb(255, 120, 120)`;
-
-      case 0:
-        return "unset, unset";
+        break;
+      case 2:
+      case 1:
+        return `orange,
+              rgb(255, 90, 90)`;
       default:
-        return `rgb(204, 204, 204), rgb(163, 163, 163)`;
+        return `rgb(189, 189, 189), rgb(189, 189, 189)`;
     }
   }, [data.instructor.overallFloat]);
 
