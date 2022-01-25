@@ -46,18 +46,16 @@ export default function GroupsFilter(props) {
   const platformSwitch = (e) => {
     const key = e.target.id;
     setPlatform(key);
-    forceUpdate();
+    // forceUpdate();
   };
 
   const typeSwitch = (e) => {
     const key = e.target.id;
 
     if (key === "SECTION") {
-      setType({ type: "SECTION", course: course.current.value });
-
-      forceUpdate();
+      setType(Object.assign({ type: "SECTION", course: course.current.value }));
     } else setType({ type: key });
-    forceUpdate();
+    // forceUpdate();
   };
 
   const saveChanges = () => {
@@ -79,6 +77,14 @@ export default function GroupsFilter(props) {
   useEffect(() => {
     setPlatform(props.platform);
   }, [props.platform]);
+
+    useEffect(() => {
+      console.log(groupType);
+      if(props.type.type === "SECTION")
+      setType({type: props.type.type, course: props.type.course})
+      else
+      setType({type: props.type.type})
+    }, [props.type]);
 
   useEffect(() => {
     setShow(props.visible);
@@ -104,7 +110,9 @@ export default function GroupsFilter(props) {
           }
           closeButton
         >
-          <span>
+          <span
+            className={` ${user.theme === M.DARK ? styles["dark-topper"] : ""}`}
+          >
             <GoSettings />
             <span dir="ltr">{langState.modalHeader}</span>
           </span>
@@ -116,7 +124,7 @@ export default function GroupsFilter(props) {
           }
         >
           <Row className={styles["cols-container"]}>
-            <Col className={styles["cols"]}>
+            <Col xs={12} sm={6} className={styles["cols"]}>
               <div
                 className={
                   styles["titles"] +
@@ -204,8 +212,15 @@ export default function GroupsFilter(props) {
                 </div>
               </Form>
             </Col>
-            <Col className={styles["cols"]}>
-              <div className={styles["titles"]}>{langState.typesubHeader}</div>
+            <Col xs={12} sm={6} className={styles["cols"]}>
+              <div
+                className={
+                  styles["titles"] +
+                  ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                }
+              >
+                {langState.typesubHeader}
+              </div>
               <Form>
                 <Form.Check
                   checked={groupType.type === "EDU"}
@@ -271,7 +286,7 @@ export default function GroupsFilter(props) {
                           type="text"
                           onChange={setCourse}
                           disabled={!groupType.type === "SECTION"}
-                          placeholder={"المادة الدراسية"}
+                          placeholder={langState.course}
                           isInvalid={invalidCourse}
                         />
                         <Form.Text
@@ -283,7 +298,7 @@ export default function GroupsFilter(props) {
                           id="passwordHelpBlock"
                           muted
                         >
-                          الرجاء استخدام صيغة ABCDXXX
+                          {langState.courseErr}
                         </Form.Text>
                       </InputGroup>
                     </div>

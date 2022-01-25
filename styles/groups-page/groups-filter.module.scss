@@ -13,13 +13,17 @@ $x: #622edb;
   background: theme.$dark-fg !important;
   box-shadow: none !important;
   border: 4px solid theme.$dark-fg !important;
-  button{
-     color: theme.$dark-fnt !important;
+  button {
+    color: theme.$dark-fnt !important;
   }
 }
 
-.dark-header{
+.dark-header {
   color: theme.$dark-fnt !important;
+}
+
+.dark-topper {
+  color: $btn-prim !important;
 }
 
 .dark-mode-input {
@@ -29,32 +33,33 @@ $x: #622edb;
   // border: 1px solid theme.$light-fnt;
 }
 
-.container{
-  div div{
+.container {
+  padding-left: 0 !important;
+  div div {
     border: none !important;
   }
 }
 
-.modal-header{
+.modal-header {
   direction: rtl;
   font-weight: 600;
   text-align: right;
-   color: $txt-hg;
-   justify-content: space-between;
-   align-items: space-between;
+  color: $txt-hg;
+  justify-content: space-between;
+  align-items: space-between;
 
-   span{
-     margin-right: 8px;
-   }
+  span {
+    margin-right: 8px;
+  }
 
-   button{
-     margin-right: auto !important;
-     margin-left: 0 !important;
-   }
+  button {
+    margin-right: auto !important;
+    margin-left: 0 !important;
+  }
 }
 
 .filters {
- color: rgb(71, 71, 71);
+  color: rgb(71, 71, 71);
   height: 50px;
   border-top: unset;
   direction: rtl;
@@ -65,36 +70,34 @@ $x: #622edb;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
   display: flex;
   align-items: center;
-  span{
+  span {
     margin-right: 8px;
-     transition: 300ms ease;
+    transition: 300ms ease;
   }
   label {
     margin-right: 22px;
-    width: 100%; transition: 300ms ease;
+    width: 100%;
+    transition: 300ms ease;
   }
 
   transition: 300ms ease;
 
-  &:hover{
+  &:hover {
     transform: scale(1.02);
   }
 }
 
-
-
-.section-filter{
+.section-filter {
   transition: 150ms ease;
   display: flex;
   align-items: center;
-  input{
-     text-transform: uppercase;
+  input {
+    text-transform: uppercase;
     padding-top: 12px;
     font-size: 12px;
     direction: ltr;
   }
 }
-
 
 .titles {
   direction: rtl;
@@ -104,5 +107,3 @@ $x: #622edb;
   font-weight: 600;
   color: $txt-fill;
 }
-
-

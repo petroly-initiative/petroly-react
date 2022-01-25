@@ -72,11 +72,14 @@ function Groups(state, action) {
   };
 
   const changePlatform = (obj) => {
+    if(obj !== platform)
     setPlatform(obj);
   };
 
   const changeType = (obj) => {
-    setType(obj);
+    if (obj.type !== type.type || (obj.type === "SECTION" && obj.course !== type.course)) {
+      setType(obj);
+    }
   };
 
   const search = () => {
@@ -95,6 +98,10 @@ function Groups(state, action) {
   useEffect(() => {
     navDispatch("communities");
   }, []);
+
+  useEffect(() => {
+    search()
+  }, [type, platform])
 
   // ? Mappers
   // ? We will use a show-more mehcanism instead of pagination
