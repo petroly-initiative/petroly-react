@@ -32,6 +32,9 @@ $clr-primary: #00ead3;
   background: theme.$dark-fg !important;
   box-shadow: none;
 
+  &:active, &:focus{
+    background-color: theme.$dark-fg !important;
+  }
 
   
 }

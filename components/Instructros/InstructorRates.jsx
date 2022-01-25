@@ -18,8 +18,8 @@ function InstructorRates(props) {
     if (value >= 4) return "#04F9F2";
     else if (value >= 3) return "#00E091";
     else if (value >= 2) return "#FAC218";
-    else if (value >= 1) return "#FF7600";
-    else return "#F51663";
+    else if (value > 0) return "#FF7600";
+    else return "rgb(189, 189, 189)";
   };
 
   const barFilter = (value) => {
