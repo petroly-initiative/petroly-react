@@ -22,17 +22,9 @@ import { NavContext } from "../state-management/navbar-state/NavbarContext";
  * - the page will contain two modals:
  *  *Create group modal
  *  *Edit an evaluation
- * ! We might displayed data using a stacking method for view all
  */
 
-// ? SSR Setup
-// export const getStaticProps = async() => {
 
-//     return({
-//         props: "needed information",
-//         revalidate: 1
-//     })
-// }
 
 export default function Dashboard(props) {
 
