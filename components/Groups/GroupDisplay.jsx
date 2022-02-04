@@ -6,7 +6,7 @@ import { BsStarFill } from "react-icons/bs";
 import styles from "../../styles/groups-page/groups-display.module.scss";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import Image from "next/image";
-import PopMsg from "../PopMsg";
+import PopMsg from "../utilities/PopMsg";
 import translator from "../../dictionary/components/groups-modal-dict";
 import { L, M } from "../../constants";
 /**

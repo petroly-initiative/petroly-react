@@ -20,7 +20,7 @@ import { MdWarning } from "react-icons/md";
 import { useMutation } from "@apollo/client";
 import { reportCreateMutation } from "../../api/mutations";
 import { langDirection, L, M } from "../../constants"; 
-import PopMsg from "../PopMsg";
+import PopMsg from "../utilities/PopMsg";
 
 function GroupReport(props) {
   const [cause, setCause] = useState("");

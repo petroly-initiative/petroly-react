@@ -17,7 +17,7 @@ import { useMutation, useQuery } from "@apollo/client";
 
 import { editCommunnityMutation } from "../../api/mutations";
 import { getCommunity } from "../../api/queries";
-import PopMsg from "../PopMsg";
+import PopMsg from "../utilities/PopMsg";
 
 export default function EditGroup(props) {
   const [modalShow, setModalShow] = useState(props.show);

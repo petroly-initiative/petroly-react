@@ -1,4 +1,4 @@
-import styles from "../styles/navbar.module.scss";
+import styles from "../../styles/navbar.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import { ImBook } from "react-icons/im";
@@ -17,19 +17,19 @@ import { useContext, useEffect, useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import { ButtonGroup } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
-import { UserContext } from "../state-management/user-state/UserContext";
+import { UserContext } from "../../state-management/user-state/UserContext";
 import { FaSignInAlt } from "react-icons/fa";
 import { OverlayTrigger } from "react-bootstrap";
 import Popover from "react-bootstrap/Popover";
 import { useQuery, useMutation } from "@apollo/client";
-import { meQuery } from "../api/queries";
-import { revokeTokenMutation, profileUpdateMutation } from "../api/mutations";
-import ClientOnly from "./ClientOnly";
-import { USER, T, L, M, langDirection } from "../constants";
+import { meQuery } from "../../api/queries";
+import { revokeTokenMutation, profileUpdateMutation } from "../../api/mutations";
+import ClientOnly from "../ClientOnly";
+import { USER, T, L, M, langDirection } from "../../constants";
 import dynamic from "next/dynamic";
 import { useCallback } from "react";
-import translator from "../dictionary/components/navbar-dict";
-import { NavContext } from "../state-management/navbar-state/NavbarContext";
+import translator from "../../dictionary/components/navbar-dict";
+import { NavContext } from "../../state-management/navbar-state/NavbarContext";
 
 const SignInModal = dynamic(() => import("./SignInModal"));
 /**

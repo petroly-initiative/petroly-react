@@ -8,7 +8,7 @@ import {
   Tooltip,
   Spinner,
 } from "react-bootstrap";
-import Navbar from "../../components/navbar";
+
 import styles from "../../styles/evaluation-page/instructors-details.module.scss";
 import cardStyles from "../../styles/evaluation-page/instructors-card.module.scss";
 import { UserContext } from "../../state-management/user-state/UserContext";
@@ -16,7 +16,7 @@ import { langDirection, USER } from "../../constants";
 import { AiFillEdit } from "react-icons/ai";
 import { FaBatteryEmpty } from "react-icons/fa";
 import Evaluation from "../../components/evaluation/Evaluation";
-import InstructorRates from "../../components/Instructros/InstructorRates";
+import InstructorRates from "../../components/instructors/InstructorRates";
 import EvaluationModal from "../../components/evaluation/EvaluationModal";
 import { useEffect, useState, useContext } from "react";
 import Image from "next/image";
@@ -34,7 +34,7 @@ import { useRouter } from "next/router";
 import translator from "../../dictionary/pages/instructor-details-dict";
 import { M, L } from "../../constants";
 import { useCallback } from "react";
-import PopMsg from "../../components/PopMsg";
+import PopMsg from "../../components/utilities/PopMsg";
 import { NavContext } from "../../state-management/navbar-state/NavbarContext";
 
 export const getStaticPaths = async () => {

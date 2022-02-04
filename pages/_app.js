@@ -11,9 +11,9 @@ import ClientMutator from "../components/ClientMutator";
 import { ApolloProvider } from "@apollo/client";
 import { USER, DEF_LANG, M, DEF_THEME } from "../constants";
 import { useEffect } from "react";
-import Navbar from "../components/navbar";
+import Navbar from "../components/utilities/navbar";
 import { NavContext, NavReducer } from "../state-management/navbar-state/NavbarContext";
-import Footer from "../components/footer";
+import Footer from "../components/utilities/footer";
 /**
  *
  * @WARNING This file exists to only apply globals assets and context for all pages

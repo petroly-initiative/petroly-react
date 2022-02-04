@@ -1,12 +1,12 @@
 import { Container, Row, Col } from "react-bootstrap";
-import styles from "../styles/utilities/footer.module.scss";
+import styles from "../../styles/utilities/footer.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState, useEffect } from "react";
-import { UserContext } from "../state-management/user-state/UserContext";
+import { UserContext } from "../../state-management/user-state/UserContext";
 import { FaTwitter } from "react-icons/fa";
-import translator from "../dictionary/components/footer-dict";
-import { M, L } from "../constants";
+import translator from "../../dictionary/components/footer-dict";
+import { M, L } from "../../constants";
 
 export default function Footer(props){
 

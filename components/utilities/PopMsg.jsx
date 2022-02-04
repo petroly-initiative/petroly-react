@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Col, Row, Form, Button, InputGroup, Spinner } from "react-bootstrap";
 import { IoMdCloseCircle } from "react-icons/io";
-import styles from "../styles/utilities/popup.module.scss";
+import styles from "../../styles/utilities/popup.module.scss";
 import { useContext } from "react";
-import { UserContext } from "../state-management/user-state/UserContext";
-import { M } from "../constants";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import { M } from "../../constants";
 import { useCallback } from "react";
 
 // TODO: providing a dark mode
