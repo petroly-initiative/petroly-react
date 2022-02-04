@@ -6,20 +6,20 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
-import styles from "../styles/Auth.module.scss";
-import { UserContext } from "../state-management/user-state/UserContext";
+import styles from "../../styles/Auth.module.scss";
+import { UserContext } from "../../state-management/user-state/UserContext";
 import { MdVisibility, MdVisibilityOff, MdWarning } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import translator from "../dictionary/components/login-modal-dict";
+import translator from "../../dictionary/components/login-modal-dict";
 import { Fade } from "react-awesome-reveal";
 import { useMutation } from "@apollo/client";
 import {
   tokenAuthMutation,
   registerMutation,
   sendPasswordResetEmailMutation,
-} from "../api/mutations";
-import { T, L, M, langDirection } from "../constants";
+} from "../../api/mutations";
+import { T, L, M, langDirection } from "../../constants";
 import { useRouter } from "next/router";
 
 export default function SignInModal(props) {

@@ -12,7 +12,7 @@ import { deleteCommunity } from "../../api/mutations";
 import EditGroup from "../Groups/EditGroup";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { M, L } from "../../constants";
-import PopMsg from "../PopMsg";
+import PopMsg from "../utilities/PopMsg";
 import { useCallback } from "react";
 import GroupCreationCard from "../Groups/GroupCreationCard";
 

@@ -3,14 +3,13 @@ import EvaluationsTab from "../components/dashboard/EvalsTab";
 import ProfileTab from "../components/dashboard/ProfileTab";
 import GroupsTab from "../components/dashboard/GroupsTab";
 import styles from "../styles/dashboard-page/dashboard-container.module.scss";
-import Navbar from "../components/navbar";
 import { Fade } from "react-awesome-reveal";
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { useQuery } from "@apollo/client";
 import { meQuery } from "../api/queries";
 import { USER, L } from "../constants";
-import PopMsg from "../components/PopMsg";
+import PopMsg from "../components/utilities/PopMsg";
 import Head from "next/head";
 import { NavContext } from "../state-management/navbar-state/NavbarContext";
 
@@ -49,7 +48,7 @@ export default function Dashboard(props) {
   return (
     <>
       <Head>
-        <title>Petroly | Groups</title>
+        <title>Petroly | Dashboard</title>
       </Head>
       <PopMsg
         visible={msgVisible}

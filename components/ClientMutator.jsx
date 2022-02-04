@@ -12,7 +12,7 @@ import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { USER, T, URL_ENDPOINT, DEF_LANG } from "../constants";
 import { onError } from "@apollo/client/link/error";
-import PopMsg from "./PopMsg";
+import PopMsg from "./utilities/PopMsg";
 
 export default function ClientMutator({ children }) {
   const { user, userDispatch } = useContext(UserContext);

@@ -1,6 +1,6 @@
 import { Container, Row, Col, Card } from "react-bootstrap";
 import styles from "../styles/home-page/home.module.scss";
-import Navbar from "../components/navbar";
+
 import NewsCard from "../components/home/news-card";
 import ServiceCard from "../components/home/service-card";
 import Image from "next/image";

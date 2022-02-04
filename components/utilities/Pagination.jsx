@@ -1,10 +1,10 @@
-import styles from "../styles/evaluation-page/pagination.module.scss";
-import { useEffect, useState } from "react";
+import styles from "../../styles/evaluation-page/pagination.module.scss";
+import { useState } from "react";
 import { Pagination } from "react-bootstrap";
 import { range } from "lodash";
 import { useContext } from "react";
-import { UserContext } from "../state-management/user-state/UserContext";
-import { M } from "../constants";
+import { UserContext } from "../../state-management/user-state/UserContext";
+import { M } from "../../constants";
 
 export default function CustomPagination(props) {
   /**

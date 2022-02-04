@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import Image from "next/image";
 import Head from "next/head";
-import Navbar from "../components/navbar";
+
 import { BiSearch } from "react-icons/bi";
 import { GoSettings } from "react-icons/go";
 import { AiFillFileAdd } from "react-icons/ai";
@@ -28,7 +28,7 @@ import { UserContext } from "../state-management/user-state/UserContext";
 import translator from "../dictionary/pages/groups-dict";
 import { NavContext } from "../state-management/navbar-state/NavbarContext";
 import { langDirection, L, M, USER } from "../constants";
-import PopMsg from "../components/PopMsg";
+import PopMsg from "../components/utilities/PopMsg";
 
 function Groups(state, action) {
   const { user } = useContext(UserContext);

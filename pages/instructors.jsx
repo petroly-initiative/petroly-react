@@ -9,8 +9,8 @@ import {
   Dropdown,
   Spinner,
 } from "react-bootstrap";
-import InstructorCard from "../components/Instructros/InstructorCard";
-import Navbar from "../components/navbar";
+import InstructorCard from "../components/instructors/InstructorCard";
+
 import { BiSearch } from "react-icons/bi";
 import styles from "../styles/evaluation-page/instructors-list.module.scss";
 import { GoSettings } from "react-icons/go";
@@ -18,7 +18,7 @@ import Image from "next/image";
 import Head from "next/head";
 import { useEffect, useState, useReducer, useContext } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
-import CustomPagination from "../components/Pagination";
+import CustomPagination from "../components/utilities/Pagination";
 import { Fade } from "react-awesome-reveal";
 import ClientOnly from "../components/ClientOnly";
 import { useQuery } from "@apollo/client";
