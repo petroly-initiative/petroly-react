@@ -1,2 +1,4 @@
 user-agent: *
 disallow: /downloads/
+User-agent: Mediapartners-Google
+Disallow: /
