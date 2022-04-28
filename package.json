@@ -17,7 +17,7 @@
     "apollo-upload-client": "^17.0.0",
     "bootstrap": "^4.6.0",
     "classnames": "^2.3.1",
-    "graphql": "^15.5.3",
+    "graphql": "^16.4.0",
     "lodash": "^4.17.21",
     "next": "^11.1.2",
     "next-google-fonts": "^2.2.0",
