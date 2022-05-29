@@ -13,6 +13,8 @@ class MyDocument extends Document {
               content="Digital Platform for All KFUPMers"
             />
 
+            <link rel="manifest" href="/manifest.json" />
+
             <meta property="og:type" content="website" />
             <meta property="og:url" content="https://react.petroly.co/" />
             <meta property="og:title" content="Petroly | home" />
