@@ -187,6 +187,7 @@ export const CommunitiesQuery = gql`
         section: { icontains: $section }
         archived: { exact: false }
       }
+      limit: 30
     ) {
       count
       data {

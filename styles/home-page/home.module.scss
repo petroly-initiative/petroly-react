@@ -1,5 +1,3 @@
-
-
 .main-container {
   margin-right: 5rem !important;
   max-width: calc(100vw - 5rem) !important;
@@ -22,14 +20,13 @@
   justify-content: center;
 }
 
-.header-big{
+.header-big {
   padding-bottom: 8px !important;
-
 }
 
-.containers{
+.containers {
   margin-left: 0;
- margin-right: 0;
+  margin-right: 0;
 }
 
 .titles {
@@ -81,22 +78,20 @@
   }
 }
 
-.small-news{
+.small-news {
   display: inherit;
 }
 
-.news{
-  display: none; 
+.news {
+  display: none;
 }
 
-
-
-@media only screen and (min-width: 992px){
-  .news{
+@media only screen and (min-width: 992px) {
+  .news {
     display: inherit;
   }
 
-  .small-news{
+  .small-news {
     display: none;
   }
 }
@@ -109,6 +104,4 @@
     padding-left: 15px;
     padding-right: 15px;
   }
-
-  
 }
