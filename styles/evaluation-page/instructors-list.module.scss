@@ -2,71 +2,67 @@
 
 $btn-high: #00ead3;
 $txt-fill: #52575d;
-$txt-hg: #0091E7;
-
+$txt-hg: #0091e7;
 
 .dark-mode {
-  background-color: theme.$dark-fg ;
-  color: theme.$dark-fnt ;
-  background: theme.$dark-fg ;
-  box-shadow: none ;
+  background-color: theme.$dark-fg;
+  color: theme.$dark-fnt;
+  background: theme.$dark-fg;
+  box-shadow: none;
   &::before,
   &::after {
-    background-color: theme.$dark-fg ;
-    color: theme.$dark-fnt ;
-    box-shadow: none ;
+    background-color: theme.$dark-fg;
+    color: theme.$dark-fnt;
+    box-shadow: none;
   }
 
-  &:active, &:focus{
+  &:active,
+  &:focus {
     background-color: $btn-high !important;
   }
-
-  
 }
 
-.dark-btn{
+.dark-btn {
   background-color: theme.$dark-xfg !important;
   background: theme.$dark-xfg !important;
   color: $btn-high !important;
   // border: 2px solid theme.$dark-xfg !important;
-  &:hover{
+  &:hover {
     color: #fff !important;
   }
 }
 
-.dark-mode-dropper{
-   background-color: theme.$dark-xfg !important;
-   border-radius: 0 6px 6px 0 !important;
-   &:hover{
-     background: theme.$dark-xfg !important;
-  color: $btn-high !important;
-   }
-  button{
+.dark-mode-dropper {
+  background-color: theme.$dark-xfg !important;
+  border-radius: 0 6px 6px 0 !important;
+  &:hover {
+    background: theme.$dark-xfg !important;
+    color: $btn-high !important;
+  }
+  button {
     background-color: theme.$dark-xfg !important;
-  background: theme.$dark-xfg !important;
-  color: $btn-high !important;
-  // border: 2px solid theme.$dark-xfg !important;
-   
-  &:hover{
-    color: #fff !important;
-  }
+    background: theme.$dark-xfg !important;
+    color: $btn-high !important;
+    // border: 2px solid theme.$dark-xfg !important;
+
+    &:hover {
+      color: #fff !important;
+    }
   }
 
   background-color: theme.$dark-xfg !important;
   color: $btn-high !important;
-  div{
-     background-color: theme.$dark-fg ;
-  color: theme.$dark-fnt ;
-  background: theme.$dark-fg ;
-  box-shadow: none ;
-  &::before,
-  &::after {
-    background-color: theme.$dark-fg ;
-    color: theme.$dark-fnt ;
-    box-shadow: none ;
-  }
-
-  
+  div {
+    background-color: theme.$dark-fg;
+    color: theme.$dark-fnt;
+    background: theme.$dark-fg;
+    box-shadow: none;
+    &::before,
+    &::after {
+      background-color: theme.$dark-fg;
+      color: theme.$dark-fnt;
+      box-shadow: none;
+    }
   }
 }
 
@@ -76,13 +72,12 @@ $txt-hg: #0091E7;
   background: theme.$dark-fg !important;
   border: 1px solid theme.$dark-bg !important;
 
-  &:focus, &:active{
+  &:focus,
+  &:active {
     background-color: theme.$dark-bg !important;
     background: theme.$dark-bg !important;
   }
 }
-
-
 
 .list_container {
   margin-right: 5rem !important;
@@ -108,10 +103,9 @@ $txt-hg: #0091E7;
   transition: 600ms ease;
   z-index: 100;
   margin-bottom: 12px;
-  
 }
 .search_btn {
-  background-color: #00ead3 ;
+  background-color: #00ead3;
   border: none;
   border-radius: 0;
   // border: 2px solid #00ead3;
@@ -124,7 +118,6 @@ $txt-hg: #0091E7;
 .dropdown-menu {
   height: 300px !important;
   overflow-y: scroll !important;
-  
 }
 
 .dept-dropdown {
@@ -191,35 +184,32 @@ $txt-hg: #0091E7;
   width: 80px;
   height: 80px;
   border-radius: 40px !important;
-    -webkit-border-radius: 40px !important;
+  -webkit-border-radius: 40px !important;
   -moz-border-radius: 40px !important;
   -ms-border-radius: 40px !important;
   -o-border-radius: 40px !important;
-  .loading-spinner
-{
+  .loading-spinner {
     width: 65px;
     height: 65px;
     color: #00ffe591 !important;
   }
-
- 
-
 }
 
-.error-container{
+.error-container {
+  padding-top: 50px;
   width: 100vw;
-  height: 100%;
+  height: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
   left: 0;
   flex-direction: column;
-  .error-img{
+  .error-img {
     padding: 30px;
   }
 
-  .error-txt{
+  .error-txt {
     font-weight: 700;
     color: rgb(105, 105, 105);
     text-align: center;
@@ -228,14 +218,14 @@ $txt-hg: #0091E7;
     transition: 500ms ease;
   }
 
-  .form-link{
+  .form-link {
     color: white;
     padding: 16px;
     border-radius: 8px;
     background-color: $txt-hg;
     font-weight: 600;
     transition: 500ms ease;
-    &:hover{
+    &:hover {
       transform: scale(1.05);
       background-color: #00e0ce;
     }
@@ -267,10 +257,10 @@ $txt-hg: #0091E7;
     margin: 0%;
   }
 
-  .loading-container{
-      left: calc(50vw - 40px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+  .loading-container {
+    left: calc(50vw - 40px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

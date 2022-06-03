@@ -27,7 +27,6 @@ import translator from "../dictionary/pages/instructors-dict";
 import { L, langDirection, M } from "../constants";
 import { NavContext } from "../state-management/navbar-state/NavbarContext";
 
-
 function instructorsReducer(state, action) {
   switch (action.changeIn) {
     case "name":
@@ -61,9 +60,9 @@ function instructorsList() {
   const [stackIndex, setStackIndex] = useState(0);
 
   // language state
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { navDispatch } = useContext(NavContext);
-    const [clicked, setClicked] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
@@ -134,7 +133,6 @@ function instructorsList() {
     navDispatch("rating");
   }, []);
 
-
   // ? Mappers
   const deptMapper = () =>
     dataDept.departmentList.map((dept) => (
@@ -158,7 +156,7 @@ function instructorsList() {
     data.instructors.data.map((instructor) => {
       return (
         <InstructorCard
-          setLoading = {setClicked}
+          setLoading={setClicked}
           image={
             <Image
               className={styles.picDiv}
@@ -184,7 +182,10 @@ function instructorsList() {
           <title>Petroly | Rating</title>
         </Head>
         {/* <Navbar page="rating" /> */}
-        <Container style={{minHeight: "100vh"}} className={styles["list_container"]}>
+        <Container
+          style={{ minHeight: "100vh" }}
+          className={styles["list_container"]}
+        >
           <Row style={{ justifyContent: "center" }}>
             <Col
               l={8}
@@ -349,7 +350,6 @@ function instructorsList() {
                       align="start"
                       id="dropdown-menu-align-right"
                       title={<GoSettings size="1.5rem" />}
-                      
                     >
                       <Dropdown.Item
                         className={
@@ -375,7 +375,6 @@ function instructorsList() {
                         All departments
                       </Dropdown.Item>
                       {deptList}
-                      
                     </DropdownButton>
                   </InputGroup.Append>
                 </InputGroup>
@@ -385,11 +384,16 @@ function instructorsList() {
               <div className={styles["error-img"]}>
                 <Image
                   src="/images/errors/NotFoundE2.svg"
-                  width="440"
-                  height="386"
+                  width="400"
+                  height="351"
                 />
               </div>
-              <div className={styles["error-txt"]}>
+              <div
+                style={{
+                  color: (user.theme = M.DARK ? "white" : ""),
+                }}
+                className={styles["error-txt"]}
+              >
                 عذرا, اسم المحاضر المدخل غير موجود
               </div>
               <a
@@ -518,16 +522,18 @@ function instructorsList() {
             )}
           </Row>
         </Container>
-        {clicked && <Button className={styles["loading-container"] + " shadow"} disabled>
-          <Spinner
-            className={styles["loading-spinner"]}
-            as="div"
-            animation="grow"
-            size="xl"
-            role="status"
-            aria-hidden="true"
-          />
-        </Button>}
+        {clicked && (
+          <Button className={styles["loading-container"] + " shadow"} disabled>
+            <Spinner
+              className={styles["loading-spinner"]}
+              as="div"
+              animation="grow"
+              size="xl"
+              role="status"
+              aria-hidden="true"
+            />
+          </Button>
+        )}
       </>
     </ClientOnly>
   );
