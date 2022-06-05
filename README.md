@@ -53,7 +53,7 @@ Petroly's first initiative frontend source codebase
 
 ## Project Goal
 
-Create a high-quality platform where all students share their knowledge and experiences in their KFUPM jouerneys
+Create a high-quality platform where all students share their knowledge and experiences in their KFUPM journeys
 
 ---
 
