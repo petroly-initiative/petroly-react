@@ -93,6 +93,7 @@ To gurarantee a uniform maintenance of the project, contributors need to adhere 
 - Comments on your code are mandatory
 - a screenshot or a video recording of the commit would be highly appreciated
 - submitting off-scratch commits on issues labelled `on progress` will be ignored, please branch off the existing progress so that we can benefit from your efforts
+- If you have a new service in mind, please consult us to formlate a plan and archtiecture before implementing it and committing it directly to your branch
 
 #### Issues
 
