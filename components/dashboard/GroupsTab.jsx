@@ -131,7 +131,7 @@ export default function GroupsTab(props) {
     );
   }
 
-  if (errorEval) {
+  if (error) {
     return (
       <Card
         className={
