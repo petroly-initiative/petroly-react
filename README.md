@@ -72,6 +72,7 @@ Create a high-quality platform where all students share their knowledge and expe
 - make sure to clone the Petroly backend repository in order to run the project
 - download the python backend dependencies via your selected virtual environment option
   - for `anaconda` users, create a virtrual enviroenmnt `conda create --name envName` and then activate it `conda activate envName`
+  -  install the dependencies on your virtual envrionments `conda install --file requirements.txt`
 - run `python manage.py runserver` to run the backend project at port 8000 after activating your virtual environment
 - run `npm install` to install required packages for the frontend
 - run `npm run dev` to launch the frontend project on localhost 3000
