@@ -98,13 +98,13 @@ To gurarantee a uniform maintenance of the project, contributors need to adhere 
 - Provide the sequence to re-produce the issue you have faced (a video or screenshot would be appreciated)
 - Provide the needed tags to your issue
 - the issue title shall confirm to the following scheme: `[service-name]: issue summary`
-  - `[service-name]`: the service name in the `Projects` tab
+  - `[service-name]`: the service name in the `Projects` tab and shall be in CamelCase
 - failing to meet requirements will lead to rejecting the issue
 
 #### Branches
 
 - to minimize merge-conflicts, each contributor shall work on a separate branch with the following title scheme: `[@username]service-name`
-  - `service-name` shall be in camel case
+  - `service-name` shall be in CamelCase, and included in the `Projects` tab
 - only core-team members can merge branches to the master branch to ensure testing the code properly
 
 ## Roadmap
