@@ -22,6 +22,7 @@ Petroly's first initiative frontend source codebase
 <li>
 <a href="#Getting-Started">Getting Started</a>
 </li>
+  <li>
 <details>
 <summary><a href="#How-to-contribute">How to contribute?</a></summary>
 <ul>
@@ -35,8 +36,8 @@ Petroly's first initiative frontend source codebase
 <a href="#Branches">Branches</a>
 </li>
 </ul>
-
 </details>
+  </li>
 <li>
 <a href="#Roadmap">Roadmap</a>
 </li>
