@@ -194,7 +194,7 @@ export default function EvaluationsTab(props) {
               color="#FF0075"
               size="5rem"
             />
-            <div style={{ color: "#4c5055c0" }}>خطأ في استعادة البيانات</div>
+            <div style={{ color: "#4c5055c0" }}>{langState.err}</div>
           </div>
         </Card.Body>
       </Card>
@@ -211,7 +211,7 @@ export default function EvaluationsTab(props) {
         instructor={evaluation.instructor}
         evaluation={evaluation}
         refetch={refetchMe}
-        handleMsg = {props.handleMsg}
+        handleMsg={props.handleMsg}
       />
     );
   });
