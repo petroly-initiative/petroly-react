@@ -394,14 +394,14 @@ function instructorsList() {
                 }}
                 className={styles["error-txt"]}
               >
-                عذرا, اسم المحاضر المدخل غير موجود
+                {langState.errMsg}
               </div>
               <a
                 href="https://forms.gle/s3PWGxWmck2fpPJo8"
                 target="_blank"
                 className={styles["form-link"] + " shadow"}
               >
-                اطلب إضافة المحاضر
+             {langState.errBtn} 
               </a>
             </div>
           </Container>
