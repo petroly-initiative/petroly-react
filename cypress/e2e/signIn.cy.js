@@ -6,6 +6,12 @@ context("Tests", () => {
       aliasQuery(req, "getToken");
       aliasQuery(req, "Me");
       aliasMutation(req, "VerifyToken");
+
+      if (hasOperationName(req, "Refresh")) {
+        req.alias = "gqlRefreshMutation";
+        // data fixture
+        req.reply({ fixture: "RefreshQuery.json" });
+      }
     });
   });
 });
