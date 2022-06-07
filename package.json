@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "config": "cypress open --config-file=cypress.config.js"
+    "config": "cypress open --config-file=cypress.config.js",
+    "test": "start-server-and-test start http://localhost:3030 cy:run"
   },
   "engines": {
     "node": "14.x"
@@ -31,6 +32,7 @@
     "react-rating-stars-component": "^2.2.0",
     "sass": "^1.39.0",
     "sharp": "^0.29.2",
+    "start-server-and-test": "^1.14.0",
     "superagent": "^6.1.0"
   },
   "devDependencies": {
