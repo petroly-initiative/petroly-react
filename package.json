@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "config": "cypress open --config-file=cypress.config.js"
   },
   "engines": {
     "node": "14.x"
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.3.4",
+    "cypress": "^10.0.3",
     "eslint": "^7.28.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.3.0",

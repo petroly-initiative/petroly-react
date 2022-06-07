@@ -20,7 +20,9 @@ const arabic = {
   emptyErr: "الرجاء تعبئة الخانات المطلوبة لتسجيل الدخول",
   confirmErr: "الرجاء تأكيد إنشاء الحساب الخاص بك عن طريق بريدك الإلكتروني",
   checker: "الرجاء تأكيد إنشاء الحساب الخاص بك عن طريق بريدك الإلكتروني",
-  confirmer: "تأكيد إنشاء حساب"
+  confirmer: "تأكيد إنشاء حساب",
+  doublePass: "الرجاء التأكد من تطابق كلمة المرور",
+  checkMail: "تفقد بريدك الإلكتروني لإعادة ضبط كلمة المرور"
 };
 
 const english = {
@@ -44,7 +46,9 @@ const english = {
   emptyErr: "Please fill empty fields",
   confirmErr: "Make sure to sign in using your email address",
   confirmer: "Confirm New Account",
-  checker: "Please Check your email address to activate your petroly account"
+  checker: "Please Check your email address to activate your petroly account",
+  doublePass: "Please enter a matching password",
+  checkMail: "check your emal for password reset"
 };
 
 export default function translator(lang) {

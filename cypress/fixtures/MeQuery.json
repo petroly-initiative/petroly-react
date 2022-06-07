@@ -1,0 +1,25 @@
+{
+  "data": {
+    "me": {
+      "id": "1",
+      "username": "tested-admin",
+      "email": "chicken@gmail.com",
+      "profile": {
+        "id": "1",
+        "profilePic": "https://res.cloudinary.com/petroly-initiative/image/upload/v1622359053/profile_pics/blank_profile",
+        "language": "en-US",
+        "theme": "dark",
+        "__typename": "ProfileType"
+      },
+      "evaluationSet": {
+        "count": 0,
+        "__typename": "EvaluationTypeConnection"
+      },
+      "ownedCommunities": {
+        "count": 1,
+        "__typename": "CommunityTypeConnection"
+      },
+      "__typename": "UserType"
+    }
+  }
+}

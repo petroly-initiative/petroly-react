@@ -190,15 +190,15 @@ export default function Navbar(props) {
           }
         >
           <div className={styles.navbar_item}>
-             <Link href="/" className={styles.navbar_link}>
-            <Image
-              style={{ margin: 0 }}
-              src="/favicon.webp"
-              width={30}
-              height={30}
-              alt="Petroly icon"
-            />
-       </Link>
+            <Link href="/" className={styles.navbar_link}>
+              <Image
+                style={{ margin: 0 }}
+                src="/favicon.webp"
+                width={30}
+                height={30}
+                alt="Petroly icon"
+              />
+            </Link>
           </div>
           <Button
             aria-label="show sidebar"
@@ -303,6 +303,7 @@ export default function Navbar(props) {
                       <Button
                         aria-label="profile"
                         className={styles.navbar_link}
+                        id="profile-btn"
                       >
                         <Image
                           style={{ margin: 0 }}
@@ -319,6 +320,7 @@ export default function Navbar(props) {
                       onClick={handleSignInShow}
                       className={styles.navbar_link}
                       aria-label="sign-in"
+                      id="sign-in"
                     >
                       <FaSignInAlt size="1rem" />{" "}
                     </Button>
@@ -507,7 +509,11 @@ export default function Navbar(props) {
                     }
                     rootClose
                   >
-                    <Button aria-label="profile" className={styles.navbar_link}>
+                    <Button
+                      aria-label="profile"
+                      className={styles.navbar_link}
+                      id="profile-btn"
+                    >
                       <MdSettings size="24px" />
                     </Button>
                   </OverlayTrigger>
@@ -689,7 +695,11 @@ export default function Navbar(props) {
                     }
                     rootClose
                   >
-                    <Button aria-label="profile" className={styles.navbar_link}>
+                    <Button
+                      id="profile-btn"
+                      aria-label="profile"
+                      className={styles.navbar_link}
+                    >
                       <MdSettings size="24px" />
                     </Button>
                   </OverlayTrigger>
@@ -871,7 +881,11 @@ export default function Navbar(props) {
                     }
                     rootClose
                   >
-                    <Button aria-label="profile" className={styles.navbar_link}>
+                    <Button
+                      id="profile-btn"
+                      aria-label="profile"
+                      className={styles.navbar_link}
+                    >
                       <Image
                         style={{ margin: 0 }}
                         src={profilePic}
@@ -887,6 +901,7 @@ export default function Navbar(props) {
                     onClick={handleSignInShow}
                     className={styles.navbar_link}
                     aria-label="sign-in"
+                    id="sign-in"
                   >
                     <FaSignInAlt size="1rem" />{" "}
                   </Button>
@@ -1060,7 +1075,11 @@ export default function Navbar(props) {
                   }
                   rootClose
                 >
-                  <Button aria-label="profile" className={styles.navbar_link}>
+                  <Button
+                    id="profile-btn"
+                    aria-label="profile"
+                    className={styles.navbar_link}
+                  >
                     <MdSettings size="24px" />
                   </Button>
                 </OverlayTrigger>
@@ -1228,7 +1247,11 @@ export default function Navbar(props) {
                   }
                   rootClose
                 >
-                  <Button aria-label="profile" className={styles.navbar_link}>
+                  <Button
+                    id="profile-btn"
+                    aria-label="profile"
+                    className={styles.navbar_link}
+                  >
                     <MdSettings size="24px" />
                   </Button>
                 </OverlayTrigger>
