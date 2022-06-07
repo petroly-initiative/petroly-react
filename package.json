@@ -2,6 +2,7 @@
   "name": "petroly_intiative",
   "version": "2.0.1",
   "private": true,
+  "proxy": "http://localhost:3000",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
