@@ -1,0 +1,16 @@
+{
+  "data": {
+    "refreshToken": {
+      "success": true,
+      "errors": null,
+      "refreshToken": "1174292729931d226c55471e84e6d3b0976a138e",
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjU0NzAyNzIxLCJvcmlnSWF0IjoxNjU0NjE2MzIxfQ.hUkSso5iRhA23-OCpLVkkp56PlF-XBTyzPPdlIkeLOg",
+      "payload": {
+        "username": "tested-admin",
+        "exp": 1654702721,
+        "origIat": 1654616321
+      },
+      "__typename": "RefreshToken"
+    }
+  }
+}

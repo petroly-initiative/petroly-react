@@ -3,21 +3,18 @@
 $btn-pr: #1cbfff;
 $btn-high: #00ead3;
 $txt-fill: #52575d;
-$txt-hg: #0091E7;
-
-
+$txt-hg: #0091e7;
 
 $colors: (
   blue: #14f7ef,
   green: #00e091,
   yellow: #fac218,
-  orange: #FF7600,
+  orange: #ff7600,
   red: #f51663,
 );
 
 $txt-fill: #6e737a;
 //
-
 
 .dark-mode {
   background-color: theme.$dark-fg !important;
@@ -33,22 +30,22 @@ $txt-fill: #6e737a;
   }
 }
 
-.dark-ovr{
+.dark-ovr {
   color: theme.$dark-fnt !important;
 }
 
-.dark-bars{
+.dark-bars {
   background-color: theme.$dark-bg !important;
   border: theme.$dark-bg !important;
 
-  :nth-child(1){
-     background-color: theme.$dark-bg ;
-      border: theme.$dark-bg !important;
+  :nth-child(1) {
+    background-color: theme.$dark-bg;
+    border: theme.$dark-bg !important;
   }
 }
 
 @each $color, $value in $colors {
-  .grading_#{$color} div {
+  .grading_#{"" + $color} div {
     background-color: $value !important;
     box-shadow: 0 0 0.4rem $value !important;
     overflow: visible !important;
@@ -105,8 +102,8 @@ $txt-fill: #6e737a;
   border-radius: 8px !important;
   background: #e6e6e6;
   overflow: visible;
-  div{
-  border-radius: 12px !important;
+  div {
+    border-radius: 12px !important;
   }
   // box-shadow: 1px 1px 3px #c5c5c5, -1px -1px 3px #ffffff;
 }
@@ -161,15 +158,12 @@ $txt-fill: #6e737a;
   background-color: rgb(20, 100, 9);
 }
 
-.headers{
-  color: #316B83 !important;
-  
-  
+.headers {
+  color: #316b83 !important;
 }
 
 @media only screen and (max-width: 600px) {
- .ovrDisplay .score{
-  font-size: 24px;
-}
-
+  .ovrDisplay .score {
+    font-size: 24px;
+  }
 }

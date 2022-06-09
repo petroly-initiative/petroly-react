@@ -1,6 +1,4 @@
-export const URL_ENDPOINT = process.env.REACT_APP_URL_ENDPOINT
-  ? process.env.REACT_APP_URL_ENDPOINT
-  : "http://localhost:8000/endpoint/";
+export const URL_ENDPOINT = "http://localhost:8000/endpoint/";
 
 export const USER = {
   LOGGED_OUT: "logged_out",

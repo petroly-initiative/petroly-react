@@ -1,0 +1,22 @@
+{
+  "data": {
+    "instructors": {
+      "count": 1,
+      "data": [
+        {
+          "id": "552",
+          "name": "Muhab",
+          "department": "SWE",
+          "overallFloat": 5,
+          "profilePic": "http://res.cloudinary.com/petroly-initiative/image/upload/v1622446329/instructors/profile_pics/Munteshari%20Obaidallah.jpg",
+          "evaluationSet": {
+            "count": 34,
+            "__typename": "EvaluationTypeConnection"
+          },
+          "__typename": "InstructorType"
+        }
+      ],
+      "__typename": "InstructorTypeConnection"
+    }
+  }
+}

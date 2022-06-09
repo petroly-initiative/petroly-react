@@ -23,12 +23,8 @@ import Image from "next/image";
 import Head from "next/head";
 import { MdFolderSpecial } from "react-icons/md";
 import client from "../../api/apollo-client";
-import { useLazyQuery, useQuery } from "@apollo/client";
-import {
-  getEvaluatedInstrucotrs,
-  getInstructorDetail,
-  hasEvaluatedQuery,
-} from "../../api/queries";
+import { useQuery } from "@apollo/client";
+import { getInstructorDetail, hasEvaluatedQuery } from "../../api/queries";
 import { Fade } from "react-awesome-reveal";
 import { useRouter } from "next/router";
 import translator from "../../dictionary/pages/instructor-details-dict";
@@ -37,42 +33,42 @@ import { useCallback } from "react";
 import PopMsg from "../../components/utilities/PopMsg";
 import { NavContext } from "../../state-management/navbar-state/NavbarContext";
 
-export const getStaticPaths = async () => {
-  const { data } = await client.query({
-    query: getEvaluatedInstrucotrs,
-    variables: {},
-  });
+// export const getStaticPaths = async () => {
+//   const { data } = await client.query({
+//     query: getEvaluatedInstructors,
+//     variables: {},
+//   });
 
-  const ids = data.evaluatedInstructors.map((id) => {
-    return {
-      params: {
-        instructor: id,
-      },
-    };
-  });
+//   const ids = data.evaluatedInstructors.map((id) => {
+//     return {
+//       params: {
+//         instructor: id,
+//       },
+//     };
+//   });
 
-  /**
-   * we need to return an array of objects each with  param property
-   * which include information needed for our path
-   * that includes the tokenzied dynamic path
-   */
-  return {
-    paths: ids,
-    fallback: "blocking",
-  };
-};
+//   /**
+//    * we need to return an array of objects each with  param property
+//    * which include information needed for our path
+//    * that includes the tokenzied dynamic path
+//    */
+//   return {
+//     paths: ids,
+//     fallback: "blocking",
+//   };
+// };
 // This function will run for each path we provided
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
   const id = context.params.instructor;
 
   const { data } = await client.query({
     query: getInstructorDetail,
     variables: { id },
+    fetchPolicy: "no-cache",
   });
 
   return {
     props: { data: data },
-    revalidate: 10,
   };
 };
 

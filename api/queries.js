@@ -38,7 +38,7 @@ export const getInstructorName = gql`
   }
 `;
 
-export const getEvaluatedInstrucotrs = gql`
+export const getEvaluatedInstructors = gql`
   query EvaluatedInstructors {
     evaluatedInstructors
   }

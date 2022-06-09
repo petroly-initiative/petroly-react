@@ -210,6 +210,7 @@ export default function SignInModal(props) {
               email === "" ||
               confirmPass === ""
             ) {
+              // BUG: translation needed
               setValidation(true);
               setError({
                 show: true,
@@ -236,6 +237,7 @@ export default function SignInModal(props) {
       case "ps-reset":
         if (email === "");
         {
+          // BUG: translation needed
           setValidation(true);
           setError({
             show: true,
@@ -414,6 +416,7 @@ export default function SignInModal(props) {
                       </Form.Label>
                       <InputGroup hasValidation>
                         <FormControl
+                        id="username-input"
                           className={`${
                             user.theme === M.DARK
                               ? styles["dark-mode-input"]
@@ -467,6 +470,7 @@ export default function SignInModal(props) {
                       </Form.Label>
                       <InputGroup hasValidation>
                         <FormControl
+                        id="pass-input"
                           className={`${
                             user.theme === M.DARK
                               ? styles["dark-mode-input"]
@@ -536,7 +540,7 @@ export default function SignInModal(props) {
                             style={{ textAlign: "right" }}
                             type="invalid"
                           >
-                            الرجاء التاكد من التطابق كلمة المرور
+                            langState.doublePass
                           </FormControl.Feedback>
                         </InputGroup>
                       </Form.Group>
@@ -548,6 +552,7 @@ export default function SignInModal(props) {
                       <Spinner animation="border" role="status" />
                     ) : (
                       <Button
+                      id="submit-btn"
                         type="submit"
                         className={styles["login-btn"]}
                         disabled={loadingTokenAuth}
@@ -646,6 +651,7 @@ export default function SignInModal(props) {
                       <Spinner animation="border" role="status" />
                     ) : (
                       <Button
+                      id="submit-btn"
                         type="submit"
                         className={styles["login-btn"]}
                         disabled={loadingTokenAuth}
@@ -677,7 +683,7 @@ export default function SignInModal(props) {
             )}
             {mode === "ps-sccuess" && (
               <div className={styles["modal-footer"]}>
-                <p>تفقد بريدك الإلكتروني لإعادة ضبط كلمة المرور</p>
+                <p>{langState.checkMail}</p>
               </div>
             )}
             {mode === "acc-confirm" && (
@@ -687,7 +693,6 @@ export default function SignInModal(props) {
                   {langState.confirmer}
                 </div>
                 <div
-                
                   className={
                     styles["reset-instructions"] +
                     ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`

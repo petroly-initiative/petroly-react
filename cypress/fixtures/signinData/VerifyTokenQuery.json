@@ -1,0 +1,14 @@
+{
+  "data": {
+    "verifyToken": {
+      "success": true,
+      "errors": null,
+      "payload": {
+        "username": "tested-admin",
+        "exp": 1654712024,
+        "origIat": 1654625624
+      },
+      "__typename": "VerifyToken"
+    }
+  }
+}

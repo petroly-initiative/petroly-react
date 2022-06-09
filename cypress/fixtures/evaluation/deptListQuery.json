@@ -1,0 +1,36 @@
+{
+  "data": {
+    "departmentList": [
+      "AF",
+      "AE",
+      "ARE",
+      "ARC",
+      "CE",
+      "CEM",
+      "CHE",
+      "CHEM",
+      "COE",
+      "CPG",
+      "CRP",
+      "ERTH",
+      "EE",
+      "ELI",
+      "ELD",
+      "FIN",
+      "ISOM",
+      "GS",
+      "IAS",
+      "ICS",
+      "LS",
+      "MATH",
+      "MBA",
+      "ME",
+      "MGT",
+      "PE",
+      "PETE",
+      "PHYS",
+      "PSE",
+      "SE"
+    ]
+  }
+}
