@@ -23,7 +23,10 @@ import { OverlayTrigger } from "react-bootstrap";
 import Popover from "react-bootstrap/Popover";
 import { useQuery, useMutation } from "@apollo/client";
 import { meQuery } from "../../api/queries";
-import { revokeTokenMutation, profileUpdateMutation } from "../../api/mutations";
+import {
+  revokeTokenMutation,
+  profileUpdateMutation,
+} from "../../api/mutations";
 import ClientOnly from "../ClientOnly";
 import { USER, T, L, M, langDirection } from "../../constants";
 import dynamic from "next/dynamic";
@@ -62,7 +65,6 @@ export default function Navbar(props) {
     updateLang();
   }, [lang]);
 
-
   const updateLang = useCallback(() => {
     userDispatch({ type: T.CHANGE_LANG, lang: lang });
     setLangState(translator(user.lang));
@@ -75,7 +77,7 @@ export default function Navbar(props) {
   //--------
 
   // ---- query state
-  // !WARNING: Use a loading component inplace of the profile image
+
   const {
     data: dataMe,
     loading: loadingMe,
@@ -724,11 +726,13 @@ export default function Navbar(props) {
                     </div>
                   </Link>
                 </li> */}
-                <li className={styles.navbar_item}>
+                <li id="rating" className={styles.navbar_item}>
                   <Link href="/instructors" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.rating}>
                       <BsStarFill className={styles.nav_img} size="1.3em" />
-                      <div className={styles.link_text}>{langState.rating}</div>
+                      <div className={styles.link_text}>
+                        {langState.rating + "xxxxx"}
+                      </div>
                     </div>
                   </Link>
                 </li>
@@ -1275,7 +1279,7 @@ export default function Navbar(props) {
                   </div>
                 </Link>
               </li> */}
-              <li className={styles.navbar_item}>
+              <li id="rating" className={styles.navbar_item}>
                 <Link href="/instructors" className={styles.navbar_link}>
                   <div className={styles.link_btn + " " + navStyles.rating}>
                     <BsStarFill className={styles.nav_img} size="1.3em" />

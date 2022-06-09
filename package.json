@@ -9,7 +9,9 @@
     "start": "next start",
     "config": "cypress open --config-file=cypress.config.js",
     "cy:run": "cypress run",
-    "test": "start-server-and-test start http://localhost:3030 cy:run"
+    "test": "start-server-and-test start http://localhost:3030 cy:run",
+    "cleanTest": "cypress cache clear",
+    "installTest": "cypress install"
   },
   "engines": {
     "node": "14.x"

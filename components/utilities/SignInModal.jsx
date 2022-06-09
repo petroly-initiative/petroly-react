@@ -210,6 +210,7 @@ export default function SignInModal(props) {
               email === "" ||
               confirmPass === ""
             ) {
+              // BUG: translation needed
               setValidation(true);
               setError({
                 show: true,
@@ -236,6 +237,7 @@ export default function SignInModal(props) {
       case "ps-reset":
         if (email === "");
         {
+          // BUG: translation needed
           setValidation(true);
           setError({
             show: true,

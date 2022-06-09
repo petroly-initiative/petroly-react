@@ -1,4 +1,4 @@
-export const URL_ENDPOINT = "https://petroly-api.graphcdn.app";
+export const URL_ENDPOINT = "http://localhost:8000/endpoint/";
 
 export const USER = {
   LOGGED_OUT: "logged_out",

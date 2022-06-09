@@ -43,3 +43,6 @@ yarn-error.log*
 local
 
 localhost*
+
+# testing mp4 output
+*.cy.js.mp4

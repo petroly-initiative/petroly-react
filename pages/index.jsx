@@ -1,5 +1,5 @@
 import HomeScreen from './home';
-import Groups from "./Groups";
+
 
 
 export default function Home() {
