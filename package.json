@@ -47,5 +47,8 @@
     "eslint-plugin-react": "^7.25.1",
     "prettier": "^2.4.0",
     "start-server-and-test": "^1.14.0"
+  },
+  "optionalDependencies": {
+    "fsevents": "*"
   }
 }
