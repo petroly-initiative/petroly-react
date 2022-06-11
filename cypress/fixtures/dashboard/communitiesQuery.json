@@ -1,0 +1,22 @@
+{
+  "data": {
+    "me": {
+      "ownedCommunities": {
+        "data": [
+          {
+            "id": "31",
+            "name": "xxxx",
+            "platform": "WHATSAPP",
+            "icon": {
+              "url": "http://res.cloudinary.com/petroly-initiative/image/upload/v1654614245/communities/localhost:8000/icons/31.jpg",
+              "__typename": "File"
+            },
+            "__typename": "CommunityType"
+          }
+        ],
+        "__typename": "CommunityTypeConnection"
+      },
+      "__typename": "UserType"
+    }
+  }
+}

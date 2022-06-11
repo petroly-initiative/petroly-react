@@ -27,44 +27,26 @@ import { M, USER } from "../../constants";
  
  */
 
-export default function GroupsTab(props) {
+export default function GroupsTab({
+  handleMsg,
+  dataComms,
+  loadingComms,
+  errorComms,
+  refetchComms,
+}) {
   const [mode, setMode] = useState("view-all");
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
-
-  const { data, loading, error, refetch } = useQuery(myCommunities, {
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "cache-first",
-    skip: user.status !== USER.LOGGED_IN,
-  });
 
   useEffect(() => {
     setLang(() => translator(user.lang));
   }, [user.lang]);
 
-  const fullList = "all of it";
-  const matchingList = "matching only";
   const switchMode = () => {
     setMode(mode === "view-all" ? "search" : "view-all");
   };
 
-  const myCommunitiesMapper = () =>
-    data.me.ownedCommunities.data.map((community) => {
-      const icon = community.icon;
-      return (
-        <GroupPreview // TODO Modify this component
-          refetch={refetch}
-          pic={icon ? icon.url : "/images/share.png"}
-          id={community.id}
-          name={community.name}
-          platform={community.platform}
-          handleMsg={props.handleMsg}
-        />
-      );
-    });
-
-  if (loading) {
+  if (loadingComms) {
     return (
       <Card
         className={
@@ -131,7 +113,7 @@ export default function GroupsTab(props) {
     );
   }
 
-  if (error) {
+  if (errorComms) {
     return (
       <Card
         className={
@@ -211,9 +193,26 @@ export default function GroupsTab(props) {
     );
   }
 
-  if (!data) {
+  if (!dataComms) {
     return null;
   }
+
+
+
+  const myCommunitiesMapper = () =>
+    dataComms.me.ownedCommunities.data.map((community) => {
+      const icon = community.icon;
+      return (
+        <GroupPreview // TODO Modify this component
+          refetch={refetchComms}
+          pic={icon ? icon.url : "/images/share.png"}
+          id={community.id}
+          name={community.name}
+          platform={community.platform}
+          handleMsg={handleMsg}
+        />
+      );
+    });
 
   return (
     <>

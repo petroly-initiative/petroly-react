@@ -19,7 +19,16 @@ import Footer from "../components/utilities/footer";
  * @WARNING This file exists to only apply globals assets and context for all pages
  */
 
+
+if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+  import("../mocks")
+}
+
+
 function MyApp({ Component, pageProps }) {
+
+ 
+
   const [user, dispatch] = useReducer(userReducer, {
     status: USER.LOGGED_OUT,
     token: "",

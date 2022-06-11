@@ -2,6 +2,9 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 import { GoogleFonts } from "next-google-fonts";
 
 class MyDocument extends Document {
+
+
+  
   render() {
     return (
       <>

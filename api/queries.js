@@ -105,13 +105,13 @@ export const meQuery = gql`
 `;
 
 export const hasEvaluatedQuery = gql`
-  query ($instructorId: Int) {
+  query hasEvaluated($instructorId: Int) {
     hasEvaluated(id: $instructorId)
   }
 `;
 
 export const meEvaluationSetQuery = gql`
-  query Me {
+  query MyEvaluations {
     me {
       evaluationSet {
         count

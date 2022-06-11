@@ -30,7 +30,7 @@ import { M } from "../../constants";
  * - Instructor data will be mapped via a custom component
  */
 
-export default function EvaluationsTab(props) {
+export default function EvaluationsTab({ dataEval, loadingEval, errorEval, refetchEval, handleMsg}) {
   const [mode, setMode] = useState("view-all");
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
@@ -43,15 +43,15 @@ export default function EvaluationsTab(props) {
     setMode(mode === "view-all" ? "search" : "view-all");
   };
 
-  const {
-    data: dataEval,
-    loading: loadingEval,
-    error: errorEval,
-    refetch: refetchMe,
-  } = useQuery(meEvaluationSetQuery, {
-    notifyOnNetworkStatusChange: true,
-    skip: user.status !== USER.LOGGED_IN,
-  });
+  // const {
+  //   data: dataEval,
+  //   loading: loadingEval,
+  //   error: errorEval,
+  //   refetch: refetchEval,
+  // } = useQuery(meEvaluationSetQuery, {
+  //   notifyOnNetworkStatusChange: true,
+  //   skip: user.status !== USER.LOGGED_IN,
+  // });
 
   if (loadingEval) {
     return (
@@ -210,13 +210,12 @@ export default function EvaluationsTab(props) {
       <EvaluationPreview
         instructor={evaluation.instructor}
         evaluation={evaluation}
-        refetch={refetchMe}
-        handleMsg={props.handleMsg}
+        refetch={refetchEval}
+        handleMsg={handleMsg}
       />
     );
   });
-  const matchingList = "matching only";
-
+ 
   return (
     <>
       <Card

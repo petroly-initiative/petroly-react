@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "config": "cypress open --config-file=cypress.config.js",
+    "cy:open": "cypress open --config-file=cypress.config.js",
     "cy:run": "cypress run",
     "test": "start-server-and-test start http://localhost:3030 cy:run",
     "cleanTest": "cypress cache clear",
@@ -28,6 +28,7 @@
     "next": "^11.1.2",
     "next-google-fonts": "^2.2.0",
     "next-pwa": "^5.3.1",
+    "nock": "^13.2.6",
     "react": "17.0.2",
     "react-awesome-reveal": "^3.8.1",
     "react-bootstrap": "^1.6.3",
@@ -35,8 +36,7 @@
     "react-icons": "^4.2.0",
     "react-rating-stars-component": "^2.2.0",
     "sass": "^1.39.0",
-    "sharp": "^0.29.2",
-    "superagent": "^6.1.0"
+    "sharp": "^0.29.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.3.4",
@@ -45,10 +45,14 @@
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.25.1",
+    "msw": "^0.42.1",
     "prettier": "^2.4.0",
     "start-server-and-test": "^1.14.0"
   },
   "optionalDependencies": {
     "fsevents": "*"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
