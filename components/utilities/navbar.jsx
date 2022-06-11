@@ -730,9 +730,7 @@ export default function Navbar(props) {
                   <Link href="/instructors" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.rating}>
                       <BsStarFill className={styles.nav_img} size="1.3em" />
-                      <div className={styles.link_text}>
-                        {langState.rating + "xxxxx"}
-                      </div>
+                      <div className={styles.link_text}>{langState.rating}</div>
                     </div>
                   </Link>
                 </li>

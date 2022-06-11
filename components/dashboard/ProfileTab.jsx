@@ -19,7 +19,7 @@ import { Fade } from "react-awesome-reveal";
 import Image from "next/image";
 import { useContext, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { meQuery } from "../../api/queries";
+
 import { profilePicUpdateMutation } from "../../api/mutations";
 import { USER } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
@@ -49,21 +49,12 @@ import { M } from "../../constants";
  * @returns The profile tab
  */
 
-export default function ProfileTab(props) {
+export default function ProfileTab({dataMe, errorMe, refetchMe, loadingMe}) {
   const [mode, setMode] = useState("view");
   const [WaitingPic, setWaitingPic] = useState(false);
   const { user, userDispatch } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
 
-  const {
-    data: dataMe,
-    loading: loadingMe,
-    error: errorMe,
-    refetch: refetchMe,
-  } = useQuery(meQuery, {
-    notifyOnNetworkStatusChange: true,
-    skip: user.status !== USER.LOGGED_IN,
-  });
 
   const [
     profilePicUpdate,

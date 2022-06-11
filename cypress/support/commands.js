@@ -23,3 +23,44 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+import { URL_ENDPOINT } from "../../constants";
+import { hasOperationName } from "../utils/graphql-test-utils";
+
+Cypress.Commands.add("login", () => {
+  URL = URL_ENDPOINT;
+
+  cy.intercept("POST", URL, (req) => {
+    if (hasOperationName(req, "getToken")) {
+      req.alias = "gqlgetTokenQuery";
+      // data fixture
+      req.reply({ fixture: "signinData/getTokenQuery.json" });
+    }
+  });
+
+  cy.intercept("POST", URL, (req) => {
+    if (hasOperationName(req, "Me")) {
+      req.alias = "gqlMeQuery";
+      // data fixture
+      req.reply({ fixture: "signinData/MeQuery.json" });
+    }
+  });
+
+  cy.intercept("POST", URL, (req) => {
+    if (hasOperationName(req, "VerifyToken")) {
+      req.alias = "gqlVerifyTokenMutation";
+      // data fixture
+      req.reply({ fixture: "signinData/VerifyTokenQuery.json" });
+    }
+  });
+});
+
+Cypress.Commands.add("interceptGql", (url, operationName, fixtureDir) => {
+  cy.intercept("POST", url, (req) => {
+    if (hasOperationName(req, operationName)) {
+      req.alias = `gql${operationName}Query`;
+      // data fixture
+      req.reply({ fixture: fixtureDir });
+    }
+  });
+});

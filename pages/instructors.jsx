@@ -280,11 +280,19 @@ function instructorsList() {
   // ! Error status
   if (error || errorDept) {
     return (
-      <div>
-        <h1>{error.name}</h1>
+      <Container
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: user.theme == M.DARK ? "white": ""
+        }}
+        className={styles.list_container}
+      >
+        <h1 >{error.name}</h1>
         <p>{error.message}</p>
         {/* <p>{error.networkError.result.errors[0].message}</p> */}
-      </div>
+      </Container>
     );
   }
 
@@ -401,7 +409,7 @@ function instructorsList() {
                 target="_blank"
                 className={styles["form-link"] + " shadow"}
               >
-             {langState.errBtn} 
+                {langState.errBtn}
               </a>
             </div>
           </Container>

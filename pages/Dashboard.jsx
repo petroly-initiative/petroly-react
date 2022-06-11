@@ -6,8 +6,8 @@ import styles from "../styles/dashboard-page/dashboard-container.module.scss";
 import { Fade } from "react-awesome-reveal";
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
-import { useQuery } from "@apollo/client";
-import { meQuery } from "../api/queries";
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { meQuery, meEvaluationSetQuery, myCommunities } from "../api/queries";
 import { USER, L } from "../constants";
 import PopMsg from "../components/utilities/PopMsg";
 import Head from "next/head";
@@ -23,27 +23,50 @@ import { NavContext } from "../state-management/navbar-state/NavbarContext";
  *  *Edit an evaluation
  */
 
-
-
 export default function Dashboard(props) {
-
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { navDispatch } = useContext(NavContext);
 
-   const [msgVisible, setMsg] = useState(false);
+  const [msgVisible, setMsg] = useState(false);
 
+  // fetching profile data
   const {
     data: dataMe,
     loading: loadingMe,
     error: errorMe,
+    refetch: refetchMe,
   } = useQuery(meQuery, {
     notifyOnNetworkStatusChange: true,
     skip: user.status !== USER.LOGGED_IN,
+    fetchPolicy: "network-only",
   });
 
-    useEffect(() => {
-      navDispatch("");
-    }, []);
+  // fetching evaluations
+  const {
+    data: dataEval,
+    loading: loadingEval,
+    error: errorEval,
+    refetch: refetchEval,
+  } = useQuery(meEvaluationSetQuery, {
+    notifyOnNetworkStatusChange: true,
+    skip: user.status !== USER.LOGGED_IN,
+    fetchPolicy: "no-cache",
+  });
+
+  const {
+    data: dataComms,
+    loading: loadingComms,
+    error: errorComms,
+    refetch: refetchComms,
+  } = useQuery(myCommunities, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "no-cache",
+    skip: user.status !== USER.LOGGED_IN,
+  });
+
+  useEffect(() => {
+    navDispatch("");
+  }, []);
 
   return (
     <>
@@ -78,9 +101,26 @@ export default function Dashboard(props) {
               "col col-sm-12 col-xs-12 col-md-12 col-lg-6 col-xl-6"
             }
           >
-            <ProfileTab />
-            <EvaluationsTab handleMsg={setMsg} />
-            <GroupsTab handleMsg={setMsg} />
+            <ProfileTab
+              loadingMe={loadingMe}
+              dataMe={dataMe}
+              errorMe={errorMe}
+              refetchMe={refetchMe}
+            />
+            <EvaluationsTab
+              loadingEval={loadingEval}
+              dataEval={dataEval}
+              errorEval={errorEval}
+              refetchEval={refetchEval}
+              handleMsg={setMsg}
+            />
+            <GroupsTab
+              handleMsg={setMsg}
+              dataComms={dataComms}
+              loadingComms={loadingComms}
+              errorComms={errorComms}
+              refetchComms={refetchComms}
+            />
           </Fade>
         </Row>
       </Container>

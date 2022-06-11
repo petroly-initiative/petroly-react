@@ -1,0 +1,39 @@
+{
+  "pageProps": {
+    "data": {
+      "instructor": {
+        "id": "3",
+        "name": "Muhab",
+        "department": "ICS",
+        "profilePic": "https://res.cloudinary.com/petroly-initiative/image/upload/v1622359053/profile_pics/blank_profile",
+        "overall": 3,
+        "overallFloat": 3,
+        "gradingAvg": 40,
+        "personalityAvg": 100,
+        "teachingAvg": 40,
+        "evaluationSet": {
+          "count": 1,
+          "data": [
+            {
+              "date": "2022-06-09T15:05:08.855740+00:00",
+              "id": "6",
+              "grading": "A_40",
+              "teaching": "A_40",
+              "personality": "A_100",
+              "gradingComment": "",
+              "teachingComment": "",
+              "personalityComment": "",
+              "course": "AAA123",
+              "term": 213,
+              "comment": "",
+              "__typename": "EvaluationType"
+            }
+          ],
+          "__typename": "EvaluationTypeConnection"
+        },
+        "__typename": "InstructorType"
+      }
+    }
+  },
+  "__N_SSP": true
+}

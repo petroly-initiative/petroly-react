@@ -64,7 +64,7 @@ export const getServerSideProps = async (context) => {
   const { data } = await client.query({
     query: getInstructorDetail,
     variables: { id },
-    fetchPolicy: "no-cache",
+    fetchPolicy: "network-only",
   });
 
   return {

@@ -1,0 +1,17 @@
+{
+  "data": {
+    "community": {
+      "name": "xxxx",
+      "platform": "WHATSAPP",
+      "category": "EDU",
+      "description": "amazing platfrom",
+      "section": "",
+      "link": "https://github.com/vercel/next.js/issues/27650",
+      "icon": {
+        "url": "http://res.cloudinary.com/petroly-initiative/image/upload/v1654614245/communities/localhost:8000/icons/31.jpg",
+        "__typename": "File"
+      },
+      "__typename": "CommunityType"
+    }
+  }
+}
