@@ -44,7 +44,7 @@
     "eslint": "^7.28.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-react": "^7.25.1",
+    "eslint-plugin-react": "^7.30.0",
     "msw": "^0.42.1",
     "prettier": "^2.4.0",
     "start-server-and-test": "^1.14.0"
