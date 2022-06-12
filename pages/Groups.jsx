@@ -52,9 +52,7 @@ function Groups(state, action) {
    */
 
   const { data, loading, error, refetch } = useQuery(CommunitiesQuery, {
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "cache-first",
+    fetchPolicy: "no-cache",
   });
 
   // language state
@@ -69,15 +67,19 @@ function Groups(state, action) {
 
   const closeModal = () => {
     setVisible(false);
+    search(); // auto search when closing the modal
   };
 
   const changePlatform = (obj) => {
-    if(obj !== platform)
-    setPlatform(obj);
+    if (obj !== platform) setPlatform(obj);
   };
 
+  // callback provided to group filter to sync state management of search filters
   const changeType = (obj) => {
-    if (obj.type !== type.type || (obj.type === "SECTION" && obj.course !== type.course)) {
+    if (
+      obj.type !== type.type ||
+      (obj.type === "SECTION" && obj.course !== type.course)
+    ) {
       setType(obj);
     }
   };
@@ -94,14 +96,10 @@ function Groups(state, action) {
   const enterSearch = (event) => {
     if (event.key === "Enter") search();
   };
-
+  // nav context management
   useEffect(() => {
     navDispatch("communities");
   }, []);
-
-  useEffect(() => {
-    search()
-  }, [type, platform])
 
   // ? Mappers
   // ? We will use a show-more mehcanism instead of pagination
@@ -125,10 +123,13 @@ function Groups(state, action) {
 
   if (error) {
     return (
-      <div>
+      <Container
+        style={{ color: user.theme == M.DARK ? "white" : "" }}
+        className={"mt-4 " + styles.list_container}
+      >
         <h1>{error.name}</h1>
         <p>{error.message}</p>
-      </div>
+      </Container>
     );
   }
 
@@ -199,11 +200,18 @@ function Groups(state, action) {
               <div className={styles["error-img"]}>
                 <Image
                   src="/images/errors/NotFoundE2.svg"
-                  width="440"
-                  height="386"
+                  width="400"
+                  height="351"
                 />
               </div>
-              <div className={styles["error-txt"]}>No Reesult Found :(</div>
+              <div
+                style={{
+                  color: (user.theme = M.DARK ? "white" : ""),
+                }}
+                className={styles["error-txt"]}
+              >
+                {langState.errMsg}
+              </div>
             </div>
             <GroupsFilter
               close={closeModal}

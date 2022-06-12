@@ -18,9 +18,9 @@ import translator from "../../dictionary/components/groups-filter-dict";
 import { M } from "../../constants";
 
 export default function GroupsFilter(props) {
-  const { user } = useContext(UserContext);
-  const [show, setShow] = useState(false);
-  const [invalidCourse, validateCourse] = useState(false);
+  const { user } = useContext(UserContext); // user context info
+  const [show, setShow] = useState(false); // modal visisbility state
+  const [invalidCourse, validateCourse] = useState(false); // course validation indicator
 
   /** 
    * ? state inputs can be the following

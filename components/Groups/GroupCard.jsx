@@ -18,9 +18,8 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
-import GroupDisplay from "./GroupDisplay";
+import dynamic from "next/dynamic";
 import { useMutation } from "@apollo/client";
-import GroupReport from "./GroupReport";
 import {
   interactedCommunityMutation,
   toggleLikeCommunityMutation,
@@ -28,6 +27,10 @@ import {
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-card-dict";
 import { M, USER } from "../../constants";
+
+// dynamic imports for report and display modals to reduce the base module size
+const GroupDisplay = dynamic(() => import("./GroupDisplay"))
+const GroupReport = dynamic(() => import("./GroupReport"));
 
 function GroupCard(props) {
   const { user } = useContext(UserContext);
@@ -42,9 +45,7 @@ function GroupCard(props) {
   /* managing a community interactions: like and report */
   const [toggleLikeCommunity, { data, loading, error }] = useMutation(
     toggleLikeCommunityMutation,
-    {
-      nextFetchPolicy: "cache-first",
-    }
+   
   );
 
   const [getInteractions, { data: interactions }] = useMutation(
