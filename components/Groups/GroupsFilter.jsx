@@ -61,10 +61,10 @@ export default function GroupsFilter(props) {
   const saveChanges = () => {
     props.changePlatform(platform);
 
-    if (groupType.type !== "SECTION") props.changeType(groupType);
+    if (groupType.type !== "SECTION") props.changeCategory(groupType);
     else {
       if (!invalidCourse)
-        props.changeType({ type: "SECTION", course: course.current.value });
+        props.changeCategory({ type: "SECTION", course: course.current.value });
     }
   };
 
@@ -78,13 +78,14 @@ export default function GroupsFilter(props) {
     setPlatform(props.platform);
   }, [props.platform]);
 
-    useEffect(() => {
-      console.log(groupType);
-      if(props.type.type === "SECTION")
-      setType({type: props.type.type, course: props.type.course})
-      else
-      setType({type: props.type.type})
-    }, [props.type]);
+
+  // FIXME what is this mess
+  useEffect(() => {
+    console.log(groupType);
+    if (props.category.type === "SECTION")
+      setType({ type: props.category.type, course: props.category.course });
+    else setType({ type: props.category.type });
+  }, [props.category]);
 
   useEffect(() => {
     setShow(props.visible);
@@ -97,9 +98,9 @@ export default function GroupsFilter(props) {
         centered
         show={show}
         onHide={() => {
-          props.close();
           setShow(false);
           saveChanges();
+          props.close();
         }}
         size="md"
       >
@@ -282,7 +283,7 @@ export default function GroupsFilter(props) {
                       >
                         <Form.Control
                           ref={course}
-                          defaultValue={props.type.course || ""}
+                          defaultValue={props.category.course || ""}
                           type="text"
                           onChange={setCourse}
                           disabled={!groupType.type === "SECTION"}

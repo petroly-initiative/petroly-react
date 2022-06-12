@@ -9,6 +9,31 @@ context("group service tests", () => {
         "Communities",
         "groups/getCommunities.json"
       );
+      cy.interceptGql(
+        URL_ENDPOINT,
+        "InteractedCommunity",
+        "groups/likedCommunityMutation.json"
+      );
+      cy.interceptGql(
+        URL_ENDPOINT,
+        "InteractedCommunity",
+        "groups/likedCommunityMutation.json"
+      );
+      cy.get('li[id="groups-btn"]').filter(":visible").first().click();
+      cy.wait[
+        ("@gqlCommunitiesQuery",
+        "@gqlInteractedCommunity.json",
+        "@gqlInteractedCommunity.json")
+      ];
+
+      cy.contains("20");
+      cy.contains("15");
+      cy.contains("shady stuff");
+      cy.contains("petroly tests").click();
+      cy.contains("WE just play don't study");
+      cy.contains("Join Group");
+      cy.contains("Description");
+      cy.contains("Platform");
     });
   });
 });

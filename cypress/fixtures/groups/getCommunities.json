@@ -9,12 +9,12 @@
           "category": "ENTERTAINING",
           "description": "WE just play don't study ",
           "link": "https://www.youtube.com/",
-          "name": "Just Fun",
+          "name": "petroly tests",
           "platform": "DISCORD",
           "section": "",
           "verified": false,
           "likes": {
-            "count": 1,
+            "count": 15,
             "__typename": "UserTypeConnection"
           },
           "icon": null,
@@ -26,12 +26,12 @@
           "category": "EDU",
           "description": " ",
           "link": "http://duckduckgo.com/3",
-          "name": "sdf",
+          "name": "shady stuff",
           "platform": "WHATSAPP",
           "section": "",
           "verified": false,
           "likes": {
-            "count": 1,
+            "count": 20,
             "__typename": "UserTypeConnection"
           },
           "icon": null,

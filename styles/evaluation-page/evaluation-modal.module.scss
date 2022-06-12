@@ -14,30 +14,30 @@ $x: #622edb;
   box-shadow: none !important;
   border: 4px solid theme.$dark-fg !important;
 
-   button{
-     color:  rgb(202, 202, 202);
-     &:hover{
+  button {
+    color: rgb(202, 202, 202);
+    &:hover {
       color: theme.$dark-fnt;
-     }
     }
+  }
 }
 
-.dark-footer{
+.dark-footer {
   background-color: theme.$dark-xfg !important;
   border: unset !important;
 }
 
-.dark-section{
+.dark-section {
   background-color: theme.$dark-xfg !important;
   box-shadow: 0 2 2px 5px theme.$dark-bg !important;
   border: unset !important;
 }
 
-.dark-header{
+.dark-header {
   color: theme.$dark-fnt !important;
 }
 
-.dark-subheader{
+.dark-subheader {
   color: theme.$dark-fnt-fg !important;
 }
 
@@ -48,12 +48,9 @@ $x: #622edb;
   // border: 1px solid theme.$light-fnt;
 }
 
-
-.dark-border{
-background: theme.$dark-xxfg !important;
-
+.dark-border {
+  background: theme.$dark-xxfg !important;
 }
-
 
 .modalHeader {
   background: #00ead3;
@@ -73,7 +70,7 @@ background: theme.$dark-xxfg !important;
   border: 0px !important;
 }
 
-.eval-params{
+.eval-params {
   height: 100px !important;
 }
 
@@ -149,7 +146,6 @@ background: theme.$dark-xxfg !important;
   text-align: center;
 }
 
-
 .comments::-webkit-scrollbar {
   width: 0.3rem;
 }
@@ -181,7 +177,6 @@ background: theme.$dark-xxfg !important;
   text-align: center;
   justify-content: center;
   align-items: center;
-  
 }
 
 .instructorPic {
@@ -244,8 +239,8 @@ background: theme.$dark-xxfg !important;
   align-items: center !important;
   flex-direction: row;
   justify-content: center !important;
-   color: #fff !important;
-   border: unset !important;
+  color: #fff !important;
+  border: unset !important;
   svg {
     transition: 600ms ease;
     margin: 8px;
@@ -259,19 +254,15 @@ background: theme.$dark-xxfg !important;
   }
 }
 
-
 .cancel-btn {
- 
-  background-color: rgb(224, 96, 96) !important;
-  
-  
-  
+  background-color: rgba(0, 0, 0, 0.007) !important;
+  border: 2px solid white !important;
+  display: flex;
+  justify-content: center;
 }
 
 .submit-btn {
   background-color: $btn-high !important;
-  
-
 }
 
 .eval-info input {
@@ -316,24 +307,24 @@ background: theme.$dark-xxfg !important;
 }
 
 @media only screen and (max-width: 600px) {
-  .sections{
+  .sections {
     margin: 8px;
   }
 
-  .modal-footer{
+  .modal-footer {
     flex-direction: column-reverse;
   }
 
-  .evalForm{
+  .evalForm {
     padding: 8px;
   }
 
-  .body-container{
+  .body-container {
     padding-left: 0;
     padding-right: 0;
   }
 
-  .btns{
+  .btns {
     width: 100%;
     padding: 2px;
     height: 40px;

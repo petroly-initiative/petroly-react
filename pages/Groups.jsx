@@ -30,7 +30,7 @@ import { NavContext } from "../state-management/navbar-state/NavbarContext";
 import { langDirection, L, M, USER } from "../constants";
 import PopMsg from "../components/utilities/PopMsg";
 
-function Groups(state, action) {
+function Groups() {
   const { user } = useContext(UserContext);
   const { navDispatch } = useContext(NavContext);
 
@@ -39,7 +39,8 @@ function Groups(state, action) {
   const [modalVisible, setModalVisible] = useState(false);
   // search filter modal state
   const [platform, setPlatform] = useState("ALL");
-  const [type, setType] = useState({ type: "ALL" });
+  // we included firstRender to stop initial double request
+  const [category, setCategory] = useState({ type: "ALL", firstRender: true });
   const name = useRef("");
 
   /** 
@@ -67,7 +68,6 @@ function Groups(state, action) {
 
   const closeModal = () => {
     setVisible(false);
-    search(); // auto search when closing the modal
   };
 
   const changePlatform = (obj) => {
@@ -77,19 +77,19 @@ function Groups(state, action) {
   // callback provided to group filter to sync state management of search filters
   const changeType = (obj) => {
     if (
-      obj.type !== type.type ||
-      (obj.type === "SECTION" && obj.course !== type.course)
+      obj.type !== category.type ||
+      (obj.type === "SECTION" && obj.course !== category.course)
     ) {
-      setType(obj);
+      setCategory(obj);
     }
   };
 
   const search = () => {
     refetch({
       name: name.current.value,
-      category: type.type === "ALL" ? null : type.type,
+      category: category.type === "ALL" ? null : category.type,
       platform: platform === "ALL" ? null : platform,
-      section: type.course,
+      section: category.course,
     });
   };
 
@@ -100,6 +100,12 @@ function Groups(state, action) {
   useEffect(() => {
     navDispatch("communities");
   }, []);
+
+  useEffect(() => {
+    if (!category.firstRender) {
+      search();
+    }
+  }, [category, platform]);
 
   // ? Mappers
   // ? We will use a show-more mehcanism instead of pagination
@@ -218,7 +224,7 @@ function Groups(state, action) {
               changePlatform={changePlatform}
               changeType={changeType}
               visible={filterVisible}
-              type={type}
+              type={category}
               platform={platform}
             />
           </Container>
@@ -378,9 +384,9 @@ function Groups(state, action) {
           <GroupsFilter
             close={closeModal}
             changePlatform={changePlatform}
-            changeType={changeType}
+            changeCategory={changeType}
             visible={filterVisible}
-            type={type}
+            category={category}
             platform={platform}
           />
         </Container>
