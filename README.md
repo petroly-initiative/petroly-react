@@ -22,6 +22,7 @@ Petroly's first initiative frontend source codebase
 <li>
 <a href="#Getting-Started">Getting Started</a>
 </li>
+  <li>
 <details>
 <summary><a href="#How-to-contribute">How to contribute?</a></summary>
 <ul>
@@ -35,8 +36,8 @@ Petroly's first initiative frontend source codebase
 <a href="#Branches">Branches</a>
 </li>
 </ul>
-
 </details>
+  </li>
 <li>
 <a href="#Roadmap">Roadmap</a>
 </li>
@@ -53,7 +54,7 @@ Petroly's first initiative frontend source codebase
 
 ## Project Goal
 
-Create a high-quality platform where all students share their knowledge and experiences in their KFUPM jouerneys
+Create a high-quality platform where all students share their knowledge and experiences in their KFUPM journeys
 
 ---
 
@@ -72,6 +73,7 @@ Create a high-quality platform where all students share their knowledge and expe
 - make sure to clone the Petroly backend repository in order to run the project
 - download the python backend dependencies via your selected virtual environment option
   - for `anaconda` users, create a virtrual enviroenmnt `conda create --name envName` and then activate it `conda activate envName`
+  -  install the dependencies on your virtual envrionments `conda install --file requirements.txt`
 - run `python manage.py runserver` to run the backend project at port 8000 after activating your virtual environment
 - run `npm install` to install required packages for the frontend
 - run `npm run dev` to launch the frontend project on localhost 3000
@@ -92,20 +94,24 @@ To gurarantee a uniform maintenance of the project, contributors need to adhere 
 - Comments on your code are mandatory
 - a screenshot or a video recording of the commit would be highly appreciated
 - submitting off-scratch commits on issues labelled `on progress` will be ignored, please branch off the existing progress so that we can benefit from your efforts
+
 - please make sure that your commits pass all the automated testing checks, if you find a problem in the testing suite, do not hesitate to contact us
+
+- If you have a new service in mind, please consult us to formlate a plan and archtiecture before implementing it and committing it directly to your branch
+
 
 #### Issues
 
 - Provide the sequence to re-produce the issue you have faced (a video or screenshot would be appreciated)
 - Provide the needed tags to your issue
 - the issue title shall confirm to the following scheme: `[service-name]: issue summary`
-  - `[service-name]`: the service name in the `Projects` tab
+  - `[service-name]`: the service name in the `Projects` tab and shall be in CamelCase
 - failing to meet requirements will lead to rejecting the issue
 
 #### Branches
 
 - to minimize merge-conflicts, each contributor shall work on a separate branch with the following title scheme: `[@username]service-name`
-  - `service-name` shall be in camel case
+  - `service-name` shall be in CamelCase, and included in the `Projects` tab
 - only core-team members can merge branches to the master branch to ensure testing the code properly
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
 
