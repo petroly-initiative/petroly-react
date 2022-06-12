@@ -77,6 +77,7 @@ Create a high-quality platform where all students share their knowledge and expe
 - run `python manage.py runserver` to run the backend project at port 8000 after activating your virtual environment
 - run `npm install` to install required packages for the frontend
 - run `npm run dev` to launch the frontend project on localhost 3000
+- for a headless testing session run `npm run cy:run`, and for a browser session test, use `npm run cy:open`
 
 ## How to Contribute
 
