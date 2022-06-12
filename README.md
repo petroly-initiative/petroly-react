@@ -92,6 +92,7 @@ To gurarantee a uniform maintenance of the project, contributors need to adhere 
 - Comments on your code are mandatory
 - a screenshot or a video recording of the commit would be highly appreciated
 - submitting off-scratch commits on issues labelled `on progress` will be ignored, please branch off the existing progress so that we can benefit from your efforts
+- please make sure that your commits pass all the automated testing checks, if you find a problem in the testing suite, do not hesitate to contact us
 
 #### Issues
 
@@ -106,14 +107,19 @@ To gurarantee a uniform maintenance of the project, contributors need to adhere 
 - to minimize merge-conflicts, each contributor shall work on a separate branch with the following title scheme: `[@username]service-name`
   - `service-name` shall be in camel case
 - only core-team members can merge branches to the master branch to ensure testing the code properly
+<div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
 
 ## Roadmap
 
 The Details of our targeted services are in the `Projects` tab of the repository
 
+<div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
+
 ## Acknowledgements
 
-Special thanks to everyone who has already participated in this project, and to those who are willing to further support us with their efforts. To find out more about the contributors, visit the `Insights` tab of the repository
+Special thanks to everyone who has supported us by complementing us despite the shortcomings, interacting with our platform, giving us feedback, and helping us in maintaining this project, and to those who are willing to support us with their invaluable contributions in the future
+
+<div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
 
 ## Contact
 
@@ -122,4 +128,4 @@ You can contact the core maintainers of the project through our official support
 <br />
 <div align="center"><i>We more than excited to see your amazing contributions to this project ;-)</i></div>
 <br/>
-<div align="center"><a href="#Table-of-Contents" >get to the top</a></div>
+<div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
