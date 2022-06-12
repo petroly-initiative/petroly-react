@@ -28,6 +28,18 @@ $x: #622edb;
   border: unset !important
 }
 
+.modal-container div::-webkit-scrollbar {
+  width: 0.2rem;
+}
+
+.modal-container div::-webkit-scrollbar-track {
+  background: rgb(136, 136, 136);
+}
+
+.modal-container div::-webkit-scrollbar-thumb {
+  background: #5c5a5a;
+}
+
 .title {
   font-size: 16px;
   font-weight: 700;

@@ -4,12 +4,14 @@ import { L } from "../../constants";
 const arabic = {
   searchbar: "أدخل اسم المجتمع",
   createBlock: "الرجاء تسجيل الدخول",
+  errMsg: "لا يوجد نتائج لبحثك"
 };
 
 // TODO: english translation for groups screen
 const english = {
   searchbar: "Search for community name",
   createBlock: "Please Sign in",
+  errMsg: "Could not find any results"
 };
 
 export default function translator(lang) {

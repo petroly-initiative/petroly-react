@@ -1,0 +1,9 @@
+{
+    "data": {
+        "hasInteractedCommunity": {
+            "liked": false,
+            "reported": true,
+            "__typename": "InteractedCommunityMutation"
+        }
+    }
+}

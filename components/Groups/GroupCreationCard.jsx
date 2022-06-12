@@ -40,6 +40,15 @@ import translator from "../../dictionary/components/groups-create-dict";
 import { langDirection, L, M, USER } from "../../constants";
 import mapErrorsToFields from "./utils";
 
+/**
+ * a modal for both editing and creating a new community
+ * @param  {
+ * create: a boolean flag used to indicate creation mode
+ * edit: a boolean flag used to indicate editing mode
+ * refetch: a callback to the parent to refetch original data after finishing the action
+ * } 
+ * @returns 
+ */
 function GroupCreationCard(props) {
   // UI control state
 
@@ -215,6 +224,7 @@ function GroupCreationCard(props) {
           invalidDesc
         )
       ) {
+        // delegating the correct handler to fire
         if (props.create) createGroup();
         else if (props.edit) editGroup();
         else throw new Error("No valid Operation prop was passed");
@@ -224,7 +234,7 @@ function GroupCreationCard(props) {
 
   // Enexpected error handling and logging for both creation and editing
   useEffect(() => {
-    if (createData) {
+    if (createData && props.create) {
       if (createData.communityCreate.ok) {
         props.handleClose(false);
         props.refetch();
@@ -237,7 +247,7 @@ function GroupCreationCard(props) {
   }, [createData, createLoading]);
 
   useEffect(() => {
-    if (editData) {
+    if (editData && props.edit) {
       if (editData.communityUpdate.ok) {
         props.handleClose(false);
         props.refetch();

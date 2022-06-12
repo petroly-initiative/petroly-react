@@ -30,7 +30,7 @@ import { NavContext } from "../state-management/navbar-state/NavbarContext";
 import { langDirection, L, M, USER } from "../constants";
 import PopMsg from "../components/utilities/PopMsg";
 
-function Groups(state, action) {
+function Groups() {
   const { user } = useContext(UserContext);
   const { navDispatch } = useContext(NavContext);
 
@@ -39,7 +39,8 @@ function Groups(state, action) {
   const [modalVisible, setModalVisible] = useState(false);
   // search filter modal state
   const [platform, setPlatform] = useState("ALL");
-  const [type, setType] = useState({ type: "ALL" });
+  // we included firstRender to stop initial double request
+  const [category, setCategory] = useState({ type: "ALL", firstRender: true });
   const name = useRef("");
 
   /** 
@@ -52,9 +53,7 @@ function Groups(state, action) {
    */
 
   const { data, loading, error, refetch } = useQuery(CommunitiesQuery, {
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "cache-first",
+    fetchPolicy: "no-cache",
   });
 
   // language state
@@ -72,36 +71,41 @@ function Groups(state, action) {
   };
 
   const changePlatform = (obj) => {
-    if(obj !== platform)
-    setPlatform(obj);
+    if (obj !== platform) setPlatform(obj);
   };
 
+  // callback provided to group filter to sync state management of search filters
   const changeType = (obj) => {
-    if (obj.type !== type.type || (obj.type === "SECTION" && obj.course !== type.course)) {
-      setType(obj);
+    if (
+      obj.type !== category.type ||
+      (obj.type === "SECTION" && obj.course !== category.course)
+    ) {
+      setCategory(obj);
     }
   };
 
   const search = () => {
     refetch({
       name: name.current.value,
-      category: type.type === "ALL" ? null : type.type,
+      category: category.type === "ALL" ? null : category.type,
       platform: platform === "ALL" ? null : platform,
-      section: type.course,
+      section: category.course,
     });
   };
 
   const enterSearch = (event) => {
     if (event.key === "Enter") search();
   };
-
+  // nav context management
   useEffect(() => {
     navDispatch("communities");
   }, []);
 
   useEffect(() => {
-    search()
-  }, [type, platform])
+    if (!category.firstRender) {
+      search();
+    }
+  }, [category, platform]);
 
   // ? Mappers
   // ? We will use a show-more mehcanism instead of pagination
@@ -125,10 +129,13 @@ function Groups(state, action) {
 
   if (error) {
     return (
-      <div>
+      <Container
+        style={{ color: user.theme == M.DARK ? "white" : "" }}
+        className={"mt-4 " + styles.list_container}
+      >
         <h1>{error.name}</h1>
         <p>{error.message}</p>
-      </div>
+      </Container>
     );
   }
 
@@ -199,18 +206,25 @@ function Groups(state, action) {
               <div className={styles["error-img"]}>
                 <Image
                   src="/images/errors/NotFoundE2.svg"
-                  width="440"
-                  height="386"
+                  width="400"
+                  height="351"
                 />
               </div>
-              <div className={styles["error-txt"]}>No Reesult Found :(</div>
+              <div
+                style={{
+                  color: (user.theme = M.DARK ? "white" : ""),
+                }}
+                className={styles["error-txt"]}
+              >
+                {langState.errMsg}
+              </div>
             </div>
             <GroupsFilter
               close={closeModal}
               changePlatform={changePlatform}
               changeType={changeType}
               visible={filterVisible}
-              type={type}
+              type={category}
               platform={platform}
             />
           </Container>
@@ -370,9 +384,9 @@ function Groups(state, action) {
           <GroupsFilter
             close={closeModal}
             changePlatform={changePlatform}
-            changeType={changeType}
+            changeCategory={changeType}
             visible={filterVisible}
-            type={type}
+            category={category}
             platform={platform}
           />
         </Container>

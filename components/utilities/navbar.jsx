@@ -745,7 +745,7 @@ export default function Navbar(props) {
                     </div>
                   </Link>
                 </li> */}
-                <li className={styles.navbar_item}>
+                <li id="groups-btn" className={styles.navbar_item}>
                   <Link href="/Groups" className={styles.navbar_link}>
                     <div
                       className={styles.link_btn + " " + navStyles.communities}
@@ -1296,7 +1296,7 @@ export default function Navbar(props) {
                   </div>
                 </Link>
               </li> */}
-              <li className={styles.navbar_item}>
+              <li id="groups-btn" className={styles.navbar_item}>
                 <Link href="/Groups" className={styles.navbar_link}>
                   <div
                     className={styles.link_btn + " " + navStyles.communities}

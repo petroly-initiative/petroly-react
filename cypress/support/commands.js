@@ -53,6 +53,22 @@ Cypress.Commands.add("login", () => {
       req.reply({ fixture: "signinData/VerifyTokenQuery.json" });
     }
   });
+
+  cy.visit("/", {
+    onBeforeLoad: (win) => {
+      win.sessionStorage.clear();
+      win.localStorage.clear();
+    },
+  });
+
+  cy.contains("Our Services");
+
+  cy.get('button[id="sign-in"]').filter(":visible").click();
+
+  // dummy user
+  cy.get('input[id="username-input"]').type("admin", { force: true });
+  cy.get('input[id="pass-input"]').type("aassddff", { force: true });
+  cy.get('button[id="submit-btn"]').click();
 });
 
 Cypress.Commands.add("interceptGql", (url, operationName, fixtureDir) => {
