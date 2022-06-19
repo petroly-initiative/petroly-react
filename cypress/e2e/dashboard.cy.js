@@ -31,7 +31,7 @@ context("Dashboard test", () => {
       cy.get('button[id="profile-btn"]').filter(":visible").first().click();
       cy.contains("Dashboard").click();
       // wow
-      //   cy.wait(3000);
+        cy.wait(3000);
       cy.wait(["@gqlMyEvaluationsQuery", "@gqlMeQuery", "@gqlMyCommunitiesQuery", "@gqlgetCommunityInfoQuery"]);
 
       cy.contains("tested-admin");

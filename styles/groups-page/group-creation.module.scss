@@ -104,7 +104,7 @@ $btn-prim: #00ead3;
 .input {
   background-color: rgba(212, 212, 212, 0.233);
   width: 100%;
-  height: 35px;
+  height: 30px;
   min-width: 60%;
   display: flex;
   align-items: center;
@@ -151,6 +151,7 @@ $btn-prim: #00ead3;
   margin-bottom: 6px;
 
   .label-header {
+    margin-left: 12px;
     display: flex;
     width: 100%;
     flex-wrap: wrap;
@@ -172,6 +173,7 @@ $btn-prim: #00ead3;
   }
 
   .label-content {
+    margin-left: 12px;
     width: 100% !important;
     display: flex;
     justify-content: flex-start;
@@ -182,6 +184,7 @@ $btn-prim: #00ead3;
   }
 
   label {
+    margin-left: 12px;
     margin-right: 24px;
     span {
       font-weight: 600;

@@ -188,7 +188,7 @@ function instructorsList() {
         >
           <Row style={{ justifyContent: "center" }}>
             <Col
-              l={8}
+              l={12}
               xs={11}
               md={9}
               xl={7}
@@ -204,61 +204,57 @@ function instructorsList() {
                   disabled
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                 ></Form.Control>
-                <InputGroup.Append style={{ height: 38 }}>
-                  <Button
-                    type="submit"
-                    onClick={search}
-                    className={
-                      styles["search_btn"] +
-                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                    }
-                    disabled
-                  >
-                    <BiSearch size="1.5rem" />
-                  </Button>
-                </InputGroup.Append>
 
-                <InputGroup.Append>
-                  {/*popover for filters and order*/}
-                  <DropdownButton
-                    disabled
+                <Button
+                  type="submit"
+                  onClick={search}
+                  className={
+                    styles["search_btn"] +
+                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                  }
+                  disabled
+                >
+                  <BiSearch size="1.5rem" />
+                </Button>
+
+                {/*popover for filters and order*/}
+                <DropdownButton
+                  disabled
+                  bsPrefix={
+                    styles["dept-dropdown"] +
+                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                  }
+                  align="start"
+                  // id="dropdown-menu-align-right"
+                  title={<GoSettings size="1.5rem" />}
+                >
+                  <Dropdown.Item
                     className={
-                      styles["dept-dropdown"] +
-                      ` ${
-                        user.theme === M.DARK ? styles["dark-mode-dropper"] : ""
-                      }`
+                      user.theme === M.DARK
+                        ? styles["dark-mode"]
+                        : styles["dropdown-h"]
                     }
-                    align="start"
-                    id="dropdown-menu-align-right"
-                    title={<GoSettings size="1.5rem" />}
+                    disabled
                   >
-                    <Dropdown.Item
-                      className={
-                        styles["dropdown-h"] +
-                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                      }
-                      disabled
-                    >
-                      {langState.searchbarFilter}
-                    </Dropdown.Item>
-                    <Dropdown.Divider style={{ height: "1" }} />
-                    <Dropdown.Item
-                      id="null"
-                      className={
-                        styles["depts"] +
-                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                      }
-                      as={"div"}
-                      eventKey="1"
-                      onClick={selectDept}
-                      active={instructorsState.department === null}
-                    >
-                      All departments
-                    </Dropdown.Item>
-                    {deptList}
-                    {data}
-                  </DropdownButton>
-                </InputGroup.Append>
+                    {langState.searchbarFilter}
+                  </Dropdown.Item>
+                  <Dropdown.Divider style={{ height: "1" }} />
+                  <Dropdown.Item
+                    id="null"
+                    className={
+                      styles["depts"] +
+                      ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                    }
+                    as={"div"}
+                    eventKey="1"
+                    onClick={selectDept}
+                    active={instructorsState.department === null}
+                  >
+                    All departments
+                  </Dropdown.Item>
+                  {deptList}
+                  {data}
+                </DropdownButton>
               </InputGroup>
             </Col>
           </Row>{" "}
@@ -285,11 +281,11 @@ function instructorsList() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: user.theme == M.DARK ? "white": ""
+          color: user.theme == M.DARK ? "white" : "",
         }}
         className={styles.list_container}
       >
-        <h1 >{error.name}</h1>
+        <h1>{error.name}</h1>
         <p>{error.message}</p>
         {/* <p>{error.networkError.result.errors[0].message}</p> */}
       </Container>
@@ -331,60 +327,53 @@ function instructorsList() {
                     onChange={changeName}
                     dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   ></Form.Control>
-                  <InputGroup.Append style={{ height: 38 }}>
-                    <Button
-                      type="submit"
-                      onClick={search}
-                      className={
-                        styles["search_btn"] +
-                        ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                      }
-                    >
-                      <BiSearch size="1.5rem" />
-                    </Button>
-                  </InputGroup.Append>
 
-                  <InputGroup.Append cla>
-                    {/*popover for filters and order*/}
-                    <DropdownButton
+                  <Button
+                    type="submit"
+                    onClick={search}
+                    className={
+                      styles["search_btn"] +
+                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                    }
+                  >
+                    <BiSearch size="1.5rem" />
+                  </Button>
+
+                  {/*popover for filters and order*/}
+                  <DropdownButton
+                    bsPrefix={
+                      styles["dept-dropdown"] +
+                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                    }
+                    align="start"
+                    id="dropdown-menu-align-right"
+                    title={<GoSettings size="1.5rem" />}
+                  >
+                    <Dropdown.Item
                       className={
-                        styles["dept-dropdown"] +
-                        ` ${
-                          user.theme === M.DARK
-                            ? styles["dark-mode-dropper"]
-                            : ""
-                        }`
+                        styles["dropdown-h"] +
+                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
                       }
-                      align="start"
-                      id="dropdown-menu-align-right"
-                      title={<GoSettings size="1.5rem" />}
+                      disabled
                     >
-                      <Dropdown.Item
-                        className={
-                          styles["dropdown-h"] +
-                          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                        }
-                        disabled
-                      >
-                        {langState.searchbarFilter}
-                      </Dropdown.Item>
-                      <Dropdown.Divider style={{ height: "1" }} />
-                      <Dropdown.Item
-                        id="null"
-                        className={
-                          styles["depts"] +
-                          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                        }
-                        as={"div"}
-                        eventKey="1"
-                        onClick={selectDept}
-                        active={instructorsState.department === null}
-                      >
-                        All departments
-                      </Dropdown.Item>
-                      {deptList}
-                    </DropdownButton>
-                  </InputGroup.Append>
+                      {langState.searchbarFilter}
+                    </Dropdown.Item>
+                    <Dropdown.Divider style={{ height: "1" }} />
+                    <Dropdown.Item
+                      id="null"
+                      className={
+                        styles["depts"] +
+                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                      }
+                      as={"div"}
+                      eventKey="1"
+                      onClick={selectDept}
+                      active={instructorsState.department === null}
+                    >
+                      All departments
+                    </Dropdown.Item>
+                    {deptList}
+                  </DropdownButton>
                 </InputGroup>
               </Col>
             </Row>
@@ -428,7 +417,7 @@ function instructorsList() {
         <Container className={"mt-4 " + styles.list_container}>
           <Row style={{ justifyContent: "center" }}>
             <Col
-              l={8}
+              l={12}
               xs={11}
               md={9}
               xl={7}
@@ -447,58 +436,56 @@ function instructorsList() {
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   onKeyDown={enterSearch}
                 ></Form.Control>
-                <InputGroup.Append style={{ height: 38 }}>
-                  <Button
-                    type="submit"
-                    onClick={search}
-                    className={
-                      styles["search_btn"] +
-                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                    }
-                  >
-                    <BiSearch size="1.5rem" />
-                  </Button>
-                </InputGroup.Append>
 
-                <InputGroup.Append>
-                  {/*popover for filters and order*/}
-                  <DropdownButton
+                <Button
+                  type="submit"
+                  onClick={search}
+                  className={
+                    styles["search_btn"] +
+                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                  }
+                >
+                  <BiSearch size="1.5rem" />
+                </Button>
+
+                {/*popover for filters and order*/}
+                <DropdownButton
+                  variant={`${user.theme === M.DARK ? "dark" : ""}`}
+                  menuVariant="dark"
+                  color="black"
+                  bsPrefix={
+                    styles["dept-dropdown"] +
+                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                  }
+                  align="start"
+                  id="dropdown-menu-align-right"
+                  title={<GoSettings size="1.5rem" />}
+                >
+                  <Dropdown.Item
                     className={
-                      styles["dept-dropdown"] +
-                      ` ${
-                        user.theme === M.DARK ? styles["dark-mode-dropper"] : ""
-                      }`
+                      styles["dropdown-h"] +
+                      ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
                     }
-                    align="start"
-                    id="dropdown-menu-align-right"
-                    title={<GoSettings size="1.5rem" />}
+                    disabled
                   >
-                    <Dropdown.Item
-                      className={
-                        styles["dropdown-h"] +
-                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                      }
-                      disabled
-                    >
-                      {langState.searchbarFilter}
-                    </Dropdown.Item>
-                    <Dropdown.Divider style={{ height: "1" }} />
-                    <Dropdown.Item
-                      id="null"
-                      className={
-                        styles["depts"] +
-                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                      }
-                      as={"div"}
-                      eventKey="1"
-                      onClick={selectDept}
-                      active={instructorsState.department === null}
-                    >
-                      All departments
-                    </Dropdown.Item>
-                    {deptList}
-                  </DropdownButton>
-                </InputGroup.Append>
+                    {langState.searchbarFilter}
+                  </Dropdown.Item>
+                  <Dropdown.Divider style={{ height: "1" }} />
+                  <Dropdown.Item
+                    id="null"
+                    className={
+                      styles["depts"] +
+                      ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                    }
+                    as={"div"}
+                    eventKey="1"
+                    onClick={selectDept}
+                    active={instructorsState.department === null}
+                  >
+                    All departments
+                  </Dropdown.Item>
+                  {deptList}
+                </DropdownButton>
               </InputGroup>
             </Col>
           </Row>

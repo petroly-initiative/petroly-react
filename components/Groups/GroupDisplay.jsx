@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Modal, Button, Col, Row } from "react-bootstrap";
+import { Modal, Button, Col, Row, CloseButton } from "react-bootstrap";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import { FiCopy } from "react-icons/fi";
 import { BsStarFill } from "react-icons/bs";
@@ -46,8 +46,14 @@ export default function GroupDisplay(props) {
       >
         <Modal.Header
           className={` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`}
-          closeButton
-        ></Modal.Header>
+        >
+          <CloseButton
+            onClick={() => {
+              props.handleClose();
+            }}
+            variant={`${user.theme === M.DARK ? "white" : ""}`}
+          />
+        </Modal.Header>
         <Modal.Body
           className={
             "text-right " +
@@ -122,7 +128,7 @@ export default function GroupDisplay(props) {
                 }
                 style={{
                   background: props.typeColor(props.type),
-                  position: "relative"
+                  position: "relative",
                 }}
               >
                 {props.typeIcon(props.type)}

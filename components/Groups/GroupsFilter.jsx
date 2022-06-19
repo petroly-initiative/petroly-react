@@ -5,7 +5,7 @@ import {
   Row,
   Form,
   InputGroup,
-  FormControl,
+  CloseButton,
 } from "react-bootstrap";
 import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
@@ -78,7 +78,6 @@ export default function GroupsFilter(props) {
     setPlatform(props.platform);
   }, [props.platform]);
 
-
   // FIXME what is this mess
   useEffect(() => {
     console.log(groupType);
@@ -109,7 +108,6 @@ export default function GroupsFilter(props) {
             styles["modal-header"] +
             ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
           }
-          closeButton
         >
           <span
             className={` ${user.theme === M.DARK ? styles["dark-topper"] : ""}`}
@@ -117,6 +115,14 @@ export default function GroupsFilter(props) {
             <GoSettings />
             <span dir="ltr">{langState.modalHeader}</span>
           </span>
+          <CloseButton
+            onClick={() => {
+              setShow(false);
+              saveChanges();
+              props.close();
+            }}
+            variant={`${user.theme === M.DARK ? "white" : ""}`}
+          />
         </Modal.Header>
         <Modal.Body
           className={

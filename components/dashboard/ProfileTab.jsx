@@ -399,7 +399,7 @@ export default function ProfileTab({dataMe, errorMe, refetchMe, loadingMe}) {
                 )}
               </div>
               <Fade className={styles["fader"]}>
-                <Form className={styles["edit-form"]}>
+                <Form>
                   {/* <Form.Group>
                     <Form.Label>اسم المستخدم</Form.Label>
                     <InputGroup>
@@ -407,11 +407,13 @@ export default function ProfileTab({dataMe, errorMe, refetchMe, loadingMe}) {
                     </InputGroup>
                   </Form.Group> */}
                   <Form.Group controlId="formFile">
-                    <InputGroup>
+                    <InputGroup as="div" bsPrefix={styles["edit-form"]}>
                       <Form.Label> {langState.pic}</Form.Label>
                       <Form.Control
                         type="file"
-                        className={styles["img-input"]}
+                        className={` ${
+                          user.theme === M.DARK ? styles["dark-img-input"] : styles["img-input"]
+                        }`}
                         name="file"
                         onChange={handleImage}
                       />

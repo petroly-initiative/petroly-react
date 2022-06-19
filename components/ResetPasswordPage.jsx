@@ -99,14 +99,13 @@ export default function ResetPasswordPage(props) {
                     type={showPwd ? "text" : "password"}
                     required
                   />
-                  <InputGroup.Append>
-                    <Button
-                      className={authStyle["pwd-toggle"]}
-                      onClick={handleShowPwd}
-                    >
-                      {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
-                    </Button>
-                  </InputGroup.Append>
+
+                  <Button
+                    className={authStyle["pwd-toggle"]}
+                    onClick={handleShowPwd}
+                  >
+                    {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
+                  </Button>
                 </InputGroup>
               </Form.Group>
               <Form.Group>
@@ -122,14 +121,14 @@ export default function ResetPasswordPage(props) {
                     required
                     isInvalid={isConfirmPassInvalid}
                   />
-                  <InputGroup.Append>
-                    <Button
-                      className={authStyle["pwd-toggle"]}
-                      onClick={handleShowPwd}
-                    >
-                      {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
-                    </Button>
-                  </InputGroup.Append>
+
+                  <Button
+                    className={authStyle["pwd-toggle"]}
+                    onClick={handleShowPwd}
+                  >
+                    {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
+                  </Button>
+
                   <FormControl.Feedback
                     style={{ textAlign: "right" }}
                     type="invalid"

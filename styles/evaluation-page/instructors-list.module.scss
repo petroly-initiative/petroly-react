@@ -121,6 +121,9 @@ $txt-hg: #0091e7;
 }
 
 .dept-dropdown {
+  border: none;
+  border-radius: 0 6px 6px 0;
+  padding-right: 8px;
   button {
     // border: 2px solid #00ead3;
     background-color: #06d8c3;
@@ -137,7 +140,7 @@ $txt-hg: #0091e7;
 }
 
 .dropdown-h {
-  color: rgb(4, 144, 224) !important;
+  color: #06d8c3 !important;
   font-weight: 700;
 }
 

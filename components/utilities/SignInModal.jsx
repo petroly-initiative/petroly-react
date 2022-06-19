@@ -411,12 +411,21 @@ export default function SignInModal(props) {
                   )}
                   <Fade duration="1000">
                     <Form.Group>
-                      <Form.Label className={styles["labels"]}>
+                      <Form.Label
+                        className={
+                          user.lang === L.AR_SA
+                            ? styles["labels-ar"]
+                            : styles["labels-en"]
+                        }
+                      >
                         {langState.textField1}
                       </Form.Label>
-                      <InputGroup hasValidation>
+                      <InputGroup
+                        className={styles["input-groups"]}
+                        hasValidation
+                      >
                         <FormControl
-                        id="username-input"
+                          id="username-input"
                           className={`${
                             user.theme === M.DARK
                               ? styles["dark-mode-input"]
@@ -435,10 +444,19 @@ export default function SignInModal(props) {
                   {tab === "signUp" && (
                     <Fade duration="1000">
                       <Form.Group>
-                        <Form.Label className={styles["labels"]}>
+                        <Form.Label
+                          className={
+                            user.lang === L.AR_SA
+                              ? styles["labels-ar"]
+                              : styles["labels-en"]
+                          }
+                        >
                           {langState.textField2}
                         </Form.Label>
-                        <InputGroup hasValidation>
+                        <InputGroup
+                          className={styles["input-groups"]}
+                          hasValidation
+                        >
                           <FormControl
                             className={`${
                               user.theme === M.DARK
@@ -465,12 +483,21 @@ export default function SignInModal(props) {
                   )}
                   <Fade duration="1000">
                     <Form.Group>
-                      <Form.Label className={styles["labels"]}>
+                      <Form.Label
+                        className={
+                          user.lang === L.AR_SA
+                            ? styles["labels-ar"]
+                            : styles["labels-en"]
+                        }
+                      >
                         {langState.passField1}
                       </Form.Label>
-                      <InputGroup hasValidation>
+                      <InputGroup
+                        className={styles["input-groups"]}
+                        hasValidation
+                      >
                         <FormControl
-                        id="pass-input"
+                          id="pass-input"
                           className={`${
                             user.theme === M.DARK
                               ? styles["dark-mode-input"]
@@ -484,30 +511,28 @@ export default function SignInModal(props) {
                           required
                         />
 
-                        <InputGroup.Append
-                          className={` ${
-                            user.theme === M.DARK
-                              ? styles["dark-mode-input"]
-                              : ""
-                          }`}
+                        <Button
+                          className={styles["pwd-toggle"]}
+                          onClick={handleShowPwd}
                         >
-                          <Button
-                            className={styles["pwd-toggle"]}
-                            onClick={handleShowPwd}
-                          >
-                            {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
-                          </Button>
-                        </InputGroup.Append>
+                          {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
+                        </Button>
                       </InputGroup>
                     </Form.Group>
                   </Fade>
                   {tab === "signUp" && (
                     <Fade duration="1000">
                       <Form.Group>
-                        <Form.Label className={styles["labels"]}>
+                        <Form.Label
+                          className={
+                            user.lang === L.AR_SA
+                              ? styles["labels-ar"]
+                              : styles["labels-en"]
+                          }
+                        >
                           {langState.passField2}
                         </Form.Label>
-                        <InputGroup>
+                        <InputGroup className={styles["input-groups"]}>
                           <FormControl
                             className={`${
                               user.theme === M.DARK
@@ -522,20 +547,14 @@ export default function SignInModal(props) {
                             required
                             isInvalid={isConfirmPassInvalid}
                           />
-                          <InputGroup.Append
-                            className={` ${
-                              user.theme === M.DARK
-                                ? styles["dark-mode-input"]
-                                : ""
-                            }`}
+
+                          <Button
+                            className={styles["pwd-toggle"]}
+                            onClick={handleShowPwd}
                           >
-                            <Button
-                              className={styles["pwd-toggle"]}
-                              onClick={handleShowPwd}
-                            >
-                              {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
-                            </Button>
-                          </InputGroup.Append>
+                            {showPwd ? <MdVisibility /> : <MdVisibilityOff />}
+                          </Button>
+
                           <FormControl.Feedback
                             style={{ textAlign: "right" }}
                             type="invalid"
@@ -552,7 +571,7 @@ export default function SignInModal(props) {
                       <Spinner animation="border" role="status" />
                     ) : (
                       <Button
-                      id="submit-btn"
+                        id="submit-btn"
                         type="submit"
                         className={styles["login-btn"]}
                         disabled={loadingTokenAuth}
@@ -623,7 +642,7 @@ export default function SignInModal(props) {
                       </Alert>
                     </Fade>
                   )}
-                  <InputGroup hasValidation>
+                  <InputGroup className={styles["input-groups"]} hasValidation>
                     <FormControl
                       className={`${
                         user.theme === M.DARK ? styles["dark-mode-input"] : ""
@@ -651,7 +670,7 @@ export default function SignInModal(props) {
                       <Spinner animation="border" role="status" />
                     ) : (
                       <Button
-                      id="submit-btn"
+                        id="submit-btn"
                         type="submit"
                         className={styles["login-btn"]}
                         disabled={loadingTokenAuth}

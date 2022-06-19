@@ -63,13 +63,16 @@ $x: #622edb;
   height: 50px;
   border-top: unset;
   direction: rtl;
-  padding-right: 8px;
+  padding-right: 12px;
   text-align: right;
   border-radius: 8px !important;
   margin-bottom: 8px;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
   display: flex;
   align-items: center;
+  div{
+    padding: 0 16px;
+  }
   span {
     margin-right: 8px;
     transition: 300ms ease;

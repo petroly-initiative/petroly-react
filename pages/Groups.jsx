@@ -172,7 +172,7 @@ function Groups() {
                     // onChange={ref}
                     onKeyDown={enterSearch}
                   />
-                  <InputGroup.Append style={{ height: 38 }}>
+                 
                     <Button
                       type="submit"
                       onClick={search}
@@ -183,9 +183,7 @@ function Groups() {
                     >
                       <BiSearch size="1.5rem" />
                     </Button>
-                  </InputGroup.Append>
-
-                  <InputGroup.Append>
+                 
                     {/*popover for filters and order*/}
                     <Button
                       className={
@@ -198,7 +196,7 @@ function Groups() {
                     >
                       <GoSettings size="1.5rem" />
                     </Button>
-                  </InputGroup.Append>
+                 
                 </InputGroup>
               </Col>
             </Row>
@@ -337,7 +335,7 @@ function Groups() {
                   // onChange={ref}
                   onKeyDown={enterSearch}
                 />
-                <InputGroup.Append style={{ height: 38 }}>
+               
                   <Button
                     type="submit"
                     onClick={search}
@@ -348,9 +346,7 @@ function Groups() {
                   >
                     <BiSearch size="1.5rem" />
                   </Button>
-                </InputGroup.Append>
-
-                <InputGroup.Append>
+               
                   {/*popover for filters and order*/}
                   <Button
                     className={
@@ -363,7 +359,7 @@ function Groups() {
                   >
                     <GoSettings size="1.5rem" />
                   </Button>
-                </InputGroup.Append>
+                
               </InputGroup>
             </Col>
           </Row>

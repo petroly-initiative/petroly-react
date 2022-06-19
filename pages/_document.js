@@ -1,5 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import { GoogleFonts } from "next-google-fonts";
+
 
 class MyDocument extends Document {
 
@@ -9,8 +9,7 @@ class MyDocument extends Document {
     return (
       <>
         <Html lang="ar">
-          <GoogleFonts href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" />
-          <Head>
+           <Head>
             <meta
               name="description"
               content="Digital Platform for All KFUPMers"

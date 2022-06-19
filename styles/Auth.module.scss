@@ -23,10 +23,9 @@ $txt-fill: #52575d;
   border: 1px solid theme.$light-fnt;
 }
 
-.dark-txt{
+.dark-txt {
   color: theme.$dark-fnt !important;
 }
-
 
 @mixin tabNav {
   width: 100%;
@@ -85,6 +84,13 @@ $txt-fill: #52575d;
   border-radius: 2px !important;
   background-color: unset;
   color: #52575d;
+  border: 1px solid #52575d;
+}
+
+.input-groups {
+  margin-bottom: 12px;
+  padding-right: 16px;
+  padding-left: 16px;
 }
 
 .pwd-toggle:hover,
@@ -252,11 +258,27 @@ $txt-fill: #52575d;
   text-align: right;
 }
 
-.labels {
+@mixin labels() {
   width: 100%;
-  direction: rtl !important;
   text-align: right !important;
   font-size: 14px !important;
+  padding-right: 16px;
+  padding-left: 16px;
+
+}
+
+.labels-en {
+  @include labels();
+  text-align: right !important;
+  direction: rtl !important;
+  
+}
+
+.labels-ar {
+  @include labels();
+  text-align: right !important;
+  direction: rtl !important;
+
 }
 
 .text-header {
@@ -272,12 +294,11 @@ $txt-fill: #52575d;
   width: 100% !important;
   display: flex;
   justify-content: space-around;
-  
 }
 
 .active-tab {
   @include tabNav;
-  
+
   border-radius: 0;
   border-bottom: 3px solid $btn-high !important;
   &:focus {
@@ -327,13 +348,12 @@ $txt-fill: #52575d;
     display: none;
   }
 
-  .nav-container{
-  .tab-btns, .active-tab{
-    font-size: 14px !important;
+  .nav-container {
+    .tab-btns,
+    .active-tab {
+      font-size: 14px !important;
+    }
   }
-
-
-}
 
   .modal-footer {
     width: 100%;
