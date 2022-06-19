@@ -246,7 +246,7 @@ export default function Navbar(props) {
                           id="popover-basic"
                           show={{ show: 350, hide: 400 }}
                         >
-                          <Popover.Content
+                          <Popover.Body
                             style={{ marginRight: "12 !important" }}
                           >
                             <div className={styles["popup-info"]}>
@@ -297,7 +297,7 @@ export default function Navbar(props) {
                                 </div>
                               </Button>
                             </div>
-                          </Popover.Content>
+                          </Popover.Body>
                         </Popover>
                       }
                       rootClose
@@ -348,7 +348,7 @@ export default function Navbar(props) {
                         id="popover-basic"
                         show={{ show: 350, hide: 400 }}
                       >
-                        <Popover.Content
+                        <Popover.Body
                           style={{ marginRight: "12 !important" }}
                         >
                           <div
@@ -506,7 +506,7 @@ export default function Navbar(props) {
                               </Button>
                             </ButtonGroup>
                           </div>
-                        </Popover.Content>
+                        </Popover.Body>
                       </Popover>
                     }
                     rootClose
@@ -534,7 +534,7 @@ export default function Navbar(props) {
                         id="popover-basic"
                         show={{ show: 350, hide: 400 }}
                       >
-                        <Popover.Content
+                        <Popover.Body
                           style={{ marginRight: "12 !important" }}
                         >
                           <div
@@ -692,7 +692,7 @@ export default function Navbar(props) {
                               </Button>
                             </ButtonGroup>
                           </div>
-                        </Popover.Content>
+                        </Popover.Body>
                       </Popover>
                     }
                     rootClose
@@ -823,7 +823,7 @@ export default function Navbar(props) {
                         id="popover-basic"
                         show={{ show: 350, hide: 400 }}
                       >
-                        <Popover.Content
+                        <Popover.Body
                           style={{ marginRight: "12 !important" }}
                         >
                           <div className={styles["popup-info"]}>
@@ -878,7 +878,7 @@ export default function Navbar(props) {
                               </div>
                             </Button>
                           </div>
-                        </Popover.Content>
+                        </Popover.Body>
                       </Popover>
                     }
                     rootClose
@@ -929,7 +929,7 @@ export default function Navbar(props) {
                       id="popover-basic"
                       show={{ show: 350, hide: 400 }}
                     >
-                      <Popover.Content style={{ marginRight: "12 !important" }}>
+                      <Popover.Body style={{ marginRight: "12 !important" }}>
                         <div
                           style={{
                             direction: `${lang === L.EN_US ? "ltr" : "rtl"}`,
@@ -1072,7 +1072,7 @@ export default function Navbar(props) {
                             </Button>
                           </ButtonGroup>
                         </div>
-                      </Popover.Content>
+                      </Popover.Body>
                     </Popover>
                   }
                   rootClose
@@ -1100,7 +1100,7 @@ export default function Navbar(props) {
                         theme === M.DARK ? styles["dark-mode"] : ""
                       }`}
                     >
-                      <Popover.Content style={{ marginRight: "12 !important" }}>
+                      <Popover.Body style={{ marginRight: "12 !important" }}>
                         <div
                           className={
                             styles["popup-info"] +
@@ -1244,7 +1244,7 @@ export default function Navbar(props) {
                             </Button>
                           </ButtonGroup>
                         </div>
-                      </Popover.Content>
+                      </Popover.Body>
                     </Popover>
                   }
                   rootClose

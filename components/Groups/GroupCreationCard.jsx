@@ -14,8 +14,7 @@ import {
   InputGroup,
   Alert,
   Spinner,
-  OverlayTrigger,
-  Tooltip,
+  CloseButton,
 } from "react-bootstrap";
 import { BsCardImage } from "react-icons/bs";
 import { FaTelegramPlane, FaGraduationCap, FaDiscord } from "react-icons/fa";
@@ -46,8 +45,8 @@ import mapErrorsToFields from "./utils";
  * create: a boolean flag used to indicate creation mode
  * edit: a boolean flag used to indicate editing mode
  * refetch: a callback to the parent to refetch original data after finishing the action
- * } 
- * @returns 
+ * }
+ * @returns
  */
 function GroupCreationCard(props) {
   // UI control state
@@ -307,7 +306,6 @@ function GroupCreationCard(props) {
           style={langDirection(user.lang)}
           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
           className={`${user.theme === M.DARK ? styles["dark-mode"] : ""}`}
-          closeButton
         >
           <Modal.Title
             className={styles.title}
@@ -321,6 +319,12 @@ function GroupCreationCard(props) {
               className={styles["icons"]}
             />
           </Modal.Title>
+          <CloseButton
+            onClick={() => {
+              props.handleClose();
+            }}
+            variant={`${user.theme === M.DARK ? "white" : ""}`}
+          />
         </Modal.Header>
 
         <Modal.Body

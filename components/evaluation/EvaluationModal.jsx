@@ -1,19 +1,15 @@
-import {
-  useEffect,
-  useReducer,
-  useState,
-  useContext,
-  useCallback,
-} from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Modal,
   Col,
+  CloseButton,
   FormControl,
   Form,
   Button,
   OverlayTrigger,
   Tooltip,
   InputGroup,
+  Row,
   Alert,
   Spinner,
 } from "react-bootstrap";
@@ -21,7 +17,7 @@ import ReactStars from "react-rating-stars-component";
 import styles from "../../styles/evaluation-page/evaluation-modal.module.scss";
 import { BsStarFill, BsStar, BsPersonBoundingBox } from "react-icons/bs";
 import { FaChalkboardTeacher, FaClipboardCheck } from "react-icons/fa";
-import { Image } from "next/dist/client/image";
+
 import { FaSave, FaInfoCircle } from "react-icons/fa";
 import { BiInfoCircle } from "react-icons/bi";
 import { HiBookOpen } from "react-icons/hi";
@@ -237,7 +233,6 @@ export default function EvaluationModal(props) {
             " border-0" +
             ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
           }
-          closeButton
         >
           <Modal.Title
             className={styles.modalTitle}
@@ -245,6 +240,13 @@ export default function EvaluationModal(props) {
           >
             {langState.modalHeader}
           </Modal.Title>
+          <CloseButton
+            onClick={() => {
+              props.close();
+              setShow(false);
+            }}
+            variant={`${user.theme === M.DARK ? "white" : ""}`}
+          />
         </Modal.Header>
         <Modal.Body
           className={[
@@ -339,15 +341,14 @@ export default function EvaluationModal(props) {
                 </div>
               </div>
 
-              <Form.Row className={styles["evaluation-data"]}>
+              <Row className={styles["evaluation-data"]}>
                 <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Form.Label className={styles["labels"]}>
                     {langState.termSubHeader}{" "}
                   </Form.Label>
                   <InputGroup hasValidation className="mb-4">
-                    <InputGroup.Prepend>
-                      <InputGroup.Text id="basic-addon1">T</InputGroup.Text>
-                    </InputGroup.Prepend>
+                    <InputGroup.Text id="basic-addon1">T</InputGroup.Text>
+
                     <FormControl
                       type="text"
                       maxLength={3}
@@ -377,11 +378,10 @@ export default function EvaluationModal(props) {
                     {langState.courseSubHeader}{" "}
                   </Form.Label>
                   <InputGroup hasValidation className="mb-3">
-                    <InputGroup.Prepend>
-                      <InputGroup.Text id="basic-addon1">
-                        <HiBookOpen size="1.5rem" />
-                      </InputGroup.Text>
-                    </InputGroup.Prepend>
+                    <InputGroup.Text id="basic-addon1">
+                      <HiBookOpen size="1.5rem" />
+                    </InputGroup.Text>
+
                     <FormControl
                       minLength={5}
                       maxLength={7}
@@ -409,7 +409,7 @@ export default function EvaluationModal(props) {
                     )}
                   </InputGroup>
                 </Col>
-              </Form.Row>
+              </Row>
             </section>
             <section
               className={

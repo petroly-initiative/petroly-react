@@ -65,7 +65,6 @@ background: theme.$dark-xxfg !important;
 
 
 
-
 .card-containers {
   height: 96%;
   margin: 16px !important;
@@ -154,6 +153,37 @@ background: theme.$dark-xxfg !important;
   border-radius: 0.25rem;
 }
 
+.dark-img-input{
+   border: none;
+   color: theme.$dark-fnt;
+   background-color: theme.$dark-bg;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+
+  &:active{
+    color: theme.$dark-fnt;
+   background-color: theme.$dark-bg;
+  }
+
+ 
+  &::file-selector-button{
+    color: theme.$dark-fnt;
+   background-color: theme.$dark-xfg;
+   border: none;
+
+   
+  }
+
+  &::file-selector-button:hover{
+    color: theme.$dark-fnt !important;
+   background-color: $btn-primary !important;
+ 
+
+   
+  }
+}
 .user-name {
   font-weight: 700;
   font-size: 26px;
@@ -179,6 +209,9 @@ background: theme.$dark-xxfg !important;
   text-align: right;
   width: 100%;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .search-set {
