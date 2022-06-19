@@ -69,8 +69,10 @@ Create a high-quality platform where all students share their knowledge and expe
 ---
 
 ## Getting Started
+### Notes
+- make sure to clone the Petroly backend repository in order to run the project, clone `<backend repo link here>`
+- this project runs on `node v16`, so make sure youe have the righe `nodejs` verion installed
 
-- make sure to clone the Petroly backend repository in order to run the project
 - download the python backend dependencies via your selected virtual environment option
   - for `anaconda` users, create a virtrual enviroenmnt `conda create --name envName` and then activate it `conda activate envName`
   -  install the dependencies on your virtual envrionments `conda install --file requirements.txt`
