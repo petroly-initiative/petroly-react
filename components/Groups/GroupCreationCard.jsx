@@ -408,6 +408,7 @@ function GroupCreationCard(props) {
                   }
                   type="file"
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+                  style={{paddingBottom: 0}}
                 />
                 {invalidImage && (
                   <Form.Control.Feedback

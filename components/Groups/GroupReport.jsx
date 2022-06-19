@@ -7,9 +7,10 @@ import {
   Form,
   Button,
   InputGroup,
+  CloseButton,
   Alert,
 } from "react-bootstrap";
-import { BsCardImage } from "react-icons/bs";
+
 import { FaInfoCircle, FaEyeSlash, FaList } from "react-icons/fa";
 import { ImLink } from "react-icons/im";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
@@ -19,8 +20,8 @@ import { UserContext } from "../../state-management/user-state/UserContext";
 import { MdWarning } from "react-icons/md";
 import { useMutation } from "@apollo/client";
 import { reportCreateMutation } from "../../api/mutations";
-import { langDirection, L, M } from "../../constants"; 
-import PopMsg from "../utilities/PopMsg";
+import { M } from "../../constants"; 
+
 
 function GroupReport(props) {
   const [cause, setCause] = useState("");
@@ -113,6 +114,13 @@ function GroupReport(props) {
               className={styles.icons}
             />
           </Modal.Title>
+          <CloseButton
+            onClick={() => {
+              props.handleClose();
+              setShow(false);
+            }}
+            variant={`${user.theme === M.DARK ? "white" : ""}`}
+          />
         </Modal.Header>
 
         <Modal.Body
@@ -122,13 +130,7 @@ function GroupReport(props) {
             ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
           }
         >
-          <Form
-            onSubmit={createReport}
-            className={
-              styles.formStyle
-            }
-            noValidate
-          >
+          <Form onSubmit={createReport} className={styles.formStyle} noValidate>
             {invalidCause && (
               <Alert className={styles["rules"]} variant="danger">
                 <MdWarning className={styles["rules-icon"]} size="1.4rem" />
