@@ -136,6 +136,6 @@ You can contact the core maintainers of the project through our official support
 <a href="https://discord.gg/XWSTFmprHU">Petroly Discord link</a>
 
 <br />
-<div align="center"><i>We more than excited to see your amazing contributions to this project ;-)</i></div>
+<div align="center"><i>We are more than excited to see your amazing contributions to the Petroly Intiative! ;-)</i></div>
 <br/>
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
