@@ -132,7 +132,8 @@ Special thanks to everyone who has supported us by complementing us despite the 
 
 ## Contact
 
-You can contact the core maintainers of the project through our official support email support@petroly.co
+You can contact the core maintainers of the project through our official support email support@petroly.co or drop by our official discord server from the link:
+<a href="https://discord.gg/XWSTFmprHU">Petroly Discord link</a>
 
 <br />
 <div align="center"><i>We more than excited to see your amazing contributions to this project ;-)</i></div>
