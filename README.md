@@ -96,7 +96,7 @@ To gurarantee a uniform maintenance of the project, contributors need to adhere 
 - please utilize tags and link your commit to the respective project in `Projects` tab
 - Comments on your code are mandatory
 - a screenshot or a video recording of the commit would be highly appreciated
-- submitting off-scratch commits on issues labelled `on progress` will be ignored, please branch off the existing progress so that we can benefit from your efforts
+- submitting off-scratch commits on issues labelled `on progress` will be ignored, please branch off the existing progress so that we avoid duplicate contributions.
 
 - please make sure that your commits pass all the automated testing checks, if you find a problem in the testing suite, do not hesitate to contact us
 
