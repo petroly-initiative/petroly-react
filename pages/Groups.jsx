@@ -85,12 +85,13 @@ function Groups() {
   };
 
   const search = () => {
-    refetch({
+    const vars = {
       name: name.current.value,
-      category: category.type === "ALL" ? null : category.type,
-      platform: platform === "ALL" ? null : platform,
+      category: category.type === "ALL" ? undefined : category.type,
+      platform: platform === "ALL" ? undefined : platform,
       section: category.course,
-    });
+    }
+    refetch(vars);
   };
 
   const enterSearch = (event) => {
@@ -139,7 +140,7 @@ function Groups() {
     );
   }
 
-  if (data.communities.count === 0) {
+  if (!data.communities) {
     return (
       <ClientOnly>
         <>
@@ -276,19 +277,19 @@ function Groups() {
   }
 
   const groupMapper = () =>
-    data.communities.data.map((community) => {
+    data.communities.map((community) => {
       const icon = community.icon;
       return (
         <GroupCard
-          id={community.id}
+          id={community.pk}
           name={community.name}
           section={community.section}
           date={community.date}
-          key={community.id}
+          key={community.pk}
           platform={community.platform}
           type={community.category}
           link={community.link}
-          likesCount={community.likes.count}
+          likesCount={community.likesCount}
           image={
             <Image
               className={styles.picDiv}

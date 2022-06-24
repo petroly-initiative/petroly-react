@@ -158,55 +158,48 @@ export const myCommunities = gql`
 `;
 // -- communities' queries:
 export const getCommunity = gql`
-  query getCommunityInfo($id: ID) {
-    community(where: { id: { exact: $id } }) {
-      name
-      platform
-      category
-      description
-      section
-      link
-      icon {
-        url
-      }
+query getCommunityInfo($id: ID) {
+  community(pk: $id) {
+    name
+    platform
+    category
+    description
+    section
+    link
+    icon {
+      url
     }
   }
+}
 `;
 export const CommunitiesQuery = gql`
-  query Communities(
-    $name: String
-    $category: CommunityCategoryEnum
-    $platform: CommunityPlatformEnum
-    $section: String
+query Communities(
+  $name: String
+  $category: CategoryEnum
+  $platform: PlatformEnum
+  $section: String
+) {
+  communities(
+    filters: {
+      name: { iContains: $name }
+      category: $category
+      platform: $platform
+      section: { iContains: $section }
+    }
   ) {
-    communities(
-      where: {
-        name: { icontains: $name }
-        category: $category
-        platform: $platform
-        section: { icontains: $section }
-        archived: { exact: false }
-      }
-      limit: 30
-    ) {
-      count
-      data {
-        id
-        date
-        category
-        description
-        link
-        name
-        platform
-        section
-        verified
-        likes {
-          count
-        }
-        icon {
-          url
-        }
-      }
+    pk
+    date
+    category
+    description
+    link
+    name
+    platform
+    section
+    verified
+    likesCount
+    icon {
+      url
     }
   }
+}
 `; // Modify this query to handle filter feature
