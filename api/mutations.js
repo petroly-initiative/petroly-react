@@ -284,30 +284,13 @@ export const editCommunnityMutation = gql`
 `;
 export const reportCreateMutation = gql`
   mutation CreateReport(
-    $reason: ReportReasonEnum!
+    $reason: ReasonEnum
     $CommunityID: ID!
     $otherReason: String = ""
   ) {
     reportCreate(
-      input: {
-        reason: $reason
-        community: { connect: { id: { exact: $CommunityID } } }
-        otherReason: $otherReason
-      }
-    ) {
-      ok
-      errors {
-        field
-        messages
-      }
-      result {
-        id
-        community {
-          name
-        }
-        reason
-      }
-    }
+      input: { pk: $CommunityID, reason: $reason, otherReason: $otherReason }
+    )
   }
 `;
 
