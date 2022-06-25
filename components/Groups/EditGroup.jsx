@@ -114,7 +114,7 @@ export default function EditGroup(props) {
     } else if (editData) {
       setWaiting(false);
       setSubmitted(true);
-      if (editData.communityUpdate.ok) {
+      if (editData.communityUpdate.pk) {
         setModalShow(false);
         props.refetch();
       } else {

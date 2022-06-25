@@ -255,16 +255,17 @@ export const deleteCommunity = gql`
 export const editCommunnityMutation = gql`
   mutation EditCompetition(
     $id: ID
-    $name: String!
-    $link: String!
-    $platform: CommunityPlatformEnum!
-    $category: CommunityCategoryEnum!
-    $description: String!
+    $name: String
+    $link: String
+    $platform: PlatformEnum
+    $category: CategoryEnum
+    $description: String
     $section: String
     $file: Upload
   ) {
     communityUpdate(
       input: {
+        pk: $id
         name: $name
         link: $link
         platform: $platform
@@ -273,16 +274,17 @@ export const editCommunnityMutation = gql`
         section: $section
         icon: { upload: $file }
       }
-      where: { id: { exact: $id } }
     ) {
-      ok
-      errors {
-        field
-        messages
-      }
-      result {
-        id
+      ... on CommunityType {
+        pk
         name
+      }
+      ... on OperationInfo {
+        messages {
+          kind
+          field
+          message
+        }
       }
     }
   }
