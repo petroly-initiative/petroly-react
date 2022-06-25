@@ -183,7 +183,6 @@ function GroupCreationCard(props) {
   };
 
   const editGroup = () => {
-    console.log(image.current.files[0]);
     if (type == "SECTION")
       editCommunnity({
         variables: {
