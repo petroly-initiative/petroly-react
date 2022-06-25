@@ -1,22 +1,19 @@
 import { gql } from "@apollo/client";
 
 export const tokenAuthMutation = gql`
-  mutation getToken($username: String, $password: String!) {
+  mutation getToken($username: String!, $password: String!) {
     tokenAuth(username: $username, password: $password) {
       success
-      token
-      refreshToken
       errors
-      user {
-        id
-        username
-        verified
-        profile {
-          id
-          profilePic
-          language
-          theme
+      obtainPayload {
+        payload {
+          username
+          origIat
+          exp
         }
+        token
+        refreshToken
+        refreshExpiresIn
       }
     }
   }
@@ -27,7 +24,13 @@ export const verifyTokenMutation = gql`
     verifyToken(token: $token) {
       success
       errors
-      payload
+      verifyPayload {
+        payload {
+          exp
+          origIat
+          username
+        }
+      }
     }
   }
 `;
@@ -49,7 +52,9 @@ export const revokeTokenMutation = gql`
     revokeToken(refreshToken: $refreshToken) {
       success
       errors
-      revoked
+      revokePayload {
+        revoked
+      }
     }
   }
 `;

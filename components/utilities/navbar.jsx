@@ -168,14 +168,13 @@ export default function Navbar(props) {
   const showSidebar = () => {
     setVisible((prev) => !prev);
   };
-  // FIXME: incorrect way of handling async state
-  const savePreference = () => {
-    // wait for states to take place
-    setTimeout(() => {
-      profileUpdate();
-    }, 300);
-  };
+
+  const [noOfRender, setNoOfRender] = useState(0);
   useEffect(() => {
+    if (noOfRender <= 1) {
+      setNoOfRender(noOfRender + 1);
+      return;
+    }
     if (user.status === USER.LOGGED_IN) {
       profileUpdate();
     }
@@ -348,9 +347,7 @@ export default function Navbar(props) {
                         id="popover-basic"
                         show={{ show: 350, hide: 400 }}
                       >
-                        <Popover.Body
-                          style={{ marginRight: "12 !important" }}
-                        >
+                        <Popover.Body style={{ marginRight: "12 !important" }}>
                           <div
                             className={
                               styles["popup-info"] +
@@ -534,9 +531,7 @@ export default function Navbar(props) {
                         id="popover-basic"
                         show={{ show: 350, hide: 400 }}
                       >
-                        <Popover.Body
-                          style={{ marginRight: "12 !important" }}
-                        >
+                        <Popover.Body style={{ marginRight: "12 !important" }}>
                           <div
                             className={
                               styles["popup-info"] +
@@ -823,9 +818,7 @@ export default function Navbar(props) {
                         id="popover-basic"
                         show={{ show: 350, hide: 400 }}
                       >
-                        <Popover.Body
-                          style={{ marginRight: "12 !important" }}
-                        >
+                        <Popover.Body style={{ marginRight: "12 !important" }}>
                           <div className={styles["popup-info"]}>
                             <div className={styles["popup-pic"]}>
                               <Image

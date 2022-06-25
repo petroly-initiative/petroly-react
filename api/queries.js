@@ -83,25 +83,19 @@ export const getDepartments = gql`
 `;
 
 export const meQuery = gql`
-  query Me {
-    me {
-      id
-      username
-      email
-      profile {
-        id
-        profilePic
-        language
-        theme
-      }
-      evaluationSet {
-        count
-      }
-      ownedCommunities {
-        count
-      }
+query Me {
+  me {
+    pk
+    username
+    email
+    profile {
+      pk
+      profilePic
+      language
+      theme
     }
   }
+}
 `;
 
 export const hasEvaluatedQuery = gql`

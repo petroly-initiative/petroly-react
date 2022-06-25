@@ -13,13 +13,14 @@ import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import translator from "../../dictionary/components/login-modal-dict";
 import { Fade } from "react-awesome-reveal";
-import { useMutation } from "@apollo/client";
+import { useMutation, useLazyQuery, useApolloClient } from "@apollo/client";
 import {
   tokenAuthMutation,
   registerMutation,
   sendPasswordResetEmailMutation,
 } from "../../api/mutations";
-import { T, L, M, langDirection } from "../../constants";
+import { meQuery } from "../../api/queries";
+import { T, L, M, langDirection, DEF_LANG } from "../../constants";
 import { useRouter } from "next/router";
 
 export default function SignInModal(props) {
@@ -34,6 +35,8 @@ export default function SignInModal(props) {
   const [showPwd, setShowPwd] = useState(false);
   const [tab, setTab] = useState("signIn");
   const [mode, setMode] = useState("user-input"); // user-input: FIXME: revert to original
+  const client = useApolloClient();
+  // client.setLink()
   // language state
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
@@ -59,6 +62,9 @@ export default function SignInModal(props) {
   const [confirmPass, setConfirmPass] = useState("");
   const [email, setEmail] = useState("");
   const [isEmailInvalid, setEmailVal] = useState(false);
+  const [fetchMe, { data: dataMe, calledMe }] = useLazyQuery(meQuery, {
+    skip: true,
+  });
   const [
     tokenAuth,
     { data: dataTokenAuth, loading: loadingTokenAuth, errorTokenAuth },
@@ -256,37 +262,41 @@ export default function SignInModal(props) {
     if (tab === "signIn" && dataTokenAuth) {
       //  Successful login
       if (dataTokenAuth.tokenAuth.success) {
-        if (!dataTokenAuth.tokenAuth.user.verified) {
-          setMode("acc-confirm");
-          return;
-        }
-        sessionStorage.setItem("token", dataTokenAuth.tokenAuth.token);
+        sessionStorage.setItem(
+          "token",
+          dataTokenAuth.tokenAuth.obtainPayload.token
+        );
+        sessionStorage.setItem(
+          "exp",
+          dataTokenAuth.tokenAuth.obtainPayload.payload.exp
+        );
         localStorage.setItem(
           "refreshToken",
-          dataTokenAuth.tokenAuth.refreshToken
+          dataTokenAuth.tokenAuth.obtainPayload.refreshToken
         );
         localStorage.setItem(
-          "lang",
-          dataTokenAuth.tokenAuth.user.profile.language
-        );
-        localStorage.setItem(
-          "theme",
-          dataTokenAuth.tokenAuth.user.profile.theme
+          "refreshExpiresIn",
+          dataTokenAuth.tokenAuth.obtainPayload.refreshExpiresIn
         );
 
         userDispatch({
           type: T.LOGIN,
-          token: dataTokenAuth.tokenAuth.token,
-          username: dataTokenAuth.tokenAuth.user.username,
-          profileId: dataTokenAuth.tokenAuth.user.profile.id,
-          lang: dataTokenAuth.tokenAuth.user.profile.language,
-          theme: dataTokenAuth.tokenAuth.user.profile.theme,
+          token: dataTokenAuth.tokenAuth.obtainPayload.token,
+          username: dataTokenAuth.tokenAuth.obtainPayload.payload.username,
         });
         props.close();
       }
       //  Unsuccessful login
       else {
         setValidation(false);
+        // new API does not log in non-verified users
+        // it'll return a `nonFieldErrors`
+        if (
+          dataTokenAuth.tokenAuth.errors.nonFieldErrors[0].code ===
+          "not_verified"
+        ) {
+          setMode("acc-confirm");
+        }
         setError({
           show: true,
           msg: dataTokenAuth.tokenAuth.errors.nonFieldErrors[0].message,
@@ -326,7 +336,12 @@ export default function SignInModal(props) {
           dataSendPasswordResetEmail.sendPasswordResetEmail.errors
         );
     }
-  }, [loadingTokenAuth, loadingRegister, loadingSendPasswordResetEmail]);
+  }, [
+    loadingTokenAuth,
+    loadingRegister,
+    loadingSendPasswordResetEmail,
+    calledMe,
+  ]);
 
   return (
     <>

@@ -112,7 +112,7 @@ export default function ClientMutator({ children }) {
         // no change in the client
         userDispatch({
           type: T.SET_CLIENT,
-          username: dataVerifyToken.verifyToken.payload.username,
+          username: dataVerifyToken.verifyToken.verifyPayload.payload.username,
           token,
         });
       } else if (rToken) refreshToken();
