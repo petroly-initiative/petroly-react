@@ -183,6 +183,7 @@ function GroupCreationCard(props) {
   };
 
   const editGroup = () => {
+    console.log(image.current.files[0]);
     if (type == "SECTION")
       editCommunnity({
         variables: {
@@ -234,12 +235,12 @@ function GroupCreationCard(props) {
   // Enexpected error handling and logging for both creation and editing
   useEffect(() => {
     if (createData && props.create) {
-      if (createData.communityCreate.ok) {
+      if (createData.communityCreate.pk) {
         props.handleClose(false);
         props.refetch();
         props.handleMsg(true);
       } else {
-        setAPIErrors(mapErrorsToFields(createData.communityCreate));
+        setAPIErrors(mapErrorsToFields(createData.communityCreate.messages));
         setSubmit(false); // to use it for later
       }
     }
@@ -247,13 +248,13 @@ function GroupCreationCard(props) {
 
   useEffect(() => {
     if (editData && props.edit) {
-      if (editData.communityUpdate.ok) {
+      if (editData.communityUpdate.pk) {
         props.handleClose(false);
         props.refetch();
         refetchExisting();
         props.handleMsg(true);
       } else {
-        setAPIErrors(mapErrorsToFields(editData.communityUpdate));
+        setAPIErrors(mapErrorsToFields(editData.communityUpdate.messages));
         setSubmit(false); // to use it for later
       }
     }
@@ -408,7 +409,7 @@ function GroupCreationCard(props) {
                   }
                   type="file"
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                  style={{paddingBottom: 0}}
+                  style={{ paddingBottom: 0 }}
                 />
                 {invalidImage && (
                   <Form.Control.Feedback

@@ -272,7 +272,7 @@ export const editCommunnityMutation = gql`
         category: $category
         description: $description
         section: $section
-        icon: { upload: $file }
+        icon: $file
       }
     ) {
       ... on CommunityType {
