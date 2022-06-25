@@ -62,6 +62,7 @@ export const userReducer = (currentState, action) => {
         ...Object.assign(currentState, {
           status: USER.LOGGED_IN,
           profileId: action.profileId,
+          id: action.id,
         }),
       };
 

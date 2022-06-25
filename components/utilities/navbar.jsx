@@ -132,6 +132,7 @@ export default function Navbar(props) {
       userDispatch({
         type: T.SET_ME,
         profileId: dataMe.me.profile.pk,
+        id: dataMe.me.pk,
       });
     }
   }, [dataMe]);

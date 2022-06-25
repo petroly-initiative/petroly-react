@@ -198,32 +198,36 @@ export const verifyAccountMutation = gql`
 // Community mutations:
 export const createCommunnityMutation = gql`
   mutation CreateCommunity(
+    $owner: ID!
     $name: String!
     $link: String!
-    $platform: CommunityPlatformEnum!
-    $category: CommunityCategoryEnum!
+    $platform: PlatformEnum
+    $category: CategoryEnum
     $description: String!
     $section: String
     $file: Upload
   ) {
     communityCreate(
       input: {
+        owner: $owner
         name: $name
         link: $link
         platform: $platform
         category: $category
         description: $description
         section: $section
-        icon: { upload: $file }
+        icon: $file
       }
     ) {
-      ok
-      errors {
-        field
-        messages
+      ... on CommunityType {
+        pk
       }
-      result {
-        id
+      ... on OperationInfo {
+        messages {
+          kind
+          field
+          message
+        }
       }
     }
   }

@@ -157,6 +157,7 @@ function GroupCreationCard(props) {
         //TODO: check for duplicate naming in the DB, then submit in the DB
         createCommunnity({
           variables: {
+            owner: user.id,
             name: name.current.value,
             link: link.current.value,
             platform: platform,
@@ -170,6 +171,7 @@ function GroupCreationCard(props) {
     } else {
       createCommunnity({
         variables: {
+          owner: user.id,
           name: name.current.value,
           link: link.current.value,
           platform: platform,
