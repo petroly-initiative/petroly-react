@@ -83,24 +83,24 @@ export const getDepartments = gql`
 `;
 
 export const meQuery = gql`
-query Me {
-  me {
-    pk
-    username
-    email
-    profile {
+  query Me {
+    me {
       pk
-      profilePic
-      language
-      theme
+      username
+      email
+      profile {
+        pk
+        profilePic
+        language
+        theme
+      }
     }
   }
-}
 `;
 
 export const hasEvaluatedQuery = gql`
-  query hasEvaluated($instructorId: Int) {
-    hasEvaluated(id: $instructorId)
+  query hasEvaluated($instructorId: ID!) {
+    hasEvaluated(pk: $instructorId)
   }
 `;
 
@@ -150,50 +150,60 @@ export const myCommunities = gql`
     }
   }
 `;
+
+export const communityInteractionsQuery = gql`
+  query CommunityInteractions($id: ID!) {
+    communityInteractions(pk: $id) {
+      liked
+      reported
+    }
+  }
+`;
+
 // -- communities' queries:
 export const getCommunity = gql`
-query getCommunityInfo($id: ID) {
-  community(pk: $id) {
-    name
-    platform
-    category
-    description
-    section
-    link
-    icon {
-      url
+  query getCommunityInfo($id: ID) {
+    community(pk: $id) {
+      name
+      platform
+      category
+      description
+      section
+      link
+      icon {
+        url
+      }
     }
   }
-}
 `;
 export const CommunitiesQuery = gql`
-query Communities(
-  $name: String
-  $category: CategoryEnum
-  $platform: PlatformEnum
-  $section: String
-) {
-  communities(
-    filters: {
-      name: { iContains: $name }
-      category: $category
-      platform: $platform
-      section: { iContains: $section }
-    }
+  query Communities(
+    $name: String
+    $category: CategoryEnum
+    $platform: PlatformEnum
+    $section: String
   ) {
-    pk
-    date
-    category
-    description
-    link
-    name
-    platform
-    section
-    verified
-    likesCount
-    icon {
-      url
+    communities(
+      filters: {
+        name: { iContains: $name }
+        category: $category
+        platform: $platform
+        section: { iContains: $section }
+      }
+    ) {
+      pk
+      date
+      category
+      description
+      link
+      name
+      platform
+      section
+      verified
+      likesCount
+      icon {
+        url
+      }
     }
   }
-}
 `; // Modify this query to handle filter feature

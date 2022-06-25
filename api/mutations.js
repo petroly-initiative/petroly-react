@@ -313,15 +313,6 @@ export const reportCreateMutation = gql`
   }
 `;
 
-export const interactedCommunityMutation = gql`
-  mutation InteractedCommunity($id: ID!) {
-    hasInteractedCommunity(ID: $id) {
-      liked
-      reported
-    }
-  }
-`;
-
 export const profileUpdateMutation = gql`
   mutation ProfileUpdateMutation($id: ID!, $lang: String, $theme: String) {
     profileUpdate(input: { pk: $id, language: $lang, theme: $theme }) {
