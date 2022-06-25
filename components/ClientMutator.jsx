@@ -87,16 +87,10 @@ export default function ClientMutator({ children }) {
         })
       );
       userDispatch({ type: T.SET_CLIENT, token: user.token });
-    } else if (token) verifyToken();
-    else if (rToken) refreshToken();
-    else if (user.status === USER.LOGGED_OUT) {
-      client.resetStore();
-      // client.setLink(
-      //   createHttpLink({
-      //     uri: URL_ENDPOINT,
-      //     headers: { "Accept-Language": user.lang },
-      //   })
-      // );
+    } else if (user.status === USER.LOGGED_OUT) {
+      if (token) verifyToken();
+      else if (rToken) refreshToken();
+      else client.resetStore();
     }
   }, [user.status]);
 
@@ -122,8 +116,8 @@ export default function ClientMutator({ children }) {
   useEffect(() => {
     if (dataRefreshToken && dataRefreshToken.refreshToken.success) {
       var lang = user.lang;
-      token = dataRefreshToken.refreshToken.token;
-      rToken = dataRefreshToken.refreshToken.refreshToken;
+      token = dataRefreshToken.refreshToken.refreshPayload.token;
+      rToken = dataRefreshToken.refreshToken.refreshPayload.refreshToken;
       sessionStorage.setItem("token", token);
       localStorage.setItem("refreshToken", rToken);
 
@@ -139,7 +133,7 @@ export default function ClientMutator({ children }) {
 
       userDispatch({
         type: T.SET_CLIENT,
-        username: dataRefreshToken.refreshToken.payload.username,
+        username: dataRefreshToken.refreshToken.refreshPayload.payload.username,
         token,
       });
     }

@@ -43,7 +43,6 @@ export const UserContext = createContext(null);
 export const userReducer = (currentState, action) => {
   switch (action.type) {
     case T.LOGIN:
-      console.log(currentState);
       return {
         ...Object.assign(currentState, {
           status: USER.VERIFING,
@@ -52,6 +51,13 @@ export const userReducer = (currentState, action) => {
       };
 
     case T.SET_CLIENT:
+      return {
+        ...Object.assign(currentState, {
+          status: USER.LOGGED_IN,
+        }),
+      };
+
+    case T.SET_ME:
       return {
         ...Object.assign(currentState, {
           status: USER.LOGGED_IN,

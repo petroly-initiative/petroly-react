@@ -28,7 +28,15 @@ import {
   profileUpdateMutation,
 } from "../../api/mutations";
 import ClientOnly from "../ClientOnly";
-import { USER, T, L, M, langDirection } from "../../constants";
+import {
+  USER,
+  T,
+  L,
+  M,
+  langDirection,
+  DEF_LANG,
+  DEF_THEME,
+} from "../../constants";
 import dynamic from "next/dynamic";
 import { useCallback } from "react";
 import translator from "../../dictionary/components/navbar-dict";
@@ -122,8 +130,8 @@ export default function Navbar(props) {
       setLang(dataMe.me.profile.language);
       setTheme(dataMe.me.profile.theme);
       userDispatch({
-        type: T.SET_CLIENT,
-        profileId: dataMe.me.profile.id,
+        type: T.SET_ME,
+        profileId: dataMe.me.profile.pk,
       });
     }
   }, [dataMe]);
@@ -144,7 +152,7 @@ export default function Navbar(props) {
   useEffect(() => {
     if (loadingProfileUpdate) {
       setSaveMsg("Saving");
-    } else if (dataProfileUpdate && dataProfileUpdate.profileUpdate.ok) {
+    } else if (dataProfileUpdate && dataProfileUpdate.profileUpdate.pk) {
       setSaveMsg("Saved");
     } else if (errorProfileUpdate) {
       setSaveMsg("Error");

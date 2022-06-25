@@ -40,9 +40,16 @@ export const refreshTokenMutation = gql`
     refreshToken(refreshToken: $refreshToken) {
       success
       errors
-      refreshToken
-      token
-      payload
+      refreshPayload {
+        token
+        refreshToken
+        refreshExpiresIn
+        payload {
+          exp
+          origIat
+          username
+        }
+      }
     }
   }
 `;
@@ -316,18 +323,17 @@ export const interactedCommunityMutation = gql`
 `;
 
 export const profileUpdateMutation = gql`
-  mutation ProfileUpdateMutation($id: ID, $lang: String, $theme: String) {
-    profileUpdate(
-      where: { id: { exact: $id } }
-      input: { language: $lang, theme: $theme }
-    ) {
-      ok
-      errors {
-        field
-        messages
+  mutation ProfileUpdateMutation($id: ID!, $lang: String, $theme: String) {
+    profileUpdate(input: { pk: $id, language: $lang, theme: $theme }) {
+      ... on OperationInfo {
+        messages {
+          message
+          kind
+          field
+        }
       }
-      result {
-        id
+      ... on ProfileType {
+        pk
       }
     }
   }
