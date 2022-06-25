@@ -94,6 +94,8 @@ export const meQuery = gql`
         language
         theme
       }
+      evaluationSetCount
+      ownedCommunitiesCount
     }
   }
 `;
@@ -108,28 +110,22 @@ export const meEvaluationSetQuery = gql`
   query MyEvaluations {
     me {
       evaluationSet {
-        count
-        data {
-          id
-          grading
-          teaching
-          personality
-          course
-          term
-          comment
-          gradingComment
-          teachingComment
-          personalityComment
-          instructor {
-            name
-            profilePic
-            department
-            overall
-          }
+        pk
+        grading
+        teaching
+        personality
+        course
+        term
+        comment
+        gradingComment
+        teachingComment
+        personalityComment
+        instructor {
+          name
+          profilePic
+          department
+          overall
         }
-      }
-      ownedCommunities {
-        count
       }
     }
   }
@@ -138,13 +134,11 @@ export const myCommunities = gql`
   query MyCommunities {
     me {
       ownedCommunities {
-        data {
-          id
-          name
-          platform
-          icon {
-            url
-          }
+        pk
+        name
+        platform
+        icon {
+          url
         }
       }
     }
