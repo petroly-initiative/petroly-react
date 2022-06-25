@@ -231,9 +231,7 @@ export const createCommunnityMutation = gql`
 
 export const toggleLikeCommunityMutation = gql`
   mutation ToggleLikeCommunity($id: ID!) {
-    toggleLikeCommunity(ID: $id) {
-      ok
-    }
+    toggleLikeCommunity(pk: $id)
   }
 `;
 
