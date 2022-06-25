@@ -241,7 +241,8 @@ function GroupCreationCard(props) {
         props.refetch();
         props.handleMsg(true);
       } else {
-        setAPIErrors(mapErrorsToFields(createData.communityCreate.messages));
+        console.log(createData.communityCreate.messages);
+        setAPIErrors(mapErrorsToFields(createData.communityCreate));
         setSubmit(false); // to use it for later
       }
     }
@@ -255,7 +256,7 @@ function GroupCreationCard(props) {
         refetchExisting();
         props.handleMsg(true);
       } else {
-        setAPIErrors(mapErrorsToFields(editData.communityUpdate.messages));
+        setAPIErrors(mapErrorsToFields(editData.communityUpdate));
         setSubmit(false); // to use it for later
       }
     }
