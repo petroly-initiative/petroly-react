@@ -5,25 +5,23 @@ export const instructorsQuery = gql`
   query Instructors(
     $limit: Int
     $offset: Int
-    $department: InstructorDepartmentEnum
+    $department: String
     $name: String
   ) {
     instructors(
-      limit: $limit
-      offset: $offset
-      where: { department: $department, name: { icontains: $name } }
-    ) {
-      count
-      data {
-        id
-        name
-        department
-        overallFloat
-        profilePic
-        evaluationSet {
-          count
-        }
+      pagination: { limit: $limit, offset: $offset }
+      filters: {
+        department: { iStartsWith: $department }
+        name: { iContains: $name }
       }
+    ) {
+      pk
+      name
+      department
+      overallFloat
+      profilePic
+      evaluationSetCount
+      instructorCount
     }
   }
 `;
@@ -31,9 +29,7 @@ export const instructorsQuery = gql`
 export const getInstructorName = gql`
   query getIds {
     instructors {
-      data {
-        id
-      }
+      pk
     }
   }
 `;
@@ -46,8 +42,8 @@ export const getEvaluatedInstructors = gql`
 
 export const getInstructorDetail = gql`
   query Instructor($id: ID) {
-    instructor(where: { id: { exact: $id } }) {
-      id
+    instructor(pk: $id) {
+      pk
       name
       department
       profilePic
@@ -56,21 +52,19 @@ export const getInstructorDetail = gql`
       gradingAvg
       personalityAvg
       teachingAvg
+      evaluationSetCount
       evaluationSet {
-        count
-        data {
-          date
-          id
-          grading
-          teaching
-          personality
-          gradingComment
-          teachingComment
-          personalityComment
-          course
-          term
-          comment
-        }
+        date
+        pk
+        grading
+        teaching
+        personality
+        gradingComment
+        teachingComment
+        personalityComment
+        course
+        term
+        comment
       }
     }
   }

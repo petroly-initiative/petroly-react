@@ -52,8 +52,8 @@ const ITEMS = 18; // Number of InstructorCards per page
 const initialInstructorsState = {
   limit: ITEMS,
   offset: 0,
-  department: null,
-  name: null,
+  department: "",
+  name: "",
 };
 
 function instructorsList() {
@@ -103,7 +103,7 @@ function instructorsList() {
   //  ? To handle the search event
   const selectDept = (e) => {
     var value = e.target.id;
-    if (value == "null") value = null;
+    if (value == "null") value = "";
     instructorsDispatch({ changeIn: "department", department: value });
     refetch(instructorsState);
   };
@@ -153,7 +153,7 @@ function instructorsList() {
     ));
 
   const instructorMapper = () =>
-    data.instructors.data.map((instructor) => {
+    data.instructors.map((instructor) => {
       return (
         <InstructorCard
           setLoading={setClicked}
@@ -167,15 +167,16 @@ function instructorsList() {
           }
           instructorName={instructor.name}
           instructorDept={instructor.department}
-          instructorID={instructor.id}
+          instructorID={instructor.pk}
           starValue={Math.round(instructor.overallFloat)}
-          evalCount={instructor.evaluationSet.count}
+          evalCount={instructor.evaluationSetCount}
         />
       );
     });
 
   // Loading status
   if (loading || loadingDept) {
+    console.log("loading");
     return (
       <>
         <Head>
@@ -248,12 +249,11 @@ function instructorsList() {
                     as={"div"}
                     eventKey="1"
                     onClick={selectDept}
-                    active={instructorsState.department === null}
+                    active={instructorsState.department === ""}
                   >
                     All departments
                   </Dropdown.Item>
                   {deptList}
-                  {data}
                 </DropdownButton>
               </InputGroup>
             </Col>
@@ -297,7 +297,7 @@ function instructorsList() {
   var deptList = deptMapper();
 
   // ! No data
-  if (data.instructors.data.length == 0) {
+  if (data.instructors.length == 0) {
     return (
       <ClientOnly>
         <>
@@ -368,7 +368,7 @@ function instructorsList() {
                       as={"div"}
                       eventKey="1"
                       onClick={selectDept}
-                      active={instructorsState.department === null}
+                      active={instructorsState.department === ""}
                     >
                       All departments
                     </Dropdown.Item>
@@ -480,7 +480,7 @@ function instructorsList() {
                     as={"div"}
                     eventKey="1"
                     onClick={selectDept}
-                    active={instructorsState.department === null}
+                    active={instructorsState.department === ""}
                   >
                     All departments
                   </Dropdown.Item>
@@ -501,12 +501,17 @@ function instructorsList() {
             >
               {currentList}
             </Fade>
-            {/**!Number of pages should be provided by the api*/}
-            {Math.ceil(data.instructors.count / ITEMS) !== 1 && (
+            {/* *!Number of pages should be provided by the api */}
+            {/* bad style: the new api doesn't provide instructors count out of box
+            we encoded the `instructorCount` in every instructor,
+            accessing first instrcutor is suffcient */}
+            {Math.ceil(data.instructors[0].instructorCount / ITEMS) !== 1 && (
               <div className={styles["pagination-container"]}>
                 <Fade triggerOnce>
                   <CustomPagination
-                    pageNum={Math.ceil(data.instructors.count / ITEMS)}
+                    pageNum={Math.ceil(
+                      data.instructors[0].instructorCount / ITEMS
+                    )}
                     switchView={switchPage}
                     switchIndex={switchStack}
                     currentPage={instructorsState.offset / ITEMS + 1}
