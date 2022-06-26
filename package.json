@@ -30,7 +30,7 @@
     "next": "^12.1.6",
     "next-google-fonts": "^2.2.0",
     "next-pwa": "^5.5.4",
-    "npm-check-updates": "^14.0.1",
+    "npm-check-updates": "^14.1.1",
     "react": "18.2.0",
     "react-awesome-reveal": "^3.8.1",
     "react-bootstrap": "^2.4.0",
