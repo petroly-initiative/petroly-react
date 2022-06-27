@@ -105,13 +105,23 @@ function instructorsList() {
     var value = e.target.id;
     if (value == "null") value = "";
     instructorsDispatch({ changeIn: "department", department: value });
-    refetch(instructorsState);
+    refetch({
+      limit: ITEMS,
+      offset: 0,
+      department: value,
+      name: instructorsState.name,
+    });
   };
 
   const search = (e) => {
     var value = name;
     instructorsDispatch({ changeIn: "name", name: value });
-    refetch(instructorsState);
+    refetch({
+      limit: ITEMS,
+      offset: 0,
+      department: null,
+      name: instructorsState.name,
+    });
   };
 
   const enterSearch = (event) => {
@@ -221,6 +231,8 @@ function instructorsList() {
                 {/*popover for filters and order*/}
                 <DropdownButton
                   disabled
+                  variant={`${user.theme === M.DARK ? "dark" : ""}`}
+                  menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
                   bsPrefix={
                     styles["dept-dropdown"] +
                     ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
@@ -341,6 +353,8 @@ function instructorsList() {
 
                   {/*popover for filters and order*/}
                   <DropdownButton
+                    variant={`${user.theme === M.DARK ? "dark" : ""}`}
+                    menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
                     bsPrefix={
                       styles["dept-dropdown"] +
                       ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
@@ -451,8 +465,7 @@ function instructorsList() {
                 {/*popover for filters and order*/}
                 <DropdownButton
                   variant={`${user.theme === M.DARK ? "dark" : ""}`}
-                  menuVariant="dark"
-                  color="black"
+                  menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
                   bsPrefix={
                     styles["dept-dropdown"] +
                     ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
