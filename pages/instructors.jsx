@@ -131,7 +131,12 @@ function instructorsList() {
   // ? detect page-number switching
   const switchPage = (pageNum) => {
     instructorsDispatch({ changeIn: "offset", offset: (pageNum - 1) * ITEMS });
-    refetch(instructorsState);
+    refetch({
+      limit: ITEMS,
+      offset: (pageNum - 1) * ITEMS,
+      department: value,
+      name: instructorsState.name,
+    });
   };
   const switchStack = (index) => {
     setStackIndex(index);
