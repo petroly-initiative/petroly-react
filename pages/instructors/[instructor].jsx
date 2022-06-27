@@ -282,7 +282,7 @@ export default function instructorDetails({ data }) {
               </div>
               <Card.Body
                 className={styles["evals-card"]}
-                style={{ width: "100%" }}
+                style={{ width: "100%", height: "100%" }}
               >
                 <Row
                   style={{ paddingTop: "0px !important" }}
