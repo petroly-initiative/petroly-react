@@ -134,7 +134,7 @@ function instructorsList() {
     refetch({
       limit: ITEMS,
       offset: (pageNum - 1) * ITEMS,
-      department: value,
+      department: instructorsState.department,
       name: instructorsState.name,
     });
   };
@@ -142,10 +142,12 @@ function instructorsList() {
     setStackIndex(index);
   };
 
-  useEffect(() => {}, [stackIndex]);
+  // useEffect(() => {}, [stackIndex]);
 
   useEffect(() => {
     navDispatch("rating");
+    if(data)
+    console.log(Math.ceil(data.instructors.count / ITEMS));
   }, []);
 
   // ? Mappers
