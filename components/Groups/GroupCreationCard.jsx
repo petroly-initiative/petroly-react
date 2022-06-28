@@ -151,10 +151,10 @@ function GroupCreationCard(props) {
   };
   // submission controllers
   const createGroup = () => {
-    // TODO: create separate functions and call from this point
+   
     if (type === "SECTION") {
       if (!invalidCourse) {
-        //TODO: check for duplicate naming in the DB, then submit in the DB
+       
         createCommunnity({
           variables: {
             name: name.current.value,
@@ -211,7 +211,7 @@ function GroupCreationCard(props) {
       });
   };
 
-  // TODO: edit for tags
+ 
   useEffect(() => {
     if (submit) {
       if (

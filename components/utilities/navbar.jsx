@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ImBook } from "react-icons/im";
 import { FaMoon } from "react-icons/fa";
-import { MdLanguage, MdSettings } from "react-icons/md";
+import { MdLanguage, MdSettings, MdRadar } from "react-icons/md";
 import { FiHelpCircle, FiMenu } from "react-icons/fi";
 import {
   BsChatSquareDotsFill,
@@ -111,7 +111,7 @@ export default function Navbar(props) {
     resources: navState.current === "resources" ? styles["active-link"] : "",
     communities:
       navState.current === "communities" ? styles["active-link"] : "",
-    chat: navState.current === "chat" ? styles["active-link"] : "",
+    notifier: navState.current === "notifier" ? styles["active-link"] : "",
   };
 
   useEffect(() => {
@@ -168,13 +168,7 @@ export default function Navbar(props) {
   const showSidebar = () => {
     setVisible((prev) => !prev);
   };
-  // FIXME: incorrect way of handling async state
-  const savePreference = () => {
-    // wait for states to take place
-    setTimeout(() => {
-      profileUpdate();
-    }, 300);
-  };
+
   useEffect(() => {
     if (user.status === USER.LOGGED_IN) {
       profileUpdate();
@@ -381,7 +375,7 @@ export default function Navbar(props) {
                                   style={{ marginRight: 6 }}
                                 >
                                   {" "}
-                                  اللغة
+                                  {langState.language}
                                 </span>
                               </div>
                             ) : (
@@ -563,7 +557,7 @@ export default function Navbar(props) {
                                   style={{ marginRight: 6 }}
                                 >
                                   {" "}
-                                  اللغة
+                                  {langState.language}
                                 </span>
                               </div>
                             ) : (
@@ -734,17 +728,17 @@ export default function Navbar(props) {
                     </div>
                   </Link>
                 </li>
-                {/* <li className={styles.navbar_item}>
-                  <Link href="/" className={styles.navbar_link}>
-                    <div className={styles.link_btn + " " + navStyles.chat}>
-                      <BsChatSquareDotsFill
+                <li className={styles.navbar_item}>
+                  <Link href="/Notifier" className={styles.navbar_link}>
+                    <div className={styles.link_btn + " " + navStyles.notifier}>
+                      <MdRadar
                         className={styles.nav_img}
                         size="1.3em"
                       />
-                      <div className={styles.link_text}>المحادثات</div>
+                      <div className={styles.link_text}>{langState.radar}</div>
                     </div>
                   </Link>
-                </li> */}
+                </li>
                 <li id="groups-btn" className={styles.navbar_item}>
                   <Link href="/Groups" className={styles.navbar_link}>
                     <div
@@ -958,7 +952,7 @@ export default function Navbar(props) {
                                 style={{ marginRight: 6 }}
                               >
                                 {" "}
-                                اللغة
+                                {langState.language}
                               </span>
                             </div>
                           ) : (
@@ -1126,7 +1120,7 @@ export default function Navbar(props) {
                                 style={{ marginRight: 6 }}
                               >
                                 {" "}
-                                اللغة
+                                {langState.language}
                               </span>
                             </div>
                           ) : (
@@ -1285,17 +1279,17 @@ export default function Navbar(props) {
                   </div>
                 </Link>
               </li>
-              {/* <li className={styles.navbar_item}>
-                <Link href="/" className={styles.navbar_link}>
-                  <div className={styles.link_btn + " " + navStyles.chat}>
-                    <BsChatSquareDotsFill
+              <li className={styles.navbar_item}>
+                <Link href="/Notifier" className={styles.navbar_link}>
+                  <div className={styles.link_btn + " " + navStyles.notifier}>
+                    <MdRadar
                       className={styles.nav_img}
                       size="1.3em"
                     />
-                    <div className={styles.link_text}>المحادثات</div>
+                    <div className={styles.link_text}>{langState.radar}</div>
                   </div>
                 </Link>
-              </li> */}
+              </li>
               <li id="groups-btn" className={styles.navbar_item}>
                 <Link href="/Groups" className={styles.navbar_link}>
                   <div

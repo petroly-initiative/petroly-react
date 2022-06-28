@@ -172,31 +172,30 @@ function Groups() {
                     // onChange={ref}
                     onKeyDown={enterSearch}
                   />
-                 
-                    <Button
-                      type="submit"
-                      onClick={search}
-                      className={
-                        styles["search_btn"] +
-                        ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                      }
-                    >
-                      <BiSearch size="1.5rem" />
-                    </Button>
-                 
-                    {/*popover for filters and order*/}
-                    <Button
-                      className={
-                        styles["filter-btn"] +
-                        ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                      }
-                      align="start"
-                      id="dropdown-menu-align-right"
-                      onClick={launchModal}
-                    >
-                      <GoSettings size="1.5rem" />
-                    </Button>
-                 
+
+                  <Button
+                    type="submit"
+                    onClick={search}
+                    className={
+                      styles["search_btn"] +
+                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                    }
+                  >
+                    <BiSearch size="1.5rem" />
+                  </Button>
+
+                  {/*popover for filters and order*/}
+                  <Button
+                    className={
+                      styles["filter-btn"] +
+                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                    }
+                    align="start"
+                    id="dropdown-menu-align-right"
+                    onClick={launchModal}
+                  >
+                    <GoSettings size="1.5rem" />
+                  </Button>
                 </InputGroup>
               </Col>
             </Row>
@@ -220,9 +219,9 @@ function Groups() {
             <GroupsFilter
               close={closeModal}
               changePlatform={changePlatform}
-              changeType={changeType}
+              changeCategory={changeType}
               visible={filterVisible}
-              type={category}
+              category={category}
               platform={platform}
             />
           </Container>
@@ -292,7 +291,7 @@ function Groups() {
           image={
             <Image
               className={styles.picDiv}
-              src={icon ? icon.url : "/images/share.png"} // TODO
+              src={icon ? icon.url : "/images/share.png"} 
               width="70"
               height="70"
             />

@@ -78,7 +78,7 @@ export default function GroupsFilter(props) {
     setPlatform(props.platform);
   }, [props.platform]);
 
-  // FIXME what is this mess
+
   useEffect(() => {
     console.log(groupType);
     if (props.category.type === "SECTION")
@@ -141,7 +141,7 @@ export default function GroupsFilter(props) {
                 {langState.platformSubHeader}
               </div>
               <Form>
-                <div>
+               
                   <Form.Check
                     checked={platform === "DISCORD"}
                     type="radio"
@@ -216,7 +216,7 @@ export default function GroupsFilter(props) {
                       </div>
                     }
                   />
-                </div>
+                
               </Form>
             </Col>
             <Col xs={12} sm={6} className={styles["cols"]}>

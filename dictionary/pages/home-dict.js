@@ -1,7 +1,7 @@
 
 import { L } from "../../constants";
 
-// TODO: arabic translation for home screen
+
 const arabic = {
   newsHeader: "اخبار بترولي",
   servicesHeader: "خدماتنا",
@@ -24,7 +24,7 @@ const arabic = {
   service1: "التقييم",
 };
 
-// TODO: english translation for home screen
+
 
 const english = {
   newsHeader: "Petroly News",

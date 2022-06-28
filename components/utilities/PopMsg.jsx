@@ -8,7 +8,7 @@ import { UserContext } from "../../state-management/user-state/UserContext";
 import { M } from "../../constants";
 import { useCallback } from "react";
 
-// TODO: providing a dark mode
+
 export default function PopMsg(props) {
   // This is gonna be useful when setting onClose prop.
 

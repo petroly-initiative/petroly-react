@@ -7,7 +7,9 @@ const arabic = {
   home: "الرئيسية",
   rating: "التقييم",
   groups: "المجتمعات",
+  language: "اللغة",
   support: "الدعم",
+  notifier: "الرادار",
   theme: "وضع العرض"
 };
 
@@ -19,6 +21,8 @@ const english = {
   rating: "Evaluation",
   groups: "Groups",
   support: "Support",
+  language: "language",
+  radar: "Radar",
   theme: "Theme"
 };
 

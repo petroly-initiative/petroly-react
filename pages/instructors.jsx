@@ -209,7 +209,7 @@ function instructorsList() {
               xs={11}
               md={9}
               xl={7}
-              style={{ width: "100% !important" }}
+              // style={{ width: "100% !important" }}
             >
               <InputGroup className={styles["search-container"]}>
                 <Form.Control

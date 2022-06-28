@@ -1,7 +1,7 @@
 
 import { L } from "../../constants";
 
-// TODO: arabic translation for groups screen
+
 const arabic = {
   platform: "المنصة",
   type: "تصنيف المجتمع",
@@ -9,7 +9,7 @@ const arabic = {
   submit: "انضم للمجموعة",
 };
 
-// TODO: english translation for groups screen
+
 const english = {
   platform: "Platform",
   type: "Group Type",
