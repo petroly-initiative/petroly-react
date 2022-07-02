@@ -130,11 +130,9 @@ function instructorsList() {
   };
 
   const loadMore = (e) => {
-    console.log("Load More");
     fetchMore({
       variables: { after: data.instructors.pageInfo.endCursor },
     });
-    console.log(data);
   };
 
   // ? detect page-number switching
@@ -146,9 +144,6 @@ function instructorsList() {
     setStackIndex(index);
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data, networkStatus, loading]);
   useEffect(() => {}, [stackIndex]);
 
   useEffect(() => {
@@ -195,7 +190,7 @@ function instructorsList() {
         />
       );
     });
-  console.log(networkStatus);
+
   // Loading status
   if (networkStatus === NetworkStatus.loading || loadingDept) {
     return (
