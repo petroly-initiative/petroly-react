@@ -92,7 +92,9 @@ export default function Navbar(props) {
     error: errorMe,
   } = useQuery(meQuery, {
     notifyOnNetworkStatusChange: true,
-    skip: user.status !== USER.LOGGED_IN,
+    skip: user.status !== USER.SETTING,
+    initialFetchPolicy: "cache-first",
+    fetchPolicy: "cache-first",
   });
   const [revokeToken] = useMutation(revokeTokenMutation);
 

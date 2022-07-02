@@ -4,6 +4,7 @@ export const USER = {
   LOGGED_OUT: "logged_out",
   LOGGED_IN: "logged_in",
   VERIFING: "verifing",
+  SETTING: "setting",
 };
 
 export const T = {

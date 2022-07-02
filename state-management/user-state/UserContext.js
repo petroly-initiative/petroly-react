@@ -45,7 +45,7 @@ export const userReducer = (currentState, action) => {
     case T.LOGIN:
       return {
         ...Object.assign(currentState, {
-          status: USER.VERIFING,
+          status: USER.SETTING,
           token: action.token,
         }),
       };
@@ -53,7 +53,7 @@ export const userReducer = (currentState, action) => {
     case T.SET_CLIENT:
       return {
         ...Object.assign(currentState, {
-          status: USER.LOGGED_IN,
+          status: USER.SETTING,
         }),
       };
 

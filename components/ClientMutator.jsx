@@ -53,12 +53,10 @@ export default function ClientMutator({ children }) {
     if (networkError) console.log(`[Network error]: ${networkError}`);
   });
   const uploadLink = createUploadLink({ uri: URL_ENDPOINT });
-  const [client, setClient] = useState(
-    new ApolloClient({
-      link: ApolloLink.from([errorLink, authLink, uploadLink]),
-      cache: new InMemoryCache(),
-    })
-  );
+  const client = new ApolloClient({
+    link: ApolloLink.from([errorLink, authLink, uploadLink]),
+    cache: new InMemoryCache(),
+  });
 
   const [verifyToken, { data: dataVerifyToken }] = useMutation(
     verifyTokenMutation,
@@ -80,12 +78,7 @@ export default function ClientMutator({ children }) {
   useEffect(() => {
     if (user.status === USER.VERIFING) {
       // set a new client to refetch all quries
-      setClient(
-        new ApolloClient({
-          link: ApolloLink.from([errorLink, authLink, uploadLink]),
-          cache: new InMemoryCache(),
-        })
-      );
+      // client.setLink(ApolloLink.from([errorLink, authLink, uploadLink]));
       userDispatch({ type: T.SET_CLIENT, token: user.token });
     } else if (user.status === USER.LOGGED_OUT) {
       if (token) verifyToken();
