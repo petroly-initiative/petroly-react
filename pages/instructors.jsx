@@ -8,6 +8,7 @@ import {
   DropdownButton,
   Dropdown,
   Spinner,
+  Pagination,
 } from "react-bootstrap";
 import InstructorCard from "../components/instructors/InstructorCard";
 
@@ -21,7 +22,7 @@ import { UserContext } from "../state-management/user-state/UserContext";
 import CustomPagination from "../components/utilities/Pagination";
 import { Fade } from "react-awesome-reveal";
 import ClientOnly from "../components/ClientOnly";
-import { useQuery } from "@apollo/client";
+import { useQuery, NetworkStatus } from "@apollo/client";
 import { instructorsQuery, getDepartments } from "../api/queries";
 import translator from "../dictionary/pages/instructors-dict";
 import { L, langDirection, M } from "../constants";
@@ -40,19 +41,20 @@ function instructorsReducer(state, action) {
     case "offset":
       state.offset = action.offset;
       return state;
-    case "limit":
-      state.limit = action.limit;
+    case "first":
+      state.first = action.first;
       return state;
 
     default:
       throw new Error("instructorsReducer didn't find what to do");
   }
 }
-const ITEMS = 18; // Number of InstructorCards per page
+const ITEMS = 2; // Number of InstructorCards per page
 const initialInstructorsState = {
-  limit: ITEMS,
+  first: ITEMS,
+  after: null,
   offset: 0,
-  department: "",
+  department: null,
   name: "",
 };
 
@@ -63,6 +65,7 @@ function instructorsList() {
   const { user } = useContext(UserContext);
   const { navDispatch } = useContext(NavContext);
   const [clicked, setClicked] = useState(false);
+  const [cursor, setCursor] = useState(null);
 
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
@@ -90,23 +93,21 @@ function instructorsList() {
     variables: { short: true },
   });
 
-  const { data, loading, error, refetch, networkStatus, variables } = useQuery(
-    instructorsQuery,
-    {
+  const { data, loading, error, refetch, fetchMore, networkStatus, variables } =
+    useQuery(instructorsQuery, {
       variables: instructorsState,
       notifyOnNetworkStatusChange: true,
-      fetchPolicy: "network-only",
-      nextFetchPolicy: "cache-first",
-    }
-  );
+      // fetchPolicy: "network-only",
+      // nextFetchPolicy: "network-only",
+    });
 
   //  ? To handle the search event
   const selectDept = (e) => {
     var value = e.target.id;
-    if (value == "null") value = "";
+    if (value == "null") value = null;
     instructorsDispatch({ changeIn: "department", department: value });
     refetch({
-      limit: ITEMS,
+      first: ITEMS,
       offset: 0,
       department: value,
       name: instructorsState.name,
@@ -117,7 +118,7 @@ function instructorsList() {
     var value = name;
     instructorsDispatch({ changeIn: "name", name: value });
     refetch({
-      limit: ITEMS,
+      first: ITEMS,
       offset: 0,
       department: null,
       name: instructorsState.name,
@@ -126,6 +127,14 @@ function instructorsList() {
 
   const enterSearch = (event) => {
     if (event.key === "Enter") search();
+  };
+
+  const loadMore = (e) => {
+    console.log("Load More");
+    fetchMore({
+      variables: { after: data.instructors.pageInfo.endCursor },
+    });
+    console.log(data);
   };
 
   // ? detect page-number switching
@@ -137,6 +146,9 @@ function instructorsList() {
     setStackIndex(index);
   };
 
+  useEffect(() => {
+    console.log(data);
+  }, [data, networkStatus, loading]);
   useEffect(() => {}, [stackIndex]);
 
   useEffect(() => {
@@ -163,30 +175,29 @@ function instructorsList() {
     ));
 
   const instructorMapper = () =>
-    data.instructors.map((instructor) => {
+    data.instructors.edges.map(({ node }) => {
       return (
         <InstructorCard
           setLoading={setClicked}
           image={
             <Image
               className={styles.picDiv}
-              src={instructor.profilePic}
+              src={node.profilePic}
               width="70"
               height="70"
             />
           }
-          instructorName={instructor.name}
-          instructorDept={instructor.department}
-          instructorID={instructor.pk}
-          starValue={Math.round(instructor.overallFloat)}
-          evalCount={instructor.evaluationSetCount}
+          instructorName={node.name}
+          instructorDept={node.department}
+          instructorID={node.pk}
+          starValue={Math.round(node.overallFloat)}
+          evalCount={node.evaluationSetCount}
         />
       );
     });
-
+  console.log(networkStatus);
   // Loading status
-  if (loading || loadingDept) {
-    console.log("loading");
+  if (networkStatus === NetworkStatus.loading || loadingDept) {
     return (
       <>
         <Head>
@@ -261,7 +272,7 @@ function instructorsList() {
                     as={"div"}
                     eventKey="1"
                     onClick={selectDept}
-                    active={instructorsState.department === ""}
+                    active={instructorsState.department === null}
                   >
                     All departments
                   </Dropdown.Item>
@@ -305,11 +316,12 @@ function instructorsList() {
   }
 
   // ? Data loaded
+  const pageInfo = data.instructors.pageInfo;
   var currentList = instructorMapper();
   var deptList = deptMapper();
 
   // ! No data
-  if (data.instructors.length == 0) {
+  if (data.instructors.totalCount == 0) {
     return (
       <ClientOnly>
         <>
@@ -518,21 +530,35 @@ function instructorsList() {
             {/* bad style: the new api doesn't provide instructors count out of box
             we encoded the `instructorCount` in every instructor,
             accessing first instrcutor is suffcient */}
-            {Math.ceil(data.instructors[0].instructorCount / ITEMS) !== 1 && (
-              <div className={styles["pagination-container"]}>
-                <Fade triggerOnce>
-                  <CustomPagination
-                    pageNum={Math.ceil(
-                      data.instructors[0].instructorCount / ITEMS
-                    )}
-                    switchView={switchPage}
-                    switchIndex={switchStack}
-                    currentPage={instructorsState.offset / ITEMS + 1}
-                    currentIndex={stackIndex}
+            <>
+              {networkStatus === 3 ? (
+                <Button
+                  className={styles["loading-container"] + " shadow"}
+                  disabled
+                >
+                  <Spinner
+                    className={styles["loading-spinner"]}
+                    as="div"
+                    animation="grow"
+                    size="xl"
+                    role="status"
+                    aria-hidden="true"
                   />
-                </Fade>
-              </div>
-            )}
+                </Button>
+              ) : (
+                <Button
+                  onClick={loadMore}
+                  disabled={!pageInfo.hasNextPage}
+                  className={
+                    styles["pagination-container"] +
+                    " shadow" +
+                    ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                  }
+                >
+                  Load More
+                </Button>
+              )}
+            </>
           </Row>
         </Container>
         {clicked && (

@@ -12,6 +12,7 @@ import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { USER, T, URL_ENDPOINT, DEF_LANG } from "../constants";
 import { onError } from "@apollo/client/link/error";
+import { relayStylePagination } from "@apollo/client/utilities";
 import PopMsg from "./utilities/PopMsg";
 
 export default function ClientMutator({ children }) {
@@ -55,7 +56,15 @@ export default function ClientMutator({ children }) {
   const uploadLink = createUploadLink({ uri: URL_ENDPOINT });
   const client = new ApolloClient({
     link: ApolloLink.from([errorLink, authLink, uploadLink]),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            instructors: relayStylePagination(),
+          },
+        },
+      },
+    }),
   });
 
   const [verifyToken, { data: dataVerifyToken }] = useMutation(

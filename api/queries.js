@@ -3,25 +3,35 @@ import { gql } from "@apollo/client";
 // -- Instructos' queries:
 export const instructorsQuery = gql`
   query Instructors(
-    $limit: Int
-    $offset: Int
-    $department: String
+    $first: Int
+    $after: String
+    $department: DepartmentEnum
     $name: String
   ) {
     instructors(
-      pagination: { limit: $limit, offset: $offset }
-      filters: {
-        department: { iStartsWith: $department }
-        name: { iContains: $name }
-      }
+      first: $first
+      after: $after
+      input: { name: { iContains: $name }, department: $department }
     ) {
-      pk
-      name
-      department
-      overallFloat
-      profilePic
-      evaluationSetCount
-      instructorCount
+      totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          id
+          pk
+          name
+          department
+          overallFloat
+          profilePic
+          evaluationSetCount
+        }
+      }
     }
   }
 `;
