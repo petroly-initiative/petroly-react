@@ -189,7 +189,7 @@ function instructorsList() {
           }
           instructorName={node.name}
           instructorDept={node.department}
-          instructorID={node.pk}
+          instructorID={node.id}
           starValue={Math.round(node.overallFloat)}
           evalCount={node.evaluationSetCount}
         />

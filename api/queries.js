@@ -51,8 +51,9 @@ export const getEvaluatedInstructors = gql`
 `;
 
 export const getInstructorDetail = gql`
-  query Instructor($id: ID) {
-    instructor(pk: $id) {
+  query getInstructorDetail($id: GlobalID!) {
+    instructor(id: $id) {
+      id
       pk
       name
       department
