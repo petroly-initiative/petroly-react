@@ -180,12 +180,7 @@ export default function Navbar(props) {
     setVisible((prev) => !prev);
   };
 
-  const [noOfRender, setNoOfRender] = useState(0);
   useEffect(() => {
-    if (noOfRender <= 1) {
-      setNoOfRender(noOfRender + 1);
-      return;
-    }
     if (user.status === USER.LOGGED_IN) {
       profileUpdate();
     }
