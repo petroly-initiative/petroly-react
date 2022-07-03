@@ -88,10 +88,11 @@ export const registerMutation = gql`
 `;
 export const evaluationCreateMutation = gql`
   mutation EvaluationCreate(
-    $instructorId: ID
-    $grading: EvaluationGradingEnum!
-    $teaching: EvaluationTeachingEnum!
-    $personality: EvaluationPersonalityEnum!
+    $user: ID!
+    $instructorId: ID!
+    $grading: Int!
+    $teaching: Int!
+    $personality: Int!
     $gradingComment: String
     $teachingComment: String
     $personalityComment: String
@@ -101,7 +102,8 @@ export const evaluationCreateMutation = gql`
   ) {
     evaluationCreate(
       input: {
-        instructor: { connect: { id: { exact: $instructorId } } }
+        user: $user
+        instructor: $instructorId
         grading: $grading
         teaching: $teaching
         personality: $personality
@@ -113,13 +115,16 @@ export const evaluationCreateMutation = gql`
         term: $term
       }
     ) {
-      ok
-      errors {
-        field
-        messages
+      ... on OperationInfo {
+        messages {
+          field
+          kind
+          message
+        }
       }
-      result {
-        id
+
+      ... on EvaluationType {
+        pk
       }
     }
   }

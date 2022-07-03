@@ -26,6 +26,7 @@ import {
   evaluationCreateMutation,
   evaluationUpdateMutation,
 } from "../../api/mutations";
+import { getInstructorDetail } from "../../api/queries";
 import { useMutation } from "@apollo/client";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { USER, L, M, langDirection } from "../../constants";
@@ -122,40 +123,35 @@ export default function EvaluationModal(props) {
   ] = useMutation(evaluationCreateMutation, {
     notifyOnNetworkStatusChange: true,
     variables: {
-      username: user.username,
+      user: user.id,
       instructorId: props.id,
-      grading: "A_" + String(grading.rating * 20),
-      teaching: "A_" + String(teaching.rating * 20),
-      personality: "A_" + String(person.rating * 20),
+      grading: grading.rating * 20,
+      teaching: teaching.rating * 20,
+      personality: person.rating * 20,
       gradingComment: grading.comment,
       teachingComment: teaching.comment,
       personalityComment: person.comment,
       course: extra.course,
-      term: extra.term,
+      term: parseInt(extra.term),
       comment: generalComment,
     },
   });
 
   const [
     evaluationUpdate,
-    {
-      data: dataEvaluationUpdate,
-      loading: loadingEvaluationUpdate,
-      error: errorEvaluationUpdate,
-      variables: vars,
-    },
+    { data: dataEvaluationUpdate, loading: loadingEvaluationUpdate },
   ] = useMutation(evaluationUpdateMutation, {
     notifyOnNetworkStatusChange: true,
     variables: {
       id: props.id,
-      grading: "A_" + String(grading.rating * 20),
-      teaching: "A_" + String(teaching.rating * 20),
-      personality: "A_" + String(person.rating * 20),
+      grading: grading.rating * 20,
+      teaching: teaching.rating * 20,
+      personality: person.rating * 20,
       gradingComment: grading.comment,
       teachingComment: teaching.comment,
       personalityComment: person.comment,
       course: extra.course,
-      term: extra.term,
+      term: parseInt(extra.term),
       comment: generalComment,
     },
   });
@@ -191,7 +187,7 @@ export default function EvaluationModal(props) {
 
   useEffect(() => {
     if (dataEvaluationCreate) {
-      if (dataEvaluationCreate.evaluationCreate.ok) {
+      if (dataEvaluationCreate.evaluationCreate.pk) {
         setWaiting(false);
         props.close();
         props.handleMsg(true);
@@ -200,7 +196,7 @@ export default function EvaluationModal(props) {
         }, 3000);
       }
     } else if (dataEvaluationUpdate) {
-      if (dataEvaluationUpdate.evaluationUpdate.ok) {
+      if (dataEvaluationUpdate.evaluationUpdate.pk) {
         setWaiting(false);
         setTimeout(() => {
           props.close();
