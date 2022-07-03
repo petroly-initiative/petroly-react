@@ -122,19 +122,20 @@ $txt-hg: #0091e7;
 
 .dept-dropdown {
   border: none;
+  border-width: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 37px;
   border-radius: 0 6px 6px 0;
   padding-right: 8px;
-  button {
-    // border: 2px solid #00ead3;
-    background-color: #06d8c3;
-    border: none;
-    border-radius: 0 6px 6px 0 !important;
-    height: 38px;
-    &:hover {
-      background-color: #04c0ad !important;
+  background-color: #06d8c3;
+  color: white;
+  padding-left: 16px;
+  padding-right: 16px;
+  &:hover {
+      background-color: #13988a !important;
     }
-  }
-  button::after {
+  &::after {
     display: none;
   }
 }

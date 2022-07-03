@@ -17,6 +17,8 @@ import { M, L } from "../constants";
 import translator from "../dictionary/pages/instructors-dict";
 import { BiSearch } from "react-icons/bi";
 import { GoSettings } from "react-icons/go";
+import { Fade } from "react-awesome-reveal";
+import CourseCard from "../components/notifier/CourseCard";
 
 
 // TODO: create the responsive layout for the cards, and the off-canvas
@@ -44,6 +46,14 @@ function Notifier(props) {
 
     const search =  () => {
         return "searched!";
+    }
+
+    const mapCourses = () => {
+      // TODO: in production, the backend needs to provide cleaned data for exposed info only
+      //1. finding all sections under one course,
+      //2. grouping all courses under their respective groups
+      // ! some courses have lab-lecture under one section, while others don't
+      //3. spit out a course for each course
     }
 
   // ? re-rendering state
@@ -112,6 +122,11 @@ function Notifier(props) {
             </InputGroup>
           </Col>
         </Row>
+         <Row>
+        <Fade  className={"col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-4"}>
+        <CourseCard title="Introduction to to to to Discrete Mathematics amazing qorld" available_seats={7} course="ICS253" section_count={3} openModal={() => {}}  />
+        </Fade>
+         </Row>
       </Container>
     </>
   );
