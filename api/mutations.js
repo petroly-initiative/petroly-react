@@ -132,10 +132,10 @@ export const evaluationCreateMutation = gql`
 
 export const evaluationUpdateMutation = gql`
   mutation EvaluationUpdate(
-    $id: ID
-    $grading: EvaluationGradingEnum
-    $teaching: EvaluationTeachingEnum
-    $personality: EvaluationPersonalityEnum
+    $id: ID!
+    $grading: Int
+    $teaching: Int
+    $personality: Int
     $gradingComment: String
     $teachingComment: String
     $personalityComment: String
@@ -144,8 +144,8 @@ export const evaluationUpdateMutation = gql`
     $comment: String
   ) {
     evaluationUpdate(
-      where: { id: { exact: $id } }
       input: {
+        pk: $id
         grading: $grading
         teaching: $teaching
         personality: $personality
@@ -157,13 +157,15 @@ export const evaluationUpdateMutation = gql`
         comment: $comment
       }
     ) {
-      ok
-      errors {
-        field
-        messages
+      ... on OperationInfo {
+        messages {
+          kind
+          field
+          message
+        }
       }
-      result {
-        id
+      ... on EvaluationType {
+        pk
       }
     }
   }
