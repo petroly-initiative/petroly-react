@@ -3,7 +3,7 @@ $x: rgb(255, 90, 90);
 
 $btn-high: #00ead3;
 $txt-fill: #52575d;
-$txt-hg: #0091E7;
+$txt-hg: #00e760;
 
 
 .dark-mode {
@@ -38,7 +38,7 @@ background: theme.$dark-xxfg !important;
   background-color: white;
   flex-direction: column;
   align-items: flex-start;
-  padding: 8px 16px !important;
+  padding: 14px 16px !important;
   padding-bottom: 16px !important;
   overflow: hidden;
 
@@ -67,6 +67,19 @@ background: theme.$dark-xxfg !important;
   }
   }
 
+  .header-info{
+    display: flex;
+    align-items: center;
+  }
+
+  .sections-type{
+    font-weight: 600;
+    font-size: small;
+    margin: 0 4px;
+    border-radius: 4px;
+    padding: 1px 8px;
+  }
+
 .course-body{
   display: flex;
   align-items: center;
@@ -76,6 +89,12 @@ background: theme.$dark-xxfg !important;
     .numeric{
       font-weight: 700;
       margin-left: 4px;
+      margin-right: 4px;
+    }
+    .text{
+       margin-left: 4px;
+      margin-right: 4px;
+    
     }
     
   }
@@ -86,6 +105,8 @@ background: theme.$dark-xxfg !important;
 .divider{
       height: 4px;
       width: 4px;
+      margin-right: 6px;
+      margin-left: 6px;
       border-radius: 50%;
       background-color: #aaaaaa;
     }

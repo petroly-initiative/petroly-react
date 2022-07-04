@@ -1,0 +1,332 @@
+@use "/styles/themes.module" as theme;
+
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-fill: rgb(146, 146, 146);
+$txt-hg: #0091e7;
+$btn-prim: #00ead3;
+$x: #622edb;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  border: 4px solid theme.$dark-fg !important;
+
+  button {
+    color: rgb(202, 202, 202);
+    &:hover {
+      color: theme.$dark-fnt;
+    }
+  }
+}
+
+.dark-footer {
+  background-color: theme.$dark-xfg !important;
+  border: unset !important;
+}
+
+.dark-section {
+  background-color: theme.$dark-xfg !important;
+  box-shadow: 0 2 2px 5px theme.$dark-bg !important;
+  border: unset !important;
+}
+
+.dark-header {
+  color: theme.$dark-fnt !important;
+}
+
+.dark-subheader {
+  color: theme.$dark-fnt-fg !important;
+}
+
+.dark-mode-input {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-xfg !important;
+  background: theme.$dark-xfg !important;
+  // border: 1px solid theme.$light-fnt;
+}
+
+.dark-border {
+  background: theme.$dark-xxfg !important;
+}
+
+.modalHeader {
+  background: #00ead3;
+  background-blend-mode: multiply;
+  background-size: cover;
+  margin: 0 !important;
+  padding: 16px;
+  border: 0 !important;
+}
+
+.body-container {
+  overflow-x: hidden;
+  z-index: 100 !important;
+}
+
+.modal-container {
+  border: 0px !important;
+}
+
+.eval-params {
+  height: 100px !important;
+}
+
+.body-container::-webkit-scrollbar {
+  width: 0.3rem;
+  border-radius: 0.15rem;
+}
+
+.body-container::-webkit-scrollbar-track {
+  background: rgb(187, 187, 187);
+  border-radius: 0.15rem;
+}
+
+.body-container::-webkit-scrollbar-thumb {
+  background: #444444;
+}
+.modalTitle {
+  font-weight: 700;
+  color: white;
+}
+
+.sections {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 22px;
+  border-bottom: 1px solid rgb(235, 234, 234);
+  padding: 12px;
+  padding-bottom: 16px;
+  border-radius: 8px;
+}
+
+.sections form {
+  width: 80%;
+  margin-bottom: 8px;
+}
+
+.evaluation-data {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ar-labels {
+  direction: rtl !important;
+}
+
+.evalForm {
+  width: 100% !important;
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.labels {
+  width: 100%;
+  direction: rtl;
+  text-align: center;
+  padding-top: 8px;
+}
+
+.input-containers {
+  margin-top: 16px;
+  width: 90%;
+}
+
+.descriptions {
+  font-weight: 600;
+  color: #747c85;
+  font-size: 16px;
+  text-align: center;
+}
+
+.comments::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.comments::-webkit-scrollbar-track {
+  background: white;
+}
+
+.comments::-webkit-scrollbar-thumb {
+  background: #969696;
+}
+
+.ratingStars {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.ratingStars span {
+  font-size: 28px !important;
+  margin-left: 12px;
+  margin-left: 12px;
+}
+
+.info-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.instructorPic {
+  width: 70px;
+  height: 70px;
+  padding: 4px;
+  border-radius: 35px;
+  overflow: hidden;
+  background-color: white;
+  color: white !important;
+
+  img {
+    border-radius: 35px;
+  }
+}
+
+.instructorInfo {
+  height: 70px;
+  padding-top: 10px;
+
+  .instructor-name {
+    line-height: 30px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #52575d;
+  }
+  .instructor-dept {
+    line-height: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    color: #0091e7;
+  }
+}
+
+.headers {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.titles {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0091e7;
+  display: flex;
+  align-items: center;
+}
+
+.btns {
+  width: 150px;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 50px;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  font-size: 15px !important;
+  align-items: center !important;
+  flex-direction: row;
+  justify-content: center !important;
+  color: #fff !important;
+  border: unset !important;
+  svg {
+    transition: 600ms ease;
+    margin: 8px;
+    margin-bottom: 10px;
+    padding: 0;
+  }
+  &:hover {
+    svg {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.cancel-btn {
+  background-color: rgba(0, 0, 0, 0.007) !important;
+  border: 2px solid white !important;
+  display: flex;
+  justify-content: center;
+}
+
+.submit-btn {
+  background-color: $btn-high !important;
+}
+
+.eval-info input {
+  width: 160px;
+  text-align: center;
+}
+
+.term-container {
+  display: flex;
+  align-items: center;
+  margin-right: 16.43px;
+}
+
+.rules {
+  padding: 8px !important;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  padding: 16px;
+  width: 95%;
+  .rules-icon {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+}
+
+.title-icons {
+  margin-left: 8px;
+}
+
+.rules-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  div {
+    margin-bottom: 6px;
+  }
+}
+
+.course-input {
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width: 600px) {
+  .sections {
+    margin: 8px;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .evalForm {
+    padding: 8px;
+  }
+
+  .body-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .btns {
+    width: 100%;
+    padding: 2px;
+    height: 40px;
+  }
+}

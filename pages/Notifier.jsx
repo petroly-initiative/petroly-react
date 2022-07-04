@@ -19,6 +19,7 @@ import { BiSearch } from "react-icons/bi";
 import { GoSettings } from "react-icons/go";
 import { Fade } from "react-awesome-reveal";
 import CourseCard from "../components/notifier/CourseCard";
+import data from "../mocks/mockData.json";
 
 
 // TODO: create the responsive layout for the cards, and the off-canvas
@@ -41,19 +42,25 @@ function Notifier(props) {
   const courseInput = useRef(null); // to sync searchbar textInput information
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
+  const [currentCourse, setCurrentCourse] = useState("");
+  const [showModal, setShowModal] = useState("");
+  const [showCanvas, setshowCanvas] = useState("");
 
     //? utility functions
 
     const search =  () => {
         return "searched!";
+    } 
+
+    const toggleModal = (course) => {
+      if(course != null){
+        setCurrentCourse(course)
+      }
+      setShowModal(state => !state)
     }
 
-    const mapCourses = () => {
-      // TODO: in production, the backend needs to provide cleaned data for exposed info only
-      //1. finding all sections under one course,
-      //2. grouping all courses under their respective groups
-      // ! some courses have lab-lecture under one section, while others don't
-      //3. spit out a course for each course
+    const toggleCanvas = () => {
+      setshowCanvas(state => !state)
     }
 
   // ? re-rendering state
@@ -63,6 +70,7 @@ function Notifier(props) {
 
   useEffect(() => {
     navDispatch("notifier");
+  
   }, []);
 
   return (
@@ -122,11 +130,34 @@ function Notifier(props) {
             </InputGroup>
           </Col>
         </Row>
-         <Row>
-        <Fade  className={"col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-4"}>
-        <CourseCard title="Introduction to to to to Discrete Mathematics amazing qorld" available_seats={7} course="ICS253" section_count={3} openModal={() => {}}  />
-        </Fade>
-         </Row>
+        <Row>
+          <Fade className={"col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-4"}>
+            <CourseCard
+              type={["Lecture"]}
+              title="Introduction to Financial Accounting"
+              available_seats={25}
+              course="ACCT110"
+              section_count={3}
+              openModal={toggleModal}
+            />
+            {/* <CourseCard
+              type={["Lecture"]}
+              title="Introduction to Managerial Accounting"
+              available_seats={37}
+              course="ACCT210"
+              section_count={3}
+              openModal={toggleModal}
+            /> */}
+            {/* <CourseCard
+              type={["Lecture"]}
+              title="Intermediate Accounting I"
+              available_seats={5}
+              course="ACCT210"
+              section_count={3}
+              openModal={toggleModal}
+            /> */}
+          </Fade>
+        </Row>
       </Container>
     </>
   );
