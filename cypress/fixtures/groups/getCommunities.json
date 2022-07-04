@@ -1,44 +1,34 @@
 {
   "data": {
-    "communities": {
-      "count": 2,
-      "data": [
-        {
-          "id": "23",
-          "date": "2022-01-15",
-          "category": "ENTERTAINING",
-          "description": "WE just play don't study ",
-          "link": "https://www.youtube.com/",
-          "name": "petroly tests",
-          "platform": "DISCORD",
-          "section": "",
-          "verified": false,
-          "likes": {
-            "count": 15,
-            "__typename": "UserTypeConnection"
-          },
-          "icon": null,
-          "__typename": "CommunityType"
-        },
-        {
-          "id": "28",
-          "date": "2022-01-16",
-          "category": "EDU",
-          "description": " ",
-          "link": "http://duckduckgo.com/3",
-          "name": "shady stuff",
-          "platform": "WHATSAPP",
-          "section": "",
-          "verified": false,
-          "likes": {
-            "count": 20,
-            "__typename": "UserTypeConnection"
-          },
-          "icon": null,
-          "__typename": "CommunityType"
-        }
-      ],
-      "__typename": "CommunityTypeConnection"
-    }
+    "communities": [
+      {
+        "pk": "23",
+        "date": "2022-01-15",
+        "category": "ENTERTAINING",
+        "description": "WE just play don't study ",
+        "link": "https://www.youtube.com/",
+        "name": "petroly tests",
+        "platform": "DISCORD",
+        "section": "",
+        "verified": false,
+        "likesCount": 20,
+        "icon": null,
+        "__typename": "CommunityType"
+      },
+      {
+        "pk": "28",
+        "date": "2022-01-16",
+        "category": "EDU",
+        "description": " ",
+        "link": "http://duckduckgo.com/3",
+        "name": "shady stuff",
+        "platform": "WHATSAPP",
+        "section": "",
+        "verified": false,
+        "likesCount": 15,
+        "icon": null,
+        "__typename": "CommunityType"
+      }
+    ]
   }
 }

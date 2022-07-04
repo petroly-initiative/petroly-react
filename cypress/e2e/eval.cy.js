@@ -17,7 +17,7 @@ context("Instructors Evaluation Test", () => {
         if (hasOperationName(req, "Instructors")) {
           req.alias = "gqlInstructorsQuery";
           // data fixture
-          req.reply({ fixture: "evaluation/InstructorQuery.json" });
+          req.reply({ fixture: "evaluation/InstructorQuery1.json" });
         }
       });
 
@@ -28,6 +28,8 @@ context("Instructors Evaluation Test", () => {
           req.reply({ fixture: "evaluation/deptListQuery.json" });
         }
       });
+
+      
 
       cy.visit("/instructors", {
         onBeforeLoad: (win) => {
@@ -40,7 +42,24 @@ context("Instructors Evaluation Test", () => {
 
       cy.wait(["@gqlInstructorsQuery", "@gqlgetDepartmentsQuery"]);
 
+      cy.intercept("POST", URL_ENDPOINT, (req) => {
+        if (hasOperationName(req, "Instructors")) {
+          req.alias = "gqlInstructorsQuery";
+          // data fixture
+          req.reply({ fixture: "evaluation/InstructorQuery2.json" });
+        }
+      });
+
       cy.contains("Muhab");
+      cy.contains(0);
+      cy.contains(1)
+      cy.contains("Load More").click();
+      cy.wait("@gqlInstructorsQuery");
+      cy.contains("test3")
+      cy.contains("ARE")
+      cy.contains("test4");
+      cy.contains("COE")
+
     });
   });
 });

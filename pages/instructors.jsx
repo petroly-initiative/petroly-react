@@ -13,6 +13,7 @@ import {
 import InstructorCard from "../components/instructors/InstructorCard";
 
 import { BiSearch } from "react-icons/bi";
+import { BsPlusLg } from "react-icons/bs";
 import styles from "../styles/evaluation-page/instructors-list.module.scss";
 import { GoSettings } from "react-icons/go";
 import Image from "next/image";
@@ -65,7 +66,7 @@ function instructorsList() {
   const { user } = useContext(UserContext);
   const { navDispatch } = useContext(NavContext);
   const [clicked, setClicked] = useState(false);
-  const [cursor, setCursor] = useState(null);
+  // const [cursor, setCursor] = useState(null);
 
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
@@ -541,17 +542,26 @@ function instructorsList() {
                   />
                 </Button>
               ) : (
-                <Button
-                  onClick={loadMore}
-                  disabled={!pageInfo.hasNextPage}
-                  className={
-                    styles["pagination-container"] +
-                    " shadow" +
-                    ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                  }
-                >
-                  Load More
-                </Button>
+                pageInfo.hasNextPage && (
+                  <Col
+                    l={12}
+                    xs={12}
+                    className={styles["loader_col"]}
+                    
+                  >
+                    <Button
+                      className={
+                        styles["pagination-container"] +
+                        " shadow" +
+                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                      }
+                      onClick={loadMore}
+                      disabled={!pageInfo.hasNextPage}
+                    >
+                     <BsPlusLg style={{margin: 8}} /> Load More
+                    </Button>
+                  </Col>
+                )
               )}
             </>
           </Row>
