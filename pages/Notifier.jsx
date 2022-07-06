@@ -8,8 +8,7 @@ import {
   InputGroup,
   Form,
   Button, 
-  OverlayTrigger, Tooltip,
-  Offcanvas
+  OverlayTrigger, Tooltip
 } from "react-bootstrap";
 import styles from "../styles/notifier-page/courses-list.module.scss";
 import { useRef } from "react";
@@ -23,6 +22,7 @@ import { Fade } from "react-awesome-reveal";
 import CourseCard from "../components/notifier/CourseCard";
 import CourseModal from "../components/notifier/CourseModal";
 import { MdRadar } from "react-icons/md";
+import TrackingMenu from "../components/notifier/TrackingMenu";
 
 
 // TODO: create the responsive layout for the cards, and the off-canvas
@@ -209,6 +209,10 @@ function Notifier(props) {
         course={currentCourse.course}
         title={currentCourse.title}
         type={currentCourse.type}
+      />
+      <TrackingMenu close ={toggleCanvas} 
+      show={showCanvas}
+      save={updateTracked}
       />
       {/* login checking is needed */}
     </>

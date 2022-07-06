@@ -113,7 +113,7 @@ function CourseCard({
           <div className={styles["header-info"]}>
             {" "}
             <div className={styles["course-code"]}>{course}</div>
-            <div className={styles["divider"]}></div>
+         
             {typeMapper()}
           </div>
           <div className={styles["course-title"]}>{title}</div>
