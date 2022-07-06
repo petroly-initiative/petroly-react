@@ -69,29 +69,30 @@ Create a high-quality platform where all students share their knowledge and expe
 ---
 
 ## Getting Started
+
 ### Notes
+
 - make sure to clone the Petroly backend repository in order to run the project, clone `<a href="https://github.com/petroly-initiative/petroly-django">link</a>
 - this project runs on `node v16`, so make sure youe have the correct `nodejs` verion installed
 
 - download the python backend dependencies via your selected virtual environment option
   - for `anaconda` users, create a virtrual enviroenmnt `conda create --name envName` and then activate it `conda activate envName`
-  -  install the dependencies on your virtual envrionments `conda install --file requirements.txt`
+  - install the dependencies on your virtual envrionments `conda install --file requirements.txt`
 - run `python manage.py runserver` to run the backend project at port 8000 after activating your virtual environment
 - run `npm install` to install required packages for the frontend
 - run `npm run dev` to launch the frontend project on localhost 3000
 - for a headless testing session run `npm run cy:run`, and for a browser session test, use `npm run cy:open`
-
+<div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
 ## How to Contribute
 
 To gurarantee a uniform maintenance of the project, contributors need to adhere to the following guidelines
-
+<div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
 #### Pull Requests
 
 - It is recommended to contribute to targeted services in the `Projects` tab
 - No direct pull requests to the master branch will be accepted under any circumstances
-- Every pull request title shall confirm to the following paradigm `<PR-Type>[feature]: contribution summary`
-  - `<PR-TYPE>`: bugfix, or enhancement
-  - `[feature]`: the name of the branch, or the issue ID in case of a bugfix
+- Every pull request title shall confirm to the following paradigm `@feature: contribution summary`
+  - `feature`: the name of the targeted feature, or the issue ID in case of a bugfix
 - No empty-body pull request will be accepted
 - please utilize tags and link your commit to the respective project in `Projects` tab
 - Comments on your code are mandatory
@@ -101,8 +102,7 @@ To gurarantee a uniform maintenance of the project, contributors need to adhere 
 - please make sure that your commits pass all the automated testing checks, if you find a problem in the testing suite, do not hesitate to contact us
 
 - If you have a new service in mind, please consult us to formlate a plan and archtiecture before implementing it and committing it directly to your branch
-
-
+<div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
 #### Issues
 
 - Provide the sequence to re-produce the issue you have faced (a video or screenshot would be appreciated)
@@ -110,10 +110,10 @@ To gurarantee a uniform maintenance of the project, contributors need to adhere 
 - the issue title shall confirm to the following scheme: `[service-name]: issue summary`
   - `[service-name]`: the service name in the `Projects` tab and shall be in CamelCase
 - failing to meet requirements will lead to rejecting the issue
-
+<div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
 #### Branches
 
-- to minimize merge-conflicts, each contributor shall work on a separate branch with the following title scheme: `[@username]/service-name`
+- to minimize merge-conflicts, each contributor shall work on a separate branch with the following title scheme: `username@service-name`
   - `service-name` shall be in CamelCase, and included in the `Projects` tab
 - only core-team members can merge branches to the master branch to ensure testing the code properly
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
