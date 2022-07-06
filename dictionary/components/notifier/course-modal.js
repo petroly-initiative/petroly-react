@@ -2,24 +2,28 @@ import { L } from "../../../constants";
 
 const arabic = {
     title: "تتبع المادة",
-    instruction: "اختر الشعب التي تريد تتبعها",
+    instruction: "اختر جمسع الشعب التي تريد تتبعها",
     reminder: "إشعار تغير حالة المادة سيرسل عبر البريد الإلكتروني",
     lectureLabel: "محاضرة",
     labLabel: "مختبر",
-    hybridLabel: "محاضرة ومختبر",
+    hybridLabel: "مدمج",
     confirm: "تأكيد التتبع",
-    cancel: "إلغاء التتبع"
+    cancel: "إلغاء التتبع",
+    cancelhover: "إلغاء تتبع المادة",
+    confirmHover: "تأكيد تتبع الشعب المختارة"
 }
 
 const english = {
   title: "Track a course",
-  instruction: "Select sections to track",
+  instruction: "Check all sections that you would like to track",
   reminder: "Course status change will be sent via email",
   lectureLabel: "Lecture",
   labLabel: "Lab",
-  hybridLabel: "Lecture & Lab",
+  hybridLabel: "Hybrid",
   confirm: "Track Selected",
   cancel: "Cancel",
+  cancelHover: "Cancel course tracking",
+  confirmHover:"Confirm tracking of selected sections"
 };
 
 export default function translator(lang) {

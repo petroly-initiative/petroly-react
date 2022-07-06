@@ -61,13 +61,62 @@ $x: #622edb;
   border: 0 !important;
 }
 
+.instructor-name{
+  display: flex !important;
+}
+
+.header-info{
+display: flex;
+align-items: center;
+
+}
+
+.course-code{
+color: $btn-high;
+width: fit-content !important;
+margin-bottom: 0px;
+margin-right: 3px;
+
+}
+
+.meta-info{
+  margin-bottom: 10px;
+}
+
+ .sections-type{
+    font-weight: 600;
+    color: white;
+    font-size: small;
+    margin: 0 4px;
+    border-radius: 4px;
+    padding: 1px 8px;
+  }
+
+
+.divider{
+      height: 5px;
+      width: 5px;
+      margin-right: 6px;
+      margin-left: 6px;
+      border-radius: 50%;
+      background-color: #aaaaaa;
+    }
+
+
+.title_img {
+  margin-right: 10px;
+}
+
 .body-container {
   overflow-x: hidden;
   z-index: 100 !important;
+  padding: 16px;
 }
 
 .modal-container {
   border: 0px !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
 .eval-params {
@@ -79,18 +128,38 @@ $x: #622edb;
   border-radius: 0.15rem;
 }
 
+.body-container {
+  border: none !important;
+}
+
 .body-container::-webkit-scrollbar-track {
   background: rgb(187, 187, 187);
-  border-radius: 0.15rem;
+  // border-radius: 0.15rem;
 }
 
 .body-container::-webkit-scrollbar-thumb {
-  background: #444444;
+  background: #7b7b7b;
 }
 .modalTitle {
   font-weight: 700;
   color: white;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
+
+.sections-container {
+ 
+}
+
+ .instructions {
+    padding: 12px 10px;
+    font-size: 18px;
+    color: $txt-fill;
+     border-bottom: 1px solid rgb(235, 234, 234);
+  }
+
+
 
 .sections {
   width: 100%;
@@ -239,10 +308,11 @@ $x: #622edb;
   align-items: center !important;
   flex-direction: row;
   justify-content: center !important;
-  color: #fff !important;
+  transition: 300ms ease;
+  // color: #fff !important;
   border: unset !important;
   svg {
-    transition: 600ms ease;
+    transition: 300ms ease;
     margin: 8px;
     margin-bottom: 10px;
     padding: 0;
@@ -255,10 +325,16 @@ $x: #622edb;
 }
 
 .cancel-btn {
-  background-color: rgba(0, 0, 0, 0.007) !important;
-  border: 2px solid white !important;
+  background-color: rgba(0, 0, 0, 0.007);
+  border: 2px solid #aaaaaa !important;
   display: flex;
+  color: #aaaaaa;
   justify-content: center;
+  &:hover{
+    background-color: red;
+    color: white;
+    border: 0px solid white !important;
+  }
 }
 
 .submit-btn {
@@ -282,7 +358,7 @@ $x: #622edb;
   align-items: center;
   font-weight: 600;
   padding: 16px;
-  width: 95%;
+  width: 100%;
   .rules-icon {
     margin-left: 16px;
     margin-right: 16px;
@@ -319,9 +395,13 @@ $x: #622edb;
     padding: 8px;
   }
 
+  .meta-info{
+    padding: 0 8px;
+  }
+
   .body-container {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   .btns {

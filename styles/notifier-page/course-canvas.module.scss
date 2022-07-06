@@ -1,0 +1,23 @@
+@use "/styles/themes.module" as theme;
+
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-fill: rgb(146, 146, 146);
+$txt-hg: #0091e7;
+$btn-prim: #00ead3;
+$x: #622edb;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  border: 4px solid theme.$dark-fg !important;
+
+  button {
+    color: rgb(202, 202, 202);
+    &:hover {
+      color: theme.$dark-fnt;
+    }
+  }
+}

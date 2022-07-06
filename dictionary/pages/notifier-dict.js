@@ -1,7 +1,15 @@
 import { L } from "../../constants";
 
-const arabic = {};
-const english = {};
+const arabic = {
+  departments : "الأقسام الجامعية",
+  searchbar: "ابحث عن كود المادة",
+  trackBtn : "استعرض المواد المتتبعة"
+};
+const english = {
+  depratments: "Departments List",
+  searchbar: "Search for a course code",
+  trackBtn: "View Tracked Courses"
+};
 
 export default function translator(lang) {
   switch (lang) {

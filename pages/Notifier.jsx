@@ -7,19 +7,22 @@ import {
   Col,
   InputGroup,
   Form,
-  Button
+  Button, 
+  OverlayTrigger, Tooltip,
+  Offcanvas
 } from "react-bootstrap";
 import styles from "../styles/notifier-page/courses-list.module.scss";
 import { useRef } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import  Head  from "next/head";
 import { M, L } from "../constants";
-import translator from "../dictionary/pages/instructors-dict";
+import translator from "../dictionary/pages/notifier-dict";
 import { BiSearch } from "react-icons/bi";
 import { GoSettings } from "react-icons/go";
 import { Fade } from "react-awesome-reveal";
 import CourseCard from "../components/notifier/CourseCard";
-import data from "../mocks/mockData.json";
+import CourseModal from "../components/notifier/CourseModal";
+import { MdRadar } from "react-icons/md";
 
 
 // TODO: create the responsive layout for the cards, and the off-canvas
@@ -42,9 +45,16 @@ function Notifier(props) {
   const courseInput = useRef(null); // to sync searchbar textInput information
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
-  const [currentCourse, setCurrentCourse] = useState("");
-  const [showModal, setShowModal] = useState("");
-  const [showCanvas, setshowCanvas] = useState("");
+
+  // ? instance state
+  const [currentCourse, setCurrentCourse] = useState({
+    course: "ACCT110",
+    title: "Introduction to Financial Accounting",
+    type: ["Lecture"]
+  });
+  const [showModal, setShowModal] = useState(false);
+  const [showCanvas, setshowCanvas] = useState(false);
+  const [trackedSections, setTracked] = useState("");
 
     //? utility functions
 
@@ -52,15 +62,26 @@ function Notifier(props) {
         return "searched!";
     } 
 
-    const toggleModal = (course) => {
-      if(course != null){
-        setCurrentCourse(course)
-      }
+    const toggleModal = (course_code, title, type) => {
+      if(course_code != null)
+        setCurrentCourse({...{
+          course: course_code,
+          title: title,
+          type: type
+        }})
+      
       setShowModal(state => !state)
     }
 
     const toggleCanvas = () => {
       setshowCanvas(state => !state)
+    }
+    /**
+     * 
+     * @param  obj an object in the format: {course: str, sections: [int..]} to update the offcanvas state 
+     */
+    const updateTracked = (obj) => {
+
     }
 
   // ? re-rendering state
@@ -140,25 +161,56 @@ function Notifier(props) {
               section_count={3}
               openModal={toggleModal}
             />
-            {/* <CourseCard
-              type={["Lecture"]}
+            <CourseCard
+              type={["Hybrid"]}
               title="Introduction to Managerial Accounting"
               available_seats={37}
               course="ACCT210"
               section_count={3}
               openModal={toggleModal}
-            /> */}
-            {/* <CourseCard
-              type={["Lecture"]}
+            />
+            <CourseCard
+              type={["Lecture", "Lab"]}
               title="Intermediate Accounting I"
               available_seats={5}
-              course="ACCT210"
+              course="ACCT301"
               section_count={3}
               openModal={toggleModal}
-            /> */}
+            />
           </Fade>
         </Row>
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 350, hide: 400 }}
+          overlay={
+            <Tooltip id="button-tooltip-2">{langState.trackBtn}</Tooltip>
+          }
+        >
+          <Button
+            id="evaluate"
+            className={styles.trackBtn}
+            onClick={toggleCanvas}
+            // style={{
+            //   backgroundColor:
+            //     user.status !== USER.LOGGED_IN || dataHasEvaluated.hasEvaluated
+            //       ? "gray"
+            //       : "#00ead3",
+            // }}
+          >
+            <MdRadar size={32} />
+          </Button>
+        </OverlayTrigger>
       </Container>
+      {/* external component embedded within the page */}
+      <CourseModal
+        saveTracked={updateTracked}
+        close={toggleModal}
+        show={showModal}
+        course={currentCourse.course}
+        title={currentCourse.title}
+        type={currentCourse.type}
+      />
+      {/* login checking is needed */}
     </>
   );
 }

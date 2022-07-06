@@ -132,6 +132,37 @@ $txt-hg: #0091e7;
   }
 }
 
+.trackBtn {
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #00ead3;
+  border: none;
+  margin: auto;
+  padding: 8px;
+  width: 60px;
+  height: 60px;
+  border-radius: 20px;
+  position: fixed;
+  bottom: 1.5rem;
+  right: 6rem;
+  box-shadow: 0px 0px 12px #999999;
+  transition: 300ms ease;
+
+  &:disabled {
+    background-color: grey;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    background-color: #00ead3;
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
 .dropdown-h {
   color: #06d8c3 !important;
   font-weight: 700;

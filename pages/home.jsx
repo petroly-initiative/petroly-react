@@ -72,6 +72,7 @@ export default function HomeScreen() {
           crossorigin="anonymous"
         ></script>
       </Head>
+      
       {/* <Navbar page="home" /> */}
       <Container className={styles["main-container"]}>
         <Fade

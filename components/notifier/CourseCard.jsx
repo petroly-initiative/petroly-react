@@ -1,10 +1,12 @@
 import { useContext, useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
+import { ImLab } from "react-icons/im";
+import { FaBook } from "react-icons/fa";
 import { M } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/course-card.module.scss";
 import translator from "../../dictionary/components/notifier/course-card";
-import { result } from "lodash";
+
 /**
  * TODO
  * ? props
@@ -40,7 +42,7 @@ function CourseCard({
 
   // ? utility functions
   const colorCount = () => {
-    // color coding according to a pred-defined range
+    // color coding according to a pre-defined range
     if (available_seats < 15) {
       return { color: "rgb(255, 75, 75)" };
     } else if (available_seats < 30) {
@@ -51,11 +53,43 @@ function CourseCard({
   };
 
   const fireModal = () => {
-    openModal(course);
+    openModal(course, title, type);
   };
 
   const typeMapper = () => {
-    return "Ho";
+    if(type.includes("Lecture")){
+      if(type.includes("Lab")){
+        return [
+          <div className={styles["sections-type"]}>
+            <FaBook className={styles["lecture-icon"]} />
+            {langState.lectureLabel}
+          </div>,<div className={styles["divider"]}></div>,
+          <div className={styles["sections-type"]}>
+            <ImLab className={styles["lab-icon"]} />
+            {langState.labLabel}
+          </div>,
+        ];
+      } else {
+        return (
+          <div
+           
+            className={styles["sections-type"]}
+          >
+            <FaBook className={styles["lecture-icon"]} />
+            {langState.lectureLabel}
+          </div>
+        );
+      }
+    } else {
+       return  <div
+        
+          className={styles["sections-type"] }
+        >
+          {langState.hybridLabel}
+        </div>;
+
+    }
+   
   };
 
   return (
