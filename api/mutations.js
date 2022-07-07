@@ -1,22 +1,19 @@
 import { gql } from "@apollo/client";
 
 export const tokenAuthMutation = gql`
-  mutation getToken($username: String, $password: String!) {
+  mutation getToken($username: String!, $password: String!) {
     tokenAuth(username: $username, password: $password) {
       success
-      token
-      refreshToken
       errors
-      user {
-        id
-        username
-        verified
-        profile {
-          id
-          profilePic
-          language
-          theme
+      obtainPayload {
+        payload {
+          username
+          origIat
+          exp
         }
+        token
+        refreshToken
+        refreshExpiresIn
       }
     }
   }
@@ -27,7 +24,13 @@ export const verifyTokenMutation = gql`
     verifyToken(token: $token) {
       success
       errors
-      payload
+      verifyPayload {
+        payload {
+          exp
+          origIat
+          username
+        }
+      }
     }
   }
 `;
@@ -37,9 +40,16 @@ export const refreshTokenMutation = gql`
     refreshToken(refreshToken: $refreshToken) {
       success
       errors
-      refreshToken
-      token
-      payload
+      refreshPayload {
+        token
+        refreshToken
+        refreshExpiresIn
+        payload {
+          exp
+          origIat
+          username
+        }
+      }
     }
   }
 `;
@@ -49,7 +59,9 @@ export const revokeTokenMutation = gql`
     revokeToken(refreshToken: $refreshToken) {
       success
       errors
-      revoked
+      revokePayload {
+        revoked
+      }
     }
   }
 `;
@@ -76,10 +88,11 @@ export const registerMutation = gql`
 `;
 export const evaluationCreateMutation = gql`
   mutation EvaluationCreate(
-    $instructorId: ID
-    $grading: EvaluationGradingEnum!
-    $teaching: EvaluationTeachingEnum!
-    $personality: EvaluationPersonalityEnum!
+    $user: ID!
+    $instructorId: ID!
+    $grading: Int!
+    $teaching: Int!
+    $personality: Int!
     $gradingComment: String
     $teachingComment: String
     $personalityComment: String
@@ -89,7 +102,8 @@ export const evaluationCreateMutation = gql`
   ) {
     evaluationCreate(
       input: {
-        instructor: { connect: { id: { exact: $instructorId } } }
+        user: $user
+        instructor: $instructorId
         grading: $grading
         teaching: $teaching
         personality: $personality
@@ -101,13 +115,16 @@ export const evaluationCreateMutation = gql`
         term: $term
       }
     ) {
-      ok
-      errors {
-        field
-        messages
+      ... on OperationInfo {
+        messages {
+          field
+          kind
+          message
+        }
       }
-      result {
-        id
+
+      ... on EvaluationType {
+        pk
       }
     }
   }
@@ -115,10 +132,10 @@ export const evaluationCreateMutation = gql`
 
 export const evaluationUpdateMutation = gql`
   mutation EvaluationUpdate(
-    $id: ID
-    $grading: EvaluationGradingEnum
-    $teaching: EvaluationTeachingEnum
-    $personality: EvaluationPersonalityEnum
+    $id: ID!
+    $grading: Int
+    $teaching: Int
+    $personality: Int
     $gradingComment: String
     $teachingComment: String
     $personalityComment: String
@@ -127,8 +144,8 @@ export const evaluationUpdateMutation = gql`
     $comment: String
   ) {
     evaluationUpdate(
-      where: { id: { exact: $id } }
       input: {
+        pk: $id
         grading: $grading
         teaching: $teaching
         personality: $personality
@@ -140,13 +157,15 @@ export const evaluationUpdateMutation = gql`
         comment: $comment
       }
     ) {
-      ok
-      errors {
-        field
-        messages
+      ... on OperationInfo {
+        messages {
+          kind
+          field
+          message
+        }
       }
-      result {
-        id
+      ... on EvaluationType {
+        pk
       }
     }
   }
@@ -186,32 +205,36 @@ export const verifyAccountMutation = gql`
 // Community mutations:
 export const createCommunnityMutation = gql`
   mutation CreateCommunity(
+    $owner: ID!
     $name: String!
     $link: String!
-    $platform: CommunityPlatformEnum!
-    $category: CommunityCategoryEnum!
+    $platform: PlatformEnum
+    $category: CategoryEnum
     $description: String!
     $section: String
     $file: Upload
   ) {
     communityCreate(
       input: {
+        owner: $owner
         name: $name
         link: $link
         platform: $platform
         category: $category
         description: $description
         section: $section
-        icon: { upload: $file }
+        icon: $file
       }
     ) {
-      ok
-      errors {
-        field
-        messages
+      ... on CommunityType {
+        pk
       }
-      result {
-        id
+      ... on OperationInfo {
+        messages {
+          kind
+          field
+          message
+        }
       }
     }
   }
@@ -219,19 +242,22 @@ export const createCommunnityMutation = gql`
 
 export const toggleLikeCommunityMutation = gql`
   mutation ToggleLikeCommunity($id: ID!) {
-    toggleLikeCommunity(ID: $id) {
-      ok
-    }
+    toggleLikeCommunity(pk: $id)
   }
 `;
 
 export const deleteCommunity = gql`
   mutation DeleteCommunity($id: ID) {
-    communityDelete(where: { id: { exact: $id } }) {
-      ok
-      errors {
-        field
-        messages
+    communityDelete(input: { pk: $id }) {
+      ... on CommunityType {
+        pk
+      }
+      ... on OperationInfo {
+        messages {
+          kind
+          message
+          field
+        }
       }
     }
   }
@@ -240,89 +266,64 @@ export const deleteCommunity = gql`
 export const editCommunnityMutation = gql`
   mutation EditCompetition(
     $id: ID
-    $name: String!
-    $link: String!
-    $platform: CommunityPlatformEnum!
-    $category: CommunityCategoryEnum!
-    $description: String!
+    $name: String
+    $link: String
+    $platform: PlatformEnum
+    $category: CategoryEnum
+    $description: String
     $section: String
     $file: Upload
   ) {
     communityUpdate(
       input: {
+        pk: $id
         name: $name
         link: $link
         platform: $platform
         category: $category
         description: $description
         section: $section
-        icon: { upload: $file }
+        icon: $file
       }
-      where: { id: { exact: $id } }
     ) {
-      ok
-      errors {
-        field
-        messages
-      }
-      result {
-        id
+      ... on CommunityType {
+        pk
         name
+      }
+      ... on OperationInfo {
+        messages {
+          kind
+          field
+          message
+        }
       }
     }
   }
 `;
 export const reportCreateMutation = gql`
   mutation CreateReport(
-    $reason: ReportReasonEnum!
+    $reason: ReasonEnum
     $CommunityID: ID!
     $otherReason: String = ""
   ) {
     reportCreate(
-      input: {
-        reason: $reason
-        community: { connect: { id: { exact: $CommunityID } } }
-        otherReason: $otherReason
-      }
-    ) {
-      ok
-      errors {
-        field
-        messages
-      }
-      result {
-        id
-        community {
-          name
-        }
-        reason
-      }
-    }
-  }
-`;
-
-export const interactedCommunityMutation = gql`
-  mutation InteractedCommunity($id: ID!) {
-    hasInteractedCommunity(ID: $id) {
-      liked
-      reported
-    }
+      input: { pk: $CommunityID, reason: $reason, otherReason: $otherReason }
+    )
   }
 `;
 
 export const profileUpdateMutation = gql`
-  mutation ProfileUpdateMutation($id: ID, $lang: String, $theme: String) {
-    profileUpdate(
-      where: { id: { exact: $id } }
-      input: { language: $lang, theme: $theme }
-    ) {
-      ok
-      errors {
-        field
-        messages
+  mutation ProfileUpdateMutation($id: ID!, $lang: String, $theme: String) {
+    profileUpdate(input: { pk: $id, language: $lang, theme: $theme }) {
+      ... on OperationInfo {
+        messages {
+          message
+          kind
+          field
+        }
       }
-      result {
-        id
+      ... on ProfileType {
+        pk
       }
     }
   }

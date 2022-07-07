@@ -2,23 +2,20 @@
   "data": {
     "tokenAuth": {
       "success": true,
-      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjU0NzA5OTE3LCJvcmlnSWF0IjoxNjU0NjIzNTE3fQ.a17Y3QOVzRms4lMzafZ_7dPeOLnqW5JvNAPPJHyZ1eM",
-      "refreshToken": "7986c743c510520a4d7b68cc88961f3e8d397ff3",
       "errors": null,
-      "user": {
-        "id": "VXNlck5vZGU6MQ==",
-        "username": "tested-admin",
-        "verified": true,
-        "profile": {
-          "id": "1",
-          "profilePic": "https://res.cloudinary.com/petroly-initiative/image/upload/v1622359053/profile_pics/blank_profile",
-          "language": "en-US",
-          "theme": "dark",
-          "__typename": "ProfileNode"
+      "obtainPayload": {
+        "payload": {
+          "username": "admin",
+          "origIat": 1656927780,
+          "exp": 1657014180,
+          "__typename": "TokenPayloadType"
         },
-        "__typename": "UserNode"
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTcwMTQxODAsIm9yaWdJYXQiOjE2NTY5Mjc3ODAsInVzZXJuYW1lIjoiYWRtaW4ifQ.nRSPJ9QxHqRnOUfIea66llaIWssuOPMR95oMeA0UbIs",
+        "refreshToken": "396dd1d7b3ab9a39ab5121d9c9d7ac19c45f7c2a",
+        "refreshExpiresIn": 1657532580,
+        "__typename": "TokenDataType"
       },
-      "__typename": "ObtainJSONWebToken"
+      "__typename": "ObtainJSONWebTokenOutputs"
     }
   }
 }

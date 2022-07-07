@@ -28,7 +28,15 @@ import {
   profileUpdateMutation,
 } from "../../api/mutations";
 import ClientOnly from "../ClientOnly";
-import { USER, T, L, M, langDirection } from "../../constants";
+import {
+  USER,
+  T,
+  L,
+  M,
+  langDirection,
+  DEF_LANG,
+  DEF_THEME,
+} from "../../constants";
 import dynamic from "next/dynamic";
 import { useCallback } from "react";
 import translator from "../../dictionary/components/navbar-dict";
@@ -84,7 +92,9 @@ export default function Navbar(props) {
     error: errorMe,
   } = useQuery(meQuery, {
     notifyOnNetworkStatusChange: true,
-    skip: user.status !== USER.LOGGED_IN,
+    skip: user.status !== USER.SETTING,
+    initialFetchPolicy: "cache-first",
+    fetchPolicy: "cache-first",
   });
   const [revokeToken] = useMutation(revokeTokenMutation);
 
@@ -122,8 +132,9 @@ export default function Navbar(props) {
       setLang(dataMe.me.profile.language);
       setTheme(dataMe.me.profile.theme);
       userDispatch({
-        type: T.SET_CLIENT,
-        profileId: dataMe.me.profile.id,
+        type: T.SET_ME,
+        profileId: dataMe.me.profile.pk,
+        id: dataMe.me.pk,
       });
     }
   }, [dataMe]);
@@ -144,7 +155,7 @@ export default function Navbar(props) {
   useEffect(() => {
     if (loadingProfileUpdate) {
       setSaveMsg("Saving");
-    } else if (dataProfileUpdate && dataProfileUpdate.profileUpdate.ok) {
+    } else if (dataProfileUpdate && dataProfileUpdate.profileUpdate.pk) {
       setSaveMsg("Saved");
     } else if (errorProfileUpdate) {
       setSaveMsg("Error");
@@ -168,13 +179,7 @@ export default function Navbar(props) {
   const showSidebar = () => {
     setVisible((prev) => !prev);
   };
-  // FIXME: incorrect way of handling async state
-  const savePreference = () => {
-    // wait for states to take place
-    setTimeout(() => {
-      profileUpdate();
-    }, 300);
-  };
+
   useEffect(() => {
     if (user.status === USER.LOGGED_IN) {
       profileUpdate();
@@ -348,9 +353,7 @@ export default function Navbar(props) {
                         id="popover-basic"
                         show={{ show: 350, hide: 400 }}
                       >
-                        <Popover.Body
-                          style={{ marginRight: "12 !important" }}
-                        >
+                        <Popover.Body style={{ marginRight: "12 !important" }}>
                           <div
                             className={
                               styles["popup-info"] +
@@ -534,9 +537,7 @@ export default function Navbar(props) {
                         id="popover-basic"
                         show={{ show: 350, hide: 400 }}
                       >
-                        <Popover.Body
-                          style={{ marginRight: "12 !important" }}
-                        >
+                        <Popover.Body style={{ marginRight: "12 !important" }}>
                           <div
                             className={
                               styles["popup-info"] +
@@ -823,9 +824,7 @@ export default function Navbar(props) {
                         id="popover-basic"
                         show={{ show: 350, hide: 400 }}
                       >
-                        <Popover.Body
-                          style={{ marginRight: "12 !important" }}
-                        >
+                        <Popover.Body style={{ marginRight: "12 !important" }}>
                           <div className={styles["popup-info"]}>
                             <div className={styles["popup-pic"]}>
                               <Image

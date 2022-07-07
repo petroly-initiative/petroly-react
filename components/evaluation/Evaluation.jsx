@@ -116,7 +116,7 @@ export default function Evaluation(props) {
               edit={false}
               emptyIcon={<BsStar />}
               filledIcon={<BsStarFill />}
-              value={parseInt(props.rating[0].split("_")[1]) / 20}
+              value={parseInt(props.rating[0]) / 20}
               activeColor="#ffd700"
             />
           </div>
@@ -156,7 +156,7 @@ export default function Evaluation(props) {
               edit={false}
               emptyIcon={<BsStar />}
               filledIcon={<BsStarFill />}
-              value={parseInt(props.rating[1].split("_")[1]) / 20}
+              value={parseInt(props.rating[1]) / 20}
               activeColor="#ffd700"
             />
           </div>
@@ -196,7 +196,7 @@ export default function Evaluation(props) {
               edit={false}
               emptyIcon={<BsStar />}
               filledIcon={<BsStarFill />}
-              value={parseInt(props.rating[2].split("_")[1]) / 20}
+              value={parseInt(props.rating[2]) / 20}
               activeColor="#ffd700"
             />
           </div>

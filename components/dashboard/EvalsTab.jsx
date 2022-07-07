@@ -30,7 +30,13 @@ import { M } from "../../constants";
  * - Instructor data will be mapped via a custom component
  */
 
-export default function EvaluationsTab({ dataEval, loadingEval, errorEval, refetchEval, handleMsg}) {
+export default function EvaluationsTab({
+  dataEval,
+  loadingEval,
+  errorEval,
+  refetchEval,
+  handleMsg,
+}) {
   const [mode, setMode] = useState("view-all");
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
@@ -205,7 +211,7 @@ export default function EvaluationsTab({ dataEval, loadingEval, errorEval, refet
   }
 
   // ? The mapped componentes will be stores in either according to mode
-  const fullList = dataEval.me.evaluationSet.data.map((evaluation) => {
+  const fullList = dataEval.me.evaluationSet.map((evaluation) => {
     return (
       <EvaluationPreview
         instructor={evaluation.instructor}
@@ -215,7 +221,7 @@ export default function EvaluationsTab({ dataEval, loadingEval, errorEval, refet
       />
     );
   });
- 
+
   return (
     <>
       <Card

@@ -49,12 +49,11 @@ import { M } from "../../constants";
  * @returns The profile tab
  */
 
-export default function ProfileTab({dataMe, errorMe, refetchMe, loadingMe}) {
+export default function ProfileTab({ dataMe, errorMe, refetchMe, loadingMe }) {
   const [mode, setMode] = useState("view");
   const [WaitingPic, setWaitingPic] = useState(false);
   const { user, userDispatch } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
-
 
   const [
     profilePicUpdate,
@@ -291,7 +290,7 @@ export default function ProfileTab({dataMe, errorMe, refetchMe, loadingMe}) {
                           }`
                         }
                       >
-                        {dataMe.me.evaluationSet.count}
+                        {dataMe.me.evaluationSetCount}
                       </div>
                     </Card>
                   </Col>
@@ -329,7 +328,7 @@ export default function ProfileTab({dataMe, errorMe, refetchMe, loadingMe}) {
                           }`
                         }
                       >
-                        {dataMe.me.ownedCommunities.count}
+                        {dataMe.me.ownedCommunitiesCount}
                       </div>
                     </Card>
                   </Col>
@@ -412,7 +411,9 @@ export default function ProfileTab({dataMe, errorMe, refetchMe, loadingMe}) {
                       <Form.Control
                         type="file"
                         className={` ${
-                          user.theme === M.DARK ? styles["dark-img-input"] : styles["img-input"]
+                          user.theme === M.DARK
+                            ? styles["dark-img-input"]
+                            : styles["img-input"]
                         }`}
                         name="file"
                         onChange={handleImage}

@@ -2,7 +2,7 @@ import { URL_ENDPOINT } from "../../constants";
 
 context("group service tests", () => {
   describe("visit the groups service successfully", () => {
-    it("visits thw whole page and displays a dialog details", () => {
+    it("visits the whole page and displays a dialog details", () => {
       cy.login();
       cy.interceptGql(
         URL_ENDPOINT,
@@ -11,20 +11,20 @@ context("group service tests", () => {
       );
       cy.interceptGql(
         URL_ENDPOINT,
-        "InteractedCommunity",
+        "CommunityInteractions",
         "groups/likedCommunityMutation.json"
       );
       cy.interceptGql(
         URL_ENDPOINT,
-        "InteractedCommunity",
+        "CommunityInteractions",
         "groups/likedCommunityMutation.json"
       );
       cy.get('li[id="groups-btn"]').filter(":visible").first().click();
       cy.wait(3000)
       cy.wait[
         ("@gqlCommunitiesQuery",
-        "@gqlInteractedCommunity.json",
-        "@gqlInteractedCommunity.json")
+        "@gqlCommunityInteractions.json",
+        "@gqlCommunityInteractions.json")
       ];
 
       cy.contains("20");

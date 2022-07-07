@@ -4,12 +4,14 @@ export const USER = {
   LOGGED_OUT: "logged_out",
   LOGGED_IN: "logged_in",
   VERIFING: "verifing",
+  SETTING: "setting",
 };
 
 export const T = {
   LOGIN: "login",
   LOGOUT: "logout",
   SET_CLIENT: "set_client",
+  SET_ME: "set_me",
   CHANGE_LANG: "change_language",
   CHANGE_THEME: "change_theme",
 };

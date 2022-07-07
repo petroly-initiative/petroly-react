@@ -46,13 +46,7 @@ Cypress.Commands.add("login", () => {
     }
   });
 
-  cy.intercept("POST", URL, (req) => {
-    if (hasOperationName(req, "VerifyToken")) {
-      req.alias = "gqlVerifyTokenMutation";
-      // data fixture
-      req.reply({ fixture: "signinData/VerifyTokenQuery.json" });
-    }
-  });
+  
 
   cy.visit("/", {
     onBeforeLoad: (win) => {

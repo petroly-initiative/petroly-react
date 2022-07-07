@@ -19,17 +19,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
 import dynamic from "next/dynamic";
-import { useMutation } from "@apollo/client";
-import {
-  interactedCommunityMutation,
-  toggleLikeCommunityMutation,
-} from "../../api/mutations";
+import { useMutation, useQuery } from "@apollo/client";
+import { toggleLikeCommunityMutation } from "../../api/mutations";
+import { communityInteractionsQuery } from "../../api/queries";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-card-dict";
 import { M, USER } from "../../constants";
 
 // dynamic imports for report and display modals to reduce the base module size
-const GroupDisplay = dynamic(() => import("./GroupDisplay"))
+const GroupDisplay = dynamic(() => import("./GroupDisplay"));
 const GroupReport = dynamic(() => import("./GroupReport"));
 
 function GroupCard(props) {
@@ -44,24 +42,23 @@ function GroupCard(props) {
 
   /* managing a community interactions: like and report */
   const [toggleLikeCommunity, { data, loading, error }] = useMutation(
-    toggleLikeCommunityMutation,
-   
+    toggleLikeCommunityMutation
   );
 
-  const [getInteractions, { data: interactions }] = useMutation(
-    interactedCommunityMutation,
-    { variables: { id: props.id } }
+  const { data: interactions, refetch: refetchIactions } = useQuery(
+    communityInteractionsQuery,
+    {
+      variables: { id: props.id },
+      skip: user.status !== USER.LOGGED_IN,
+    }
   );
-  useEffect(() => {
-    if (user.status === USER.LOGGED_IN) getInteractions();
-  }, [user.status]);
 
   useEffect(() => {
     if (interactions) {
       setIactions((prev) => ({
-        liked: interactions.hasInteractedCommunity.liked,
+        liked: interactions.communityInteractions.liked,
         number: prev.number,
-        reported: interactions.hasInteractedCommunity.reported,
+        reported: interactions.communityInteractions.reported,
       }));
     }
   }, [interactions]);
@@ -163,7 +160,7 @@ function GroupCard(props) {
         id={props.id}
         showModal={showReport}
         handleClose={closeReport}
-        refetchIactions={getInteractions}
+        refetchIactions={refetchIactions}
       />
       <GroupDisplay
         {...props}

@@ -1,9 +1,8 @@
-export default function mapErrorsToFields({ errors }) {
+export default function mapErrorsToFields({ messages }) {
+  console.log(messages);
   var result = {};
-  errors.map((error) => {
-    var longMsg = "";
-    error.messages.map((msg) => (longMsg += msg + "\n"));
-    result[error.field] = longMsg;
+  messages.map((message) => {
+    result[message.field] = message.message;
   });
   return result;
 }

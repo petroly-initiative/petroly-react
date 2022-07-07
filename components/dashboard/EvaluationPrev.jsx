@@ -77,9 +77,9 @@ export default function EvaluationPreview(props) {
             emptyIcon={<BsStar />}
             filledIcon={<BsStarFill />}
             value={Math.round(
-              (props.evaluation.grading.slice(2) / 20 +
-                props.evaluation.teaching.slice(2) / 20 +
-                props.evaluation.personality.slice(2) / 20) /
+              (props.evaluation.grading / 20 +
+                props.evaluation.teaching / 20 +
+                props.evaluation.personality / 20) /
                 3
             )}
             activeColor="#ffd700"
@@ -89,7 +89,7 @@ export default function EvaluationPreview(props) {
       <EvaluationModal
         refetch={props.refetch}
         name={props.instructor.name}
-        id={props.evaluation.id}
+        id={props.evaluation.pk}
         image={
           <Image
             width="80"
@@ -101,11 +101,11 @@ export default function EvaluationPreview(props) {
         dept={props.instructor.department}
         close={closeModal}
         visible={modalVisible}
-        gradingRating={props.evaluation.grading.slice(2) / 20}
+        gradingRating={props.evaluation.grading / 20}
         gradingCom={props.evaluation.gradingComment}
-        teachingRating={props.evaluation.teaching.slice(2) / 20}
+        teachingRating={props.evaluation.teaching / 20}
         teachingCom={props.evaluation.teachingComment}
-        personRating={props.evaluation.personality.slice(2) / 20}
+        personRating={props.evaluation.personality / 20}
         personCom={props.evaluation.personalityComment}
         comment={props.evaluation.comment}
         term={props.evaluation.term}

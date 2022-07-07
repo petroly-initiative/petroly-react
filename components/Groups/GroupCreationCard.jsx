@@ -157,6 +157,7 @@ function GroupCreationCard(props) {
         //TODO: check for duplicate naming in the DB, then submit in the DB
         createCommunnity({
           variables: {
+            owner: user.id,
             name: name.current.value,
             link: link.current.value,
             platform: platform,
@@ -170,6 +171,7 @@ function GroupCreationCard(props) {
     } else {
       createCommunnity({
         variables: {
+          owner: user.id,
           name: name.current.value,
           link: link.current.value,
           platform: platform,
@@ -234,11 +236,12 @@ function GroupCreationCard(props) {
   // Enexpected error handling and logging for both creation and editing
   useEffect(() => {
     if (createData && props.create) {
-      if (createData.communityCreate.ok) {
+      if (createData.communityCreate.pk) {
         props.handleClose(false);
         props.refetch();
         props.handleMsg(true);
       } else {
+        console.log(createData.communityCreate.messages);
         setAPIErrors(mapErrorsToFields(createData.communityCreate));
         setSubmit(false); // to use it for later
       }
@@ -247,7 +250,7 @@ function GroupCreationCard(props) {
 
   useEffect(() => {
     if (editData && props.edit) {
-      if (editData.communityUpdate.ok) {
+      if (editData.communityUpdate.pk) {
         props.handleClose(false);
         props.refetch();
         refetchExisting();
@@ -408,7 +411,7 @@ function GroupCreationCard(props) {
                   }
                   type="file"
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                  style={{paddingBottom: 0}}
+                  style={{ paddingBottom: 0 }}
                 />
                 {invalidImage && (
                   <Form.Control.Feedback
