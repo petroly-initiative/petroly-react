@@ -1,6 +1,7 @@
-export var URL_ENDPOINT = "http://localhost:8000/endpoint/";
-if (process.env.VERCEL_ENV === "production")
-  URL_ENDPOINT = "https://petroly-api.graphcdn.app";
+export var URL_ENDPOINT = "https://petroly-api.graphcdn.app";
+
+if (process.env.NODE_ENV === "development")
+  URL_ENDPOINT = "http://localhost:8000/endpoint/";
 
 export const USER = {
   LOGGED_OUT: "logged_out",
