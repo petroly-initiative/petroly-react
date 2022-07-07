@@ -50,7 +50,7 @@ function instructorsReducer(state, action) {
       throw new Error("instructorsReducer didn't find what to do");
   }
 }
-const ITEMS = 2; // Number of InstructorCards per page
+const ITEMS = 18; // Number of InstructorCards per page
 const initialInstructorsState = {
   first: ITEMS,
   after: null,
@@ -527,7 +527,7 @@ function instructorsList() {
             we encoded the `instructorCount` in every instructor,
             accessing first instrcutor is suffcient */}
             <>
-              {networkStatus === 3 ? (
+              {networkStatus === NetworkStatus.fetchMore ? (
                 <Button
                   className={styles["loading-container"] + " shadow"}
                   disabled
@@ -543,12 +543,7 @@ function instructorsList() {
                 </Button>
               ) : (
                 pageInfo.hasNextPage && (
-                  <Col
-                    l={12}
-                    xs={12}
-                    className={styles["loader_col"]}
-                    
-                  >
+                  <Col l={12} xs={12} className={styles["loader_col"]}>
                     <Button
                       className={
                         styles["pagination-container"] +
@@ -558,7 +553,7 @@ function instructorsList() {
                       onClick={loadMore}
                       disabled={!pageInfo.hasNextPage}
                     >
-                     <BsPlusLg style={{margin: 8}} /> Load More
+                      <BsPlusLg style={{ margin: 8 }} /> Load More
                     </Button>
                   </Col>
                 )
