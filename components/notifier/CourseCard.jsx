@@ -57,37 +57,36 @@ function CourseCard({
   };
 
   const typeMapper = () => {
-    if(type.includes("Lecture")){
-      if(type.includes("Lab")){
+    console.log(type);
+    if (type.includes("Lecture") && type.includes("Lab")) {
+      
         return [
           <div className={styles["sections-type"]}>
             <FaBook className={styles["lecture-icon"]} />
             {langState.lectureLabel}
-          </div>,<div className={styles["divider"]}></div>,
+          </div>,
+          <div className={styles["divider"]}></div>,
           <div className={styles["sections-type"]}>
             <ImLab className={styles["lab-icon"]} />
             {langState.labLabel}
           </div>,
         ];
-      } else {
+      }else if (type.includes("Lecture")) {
         return (
-          <div
-           
-            className={styles["sections-type"]}
-          >
+          <div className={styles["sections-type"]}>
             <FaBook className={styles["lecture-icon"]} />
             {langState.lectureLabel}
           </div>
         );
-      }
+      
+    } else if (type.includes("hybrid")) {
+      return (
+        <div className={styles["sections-type"]}>{langState.hybridLabel}</div>
+      );
     } else {
-       return  <div
-        
-          className={styles["sections-type"] }
-        >
-          {langState.hybridLabel}
-        </div>;
-
+      return (<div className={styles["sections-type"]}>
+        {type[0]}
+      </div>);
     }
    
   };

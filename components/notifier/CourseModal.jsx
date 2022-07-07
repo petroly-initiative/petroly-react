@@ -270,6 +270,9 @@ function CourseModal(props) {
             }
           >
             <Button
+            onClick={() => {
+                props.close();
+            }}
               id="create-group-btn"
               // onClick={props.close}
               className={[styles["btns"], styles["cancel-btn"]]}

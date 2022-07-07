@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { Card } from "react-bootstrap";
+import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { M } from "../../constants";
 import translator from "../../dictionary/components/notifier/section-checkbox";
 import { IoIosTime } from "react-icons/io";
@@ -62,7 +62,7 @@ function SectionCheckbox(props) {
       );
     });
   };
-
+  // ? mappers
   const typeMapper = (obj) => {
     if (obj.type == "Lecture") {
       return (
@@ -76,12 +76,14 @@ function SectionCheckbox(props) {
     } else {
       return (
         <div className={styles["sections-type"]}>
-          <ImLab className={styles["lab-icon"]} />
+          <ImLab style={{marginLeft: 4}} className={styles["lab-icon"]} />
           {langState.labLabel}
         </div>
       );
     }
   };
+
+  
 
   // to map a color according to a pre-defined number for waitlists and all available seats
   const colorCount = (value) => {
@@ -108,13 +110,14 @@ function SectionCheckbox(props) {
 
   return (
     <>
-    {/* ! needs trasnlation */}
+      {/* ! needs trasnlation */}
       <div
         className={
           isChecked ? styles["checked-input"] : styles["unchecked-input"]
         }
-      > Section
-        # {props.section_num}
+      >
+        {" "}
+        Section # {props.section_num}
       </div>
       <Card
         onClick={toggleTrack}
@@ -184,27 +187,42 @@ function SectionCheckbox(props) {
             </div>
             <div className={styles["availability-details"]}>
               <span className={styles["seats-left"]}>
+                {langState.seats}
                 <span
                   style={colorCount(props.details[0].seats)}
                   className={styles["num-slot"]}
                 >
                   {props.details[0].seats}
                 </span>{" "}
-                Available seats
               </span>
               <span className={styles["divider"]}></span>
               {/*  replace with a boolean for open waitlist */}
-              <span
-                className={
-                  props.details[0].waitlist == 5
-                    ? styles["waitlist-close"]
-                    : styles["waitlist-open"]
-                }
-              >
-                {props.details[0].waitlist == 5
-                  ? "Waitlist Full"
-                  : "Waitlist Open"}
-              </span>{" "}
+              <span className={styles["waitlist-container"]}>
+                Waitlist
+                {props.details[0].waitlist == 5 ? (
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 1000, hide: 300 }}
+                    overlay={
+                      <Tooltip id="button-tooltip-2">
+                        {langState.closed}
+                      </Tooltip>
+                    }
+                  >
+                    <span className={styles["waitlist-close"]}></span>
+                  </OverlayTrigger>
+                ) : (
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 1000, hide: 300 }}
+                    overlay={
+                      <Tooltip id="button-tooltip-2">{langState.open}</Tooltip>
+                    }
+                  >
+                    <span className={styles["waitlist-open"]}></span>
+                  </OverlayTrigger>
+                )}
+              </span>
             </div>
           </div>
         </Card.Body>
@@ -263,27 +281,44 @@ function SectionCheckbox(props) {
               </div>
               <div className={styles["availability-details"]}>
                 <span className={styles["seats-left"]}>
+                  {langState.seats}
                   <span
                     style={colorCount(props.details[1].seats)}
                     className={styles["num-slot"]}
                   >
                     {props.details[1].seats}
                   </span>{" "}
-                  Available seats
                 </span>
                 <span className={styles["divider"]}></span>
                 {/*  replace with a boolean for open waitlist */}
-                <span
-                  className={
-                    props.details[1].waitlist == 5
-                      ? styles["waitlist-close"]
-                      : styles["waitlist-open"]
-                  }
-                >
-                  {props.details[1].waitlist == 5
-                    ? "Waitlist Full"
-                    : "Waitlist Open"}
-                </span>{" "}
+                <span className={styles["waitlist-container"]}>
+                  Waitlist
+                  {props.details[1].waitlist == 5 ? (
+                    <OverlayTrigger
+                      placement="top"
+                      delay={{ show: 1000, hide: 300 }}
+                      overlay={
+                        <Tooltip id="button-tooltip-2">
+                          {langState.closed}
+                        </Tooltip>
+                      }
+                    >
+                      <span className={styles["waitlist-close"]}></span>
+                    </OverlayTrigger>
+                  ) : (
+                    <OverlayTrigger
+                      placement="top"
+                      delay={{ show: 1000, hide: 300 }}
+                      overlay={
+                        <Tooltip id="button-tooltip-2">
+                          {langState.open}
+                        </Tooltip>
+                      }
+                    >
+                      <span className={styles["waitlist-open"]}></span>
+                    </OverlayTrigger>
+                  )}
+                </span>
               </div>
             </div>
           </Card.Footer>

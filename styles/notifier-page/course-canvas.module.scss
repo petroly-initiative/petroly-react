@@ -21,3 +21,136 @@ $x: #622edb;
     }
   }
 }
+
+.dark-border{
+background: theme.$dark-xxfg !important;
+
+}
+
+.header-title {
+  color: #00ead3;
+  background-blend-mode: multiply;
+  background-size: cover;
+  margin: 6px 0 !important;
+  border: 0 !important;
+}
+
+
+.Cardholder{
+    transition: 300ms ease;
+    border: none;
+    cursor: pointer;
+    align-self: center;
+    background: #ffffff;
+    margin: 8px; 
+    &:hover{
+        transform: scale(1.05);
+    }
+    &:active{
+      transform: scale(0.95);
+    }
+}
+
+.course-header {
+  border-radius: 4px;
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 14px 16px !important;
+  padding-bottom: 16px !important;
+  overflow: hidden;
+
+  .course-code {
+    color: $btn-high !important;
+    font-size: 20px;
+    text-align: center;
+    margin-right: 8px;
+    font-weight: 700;
+    // padding: 8px;
+    padding-bottom: 0;
+  }
+
+  .course-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // white-space: nowrap;
+    line-clamp: 1;
+    // word-break: break-all;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    // color: #0091e7;
+    font-weight: 400;
+  }
+  }
+
+  .header-info{
+    display: flex;
+    align-items: center;
+  }
+
+  .sections-type {
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  svg{
+    margin-right: 8px;
+  }
+  color: #aaaaaa;
+  font-size: medium;
+  border-radius: 4px;
+  padding: 1px 8px;
+}
+
+.course-body{
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  div {
+    margin: 0 3px;
+    .numeric{
+      font-weight: 700;
+      margin-left: 4px;
+      margin-right: 4px;
+    }
+    .text{
+       margin-left: 4px;
+      margin-right: 4px;
+    
+    }
+    
+  }
+
+  
+}
+
+.body-container::-webkit-scrollbar {
+  width: 0.3rem !important;
+  border-radius: 0.15rem !important;
+}
+
+.body-container {
+  border: none !important;
+  padding-top: 0;
+  }
+
+.body-container::-webkit-scrollbar-track {
+  background: rgb(187, 187, 187);
+  // border-radius: 0.15rem;
+}
+
+.body-container::-webkit-scrollbar-thumb {
+  background: #7b7b7b;
+}
+
+.divider{
+      height: 4px;
+      width: 4px;
+      margin-right: 6px;
+      margin-left: 6px;
+      border-radius: 50%;
+      background-color: #aaaaaa;
+    }

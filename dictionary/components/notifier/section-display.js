@@ -6,9 +6,10 @@ const arabic = {
   lectureLabel: "محاضرة",
   labLabel: "مختبر",
   hybridLabel: "مدمج",
+  cancel: "إيقاف تتبع الشعبة",
   closed: "قائمة الانتظار ممتلئة",
   open: "قائمة الانتظار مفتوحة",
-  seats: "المقاعد المتاحة",
+  seats: "المقاعد المتاحة"
 };
 
 const english = {
@@ -17,9 +18,10 @@ const english = {
   lectureLabel: "Lecture",
   labLabel: "Lab",
   hybridLabel: "Hybrid",
+  cancel: "Cancel Tracking",
   closed: "Waitlist is full",
-  open: "Waitlist is open",
-  seats: "Available Seats",
+  open : "Waitlist is open",
+  seats: "Available Seats"
 };
 
 export default function translator(lang) {

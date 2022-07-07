@@ -8,7 +8,8 @@ import {
   InputGroup,
   Form,
   Button, 
-  OverlayTrigger, Tooltip
+  OverlayTrigger, Tooltip,
+  Dropdown
 } from "react-bootstrap";
 import styles from "../styles/notifier-page/courses-list.module.scss";
 import { useRef } from "react";
@@ -22,8 +23,11 @@ import { Fade } from "react-awesome-reveal";
 import CourseCard from "../components/notifier/CourseCard";
 import CourseModal from "../components/notifier/CourseModal";
 import { MdRadar } from "react-icons/md";
-import TrackingMenu from "../components/notifier/TrackingMenu";
-
+import TrackingCanvas from "../components/notifier/TrackingCanvas";
+import { useQuery } from "@apollo/client/react";
+import { getDepartments } from "../api/queries";
+import mockData from "../mocks/mockData.json";
+import { fromPairs } from "lodash";
 
 // TODO: create the responsive layout for the cards, and the off-canvas
 /**
@@ -40,58 +44,159 @@ import TrackingMenu from "../components/notifier/TrackingMenu";
  * 
  */
 function Notifier(props) {
-    // ? base state
+  // ? base state
   const { navDispatch } = useContext(NavContext);
-  const courseInput = useRef(null); // to sync searchbar textInput information
+
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
 
   // ? instance state
-  const [currentCourse, setCurrentCourse] = useState({
+  const courseInput = useRef(null); // to sync searchbar textInput information
+  const [currentCourse, setCurrentCourse] = useState({ // state for the displayed course on the modal
     course: "ACCT110",
     title: "Introduction to Financial Accounting",
-    type: ["Lecture"]
+    type: ["Lecture"],
   });
   const [showModal, setShowModal] = useState(false);
   const [showCanvas, setshowCanvas] = useState(false);
   const [trackedSections, setTracked] = useState("");
+  const [department, setDepartment] = useState("");
+  // ? fetched state
+  const {
+    data: dataDept,
+    error: errorDept,
+    loading: loadingDept,
+  } = useQuery(getDepartments, {
+    variables: { short: true },
+  });
 
-    //? utility functions
+  //? utility functions
+  // event listener for the "Enter" key 
+  const enterSearch = (event) => {
+    if (event.key === "Enter") search();
+  };
 
-    const search =  () => {
-        return "searched!";
-    } 
+    const selectDept = (e) => {
+      var value = e.target.id;
+      if (value == "null") value = null;
+      setDepartment(value);
+      // refetching courses with provided search input and department
+    };
 
-    const toggleModal = (course_code, title, type) => {
-      if(course_code != null)
-        setCurrentCourse({...{
+  const search = () => {
+    return "searched!";
+  };
+
+  const toggleModal = (course_code, title, type) => {
+    if (course_code != null)
+      setCurrentCourse({
+        ...{
           course: course_code,
           title: title,
-          type: type
-        }})
+          type: type,
+        },
+      });
+
+    setShowModal((state) => !state);
+  };
+
+  const toggleCanvas = () => {
+    setshowCanvas((state) => !state);
+  };
+  /**
+   *
+   * @param  obj an object in the format: {course: str, sections: [int..]} to update the offcanvas state
+   */
+  const updateTracked = (obj) => {};
+
+  // ? Mappers
+  const deptMapper = () => {
+    if(dataDept != null)
+     return (dataDept.departmentList.map((dept) => (
+      <Dropdown.Item
+        id={dept}
+        active={dept === department}
+        eventKey={dept}
+        // disabled={dept === instructorsState.department}
+        onClick={selectDept}
+        className={
+          styles["depts"] +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
+        as={"div"}
+      >
+        {dept}
+      </Dropdown.Item>)
       
-      setShowModal(state => !state)
+    ));
+      }
+
+      // useEffect(() => {
+      //   courseMapper()
+      // })
+// ! needs to be replaced by a fetching hook, this is a static demo
+  const courseMapper = () => {
+    var uniqueCourses = new Set();
+    // getting unique courses
+    for(let section of mockData.data){
+      uniqueCourses.add(section["course_number"])
+    }
+    //for each unique course accumulate info
+    uniqueCourses = Array.from(uniqueCourses);
+    var courseObjects = []
+    for(let courseCode of uniqueCourses){
+      var courseSections = mockData.data.filter(course => course["course_number"] == courseCode);
+      var sectionType = new Set();
+      for(let section of courseSections){
+        sectionType.add(section["class_type"]);
+      }
+     
+
+      sectionType = Array.from(sectionType);
+       
+      if(sectionType.length !== 1){
+        if(courseSections.filter(e => e["section_number"] === courseSections[0]["section_number"]).length == 2){
+        sectionType = ["hybrid"]}
+        else {
+        sectionType = ["Lecture", "Lab"]}
+      } else {
+        sectionType = sectionType[0] == "LEC" ? ["Lecture"] : sectionType;
+      }
+      
+
+      courseObjects.push(
+        {
+          "code": courseCode ,
+          "title": courseSections[0]["course_title"],
+          "available_seats": courseSections.reduce((prev, curr) => prev + curr["available_seats"], 0),
+          "sections": courseSections.length,
+          "type":sectionType
+        }
+      )}
+        return courseObjects.map(course => (
+          <CourseCard 
+          openModal={toggleModal}
+          course={course["code"]}
+          title={course["title"]}
+          type={course["type"]}
+          available_seats={course["available_seats"]}
+          section_count={course["sections"]}
+
+          />
+        ))
+
     }
 
-    const toggleCanvas = () => {
-      setshowCanvas(state => !state)
-    }
-    /**
-     * 
-     * @param  obj an object in the format: {course: str, sections: [int..]} to update the offcanvas state 
-     */
-    const updateTracked = (obj) => {
+    // returns course cards
+    
 
-    }
-
-  // ? re-rendering state
+  // ? side effects
   useEffect(() => {
     setLang(() => translator(user.lang));
   }, [user.lang]);
 
   useEffect(() => {
     navDispatch("notifier");
-  
   }, []);
 
   return (
@@ -147,36 +252,41 @@ function Notifier(props) {
                 align="start"
                 id="dropdown-menu-align-right"
                 title={<GoSettings size="1.5rem" />}
-              ></DropdownButton>
+              >
+                <Dropdown.Item
+                  className={
+                    user.theme === M.DARK
+                      ? styles["dark-mode"]
+                      : styles["dropdown-h"]
+                  }
+                  disabled
+                >
+                  {langState.searchbarFilter}
+                </Dropdown.Item>
+                <Dropdown.Divider style={{ height: "1" }} />
+                <Dropdown.Item
+                  id="null"
+                  className={
+                    styles["depts"] +
+                    ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                  }
+                  as={"div"}
+                  eventKey="1"
+                  onClick={selectDept}
+                  active={department === null}
+                >
+                  All departments
+                </Dropdown.Item>
+                {deptMapper()}
+              </DropdownButton>
             </InputGroup>
           </Col>
         </Row>
-        <Row>
+        <Row style={{marginBottom: 16}}>
           <Fade className={"col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-4"}>
-            <CourseCard
-              type={["Lecture"]}
-              title="Introduction to Financial Accounting"
-              available_seats={25}
-              course="ACCT110"
-              section_count={3}
-              openModal={toggleModal}
-            />
-            <CourseCard
-              type={["Hybrid"]}
-              title="Introduction to Managerial Accounting"
-              available_seats={37}
-              course="ACCT210"
-              section_count={3}
-              openModal={toggleModal}
-            />
-            <CourseCard
-              type={["Lecture", "Lab"]}
-              title="Intermediate Accounting I"
-              available_seats={5}
-              course="ACCT301"
-              section_count={3}
-              openModal={toggleModal}
-            />
+           
+            {courseMapper()}
+            
           </Fade>
         </Row>
         <OverlayTrigger
@@ -203,6 +313,7 @@ function Notifier(props) {
       </Container>
       {/* external component embedded within the page */}
       <CourseModal
+        trackedCourses={trackedSections}
         saveTracked={updateTracked}
         close={toggleModal}
         show={showModal}
@@ -210,9 +321,11 @@ function Notifier(props) {
         title={currentCourse.title}
         type={currentCourse.type}
       />
-      <TrackingMenu close ={toggleCanvas} 
-      show={showCanvas}
-      save={updateTracked}
+      <TrackingCanvas
+        trackedCourses={trackedSections}
+        close={toggleCanvas}
+        show={showCanvas}
+        save={updateTracked}
       />
       {/* login checking is needed */}
     </>

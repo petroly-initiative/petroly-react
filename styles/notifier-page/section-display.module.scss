@@ -51,10 +51,11 @@ $x: #22d77c;
 }
 
 @mixin sectionNumber($fnt-clr, $fnt-wght: 300){
- font-size: 22px;
+ font-size: 18px;
     white-space: nowrap;
-    width: fit-content;
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     margin: 16px 0px 4px 0;
     padding: 2px 10px;
     border-radius: 4px 4px 0 0;
@@ -64,24 +65,11 @@ $x: #22d77c;
     transition: 300ms ease;
 }
 
-.waitlist-container{
-  color: $txt-fill;
-  display: flex;
-  width: 80px;
-  height: 100%;
-  align-items: center;
-  span{
-    margin-left: 8px;
-  }
-}
-
 .unchecked-input {
    @include sectionNumber(gray)
   }
 
-.checked-input {
-    @include sectionNumber($btn-high, 600);
-  }
+
 
 .checked-container {
   display: flex;
@@ -100,6 +88,8 @@ $x: #22d77c;
 
 .instructor-name {
   display: inline-flexbox;
+  width: 65%;
+  font-size: 14px;
   align-items: center;
   margin-right: auto;
   -webkit-line-clamp: 1;
@@ -120,10 +110,10 @@ $x: #22d77c;
     margin-right: 8px;
   }
   color: $txt-xfill;
-  font-size: medium;
+  font-size: small;
   margin-right: 8px;
   border-radius: 4px;
-  padding: 2px 8px 0 0;
+  padding: 1px 8px;
 }
 
 .divider {
@@ -167,16 +157,15 @@ $x: #22d77c;
   flex-flow: row nowrap;
   padding: 8px 0px;
   margin-right: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
 }
 
 .loc-time{
  display: flex;
- color: $txt-fill;
  flex-grow: 1;
  justify-content: center;
  align-items: center;
-margin-bottom: 12px;
+margin-bottom: 4px;
  height: 100%;
  
 }
@@ -191,8 +180,9 @@ margin-bottom: 12px;
 
 .time {
   white-space: nowrap;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 400;
+  color: $txt-fill;
   width: 125px;
   margin-right: 8px;
   display: flex;
@@ -202,31 +192,44 @@ margin-bottom: 12px;
     display: flex;
     height: 100%;
     align-items: center;
-    margin: 0px 4px;
-    font-size: 20px;
+    padding: 0 0 1px 0;
+    font-size: 16px;
   }
 }
 
 .location {
   width: 97px;
   white-space: nowrap;
-  font-size: 18px;
+  font-size: 14px;
+  color: $txt-fill !important;
   height: 100%;
   font-weight: 400;
+  justify-content: center;
   margin-right: 8px;
   display: flex;
-  align-items: center;
+  align-items: center !important;
   span{
     height: 27px !important;
   }
   .location-icon {
     margin: 0 4px !important;
-    display: flex;
-    height: 100%;
-    align-items: center;
-    font-size: 20px;
-    margin: 0px 4px;
+   vertical-align: bottom;
+    height: fit-content;
+    font-size: 16px;
+    margin: 2px 0px;
+    padding: 0 0 3px 0;
     
+  }
+}
+
+.waitlist-container{
+  color: $txt-fill;
+  display: flex;
+  width: 80px;
+  height: 100%;
+  align-items: center;
+  span{
+    margin-left: 8px;
   }
 }
 
@@ -248,6 +251,7 @@ margin-bottom: 12px;
 
 .availability-details {
   display: flex;
+  font-size: 16px;
   flex-grow: 1;
   align-items: center;
   width: 280px;
@@ -264,6 +268,7 @@ margin-bottom: 12px;
   font-weight: 600;
   margin-right: 4px;
   font-size: 18px;
+  font-weight: 600;
   box-shadow: 0 0 1px inner #c3c3c3;
   border-radius: 8px;
 }
@@ -280,27 +285,47 @@ margin-bottom: 12px;
   overflow: hidden;
 }
 
+.untrack-btn{
+    opacity: 0;
+    font-size: 20px;
+    padding: 0;
+    background-color: white;
+    border: none !important;
+    color: #aaaaaa;
+    transition: 300ms ease;
+    &:hover, &:active{
+      color: red;
+      background-color: white;
+      border: none !important;
+    }
+}
+
+.hover-detector{
+  &:hover{
+    .untrack-btn{
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+}
+
 .Cardholder {
   transition: 300ms ease;
   border: none;
-  cursor: pointer;
   align-self: center;
   background: #ffffff;
   border-radius: 4px;
   margin: 0 0 10px 0;
   padding: 16px 0;
   padding-bottom: 0;
-  &:hover {
-    transform: scale(1.02);
-  }
-  &:active {
-    transform: scale(0.98);
-  }
+  
 }
 
 .seats-left{
   display: flex;
   align-items: center;
+  color: $txt-fill;
+
 }
 
 .meta-info{
@@ -318,6 +343,11 @@ padding: 16px 0 0 0;
 }
 }
 
+.course-code{
+  font-weight: 700;
+  color: $btn-prim;
+}
+
 .unavailable-icon{
   font-size: 25px;
   color: #aaaaaa;
@@ -328,3 +358,4 @@ padding: 16px 0 0 0;
 .unavailable-name{
   color: #aaaaaa;
 }
+
