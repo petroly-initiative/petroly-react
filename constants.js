@@ -1,9 +1,7 @@
 export var URL_ENDPOINT = "https://petroly-api.graphcdn.app";
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test")
   URL_ENDPOINT = "http://localhost:8000/endpoint/";
-  console.log(process.env);
-}
 
 export const USER = {
   LOGGED_OUT: "logged_out",
