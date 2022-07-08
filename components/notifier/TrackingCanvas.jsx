@@ -42,7 +42,8 @@ function TrackingCanvas(props) {
           <SectionDisplay 
           course={course}
           details = {sectionObjs}
-          hybrid = {sectionObjs.length === 2 }/>
+          hybrid = {sectionObjs.length === 2 }
+          delete = {deleteSections}/>
         )
       })
       // group all sections' information
@@ -52,9 +53,7 @@ function TrackingCanvas(props) {
 
   };
 
-  useEffect(() => {
-    populateCourses()
-  })
+  
 
   // a function to return all deleted courses to delete from the notifier page
   const deleteSections = (course, section_num) => {
@@ -63,15 +62,20 @@ function TrackingCanvas(props) {
     // get all sections from the certain course, and filter
     var courseSections = props.trackedCourses[course];
 
-    courseSections.filter(section => section != section_num);
-
+    courseSections = courseSections.filter(section => section !== section_num);
+    if(courseSections.length !== 0)
     props.save({[`${course}`]: courseSections})
+    else {
+      props.save({ [`${course}`]: courseSections }, true);
+    }
   };
 
   return (
     <>
       <Offcanvas show={props.show} onHide={props.close}>
-        <Offcanvas.Header>
+        <Offcanvas.Header
+          className={` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`}
+        >
           <div>
             <Offcanvas.Title>
               <h3 className={styles["header-title"]}>{langState.header}</h3>
@@ -85,110 +89,14 @@ function TrackingCanvas(props) {
             variant={`${user.theme === M.DARK ? "white" : ""}`}
           />
         </Offcanvas.Header>
-        <Offcanvas.Body className={styles["body-container"]}>
+        <Offcanvas.Body
+          className={
+            styles["body-container"] +
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+          }
+        >
           {/* populate with section display */}
-          <SectionDisplay
-            course="ACCT210"
-            details={[
-              {
-                instructor: "Dr. Muhab Abubaker booga bogga",
-                type: "Lecture",
-                days: "UTR",
-                startTime: "1150",
-                endTime: "1245",
-                seats: 35,
-                waitlist: 4,
-                building: "76",
-                room: "2233",
-              },
-              {
-                instructor: "",
-                type: "Lab",
-                days: "W",
-                startTime: "0950",
-                endTime: "1145",
-                seats: 0,
-                waitlist: 5,
-                building: "76",
-                room: "1145",
-              },
-            ]}
-            section_num={43}
-          
-            hybrid
-          />
-          <SectionDisplay
-            course="ACCT310"
-            details={[
-              {
-                instructor: "Dr. Muhab Abubaker booga bogga",
-                type: "Lecture",
-                days: "UTR",
-                startTime: "1150",
-                endTime: "1245",
-                seats: 35,
-                waitlist: 4,
-                building: "76",
-                room: "2233",
-              },
-            ]}
-            section_num={25}
-          
-          />
-          <SectionDisplay
-            course="ACCT310"
-            details={[
-              {
-                instructor: "",
-                type: "Lab",
-                days: "W",
-                startTime: "0950",
-                endTime: "1145",
-                seats: 0,
-                waitlist: 5,
-                building: "76",
-                room: "1145",
-              },
-            ]}
-            section_num={13}
-    
-          />
-          <SectionDisplay
-            course="ACCT310"
-            details={[
-              {
-                instructor: "",
-                type: "Lab",
-                days: "W",
-                startTime: "0950",
-                endTime: "1145",
-                seats: 0,
-                waitlist: 5,
-                building: "76",
-                room: "1145",
-              },
-            ]}
-            section_num={13}
-         
-          />
-          <SectionDisplay
-            course="ACCT310"
-            details={[
-              {
-                instructor: "",
-                type: "Lab",
-                days: "W",
-                startTime: "0950",
-                endTime: "1145",
-                seats: 0,
-                waitlist: 5,
-                building: "76",
-                room: "1145",
-              },
-            ]}
-            section_num={13}
-           
-          />
+          {populateCourses()}
         </Offcanvas.Body>
       </Offcanvas>
     </>

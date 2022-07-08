@@ -9,6 +9,8 @@ const arabic = {
   closed: "قائمة الانتظار ممتلئة",
   open: "قائمة الانتظار مفتوحة",
   seats: "المقاعد المتاحة",
+  unavailableName: "اسم المحاضر غير متوفر",
+  waitlist: "قائمة الانتظار"
 };
 
 const english = {
@@ -20,6 +22,8 @@ const english = {
   closed: "Waitlist is full",
   open: "Waitlist is open",
   seats: "Available Seats",
+  unavailableName: "Instructor Name Unavailable",
+  waitlist: "Waitlist"
 };
 
 export default function translator(lang) {

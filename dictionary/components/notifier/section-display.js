@@ -9,7 +9,9 @@ const arabic = {
   cancel: "إيقاف تتبع الشعبة",
   closed: "قائمة الانتظار ممتلئة",
   open: "قائمة الانتظار مفتوحة",
-  seats: "المقاعد المتاحة"
+  seats: "المقاعد المتاحة",
+  unavailableName: "اسم المحاضر غير متوفر",
+  waitlist: "قائمة الانتظار",
 };
 
 const english = {
@@ -20,8 +22,10 @@ const english = {
   hybridLabel: "Hybrid",
   cancel: "Cancel Tracking",
   closed: "Waitlist is full",
-  open : "Waitlist is open",
-  seats: "Available Seats"
+  open: "Waitlist is open",
+  seats: "Available Seats",
+  unavailableName: "Instructor Name Unavailable",
+  waitlist: "Waitlist",
 };
 
 export default function translator(lang) {

@@ -22,6 +22,10 @@ $x: #622edb;
   }
 }
 
+.dark-txt{
+   color: theme.$dark-fnt !important;
+}
+
 .dark-footer {
   background-color: theme.$dark-xfg !important;
   border: unset !important;
@@ -291,9 +295,9 @@ margin-right: 3px;
   color: #aaaaaa;
   justify-content: center;
   &:hover{
-    background-color: red;
+    background-color: rgb(235, 56, 56);
     color: white;
-    border: 0px solid white !important;
+    border: 2px solid rgb(235, 56, 56) !important;
   }
 }
 

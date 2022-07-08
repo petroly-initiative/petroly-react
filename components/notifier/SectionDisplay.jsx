@@ -16,6 +16,7 @@ import styles from "../../styles/notifier-page/section-display.module.scss";
  * ? props
 
  * @section_num
+   @course the course of the displayed section
  * @details a list of one or two (in case of hybrid sections) objects in the following format
  ** {
  * building: an integer representing the building number
@@ -32,7 +33,6 @@ import styles from "../../styles/notifier-page/section-display.module.scss";
  * @course: the course code
  * @delete a function to save deleted sections in the parent component
  * ? state
- * @checked boolean state
  * @hybrid to indicate that the card variant will include double the information for
  * courses with aingle lab-lecture sections
  * ! handle missing instructor name
@@ -50,7 +50,7 @@ function SectionDisplay(props) {
   // ? utility functions
 
   const deleteSection = () => {
-    setDeleted(true);
+    props.delete(props.course, props.details[0].section_number);
   }
 
   const generateTimeTable = (days) => {
@@ -60,13 +60,20 @@ function SectionDisplay(props) {
       return DaysList.includes(day) ? (
         <div className={styles["active-day"]}>{day}</div>
       ) : (
-        <div className={styles["inactive-day"]}>{day}</div>
+        <div
+          className={
+            styles["inactive-day"] +
+            ` ${user.theme === M.DARK ? styles["dark-day"] : ""}`
+          }
+        >
+          {day}
+        </div>
       );
     });
   };
 
   const typeMapper = (obj) => {
-    if (obj.class_type == "LEC") {
+    if (obj.class_type === "LEC") {
       return (
         <div className={styles["sections-type"]}>
           {" "}
@@ -74,7 +81,7 @@ function SectionDisplay(props) {
           {langState.lectureLabel}
         </div>
       );
-    } else if (obj.class_type == "LAB") {
+    } else if (obj.class_type === "LAB") {
       return (
         <div className={styles["sections-type"]}>
           <ImLab style={{ marginLeft: 4 }} className={styles["lab-icon"]} />
@@ -84,7 +91,6 @@ function SectionDisplay(props) {
     } else {
       return (
         <div className={styles["sections-type"]}>
-          <ImLab style={{ marginLeft: 4 }} className={styles["lab-icon"]} />
           {obj.class_type}
         </div>
       );
@@ -119,7 +125,10 @@ function SectionDisplay(props) {
           <span className={styles["section-num"]}>
             {" "}
             <span className={styles["course-code"]}>{props.course}</span>&nbsp;
-            # {props.details[0].section_number}
+            <span className={user.theme === M.DARK ? styles["dark-txt"] : ""}>
+              {" "}
+              # {props.details[0].section_number}
+            </span>
           </span>
           <OverlayTrigger
             placement="top"
@@ -148,15 +157,20 @@ function SectionDisplay(props) {
             }
           >
             {/* handle unavailable names */}
-            <span className={styles["instructor-name"]}>
-              {props.details[0].instructor.trim().length != 0 ? (
-                props.details[0].instructor
+            <span
+              className={
+                styles["instructor-name"] +
+                ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+              }
+            >
+              {props.details[0].instructor_name.trim().length != 0 ? (
+                props.details[0].instructor_name
               ) : (
                 <>
                   {/* translation needed */}
                   <CgUnavailable className={styles["unavailable-icon"]} />
                   <span className={styles["unavailable-name"]}>
-                    Instructor Name Unavailable
+                    {langState.unavailableName}
                   </span>
                 </>
               )}
@@ -168,48 +182,78 @@ function SectionDisplay(props) {
           </Card.Header>
           <Card.Body className={styles["details-block"]}>
             <div className={styles["section-details"]}>
-              <span className={styles["weekdays"]}>
-                {generateTimeTable(props.details[0].days)}
-              </span>
-              <div className={styles["loc-time"]}>
-                <span className={styles["time"]}>
-                  <IoIosTime color="#aaaaaa" className={styles["time-icon"]} />{" "}
-                  {props.details[0].startTime.substring(0, 2)}:
-                  {props.details[0].startTime.substring(2)}-
-                  {props.details[0].endTime.substring(0, 2)}:
-                  {props.details[0].endTime.substring(2)}
+              {props.details[0].class_days !== null && (
+                <span className={styles["weekdays"]}>
+                  {generateTimeTable(props.details[0].class_days)}
                 </span>
+              )}
+              {props.details[0].start_time !== null &&
+                props.details[0].building !== null && (
+                  <div className={styles["loc-time"]}>
+                    {props.details[0].start_time !== null && (
+                      <span
+                        className={
+                          styles["time"] +
+                          ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                        }
+                      >
+                        <IoIosTime
+                          color="#aaaaaa"
+                          className={styles["time-icon"]}
+                        />{" "}
+                        {props.details[0].start_time.substring(0, 2)}:
+                        {props.details[0].start_time.substring(2)}-
+                        {props.details[0].end_time.substring(0, 2)}:
+                        {props.details[0].end_time.substring(2)}
+                      </span>
+                    )}
+                    {props.details[0].building !== null && (
+                      <span className={styles["location"]}>
+                        <span>
+                          {" "}
+                          <HiLocationMarker
+                            color="#0091e7"
+                            className={styles["location-icon"]}
+                          />{" "}
+                        </span>
 
-                <span className={styles["location"]}>
-                  <span>
-                    {" "}
-                    <HiLocationMarker
-                      color="#0091e7"
-                      className={styles["location-icon"]}
-                    />{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    {props.details[0].building}-{props.details[0].room}
-                  </span>
-                </span>
-              </div>
-              {/* replace with an indicator: open, full, waitlist */}
+                        <span
+                          className={
+                            user.theme === M.DARK ? styles["dark-txt"] : ""
+                          }
+                        >
+                          {" "}
+                          {props.details[0].building}-{props.details[0].room}
+                        </span>
+                      </span>
+                    )}
+                  </div>
+                )}
               <div className={styles["availability-details"]}>
-                <span className={styles["seats-left"]}>
+                <span
+                  className={
+                    styles["seats-left"] +
+                    ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                  }
+                >
                   {langState.seats}
                   <span
-                    style={colorCount(props.details[0].seats)}
+                    style={colorCount(props.details[0].available_seats)}
                     className={styles["num-slot"]}
                   >
-                    {props.details[0].seats}
+                    {props.details[0].available_seats}
                   </span>{" "}
                 </span>
                 <span className={styles["divider"]}></span>
-                {/*  ! needs translation and an overlay */}
-                <span className={styles["waitlist-container"]}>
-                  Waitlist
-                  {props.details[0].waitlist == 5 ? (
+                {/*  replace with a boolean for open waitlist */}
+                <span
+                  className={
+                    styles["waitlist-container"] +
+                    ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                  }
+                >
+                  {langState.waitlist}
+                  {props.details[0].waiting_list_count == 5 ? (
                     <OverlayTrigger
                       placement="top"
                       delay={{ show: 1000, hide: 300 }}
@@ -234,12 +278,17 @@ function SectionDisplay(props) {
                       <span className={styles["waitlist-open"]}></span>
                     </OverlayTrigger>
                   )}
-                </span>{" "}
+                </span>
               </div>
             </div>
           </Card.Body>
           {props.hybrid && (
-            <Card.Footer className={styles.footerContainer}>
+            <Card.Footer
+              className={
+                styles.footerContainer +
+                ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+              }
+            >
               <div
                 className={
                   styles["card-header"] +
@@ -247,14 +296,14 @@ function SectionDisplay(props) {
                 }
               >
                 <span className={styles["instructor-name"]}>
-                  {props.details[1].instructor.trim().length != 0 ? (
-                    props.details[1].instructor
+                  {props.details[1].instructor_name.trim().length != 0 ? (
+                    props.details[1].instructor_name
                   ) : (
                     <>
                       {/* translation needed */}
                       <CgUnavailable className={styles["unavailable-icon"]} />
                       <span className={styles["unavailable-name"]}>
-                        Instructor Name Unavailable
+                        {langState.unavailableName}
                       </span>
                     </>
                   )}
@@ -265,50 +314,82 @@ function SectionDisplay(props) {
                 </div>
               </div>
               <div className={styles["section-details"]}>
-                <span className={styles["weekdays"]}>
-                  {generateTimeTable(props.details[1].days)}
-                </span>
-                <div className={styles["loc-time"]}>
-                  <span className={styles["time"]}>
-                    <IoIosTime
-                      color="#aaaaaa"
-                      className={styles["time-icon"]}
-                    />{" "}
-                    {props.details[1].startTime.substring(0, 2)}:
-                    {props.details[1].startTime.substring(2)}-
-                    {props.details[1].endTime.substring(0, 2)}:
-                    {props.details[1].endTime.substring(2)}
+                {props.details[1].class_days !== null && (
+                  <span className={styles["weekdays"]}>
+                    {generateTimeTable(props.details[1].class_days)}
                   </span>
+                )}
+                {/*  delete the whole container if both features are missing */}
+                {props.details[1].start_time !== null &&
+                  props.details[1].building !== null && (
+                    <div className={styles["loc-time"]}>
+                      {props.details[1].start_time !== null && (
+                        <span
+                          className={
+                            styles["time"] +
+                            ` ${
+                              user.theme === M.DARK ? styles["dark-txt"] : ""
+                            }`
+                          }
+                        >
+                          <IoIosTime
+                            color="#aaaaaa"
+                            className={styles["time-icon"]}
+                          />{" "}
+                          {props.details[1].start_time.substring(0, 2)}:
+                          {props.details[1].start_time.substring(2)}-
+                          {props.details[1].end_time.substring(0, 2)}:
+                          {props.details[1].end_time.substring(2)}
+                        </span>
+                      )}
+                      {props.details[1].building !== null && (
+                        <span className={styles["location"]}>
+                          <span>
+                            {" "}
+                            <HiLocationMarker
+                              color="#0091e7"
+                              className={styles["location-icon"]}
+                            />{" "}
+                          </span>
 
-                  <span className={styles["location"]}>
-                    <span>
-                      {" "}
-                      <HiLocationMarker
-                        color="#0091e7"
-                        className={styles["location-icon"]}
-                      />{" "}
-                    </span>
-                    <span>
-                      {" "}
-                      {props.details[1].building}-{props.details[1].room}
-                    </span>
-                  </span>
-                </div>
+                          <span
+                            className={
+                              user.theme === M.DARK ? styles["dark-mode"] : ""
+                            }
+                          >
+                            {" "}
+                            {props.details[1].building}-{props.details[1].room}
+                          </span>
+                        </span>
+                      )}
+                    </div>
+                  )}
+
                 <div className={styles["availability-details"]}>
-                  <span className={styles["seats-left"]}>
+                  <span
+                    className={
+                      styles["seats-left"] +
+                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                    }
+                  >
                     {langState.seats}
                     <span
-                      style={colorCount(props.details[1].seats)}
+                      style={colorCount(props.details[1].available_seats)}
                       className={styles["num-slot"]}
                     >
-                      {props.details[1].seats}
+                      {props.details[1].available_seats}
                     </span>{" "}
                   </span>
                   <span className={styles["divider"]}></span>
                   {/*  replace with a boolean for open waitlist */}
-                  <span className={styles["waitlist-container"]}>
-                    Waitlist
-                    {props.details[1].waitlist == 5 ? (
+                  <span
+                    className={
+                      styles["waitlist-container"] +
+                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                    }
+                  >
+                    {langState.waitlist}
+                    {props.details[1].waiting_list_count == 5 ? (
                       <OverlayTrigger
                         placement="top"
                         delay={{ show: 1000, hide: 300 }}
@@ -333,7 +414,7 @@ function SectionDisplay(props) {
                         <span className={styles["waitlist-open"]}></span>
                       </OverlayTrigger>
                     )}
-                  </span>{" "}
+                  </span>
                 </div>
               </div>
             </Card.Footer>

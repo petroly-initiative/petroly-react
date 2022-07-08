@@ -119,7 +119,7 @@ function Notifier(props) {
   };
 
   useEffect(() => {
-    console.log(trackedCourses);
+    console.log("Notifier: ", trackedCourses);
   }, [trackedCourses])
 
   // ? Mappers

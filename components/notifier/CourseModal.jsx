@@ -59,9 +59,7 @@ function CourseModal(props) {
     }
   };
 
-  useEffect(() => {
-console.log("tracked sections:", sections);
-  }, [sections])
+
 
   // a function to broadcast confirmed sections to the off canvas
   // ! submitting this modal shall mutate all sections related to this course from the user list
@@ -164,16 +162,23 @@ console.log("tracked sections:", sections);
   useEffect(() => {
     if (props.show) {
       var trackedSectionSet = new Set();
-      console.log(props.trackedCourses);
+      console.log("Modal side effect: ", props.trackedCourses);
       if (props.trackedCourses[props.course] != null) {
+        console.log(props.trackedCourses[props.course]);
         for (let course of props.trackedCourses[props.course]) {
           trackedSectionSet.add(course);
         }
         trackedSectionSet = Array.from(trackedSectionSet);
         setSections(trackedSectionSet);
+      }else{
+        setSections([])
       }
     }
   }, [props.show]);
+
+    useEffect(() => {
+      console.log("tracked sections:", sections);
+    }, [sections]);
 
 
   return (
@@ -247,7 +252,12 @@ console.log("tracked sections:", sections);
             </Alert>
           </section>
           <section>
-            <div className={styles["instructions"]}>
+            <div
+              className={
+                styles["instructions"] +
+                ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+              }
+            >
               {langState.instruction}
             </div>
             <div className={styles["sections-container"]}>
@@ -270,9 +280,9 @@ console.log("tracked sections:", sections);
             }
           >
             <Button
-            onClick={() => {
+              onClick={() => {
                 props.close();
-            }}
+              }}
               id="create-group-btn"
               // onClick={props.close}
               className={[styles["btns"], styles["cancel-btn"]]}
