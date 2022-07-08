@@ -11,20 +11,21 @@ import translator from "../../dictionary/components/notifier/course-modal";
 import mockData from "../../mocks/mockData.json";
 import SectionCheckbox from "./SectionCheckbox";
 import { MdRadar, MdCancel } from "react-icons/md";
+ 
 // import data from "../../mocks/mockData.json";
 /**
  * TODO: create the modal layout and populate it with relevant sections
  * ? state management details
  *
- * @selectedSections to store the checked sections and broadcast the result to the off-canvas
- * @sections to store all sections under the selected course
+ * @sections to store and broadcast all selected sections under the displayed course
  * ? props
+ * @trackedSections all currently tracked sections to allow untracking from the modal itself
  * @show a visibility state passed via props
  * @course the course code
  * @title the course title
  * @type the type of course sections
  * @close a function to sync the state with the notifier page
- * @saveTracked a function to broadcast the information to the notifier page
+ * @save a function to broadcast the information to the notifier page
  * ! handle translations and variable themes
  * ! the modal shall be accessed only by logged-in users
  */
@@ -42,16 +43,9 @@ function CourseModal(props) {
   const [sections, setSections] = useState([]);
   
 
-  useEffect(() => {
-    if (props.show) {
-      setSections([]);
-      fetchData();
-    }
-  }, [props.show]);
+  
 
-  //FIXME a mock function to replicate an API fetching behavior
-
-  const fetchData = () => {};
+  
 
   // ? utility functions
 
@@ -60,76 +54,63 @@ function CourseModal(props) {
     if(sections.includes(section_num)){
       setSections([...sections.filter(sec => sec != section_num)])
     } else {
-      setSections(state => [...state, section_num]);
+      const newArr = [...sections, section_num]
+      setSections(state => [...newArr]);
     }
   };
 
+  useEffect(() => {
+console.log("tracked sections:", sections);
+  }, [sections])
+
   // a function to broadcast confirmed sections to the off canvas
+  // ! submitting this modal shall mutate all sections related to this course from the user list
   const trackSections = () => {
-    props.updateTracked({
-      course: props.course,
-      sections: sections
-    });
+    props.save({
+      [`${props.course}`]: sections
+    }, sections.length === 0);
   }
 
   // returns a list of section card elements
-  const populateSections = (course) => {
-    // console.log(sections.map(e => {
-    //   return <SectionCard />
-    // }));
-    return [
-      <SectionCheckbox
-        details={[
-          {
-            instructor: "Dr. Muhab Abubaker booga bogga",
-            type: "Lecture",
-            days: "UTR",
-            startTime: "1150",
-            endTime: "1245",
-            seats: 35,
-            waitlist: 4,
-            building: "76",
-            room: "2233",
-          },
-          {
-            instructor: "",
-            type: "Lab",
-            days: "W",
-            startTime: "0950",
-            endTime: "1145",
-            seats: 0,
-            waitlist: 5,
-            building: "76",
-            room: "1145",
-          },
-        ]}
-        section_num={43}
-        toggleCheck={toggleSection}
-        hybrid
-      />,
-      <SectionCheckbox
-        details={[
-          {
-            instructor: "Dr. Muhab Abubaker booga bogga",
-            type: "Lecture",
-            days: "MW",
-            startTime: "1150",
-            endTime: "1245",
-            seats: 20,
-            waitlist: 4,
-            building: "76",
-            room: "2233",
-          }
-        ]}
-        section_num={20}
-        toggleCheck={toggleSection}
-        
-      />,
-    ];
+  // ! (1) data filtering should be replaced be a ready-to-go fetch on course change
+  // ! (2) some fields are not needed in a checkbox such as the title, course-code, and department
+  // ! as they are already presented on the modal header
+  // ! (3) section number is preferrably provided outside the detail objects to avoid redundancy
+  const populateSections = (courseName) => {
+    // getting all sections related to this course
+    const courseObjects = mockData.data.filter(obj => obj["course_number"] == courseName);
+
+
+    // getting all unique section numbers
+    var sectionsSet = new Set();
+    courseObjects.forEach(course => sectionsSet.add(course["section_number"]))
+    sectionsSet = Array.from(sectionsSet);
+    // grouping similar section numbers
+
+    var filteredObjects = [];
+
+    for(let sectionNum of sectionsSet){
+      filteredObjects.push(courseObjects.filter(obj => obj["section_number"] == sectionNum))
+    }
+    // getting all sections that are already tracked
+    var trackedSectionSet = new Set();
+    if(props.trackedCourses[courseName] != null){
+      for (let section of props.trackedCourses[courseName]) {
+        trackedSectionSet.add(section);
+      }
+    }
+    trackedSectionSet = Array.from(trackedSectionSet);
+
+    // map to section checkbox components
+    
+    return filteredObjects.map((course) => {
+      return (
+      <SectionCheckbox details={course} toggleCheck={toggleSection} 
+      hybrid = {course.length == 2} tracked = {trackedSectionSet.includes(course[0]["section_number"])}/>
+    )});
   };
 
   // storing all selected sections, by firing a mutation
-  const saveTracked = () => {};
   // dynamic section type labelling
   const typeMapper = (type) => {
     if (type.includes("Lecture")) {
@@ -158,7 +139,7 @@ function CourseModal(props) {
           </div>
         );
       }
-    } else {
+    } else   if (type.includes("hybrid")) {
       return (
         <div
           style={{ backgroundColor: "rgb(241, 10, 118)" }}
@@ -167,14 +148,33 @@ function CourseModal(props) {
           {langState.hybridLabel}
         </div>
       );
+    } else {
+       return (
+        <div
+          style={{ backgroundColor: "rgb(241, 10, 118)" }}
+          className={styles["sections-type"]}
+        >
+          {type[0]}
+        </div>);
     }
   };
 
-  // when the selected course changes, update the modal contents
+  // ? side effects
+  // savign already tracked sections to the sections' state
   useEffect(() => {
-    fetchData();
-    populateSections();
-  }, [props.course]);
+    if (props.show) {
+      var trackedSectionSet = new Set();
+      console.log(props.trackedCourses);
+      if (props.trackedCourses[props.course] != null) {
+        for (let course of props.trackedCourses[props.course]) {
+          trackedSectionSet.add(course);
+        }
+        trackedSectionSet = Array.from(trackedSectionSet);
+        setSections(trackedSectionSet);
+      }
+    }
+  }, [props.show]);
+
 
   return (
     <>
@@ -251,7 +251,7 @@ function CourseModal(props) {
               {langState.instruction}
             </div>
             <div className={styles["sections-container"]}>
-              {populateSections()}
+              {populateSections(props.course)}
             </div>
             {/* populating the list of sections for the course */}
           </section>
@@ -297,7 +297,7 @@ function CourseModal(props) {
             ) : ( */}
             <Button
               onClick={() => {
-                props.saveTracked();
+                trackSections();
                 props.close();
               }}
               className={[styles["btns"], styles["submit-btn"]]}

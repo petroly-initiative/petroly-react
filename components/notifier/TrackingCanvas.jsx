@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useContext, useState } from "react";
 import { Offcanvas, CloseButton, Button } from "react-bootstrap";
 import { M } from "../../constants";
@@ -5,13 +6,13 @@ import translator from "../../dictionary/components/notifier/course-canvas";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/course-canvas.module.scss";
 import SectionDisplay from "./SectionDisplay";
-
+import mockData from "../../mocks/mockData.json";
 
 /**
  * TODO
  * @param {*} props
  * ? state
- * @courses a list of course objects to populate the off-canvas
+ * @trackedCourses a list of course objects to populate the off-canvas
  * each object includes the course code and the type and list section
  * @mode [select, view] to toggle batch-deletion of tracked courses
  * @show a visibility state passed for parent control
@@ -27,15 +28,45 @@ function TrackingCanvas(props) {
   const [langState, setLang] = useState(() => translator(user.lang));
 
   // ? utility functions
-
+ // returns a course block for each course object
+ // ! this chould be repalced by a fetch call instead
   const populateCourses = () => {
-    // returns a course block for each course object
-  }
+   var sectionDisplays = [];
+    for(let course in props.trackedCourses){
+      const targetCourse = mockData.data.filter(
+        (courseObj) => courseObj["course_number"] === course
+      );
+      props.trackedCourses[course].forEach(sectionNum => {
+        let sectionObjs = targetCourse.filter(section => section["section_number"] === sectionNum)
+        sectionDisplays.push(
+          <SectionDisplay 
+          course={course}
+          details = {sectionObjs}
+          hybrid = {sectionObjs.length === 2 }/>
+        )
+      })
+      // group all sections' information
+    }
 
-    // a function to return all deleted courses to delete from the notifier page
-  const deleteSections = () => {
+    return sectionDisplays;
 
-  }
+  };
+
+  useEffect(() => {
+    populateCourses()
+  })
+
+  // a function to return all deleted courses to delete from the notifier page
+  const deleteSections = (course, section_num) => {
+    // props.save([...sections.filter((sec) => sec != section_num)]);
+
+    // get all sections from the certain course, and filter
+    var courseSections = props.trackedCourses[course];
+
+    courseSections.filter(section => section != section_num);
+
+    props.save({[`${course}`]: courseSections})
+  };
 
   return (
     <>
@@ -83,7 +114,7 @@ function TrackingCanvas(props) {
               },
             ]}
             section_num={43}
-            toggleCheck={() => {}}
+          
             hybrid
           />
           <SectionDisplay
@@ -99,16 +130,14 @@ function TrackingCanvas(props) {
                 waitlist: 4,
                 building: "76",
                 room: "2233",
-              }
+              },
             ]}
             section_num={25}
-            toggleCheck={() => {}}
-            
+          
           />
           <SectionDisplay
             course="ACCT310"
             details={[
-              
               {
                 instructor: "",
                 type: "Lab",
@@ -122,8 +151,43 @@ function TrackingCanvas(props) {
               },
             ]}
             section_num={13}
-            toggleCheck={() => {}}
-            
+    
+          />
+          <SectionDisplay
+            course="ACCT310"
+            details={[
+              {
+                instructor: "",
+                type: "Lab",
+                days: "W",
+                startTime: "0950",
+                endTime: "1145",
+                seats: 0,
+                waitlist: 5,
+                building: "76",
+                room: "1145",
+              },
+            ]}
+            section_num={13}
+         
+          />
+          <SectionDisplay
+            course="ACCT310"
+            details={[
+              {
+                instructor: "",
+                type: "Lab",
+                days: "W",
+                startTime: "0950",
+                endTime: "1145",
+                seats: 0,
+                waitlist: 5,
+                building: "76",
+                room: "1145",
+              },
+            ]}
+            section_num={13}
+           
           />
         </Offcanvas.Body>
       </Offcanvas>

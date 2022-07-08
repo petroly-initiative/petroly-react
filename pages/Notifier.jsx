@@ -59,7 +59,8 @@ function Notifier(props) {
   });
   const [showModal, setShowModal] = useState(false);
   const [showCanvas, setshowCanvas] = useState(false);
-  const [trackedSections, setTracked] = useState("");
+  //  ! this state should be delegated to the canvas which fetched tracked sections by itself 
+  const [trackedCourses, setTracked] = useState({});
   const [department, setDepartment] = useState("");
   // ? fetched state
   const {
@@ -106,8 +107,20 @@ function Notifier(props) {
   /**
    *
    * @param  obj an object in the format: {course: str, sections: [int..]} to update the offcanvas state
+   * @param isDeleted if the resulting sections are non-existent delete the object key
    */
-  const updateTracked = (obj) => {};
+  const updateTracked = (obj, isDeleted) => {
+    if(!isDeleted)
+    setTracked({... Object.assign(trackedCourses, obj)})
+    else{
+      const deletedKey = Object.keys(obj)[0];
+      setTracked({...(delete trackedCourses[deletedKey])})
+    }
+  };
+
+  useEffect(() => {
+    console.log(trackedCourses);
+  }, [trackedCourses])
 
   // ? Mappers
   const deptMapper = () => {
@@ -163,7 +176,6 @@ function Notifier(props) {
         sectionType = sectionType[0] == "LEC" ? ["Lecture"] : sectionType;
       }
       
-
       courseObjects.push(
         {
           "code": courseCode ,
@@ -313,8 +325,8 @@ function Notifier(props) {
       </Container>
       {/* external component embedded within the page */}
       <CourseModal
-        trackedCourses={trackedSections}
-        saveTracked={updateTracked}
+        trackedCourses={trackedCourses}
+        save={updateTracked}
         close={toggleModal}
         show={showModal}
         course={currentCourse.course}
@@ -322,7 +334,7 @@ function Notifier(props) {
         type={currentCourse.type}
       />
       <TrackingCanvas
-        trackedCourses={trackedSections}
+        trackedCourses={trackedCourses}
         close={toggleCanvas}
         show={showCanvas}
         save={updateTracked}

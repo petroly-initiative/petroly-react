@@ -29,7 +29,7 @@ $x: #22d77c;
   height: fit-content;
   flex-direction: column;
   padding: 0;
-  border-bottom:  2px solid rgba(0,0,0,.125);
+
 }
 
 
@@ -309,6 +309,7 @@ margin-bottom: 12px;
 }
 
 .footerContainer{
+  border-top:  2px solid rgba(0,0,0,.125);
 background-color: white;
 padding: 16px 0 0 0;
 

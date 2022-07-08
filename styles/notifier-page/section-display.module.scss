@@ -32,6 +32,28 @@ $x: #22d77c;
   border-bottom:  2px solid rgba(0,0,0,.125);
 }
 
+// .deleted{
+//   height: 221px;
+//   animation: dissolve 600ms forwards ease-out ;
+// }
+
+// @keyframes dissolve {
+//   0%{opacity: 1;
+//     transform: scaleY(1.0);
+//     height: 221px;
+//   }
+
+//   50%{
+//     opacity: 0;
+//     height: 221px;
+//   }
+
+//   100%{
+//     opacity: 0;
+//     height: 0px;
+//   }
+// }
+
 
 
 
@@ -238,6 +260,7 @@ margin-bottom: 4px;
   height: 12px;
   width: 12px;
   border-radius: 6px;
+  margin: 0;
 }
 
 .waitlist-open{

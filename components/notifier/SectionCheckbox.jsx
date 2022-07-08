@@ -21,13 +21,14 @@ import styles from "../../styles/notifier-page/section-checkbox.module.scss";
  * instructor: a string of the course instructor full name
  * type: [LAB / LECTURE]
  * days: a string of weekdays' initials
- * startTime: a string for the starting time
- * endTime: a string for the ending time
+ * start_time: a string for the starting time
+ * end_time: a string for the ending time
  * seats: number of available seats in the section
  * waitlist: number of students in a waitlist (out of five)
  * room_number: an integer representing the room number
  *
  * }
+ * @tracked for sections already tracked by the user
  * ? state
  * @checked boolean state
  * @hybrid to indicate that the card variant will include double the information for
@@ -36,18 +37,19 @@ import styles from "../../styles/notifier-page/section-checkbox.module.scss";
  * ! create a link on the instructor name to his potential profile on our platform
  * ! handle language and themes
  * ! two variants for lecture/lab only, and hybrid sections' variant
+ * ! unchecking already checked sections shall untrack that section from the user list
  * @returns a card that dispaly section number, building number, status, days, instructor name, time
  */
 function SectionCheckbox(props) {
   // ? base state
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
-  const [isChecked, setChecked] = useState(false);
+  const [isChecked, setChecked] = useState(props.tracked);
 
   // ? utility functions
 
   const toggleTrack = () => {
-    props.toggleCheck(props.section_num);
+    props.toggleCheck(props.details[0].section_number);
     setChecked((state) => !state);
   };
 
@@ -64,45 +66,46 @@ function SectionCheckbox(props) {
   };
   // ? mappers
   const typeMapper = (obj) => {
-    if (obj.type == "Lecture") {
+    if (obj.class_type == "LEC") {
       return (
-        <div
-         
-          className={styles["sections-type"]}
-        > <FaBook className={styles["lecture-icon"]}/>
+        <div className={styles["sections-type"]}>
+          {" "}
+          <FaBook className={styles["lecture-icon"]} />
           {langState.lectureLabel}
+        </div>
+      );
+    } else if (obj.class_type == "LAB") {
+      return (
+        <div className={styles["sections-type"]}>
+          <ImLab style={{ marginLeft: 4 }} className={styles["lab-icon"]} />
+          {langState.labLabel}
         </div>
       );
     } else {
       return (
         <div className={styles["sections-type"]}>
-          <ImLab style={{marginLeft: 4}} className={styles["lab-icon"]} />
-          {langState.labLabel}
+          <ImLab style={{ marginLeft: 4 }} className={styles["lab-icon"]} />
+          {obj.class_type}
         </div>
       );
     }
   };
 
-  
-
   // to map a color according to a pre-defined number for waitlists and all available seats
   const colorCount = (value) => {
     // color coding according to a pre-defined range
-    if (value < 15) {
+    if (value < 8) {
       return {
         color: "rgb(255, 75, 75)",
-              };
-    } else if (value < 30) {
+      };
+    } else if (value < 15) {
       return {
         color: "rgb(255, 129, 50)",
-        
       };
     } else {
-      return { color: "#00ead3",  };
+      return { color: "#00ead3" };
     }
   };
-
-  
 
   useEffect(() => {
     setLang(() => translator(user.lang));
@@ -117,7 +120,7 @@ function SectionCheckbox(props) {
         }
       >
         {" "}
-        Section # {props.section_num}
+        Section # {props.details[0].section_number}
       </div>
       <Card
         onClick={toggleTrack}
@@ -140,8 +143,8 @@ function SectionCheckbox(props) {
         >
           {/* handle unavailable names */}
           <span className={styles["instructor-name"]}>
-            {props.details[0].instructor.trim().length != 0 ? (
-              props.details[0].instructor
+            {props.details[0].instructor_name.trim().length != 0 ? (
+              props.details[0].instructor_name
             ) : (
               <>
                 {/* translation needed */}
@@ -159,47 +162,55 @@ function SectionCheckbox(props) {
         </Card.Header>
         <Card.Body className={styles["details-block"]}>
           <div className={styles["section-details"]}>
-            <span className={styles["weekdays"]}>
-              {generateTimeTable(props.details[0].days)}
-            </span>
+            {props.details[0].class_days !== null && (
+              <span className={styles["weekdays"]}>
+                {generateTimeTable(props.details[0].class_days)}
+              </span>
+            )}
+               {props.details[0].start_time !== null &&
+                props.details[0].building !== null && (
             <div className={styles["loc-time"]}>
-              <span className={styles["time"]}>
-                <IoIosTime color="#aaaaaa" className={styles["time-icon"]} />{" "}
-                {props.details[0].startTime.substring(0, 2)}:
-                {props.details[0].startTime.substring(2)}-
-                {props.details[0].endTime.substring(0, 2)}:
-                {props.details[0].endTime.substring(2)}
-              </span>
+              {props.details[0].start_time !== null && (
+                <span className={styles["time"]}>
+                  <IoIosTime color="#aaaaaa" className={styles["time-icon"]} />{" "}
+                  {props.details[0].start_time.substring(0, 2)}:
+                  {props.details[0].start_time.substring(2)}-
+                  {props.details[0].end_time.substring(0, 2)}:
+                  {props.details[0].end_time.substring(2)}
+                </span>
+              )}
+              {props.details[0].building !== null && (
+                <span className={styles["location"]}>
+                  <span>
+                    {" "}
+                    <HiLocationMarker
+                      color="#0091e7"
+                      className={styles["location-icon"]}
+                    />{" "}
+                  </span>
 
-              <span className={styles["location"]}>
-                <span>
-                  {" "}
-                  <HiLocationMarker
-                    color="#0091e7"
-                    className={styles["location-icon"]}
-                  />{" "}
+                  <span>
+                    {" "}
+                    {props.details[0].building}-{props.details[0].room}
+                  </span>
                 </span>
-                <span>
-                  {" "}
-                  {props.details[0].building}-{props.details[0].room}
-                </span>
-              </span>
-            </div>
+              )}
+            </div>)}
             <div className={styles["availability-details"]}>
               <span className={styles["seats-left"]}>
                 {langState.seats}
                 <span
-                  style={colorCount(props.details[0].seats)}
+                  style={colorCount(props.details[0].available_seats)}
                   className={styles["num-slot"]}
                 >
-                  {props.details[0].seats}
+                  {props.details[0].available_seats}
                 </span>{" "}
               </span>
               <span className={styles["divider"]}></span>
               {/*  replace with a boolean for open waitlist */}
               <span className={styles["waitlist-container"]}>
                 Waitlist
-                {props.details[0].waitlist == 5 ? (
+                {props.details[0].waiting_list_count == 5 ? (
                   <OverlayTrigger
                     placement="top"
                     delay={{ show: 1000, hide: 300 }}
@@ -235,8 +246,8 @@ function SectionCheckbox(props) {
               }
             >
               <span className={styles["instructor-name"]}>
-                {props.details[1].instructor.trim().length != 0 ? (
-                  props.details[1].instructor
+                {props.details[1].instructor_name.trim().length != 0 ? (
+                  props.details[1].instructor_name
                 ) : (
                   <>
                     {/* translation needed */}
@@ -253,47 +264,61 @@ function SectionCheckbox(props) {
               </div>
             </div>
             <div className={styles["section-details"]}>
-              <span className={styles["weekdays"]}>
-                {generateTimeTable(props.details[1].days)}
-              </span>
-              <div className={styles["loc-time"]}>
-                <span className={styles["time"]}>
-                  <IoIosTime color="#aaaaaa" className={styles["time-icon"]} />{" "}
-                  {props.details[1].startTime.substring(0, 2)}:
-                  {props.details[1].startTime.substring(2)}-
-                  {props.details[1].endTime.substring(0, 2)}:
-                  {props.details[1].endTime.substring(2)}
+              {props.details[1].class_days !== null && (
+                <span className={styles["weekdays"]}>
+                  {generateTimeTable(props.details[1].class_days)}
                 </span>
+              )}
+              {/*  delete the whole container if both features are missing */}
+              {props.details[1].start_time !== null &&
+                props.details[1].building !== null && (
+                  <div className={styles["loc-time"]}>
+                    {props.details[1].start_time !== null && (
+                      <span className={styles["time"]}>
+                        <IoIosTime
+                          color="#aaaaaa"
+                          className={styles["time-icon"]}
+                        />{" "}
+                        {props.details[1].start_time.substring(0, 2)}:
+                        {props.details[1].start_time.substring(2)}-
+                        {props.details[1].end_time.substring(0, 2)}:
+                        {props.details[1].end_time.substring(2)}
+                      </span>
+                    )}
+                    {props.details[1].building !== null && (
+                      <span className={styles["location"]}>
+                        <span>
+                          {" "}
+                          <HiLocationMarker
+                            color="#0091e7"
+                            className={styles["location-icon"]}
+                          />{" "}
+                        </span>
 
-                <span className={styles["location"]}>
-                  <span>
-                    {" "}
-                    <HiLocationMarker
-                      color="#0091e7"
-                      className={styles["location-icon"]}
-                    />{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    {props.details[1].building}-{props.details[1].room}
-                  </span>
-                </span>
-              </div>
+                        <span>
+                          {" "}
+                          {props.details[1].building}-{props.details[1].room}
+                        </span>
+                      </span>
+                    )}
+                  </div>
+                )}
+
               <div className={styles["availability-details"]}>
                 <span className={styles["seats-left"]}>
                   {langState.seats}
                   <span
-                    style={colorCount(props.details[1].seats)}
+                    style={colorCount(props.details[1].available_seats)}
                     className={styles["num-slot"]}
                   >
-                    {props.details[1].seats}
+                    {props.details[1].available_seats}
                   </span>{" "}
                 </span>
                 <span className={styles["divider"]}></span>
                 {/*  replace with a boolean for open waitlist */}
                 <span className={styles["waitlist-container"]}>
                   Waitlist
-                  {props.details[1].waitlist == 5 ? (
+                  {props.details[1].waiting_list_count == 5 ? (
                     <OverlayTrigger
                       placement="top"
                       delay={{ show: 1000, hide: 300 }}

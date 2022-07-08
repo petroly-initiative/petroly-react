@@ -57,7 +57,6 @@ function CourseCard({
   };
 
   const typeMapper = () => {
-    console.log(type);
     if (type.includes("Lecture") && type.includes("Lab")) {
       
         return [

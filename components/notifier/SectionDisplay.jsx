@@ -14,19 +14,19 @@ import styles from "../../styles/notifier-page/section-display.module.scss";
 /**
  * TODO
  * ? props
- * @toggleCheck a function that bubbles up the checked selection number to update state
+
  * @section_num
  * @details a list of one or two (in case of hybrid sections) objects in the following format
- * {
- * building_number: an integer representing the building number
- * instructor: a string of the course instructor full name
- * type: [LAB / LECTURE]
- * days: a string of weekdays' initials
- * startTime: a string for the starting time
- * endTime: a string for the ending time
- * seats: number of available seats in the section
+ ** {
+ * building: an integer representing the building number
+ * instructor_name: a string of the course instructor full name
+ * class_type: [LAB / LECTURE]
+ * class_days: a string of weekdays' initials
+ * start_time: a string for the starting time
+ * end_time: a string for the ending time
+ * avaialble_seats: number of available seats in the section
  * waitlist: number of students in a waitlist (out of five)
- * room_number: an integer representing the room number
+ * room: an integer representing the room number
  *
  * }
  * @course: the course code
@@ -45,14 +45,13 @@ function SectionDisplay(props) {
   // ? base state
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
-  const [isChecked, setChecked] = useState(false);
+  // const [isDeleted, setDeleted] = useState(false);
 
   // ? utility functions
 
-  const toggleTrack = () => {
-    props.toggleCheck(props.section_num);
-    setChecked((state) => !state);
-  };
+  const deleteSection = () => {
+    setDeleted(true);
+  }
 
   const generateTimeTable = (days) => {
     var DaysList = days.split("");
@@ -67,7 +66,7 @@ function SectionDisplay(props) {
   };
 
   const typeMapper = (obj) => {
-    if (obj.type == "Lecture") {
+    if (obj.class_type == "LEC") {
       return (
         <div className={styles["sections-type"]}>
           {" "}
@@ -75,11 +74,18 @@ function SectionDisplay(props) {
           {langState.lectureLabel}
         </div>
       );
+    } else if (obj.class_type == "LAB") {
+      return (
+        <div className={styles["sections-type"]}>
+          <ImLab style={{ marginLeft: 4 }} className={styles["lab-icon"]} />
+          {langState.labLabel}
+        </div>
+      );
     } else {
       return (
         <div className={styles["sections-type"]}>
-          <ImLab className={styles["lab-icon"]} />
-          {langState.labLabel}
+          <ImLab style={{ marginLeft: 4 }} className={styles["lab-icon"]} />
+          {obj.class_type}
         </div>
       );
     }
@@ -88,11 +94,11 @@ function SectionDisplay(props) {
   // to map a color according to a pre-defined number for waitlists and all available seats
   const colorCount = (value) => {
     // color coding according to a pre-defined range
-    if (value < 15) {
+    if (value < 8) {
       return {
         color: "rgb(255, 75, 75)",
       };
-    } else if (value < 30) {
+    } else if (value < 15) {
       return {
         color: "rgb(255, 129, 50)",
       };
@@ -113,7 +119,7 @@ function SectionDisplay(props) {
           <span className={styles["section-num"]}>
             {" "}
             <span className={styles["course-code"]}>{props.course}</span>&nbsp;
-            # {props.section_num}
+            # {props.details[0].section_number}
           </span>
           <OverlayTrigger
             placement="top"
@@ -122,13 +128,12 @@ function SectionDisplay(props) {
               <Tooltip id="button-tooltip-2">{langState.cancel}</Tooltip>
             }
           >
-            <button className={styles["untrack-btn"]}>
+            <button onClick={deleteSection} className={styles["untrack-btn"]}>
               <MdOutlineCancel />
             </button>
           </OverlayTrigger>
         </div>
         <Card
-          onClick={toggleTrack}
           className={
             "shadow border-0 " +
             styles.Cardholder +
