@@ -1,4 +1,11 @@
-import { Modal, CloseButton, Alert, OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import {
+  Modal,
+  CloseButton,
+  Alert,
+  OverlayTrigger,
+  Tooltip,
+  Button,
+} from "react-bootstrap";
 import { useContext } from "react";
 import { M, L } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
@@ -11,7 +18,7 @@ import translator from "../../dictionary/components/notifier/course-modal";
 import mockData from "../../mocks/mockData.json";
 import SectionCheckbox from "./SectionCheckbox";
 import { MdRadar, MdCancel } from "react-icons/md";
- 
+
 // import data from "../../mocks/mockData.json";
 /**
  * TODO: create the modal layout and populate it with relevant sections
@@ -41,33 +48,29 @@ function CourseModal(props) {
   // ? instance state
   // to store all selected sections before confirming trackign
   const [sections, setSections] = useState([]);
-  
-
-  
-
-  
 
   // ? utility functions
 
   // function to toggle section tracking
   const toggleSection = (section_num) => {
-    if(sections.includes(section_num)){
-      setSections([...sections.filter(sec => sec != section_num)])
+    if (sections.includes(section_num)) {
+      setSections([...sections.filter((sec) => sec != section_num)]);
     } else {
-      const newArr = [...sections, section_num]
-      setSections(state => [...newArr]);
+      const newArr = [...sections, section_num];
+      setSections((state) => [...newArr]);
     }
   };
-
-
 
   // a function to broadcast confirmed sections to the off canvas
   // ! submitting this modal shall mutate all sections related to this course from the user list
   const trackSections = () => {
-    props.save({
-      [`${props.course}`]: sections
-    }, sections.length === 0);
-  }
+    props.save(
+      {
+        [`${props.course}`]: sections,
+      },
+      sections.length === 0
+    );
+  };
 
   // returns a list of section card elements
   // ! (1) data filtering should be replaced be a ready-to-go fetch on course change
@@ -76,23 +79,28 @@ function CourseModal(props) {
   // ! (3) section number is preferrably provided outside the detail objects to avoid redundancy
   const populateSections = (courseName) => {
     // getting all sections related to this course
-    const courseObjects = mockData.data.filter(obj => obj["course_number"] == courseName);
-
+    const courseObjects = props.data.filter(
+      (obj) => obj["course_number"] == courseName
+    );
 
     // getting all unique section numbers
     var sectionsSet = new Set();
-    courseObjects.forEach(course => sectionsSet.add(course["section_number"]))
+    courseObjects.forEach((course) =>
+      sectionsSet.add(course["section_number"])
+    );
     sectionsSet = Array.from(sectionsSet);
     // grouping similar section numbers
 
     var filteredObjects = [];
 
-    for(let sectionNum of sectionsSet){
-      filteredObjects.push(courseObjects.filter(obj => obj["section_number"] == sectionNum))
+    for (let sectionNum of sectionsSet) {
+      filteredObjects.push(
+        courseObjects.filter((obj) => obj["section_number"] == sectionNum)
+      );
     }
     // getting all sections that are already tracked
     var trackedSectionSet = new Set();
-    if(props.trackedCourses[courseName] != null){
+    if (props.trackedCourses[courseName] != null) {
       for (let section of props.trackedCourses[courseName]) {
         trackedSectionSet.add(section);
       }
@@ -100,12 +108,17 @@ function CourseModal(props) {
     trackedSectionSet = Array.from(trackedSectionSet);
 
     // map to section checkbox components
-    
+
     return filteredObjects.map((course) => {
       return (
-      <SectionCheckbox details={course} toggleCheck={toggleSection} 
-      hybrid = {course.length == 2} tracked = {trackedSectionSet.includes(course[0]["section_number"])}/>
-    )});
+        <SectionCheckbox
+          details={course}
+          toggleCheck={toggleSection}
+          hybrid={course.length == 2}
+          tracked={trackedSectionSet.includes(course[0]["section_number"])}
+        />
+      );
+    });
   };
 
   // storing all selected sections, by firing a mutation
@@ -137,7 +150,7 @@ function CourseModal(props) {
           </div>
         );
       }
-    } else   if (type.includes("hybrid")) {
+    } else if (type.includes("hybrid")) {
       return (
         <div
           style={{ backgroundColor: "rgb(241, 10, 118)" }}
@@ -147,13 +160,14 @@ function CourseModal(props) {
         </div>
       );
     } else {
-       return (
+      return (
         <div
           style={{ backgroundColor: "rgb(241, 10, 118)" }}
           className={styles["sections-type"]}
         >
           {type[0]}
-        </div>);
+        </div>
+      );
     }
   };
 
@@ -170,16 +184,15 @@ function CourseModal(props) {
         }
         trackedSectionSet = Array.from(trackedSectionSet);
         setSections(trackedSectionSet);
-      }else{
-        setSections([])
+      } else {
+        setSections([]);
       }
     }
   }, [props.show]);
 
-    useEffect(() => {
-      console.log("tracked sections:", sections);
-    }, [sections]);
-
+  useEffect(() => {
+    console.log("tracked sections:", sections);
+  }, [sections]);
 
   return (
     <>
