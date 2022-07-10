@@ -64,7 +64,7 @@ function Notifier(props) {
   const [showCanvas, setshowCanvas] = useState(false);
   //  ! this state should be delegated to the canvas which fetched tracked sections by itself
   const [trackedCourses, setTracked] = useState({});
-  const [department, setDepartment] = useState("");
+  const [department, setDepartment] = useState("ICS");
   // ? fetched state
   const {
     data: dataDept,
@@ -76,10 +76,11 @@ function Notifier(props) {
 
   const [data, setData] = useState(null);
   const [loading, setloading] = useState(true);
+  const [term, setTerm] = useState(202210);
   // Function to collect data form API
   const getApiData = async () => {
     const response = await fetch(
-      `https://cors-anywhere.herokuapp.com/https://registrar.kfupm.edu.sa/api/course-offering?term_code=202210&department_code=ICS`
+      `https://cors-anywhere.herokuapp.com/https://registrar.kfupm.edu.sa/api/course-offering?term_code=${term}&department_code=${department}`
     )
       .then((response) => {
         if (response.status != 200) {
@@ -90,8 +91,6 @@ function Notifier(props) {
       .catch((error) => {
         console.log(error);
       });
-    // sample
-    console.log(response.data[0]);
     setData(response.data);
     setloading(false);
   };
@@ -104,8 +103,12 @@ function Notifier(props) {
 
   const selectDept = (e) => {
     var value = e.target.id;
-    if (value == "null") value = null;
-    setDepartment(value);
+    console.log(value);
+    if (value !== "null") {
+      setDepartment(value);
+      setloading(true);
+      getApiData();
+    }
     // refetching courses with provided search input and department
   };
 
@@ -237,9 +240,8 @@ function Notifier(props) {
   }, [user.lang]);
 
   useEffect(() => {
-    // setloading(true);
-    getApiData();
     navDispatch("notifier");
+    getApiData();
   }, []);
 
   // Loading status
