@@ -78,7 +78,7 @@ function Notifier(props) {
   const [loading, setloading] = useState(true);
   const [term, setTerm] = useState(202210);
   // Function to collect data form API
-  const getApiData = async () => {
+  const getApiData = async (term, department) => {
     const response = await fetch(
       `https://cors-anywhere.herokuapp.com/https://registrar.kfupm.edu.sa/api/course-offering?term_code=${term}&department_code=${department}`
     )
@@ -103,11 +103,10 @@ function Notifier(props) {
 
   const selectDept = (e) => {
     var value = e.target.id;
-    console.log(value);
     if (value !== "null") {
       setDepartment(value);
       setloading(true);
-      getApiData();
+      getApiData(term, value);
     }
     // refetching courses with provided search input and department
   };
@@ -241,7 +240,7 @@ function Notifier(props) {
 
   useEffect(() => {
     navDispatch("notifier");
-    getApiData();
+    getApiData(term, department);
   }, []);
 
   // Loading status
