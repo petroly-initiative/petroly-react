@@ -11,6 +11,7 @@ import {
   OverlayTrigger,
   Tooltip,
   Dropdown,
+  Spinner,
 } from "react-bootstrap";
 import styles from "../styles/notifier-page/courses-list.module.scss";
 import { useRef } from "react";
@@ -74,6 +75,7 @@ function Notifier(props) {
   });
 
   const [data, setData] = useState(null);
+  const [loading, setloading] = useState(true);
   // Function to collect data form API
   const getApiData = async () => {
     const response = await fetch(
@@ -91,11 +93,8 @@ function Notifier(props) {
     // sample
     console.log(response.data[0]);
     setData(response.data);
+    setloading(false);
   };
-
-  useEffect(() => {
-    getApiData();
-  }, []);
 
   //? utility functions
   // event listener for the "Enter" key
@@ -238,11 +237,36 @@ function Notifier(props) {
   }, [user.lang]);
 
   useEffect(() => {
+    // setloading(true);
+    getApiData();
     navDispatch("notifier");
   }, []);
 
-  if (!data) {
-    return null;
+  // Loading status
+  if (loading) {
+    return (
+      <>
+        <Head>
+          <title>Petroly | Radar</title>
+        </Head>
+        {/* <Navbar page="rating" /> */}
+        <Container
+          style={{ minHeight: "100vh" }}
+          className={styles["list_container"]}
+        >
+          <Button className={styles["loading-container"] + " shadow"} disabled>
+            <Spinner
+              className={styles["loading-spinner"]}
+              as="div"
+              animation="grow"
+              size="xl"
+              role="status"
+              aria-hidden="true"
+            />
+          </Button>
+        </Container>
+      </>
+    );
   }
 
   return (
