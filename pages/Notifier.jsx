@@ -7,16 +7,14 @@ import {
   Col,
   InputGroup,
   Form,
-  Button,
-  OverlayTrigger,
-  Tooltip,
-  Dropdown,
-  Spinner,
+  Button, 
+  OverlayTrigger, Tooltip,
+  Dropdown
 } from "react-bootstrap";
 import styles from "../styles/notifier-page/courses-list.module.scss";
 import { useRef } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
-import Head from "next/head";
+import  Head  from "next/head";
 import { M, L } from "../constants";
 import translator from "../dictionary/pages/notifier-dict";
 import { BiSearch } from "react-icons/bi";
@@ -43,7 +41,7 @@ import { fromPairs } from "lodash";
  * ! handle translations and themes
  * ! handle props delegation from all course cards to modal component
  * ! broadcast tracking changes to the off-canvas
- *
+ * 
  */
 function Notifier(props) {
   // ? base state
@@ -54,17 +52,16 @@ function Notifier(props) {
 
   // ? instance state
   const courseInput = useRef(null); // to sync searchbar textInput information
-  const [currentCourse, setCurrentCourse] = useState({
-    // state for the displayed course on the modal
+  const [currentCourse, setCurrentCourse] = useState({ // state for the displayed course on the modal
     course: "ACCT110",
     title: "Introduction to Financial Accounting",
     type: ["Lecture"],
   });
   const [showModal, setShowModal] = useState(false);
   const [showCanvas, setshowCanvas] = useState(false);
-  //  ! this state should be delegated to the canvas which fetched tracked sections by itself
+  //  ! this state should be delegated to the canvas which fetched tracked sections by itself 
   const [trackedCourses, setTracked] = useState({});
-  const [department, setDepartment] = useState("ICS");
+  const [department, setDepartment] = useState("");
   // ? fetched state
   const {
     data: dataDept,
@@ -74,42 +71,18 @@ function Notifier(props) {
     variables: { short: true },
   });
 
-  const [data, setData] = useState(null);
-  const [loading, setloading] = useState(true);
-  const [term, setTerm] = useState(202210);
-  // Function to collect data form API
-  const getApiData = async (term, department) => {
-    const response = await fetch(
-      `https://cors-anywhere.herokuapp.com/https://registrar.kfupm.edu.sa/api/course-offering?term_code=${term}&department_code=${department}`
-    )
-      .then((response) => {
-        if (response.status != 200) {
-          throw new Error("Bad Server Response");
-        }
-        return response.json();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    setData(response.data);
-    setloading(false);
-  };
-
   //? utility functions
-  // event listener for the "Enter" key
+  // event listener for the "Enter" key 
   const enterSearch = (event) => {
     if (event.key === "Enter") search();
   };
 
-  const selectDept = (e) => {
-    var value = e.target.id;
-    if (value !== "null") {
+    const selectDept = (e) => {
+      var value = e.target.id;
+      if (value == "null") value = null;
       setDepartment(value);
-      setloading(true);
-      getApiData(term, value);
-    }
-    // refetching courses with provided search input and department
-  };
+      // refetching courses with provided search input and department
+    };
 
   const search = () => {
     return "searched!";
@@ -137,101 +110,97 @@ function Notifier(props) {
    * @param isDeleted if the resulting sections are non-existent delete the object key
    */
   const updateTracked = (obj, isDeleted) => {
-    if (!isDeleted) setTracked({ ...Object.assign(trackedCourses, obj) });
-    else {
+    if(!isDeleted)
+    setTracked({... Object.assign(trackedCourses, obj)})
+    else{
       const deletedKey = Object.keys(obj)[0];
-      setTracked({ ...delete trackedCourses[deletedKey] });
+      setTracked({...(delete trackedCourses[deletedKey])})
     }
   };
 
   useEffect(() => {
     console.log("Notifier: ", trackedCourses);
-  }, [trackedCourses]);
+  }, [trackedCourses])
 
   // ? Mappers
   const deptMapper = () => {
-    if (dataDept != null)
-      return dataDept.departmentList.map((dept) => (
-        <Dropdown.Item
-          id={dept}
-          active={dept === department}
-          eventKey={dept}
-          // disabled={dept === instructorsState.department}
-          onClick={selectDept}
-          className={
-            styles["depts"] +
-            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-          }
-          as={"div"}
-        >
-          {dept}
-        </Dropdown.Item>
-      ));
-  };
+    if(dataDept != null)
+     return (dataDept.departmentList.map((dept) => (
+      <Dropdown.Item
+        id={dept}
+        active={dept === department}
+        eventKey={dept}
+        // disabled={dept === instructorsState.department}
+        onClick={selectDept}
+        className={
+          styles["depts"] +
+          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+        }
+        as={"div"}
+      >
+        {dept}
+      </Dropdown.Item>)
+      
+    ));
+      }
 
-  // useEffect(() => {
-  //   courseMapper()
-  // })
-  // ! needs to be replaced by a fetching hook, this is a static demo
+      // useEffect(() => {
+      //   courseMapper()
+      // })
+// ! needs to be replaced by a fetching hook, this is a static demo
   const courseMapper = () => {
     var uniqueCourses = new Set();
     // getting unique courses
-    for (let section of data) {
-      uniqueCourses.add(section["course_number"]);
+    for(let section of mockData.data){
+      uniqueCourses.add(section["course_number"])
     }
     //for each unique course accumulate info
     uniqueCourses = Array.from(uniqueCourses);
-    var courseObjects = [];
-    for (let courseCode of uniqueCourses) {
-      var courseSections = data.filter(
-        (course) => course["course_number"] == courseCode
-      );
+    var courseObjects = []
+    for(let courseCode of uniqueCourses){
+      var courseSections = mockData.data.filter(course => course["course_number"] == courseCode);
       var sectionType = new Set();
-      for (let section of courseSections) {
+      for(let section of courseSections){
         sectionType.add(section["class_type"]);
       }
+     
 
       sectionType = Array.from(sectionType);
-
-      if (sectionType.length !== 1) {
-        if (
-          courseSections.filter(
-            (e) => e["section_number"] === courseSections[0]["section_number"]
-          ).length == 2
-        ) {
-          sectionType = ["hybrid"];
-        } else {
-          sectionType = ["Lecture", "Lab"];
-        }
+       
+      if(sectionType.length !== 1){
+        if(courseSections.filter(e => e["section_number"] === courseSections[0]["section_number"]).length == 2){
+        sectionType = ["hybrid"]}
+        else {
+        sectionType = ["Lecture", "Lab"]}
       } else {
         sectionType = sectionType[0] == "LEC" ? ["Lecture"] : sectionType;
       }
+      
+      courseObjects.push(
+        {
+          "code": courseCode ,
+          "title": courseSections[0]["course_title"],
+          "available_seats": courseSections.reduce((prev, curr) => prev + curr["available_seats"], 0),
+          "sections": courseSections.length,
+          "type":sectionType
+        }
+      )}
+        return courseObjects.map(course => (
+          <CourseCard 
+          openModal={toggleModal}
+          course={course["code"]}
+          title={course["title"]}
+          type={course["type"]}
+          available_seats={course["available_seats"]}
+          section_count={course["sections"]}
 
-      courseObjects.push({
-        code: courseCode,
-        title: courseSections[0]["course_title"],
-        available_seats: courseSections.reduce(
-          (prev, curr) => prev + curr["available_seats"],
-          0
-        ),
-        sections: courseSections.length,
-        type: sectionType,
-      });
+          />
+        ))
+
     }
 
-    return courseObjects.map((course) => (
-      <CourseCard
-        openModal={toggleModal}
-        course={course["code"]}
-        title={course["title"]}
-        type={course["type"]}
-        available_seats={course["available_seats"]}
-        section_count={course["sections"]}
-      />
-    ));
-  };
-
-  // returns course cards
+    // returns course cards
+    
 
   // ? side effects
   useEffect(() => {
@@ -240,35 +209,7 @@ function Notifier(props) {
 
   useEffect(() => {
     navDispatch("notifier");
-    getApiData(term, department);
   }, []);
-
-  // Loading status
-  if (loading) {
-    return (
-      <>
-        <Head>
-          <title>Petroly | Radar</title>
-        </Head>
-        {/* <Navbar page="rating" /> */}
-        <Container
-          style={{ minHeight: "100vh" }}
-          className={styles["list_container"]}
-        >
-          <Button className={styles["loading-container"] + " shadow"} disabled>
-            <Spinner
-              className={styles["loading-spinner"]}
-              as="div"
-              animation="grow"
-              size="xl"
-              role="status"
-              aria-hidden="true"
-            />
-          </Button>
-        </Container>
-      </>
-    );
-  }
 
   return (
     <>
@@ -353,9 +294,11 @@ function Notifier(props) {
             </InputGroup>
           </Col>
         </Row>
-        <Row style={{ marginBottom: 16 }}>
+        <Row style={{marginBottom: 16}}>
           <Fade className={"col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-4"}>
+           
             {courseMapper()}
+            
           </Fade>
         </Row>
         <OverlayTrigger
@@ -382,7 +325,6 @@ function Notifier(props) {
       </Container>
       {/* external component embedded within the page */}
       <CourseModal
-        data={data}
         trackedCourses={trackedCourses}
         save={updateTracked}
         close={toggleModal}
