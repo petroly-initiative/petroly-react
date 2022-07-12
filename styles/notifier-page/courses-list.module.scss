@@ -168,13 +168,29 @@ $txt-hg: #0091e7;
   font-weight: 700;
 }
 
+.active-term div{
+  background-color: $btn-high !important;
+  color: white !important;
+}
+
 .depts {
   color: #52575d;
   font-weight: 600;
   cursor: pointer;
+  border: none !important;
+
+  &:hover, &:active{
+    background-color: $btn-high !important;
+    color: white !important;
+  }
+}
+
+.dept-dropdown div{
+  z-index: 50 !important;
 }
 
 .dept-dropdown > div {
+  
   height: 180px !important;
   overflow-y: scroll !important;
 }
