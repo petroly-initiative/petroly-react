@@ -1,36 +1,28 @@
 {
   "data": {
     "me": {
-      "evaluationSet": {
-        "count": 1,
-        "data": [
-          {
-            "id": "6",
-            "grading": "A_40",
-            "teaching": "A_40",
-            "personality": "A_100",
-            "course": "AAA123",
-            "term": 213,
-            "comment": "",
-            "gradingComment": "",
-            "teachingComment": "",
-            "personalityComment": "",
-            "instructor": {
-              "name": "Muhab",
-              "profilePic": "https://res.cloudinary.com/petroly-initiative/image/upload/v1622359053/profile_pics/blank_profile",
-              "department": "ICS",
-              "overall": 3,
-              "__typename": "InstructorType"
-            },
-            "__typename": "EvaluationType"
-          }
-        ],
-        "__typename": "EvaluationTypeConnection"
-      },
-      "ownedCommunities": {
-        "count": 2,
-        "__typename": "CommunityTypeConnection"
-      },
+      "evaluationSet": [
+        {
+          "pk": "6",
+          "grading": 40,
+          "teaching": 40,
+          "personality": 100,
+          "course": "AAA123",
+          "term": 213,
+          "comment": "",
+          "gradingComment": "",
+          "teachingComment": "",
+          "personalityComment": "",
+          "instructor": {
+            "name": "Muhab",
+            "profilePic": "https://res.cloudinary.com/petroly-initiative/image/upload/v1622359053/profile_pics/blank_profile",
+            "department": "ICS",
+            "overall": 3,
+            "__typename": "InstructorNode"
+          },
+          "__typename": "EvaluationType"
+        }
+      ],
       "__typename": "UserType"
     }
   }

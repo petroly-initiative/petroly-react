@@ -3,25 +3,33 @@ import { gql } from "@apollo/client";
 // -- Instructos' queries:
 export const instructorsQuery = gql`
   query Instructors(
-    $limit: Int
-    $offset: Int
-    $department: InstructorDepartmentEnum
+    $first: Int
+    $after: String
+    $department: DepartmentEnum
     $name: String
   ) {
     instructors(
-      limit: $limit
-      offset: $offset
-      where: { department: $department, name: { icontains: $name } }
+      first: $first
+      after: $after
+      input: { name: { iContains: $name }, department: $department }
     ) {
-      count
-      data {
-        id
-        name
-        department
-        overallFloat
-        profilePic
-        evaluationSet {
-          count
+      totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          id
+          pk
+          name
+          department
+          overallFloat
+          profilePic
+          evaluationSetCount
         }
       }
     }
@@ -31,9 +39,7 @@ export const instructorsQuery = gql`
 export const getInstructorName = gql`
   query getIds {
     instructors {
-      data {
-        id
-      }
+      pk
     }
   }
 `;
@@ -45,9 +51,10 @@ export const getEvaluatedInstructors = gql`
 `;
 
 export const getInstructorDetail = gql`
-  query Instructor($id: ID) {
-    instructor(where: { id: { exact: $id } }) {
+  query getInstructorDetail($id: GlobalID!) {
+    instructor(id: $id) {
       id
+      pk
       name
       department
       profilePic
@@ -56,21 +63,19 @@ export const getInstructorDetail = gql`
       gradingAvg
       personalityAvg
       teachingAvg
+      evaluationSetCount
       evaluationSet {
-        count
-        data {
-          date
-          id
-          grading
-          teaching
-          personality
-          gradingComment
-          teachingComment
-          personalityComment
-          course
-          term
-          comment
-        }
+        date
+        pk
+        grading
+        teaching
+        personality
+        gradingComment
+        teachingComment
+        personalityComment
+        course
+        term
+        comment
       }
     }
   }
@@ -85,28 +90,24 @@ export const getDepartments = gql`
 export const meQuery = gql`
   query Me {
     me {
-      id
+      pk
       username
       email
       profile {
-        id
+        pk
         profilePic
         language
         theme
       }
-      evaluationSet {
-        count
-      }
-      ownedCommunities {
-        count
-      }
+      evaluationSetCount
+      ownedCommunitiesCount
     }
   }
 `;
 
 export const hasEvaluatedQuery = gql`
-  query hasEvaluated($instructorId: Int) {
-    hasEvaluated(id: $instructorId)
+  query hasEvaluated($instructorId: ID!) {
+    hasEvaluated(pk: $instructorId)
   }
 `;
 
@@ -114,28 +115,22 @@ export const meEvaluationSetQuery = gql`
   query MyEvaluations {
     me {
       evaluationSet {
-        count
-        data {
-          id
-          grading
-          teaching
-          personality
-          course
-          term
-          comment
-          gradingComment
-          teachingComment
-          personalityComment
-          instructor {
-            name
-            profilePic
-            department
-            overall
-          }
+        pk
+        grading
+        teaching
+        personality
+        course
+        term
+        comment
+        gradingComment
+        teachingComment
+        personalityComment
+        instructor {
+          name
+          profilePic
+          department
+          overall
         }
-      }
-      ownedCommunities {
-        count
       }
     }
   }
@@ -144,22 +139,30 @@ export const myCommunities = gql`
   query MyCommunities {
     me {
       ownedCommunities {
-        data {
-          id
-          name
-          platform
-          icon {
-            url
-          }
+        pk
+        name
+        platform
+        icon {
+          url
         }
       }
     }
   }
 `;
+
+export const communityInteractionsQuery = gql`
+  query CommunityInteractions($id: ID!) {
+    communityInteractions(pk: $id) {
+      liked
+      reported
+    }
+  }
+`;
+
 // -- communities' queries:
 export const getCommunity = gql`
   query getCommunityInfo($id: ID) {
-    community(where: { id: { exact: $id } }) {
+    community(pk: $id) {
       name
       platform
       category
@@ -175,37 +178,30 @@ export const getCommunity = gql`
 export const CommunitiesQuery = gql`
   query Communities(
     $name: String
-    $category: CommunityCategoryEnum
-    $platform: CommunityPlatformEnum
+    $category: CategoryEnum
+    $platform: PlatformEnum
     $section: String
   ) {
     communities(
-      where: {
-        name: { icontains: $name }
+      filters: {
+        name: { iContains: $name }
         category: $category
         platform: $platform
-        section: { icontains: $section }
-        archived: { exact: false }
+        section: { iContains: $section }
       }
-      limit: 30
     ) {
-      count
-      data {
-        id
-        date
-        category
-        description
-        link
-        name
-        platform
-        section
-        verified
-        likes {
-          count
-        }
-        icon {
-          url
-        }
+      pk
+      date
+      category
+      description
+      link
+      name
+      platform
+      section
+      verified
+      likesCount
+      icon {
+        url
       }
     }
   }

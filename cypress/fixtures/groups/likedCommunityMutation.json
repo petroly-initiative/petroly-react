@@ -1,9 +1,9 @@
 {
-    "data": {
-        "hasInteractedCommunity": {
-            "liked": false,
-            "reported": true,
-            "__typename": "InteractedCommunityMutation"
-        }
+  "data": {
+    "communityInteractions": {
+      "liked": true,
+      "reported": false,
+      "__typename": "CommunityInteractionsType"
     }
+  }
 }

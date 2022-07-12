@@ -48,14 +48,6 @@ context("Login Tests", () => {
         }
       });
 
-      cy.intercept("POST", URL, (req) => {
-        if (hasOperationName(req, "VerifyToken")) {
-          req.alias = "gqlVerifyTokenMutation";
-          // data fixture
-          req.reply({ fixture: "signinData/VerifyTokenQuery.json" });
-        }
-      });
-
       cy.visit("/", {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
@@ -72,7 +64,7 @@ context("Login Tests", () => {
       cy.get('input[id="pass-input"]').type("aassddff", {force: true});
       cy.get('button[id="submit-btn"]').click();
 
-      cy.wait(["@gqlVerifyTokenMutation", "@gqlMeQuery", "@gqlgetTokenQuery"]);
+      cy.wait(["@gqlMeQuery", "@gqlgetTokenQuery"]);
 
       cy.wait(3000)
       cy.get('button[id="profile-btn"]').filter(":visible").first().click();

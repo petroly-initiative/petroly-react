@@ -7,7 +7,7 @@ context("Dashboard test", () => {
 
      
 
-      cy.wait(["@gqlVerifyTokenMutation", "@gqlMeQuery", "@gqlgetTokenQuery"]);
+      cy.wait(["@gqlMeQuery", "@gqlgetTokenQuery"]);
 
       cy.interceptGql(URL_ENDPOINT, "Me", "signinData/MeQuery.json");
       cy.interceptGql(

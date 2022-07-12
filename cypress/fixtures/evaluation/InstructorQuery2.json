@@ -1,0 +1,45 @@
+{
+  "data": {
+    "instructors": {
+      "totalCount": 4,
+      "pageInfo": {
+        "hasNextPage": false,
+        "hasPreviousPage": true,
+        "startCursor": "YXJyYXljb25uZWN0aW9uOjI=",
+        "endCursor": "YXJyYXljb25uZWN0aW9uOjM=",
+        "__typename": "PageInfo"
+      },
+      "edges": [
+        {
+          "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
+          "node": {
+            "id": "SW5zdHJ1Y3Rvck5vZGU6NQ==",
+            "pk": "5",
+            "name": "test3",
+            "department": "COE",
+            "overallFloat": 0.0,
+            "profilePic": "https://res.cloudinary.com/petroly-initiative/image/upload/v1622359053/profile_pics/blank_profile",
+            "evaluationSetCount": 0,
+            "__typename": "InstructorNode"
+          },
+          "__typename": "InstructorNodeEdge"
+        },
+        {
+          "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
+          "node": {
+            "id": "SW5zdHJ1Y3Rvck5vZGU6Ng==",
+            "pk": "6",
+            "name": "test4",
+            "department": "ARE",
+            "overallFloat": 0.0,
+            "profilePic": "https://res.cloudinary.com/petroly-initiative/image/upload/v1622359053/profile_pics/blank_profile",
+            "evaluationSetCount": 0,
+            "__typename": "InstructorNode"
+          },
+          "__typename": "InstructorNodeEdge"
+        }
+      ],
+      "__typename": "InstructorNodeConnection"
+    }
+  }
+}

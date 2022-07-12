@@ -44,19 +44,25 @@ export const userReducer = (currentState, action) => {
   switch (action.type) {
     case T.LOGIN:
       return {
-        status: USER.VERIFING,
-        token: action.token,
-        username: action.username,
-        profileId: action.profileId,
-        lang: action.lang,
-        theme: action.theme
+        ...Object.assign(currentState, {
+          status: USER.SETTING,
+          token: action.token,
+        }),
       };
 
     case T.SET_CLIENT:
       return {
         ...Object.assign(currentState, {
+          status: USER.SETTING,
+        }),
+      };
+
+    case T.SET_ME:
+      return {
+        ...Object.assign(currentState, {
           status: USER.LOGGED_IN,
           profileId: action.profileId,
+          id: action.id,
         }),
       };
 
@@ -66,7 +72,7 @@ export const userReducer = (currentState, action) => {
       return {
         status: USER.LOGGED_OUT,
         lang: action.lang,
-        theme: action.theme
+        theme: action.theme,
       };
     case T.CHANGE_LANG:
       localStorage.setItem("lang", action.lang);
@@ -74,7 +80,7 @@ export const userReducer = (currentState, action) => {
 
     case T.CHANGE_THEME:
       localStorage.setItem("theme", action.theme);
-      return {...Object.assign(currentState, {theme: action.theme})}  
+      return { ...Object.assign(currentState, { theme: action.theme }) };
     case "create-new":
       break;
   }

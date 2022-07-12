@@ -244,11 +244,24 @@ $txt-hg: #0091e7;
 }
 
 .pagination-container {
-  width: 100%;
+  font-weight: 700;
+  padding: 8px 15px;
+  border-radius: 8px;
   display: flex;
-  justify-content: center;
+  justify-content: center !important;
+  align-items: center;
   margin: auto;
   margin-top: 16px;
+  border: none;
+  &:hover{
+    background-color: $btn-high;
+  }
+}
+
+.loader_col{
+  display: flex;
+  justify-content: center;
+  
 }
 
 @media only screen and (max-width: 600px) {

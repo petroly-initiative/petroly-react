@@ -89,7 +89,7 @@ export default function instructorDetails({ data }) {
     hasEvaluatedQuery,
     {
       skip: user.status !== USER.LOGGED_IN,
-      variables: { instructorId: data.instructor.id },
+      variables: { instructorId: data.instructor.pk },
     }
   );
 
@@ -123,7 +123,7 @@ export default function instructorDetails({ data }) {
   };
 
   const evalMapper = () =>
-    data.instructor.evaluationSet.data.map((evaluation) => (
+    data.instructor.evaluationSet.map((evaluation) => (
       <Evaluation
         date={evaluation.date.split("T")[0]}
         grading={evaluation.gradingComment}
@@ -226,7 +226,7 @@ export default function instructorDetails({ data }) {
                     >
                       <MdFolderSpecial />
                       {/**! WARNING Needs to be fetched */}
-                      <span>{data.instructor.evaluationSet.count}</span>
+                      <span>{data.instructor.evaluationSetCount}</span>
                     </div>
                   </OverlayTrigger>
                 </div>
@@ -375,7 +375,7 @@ export default function instructorDetails({ data }) {
         )}
         <EvaluationModal
           name={data.instructor.name}
-          id={data.instructor.id}
+          id={data.instructor.pk}
           image={
             <Image
               style={{ borderRadius: "30px !important" }}

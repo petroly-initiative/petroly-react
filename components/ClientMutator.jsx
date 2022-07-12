@@ -12,6 +12,7 @@ import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { USER, T, URL_ENDPOINT, DEF_LANG } from "../constants";
 import { onError } from "@apollo/client/link/error";
+import { relayStylePagination } from "@apollo/client/utilities";
 import PopMsg from "./utilities/PopMsg";
 
 export default function ClientMutator({ children }) {
@@ -53,12 +54,18 @@ export default function ClientMutator({ children }) {
     if (networkError) console.log(`[Network error]: ${networkError}`);
   });
   const uploadLink = createUploadLink({ uri: URL_ENDPOINT });
-  const [client, setClient] = useState(
-    new ApolloClient({
-      link: ApolloLink.from([errorLink, authLink, uploadLink]),
-      cache: new InMemoryCache(),
-    })
-  );
+  const client = new ApolloClient({
+    link: ApolloLink.from([errorLink, authLink, uploadLink]),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            instructors: relayStylePagination(),
+          },
+        },
+      },
+    }),
+  });
 
   const [verifyToken, { data: dataVerifyToken }] = useMutation(
     verifyTokenMutation,
@@ -80,23 +87,12 @@ export default function ClientMutator({ children }) {
   useEffect(() => {
     if (user.status === USER.VERIFING) {
       // set a new client to refetch all quries
-      setClient(
-        new ApolloClient({
-          link: ApolloLink.from([errorLink, authLink, uploadLink]),
-          cache: new InMemoryCache(),
-        })
-      );
+      // client.setLink(ApolloLink.from([errorLink, authLink, uploadLink]));
       userDispatch({ type: T.SET_CLIENT, token: user.token });
-    } else if (token) verifyToken();
-    else if (rToken) refreshToken();
-    else if (user.status === USER.LOGGED_OUT) {
-      client.resetStore();
-      // client.setLink(
-      //   createHttpLink({
-      //     uri: URL_ENDPOINT,
-      //     headers: { "Accept-Language": user.lang },
-      //   })
-      // );
+    } else if (user.status === USER.LOGGED_OUT) {
+      if (token) verifyToken();
+      else if (rToken) refreshToken();
+      else client.resetStore();
     }
   }, [user.status]);
 
@@ -112,7 +108,7 @@ export default function ClientMutator({ children }) {
         // no change in the client
         userDispatch({
           type: T.SET_CLIENT,
-          username: dataVerifyToken.verifyToken.payload.username,
+          username: dataVerifyToken.verifyToken.verifyPayload.payload.username,
           token,
         });
       } else if (rToken) refreshToken();
@@ -122,8 +118,8 @@ export default function ClientMutator({ children }) {
   useEffect(() => {
     if (dataRefreshToken && dataRefreshToken.refreshToken.success) {
       var lang = user.lang;
-      token = dataRefreshToken.refreshToken.token;
-      rToken = dataRefreshToken.refreshToken.refreshToken;
+      token = dataRefreshToken.refreshToken.refreshPayload.token;
+      rToken = dataRefreshToken.refreshToken.refreshPayload.refreshToken;
       sessionStorage.setItem("token", token);
       localStorage.setItem("refreshToken", rToken);
 
@@ -139,7 +135,7 @@ export default function ClientMutator({ children }) {
 
       userDispatch({
         type: T.SET_CLIENT,
-        username: dataRefreshToken.refreshToken.payload.username,
+        username: dataRefreshToken.refreshToken.refreshPayload.payload.username,
         token,
       });
     }
