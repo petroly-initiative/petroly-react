@@ -26,6 +26,10 @@ $x: #22d77c;
    color: theme.$dark-fnt !important;
 }
 
+.dark-footer{
+  border-color: theme.$dark-bg !important;
+}
+
 .dark-day{
   background-color: theme.$dark-xfg !important;
   color: theme.$dark-fnt !important;
@@ -39,6 +43,7 @@ $x: #22d77c;
   height: fit-content;
   flex-direction: column;
   padding: 0;
+  border-bottom:  2px solid rgba(0,0,0,.125);
 
 }
 
@@ -242,7 +247,7 @@ margin-bottom: 12px;
 }
 
 @mixin waitlistLabels($bg-clr){
- background-color: $bg-clr;
+ background-color: $bg-clr !important;
   height: 12px !important;
   width: 12px !important;
   border-radius: 6px !important;
@@ -323,6 +328,14 @@ margin-bottom: 12px;
   border-top:  2px solid rgba(0,0,0,.125);
 background-color: white;
 padding: 16px 0 0 0;
+
+.availability-details{
+  width: 100%;
+  justify-content: flex;
+  align-items: center;
+  padding-top: 12px;
+   border-top:  2px solid rgba(0,0,0,.125);
+}
 
 
 .card-header{

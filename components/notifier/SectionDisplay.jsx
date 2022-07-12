@@ -180,7 +180,7 @@ function SectionDisplay(props) {
               {typeMapper(props.details[0])}
             </div>
           </Card.Header>
-          <Card.Body className={styles["details-block"]}>
+          <Card.Body className={styles["details-block"] + ` ${user.theme === M.DARK ? styles["dark-footer"] : ""}`}>
             <div className={styles["section-details"]}>
               {props.details[0].class_days !== null && (
                 <span className={styles["weekdays"]}>
@@ -229,64 +229,69 @@ function SectionDisplay(props) {
                     )}
                   </div>
                 )}
-              <div className={styles["availability-details"]}>
-                <span
-                  className={
-                    styles["seats-left"] +
-                    ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
-                  }
-                >
-                  {langState.seats}
+              {!props.hybrid && (
+                <div  className={
+                styles["availability-details"] +
+                ` ${user.theme === M.DARK ? styles["dark-footer"] : ""}`
+              }>
                   <span
-                    style={colorCount(props.details[0].available_seats)}
-                    className={styles["num-slot"]}
+                    className={
+                      styles["seats-left"] +
+                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                    }
                   >
-                    {props.details[0].available_seats}
-                  </span>{" "}
-                </span>
-                <span className={styles["divider"]}></span>
-                {/*  replace with a boolean for open waitlist */}
-                <span
-                  className={
-                    styles["waitlist-container"] +
-                    ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
-                  }
-                >
-                  {langState.waitlist}
-                  {props.details[0].waiting_list_count == 5 ? (
-                    <OverlayTrigger
-                      placement="top"
-                      delay={{ show: 1000, hide: 300 }}
-                      overlay={
-                        <Tooltip id="button-tooltip-2">
-                          {langState.closed}
-                        </Tooltip>
-                      }
+                    {langState.seats}
+                    <span
+                      style={colorCount(props.details[0].available_seats)}
+                      className={styles["num-slot"]}
                     >
-                      <span className={styles["waitlist-close"]}></span>
-                    </OverlayTrigger>
-                  ) : (
-                    <OverlayTrigger
-                      placement="top"
-                      delay={{ show: 1000, hide: 300 }}
-                      overlay={
-                        <Tooltip id="button-tooltip-2">
-                          {langState.open}
-                        </Tooltip>
-                      }
-                    >
-                      <span className={styles["waitlist-open"]}></span>
-                    </OverlayTrigger>
-                  )}
-                </span>
-              </div>
+                      {props.details[0].available_seats}
+                    </span>{" "}
+                  </span>
+                  <span className={styles["divider"]}></span>
+                  {/*  replace with a boolean for open waitlist */}
+                  <span
+                    className={
+                      styles["waitlist-container"] +
+                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                    }
+                  >
+                    {langState.waitlist}
+                    {props.details[0].waiting_list_count == 5 ? (
+                      <OverlayTrigger
+                        placement="top"
+                        delay={{ show: 1000, hide: 300 }}
+                        overlay={
+                          <Tooltip id="button-tooltip-2">
+                            {langState.closed}
+                          </Tooltip>
+                        }
+                      >
+                        <span className={styles["waitlist-close"]}></span>
+                      </OverlayTrigger>
+                    ) : (
+                      <OverlayTrigger
+                        placement="top"
+                        delay={{ show: 1000, hide: 300 }}
+                        overlay={
+                          <Tooltip id="button-tooltip-2">
+                            {langState.open}
+                          </Tooltip>
+                        }
+                      >
+                        <span className={styles["waitlist-open"]}></span>
+                      </OverlayTrigger>
+                    )}
+                  </span>
+                </div>
+              )}
             </div>
           </Card.Body>
           {props.hybrid && (
             <Card.Footer
               className={
                 styles.footerContainer +
-                ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                ` ${user.theme === M.DARK ? styles["dark-mode"] + " " + styles["dark-footer"] : ""}`
               }
             >
               <div
@@ -364,58 +369,62 @@ function SectionDisplay(props) {
                       )}
                     </div>
                   )}
-
-                <div className={styles["availability-details"]}>
+              </div>
+              <div
+                className={
+                  styles["availability-details"] +
+                  ` ${user.theme === M.DARK ? styles["dark-footer"] : ""}`
+                }
+              >
+                <span
+                  className={
+                    styles["seats-left"] +
+                    ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                  }
+                >
+                  {langState.seats}
                   <span
-                    className={
-                      styles["seats-left"] +
-                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
-                    }
+                    style={colorCount(props.details[1].available_seats)}
+                    className={styles["num-slot"]}
                   >
-                    {langState.seats}
-                    <span
-                      style={colorCount(props.details[1].available_seats)}
-                      className={styles["num-slot"]}
+                    {props.details[1].available_seats}
+                  </span>{" "}
+                </span>
+                <span className={styles["divider"]}></span>
+                {/*  replace with a boolean for open waitlist */}
+                <span
+                  className={
+                    styles["waitlist-container"] +
+                    ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                  }
+                >
+                  {langState.waitlist}
+                  {props.details[1].waiting_list_count == 5 ? (
+                    <OverlayTrigger
+                      placement="top"
+                      delay={{ show: 1000, hide: 300 }}
+                      overlay={
+                        <Tooltip id="button-tooltip-2">
+                          {langState.closed}
+                        </Tooltip>
+                      }
                     >
-                      {props.details[1].available_seats}
-                    </span>{" "}
-                  </span>
-                  <span className={styles["divider"]}></span>
-                  {/*  replace with a boolean for open waitlist */}
-                  <span
-                    className={
-                      styles["waitlist-container"] +
-                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
-                    }
-                  >
-                    {langState.waitlist}
-                    {props.details[1].waiting_list_count == 5 ? (
-                      <OverlayTrigger
-                        placement="top"
-                        delay={{ show: 1000, hide: 300 }}
-                        overlay={
-                          <Tooltip id="button-tooltip-2">
-                            {langState.closed}
-                          </Tooltip>
-                        }
-                      >
-                        <span className={styles["waitlist-close"]}></span>
-                      </OverlayTrigger>
-                    ) : (
-                      <OverlayTrigger
-                        placement="top"
-                        delay={{ show: 1000, hide: 300 }}
-                        overlay={
-                          <Tooltip id="button-tooltip-2">
-                            {langState.open}
-                          </Tooltip>
-                        }
-                      >
-                        <span className={styles["waitlist-open"]}></span>
-                      </OverlayTrigger>
-                    )}
-                  </span>
-                </div>
+                      <span className={styles["waitlist-close"]}></span>
+                    </OverlayTrigger>
+                  ) : (
+                    <OverlayTrigger
+                      placement="top"
+                      delay={{ show: 1000, hide: 300 }}
+                      overlay={
+                        <Tooltip id="button-tooltip-2">
+                          {langState.open}
+                        </Tooltip>
+                      }
+                    >
+                      <span className={styles["waitlist-open"]}></span>
+                    </OverlayTrigger>
+                  )}
+                </span>
               </div>
             </Card.Footer>
           )}

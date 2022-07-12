@@ -25,6 +25,10 @@ $x: #22d77c;
 .dark-txt{
    color: theme.$dark-fnt !important;
 }
+.dark-footer{
+  border-color: theme.$dark-bg !important;
+}
+
 
 .dark-day{
   background-color: theme.$dark-xfg !important;
@@ -39,7 +43,7 @@ $x: #22d77c;
   height: fit-content;
   flex-direction: column;
   padding: 0;
-  border-bottom:  2px solid rgba(0,0,0,.125);
+  
 }
 
 
@@ -346,6 +350,16 @@ margin-bottom: 4px;
 .footerContainer{
 background-color: white;
 padding: 16px 0 0 0;
+border-top:  2px solid rgba(0,0,0,.125);
+
+.availability-details{
+  width: 100%;
+  justify-content: flex;
+  align-items: center;
+  padding-top: 12px;
+   border-top:  2px solid rgba(0,0,0,.125);
+}
+
 
 
 .card-header{
