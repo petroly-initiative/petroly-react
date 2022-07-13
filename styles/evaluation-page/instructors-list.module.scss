@@ -250,8 +250,8 @@ $txt-hg: #0091e7;
   display: flex;
   justify-content: center !important;
   align-items: center;
-  margin: auto;
-  margin-top: 16px;
+  margin: 16px auto;
+  
   border: none;
   &:hover{
     background-color: $btn-high;
