@@ -37,7 +37,7 @@ export default function ConfirmAccount(props) {
     if (data) {
       if (data.verifyAccount.success) {
         setMsg({
-          message: "حسابك أصبح مؤكد، سنوجهك إلى الرئيسية خلال لحظات.",
+          message: "You account is confirmed, you'll redirect home shortly.",
           show: true,
           type: "success",
         });
@@ -66,7 +66,7 @@ export default function ConfirmAccount(props) {
         </div>
         <div className={authStyle["modal-footer"]}>
           <Form className={authStyle["main-form"]} onSubmit={handleSubmit}>
-            <div className={authStyle["text-header"]}>أكد حسابك</div>
+            <div className={authStyle["text-header"]}>Account Confirmation</div>
 
             {msg.show && (
               <Fade duration="1000">
@@ -95,7 +95,7 @@ export default function ConfirmAccount(props) {
                   type="submit"
                   className={authStyle["login-btn"]}
                 >
-                  👍 أكد حسابي
+                  👍 Confirm my account
                 </Button>
               </div>
             )}
