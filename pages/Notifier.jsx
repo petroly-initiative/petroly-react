@@ -582,6 +582,7 @@ function Notifier(props) {
       </Container>
       {/* external component embedded within the page */}
       <CourseModal
+        searchData={searchData.search}
         trackedCourses={trackedCourses}
         save={updateTracked}
         close={toggleModal}
