@@ -19,7 +19,7 @@ import mockData from "../../mocks/mockData.json";
  * @save a function to update tracked list upon any deletion
  * @close a function to switch off the canvas visibiltiy
  * ! handle themes and languages
- *
+ * ! handling signing off
  * @returns an off-canvas element that containes all tracked elements' status. ability to refresh, deleting tracking records, and so on
  */
 function TrackingCanvas(props) {
@@ -31,32 +31,37 @@ function TrackingCanvas(props) {
   // returns a course block for each course object
   // ! this chould be repalced by a fetch call instead
   const populateCourses = () => {
-    unique;
-    console.log(props.trackedCourses);
-    var sectionDisplays = [];
-
-    for (let course in props.trackedCourses) {
-      const targetCourse = props.searchData.filter(
-        (courseObj) => courseObj["course_number"] === course
+    const uniqueCrn = new Set();
+    props.trackedCourses.forEach((course) => {
+      uniqueCrn.add(course["crn"]);
+    });
+    uniqueCrn = Array.from(uniqueCrn);
+    const uniqueSections = [];
+    uniqueCrn.forEach((crn) => {
+      uniqueSections.push(
+        props.trackedCourses.filter((course) => course["crn"] == crn)
       );
+    });
 
-      props.trackedCourses[course].forEach((sectionNum) => {
-        let sectionObjs = targetCourse.filter(
-          (section) => section["section_number"] === sectionNum
-        );
-        sectionDisplays.push(
-          <SectionDisplay
-            course={course}
-            details={sectionObjs}
-            hybrid={sectionObjs.length === 2}
-            delete={deleteSections}
-          />
-        );
-      });
-      // group all sections' information
-    }
+    // console.log(uniqueSections, uniqueCrn, props.trackedCourses);
 
-    return sectionDisplays;
+    // <SectionDisplay
+    //   course={course}
+    //   details={sectionObjs}
+    //   hybrid={sectionObjs.length === 2}
+    //   delete={deleteSections}
+    // />
+    return uniqueSections.map((sectionObj) => {
+      console.log(sectionObj);
+
+      return (
+        <SectionDisplay
+          details={sectionObj}
+          hybrid={sectionObj.length === 2}
+          delete={deleteSections}
+        />
+      );
+    });
   };
 
   // a function to return all deleted courses to delete from the notifier page

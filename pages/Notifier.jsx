@@ -279,7 +279,7 @@ function Notifier(props) {
     // wait for loading cruical queries
     return null;
   }
-
+  console.log(trackedCoursesData.trackedCourses);
   if (!searchData) {
     // show landing page to start searching
     // meaning at the initial load for the page
@@ -421,7 +421,7 @@ function Notifier(props) {
         </Container>
         {/* external component embedded within the page */}
         <TrackingCanvas
-          trackedCourses={trackedCourses}
+          trackedCourses={trackedCoursesData.trackedCourses}
           close={toggleCanvas}
           show={showCanvas}
           save={updateTracked}
@@ -574,7 +574,7 @@ function Notifier(props) {
       {/* external component embedded within the page */}
       <CourseModal
         searchData={searchData.search}
-        trackedCourses={trackedCourses}
+        trackedCourses={trackedCoursesData.trackedCourses}
         save={updateTracked}
         close={toggleModal}
         show={showModal}
@@ -583,7 +583,7 @@ function Notifier(props) {
         type={currentCourse.type}
       />
       <TrackingCanvas
-        trackedCourses={trackedCourses}
+        trackedCourses={trackedCoursesData.trackedCourses}
         close={toggleCanvas}
         show={showCanvas}
         save={updateTracked}

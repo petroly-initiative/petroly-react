@@ -50,8 +50,11 @@ function SectionDisplay(props) {
   // ? utility functions
 
   const deleteSection = () => {
-    props.delete(props.course, props.details[0].section_number);
-  }
+    props.delete(
+      props.details[0]["course_number"],
+      props.details[0].section_number
+    );
+  };
 
   const generateTimeTable = (days) => {
     var DaysList = days.split("");
@@ -89,11 +92,7 @@ function SectionDisplay(props) {
         </div>
       );
     } else {
-      return (
-        <div className={styles["sections-type"]}>
-          {obj.class_type}
-        </div>
-      );
+      return <div className={styles["sections-type"]}>{obj.class_type}</div>;
     }
   };
 
@@ -124,7 +123,10 @@ function SectionDisplay(props) {
         <div className={styles["unchecked-input"]}>
           <span className={styles["section-num"]}>
             {" "}
-            <span className={styles["course-code"]}>{props.course}</span>&nbsp;
+            <span className={styles["course-code"]}>
+              {props.details[0]["course_number"]}
+            </span>
+            &nbsp;
             <span className={user.theme === M.DARK ? styles["dark-txt"] : ""}>
               {" "}
               # {props.details[0].section_number}
@@ -180,7 +182,12 @@ function SectionDisplay(props) {
               {typeMapper(props.details[0])}
             </div>
           </Card.Header>
-          <Card.Body className={styles["details-block"] + ` ${user.theme === M.DARK ? styles["dark-footer"] : ""}`}>
+          <Card.Body
+            className={
+              styles["details-block"] +
+              ` ${user.theme === M.DARK ? styles["dark-footer"] : ""}`
+            }
+          >
             <div className={styles["section-details"]}>
               {props.details[0].class_days !== null && (
                 <span className={styles["weekdays"]}>
@@ -230,10 +237,12 @@ function SectionDisplay(props) {
                   </div>
                 )}
               {!props.hybrid && (
-                <div  className={
-                styles["availability-details"] +
-                ` ${user.theme === M.DARK ? styles["dark-footer"] : ""}`
-              }>
+                <div
+                  className={
+                    styles["availability-details"] +
+                    ` ${user.theme === M.DARK ? styles["dark-footer"] : ""}`
+                  }
+                >
                   <span
                     className={
                       styles["seats-left"] +
@@ -291,7 +300,11 @@ function SectionDisplay(props) {
             <Card.Footer
               className={
                 styles.footerContainer +
-                ` ${user.theme === M.DARK ? styles["dark-mode"] + " " + styles["dark-footer"] : ""}`
+                ` ${
+                  user.theme === M.DARK
+                    ? styles["dark-mode"] + " " + styles["dark-footer"]
+                    : ""
+                }`
               }
             >
               <div
