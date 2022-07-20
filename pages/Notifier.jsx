@@ -28,7 +28,7 @@ import { MdRadar } from "react-icons/md";
 import TrackingCanvas from "../components/notifier/TrackingCanvas";
 import { useQuery, useLazyQuery } from "@apollo/client/react";
 import { getDepartments } from "../api/queries";
-import { searchQuery } from "../api/notifierQueries";
+import { searchQuery, trackedCoursesQuery } from "../api/notifierQueries";
 
 // TODO: create the responsive layout for the cards, and the off-canvas
 /**
@@ -76,6 +76,8 @@ function Notifier(props) {
 
   const [search, { data: searchData, loading: searchLoading }] =
     useLazyQuery(searchQuery);
+  const { data: trackedCoursesData, loading: trackedCoursesLoading } =
+    useQuery(trackedCoursesQuery);
 
   //? utility functions
   // event listener for the "Enter" key
@@ -273,6 +275,11 @@ function Notifier(props) {
     navDispatch("notifier");
   }, []);
 
+  if (trackedCoursesLoading || loadingDept) {
+    // wait for loading cruical queries
+    return null;
+  }
+
   if (!searchData) {
     // show landing page to start searching
     // meaning at the initial load for the page
@@ -401,7 +408,6 @@ function Notifier(props) {
               id="evaluate"
               className={styles.trackBtn}
               onClick={toggleCanvas}
-              disabled
               // style={{
               //   backgroundColor:
               //     user.status !== USER.LOGGED_IN || dataHasEvaluated.hasEvaluated
