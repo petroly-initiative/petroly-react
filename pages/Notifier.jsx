@@ -29,8 +29,6 @@ import TrackingCanvas from "../components/notifier/TrackingCanvas";
 import { useQuery, useLazyQuery } from "@apollo/client/react";
 import { getDepartments } from "../api/queries";
 import { searchQuery } from "../api/notifierQueries";
-import mockData from "../mocks/mockData.json";
-import { fromPairs } from "lodash";
 
 // TODO: create the responsive layout for the cards, and the off-canvas
 /**
