@@ -63,13 +63,29 @@ function CourseModal(props) {
   // a function to broadcast confirmed sections to the off canvas
   // ! submitting this modal shall mutate all sections related to this course from the user list
   const trackSections = () => {
-    const courseSections = sections.map((crn) => ({
+    // getting already tracked courses while filtering out sections that existed in the current course
+    const otherSections = props.trackedCourses
+      .filter((course) => course["course_number"] !== props.course)
+      .map((course) => ({
+        crn: course["crn"],
+        term: props.term.toString(),
+        department: course["department_code"],
+      }));
+    // merging newly tracked courses with already tracked courses
+    var newSections = [...sections].map((crn) => ({
       crn: crn,
       term: props.term.toString(),
       department: props.department,
     }));
+    newSections.push(...otherSections);
+    console.log(
+      "joined sections",
+      newSections,
+      "Other sections",
+      otherSections
+    );
 
-    props.save(courseSections);
+    props.save(newSections);
   };
 
   // returns a list of section card elements
