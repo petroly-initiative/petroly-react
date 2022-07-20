@@ -23,7 +23,7 @@ import { MdRadar, MdCancel } from "react-icons/md";
  * TODO: create the modal layout and populate it with relevant sections
  * ? state management details
  *
- * @sections to store and broadcast all selected sections under the displayed course
+ * @sections to store and broadcast all selected sections' CRN under the displayed course
  * ? props
  * @trackedSections all currently tracked sections to allow untracking from the modal itself
  * @show a visibility state passed via props
@@ -51,11 +51,11 @@ function CourseModal(props) {
   // ? utility functions
 
   // function to toggle section tracking
-  const toggleSection = (section_num) => {
-    if (sections.includes(section_num)) {
-      setSections([...sections.filter((sec) => sec != section_num)]);
+  const toggleSection = (crn) => {
+    if (sections.includes(crn)) {
+      setSections([...sections.filter((sec) => sec != crn)]);
     } else {
-      const newArr = [...sections, section_num];
+      const newArr = [...sections, crn];
       setSections((state) => [...newArr]);
     }
   };
@@ -63,12 +63,13 @@ function CourseModal(props) {
   // a function to broadcast confirmed sections to the off canvas
   // ! submitting this modal shall mutate all sections related to this course from the user list
   const trackSections = () => {
-    props.save(
-      {
-        [`${props.course}`]: sections,
-      },
-      sections.length === 0
-    );
+    const courseSections = sections.map((crn) => ({
+      crn: crn,
+      term: props.term.toString(),
+      department: props.department,
+    }));
+
+    props.save(courseSections);
   };
 
   // returns a list of section card elements
@@ -99,9 +100,10 @@ function CourseModal(props) {
     }
     // getting all sections that are already tracked
     var trackedSectionSet = new Set();
-    if (props.trackedCourses[courseName] != null) {
-      for (let section of props.trackedCourses[courseName]) {
-        trackedSectionSet.add(section);
+
+    if (courseObjects != null) {
+      for (let section of props.trackedCourses) {
+        trackedSectionSet.add(section["crn"]);
       }
     }
     trackedSectionSet = Array.from(trackedSectionSet);
@@ -114,7 +116,7 @@ function CourseModal(props) {
           details={course}
           toggleCheck={toggleSection}
           hybrid={course.length == 2}
-          tracked={trackedSectionSet.includes(course[0]["section_number"])}
+          tracked={trackedSectionSet.includes(course[0]["crn"])}
         />
       );
     });
@@ -174,24 +176,17 @@ function CourseModal(props) {
   // savign already tracked sections to the sections' state
   useEffect(() => {
     if (props.show) {
-      var trackedSectionSet = new Set();
       console.log("Modal side effect: ", props.trackedCourses);
-      if (props.trackedCourses[props.course] != null) {
-        console.log(props.trackedCourses[props.course]);
-        for (let course of props.trackedCourses[props.course]) {
-          trackedSectionSet.add(course);
-        }
-        trackedSectionSet = Array.from(trackedSectionSet);
-        setSections(trackedSectionSet);
-      } else {
-        setSections([]);
-      }
+      const targetCourse = props.trackedCourses.filter(
+        (course) => course["course_number"] === props.course
+      );
+      setSections(targetCourse.map((course) => course["crn"]));
     }
   }, [props.show]);
 
-  useEffect(() => {
-    console.log("tracked sections:", sections);
-  }, [sections]);
+  // useEffect(() => {
+  //   console.log("tracked sections:", sections);
+  // }, [sections]);
 
   return (
     <>

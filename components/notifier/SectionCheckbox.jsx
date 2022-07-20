@@ -49,7 +49,7 @@ function SectionCheckbox(props) {
   // ? utility functions
 
   const toggleTrack = () => {
-    props.toggleCheck(props.details[0].section_number);
+    props.toggleCheck(props.details[0].crn);
     setChecked((state) => !state);
   };
 

@@ -50,10 +50,7 @@ function SectionDisplay(props) {
   // ? utility functions
 
   const deleteSection = () => {
-    props.delete(
-      props.details[0]["course_number"],
-      props.details[0].section_number
-    );
+    props.delete(props.details[0]["crn"]);
   };
 
   const generateTimeTable = (days) => {

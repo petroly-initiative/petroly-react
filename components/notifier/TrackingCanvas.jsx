@@ -65,20 +65,20 @@ function TrackingCanvas(props) {
   };
 
   // a function to return all deleted courses to delete from the notifier page
-  const deleteSections = (course, section_num) => {
+  const deleteSections = (crn) => {
     // props.save([...sections.filter((sec) => sec != section_num)]);
 
     // get all sections from the certain course, and filter
-    var courseSections = props.trackedCourses[course];
+    var courseSections = props.trackedCourses;
 
-    courseSections = courseSections.filter(
-      (section) => section !== section_num
-    );
-    if (courseSections.length !== 0)
-      props.save({ [`${course}`]: courseSections });
-    else {
-      props.save({ [`${course}`]: courseSections }, true);
-    }
+    courseSections = courseSections.filter((section) => section["crn"] !== crn);
+    courseSections = courseSections.map((section) => ({
+      crn: section["crn"],
+      term: section["term_code"],
+      department: section["department_code"],
+    }));
+
+    props.save(courseSections);
   };
 
   return (

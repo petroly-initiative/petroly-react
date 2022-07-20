@@ -26,9 +26,10 @@ import CourseCard from "../components/notifier/CourseCard";
 import CourseModal from "../components/notifier/CourseModal";
 import { MdRadar } from "react-icons/md";
 import TrackingCanvas from "../components/notifier/TrackingCanvas";
-import { useQuery, useLazyQuery } from "@apollo/client/react";
+import { useQuery, useLazyQuery, useMutation } from "@apollo/client/react";
 import { getDepartments } from "../api/queries";
 import { searchQuery, trackedCoursesQuery } from "../api/notifierQueries";
+import { updateTrackingListMutation } from "../api/notifierMutations";
 
 // TODO: create the responsive layout for the cards, and the off-canvas
 /**
@@ -60,8 +61,6 @@ function Notifier(props) {
   });
   const [showModal, setShowModal] = useState(false);
   const [showCanvas, setshowCanvas] = useState(false);
-  //  ! this state should be delegated to the canvas which fetched tracked sections by itself
-  const [trackedCourses, setTracked] = useState({});
   const courseInput = useRef(""); // to sync searchbar textInput information
   const [department, setDepartment] = useState("ICS");
   const [term, setTerm] = useState(202210); //! will be replaced by current term
@@ -78,6 +77,9 @@ function Notifier(props) {
     useLazyQuery(searchQuery);
   const { data: trackedCoursesData, loading: trackedCoursesLoading } =
     useQuery(trackedCoursesQuery);
+  const [updateTrackingList] = useMutation(updateTrackingListMutation, {
+    refetchQueries: [{ query: trackedCoursesQuery }],
+  });
 
   //? utility functions
   // event listener for the "Enter" key
@@ -151,17 +153,15 @@ function Notifier(props) {
    * @param  obj an object in the format: {course: str, sections: [int..]} to update the offcanvas state
    * @param isDeleted if the resulting sections are non-existent delete the object key
    */
-  const updateTracked = (obj, isDeleted) => {
-    if (!isDeleted) setTracked({ ...Object.assign(trackedCourses, obj) });
-    else {
-      const deletedKey = Object.keys(obj)[0];
-      setTracked({ ...delete trackedCourses[deletedKey] });
-    }
+  const updateTracked = (courses) => {
+    // if (!isDeleted) setTracked({ ...Object.assign(trackedCourses, obj) });
+    // else {
+    //   const deletedKey = Object.keys(obj)[0];
+    //   setTracked({ ...delete trackedCourses[deletedKey] });
+    // }
+    console.log(courses);
+    updateTrackingList({ variables: { courses } });
   };
-
-  useEffect(() => {
-    console.log("Notifier: ", trackedCourses);
-  }, [trackedCourses]);
 
   // ? Mappers
   const deptMapper = () => {
@@ -581,6 +581,8 @@ function Notifier(props) {
         course={currentCourse.course}
         title={currentCourse.title}
         type={currentCourse.type}
+        term={term}
+        department={department}
       />
       <TrackingCanvas
         trackedCourses={trackedCoursesData.trackedCourses}
