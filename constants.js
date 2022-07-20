@@ -1,4 +1,4 @@
-export const URL_ENDPOINT = "http://localhost:8000/endpoint/";
+export const URL_ENDPOINT = "https://petroly-pr-77.herokuapp.com/endpoint/";
 
 export const USER = {
   LOGGED_OUT: "logged_out",
