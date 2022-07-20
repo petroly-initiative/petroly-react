@@ -28,32 +28,36 @@ function TrackingCanvas(props) {
   const [langState, setLang] = useState(() => translator(user.lang));
 
   // ? utility functions
- // returns a course block for each course object
- // ! this chould be repalced by a fetch call instead
+  // returns a course block for each course object
+  // ! this chould be repalced by a fetch call instead
   const populateCourses = () => {
-   var sectionDisplays = [];
-    for(let course in props.trackedCourses){
-      const targetCourse = mockData.data.filter(
+    unique;
+    console.log(props.trackedCourses);
+    var sectionDisplays = [];
+
+    for (let course in props.trackedCourses) {
+      const targetCourse = props.searchData.filter(
         (courseObj) => courseObj["course_number"] === course
       );
-      props.trackedCourses[course].forEach(sectionNum => {
-        let sectionObjs = targetCourse.filter(section => section["section_number"] === sectionNum)
+
+      props.trackedCourses[course].forEach((sectionNum) => {
+        let sectionObjs = targetCourse.filter(
+          (section) => section["section_number"] === sectionNum
+        );
         sectionDisplays.push(
-          <SectionDisplay 
-          course={course}
-          details = {sectionObjs}
-          hybrid = {sectionObjs.length === 2 }
-          delete = {deleteSections}/>
-        )
-      })
+          <SectionDisplay
+            course={course}
+            details={sectionObjs}
+            hybrid={sectionObjs.length === 2}
+            delete={deleteSections}
+          />
+        );
+      });
       // group all sections' information
     }
 
     return sectionDisplays;
-
   };
-
-  
 
   // a function to return all deleted courses to delete from the notifier page
   const deleteSections = (course, section_num) => {
@@ -62,9 +66,11 @@ function TrackingCanvas(props) {
     // get all sections from the certain course, and filter
     var courseSections = props.trackedCourses[course];
 
-    courseSections = courseSections.filter(section => section !== section_num);
-    if(courseSections.length !== 0)
-    props.save({[`${course}`]: courseSections})
+    courseSections = courseSections.filter(
+      (section) => section !== section_num
+    );
+    if (courseSections.length !== 0)
+      props.save({ [`${course}`]: courseSections });
     else {
       props.save({ [`${course}`]: courseSections }, true);
     }
