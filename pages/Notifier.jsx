@@ -420,15 +420,6 @@ function Notifier(props) {
           </OverlayTrigger>
         </Container>
         {/* external component embedded within the page */}
-        <CourseModal
-          trackedCourses={trackedCourses}
-          save={updateTracked}
-          close={toggleModal}
-          show={showModal}
-          course={currentCourse.course}
-          title={currentCourse.title}
-          type={currentCourse.type}
-        />
         <TrackingCanvas
           trackedCourses={trackedCourses}
           close={toggleCanvas}
