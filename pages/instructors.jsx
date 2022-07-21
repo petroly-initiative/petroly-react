@@ -136,19 +136,7 @@ function instructorsList() {
     });
   };
 
-  // ? detect page-number switching
-  const switchPage = (pageNum) => {
-    instructorsDispatch({ changeIn: "offset", offset: (pageNum - 1) * ITEMS });
-    refetch({
-      limit: ITEMS,
-      offset: (pageNum - 1) * ITEMS,
-      department: instructorsState.department,
-      name: instructorsState.name,
-    });
-  };
-  const switchStack = (index) => {
-    setStackIndex(index);
-  };
+ 
 
   // useEffect(() => {}, [stackIndex]);
 
@@ -323,118 +311,7 @@ function instructorsList() {
   var currentList = instructorMapper();
   var deptList = deptMapper();
 
-  // ! No data
-  if (data.instructors.totalCount == 0) {
-    return (
-      <ClientOnly>
-        <>
-          <Head>
-            <title>Petroly | Rating</title>
-          </Head>
-          {/* <Navbar page="rating" /> */}
-          <Container className={"mt-4 " + styles.list_container}>
-            <Row style={{ justifyContent: "center" }}>
-              <Col
-                l={8}
-                xs={11}
-                md={9}
-                xl={7}
-                style={{ width: "100% !important" }}
-              >
-                <InputGroup className={styles["search-container"]}>
-                  <Form.Control
-                    id="name"
-                    className={` ${
-                      user.theme === M.DARK ? styles["dark-mode-input"] : ""
-                    }`}
-                    type="text"
-                    placeholder={langState.searchbar}
-                    value={name}
-                    onKeyDown={enterSearch}
-                    onChange={changeName}
-                    dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                  ></Form.Control>
-
-                  <Button
-                    type="submit"
-                    onClick={search}
-                    className={
-                      styles["search_btn"] +
-                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                    }
-                  >
-                    <BiSearch size="1.5rem" />
-                  </Button>
-
-                  {/*popover for filters and order*/}
-                  <DropdownButton
-                    variant={`${user.theme === M.DARK ? "dark" : ""}`}
-                    menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
-                    bsPrefix={
-                      styles["dept-dropdown"] +
-                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                    }
-                    align="start"
-                    id="dropdown-menu-align-right"
-                    title={<GoSettings size="1.5rem" />}
-                  >
-                    <Dropdown.Item
-                      className={
-                        styles["dropdown-h"] +
-                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                      }
-                      disabled
-                    >
-                      {langState.searchbarFilter}
-                    </Dropdown.Item>
-                    <Dropdown.Divider style={{ height: "1" }} />
-                    <Dropdown.Item
-                      id="null"
-                      className={
-                        styles["depts"] +
-                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                      }
-                      as={"div"}
-                      eventKey="1"
-                      onClick={selectDept}
-                      active={instructorsState.department === ""}
-                    >
-                      All departments
-                    </Dropdown.Item>
-                    {deptList}
-                  </DropdownButton>
-                </InputGroup>
-              </Col>
-            </Row>
-            <div className={styles["error-container"]}>
-              <div className={styles["error-img"]}>
-                <Image
-                  src="/images/errors/NotFoundE2.svg"
-                  width="400"
-                  height="351"
-                />
-              </div>
-              <div
-                style={{
-                  color: (user.theme = M.DARK ? "white" : ""),
-                }}
-                className={styles["error-txt"]}
-              >
-                {langState.errMsg}
-              </div>
-              <a
-                href="https://forms.gle/s3PWGxWmck2fpPJo8"
-                target="_blank"
-                className={styles["form-link"] + " shadow"}
-              >
-                {langState.errBtn}
-              </a>
-            </div>
-          </Container>
-        </>
-      </ClientOnly>
-    );
-  }
+ 
 
   return (
     <ClientOnly>
@@ -527,7 +404,30 @@ function instructorsList() {
               triggerOnce
               direction="up"
             >
-              {currentList}
+              {data.instructors.totalCount === 0 ? <div className={styles["error-container"]}>
+              <div className={styles["error-img"]}>
+                <Image
+                  src="/images/errors/NotFoundE2.svg"
+                  width="400"
+                  height="351"
+                />
+              </div>
+              <div
+                style={{
+                  color: (user.theme === M.DARK ? "white" : ""),
+                }}
+                className={styles["error-txt"]}
+              >
+                {langState.errMsg}
+              </div>
+              <a
+                href="https://forms.gle/s3PWGxWmck2fpPJo8"
+                target="_blank"
+                className={styles["form-link"] + " shadow"}
+              >
+                {langState.errBtn}
+              </a>
+            </div> :  currentList}
             </Fade>
             {/* *!Number of pages should be provided by the api */}
             {/* bad style: the new api doesn't provide instructors count out of box

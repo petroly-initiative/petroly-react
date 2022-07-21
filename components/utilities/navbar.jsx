@@ -42,7 +42,7 @@ import { useCallback } from "react";
 import translator from "../../dictionary/components/navbar-dict";
 import { NavContext } from "../../state-management/navbar-state/NavbarContext";
 
-const SignInModal = dynamic(() => import("./SignInModal"));
+import SignInModal from "./SignInModal";
 /**
  * TODO:
  * - Loading state before updating the context
@@ -100,6 +100,7 @@ export default function Navbar(props) {
 
   const handleSignInClose = () => setShowSignIn(false);
   const handleSignInShow = () => {
+    console.log(user.theme);
     setShowSignIn(true);
     document.body.click();
   };

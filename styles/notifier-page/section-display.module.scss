@@ -284,7 +284,6 @@ $x: #22d77c;
 }
 
 .untrack-btn {
-  opacity: 0;
   font-size: 20px;
   padding: 0;
   background-color: rgba(255, 255, 255, 0);
@@ -302,7 +301,6 @@ $x: #22d77c;
 .hover-detector {
   &:hover {
     .untrack-btn {
-      opacity: 1;
       transform: scale(1.1);
     }
   }
