@@ -83,11 +83,12 @@ Create a high-quality platform where all students share their knowledge and expe
 - run `npm run dev` to launch the frontend project on localhost 3000
 - for a headless testing session run `npm run cy:run`, and for a browser session test, use `npm run cy:open`
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
-## How to Contribute
+### How to Contribute
 
 To gurarantee a uniform maintenance of the project, contributors need to adhere to the following guidelines
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
-#### Pull Requests
+
+### Pull Requests
 
 - It is recommended to contribute to targeted services in the `Projects` tab
 - No direct pull requests to the master branch will be accepted under any circumstances
@@ -103,7 +104,8 @@ To gurarantee a uniform maintenance of the project, contributors need to adhere 
 
 - If you have a new service in mind, please consult us to formlate a plan and archtiecture before implementing it and committing it directly to your branch
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
-#### Issues
+
+### Issues
 
 - Provide the sequence to re-produce the issue you have faced (a video or screenshot would be appreciated)
 - Provide the needed tags to your issue
@@ -111,7 +113,8 @@ To gurarantee a uniform maintenance of the project, contributors need to adhere 
   - `[service-name]`: the service name in the `Projects` tab and shall be in CamelCase
 - failing to meet requirements will lead to rejecting the issue
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
-#### Branches
+
+### Branches
 
 - to minimize merge-conflicts, each contributor shall work on a separate branch with the following title scheme: `username@service-name`
   - `service-name` shall be in CamelCase, and included in the `Projects` tab
