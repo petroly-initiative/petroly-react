@@ -77,7 +77,7 @@ function Notifier(props) {
     useLazyQuery(searchQuery);
   const { data: trackedCoursesData, loading: trackedCoursesLoading } = useQuery(
     trackedCoursesQuery,
-    { pollInterval: 10 } // refetch every 10s
+    { pollInterval: 10_000 } // refetch every 10 s
   );
   const [updateTrackingList] = useMutation(updateTrackingListMutation, {
     refetchQueries: [{ query: trackedCoursesQuery }],
