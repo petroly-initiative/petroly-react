@@ -12,7 +12,7 @@ $x: #22d77c;
   color: theme.$dark-fnt !important;
   background: theme.$dark-xfg !important;
   box-shadow: none !important;
-  border-color:  theme.$dark-bg !important;
+  border-color: theme.$dark-bg !important;
 
   button {
     color: rgb(202, 202, 202);
@@ -22,15 +22,14 @@ $x: #22d77c;
   }
 }
 
-.dark-txt{
-   color: theme.$dark-fnt !important;
+.dark-txt {
+  color: theme.$dark-fnt !important;
 }
-.dark-footer{
+.dark-footer {
   border-color: theme.$dark-bg !important;
 }
 
-
-.dark-day{
+.dark-day {
   background-color: theme.$dark-xfg !important;
   color: theme.$dark-fnt !important;
   border-color: theme.$dark-fnt !important;
@@ -43,10 +42,7 @@ $x: #22d77c;
   height: fit-content;
   flex-direction: column;
   padding: 0;
-  
 }
-
-
 
 .unchecked-container {
   white-space: nowrap;
@@ -59,30 +55,26 @@ $x: #22d77c;
   box-shadow: 0 0.25rem 0.1rem 0px rgba(0, 0, 0, 0.253);
   margin-bottom: 8px;
   transition: 300ms;
-
-  
 }
 
-@mixin sectionNumber($fnt-clr, $fnt-wght: 300){
- font-size: 18px;
-    white-space: nowrap;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin: 16px 0px 4px 0;
-    padding: 2px 10px;
-    border-radius: 4px 4px 0 0;
-    align-items: center !important;
-    color: $fnt-clr;
-    font-weight: $fnt-wght;
-    transition: 300ms ease;
+@mixin sectionNumber($fnt-clr, $fnt-wght: 300) {
+  font-size: 18px;
+  white-space: nowrap;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0px 4px 0;
+  padding: 2px 10px;
+  border-radius: 4px 4px 0 0;
+  align-items: center !important;
+  color: $fnt-clr;
+  font-weight: $fnt-wght;
+  transition: 300ms ease;
 }
 
 .unchecked-input {
-   @include sectionNumber(gray)
-  }
-
-
+  @include sectionNumber(gray);
+}
 
 .checked-container {
   display: flex;
@@ -95,8 +87,6 @@ $x: #22d77c;
   box-shadow: 0 0.25rem 0.5rem 0px rgba(0, 0, 0, 0.253);
   margin-bottom: 8px;
   transition: 300ms;
-
-  
 }
 
 .instructor-name {
@@ -112,14 +102,13 @@ $x: #22d77c;
   white-space: nowrap;
   line-clamp: 1;
   // word-break: break-all;
- 
 }
 
 .sections-type {
   font-weight: 400;
   display: flex;
   align-items: center;
-  svg{
+  svg {
     margin-right: 8px;
   }
   color: $txt-xfill;
@@ -173,14 +162,13 @@ $x: #22d77c;
   margin-bottom: 4px;
 }
 
-.loc-time{
- display: flex;
- flex-grow: 1;
- justify-content: center;
- align-items: center;
-margin-bottom: 4px;
- height: 100%;
- 
+.loc-time {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
+  height: 100%;
 }
 
 .active-day {
@@ -221,46 +209,43 @@ margin-bottom: 4px;
   margin-right: 8px;
   display: flex;
   align-items: center !important;
-  span{
+  span {
     height: 27px !important;
   }
   .location-icon {
-    margin: 0 4px !important;
-   vertical-align: bottom;
-    height: fit-content;
+    // vertical-align: bottom;
+    // height: fit-content;
     font-size: 16px;
-    margin: 2px 0px;
+    margin: 0px 4px;
     padding: 0 0 3px 0;
-    
   }
 }
 
-.waitlist-container{
+.waitlist-container {
   color: $txt-fill;
   display: flex;
   width: 80px;
   height: 100%;
   align-items: center;
-  span{
+  span {
     margin-left: 8px;
   }
 }
 
-@mixin waitlistLabels($bg-clr){
- background-color: $bg-clr;
+@mixin waitlistLabels($bg-clr) {
+  background-color: $bg-clr;
   height: 12px;
   width: 12px;
   border-radius: 6px;
   margin: 0;
 }
 
-.waitlist-open{
- @include waitlistLabels($btn-high);
+.waitlist-open {
+  @include waitlistLabels($btn-high);
 }
 
-
-.waitlist-close{
- @include waitlistLabels(rgb(255, 91, 91));
+.waitlist-close {
+  @include waitlistLabels(rgb(255, 91, 91));
 }
 
 .availability-details {
@@ -273,7 +258,6 @@ margin-bottom: 4px;
   justify-content: center;
   flex-flow: row wrap;
   margin-bottom: 12px;
-  
 }
 
 .num-slot {
@@ -291,7 +275,7 @@ margin-bottom: 4px;
   border-radius: 4px;
   justify-content: flex-start;
   flex-flow: row wrap;
-  padding:  0 16px;
+  padding: 0 16px;
   padding-bottom: 8px;
   display: flex;
   background-color: white;
@@ -299,24 +283,25 @@ margin-bottom: 4px;
   overflow: hidden;
 }
 
-.untrack-btn{
-    opacity: 0;
-    font-size: 20px;
-    padding: 0;
+.untrack-btn {
+  opacity: 0;
+  font-size: 20px;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0);
+  border: none !important;
+  color: #aaaaaa;
+  transition: 300ms ease;
+  &:hover,
+  &:active {
+    color: red !important;
     background-color: rgba(255, 255, 255, 0);
     border: none !important;
-    color: #aaaaaa;
-    transition: 300ms ease;
-    &:hover, &:active{
-      color: red !important;
-      background-color: rgba(255, 255, 255, 0);
-      border: none !important;
-    }
+  }
 }
 
-.hover-detector{
-  &:hover{
-    .untrack-btn{
+.hover-detector {
+  &:hover {
+    .untrack-btn {
       opacity: 1;
       transform: scale(1.1);
     }
@@ -332,54 +317,49 @@ margin-bottom: 4px;
   margin: 0 0 10px 0;
   padding: 16px 0;
   padding-bottom: 0;
-  
 }
 
-.seats-left{
+.seats-left {
   display: flex;
   align-items: center;
   color: $txt-fill;
-
 }
 
-.meta-info{
+.meta-info {
   display: flex;
   align-items: center;
 }
 
-.footerContainer{
-background-color: white;
-padding: 16px 0 0 0;
-border-top:  2px solid rgba(0,0,0,.125);
+.footerContainer {
+  background-color: white;
+  padding: 16px 0 0 0;
+  border-top: 2px solid rgba(0, 0, 0, 0.125);
 
-.availability-details{
-  width: 100%;
-  justify-content: flex;
-  align-items: center;
-  padding-top: 12px;
-   border-top:  2px solid rgba(0,0,0,.125);
+  .availability-details {
+    width: 100%;
+    justify-content: flex;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 2px solid rgba(0, 0, 0, 0.125);
+  }
+
+  .card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  }
 }
 
-
-
-.card-header{
-      border-bottom: 1px solid rgba(0,0,0,.125);
-}
-}
-
-.course-code{
+.course-code {
   font-weight: 700;
   color: $btn-prim;
 }
 
-.unavailable-icon{
+.unavailable-icon {
   font-size: 25px;
   color: #aaaaaa;
   height: 29.6px;
   margin-right: 8px;
 }
 
-.unavailable-name{
+.unavailable-name {
   color: #aaaaaa;
 }
-

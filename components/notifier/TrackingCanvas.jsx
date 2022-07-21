@@ -19,7 +19,7 @@ import mockData from "../../mocks/mockData.json";
  * @save a function to update tracked list upon any deletion
  * @close a function to switch off the canvas visibiltiy
  * ! handle themes and languages
- *
+ * ! handling signing off
  * @returns an off-canvas element that containes all tracked elements' status. ability to refresh, deleting tracking records, and so on
  */
 function TrackingCanvas(props) {
@@ -28,46 +28,57 @@ function TrackingCanvas(props) {
   const [langState, setLang] = useState(() => translator(user.lang));
 
   // ? utility functions
- // returns a course block for each course object
- // ! this chould be repalced by a fetch call instead
+  // returns a course block for each course object
+  // ! this chould be repalced by a fetch call instead
   const populateCourses = () => {
-   var sectionDisplays = [];
-    for(let course in props.trackedCourses){
-      const targetCourse = mockData.data.filter(
-        (courseObj) => courseObj["course_number"] === course
+    const uniqueCrn = new Set();
+    props.trackedCourses.forEach((course) => {
+      uniqueCrn.add(course["crn"]);
+    });
+    uniqueCrn = Array.from(uniqueCrn);
+    const uniqueSections = [];
+    uniqueCrn.forEach((crn) => {
+      uniqueSections.push(
+        props.trackedCourses.filter((course) => course["crn"] == crn)
       );
-      props.trackedCourses[course].forEach(sectionNum => {
-        let sectionObjs = targetCourse.filter(section => section["section_number"] === sectionNum)
-        sectionDisplays.push(
-          <SectionDisplay 
-          course={course}
-          details = {sectionObjs}
-          hybrid = {sectionObjs.length === 2 }
-          delete = {deleteSections}/>
-        )
-      })
-      // group all sections' information
-    }
+    });
 
-    return sectionDisplays;
+    // console.log(uniqueSections, uniqueCrn, props.trackedCourses);
 
+    // <SectionDisplay
+    //   course={course}
+    //   details={sectionObjs}
+    //   hybrid={sectionObjs.length === 2}
+    //   delete={deleteSections}
+    // />
+    return uniqueSections.map((sectionObj) => {
+      console.log(sectionObj);
+
+      return (
+        <SectionDisplay
+          details={sectionObj}
+          hybrid={sectionObj.length === 2}
+          delete={deleteSections}
+        />
+      );
+    });
   };
 
-  
-
   // a function to return all deleted courses to delete from the notifier page
-  const deleteSections = (course, section_num) => {
+  const deleteSections = (crn) => {
     // props.save([...sections.filter((sec) => sec != section_num)]);
 
     // get all sections from the certain course, and filter
-    var courseSections = props.trackedCourses[course];
+    var courseSections = props.trackedCourses;
 
-    courseSections = courseSections.filter(section => section !== section_num);
-    if(courseSections.length !== 0)
-    props.save({[`${course}`]: courseSections})
-    else {
-      props.save({ [`${course}`]: courseSections }, true);
-    }
+    courseSections = courseSections.filter((section) => section["crn"] !== crn);
+    courseSections = courseSections.map((section) => ({
+      crn: section["crn"],
+      term: section["term_code"],
+      department: section["department_code"],
+    }));
+
+    props.save(courseSections);
   };
 
   return (

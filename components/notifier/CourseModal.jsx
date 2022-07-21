@@ -1,4 +1,11 @@
-import { Modal, CloseButton, Alert, OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import {
+  Modal,
+  CloseButton,
+  Alert,
+  OverlayTrigger,
+  Tooltip,
+  Button,
+} from "react-bootstrap";
 import { useContext } from "react";
 import { M, L } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
@@ -8,16 +15,15 @@ import { FaSave } from "react-icons/fa";
 import { useState } from "react";
 import { useEffect } from "react";
 import translator from "../../dictionary/components/notifier/course-modal";
-import mockData from "../../mocks/mockData.json";
 import SectionCheckbox from "./SectionCheckbox";
 import { MdRadar, MdCancel } from "react-icons/md";
- 
+
 // import data from "../../mocks/mockData.json";
 /**
  * TODO: create the modal layout and populate it with relevant sections
  * ? state management details
  *
- * @sections to store and broadcast all selected sections under the displayed course
+ * @sections to store and broadcast all selected sections' CRN under the displayed course
  * ? props
  * @trackedSections all currently tracked sections to allow untracking from the modal itself
  * @show a visibility state passed via props
@@ -41,33 +47,46 @@ function CourseModal(props) {
   // ? instance state
   // to store all selected sections before confirming trackign
   const [sections, setSections] = useState([]);
-  
-
-  
-
-  
 
   // ? utility functions
 
   // function to toggle section tracking
-  const toggleSection = (section_num) => {
-    if(sections.includes(section_num)){
-      setSections([...sections.filter(sec => sec != section_num)])
+  const toggleSection = (crn) => {
+    if (sections.includes(crn)) {
+      setSections([...sections.filter((sec) => sec != crn)]);
     } else {
-      const newArr = [...sections, section_num]
-      setSections(state => [...newArr]);
+      const newArr = [...sections, crn];
+      setSections((state) => [...newArr]);
     }
   };
-
-
 
   // a function to broadcast confirmed sections to the off canvas
   // ! submitting this modal shall mutate all sections related to this course from the user list
   const trackSections = () => {
-    props.save({
-      [`${props.course}`]: sections
-    }, sections.length === 0);
-  }
+    // getting already tracked courses while filtering out sections that existed in the current course
+    const otherSections = props.trackedCourses
+      .filter((course) => course["course_number"] !== props.course)
+      .map((course) => ({
+        crn: course["crn"],
+        term: props.term.toString(),
+        department: course["department_code"],
+      }));
+    // merging newly tracked courses with already tracked courses
+    var newSections = [...sections].map((crn) => ({
+      crn: crn,
+      term: props.term.toString(),
+      department: props.department,
+    }));
+    newSections.push(...otherSections);
+    console.log(
+      "joined sections",
+      newSections,
+      "Other sections",
+      otherSections
+    );
+
+    props.save(newSections);
+  };
 
   // returns a list of section card elements
   // ! (1) data filtering should be replaced be a ready-to-go fetch on course change
@@ -76,36 +95,47 @@ function CourseModal(props) {
   // ! (3) section number is preferrably provided outside the detail objects to avoid redundancy
   const populateSections = (courseName) => {
     // getting all sections related to this course
-    const courseObjects = mockData.data.filter(obj => obj["course_number"] == courseName);
-
+    const courseObjects = props.searchData.filter(
+      (obj) => obj["course_number"] == courseName
+    );
 
     // getting all unique section numbers
     var sectionsSet = new Set();
-    courseObjects.forEach(course => sectionsSet.add(course["section_number"]))
+    courseObjects.forEach((course) =>
+      sectionsSet.add(course["section_number"])
+    );
     sectionsSet = Array.from(sectionsSet);
     // grouping similar section numbers
 
     var filteredObjects = [];
 
-    for(let sectionNum of sectionsSet){
-      filteredObjects.push(courseObjects.filter(obj => obj["section_number"] == sectionNum))
+    for (let sectionNum of sectionsSet) {
+      filteredObjects.push(
+        courseObjects.filter((obj) => obj["section_number"] == sectionNum)
+      );
     }
     // getting all sections that are already tracked
     var trackedSectionSet = new Set();
-    if(props.trackedCourses[courseName] != null){
-      for (let section of props.trackedCourses[courseName]) {
-        trackedSectionSet.add(section);
+
+    if (courseObjects != null) {
+      for (let section of props.trackedCourses) {
+        trackedSectionSet.add(section["crn"]);
       }
     }
     trackedSectionSet = Array.from(trackedSectionSet);
 
     // map to section checkbox components
-    
+
     return filteredObjects.map((course) => {
       return (
-      <SectionCheckbox details={course} toggleCheck={toggleSection} 
-      hybrid = {course.length == 2} tracked = {trackedSectionSet.includes(course[0]["section_number"])}/>
-    )});
+        <SectionCheckbox
+          details={course}
+          toggleCheck={toggleSection}
+          hybrid={course.length == 2}
+          tracked={trackedSectionSet.includes(course[0]["crn"])}
+        />
+      );
+    });
   };
 
   // storing all selected sections, by firing a mutation
@@ -137,7 +167,7 @@ function CourseModal(props) {
           </div>
         );
       }
-    } else   if (type.includes("hybrid")) {
+    } else if (type.includes("hybrid")) {
       return (
         <div
           style={{ backgroundColor: "rgb(241, 10, 118)" }}
@@ -147,13 +177,14 @@ function CourseModal(props) {
         </div>
       );
     } else {
-       return (
+      return (
         <div
           style={{ backgroundColor: "rgb(241, 10, 118)" }}
           className={styles["sections-type"]}
         >
           {type[0]}
-        </div>);
+        </div>
+      );
     }
   };
 
@@ -161,25 +192,17 @@ function CourseModal(props) {
   // savign already tracked sections to the sections' state
   useEffect(() => {
     if (props.show) {
-      var trackedSectionSet = new Set();
       console.log("Modal side effect: ", props.trackedCourses);
-      if (props.trackedCourses[props.course] != null) {
-        console.log(props.trackedCourses[props.course]);
-        for (let course of props.trackedCourses[props.course]) {
-          trackedSectionSet.add(course);
-        }
-        trackedSectionSet = Array.from(trackedSectionSet);
-        setSections(trackedSectionSet);
-      }else{
-        setSections([])
-      }
+      const targetCourse = props.trackedCourses.filter(
+        (course) => course["course_number"] === props.course
+      );
+      setSections(targetCourse.map((course) => course["crn"]));
     }
   }, [props.show]);
 
-    useEffect(() => {
-      console.log("tracked sections:", sections);
-    }, [sections]);
-
+  // useEffect(() => {
+  //   console.log("tracked sections:", sections);
+  // }, [sections]);
 
   return (
     <>

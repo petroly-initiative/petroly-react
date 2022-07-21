@@ -133,8 +133,8 @@ $txt-hg: #0091e7;
   padding-left: 16px;
   padding-right: 16px;
   &:hover {
-      background-color: #13988a !important;
-    }
+    background-color: #13988a !important;
+  }
   &::after {
     display: none;
   }
@@ -253,15 +253,14 @@ $txt-hg: #0091e7;
   margin: 16px auto;
   
   border: none;
-  &:hover{
+  &:hover {
     background-color: $btn-high;
   }
 }
 
-.loader_col{
+.loader_col {
   display: flex;
   justify-content: center;
-  
 }
 
 @media only screen and (max-width: 600px) {
