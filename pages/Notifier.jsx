@@ -28,7 +28,11 @@ import { MdRadar } from "react-icons/md";
 import TrackingCanvas from "../components/notifier/TrackingCanvas";
 import { useQuery, useLazyQuery, useMutation } from "@apollo/client/react";
 import { getDepartments } from "../api/queries";
-import { searchQuery, trackedCoursesQuery } from "../api/notifierQueries";
+import {
+  searchQuery,
+  trackedCoursesQuery,
+  termsQuery,
+} from "../api/notifierQueries";
 import { updateTrackingListMutation } from "../api/notifierMutations";
 
 // TODO: create the responsive layout for the cards, and the off-canvas
@@ -72,6 +76,7 @@ function Notifier(props) {
   } = useQuery(getDepartments, {
     variables: { short: true },
   });
+  const { data: termsData, loading: termsLoading } = useQuery(termsQuery);
 
   const [search, { data: searchData, loading: searchLoading }] =
     useLazyQuery(searchQuery);
@@ -96,13 +101,6 @@ function Notifier(props) {
       return;
     }
     setDepartment(value);
-    search({
-      variables: {
-        title: courseInput.current.value,
-        term: term,
-        department: value,
-      },
-    });
     // refetching courses with provided search input and department
   };
 
@@ -113,13 +111,6 @@ function Notifier(props) {
       return;
     }
     setTerm(value);
-    search({
-      variables: {
-        title: courseInput.current.value,
-        term: value,
-        department: department,
-      },
-    });
     // refetching courses with provided search input and department
   };
 
@@ -188,11 +179,11 @@ function Notifier(props) {
   };
 
   const termMapper = () => {
-    return ["213", "221"].map((termStr) => (
+    return termsData.terms.map(({ short, long }) => (
       <Dropdown.Item
-        id={termStr}
-        active={termStr === term}
-        eventKey={termStr}
+        id={long}
+        active={long === term}
+        eventKey={long}
         // disabled={dept === instructorsState.department}
         onClick={selectTerm}
         className={
@@ -200,7 +191,7 @@ function Notifier(props) {
           ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
         }
       >
-        {termStr}
+        {short}
       </Dropdown.Item>
     ));
   };
@@ -277,11 +268,11 @@ function Notifier(props) {
     navDispatch("notifier");
   }, []);
 
-  if (trackedCoursesLoading || loadingDept) {
+  if (trackedCoursesLoading || loadingDept || termsLoading) {
     // wait for loading cruical queries
     return null;
   }
-  console.log(trackedCoursesData.trackedCourses);
+
   if (!searchData) {
     // show landing page to start searching
     // meaning at the initial load for the page
