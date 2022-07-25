@@ -217,8 +217,6 @@ function CourseModal(props) {
           props.close();
         }}
         size="lg"
-        aria-labelledby="example-custom-modal-styling-title"
-        backdrop="static"
         className={styles["modal-container"] + " border-0"}
         scrollable
       >
