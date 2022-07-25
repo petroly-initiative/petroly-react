@@ -8,6 +8,7 @@ const arabic = {
   rating: "التقييم",
   groups: "المجتمعات",
   language: "اللغة",
+  radar: "الرادار",
   support: "الدعم",
   notifier: "الرادار",
   theme: "وضع العرض",

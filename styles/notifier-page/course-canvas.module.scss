@@ -22,10 +22,20 @@ $x: #622edb;
   }
 }
 
+.dark-btn{
+color: theme.$dark-fnt !important;
+background-color: theme.$dark-xfg !important;
+&:hover{
+  color: $btn-prim !important;
+  background-color: transparent;
+}
+}
+
+
 .settings-btn{
   width: 100%;
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-end; 
   align-items: center;
   background-color: transparent;
   border-radius: 4px;
@@ -39,7 +49,7 @@ $x: #622edb;
 
   &:active, &:focus{
     border: none;
-    color: white;
+    color: white !important;
     background-color: $btn-prim !important;
   }
   span {

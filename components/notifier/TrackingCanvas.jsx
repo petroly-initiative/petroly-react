@@ -113,8 +113,11 @@ function TrackingCanvas(props) {
           }
         >
           <button
-            dir={user.lang === L.AR_SA ? "rtl" : "ltr"}
-            className={styles["settings-btn"] + " shadow-sm"}
+            dir={user.lang === L.AR_SA ? "ltr" : "rtl"}
+            className={
+              styles["settings-btn"] +
+              ` shadow-sm ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+            }
           >
             <span>{langState.settings}</span> <MdNotificationsActive />
           </button>
