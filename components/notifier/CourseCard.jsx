@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { ImLab } from "react-icons/im";
 import { FaBook } from "react-icons/fa";
+
 import { M } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/course-card.module.scss";
@@ -58,36 +59,31 @@ function CourseCard({
 
   const typeMapper = () => {
     if (type.includes("Lecture") && type.includes("Lab")) {
-      
-        return [
-          <div className={styles["sections-type"]}>
-            <FaBook className={styles["lecture-icon"]} />
-            {langState.lectureLabel}
-          </div>,
-          <div className={styles["divider"]}></div>,
-          <div className={styles["sections-type"]}>
-            <ImLab className={styles["lab-icon"]} />
-            {langState.labLabel}
-          </div>,
-        ];
-      }else if (type.includes("Lecture")) {
-        return (
-          <div className={styles["sections-type"]}>
-            <FaBook className={styles["lecture-icon"]} />
-            {langState.lectureLabel}
-          </div>
-        );
-      
+      return [
+        <div className={styles["sections-type"]}>
+          <FaBook className={styles["lecture-icon"]} />
+          {langState.lectureLabel}
+        </div>,
+        <div className={styles["divider"]}></div>,
+        <div className={styles["sections-type"]}>
+          <ImLab className={styles["lab-icon"]} />
+          {langState.labLabel}
+        </div>,
+      ];
+    } else if (type.includes("Lecture")) {
+      return (
+        <div className={styles["sections-type"]}>
+          <FaBook className={styles["lecture-icon"]} />
+          {langState.lectureLabel}
+        </div>
+      );
     } else if (type.includes("hybrid")) {
       return (
         <div className={styles["sections-type"]}>{langState.hybridLabel}</div>
       );
     } else {
-      return (<div className={styles["sections-type"]}>
-        {type[0]}
-      </div>);
+      return <div className={styles["sections-type"]}>{type[0]}</div>;
     }
-   
   };
 
   return (
@@ -111,14 +107,13 @@ function CourseCard({
           <div className={styles["header-info"]}>
             {" "}
             <div className={styles["course-code"]}>{course}</div>
-         
             {typeMapper()}
           </div>
           <div className={styles["course-title"]}>{title}</div>
         </Card.Header>
         <Card.Body className={styles["course-body"]}>
           {/* number of sections, and the number of available seats */}
-          <div className={styles["section-num"]}>
+          <div className={styles["section-num"]}>  
             <span className={styles["text"]}>{langState.sections}</span>
 
             <span className={styles["numeric"]}>{section_count}</span>
@@ -127,7 +122,7 @@ function CourseCard({
           <div className={styles["seats-num"]}>
             <span className={styles["text"]}>{langState.seats}</span>
             <span style={colorCount()} className={styles["numeric"]}>
-              {available_seats}
+              {available_seats < 0 ? 0 : available_seats}
             </span>
           </div>
         </Card.Body>

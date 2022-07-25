@@ -40,7 +40,7 @@ background: theme.$dark-xxfg !important;
   flex-direction: column;
   align-items: flex-start;
   padding: 14px 16px !important;
-  padding-bottom: 16px !important;
+  padding-bottom: 8px !important;
   overflow: hidden;
 
   .course-code {
@@ -82,7 +82,7 @@ background: theme.$dark-xxfg !important;
     margin-right: 8px;
   }
   color: #aaaaaa;
-  font-size: medium;
+  font-size: small;
   border-radius: 4px;
   padding: 1px 8px;
 }
@@ -95,10 +95,12 @@ background: theme.$dark-xxfg !important;
     margin: 0 3px;
     .numeric{
       font-weight: 700;
+      font-size: small;
       margin-left: 4px;
       margin-right: 4px;
     }
     .text{
+      font-size: small;
        margin-left: 4px;
       margin-right: 4px;
     

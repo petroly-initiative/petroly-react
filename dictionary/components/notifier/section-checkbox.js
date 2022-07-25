@@ -10,7 +10,10 @@ const arabic = {
   open: "قائمة الانتظار مفتوحة",
   seats: "المقاعد المتاحة",
   unavailableName: "اسم المحاضر غير متوفر",
-  waitlist: "قائمة الانتظار"
+  waitlist: "قائمة الانتظار",
+  copied: "تم نسخ رقم تعريف الشعبة",
+  crn: " انسخ رقم تعريف الشعبة",
+  notCopied: "فشل نسخ الرقم التعريفي للشعبة"
 };
 
 const english = {
@@ -23,7 +26,10 @@ const english = {
   open: "Waitlist is open",
   seats: "Available Seats",
   unavailableName: "Instructor Name Unavailable",
-  waitlist: "Waitlist"
+  waitlist: "Waitlist",
+  copied: "CRN copied successfully",
+  crn: "copy course reference number (CRN)",
+  notCopied: "failed to copy the CRN to your clipboard"
 };
 
 export default function translator(lang) {

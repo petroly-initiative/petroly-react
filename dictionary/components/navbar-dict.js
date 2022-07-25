@@ -10,7 +10,8 @@ const arabic = {
   language: "اللغة",
   support: "الدعم",
   notifier: "الرادار",
-  theme: "وضع العرض"
+  theme: "وضع العرض",
+  unauth_msg: "الرجاء تسجيل الدخول لاستخدام هذه الخاصية",
 };
 
 const english = {
@@ -23,7 +24,8 @@ const english = {
   support: "Support",
   language: "language",
   radar: "Radar",
-  theme: "Theme"
+  theme: "Theme",
+  unauth_msg: "You need to login to access this feature"
 };
 
 export default function translator(lang) {

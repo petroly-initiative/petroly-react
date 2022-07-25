@@ -83,7 +83,10 @@ function TrackingCanvas(props) {
 
   return (
     <>
-      <Offcanvas show={props.show} onHide={props.close}>
+      <Offcanvas
+        show={props.show}
+        onHide={props.close}
+      >
         <Offcanvas.Header
           className={` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`}
         >

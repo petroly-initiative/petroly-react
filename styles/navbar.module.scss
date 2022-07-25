@@ -257,6 +257,9 @@ $clr-primary: #00ead3;
   }
 }
 
+
+
+
 .nav_pages {
   display: flex;
   flex-direction: column;
@@ -294,6 +297,20 @@ $clr-primary: #00ead3;
   align-items: center;
   border-radius: 4px;
   padding: 4px;
+  
+}
+
+.inactive_btn{
+  color: grey !important;
+  width: 3.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 4px;
+  padding: 4px;
+  .link_text{
+    color: grey;
+  }
 }
 
 .lang-switch{

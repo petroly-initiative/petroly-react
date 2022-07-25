@@ -260,7 +260,7 @@ function instructorsList() {
                       styles["depts"] +
                       ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
                     }
-                    as={"div"}
+                    as={"div"}p
                     eventKey="1"
                     onClick={selectDept}
                     active={instructorsState.department === null}

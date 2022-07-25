@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { NavContext } from "../state-management/navbar-state/NavbarContext";
 import {
   Container,
@@ -10,16 +11,17 @@ import {
   Button,
   OverlayTrigger,
   Tooltip,
+  Spinner,
   Dropdown,
 } from "react-bootstrap";
 import styles from "../styles/notifier-page/courses-list.module.scss";
 import { useRef } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import Head from "next/head";
-import { M, L } from "../constants";
+import { M, L, USER } from "../constants";
 import translator from "../dictionary/pages/notifier-dict";
+import { FaInfoCircle } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
-import { FaRegCalendarAlt } from "react-icons/fa";
 import { GoSettings } from "react-icons/go";
 import { Fade } from "react-awesome-reveal";
 import CourseCard from "../components/notifier/CourseCard";
@@ -34,6 +36,7 @@ import {
   termsQuery,
 } from "../api/notifierQueries";
 import { updateTrackingListMutation } from "../api/notifierMutations";
+import PopMsg from "../components/utilities/PopMsg";
 
 // TODO: create the responsive layout for the cards, and the off-canvas
 /**
@@ -65,9 +68,11 @@ function Notifier(props) {
   });
   const [showModal, setShowModal] = useState(false);
   const [showCanvas, setshowCanvas] = useState(false);
+  const [showMsg, setShowMsg] = useState(false);
+  const [msg, setMsg] = useState("");
   const courseInput = useRef(""); // to sync searchbar textInput information
   const [department, setDepartment] = useState("ICS");
-  const [term, setTerm] = useState(202210); //! will be replaced by current term
+  const [term, setTerm] = useState("202210"); //! will be replaced by current term
   // ? fetched state
   const {
     data: dataDept,
@@ -87,6 +92,9 @@ function Notifier(props) {
   const [updateTrackingList] = useMutation(updateTrackingListMutation, {
     refetchQueries: [{ query: trackedCoursesQuery }],
   });
+
+  // ? router
+  const router = useRouter();
 
   //? utility functions
   // event listener for the "Enter" key
@@ -126,7 +134,9 @@ function Notifier(props) {
   };
 
   const toggleModal = (course_code, title, type) => {
-    if (course_code != null)
+    if (course_code != null) {
+      document.querySelector(".container").style.overflow = "hidden !important";
+      // document.querySelector(".container").style.position = "absolute";
       setCurrentCourse({
         ...{
           course: course_code,
@@ -134,13 +144,27 @@ function Notifier(props) {
           type: type,
         },
       });
+    } else {
+      document.querySelector(".container").style.overflow = "auto";
+      document.querySelector(".container").style.position = "relative";
+    }
 
     setShowModal((state) => !state);
   };
 
   const toggleCanvas = () => {
+    document.querySelector("body").style.overflow = showCanvas
+      ? "hidden"
+      : "auto";
     setshowCanvas((state) => !state);
   };
+
+  const toggleMessage = (status, message) => {
+    if(status){
+      setMsg(message);
+    }
+    setShowMsg(status);  
+  }
   /**
    *
    * @param  obj an object in the format: {course: str, sections: [int..]} to update the offcanvas state
@@ -265,14 +289,35 @@ function Notifier(props) {
   }, [user.lang]);
 
   useEffect(() => {
+    if (user.status === USER.LOGGED_OUT) {
+      router.push("/");
+    }
     navDispatch("notifier");
-  }, []);
+  }, [user.status]);
 
   if (trackedCoursesLoading || loadingDept || termsLoading) {
     // wait for loading cruical queries
-    return null;
+    return (
+      <Container
+        style={{ minHeight: "100vh" }}
+        className={styles["list_container"]}
+      >
+        {" "}
+        <Button className={styles["loading-container"] + " shadow"} disabled>
+          <Spinner
+            className={styles["loading-spinner"]}
+            as="div"
+            animation="grow"
+            size="xl"
+            role="status"
+            aria-hidden="true"
+          />
+        </Button>
+      </Container>
+    );
   }
-
+  // ? a 3 Step guide on how to track a course
+  // ? we need to fire the settings modal for an intitial setup of the user and when changing settings
   if (!searchData) {
     // show landing page to start searching
     // meaning at the initial load for the page
@@ -286,165 +331,18 @@ function Notifier(props) {
           style={{ minHeight: "100vh" }}
           className={styles["list_container"]}
         >
-          <Row style={{ justifyContent: "center" }}>
+          <InputGroup as={Row} className={styles["search-container"]}>
             <Col
-              l={12}
-              xs={11}
-              md={9}
-              xl={7}
-              // style={{ width: "100% !important" }}
+              xl={4}
+              lg={8}
+              md={6}
+              sm={8}
+              xs={12}
+              className={styles["search-field"] + " " + styles["search-cols"]}
             >
-              <InputGroup className={styles["search-container"]}>
-                <Form.Control
-                  id="name"
-                  className={` ${
-                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
-                  }`}
-                  type="text"
-                  placeholder={langState.searchbar}
-                  ref={courseInput}
-                  // onChange={changeName}
-                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                  // onKeyDown={enterSearch}
-                ></Form.Control>
-
-                <Button
-                  type="submit"
-                  onClick={searchCallback}
-                  className={
-                    styles["search_btn"] +
-                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                  }
-                >
-                  <BiSearch size="1.5rem" />
-                </Button>
-                <DropdownButton
-                  drop={"start"}
-                  className={styles["dept-dropdown"]}
-                  variant={`${user.theme === M.DARK ? "dark" : ""}`}
-                  menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
-                  bsPrefix={
-                    styles["dept-dropdown"] +
-                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                  }
-                  align="start"
-                  id="dropdown-menu-align-right"
-                  title={
-                    <FaRegCalendarAlt
-                      style={{ display: "flex", alignItems: "center" }}
-                      size="1.1rem"
-                    />
-                  }
-                >
-                  <Dropdown.Item
-                    className={
-                      user.theme === M.DARK
-                        ? styles["dark-mode"]
-                        : styles["dropdown-h"]
-                    }
-                    disabled
-                  >
-                    {langState.termfilter}
-                  </Dropdown.Item>
-                  {termMapper()}
-                </DropdownButton>
-
-                {/*popover for filters and order*/}
-                <DropdownButton
-                  variant={`${user.theme === M.DARK ? "dark" : ""}`}
-                  menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
-                  bsPrefix={
-                    styles["dept-dropdown"] +
-                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                  }
-                  align="start"
-                  id="dropdown-menu-align-right"
-                  title={<GoSettings size="1.5rem" />}
-                >
-                  <Dropdown.Item
-                    className={
-                      user.theme === M.DARK
-                        ? styles["dark-mode"]
-                        : styles["dropdown-h"]
-                    }
-                    disabled
-                  >
-                    {langState.searchbarFilter}
-                  </Dropdown.Item>
-                  <Dropdown.Divider style={{ height: "1" }} />
-                  <Dropdown.Item
-                    id="null"
-                    className={
-                      styles["depts"] +
-                      ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                    }
-                    as={"div"}
-                    eventKey="1"
-                    onClick={selectDept}
-                    active={department === null}
-                  >
-                    {langState.allDepts}
-                  </Dropdown.Item>
-                  {deptMapper()}
-                </DropdownButton>
-              </InputGroup>
-            </Col>
-          </Row>
-          <OverlayTrigger
-            placement="top"
-            delay={{ show: 350, hide: 400 }}
-            overlay={
-              <Tooltip id="button-tooltip-2">{langState.trackBtn}</Tooltip>
-            }
-          >
-            <Button
-              id="evaluate"
-              className={styles.trackBtn}
-              onClick={toggleCanvas}
-              // style={{
-              //   backgroundColor:
-              //     user.status !== USER.LOGGED_IN || dataHasEvaluated.hasEvaluated
-              //       ? "gray"
-              //       : "#00ead3",
-              // }}
-            >
-              <MdRadar size={32} />
-            </Button>
-          </OverlayTrigger>
-        </Container>
-        {/* external component embedded within the page */}
-        <TrackingCanvas
-          trackedCourses={trackedCoursesData.trackedCourses}
-          close={toggleCanvas}
-          show={showCanvas}
-          save={updateTracked}
-        />
-        {/* login checking is needed */}
-      </>
-    );
-  }
-
-  return (
-    <>
-      <Head>
-        <title>Petroly | Radar</title>
-      </Head>{" "}
-      <Container
-        style={{ minHeight: "100vh" }}
-        className={styles["list_container"]}
-      >
-        <Row style={{ justifyContent: "center" }}>
-          <Col
-            l={12}
-            xs={11}
-            md={9}
-            xl={7}
-            // style={{ width: "100% !important" }}
-          >
-            <InputGroup className={styles["search-container"]}>
               <Form.Control
                 id="name"
-                className={` ${
+                className={`${styles["search-input"]} ${
                   user.theme === M.DARK ? styles["dark-mode-input"] : ""
                 }`}
                 type="text"
@@ -465,23 +363,28 @@ function Notifier(props) {
               >
                 <BiSearch size="1.5rem" />
               </Button>
+            </Col>
+            <Col
+              xl={3}
+              lg={4}
+              md={6}
+              sm={4}
+              xs={12}
+              className={[styles["search-btns"], styles["search-cols"]]}
+            >
+              
               <DropdownButton
                 drop={"start"}
                 className={styles["dept-dropdown"]}
                 variant={`${user.theme === M.DARK ? "dark" : ""}`}
                 menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
                 bsPrefix={
-                  styles["dept-dropdown"] +
+                  styles["term-dropdown"] +
                   ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
                 }
                 align="start"
                 id="dropdown-menu-align-right"
-                title={
-                  <FaRegCalendarAlt
-                    style={{ display: "flex", alignItems: "center" }}
-                    size="1.1rem"
-                  />
-                }
+                title={term}
               >
                 <Dropdown.Item
                   className={
@@ -506,7 +409,7 @@ function Notifier(props) {
                 }
                 align="start"
                 id="dropdown-menu-align-right"
-                title={<GoSettings size="1.5rem" />}
+                title={department}
               >
                 <Dropdown.Item
                   className={
@@ -534,11 +437,163 @@ function Notifier(props) {
                 </Dropdown.Item>
                 {deptMapper()}
               </DropdownButton>
-            </InputGroup>
+            </Col>
+          </InputGroup>
+
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 350, hide: 400 }}
+            overlay={
+              <Tooltip id="button-tooltip-2">{langState.trackBtn}</Tooltip>
+            }
+          >
+            <Button
+              id="evaluate"
+              className={styles.trackBtn}
+              onClick={toggleCanvas}
+              // style={{
+              //   backgroundColor:
+              //     user.status !== USER.LOGGED_IN || dataHasEvaluated.hasEvaluated
+              //       ? "gray"
+              //       : "#00ead3",
+              // }}
+            >
+              <MdRadar size={32} />
+            </Button>
+          </OverlayTrigger>
+          <div className={styles["first search placeholder"]}></div>
+        </Container>
+        {/* external component embedded within the page */}
+        <TrackingCanvas
+          trackedCourses={trackedCoursesData.trackedCourses}
+          close={toggleCanvas}
+          show={showCanvas}
+          save={updateTracked}
+        />
+        {/* login checking is needed */}
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Head>
+        <title>Petroly | Radar</title>
+      </Head>{" "}
+      <Container
+        style={{ minHeight: "100vh" }}
+        className={styles["list_container"]}
+      >
+        <InputGroup as={Row} className={styles["search-container"]}>
+          <Col
+            xl={4}
+            lg={8}
+            md={6}
+            sm={8}
+            xs={12}
+            className={styles["search-field"] + " " + styles["search-cols"]}
+          >
+            <Form.Control
+              id="name"
+              className={`${styles["search-input"]} ${
+                user.theme === M.DARK ? styles["dark-mode-input"] : ""
+              }`}
+              type="text"
+              placeholder={langState.searchbar}
+              ref={courseInput}
+              // onChange={changeName}
+              dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+              // onKeyDown={enterSearch}
+            ></Form.Control>
+
+            <Button
+              type="submit"
+              onClick={searchCallback}
+              className={
+                styles["search_btn"] +
+                ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+              }
+            >
+              <BiSearch size="1.5rem" />
+            </Button>
           </Col>
-        </Row>
+          <Col
+            xl={3}
+            lg={4}
+            md={6}
+            sm={4}
+            xs={12}
+            className={[styles["search-btns"], styles["search-cols"]]}
+          >
+            <DropdownButton
+              drop={"start"}
+              className={styles["dept-dropdown"]}
+              variant={`${user.theme === M.DARK ? "dark" : ""}`}
+              menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
+              bsPrefix={
+                styles["term-dropdown"] +
+                ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+              }
+              align="start"
+              id="dropdown-menu-align-right"
+              title={term}
+            >
+              <Dropdown.Item
+                className={
+                  user.theme === M.DARK
+                    ? styles["dark-mode"]
+                    : styles["dropdown-h"]
+                }
+                disabled
+              >
+                {langState.termfilter}
+              </Dropdown.Item>
+              {termMapper()}
+            </DropdownButton>
+
+            {/*popover for filters and order*/}
+            <DropdownButton
+              variant={`${user.theme === M.DARK ? "dark" : ""}`}
+              menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
+              bsPrefix={
+                styles["dept-dropdown"] +
+                ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+              }
+              align="start"
+              id="dropdown-menu-align-right"
+              title={department}
+            >
+              <Dropdown.Item
+                className={
+                  user.theme === M.DARK
+                    ? styles["dark-mode"]
+                    : styles["dropdown-h"]
+                }
+                disabled
+              >
+                {langState.searchbarFilter}
+              </Dropdown.Item>
+              <Dropdown.Divider style={{ height: "1" }} />
+              <Dropdown.Item
+                id="null"
+                className={
+                  styles["depts"] +
+                  ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                }
+                as={"div"}
+                eventKey="1"
+                onClick={selectDept}
+                active={department === null}
+              >
+                {langState.allDepts}
+              </Dropdown.Item>
+              {deptMapper()}
+            </DropdownButton>
+          </Col>
+        </InputGroup>
+
         <Row style={{ marginBottom: 16 }}>
-          <Fade className={"col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-4"}>
+          <Fade className={"col-sm-12 col-xs-12 col-md-6 col-lg-4 col-xl-4"}>
             {courseMapper()}
           </Fade>
         </Row>
@@ -576,12 +631,19 @@ function Notifier(props) {
         type={currentCourse.type}
         term={term}
         department={department}
+        msgHandler = {toggleMessage}
       />
       <TrackingCanvas
         trackedCourses={trackedCoursesData.trackedCourses}
         close={toggleCanvas}
         show={showCanvas}
         save={updateTracked}
+      />
+      <PopMsg 
+      msg = {msg}
+      handleClose = {toggleMessage}
+      visible = {showMsg}
+      success
       />
       {/* login checking is needed */}
     </>

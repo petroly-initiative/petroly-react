@@ -15,12 +15,10 @@ import { AiFillHome } from "react-icons/ai";
 import { MdDashboard } from "react-icons/md";
 import { useContext, useEffect, useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
-import { ButtonGroup } from "react-bootstrap";
+import { ButtonGroup, Tooltip, OverlayTrigger, Popover } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { FaSignInAlt } from "react-icons/fa";
-import { OverlayTrigger } from "react-bootstrap";
-import Popover from "react-bootstrap/Popover";
 import { useQuery, useMutation } from "@apollo/client";
 import { meQuery } from "../../api/queries";
 import {
@@ -81,6 +79,10 @@ export default function Navbar(props) {
   useEffect(() => {
     userDispatch({ type: T.CHANGE_THEME, theme: theme });
   }, [theme, user.status]);
+
+  useEffect(() => {
+    console.log(user);
+  }, []);
 
   //--------
 
@@ -201,7 +203,7 @@ export default function Navbar(props) {
             <Link href="/" className={styles.navbar_link}>
               <Image
                 style={{ margin: 0 }}
-                src="/favicon.webp"
+                src="/favicon.svg"
                 width={30}
                 height={30}
                 alt="Petroly icon"
@@ -737,15 +739,39 @@ export default function Navbar(props) {
                   </Link>
                 </li>
                 <li className={styles.navbar_item}>
-                  <Link href="/Notifier" className={styles.navbar_link}>
-                    <div className={styles.link_btn + " " + navStyles.notifier}>
-                      <MdRadar
-                        className={styles.nav_img}
-                        size="1.3em"
-                      />
-                      <div className={styles.link_text}>{langState.radar}</div>
-                    </div>
-                  </Link>
+                  {user.status !== USER.LOGGED_OUT ? (
+                    <Link href="/Notifier" className={styles.navbar_link}>
+                      <div
+                        className={styles.link_btn + " " + navStyles.notifier}
+                      >
+                        <MdRadar className={styles.nav_img} size="1.3em" />
+                        <div className={styles.link_text}>
+                          {langState.radar}
+                        </div>
+                      </div>
+                    </Link>
+                  ) : (
+                    <OverlayTrigger
+                      // trigger="click"
+                      className={styles.navbar_link}
+                      placement={"left"}
+                      delay={{ show: 0, hide: 50 }}
+                      overlay={<Tooltip>{langState.unauth_msg}</Tooltip>}
+                    >
+                      {/* <Button className={styles.inactive_link} disabled> */}
+                      <div
+                        className={
+                          styles.inactive_btn + " " + navStyles.notifier
+                        }
+                      >
+                        <MdRadar className={styles.nav_img} size="1.3em" />
+                        <div className={styles.link_text}>
+                          {langState.radar}
+                        </div>
+                      </div>
+                      {/* </Button> */}
+                    </OverlayTrigger>
+                  )}
                 </li>
                 <li id="groups-btn" className={styles.navbar_item}>
                   <Link href="/Groups" className={styles.navbar_link}>
@@ -798,7 +824,7 @@ export default function Navbar(props) {
               <Link href="/" className={styles.navbar_link}>
                 <Image
                   alt="Petroly Icon"
-                  src="/favicon.webp"
+                  src="/favicon.svg"
                   width={30}
                   height={30}
                 />
@@ -1286,15 +1312,31 @@ export default function Navbar(props) {
                 </Link>
               </li>
               <li className={styles.navbar_item}>
-                <Link href="/Notifier" className={styles.navbar_link}>
-                  <div className={styles.link_btn + " " + navStyles.notifier}>
-                    <MdRadar
-                      className={styles.nav_img}
-                      size="1.3em"
-                    />
-                    <div className={styles.link_text}>{langState.radar}</div>
-                  </div>
-                </Link>
+                {user.status !== USER.LOGGED_OUT ? (
+                  <Link href="/Notifier" className={styles.navbar_link}>
+                    <div className={styles.link_btn + " " + navStyles.notifier}>
+                      <MdRadar className={styles.nav_img} size="1.3em" />
+                      <div className={styles.link_text}>{langState.radar}</div>
+                    </div>
+                  </Link>
+                ) : (
+                  <OverlayTrigger
+                    // trigger="click"
+                    className={styles.navbar_link}
+                    placement={"left"}
+                    delay={{ show: 0, hide: 50 }}
+                    overlay={<Tooltip>{langState.unauth_msg}</Tooltip>}
+                  >
+                    {/* <Button className={styles.inactive_link} disabled> */}
+                    <div
+                      className={styles.inactive_btn + " " + navStyles.notifier}
+                    >
+                      <MdRadar className={styles.nav_img} size="1.3em" />
+                      <div className={styles.link_text}>{langState.radar}</div>
+                    </div>
+                    {/* </Button> */}
+                  </OverlayTrigger>
+                )}
               </li>
               <li id="groups-btn" className={styles.navbar_item}>
                 <Link href="/Groups" className={styles.navbar_link}>

@@ -6,7 +6,7 @@ const arabic = {
   searchbarFilter: "القسم الجامعي",
   trackBtn: "استعرض المواد المتتبعة",
   termfilter: "الفصل الأكاديمي",
-  allDepts: "جميع الأقسام"
+  allDepts: "كل الأقسام"
 };
 const english = {
   depratments: "Departments List",
@@ -14,7 +14,7 @@ const english = {
   searchbarFilter: "Departments",
   trackBtn: "View Tracked Courses",
   termfilter: "Academic term",
-  allDepts: "All Departments",
+  allDepts: "All ",
 };
 
 export default function translator(lang) {

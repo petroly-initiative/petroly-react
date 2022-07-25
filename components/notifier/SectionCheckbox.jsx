@@ -9,6 +9,7 @@ import { FaBook } from "react-icons/fa";
 import { CgUnavailable } from "react-icons/cg";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/section-checkbox.module.scss";
+import { MdContentCopy } from "react-icons/md";
 
 /**
  * TODO
@@ -71,6 +72,21 @@ function SectionCheckbox(props) {
       );
     });
   };
+
+  const copyCrn = (e) => {
+    navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
+      if (result.state === "granted" || result.state == "prompt") {
+        // use popMsg utility to signal successful copy
+        navigator.clipboard.writeText(props.details[0].crn).then(() => {
+          props.msgHandler(true, langState.copied);
+        }).catch(() => {
+          props.msgHandler(true, langState.notCopied);
+        })
+        
+      }
+    });
+  };
+
   // ? mappers
   const typeMapper = (obj) => {
     if (obj.class_type === "LEC") {
@@ -127,7 +143,22 @@ function SectionCheckbox(props) {
         } ${user.theme === M.DARK ? styles["dark-txt"] : ""}`}
       >
         {" "}
-        Section # {props.details[0].section_number}
+        <span className={styles["section-num"]}>
+          {" "}
+          Section # {props.details[0].section_number}
+        </span>
+       <OverlayTrigger
+              placement="top"
+              delay={{ show: 0, hide: 50 }}
+              overlay={
+                <Tooltip id="button-tooltip-2">{langState.crn}</Tooltip>
+              }
+            > 
+            <button onClick={copyCrn} className={styles["crn-copy"]}>
+          <MdContentCopy />
+          <span className={styles["crn-num"]}>{props.details[0].crn}</span>
+        </button>
+        </OverlayTrigger>
       </div>
       <Card
         onClick={toggleTrack}
@@ -233,7 +264,7 @@ function SectionCheckbox(props) {
                     {props.details[0].available_seats}
                   </span>{" "}
                 </span>
-                <span className={styles["divider"]}></span>
+                {/* <span className={styles["divider"]}></span> */}
                 {/*  replace with a boolean for open waitlist */}
                 <span
                   className={
@@ -369,7 +400,7 @@ function SectionCheckbox(props) {
                   {props.details[1].available_seats}
                 </span>{" "}
               </span>
-              <span className={styles["divider"]}></span>
+              {/* <span className={styles["divider"]}></span> */}
               {/*  replace with a boolean for open waitlist */}
               <span
                 className={
