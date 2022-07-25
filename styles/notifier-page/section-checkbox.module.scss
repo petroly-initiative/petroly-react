@@ -58,6 +58,7 @@ $x: #22d77c;
   border: 0px solid white !important;
   border-radius: 4px;
   padding: 16px;
+  background-color: white;
   box-shadow: 0 0.25rem 0.1rem 0px rgba(0, 0, 0, 0.253);
   margin-bottom: 8px;
   transition: 300ms;
@@ -78,7 +79,7 @@ $x: #22d77c;
     color: $fnt-clr;
     font-weight: $fnt-wght;
     transition: 300ms ease;
-    .crn-copy{
+  .crn-copy{
       background-color: transparent;
       border: none;
       font-size: medium;
@@ -89,7 +90,7 @@ $x: #22d77c;
       color: #7e7e7f;
       &:hover, &:active, &:focus{
         color: $btn-high !important;
-        scale: 1.05;
+       transform: scale(1.05);
       }
     }
 }

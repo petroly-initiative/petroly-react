@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useContext, useState } from "react";
 import { Offcanvas, CloseButton, Button } from "react-bootstrap";
-import { M } from "../../constants";
+import { M, L } from "../../constants";
 import translator from "../../dictionary/components/notifier/course-canvas";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/course-canvas.module.scss";
 import SectionDisplay from "./SectionDisplay";
 import mockData from "../../mocks/mockData.json";
+import { MdNotificationsActive } from "react-icons/md";
 
 /**
  * TODO
@@ -56,6 +57,7 @@ function TrackingCanvas(props) {
 
       return (
         <SectionDisplay
+          msgHandler={props.msgHandler}
           details={sectionObj}
           hybrid={sectionObj.length === 2}
           delete={deleteSections}
@@ -81,12 +83,13 @@ function TrackingCanvas(props) {
     props.save(courseSections);
   };
 
+  useEffect(() => {
+    setLang(() => translator(user.lang));
+  }, [user.lang]);
+
   return (
     <>
-      <Offcanvas
-        show={props.show}
-        onHide={props.close}
-      >
+      <Offcanvas show={props.show} onHide={props.close}>
         <Offcanvas.Header
           className={` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`}
         >
@@ -109,6 +112,12 @@ function TrackingCanvas(props) {
             ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
           }
         >
+          <button
+            dir={user.lang === L.AR_SA ? "rtl" : "ltr"}
+            className={styles["settings-btn"] + " shadow-sm"}
+          >
+            <span>{langState.settings}</span> <MdNotificationsActive />
+          </button>
           {/* populate with section display */}
           {populateCourses()}
         </Offcanvas.Body>

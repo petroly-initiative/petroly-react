@@ -41,6 +41,7 @@ import translator from "../../dictionary/components/navbar-dict";
 import { NavContext } from "../../state-management/navbar-state/NavbarContext";
 
 import SignInModal from "./SignInModal";
+import { useRouter } from "next/router";
 /**
  * TODO:
  * - Loading state before updating the context
@@ -57,7 +58,7 @@ export default function Navbar(props) {
   const [showSignIn, setShowSignIn] = useState(false);
   const [SaveMsg, setSaveMsg] = useState("");
   const [activated, setActive] = useState(true);
-
+  const router = useRouter();
   //--- signed off state
 
   const [username, setUsername] = useState("");
@@ -111,11 +112,23 @@ export default function Navbar(props) {
     const refreshToken = localStorage.getItem("refreshToken")
       ? localStorage.getItem("refreshToken")
       : "";
+
+    if(navState.current === "notifier"){
+      router.push("/home").then( async() => {
+         await revokeToken({ variables: { refreshToken } });
+    await userDispatch({
+      type: T.LOGOUT,
+      lang: localStorage.getItem("lang") || L.EN_US,
+    });
+      });
+
+    } else {
     await revokeToken({ variables: { refreshToken } });
     await userDispatch({
       type: T.LOGOUT,
       lang: localStorage.getItem("lang") || L.EN_US,
     });
+  }
   };
 
   var navStyles = {

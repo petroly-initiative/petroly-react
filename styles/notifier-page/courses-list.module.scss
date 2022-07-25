@@ -22,6 +22,10 @@ $txt-hg: #0091e7;
   }
 }
 
+.dark-txt {
+  color: $btn-high !important;
+}
+
 .dark-btn {
   background-color: theme.$dark-xfg !important;
   background: theme.$dark-xfg !important;
@@ -135,7 +139,6 @@ $txt-hg: #0091e7;
   }
 }
 
-
 .dept-dropdown {
   border: none;
   border-width: 0;
@@ -153,6 +156,70 @@ $txt-hg: #0091e7;
   }
   &::after {
     display: none;
+  }
+}
+
+.tutorial-canvas {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.tutorial-map {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.tutorial-step {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  padding: 16px 22px;
+  margin-bottom: 12px;
+  background-color: white;
+  border-radius: 6px;
+  .step-icon {
+    font-size: 50px;
+    color: $btn-high !important;
+    margin: 20px 12px;
+    svg path{
+      fill: $btn-high !important;
+    }
+  }
+
+  .step-content {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    .step-header {
+      font-weight: 700 !important;
+    }
+    .step-content {
+      color: $txt-fill;
+      font-size: medium;
+    }
+  }
+}
+
+.tut-header {
+  font-weight: 700;
+  display: flex;
+  justify-content: flex-start;
+  text-align: center;
+  font-size: max(20px , 3vw);
+  
+  margin-bottom: 26px;
+  span{
+    margin: 0 8px
   }
 }
 
@@ -192,7 +259,7 @@ $txt-hg: #0091e7;
   font-weight: 700;
 }
 
-.search-btns{
+.search-btns {
   width: fit-content;
 }
 
@@ -239,7 +306,7 @@ $txt-hg: #0091e7;
   // max-width: 700px;
   width: 100% !important;
   display: flex;
-  z-index: 100;
+  z-index: 5;
   justify-content: center;
   margin-bottom: 12px;
   align-items: center;
@@ -251,9 +318,8 @@ $txt-hg: #0091e7;
   border: rgba(255, 255, 255, 0);
 }
 
-.search-input{
-  border-radius:  0 2px 2px 0;
-  
+.search-input {
+  border-radius: 0 2px 2px 0;
 }
 
 .search_btn {
@@ -284,7 +350,6 @@ $txt-hg: #0091e7;
     margin: 0%;
   }
 
- 
   .trackBtn {
     right: 2rem;
     bottom: 1rem;
@@ -298,21 +363,28 @@ $txt-hg: #0091e7;
   }
 }
 
-@media only screen and (max-width: 576px){
-   .search_btn {
-    border-radius: 0 2px 2px 0 ;
+@media only screen and (max-width: 576px) {
+  .search_btn {
+    border-radius: 0 2px 2px 0;
   }
 
   .search-btns {
     display: flex;
     justify-content: center;
-    padding-top: 8px ;
+    padding-top: 8px;
     width: inherit;
-    button{
+    button {
       margin: 0 4px;
       border-radius: 8px;
       width: 50% !important;
     }
   }
+}
 
+@media only screen and (max-width: 576px) {
+  .tutorial-step{
+  .step-content{
+    width: 100%;
+  }
+}
 }

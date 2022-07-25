@@ -10,6 +10,7 @@ import { FaBook } from "react-icons/fa";
 import { CgUnavailable } from "react-icons/cg";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/section-display.module.scss";
+import { MdContentCopy } from "react-icons/md";
 
 /**
  * TODO
@@ -72,6 +73,25 @@ function SectionDisplay(props) {
     });
   };
 
+    const copyCrn = (e) => {
+      navigator.permissions
+        .query({ name: "clipboard-write" })
+        .then((result) => {
+          if (result.state === "granted" || result.state == "prompt") {
+            // use popMsg utility to signal successful copy
+            navigator.clipboard
+              .writeText(props.details[0].crn)
+              .then(() => {
+                props.msgHandler(true, langState.copied);
+              })
+              .catch(() => {
+                props.msgHandler(true, langState.notCopied);
+              });
+          }
+        });
+    };
+
+
   const typeMapper = (obj) => {
     if (obj.class_type === "LEC") {
       return (
@@ -117,29 +137,41 @@ function SectionDisplay(props) {
     <>
       <div className={styles["hover-detector"]}>
         {/* ! needs trasnlation */}
-        <div className={styles["unchecked-input"]}>
+        <div
+          className={`${styles["unchecked-input"]} ${
+            user.theme === M.DARK ? styles["dark-txt"] : ""
+          }`}
+        >
+          {" "}
           <span className={styles["section-num"]}>
             {" "}
-            <span className={styles["course-code"]}>
-              {props.details[0]["course_number"]}
-            </span>
-            &nbsp;
-            <span className={user.theme === M.DARK ? styles["dark-txt"] : ""}>
-              {" "}
-              # {props.details[0].section_number}
-            </span>
+            Section # {props.details[0].section_number}
           </span>
-          <OverlayTrigger
-            placement="top"
-            delay={{ show: 1000, hide: 300 }}
-            overlay={
-              <Tooltip id="button-tooltip-2">{langState.cancel}</Tooltip>
-            }
-          >
-            <button onClick={deleteSection} className={styles["untrack-btn"]}>
-              <MdOutlineCancel />
-            </button>
-          </OverlayTrigger>
+          <display className={styles["header-btns"]}>
+            <OverlayTrigger
+              placement="top"
+              delay={{ show: 0, hide: 50 }}
+              overlay={<Tooltip id="button-tooltip-2">{langState.crn}</Tooltip>}
+            >
+              <button onClick={copyCrn} className={styles["crn-copy"]}>
+                <MdContentCopy />
+                <span className={styles["crn-num"]}>
+                  {props.details[0].crn}
+                </span>
+              </button>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="top"
+              delay={{ show: 1000, hide: 300 }}
+              overlay={
+                <Tooltip id="button-tooltip-2">{langState.cancel}</Tooltip>
+              }
+            >
+              <button onClick={deleteSection} className={styles["untrack-btn"]}>
+                <MdOutlineCancel />
+              </button>
+            </OverlayTrigger>
+          </display>
         </div>
         <Card
           className={
@@ -254,7 +286,6 @@ function SectionDisplay(props) {
                       {props.details[0].available_seats}
                     </span>{" "}
                   </span>
-                  <span className={styles["divider"]}></span>
                   {/*  replace with a boolean for open waitlist */}
                   <span
                     className={
@@ -400,7 +431,7 @@ function SectionDisplay(props) {
                     {props.details[1].available_seats}
                   </span>{" "}
                 </span>
-                <span className={styles["divider"]}></span>
+
                 {/*  replace with a boolean for open waitlist */}
                 <span
                   className={

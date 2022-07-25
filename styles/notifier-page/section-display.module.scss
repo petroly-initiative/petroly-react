@@ -57,8 +57,8 @@ $x: #22d77c;
   transition: 300ms;
 }
 
-@mixin sectionNumber($fnt-clr, $fnt-wght: 300) {
-  font-size: 18px;
+@mixin headerLayout($fnt-clr, $fnt-wght: 300) {
+  font-size: 22px;
   white-space: nowrap;
   width: 100%;
   display: flex;
@@ -70,10 +70,35 @@ $x: #22d77c;
   color: $fnt-clr;
   font-weight: $fnt-wght;
   transition: 300ms ease;
+  .crn-copy {
+    background-color: transparent;
+    border: none;
+    font-size: medium;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #7e7e7f;
+    &:hover,
+    &:active,
+    &:focus {
+      color: $btn-high !important;
+      transform: scale(1.05);
+    }
+  }
+}
+
+.crn-num {
+  margin-right: 12px;
+}
+
+.header-btns {
+  width: fit-content;
+  display: flex;
 }
 
 .unchecked-input {
-  @include sectionNumber(gray);
+  @include headerLayout(gray);
 }
 
 .checked-container {
@@ -321,6 +346,7 @@ $x: #22d77c;
   display: flex;
   align-items: center;
   color: $txt-fill;
+  margin-right: 16px;
 }
 
 .meta-info {

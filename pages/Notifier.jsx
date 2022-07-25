@@ -20,9 +20,10 @@ import { UserContext } from "../state-management/user-state/UserContext";
 import Head from "next/head";
 import { M, L, USER } from "../constants";
 import translator from "../dictionary/pages/notifier-dict";
+
+import { BiSearch, BiTimeFive } from "react-icons/bi";
+import { MdOutlineHighlightAlt } from "react-icons/md";
 import { FaInfoCircle } from "react-icons/fa";
-import { BiSearch } from "react-icons/bi";
-import { GoSettings } from "react-icons/go";
 import { Fade } from "react-awesome-reveal";
 import CourseCard from "../components/notifier/CourseCard";
 import CourseModal from "../components/notifier/CourseModal";
@@ -160,11 +161,11 @@ function Notifier(props) {
   };
 
   const toggleMessage = (status, message) => {
-    if(status){
+    if (status) {
       setMsg(message);
     }
-    setShowMsg(status);  
-  }
+    setShowMsg(status);
+  };
   /**
    *
    * @param  obj an object in the format: {course: str, sections: [int..]} to update the offcanvas state
@@ -289,11 +290,14 @@ function Notifier(props) {
   }, [user.lang]);
 
   useEffect(() => {
-    if (user.status === USER.LOGGED_OUT) {
+    if (user.status !== USER.LOGGED_IN && !window.sessionStorage.getItem("token")) {
       router.push("/");
     }
-    navDispatch("notifier");
   }, [user.status]);
+
+  useEffect(() => {
+    navDispatch("notifier");
+  }, []);
 
   if (trackedCoursesLoading || loadingDept || termsLoading) {
     // wait for loading cruical queries
@@ -316,7 +320,7 @@ function Notifier(props) {
       </Container>
     );
   }
-  // ? a 3 Step guide on how to track a course
+  // ? a 3 Step guide on how to track a course search, select, wait)
   // ? we need to fire the settings modal for an intitial setup of the user and when changing settings
   if (!searchData) {
     // show landing page to start searching
@@ -333,7 +337,7 @@ function Notifier(props) {
         >
           <InputGroup as={Row} className={styles["search-container"]}>
             <Col
-              xl={4}
+              xl={7}
               lg={8}
               md={6}
               sm={8}
@@ -372,7 +376,6 @@ function Notifier(props) {
               xs={12}
               className={[styles["search-btns"], styles["search-cols"]]}
             >
-              
               <DropdownButton
                 drop={"start"}
                 className={styles["dept-dropdown"]}
@@ -461,7 +464,85 @@ function Notifier(props) {
               <MdRadar size={32} />
             </Button>
           </OverlayTrigger>
-          <div className={styles["first search placeholder"]}></div>
+          <div
+            dir={user.lang === L.AR_SA ? "rtl" : "ltr"}
+            className={styles["tutorial-canvas"]}
+          >
+            <div
+              dir={user.lang === L.AR_SA ? "ltr" : "rtl"}
+              className={`${styles["tut-header"]} ${
+                user.theme === M.DARK ? styles["dark-txt"] : ""
+              }`}
+            >
+              <span>{langState.tutorialHeader}</span>{" "}
+              <span>
+                {" "}
+                <FaInfoCircle />{" "}
+              </span>
+            </div>
+            <div className={styles["tutorial-map"]}>
+              <div
+                className={
+                  styles["tutorial-step"] +
+                  ` shadow-sm ${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`
+                }
+              >
+                {/*  place the icon here */}
+                <BiSearch className={styles["step-icon"]} />
+                <div className={styles["step-content"]}>
+                  <h3 className={styles["step-header"]}>
+                    {langState.searchHeader}
+                  </h3>
+
+                  <div className={styles["step-body"]}>
+                    {langState.searchContent}
+                  </div>
+                </div>
+              </div>
+              <div
+                className={
+                  styles["tutorial-step"] +
+                  ` shadow-sm ${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`
+                }
+              >
+                {/*  place the icon here */}
+                <MdOutlineHighlightAlt className={styles["step-icon"]} />
+                <div className={styles["step-content"]}>
+                  <h3 className={styles["step-header"]}>
+                    {langState.selectHeader}
+                  </h3>
+
+                  <div className={styles["step-body"]}>
+                    {langState.selectContent}
+                  </div>
+                </div>
+              </div>
+              <div
+                className={
+                  styles["tutorial-step"] +
+                  ` shadow-sm ${
+                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`
+                }
+              >
+                {/*  place the icon here */}
+                <BiTimeFive color="#00ead3" className={styles["step-icon"]} />
+                <div className={styles["step-content"]}>
+                  <h3 className={styles["step-header"]}>
+                    {langState.waitHeader}
+                  </h3>
+
+                  <div className={styles["step-body"]}>
+                    {langState.waitContent}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </Container>
         {/* external component embedded within the page */}
         <TrackingCanvas
@@ -469,6 +550,13 @@ function Notifier(props) {
           close={toggleCanvas}
           show={showCanvas}
           save={updateTracked}
+          msgHandler={toggleMessage}
+        />
+        <PopMsg
+          msg={msg}
+          handleClose={toggleMessage}
+          visible={showMsg}
+          success
         />
         {/* login checking is needed */}
       </>
@@ -631,20 +719,16 @@ function Notifier(props) {
         type={currentCourse.type}
         term={term}
         department={department}
-        msgHandler = {toggleMessage}
+        msgHandler={toggleMessage}
       />
       <TrackingCanvas
         trackedCourses={trackedCoursesData.trackedCourses}
         close={toggleCanvas}
         show={showCanvas}
         save={updateTracked}
+        msgHandler={toggleMessage}
       />
-      <PopMsg 
-      msg = {msg}
-      handleClose = {toggleMessage}
-      visible = {showMsg}
-      success
-      />
+      <PopMsg msg={msg} handleClose={toggleMessage} visible={showMsg} success />
       {/* login checking is needed */}
     </>
   );

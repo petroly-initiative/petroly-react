@@ -22,7 +22,30 @@ $x: #622edb;
   }
 }
 
+.settings-btn{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+  background-color: transparent;
+  border-radius: 4px;
+  font-weight: 600;
+  box-shadow: none;
+  color: rgb(89, 88, 88);
+  padding: 16px;
+  font-size: large;
+  background-color: white;
+  border: none;
 
+  &:active, &:focus{
+    border: none;
+    color: white;
+    background-color: $btn-prim !important;
+  }
+  span {
+    margin: 0 10px;
+  }
+}
 
 .header-title {
   color: #00ead3;

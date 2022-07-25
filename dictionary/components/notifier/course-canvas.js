@@ -3,13 +3,15 @@ import { L } from "../../../constants";
 const arabic = {
   header: "المواد المتتبعة",
   instructions: "حالة جميع المواد المتتبعة",
-  delete: "إلغاء تتبع المادة"
+  delete: "إلغاء تتبع المادة",
+  settings: "إعدادات الإشعارات"
 };
 
 const english = {
   header: "Tracked Courses",
   instructions: "Status of all tracked courses",
-  delete: "Cancel section tracking"
+  delete: "Cancel section tracking",
+  settings: "Notifications Settings"
 };
 
 export default function translator(lang) {
