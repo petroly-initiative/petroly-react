@@ -73,7 +73,7 @@ function Notifier(props) {
   const [msg, setMsg] = useState("");
   const courseInput = useRef(""); // to sync searchbar textInput information
   const [department, setDepartment] = useState("ICS");
-  const [term, setTerm] = useState("202210"); //! will be replaced by current term
+  const [term, setTerm] = useState({ long: "202210", short: "221" }); //! will be replaced by current term
   // ? fetched state
   const {
     data: dataDept,
@@ -119,7 +119,9 @@ function Notifier(props) {
       // A term must be selected always
       return;
     }
-    setTerm(value);
+    const term = termsData.terms.find((term) => value === term.long);
+    console.log("Term: ", term);
+    setTerm(term);
     // refetching courses with provided search input and department
   };
 
@@ -127,7 +129,7 @@ function Notifier(props) {
     search({
       variables: {
         title: courseInput.current.value,
-        term: term,
+        term: term.long,
         department: department,
       },
     });
@@ -290,7 +292,10 @@ function Notifier(props) {
   }, [user.lang]);
 
   useEffect(() => {
-    if (user.status !== USER.LOGGED_IN && !window.sessionStorage.getItem("token")) {
+    if (
+      user.status !== USER.LOGGED_IN &&
+      !window.sessionStorage.getItem("token")
+    ) {
       router.push("/");
     }
   }, [user.status]);
@@ -387,7 +392,7 @@ function Notifier(props) {
                 }
                 align="start"
                 id="dropdown-menu-align-right"
-                title={term}
+                title={term.short}
               >
                 <Dropdown.Item
                   className={
@@ -624,7 +629,7 @@ function Notifier(props) {
               }
               align="start"
               id="dropdown-menu-align-right"
-              title={term}
+              title={term.short}
             >
               <Dropdown.Item
                 className={

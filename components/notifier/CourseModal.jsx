@@ -60,7 +60,6 @@ function CourseModal(props) {
     }
   };
 
-
   // a function to broadcast confirmed sections to the off canvas
   // ! submitting this modal shall mutate all sections related to this course from the user list
   const trackSections = () => {
@@ -69,13 +68,13 @@ function CourseModal(props) {
       .filter((course) => course["course_number"] !== props.course)
       .map((course) => ({
         crn: course["crn"],
-        term: props.term.toString(),
+        term: course["term_code"],
         department: course["department_code"],
       }));
     // merging newly tracked courses with already tracked courses
     var newSections = [...sections].map((crn) => ({
       crn: crn,
-      term: props.term.toString(),
+      term: props.term.long,
       department: props.department,
     }));
     newSections.push(...otherSections);
@@ -134,7 +133,7 @@ function CourseModal(props) {
           toggleCheck={toggleSection}
           hybrid={course.length == 2}
           tracked={trackedSectionSet.includes(course[0]["crn"])}
-          msgHandler = {props.msgHandler}
+          msgHandler={props.msgHandler}
         />
       );
     });
