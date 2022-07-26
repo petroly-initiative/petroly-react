@@ -58,7 +58,8 @@ function CourseCard({
   };
 
   const typeMapper = () => {
-    if (type.includes("Lecture") && type.includes("Lab")) {
+    const uniformTypes = type.map((e) => e.toUpperCase());
+    if (uniformTypes.includes("LECTURE") && uniformTypes.includes("LAB")) {
       return [
         <div className={styles["sections-type"]}>
           <FaBook className={styles["lecture-icon"]} />
@@ -70,14 +71,21 @@ function CourseCard({
           {langState.labLabel}
         </div>,
       ];
-    } else if (type.includes("Lecture")) {
+    } else if (uniformTypes.includes("LECTURE")) {
       return (
         <div className={styles["sections-type"]}>
           <FaBook className={styles["lecture-icon"]} />
           {langState.lectureLabel}
         </div>
       );
-    } else if (type.includes("hybrid")) {
+    } else if (uniformTypes.includes("LAB")) {
+      return (
+        <div className={styles["sections-type"]}>
+          <ImLab className={styles["lab-icon"]} />
+          {langState.labLabel}
+        </div>
+      );
+    } else if (uniformTypes.includes("HYBRID")) {
       return (
         <div className={styles["sections-type"]}>{langState.hybridLabel}</div>
       );

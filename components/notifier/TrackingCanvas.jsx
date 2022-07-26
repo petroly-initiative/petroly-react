@@ -8,6 +8,7 @@ import styles from "../../styles/notifier-page/course-canvas.module.scss";
 import SectionDisplay from "./SectionDisplay";
 import mockData from "../../mocks/mockData.json";
 import { MdNotificationsActive } from "react-icons/md";
+import { TbMoodEmpty } from "react-icons/tb";
 
 /**
  * TODO
@@ -83,6 +84,10 @@ function TrackingCanvas(props) {
     props.save(courseSections);
   };
 
+  const openSettings = () => {
+    props.settingsHandler(true);
+  }
+
   useEffect(() => {
     setLang(() => translator(user.lang));
   }, [user.lang]);
@@ -113,6 +118,7 @@ function TrackingCanvas(props) {
           }
         >
           <button
+          onClick={openSettings}
             dir={user.lang === L.AR_SA ? "ltr" : "rtl"}
             className={
               styles["settings-btn"] +
@@ -122,7 +128,21 @@ function TrackingCanvas(props) {
             <span>{langState.settings}</span> <MdNotificationsActive />
           </button>
           {/* populate with section display */}
-          {populateCourses()}
+          {props.trackedCourses.length !== 0 ? (
+            populateCourses()
+          ) : (
+            <div className={styles["empty-container"]}>
+              <TbMoodEmpty className={styles["empty-icon"]} />
+              <span
+                className={
+                  styles["empty-msg"] +
+                  ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                }
+              >
+                {langState.emptyMsg}
+              </span>
+            </div>
+          )}
         </Offcanvas.Body>
       </Offcanvas>
     </>

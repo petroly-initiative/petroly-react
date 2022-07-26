@@ -74,7 +74,7 @@ export default function ResetPasswordPage(props) {
         <div className={authStyle["modal-header"]}>
           <Image
             layout="fill"
-            src={"/images/signIn/sign-in-header.svg"}
+            src={"/images/signIn/sign-in-header.png"}
             alt="abstract green and blue pattern"
           />
         </div>

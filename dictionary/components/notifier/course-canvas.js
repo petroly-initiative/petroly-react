@@ -4,14 +4,16 @@ const arabic = {
   header: "المواد المتتبعة",
   instructions: "حالة جميع المواد المتتبعة",
   delete: "إلغاء تتبع المادة",
-  settings: "إعدادات الإشعارات"
+  settings: "إعدادات الإشعارات",
+  emptyMsg: "ليس لديك أية مواد دراسية متتبعة حاليا"
 };
 
 const english = {
   header: "Tracked Courses",
   instructions: "Status of all tracked courses",
   delete: "Cancel section tracking",
-  settings: "Notifications Settings"
+  settings: "Notifications Settings",
+  emptyMsg: "You do not have any tracked courses"
 };
 
 export default function translator(lang) {

@@ -36,7 +36,7 @@ export default function SignInModal(props) {
   const [tab, setTab] = useState("signIn");
   const [mode, setMode] = useState("user-input"); // user-input: FIXME: revert to original
   const client = useApolloClient();
-  // client.setLink()   
+  // client.setLink()
   // language state
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
@@ -359,7 +359,7 @@ export default function SignInModal(props) {
             <div className={styles["modal-header"]}>
               <Image
                 layout="fill"
-                src={"/images/signIn/sign-in-header.svg"}
+                src={"/images/signIn/sign-in-header.png"}
                 alt="abstract green and blue pattern"
               />
             </div>

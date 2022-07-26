@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3000",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 80",
     "build": "next build",
     "start": "next start",
     "cy:open": "cypress open --config-file=cypress.config.js",
@@ -37,6 +37,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "react-rating-stars-component": "^2.2.0",
+    "react-telegram-login": "^1.1.2",
     "sass": "^1.52.3",
     "sharp": "^0.30.6"
   },

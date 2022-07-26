@@ -104,8 +104,8 @@ export default function Navbar(props) {
   const handleSignInClose = () => setShowSignIn(false);
   const handleSignInShow = () => {
     console.log(user.theme);
+    document.querySelector("#navbar-overlay").click();
     setShowSignIn(true);
-    document.body.click();
   };
 
   const signOut = async () => {
@@ -113,22 +113,21 @@ export default function Navbar(props) {
       ? localStorage.getItem("refreshToken")
       : "";
 
-    if(navState.current === "notifier"){
-      router.push("/home").then( async() => {
-         await revokeToken({ variables: { refreshToken } });
-    await userDispatch({
-      type: T.LOGOUT,
-      lang: localStorage.getItem("lang") || L.EN_US,
-    });
+    if (navState.current === "notifier") {
+      router.push("/home").then(async () => {
+        await revokeToken({ variables: { refreshToken } });
+        await userDispatch({
+          type: T.LOGOUT,
+          lang: localStorage.getItem("lang") || L.EN_US,
+        });
       });
-
     } else {
-    await revokeToken({ variables: { refreshToken } });
-    await userDispatch({
-      type: T.LOGOUT,
-      lang: localStorage.getItem("lang") || L.EN_US,
-    });
-  }
+      await revokeToken({ variables: { refreshToken } });
+      await userDispatch({
+        type: T.LOGOUT,
+        lang: localStorage.getItem("lang") || L.EN_US,
+      });
+    }
   };
 
   var navStyles = {
@@ -241,6 +240,7 @@ export default function Navbar(props) {
             style={sideBarStyle}
           >
             <div
+            id="navbar-overlay"
               onClick={showSidebar}
               className={styles.nav_overlay}
               style={overlayStyle}

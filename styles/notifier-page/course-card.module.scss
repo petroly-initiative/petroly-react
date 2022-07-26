@@ -83,6 +83,7 @@ background: theme.$dark-xxfg !important;
   }
   color: #aaaaaa;
   font-size: small;
+  // margin-left: 8px;
   border-radius: 4px;
   padding: 1px 8px;
 }
@@ -114,8 +115,8 @@ background: theme.$dark-xxfg !important;
 .divider{
       height: 4px;
       width: 4px;
-      margin-right: 6px;
-      margin-left: 6px;
+      margin-right: 3px;
+      margin-left: 3px;
       border-radius: 50%;
       background-color: #aaaaaa;
     }

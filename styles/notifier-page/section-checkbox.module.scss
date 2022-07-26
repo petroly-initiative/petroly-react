@@ -47,7 +47,9 @@ $x: #22d77c;
 
 }
 
-
+.lecture-icon{
+  margin-left: 5px;
+}
 
 
 .unchecked-container {
@@ -155,9 +157,11 @@ $x: #22d77c;
   svg{
     margin-right: 8px;
   }
-  color: $txt-xfill;
-  font-size: medium;
+  color: $btn-high;
+  font-size: small;
   margin-right: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   border-radius: 4px;
   padding: 2px 8px 0 0;
 }

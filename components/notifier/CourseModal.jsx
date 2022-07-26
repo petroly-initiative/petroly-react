@@ -142,8 +142,9 @@ function CourseModal(props) {
   // storing all selected sections, by firing a mutation
   // dynamic section type labelling
   const typeMapper = (type) => {
-    if (type.includes("Lecture")) {
-      if (type.includes("Lab")) {
+    type = type.map(e => e.toUpperCase())
+    if (type.includes("LECTURE")) {
+      if (type.includes("LAB")) {
         return [
           <div
             style={{ backgroundColor: "#00a0ea" }}
@@ -168,7 +169,7 @@ function CourseModal(props) {
           </div>
         );
       }
-    } else if (type.includes("hybrid")) {
+    } else if (type.includes("HYBRID")) {
       return (
         <div
           style={{ backgroundColor: "rgb(241, 10, 118)" }}
@@ -219,6 +220,7 @@ function CourseModal(props) {
         }}
         size="lg"
         className={styles["modal-container"] + " border-0"}
+        scrollable
       >
         <Modal.Header
           className={

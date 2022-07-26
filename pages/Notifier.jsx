@@ -38,6 +38,7 @@ import {
 } from "../api/notifierQueries";
 import { updateTrackingListMutation } from "../api/notifierMutations";
 import PopMsg from "../components/utilities/PopMsg";
+import NotificationsModal from "../components/notifier/NotificationsModal";
 
 // TODO: create the responsive layout for the cards, and the off-canvas
 /**
@@ -70,6 +71,7 @@ function Notifier(props) {
   const [showModal, setShowModal] = useState(false);
   const [showCanvas, setshowCanvas] = useState(false);
   const [showMsg, setShowMsg] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [msg, setMsg] = useState("");
   const courseInput = useRef(""); // to sync searchbar textInput information
   const [department, setDepartment] = useState("ICS");
@@ -110,6 +112,7 @@ function Notifier(props) {
       return;
     }
     setDepartment(value);
+    searchCallback({ dept: value });
     // refetching courses with provided search input and department
   };
 
@@ -119,18 +122,19 @@ function Notifier(props) {
       // A term must be selected always
       return;
     }
-    const term = termsData.terms.find((term) => value === term.long);
-    console.log("Term: ", term);
-    setTerm(term);
+    const newTerm = termsData.terms.find((term) => value === term.long);
+    console.log("Term: ", newTerm);
+    setTerm(newTerm);
+    searchCallback({ term: newTerm.long });
     // refetching courses with provided search input and department
   };
 
-  const searchCallback = () => {
+  const searchCallback = (inputObj) => {
     search({
       variables: {
         title: courseInput.current.value,
-        term: term.long,
-        department: department,
+        term: inputObj["term"] || term.long,
+        department: inputObj["dept"] || department,
       },
     });
     return "searched!";
@@ -302,9 +306,10 @@ function Notifier(props) {
 
   useEffect(() => {
     navDispatch("notifier");
+      setShowSettings(true);
   }, []);
 
-  if (trackedCoursesLoading || loadingDept || termsLoading) {
+  if (trackedCoursesLoading || loadingDept || termsLoading || searchLoading) {
     // wait for loading cruical queries
     return (
       <Container
@@ -331,6 +336,7 @@ function Notifier(props) {
     // show landing page to start searching
     // meaning at the initial load for the page
     // no result will be fetch until the user schoose a dept & term
+  
     return (
       <>
         <Head>
@@ -340,6 +346,7 @@ function Notifier(props) {
           style={{ minHeight: "100vh" }}
           className={styles["list_container"]}
         >
+          
           <InputGroup as={Row} className={styles["search-container"]}>
             <Col
               xl={7}
@@ -556,6 +563,7 @@ function Notifier(props) {
           show={showCanvas}
           save={updateTracked}
           msgHandler={toggleMessage}
+          settingsHandler = {setShowSettings}
         />
         <PopMsg
           msg={msg}
@@ -563,10 +571,18 @@ function Notifier(props) {
           visible={showMsg}
           success
         />
+        <NotificationsModal
+          visible={showSettings}
+          handleClose={setShowSettings}
+          handleMsg={setMsg}
+          firstSetup
+          // TODO: fire this modal automatically for the user first visit
+        />
         {/* login checking is needed */}
       </>
     );
   }
+
 
   return (
     <>
@@ -732,8 +748,14 @@ function Notifier(props) {
         show={showCanvas}
         save={updateTracked}
         msgHandler={toggleMessage}
+        settingsHandler={setShowSettings}
       />
       <PopMsg msg={msg} handleClose={toggleMessage} visible={showMsg} success />
+      <NotificationsModal
+        visible={showSettings}
+        handleClose={setShowSettings}
+        handleMsg={setMsg}
+      />
       {/* login checking is needed */}
     </>
   );

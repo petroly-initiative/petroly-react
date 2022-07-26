@@ -31,6 +31,24 @@ background-color: theme.$dark-xfg !important;
 }
 }
 
+.empty-container{
+  display: flex;
+  width: 100%;
+  margin-top: 70px;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+
+  .empty-icon{
+    font-size: 40px;
+    color: #00ead3;
+  }
+
+  .empty-msg{
+    color: $txt-fill;
+  }
+}
+
 
 .settings-btn{
   width: 100%;
