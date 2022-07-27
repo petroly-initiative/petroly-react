@@ -330,7 +330,7 @@ function NotificationsModal(props) {
                     >
                       {langState.teleContent}
                     </span>
-                    {telegramChecked && telegramLogged && (
+                    {telegramChecked && !telegramLogged && (
                       <div className={styles["tele-button"]}>
                         <TelegramLoginButton
                           botName={"petroly_bot"}
