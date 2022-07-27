@@ -61,16 +61,17 @@ function NotificationsModal(props) {
 
   // ? instance state
   // ! initial values of checkboxes need to be provided in props
-  const [emailChecked, setEmail] = useState(props.firstSetup || false);
+  const [emailChecked, setEmail] = useState(false);
   const [telegramChecked, settelegram] = useState(false);
   const [TelegramId, setTelegramId] = useState(null);
   const [invalidInput, setinvalidInput] = useState(true);
+  const [telegramLogged, setTelegramLogged] = useState(false);
 
   // GraqphQL Operations
   const {
     data: trackingListChannelsData,
     loading: trackingListChannelsLoading,
-  } = useQuery(trackingListChannelsQuery);
+  } = useQuery(trackingListChannelsQuery, { skip: props.firstSetup });
 
   const [updateTrackingListChannels] = useMutation(
     updateTrackingListChannelsMutation,
@@ -114,10 +115,12 @@ function NotificationsModal(props) {
     // TODO: certifiying authnetication using the hash value, as mentioned in the docs at https://core.telegram.org/widgets/login,
     // ? as the bot key is not available in the frontend
     setTelegramId(user.id);
+    setTelegramLogged(true);
     console.log(user);
   };
 
   const submitChannels = () => {
+    console.log("Channels:", telegramChecked, emailChecked);
     updateTrackingListChannels();
     props.handleClose(false);
   };
@@ -311,7 +314,7 @@ function NotificationsModal(props) {
                     >
                       {langState.teleContent}
                     </span>
-                    {telegramChecked && (
+                    {telegramChecked && telegramLogged && (
                       <div className={styles["tele-button"]}>
                         <TelegramLoginButton
                           botName={"petroly_bot"}
