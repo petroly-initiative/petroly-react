@@ -120,14 +120,18 @@ function NotificationsModal(props) {
     // ? as the bot key is not available in the frontend
     setTelegramId(user.id);
     setTelegramHash(user.hash);
-    setDataCheck(
-      String.raw`auth_date=<${user.auth_date}>\nfirst_name=<${user.first_name}>\nid=<${user.id}>\nusername=<${user.username}>`
-    );
+
+    var check_array = [];
+    for (const key in user) {
+      if (key !== "hash") {
+        check_array.push(`${key}=${user[key]}`);
+      }
+    }
+    check_array.sort();
+    const check_string = check_array.join("\n");
+
+    setDataCheck(check_string);
     setTelegramLogged(true);
-    console.log(user);
-    console.log(
-      String.raw`auth_date=<${user.auth_date}>\nfirst_name=<${user.first_name}>\nid=<${user.id}>\nusername=<${user.username}>`
-    );
   };
 
   const submitChannels = () => {
