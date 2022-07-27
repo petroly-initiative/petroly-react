@@ -98,7 +98,7 @@ function NotificationsModal(props) {
         } else {
           setinvalidInput(false);
         }
-        console.log(telegramChecked);
+        // console.log(telegramChecked);
         setEmail((state) => !state);
         break;
       case "TELEGRAM":
@@ -107,7 +107,7 @@ function NotificationsModal(props) {
         } else {
           setinvalidInput(false);
         }
-        console.log(!telegramChecked);
+        // console.log(!telegramChecked);
         settelegram((state) => !state);
 
         break;

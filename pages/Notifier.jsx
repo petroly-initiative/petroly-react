@@ -123,7 +123,7 @@ function Notifier(props) {
       return;
     }
     const newTerm = termsData.terms.find((term) => value === term.long);
-    console.log("Term: ", newTerm);
+    // console.log("Term: ", newTerm);
     setTerm(newTerm);
     searchCallback({ term: newTerm.long });
     // refetching courses with provided search input and department
@@ -177,14 +177,15 @@ function Notifier(props) {
    * @param  obj an object in the format: {course: str, sections: [int..]} to update the offcanvas state
    * @param isDeleted if the resulting sections are non-existent delete the object key
    */
-  const updateTracked = (courses) => {
+  const updateTracked = async(courses) => {
     // if (!isDeleted) setTracked({ ...Object.assign(trackedCourses, obj) });
     // else {
     //   const deletedKey = Object.keys(obj)[0];
     //   setTracked({ ...delete trackedCourses[deletedKey] });
     // }
-    console.log(courses);
-    updateTrackingList({ variables: { courses } });
+    console.log("Updated courses in notifier", courses);
+    await updateTrackingList({ variables: { courses } });
+    console.log(trackedCoursesData);
   };
 
   // ? Mappers
@@ -567,6 +568,7 @@ function Notifier(props) {
             save={updateTracked}
             msgHandler={toggleMessage}
             settingsHandler={setShowSettings}
+            allTerms={termsData.terms}
           />
         )}
         <PopMsg
@@ -745,6 +747,7 @@ function Notifier(props) {
         msgHandler={toggleMessage}
       />
       <TrackingCanvas
+        allTerms={termsData.terms}
         trackedCourses={trackedCoursesData.trackedCourses}
         close={toggleCanvas}
         show={showCanvas}

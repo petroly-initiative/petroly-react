@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useContext, useState } from "react";
-import { Offcanvas, CloseButton, Button } from "react-bootstrap";
+import { Offcanvas, CloseButton, Tab, Tabs } from "react-bootstrap";
 import { M, L } from "../../constants";
 import translator from "../../dictionary/components/notifier/course-canvas";
 import { UserContext } from "../../state-management/user-state/UserContext";
@@ -28,11 +28,12 @@ function TrackingCanvas(props) {
   // ? base state
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
+  const [termView, setTermView] = useState(props.allTerms[0].long);
 
   // ? utility functions
   // returns a course block for each course object
   // ! this chould be repalced by a fetch call instead
-  const populateCourses = () => {
+  const populateCourses = (term) => {
     const uniqueCrn = new Set();
     props.trackedCourses.forEach((course) => {
       uniqueCrn.add(course["crn"]);
@@ -41,7 +42,7 @@ function TrackingCanvas(props) {
     const uniqueSections = [];
     uniqueCrn.forEach((crn) => {
       uniqueSections.push(
-        props.trackedCourses.filter((course) => course["crn"] == crn)
+        props.trackedCourses.filter((course) => course["crn"] === crn)
       );
     });
 
@@ -53,16 +54,56 @@ function TrackingCanvas(props) {
     //   hybrid={sectionObjs.length === 2}
     //   delete={deleteSections}
     // />
-    return uniqueSections.map((sectionObj) => {
-      console.log(sectionObj);
+    // console.log(uniqueSections);
+    return uniqueSections
+      .filter((sectionObj) => sectionObj[0]["term_code"] === term)
+      .map((sectionObj) => {
+        // console.log(sectionObj);
 
+        return (
+          <SectionDisplay
+            msgHandler={props.msgHandler}
+            details={sectionObj}
+            hybrid={sectionObj.length === 2}
+            delete={deleteSections}
+          />
+        );
+      });
+  };
+
+  const switchTerm = (key, e) => {
+    setTermView(key);
+    // console.log(key);
+  };
+
+  const populateTabs = (currentTerm) => {
+    console.log(populateCourses(currentTerm));
+    return props.allTerms.map((term) => {
       return (
-        <SectionDisplay
-          msgHandler={props.msgHandler}
-          details={sectionObj}
-          hybrid={sectionObj.length === 2}
-          delete={deleteSections}
-        />
+        <Tab
+          tabClassName={styles["tab"]}
+          eventKey={term.long}
+          id={`${term.long}-tab`}
+          title={term.short}
+        >
+          {props.trackedCourses.filter(
+            (section) => section["term_code"] === term.long
+          ).length !== 0 ? (
+            populateCourses(term.long)
+           ) : (
+            <div className={styles["empty-container"]}>
+              <TbMoodEmpty className={styles["empty-icon"]} />
+              <span
+                className={
+                  styles["empty-msg"] +
+                  ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                }
+              >
+                {langState.emptyMsg}
+              </span>
+            </div>
+          )}
+        </Tab>
       );
     });
   };
@@ -86,7 +127,7 @@ function TrackingCanvas(props) {
 
   const openSettings = () => {
     props.settingsHandler(true);
-  }
+  };
 
   useEffect(() => {
     setLang(() => translator(user.lang));
@@ -118,7 +159,7 @@ function TrackingCanvas(props) {
           }
         >
           <button
-          onClick={openSettings}
+            onClick={openSettings}
             dir={user.lang === L.AR_SA ? "ltr" : "rtl"}
             className={
               styles["settings-btn"] +
@@ -128,21 +169,14 @@ function TrackingCanvas(props) {
             <span>{langState.settings}</span> <MdNotificationsActive />
           </button>
           {/* populate with section display */}
-          {props.trackedCourses.length !== 0 ? (
-            populateCourses()
-          ) : (
-            <div className={styles["empty-container"]}>
-              <TbMoodEmpty className={styles["empty-icon"]} />
-              <span
-                className={
-                  styles["empty-msg"] +
-                  ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                }
-              >
-                {langState.emptyMsg}
-              </span>
-            </div>
-          )}
+          <Tabs
+            onSelect={switchTerm}
+            className={styles["tabs-container"]}
+            defaultActiveKey={props.allTerms[0].long}
+            justify
+          >
+            {populateTabs(termView)}
+          </Tabs>
         </Offcanvas.Body>
       </Offcanvas>
     </>

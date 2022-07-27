@@ -82,7 +82,7 @@ export default function Navbar(props) {
   }, [theme, user.status]);
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
   }, []);
 
   //--------
@@ -103,7 +103,7 @@ export default function Navbar(props) {
 
   const handleSignInClose = () => setShowSignIn(false);
   const handleSignInShow = () => {
-    console.log(user.theme);
+    // console.log(user.theme);
     document.querySelector("#navbar-overlay").click();
     setShowSignIn(true);
   };

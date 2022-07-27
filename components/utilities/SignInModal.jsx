@@ -332,7 +332,7 @@ export default function SignInModal(props) {
         setMode("ps-sccuess");
         setTimeout(() => router.reload(), 1000);
       } else
-        console.log(
+       console.log (
           "Email wasn't sent",
           dataSendPasswordResetEmail.sendPasswordResetEmail.errors
         );
