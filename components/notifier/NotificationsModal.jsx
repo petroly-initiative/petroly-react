@@ -61,18 +61,19 @@ function NotificationsModal(props) {
 
   // ? instance state
   // ! initial values of checkboxes need to be provided in props
-  const [emailChecked, setEmail] = useState(props.firstSetup || false);
+  const [emailChecked, setEmail] = useState(false);
   const [telegramChecked, settelegram] = useState(false);
   const [TelegramId, setTelegramId] = useState(null);
   const [telegramHash, setTelegramHash] = useState(null);
   const [telegramDataCheck, setDataCheck] = useState(null);
   const [invalidInput, setinvalidInput] = useState(true);
+  const [telegramLogged, setTelegramLogged] = useState(false);
 
   // GraqphQL Operations
   const {
     data: trackingListChannelsData,
     loading: trackingListChannelsLoading,
-  } = useQuery(trackingListChannelsQuery);
+  } = useQuery(trackingListChannelsQuery, { skip: props.firstSetup });
 
   const [updateTrackingListChannels] = useMutation(
     updateTrackingListChannelsMutation,
@@ -122,6 +123,7 @@ function NotificationsModal(props) {
     setDataCheck(
       String.raw`auth_date=<${user.auth_date}>\nfirst_name=<${user.first_name}>\nid=<${user.id}>\nusername=<${user.username}>`
     );
+    setTelegramLogged(true);
     console.log(user);
     console.log(
       String.raw`auth_date=<${user.auth_date}>\nfirst_name=<${user.first_name}>\nid=<${user.id}>\nusername=<${user.username}>`
@@ -129,6 +131,7 @@ function NotificationsModal(props) {
   };
 
   const submitChannels = () => {
+    console.log("Channels:", telegramChecked, emailChecked);
     updateTrackingListChannels();
     props.handleClose(false);
   };
@@ -327,7 +330,7 @@ function NotificationsModal(props) {
                     >
                       {langState.teleContent}
                     </span>
-                    {telegramChecked && (
+                    {telegramChecked && telegramLogged && (
                       <div className={styles["tele-button"]}>
                         <TelegramLoginButton
                           botName={"petroly_bot"}

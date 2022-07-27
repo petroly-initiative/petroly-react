@@ -306,7 +306,7 @@ function Notifier(props) {
 
   useEffect(() => {
     navDispatch("notifier");
-      setShowSettings(true);
+    setShowSettings(true);
   }, []);
 
   if (trackedCoursesLoading || loadingDept || termsLoading || searchLoading) {
@@ -332,11 +332,14 @@ function Notifier(props) {
   }
   // ? a 3 Step guide on how to track a course search, select, wait)
   // ? we need to fire the settings modal for an intitial setup of the user and when changing settings
+
+  const HasNoTrackingList = !trackedCoursesData.trackedCourses;
+
   if (!searchData) {
     // show landing page to start searching
     // meaning at the initial load for the page
     // no result will be fetch until the user schoose a dept & term
-  
+
     return (
       <>
         <Head>
@@ -346,7 +349,6 @@ function Notifier(props) {
           style={{ minHeight: "100vh" }}
           className={styles["list_container"]}
         >
-          
           <InputGroup as={Row} className={styles["search-container"]}>
             <Col
               xl={7}
@@ -557,14 +559,16 @@ function Notifier(props) {
           </div>
         </Container>
         {/* external component embedded within the page */}
-        <TrackingCanvas
-          trackedCourses={trackedCoursesData.trackedCourses}
-          close={toggleCanvas}
-          show={showCanvas}
-          save={updateTracked}
-          msgHandler={toggleMessage}
-          settingsHandler = {setShowSettings}
-        />
+        {!HasNoTrackingList && (
+          <TrackingCanvas
+            trackedCourses={trackedCoursesData.trackedCourses}
+            close={toggleCanvas}
+            show={showCanvas}
+            save={updateTracked}
+            msgHandler={toggleMessage}
+            settingsHandler={setShowSettings}
+          />
+        )}
         <PopMsg
           msg={msg}
           handleClose={toggleMessage}
@@ -575,14 +579,12 @@ function Notifier(props) {
           visible={showSettings}
           handleClose={setShowSettings}
           handleMsg={setMsg}
-          firstSetup
-          // TODO: fire this modal automatically for the user first visit
+          firstSetup={HasNoTrackingList}
         />
         {/* login checking is needed */}
       </>
     );
   }
-
 
   return (
     <>
