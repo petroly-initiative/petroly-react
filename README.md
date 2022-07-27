@@ -83,6 +83,7 @@ Create a high-quality platform where all students share their knowledge and expe
 - run `npm run dev` to launch the frontend project on localhost 3000
 - for a headless testing session run `npm run cy:run`, and for a browser session test, use `npm run cy:open`
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
+
 ### How to Contribute
 
 To gurarantee a uniform maintenance of the project, contributors need to adhere to the following guidelines
