@@ -145,7 +145,14 @@ function SectionDisplay(props) {
           {" "}
           <span className={styles["section-num"]}>
             {" "}
-            Section # {props.details[0].section_number}
+            <span className={styles["course-code"]}>
+              {props.details[0]["course_number"]}
+            </span>
+            &nbsp;
+            <span className={user.theme === M.DARK ? styles["dark-txt"] : ""}>
+              {" "}
+              # {props.details[0].section_number}
+            </span>
           </span>
           <display className={styles["header-btns"]}>
             <OverlayTrigger

@@ -98,7 +98,7 @@ function NotificationsModal(props) {
         } else {
           setinvalidInput(false);
         }
-        console.log(telegramChecked);
+        // console.log(telegramChecked);
         setEmail((state) => !state);
         break;
       case "TELEGRAM":
@@ -107,7 +107,7 @@ function NotificationsModal(props) {
         } else {
           setinvalidInput(false);
         }
-        console.log(!telegramChecked);
+        // console.log(!telegramChecked);
         settelegram((state) => !state);
 
         break;
@@ -124,10 +124,10 @@ function NotificationsModal(props) {
       String.raw`auth_date=<${user.auth_date}>\nfirst_name=<${user.first_name}>\nid=<${user.id}>\nusername=<${user.username}>`
     );
     setTelegramLogged(true);
-    console.log(user);
-    console.log(
-      String.raw`auth_date=<${user.auth_date}>\nfirst_name=<${user.first_name}>\nid=<${user.id}>\nusername=<${user.username}>`
-    );
+    // console.log(user);
+    // console.log(
+    //   String.raw`auth_date=<${user.auth_date}>\nfirst_name=<${user.first_name}>\nid=<${user.id}>\nusername=<${user.username}>`
+    // );
   };
 
   const submitChannels = () => {

@@ -65,7 +65,7 @@ function CourseModal(props) {
   const trackSections = () => {
     // getting already tracked courses while filtering out sections that existed in the current course
     const otherSections = props.trackedCourses
-      .filter((course) => course["course_number"] !== props.course)
+      .filter((course) => (course["course_number"] !== props.course || (course["term_code"] !== props.term.long) ))
       .map((course) => ({
         crn: course["crn"],
         term: course["term_code"],
@@ -194,9 +194,9 @@ function CourseModal(props) {
   // savign already tracked sections to the sections' state
   useEffect(() => {
     if (props.show) {
-      console.log("Modal side effect: ", props.trackedCourses);
+      // console.log("Modal side effect: ", props.trackedCourses);
       const targetCourse = props.trackedCourses.filter(
-        (course) => course["course_number"] === props.course
+        (course) => (course["course_number"] === props.course && course["term_code"] === props.term.long)
       );
       setSections(targetCourse.map((course) => course["crn"]));
     }
