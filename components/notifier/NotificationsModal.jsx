@@ -64,7 +64,7 @@ function NotificationsModal(props) {
   const [emailChecked, setEmail] = useState(props.firstSetup || false);
   const [telegramChecked, settelegram] = useState(false);
   const [TelegramId, setTelegramId] = useState(null);
-  const [invalidInput, setinvalidInput] = useState(false);
+  const [invalidInput, setinvalidInput] = useState(true);
 
   // GraqphQL Operations
   const {
@@ -126,6 +126,7 @@ function NotificationsModal(props) {
     if (trackingListChannelsData) {
       setEmail(trackingListChannelsData.trackingListChannels.EMAIL);
       settelegram(trackingListChannelsData.trackingListChannels.TELEGRAM);
+      setinvalidInput(false);
     }
   }, [trackingListChannelsData]);
 
