@@ -64,6 +64,8 @@ function NotificationsModal(props) {
   const [emailChecked, setEmail] = useState(props.firstSetup || false);
   const [telegramChecked, settelegram] = useState(false);
   const [TelegramId, setTelegramId] = useState(null);
+  const [telegramHash, setTelegramHash] = useState(null);
+  const [telegramDataCheck, setDataCheck] = useState(null);
   const [invalidInput, setinvalidInput] = useState(true);
 
   // GraqphQL Operations
@@ -79,6 +81,8 @@ function NotificationsModal(props) {
         EMAIL: emailChecked,
         TELEGRAM: telegramChecked,
         telegramId: TelegramId,
+        hash: telegramHash,
+        dataCheckString: telegramDataCheck,
       },
     }
   );
@@ -114,7 +118,14 @@ function NotificationsModal(props) {
     // TODO: certifiying authnetication using the hash value, as mentioned in the docs at https://core.telegram.org/widgets/login,
     // ? as the bot key is not available in the frontend
     setTelegramId(user.id);
+    setTelegramHash(user.hash);
+    setDataCheck(
+      String.raw`auth_date=<${user.auth_date}>\nfirst_name=<${user.first_name}>\nid=<${user.id}>\nusername=<${user.username}>`
+    );
     console.log(user);
+    console.log(
+      String.raw`auth_date=<${user.auth_date}>\nfirst_name=<${user.first_name}>\nid=<${user.id}>\nusername=<${user.username}>`
+    );
   };
 
   const submitChannels = () => {
@@ -232,7 +243,11 @@ function NotificationsModal(props) {
               name="type"
               type={"switch"}
             >
-              <Form.Check.Input value="EMAIL" className={styles["checkers"]} />
+              <Form.Check.Input
+                checked={emailChecked}
+                value="EMAIL"
+                className={styles["checkers"]}
+              />
               <Form.Check.Label>
                 <div className={styles["channel-container"]}>
                   <div className={styles["channel-text"]}>
@@ -277,6 +292,7 @@ function NotificationsModal(props) {
               type={"switch"}
             >
               <Form.Check.Input
+                checked={telegramChecked}
                 value="TELEGRAM"
                 className={styles["checkers"]}
               />
