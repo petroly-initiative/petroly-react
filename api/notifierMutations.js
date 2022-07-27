@@ -5,3 +5,18 @@ export const updateTrackingListMutation = gql`
     updateTrackingList(courses: $courses)
   }
 `;
+
+export const updateTrackingListChannelsMutation = gql`
+  mutation UpdateTrackingListChannels(
+    $TELEGRAM: Boolean!
+    $EMAIL: Boolean!
+    $telegramId: Int
+  ) {
+    updateTrackingListChannels(
+      input: {
+        channels: { TELEGRAM: $TELEGRAM, EMAIL: $EMAIL }
+        telegramId: $telegramId
+      }
+    )
+  }
+`;

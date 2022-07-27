@@ -34,6 +34,10 @@ import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/notifier/settings-modal";
 import { langDirection, L, M, USER } from "../../constants";
 
+import { trackingListChannelsQuery } from "../../api/notifierQueries";
+import { updateTrackingListChannelsMutation } from "../../api/notifierMutations";
+import { useQuery, useMutation } from "@apollo/client";
+
 /**
  * a modal for both editing and creating a new community
  * ? params
@@ -59,7 +63,25 @@ function NotificationsModal(props) {
   // ! initial values of checkboxes need to be provided in props
   const [emailChecked, setEmail] = useState(props.firstSetup || false);
   const [telegramChecked, settelegram] = useState(false);
+  const [TelegramId, setTelegramId] = useState(null);
   const [invalidInput, setinvalidInput] = useState(false);
+
+  // GraqphQL Operations
+  const {
+    data: trackingListChannelsData,
+    loading: trackingListChannelsLoading,
+  } = useQuery(trackingListChannelsQuery);
+
+  const [updateTrackingListChannels] = useMutation(
+    updateTrackingListChannelsMutation,
+    {
+      variables: {
+        EMAIL: emailChecked,
+        TELEGRAM: telegramChecked,
+        telegramId: TelegramId,
+      },
+    }
+  );
 
   // ? utility functions
 
@@ -91,12 +113,21 @@ function NotificationsModal(props) {
     // TODO: sending a mutation with the user_id (after directly launching our bot from the widget)
     // TODO: certifiying authnetication using the hash value, as mentioned in the docs at https://core.telegram.org/widgets/login,
     // ? as the bot key is not available in the frontend
+    setTelegramId(user.id);
     console.log(user);
   };
 
   const submitChannels = () => {
+    updateTrackingListChannels();
     props.handleClose(false);
   };
+
+  useEffect(() => {
+    if (trackingListChannelsData) {
+      setEmail(trackingListChannelsData.trackingListChannels.EMAIL);
+      settelegram(trackingListChannelsData.trackingListChannels.TELEGRAM);
+    }
+  }, [trackingListChannelsData]);
 
   useEffect(() => {
     setLang(() => translator(user.lang));
@@ -238,7 +269,7 @@ function NotificationsModal(props) {
             </Form.Check>
             <Form.Check
               id="email-checker"
-              defaultChecked={emailChecked}
+              defaultChecked={telegramChecked}
               className={styles.radio}
               value="TELEGRAM"
               name="type"
@@ -279,12 +310,14 @@ function NotificationsModal(props) {
                     >
                       {langState.teleContent}
                     </span>
-                   { telegramChecked && <div className={styles["tele-button"]}>
-                      <TelegramLoginButton
-                        botName={"petroly_bot"}
-                        dataOnauth={onTelegramAuth}
-                      />
-                    </div>}
+                    {telegramChecked && (
+                      <div className={styles["tele-button"]}>
+                        <TelegramLoginButton
+                          botName={"petroly_bot"}
+                          dataOnauth={onTelegramAuth}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </Form.Check.Label>

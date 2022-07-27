@@ -20,3 +20,12 @@ export const termsQuery = gql`
     }
   }
 `;
+
+export const trackingListChannelsQuery = gql`
+  query TrackingListChannels {
+    trackingListChannels {
+      TELEGRAM
+      EMAIL
+    }
+  }
+`;
