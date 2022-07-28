@@ -81,8 +81,6 @@ export const registerMutation = gql`
     ) {
       success
       errors
-      token
-      refreshToken
     }
   }
 `;
