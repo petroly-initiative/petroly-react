@@ -1,16 +1,21 @@
 import { L } from "../../../constants";
 
 const arabic = {
-  header: "",
-  instructions: "",
-  emailHeader: "",
-  emailContent: "",
-  teleHeader: "",
-  teleContent: "",
-  confirm: "",
-  cancel: "",
-  confirmTooltip: "",
-  cancelTooltip: ""
+  header: "إعدادات الإشعارات",
+  instructions: "الرجاء اختيار قناة إشعار واحدة على الأقل",
+  emailHeader: "البريد الإلكتروني",
+  emailContent:
+    "نقوم بإرسال الإشعارات عبر بريدك الإكلتروني المسجل في بترولي الرجاء عدم استخدام البريد الجامعي لتجنب الحجب ",
+  teleHeader: "رسائل تلقرام",
+  teleContent:
+    "سيقوم بوت تلقرام الخاص بنا بإرسال الإشعارات مباشرة لحسابك في تلقرام. الرجاء تسجيل الدخولأدناه للتفعيل",
+  confirm: "حفظ الإعدادات",
+  cancel: "إلغاء التغييرات",
+  confirmTooltip: "حفظ التغييرات في إعدادات الإشعارات",
+  cancelTooltip: "حذف التغييرات في إعدادات الإشعارات",
+  successTele: "!تم تسجيل الدخول",
+  successEdit: "!تم تحديث إعدادات الإشعارات بنجاح",
+  failEdit: "حدث خطأ! لم نستطع تحديث إعدادات الإشعارات"
 };
 
 const english = {
@@ -23,7 +28,10 @@ const english = {
   confirm: "Confirm",
   cancel: "Cancel",
   confirmTooltip: "Confirm notification channels",
-  cancelTooltip: "Cancel notification channels"
+  cancelTooltip: "Cancel notification channels",
+  successTele: "You are Signed in!",
+  successEdit: "Notifcation سettings setup is successful!",
+  failEdit: "Oops! we couldn't update your notifications settings. Try again later"
 };
 
 export default function translator(lang) {

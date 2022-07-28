@@ -73,7 +73,7 @@ $btn-prim: #00ead3;
   justify-content: space-between;
   .channel-icon {
     font-size: 20px !important;
-    margin-right: 6px;
+    margin: 0 6px;
   }
 
   .channel-text {
@@ -81,7 +81,7 @@ $btn-prim: #00ead3;
     flex-direction: column;
     // width: 100%;
     justify-content: flex-end;
-    margin-left: 8px;
+    margin: 0 8px;
     .channel-header {
       font-weight: 600 !important;
       margin-bottom: 6px;
@@ -93,7 +93,7 @@ $btn-prim: #00ead3;
     .channel-content {
       color: $txt-fill;
       font-size: 14px;
-      padding-left: 2px;
+      padding: 0 6px;
     }
   }
 }

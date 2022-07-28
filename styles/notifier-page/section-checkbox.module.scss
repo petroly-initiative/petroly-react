@@ -104,8 +104,9 @@ $x: #22d77c;
 .waitlist-container{
   color: $txt-fill;
   display: flex;
-  width: 100px;
+  width: fit-content;
   height: 100%;
+  justify-content: center;
   align-items: center;
   span{
     margin-left: 8px;
@@ -158,7 +159,7 @@ $x: #22d77c;
     margin-right: 8px;
   }
   color: $btn-high;
-  font-size: small;
+  font-size: medium;
   margin-right: 8px;
   margin-top: 8px;
   margin-bottom: 8px;
@@ -219,6 +220,7 @@ $x: #22d77c;
 margin-bottom: 12px;
  height: 100%;
  
+ 
 }
 
 .active-day {
@@ -231,9 +233,9 @@ margin-bottom: 12px;
 
 .time {
   white-space: nowrap;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 400;
-  width: 125px;
+  width: 150px;
   margin-right: 8px;
   display: flex;
   align-items: center;
@@ -244,13 +246,14 @@ margin-bottom: 12px;
     align-items: center;
     margin: 0px 4px;
     font-size: 20px;
+  
   }
 }
 
 .location {
   width: 97px;
   white-space: nowrap;
-  font-size: 18px;
+  font-size: 20px;
   height: 100%;
   font-weight: 400;
   margin-right: 8px;
@@ -291,10 +294,12 @@ margin-bottom: 12px;
   flex-grow: 1;
   align-items: center;
   width: 280px;
+  font-size: medium;
   justify-content: flex-start;
   justify-content: center;
   flex-flow: row wrap;
-  margin-bottom: 12px;
+  
+  margin: 4px 4px 12px 0px
   
 }
 
@@ -342,6 +347,7 @@ margin-bottom: 12px;
   display: flex;
   align-items: center;
   margin-right: 16px;
+  justify-content: center;
 }
 
 .meta-info{

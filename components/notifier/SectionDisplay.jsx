@@ -149,10 +149,20 @@ function SectionDisplay(props) {
               {props.details[0]["course_number"]}
             </span>
             &nbsp;
-            <span className={user.theme === M.DARK ? styles["dark-txt"] : ""}>
-              {" "}
-              # {props.details[0].section_number}
-            </span>
+            <OverlayTrigger
+              placement="top"
+              delay={{ show: 1000, hide: 300 }}
+              overlay={
+                <Tooltip id="button-tooltip-2">
+                  {langState.section + ` ${props.details[0].section_number}`}
+                </Tooltip>
+              }
+            >
+              <span className={user.theme === M.DARK ? styles["dark-txt"] : ""}>
+                {" "}
+                # {props.details[0].section_number}
+              </span>
+            </OverlayTrigger>
           </span>
           <display className={styles["header-btns"]}>
             <OverlayTrigger
@@ -161,7 +171,7 @@ function SectionDisplay(props) {
               overlay={<Tooltip id="button-tooltip-2">{langState.crn}</Tooltip>}
             >
               <button onClick={copyCrn} className={styles["crn-copy"]}>
-                <MdContentCopy />
+                <MdContentCopy className={styles["crn-icon"]} />
                 <span className={styles["crn-num"]}>
                   {props.details[0].crn}
                 </span>

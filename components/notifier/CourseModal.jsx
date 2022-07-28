@@ -7,7 +7,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { useContext } from "react";
-import { M, L } from "../../constants";
+import { M, L, langDirection } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/course-modal.module.scss";
 import { BiInfoCircle } from "react-icons/bi";
@@ -223,11 +223,13 @@ function CourseModal(props) {
         scrollable
       >
         <Modal.Header
+          style={langDirection(user.lang)}
           className={
             styles.modalHeader +
             " border-0" +
             ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
           }
+          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
         >
           <Modal.Title
             className={styles.modalTitle}
@@ -237,6 +239,7 @@ function CourseModal(props) {
             {langState.title}
           </Modal.Title>
           <CloseButton
+          style={{marginLeft: user.lang === L.AR_SA ? "0": "auto"}}
             onClick={() => {
               props.close();
             }}

@@ -78,7 +78,7 @@ function NotificationsModal(props) {
     loading: trackingListChannelsLoading,
   } = useQuery(trackingListChannelsQuery, { skip: props.firstSetup });
 
-  const [updateTrackingListChannels] = useMutation(
+  const [updateTrackingListChannels, {loading: updateLoading}] = useMutation(
     updateTrackingListChannelsMutation,
     {
       variables: {
@@ -123,6 +123,7 @@ function NotificationsModal(props) {
     // TODO: certifiying authnetication using the hash value, as mentioned in the docs at https://core.telegram.org/widgets/login,
     // ? as the bot key is not available in the frontend
     setTelegramSuccess(true);
+    props.handleMsg(true, langState.successTele)
     setTelegramId(user.id);
     setTelegramHash(user.hash);
 
@@ -138,10 +139,16 @@ function NotificationsModal(props) {
     setDataCheck(check_string);
   };
 
-  const submitChannels = () => {
+  const submitChannels = async () => {
     console.log("Channels:", telegramChecked, emailChecked);
-    updateTrackingListChannels();
+    const result = await updateTrackingListChannels();
+    
+    if(result.data.updateTrackingListChannels){
+      props.handleMsg(true, langState.successEdit)
     props.handleClose(false);
+  } else {
+ props.handleMsg(true, langState.failEdit);
+  }
   };
 
   useEffect(() => {
@@ -222,7 +229,9 @@ function NotificationsModal(props) {
               />
             </div>
           </Modal.Title>
+
           <CloseButton
+            style={{ marginLeft: user.lang === L.AR_SA ? "0" : "auto" }}
             onClick={() => {
               props.handleClose();
             }}
@@ -286,7 +295,7 @@ function NotificationsModal(props) {
                       style={{ marginLeft: 8, marginRight: 8 }}
                       className={` ${
                         user.theme === M.DARK
-                          ? styles["dark-header"] +
+                          ? styles["dark-check"] +
                             " " +
                             styles["channel-content"]
                           : styles["channel-content"]
@@ -334,7 +343,7 @@ function NotificationsModal(props) {
                       style={{ marginLeft: 8, marginRight: 8 }}
                       className={` ${
                         user.theme === M.DARK
-                          ? styles["dark-header"] +
+                          ? styles["dark-check"] +
                             " " +
                             styles["channel-content"]
                           : styles["channel-content"]
@@ -348,7 +357,7 @@ function NotificationsModal(props) {
                           botName={"petroly_bot"}
                           dataOnauth={onTelegramAuth}
                         />
-                        {TelegramSuccess && <strong> SUCCESS</strong>}
+                        
                       </div>
                     )}
                   </div>
@@ -362,6 +371,7 @@ function NotificationsModal(props) {
             styles["modal-footer"] +
             ` ${user.theme === M.DARK ? styles["dark-footer"] : ""}`
           }
+          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
         >
           <OverlayTrigger
             placement="top"
@@ -389,22 +399,22 @@ function NotificationsModal(props) {
               </Tooltip>
             }
           >
-            {/* {waiting ? (
+            {updateLoading ? (
               <Button
-                onClick={fireEval}
+                onClick={submitChannels}
                 className={[styles["btns"], styles["submit-btn"]]}
               >
                 <Spinner animation="border" role="status" />
               </Button>
-            ) : ( */}
-            <Button
-              onClick={submitChannels}
-              className={[styles["btns"], styles["submit-btn"]]}
-              disabled={invalidInput}
-            >
-              <FaSave size="1.2rem" /> {langState.confirm}
-            </Button>
-            {/* )} */}
+            ) : (
+              <Button
+                onClick={submitChannels}
+                className={[styles["btns"], styles["submit-btn"]]}
+                disabled={invalidInput}
+              >
+                <FaSave size="1.2rem" /> {langState.confirm}
+              </Button>
+            )}
           </OverlayTrigger>
         </Modal.Footer>
       </Modal>

@@ -2,7 +2,7 @@ import { L } from "../../../constants";
 
 const arabic = {
     title: "تتبع المادة",
-    instruction: "اختر جمسع الشعب التي تريد تتبعها",
+    instruction: "اختر جميع الشعب التي تريد تتبعها",
     reminder: "إشعار تغير حالة المادة سيرسل عبر البريد الإلكتروني",
     lectureLabel: "محاضرة",
     labLabel: "مختبر",

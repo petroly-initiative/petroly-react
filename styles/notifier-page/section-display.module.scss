@@ -73,12 +73,18 @@ $x: #22d77c;
   .crn-copy {
     background-color: transparent;
     border: none;
-    font-size: medium;
+    font-size: large;
     font-weight: 500;
     display: flex;
     align-items: center;
     cursor: pointer;
     color: #7e7e7f;
+    .crn-icon{
+      display: flex;
+      align-items: center;
+      vertical-align: bottom;
+      font-size: medium;
+    }
     &:hover,
     &:active,
     &:focus {
@@ -153,9 +159,9 @@ $x: #22d77c;
 }
 
 @mixin weekday-label($bg-clr, $fnt-clr, $border-style: none) {
-  width: 25px;
-  height: 25px;
-  font-size: 13px;
+  width: 35px;
+  height: 35px;
+  font-size: medium;
   font-weight: 700;
   margin: 0 4px;
   display: inline-flex;
@@ -175,6 +181,10 @@ $x: #22d77c;
   margin-top: 12px;
 }
 
+.section-num{
+  cursor: help;
+}
+
 .weekdays {
   height: 100%;
   display: flex;
@@ -190,9 +200,10 @@ $x: #22d77c;
 .loc-time {
   display: flex;
   flex-grow: 1;
+  font-size: large;
   justify-content: center;
   align-items: center;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   height: 100%;
 }
 
@@ -206,7 +217,6 @@ $x: #22d77c;
 
 .time {
   white-space: nowrap;
-  font-size: 14px;
   font-weight: 400;
   color: $txt-fill;
   width: 125px;
@@ -219,14 +229,13 @@ $x: #22d77c;
     height: 100%;
     align-items: center;
     padding: 0 0 1px 0;
-    font-size: 16px;
+    font-size: medium;
   }
 }
 
 .location {
   width: 97px;
   white-space: nowrap;
-  font-size: 14px;
   color: $txt-fill !important;
   height: 100%;
   font-weight: 400;
@@ -238,18 +247,20 @@ $x: #22d77c;
     height: 27px !important;
   }
   .location-icon {
-    // vertical-align: bottom;
-    // height: fit-content;
-    font-size: 16px;
+    margin: 0 4px !important;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    font-size: medium;
     margin: 0px 4px;
-    padding: 0 0 3px 0;
+    
   }
 }
 
 .waitlist-container {
   color: $txt-fill;
   display: flex;
-  width: 80px;
+  width: fit-content;
   height: 100%;
   align-items: center;
   span {
@@ -320,6 +331,7 @@ $x: #22d77c;
     color: red !important;
     background-color: rgba(255, 255, 255, 0);
     border: none !important;
+     transform: scale(1.05);
   }
 }
 

@@ -214,10 +214,16 @@ $txt-hg: #0091e7;
   font-weight: 700;
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   text-align: center;
   font-size: max(20px , 3vw);
-  
   margin-bottom: 26px;
+
+  .tut-icon{
+    display: flex;
+    align-items: center;
+  }
+
   span{
     margin: 0 8px
   }

@@ -498,7 +498,7 @@ function Notifier(props) {
               <span>{langState.tutorialHeader}</span>{" "}
               <span>
                 {" "}
-                <FaInfoCircle />{" "}
+                <FaInfoCircle className={styles["tut-icon"]}/>{" "}
               </span>
             </div>
             <div className={styles["tutorial-map"]}>
@@ -586,7 +586,7 @@ function Notifier(props) {
         <NotificationsModal
           visible={showSettings}
           handleClose={setShowSettings}
-          handleMsg={setMsg}
+          handleMsg={toggleMessage}
           firstSetup={HasNoTrackingList}
         />
         {/* login checking is needed */}
@@ -765,7 +765,7 @@ function Notifier(props) {
       <NotificationsModal
         visible={showSettings}
         handleClose={setShowSettings}
-        handleMsg={setMsg}
+        handleMsg={toggleMessage}
       />
       {/* login checking is needed */}
     </>
