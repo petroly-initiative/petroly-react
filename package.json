@@ -37,7 +37,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "react-rating-stars-component": "^2.2.0",
-    "sass": "^1.52.3",
+    "sass": "^1.54.0",
     "sharp": "^0.30.6"
   },
   "devDependencies": {
