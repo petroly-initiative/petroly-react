@@ -70,6 +70,7 @@ function NotificationsModal(props) {
   const [telegramHash, setTelegramHash] = useState(null);
   const [telegramDataCheck, setDataCheck] = useState(null);
   const [invalidInput, setinvalidInput] = useState(true);
+  const [TelegramSuccess, setTelegramSuccess] = useState(false);
 
   // GraqphQL Operations
   const {
@@ -121,6 +122,7 @@ function NotificationsModal(props) {
     // TODO: sending a mutation with the user_id (after directly launching our bot from the widget)
     // TODO: certifiying authnetication using the hash value, as mentioned in the docs at https://core.telegram.org/widgets/login,
     // ? as the bot key is not available in the frontend
+    setTelegramSuccess(true);
     setTelegramId(user.id);
     setTelegramHash(user.hash);
 
@@ -346,6 +348,7 @@ function NotificationsModal(props) {
                           botName={"petroly_bot"}
                           dataOnauth={onTelegramAuth}
                         />
+                        {TelegramSuccess && <strong> SUCCESS</strong>}
                       </div>
                     )}
                   </div>
