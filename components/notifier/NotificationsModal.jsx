@@ -34,7 +34,10 @@ import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/notifier/settings-modal";
 import { langDirection, L, M, USER } from "../../constants";
 
-import { trackingListChannelsQuery } from "../../api/notifierQueries";
+import {
+  trackingListChannelsQuery,
+  trackedCoursesQuery,
+} from "../../api/notifierQueries";
 import { updateTrackingListChannelsMutation } from "../../api/notifierMutations";
 import { useQuery, useMutation } from "@apollo/client";
 
@@ -67,7 +70,6 @@ function NotificationsModal(props) {
   const [telegramHash, setTelegramHash] = useState(null);
   const [telegramDataCheck, setDataCheck] = useState(null);
   const [invalidInput, setinvalidInput] = useState(true);
-  const [telegramLogged, setTelegramLogged] = useState(false);
 
   // GraqphQL Operations
   const {
@@ -85,6 +87,7 @@ function NotificationsModal(props) {
         hash: telegramHash,
         dataCheckString: telegramDataCheck,
       },
+      refetchQueries: [{ query: trackedCoursesQuery }],
     }
   );
 
@@ -131,7 +134,6 @@ function NotificationsModal(props) {
     const check_string = check_array.join("\n");
 
     setDataCheck(check_string);
-    setTelegramLogged(true);
   };
 
   const submitChannels = () => {
@@ -151,6 +153,10 @@ function NotificationsModal(props) {
   useEffect(() => {
     setLang(() => translator(user.lang));
   }, [user.lang]);
+
+  if (props.firstSetup) {
+    props.op;
+  }
 
   return (
     <>
@@ -334,7 +340,7 @@ function NotificationsModal(props) {
                     >
                       {langState.teleContent}
                     </span>
-                    {telegramChecked && !telegramLogged && (
+                    {telegramChecked && (
                       <div className={styles["tele-button"]}>
                         <TelegramLoginButton
                           botName={"petroly_bot"}

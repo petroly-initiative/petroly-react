@@ -76,6 +76,7 @@ function Notifier(props) {
   const courseInput = useRef(""); // to sync searchbar textInput information
   const [department, setDepartment] = useState("ICS");
   const [term, setTerm] = useState({ long: "202210", short: "221" }); //! will be replaced by current term
+  const [HasNoTrackingList, setHasNoTrackingList] = useState(false);
   // ? fetched state
   const {
     data: dataDept,
@@ -177,7 +178,7 @@ function Notifier(props) {
    * @param  obj an object in the format: {course: str, sections: [int..]} to update the offcanvas state
    * @param isDeleted if the resulting sections are non-existent delete the object key
    */
-  const updateTracked = async(courses) => {
+  const updateTracked = async (courses) => {
     // if (!isDeleted) setTracked({ ...Object.assign(trackedCourses, obj) });
     // else {
     //   const deletedKey = Object.keys(obj)[0];
@@ -306,9 +307,16 @@ function Notifier(props) {
   }, [user.status]);
 
   useEffect(() => {
-    navDispatch("notifier");
-    setShowSettings(true);
-  }, []);
+    console.log("trackedCoursesData", trackedCoursesData);
+    if (trackedCoursesData) {
+      if (!trackedCoursesData.trackedCourses) {
+        setHasNoTrackingList(true);
+        setShowSettings(true);
+      } else {
+        setHasNoTrackingList(false);
+      }
+    }
+  }, [trackedCoursesData]);
 
   if (trackedCoursesLoading || loadingDept || termsLoading || searchLoading) {
     // wait for loading cruical queries
@@ -333,8 +341,6 @@ function Notifier(props) {
   }
   // ? a 3 Step guide on how to track a course search, select, wait)
   // ? we need to fire the settings modal for an intitial setup of the user and when changing settings
-
-  const HasNoTrackingList = !trackedCoursesData.trackedCourses;
 
   if (!searchData) {
     // show landing page to start searching
