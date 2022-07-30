@@ -76,7 +76,7 @@ function Notifier(props) {
   const courseInput = useRef(""); // to sync searchbar textInput information
   const [department, setDepartment] = useState("ICS");
   const [term, setTerm] = useState({ long: "202210", short: "221" }); //! will be replaced by current term
-  const [HasNoTrackingList, setHasNoTrackingList] = useState(false);
+  const [HasNoTrackingList, setHasNoTrackingList] = useState(true);
   // ? fetched state
   const {
     data: dataDept,
@@ -311,7 +311,6 @@ function Notifier(props) {
     console.log("trackedCoursesData", trackedCoursesData);
     if (trackedCoursesData) {
       if (!trackedCoursesData.trackedCourses) {
-        setHasNoTrackingList(true);
         setShowSettings(true);
       } else {
         setHasNoTrackingList(false);
@@ -499,7 +498,7 @@ function Notifier(props) {
               <span>{langState.tutorialHeader}</span>{" "}
               <span>
                 {" "}
-                <FaInfoCircle className={styles["tut-icon"]}/>{" "}
+                <FaInfoCircle className={styles["tut-icon"]} />{" "}
               </span>
             </div>
             <div className={styles["tutorial-map"]}>
