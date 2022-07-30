@@ -93,7 +93,7 @@ function NotificationsModal(props) {
   );
 
   // ? utility functions
-
+ // TOOD: sovling anomalous email checker
   const checkChannel = (e) => {
     switch (e.target.value) {
       case "EMAIL":

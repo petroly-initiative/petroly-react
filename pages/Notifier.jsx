@@ -278,6 +278,7 @@ function Notifier(props) {
         type: sectionType,
       });
     }
+    // TODO: fix the single card output
     return courseObjects.map((course) => (
       <CourseCard
         openModal={toggleModal}
@@ -711,7 +712,7 @@ function Notifier(props) {
           </Col>
         </InputGroup>
 
-        <Row style={{ marginBottom: 16 }}>
+        <Row style={{ marginBottom: 16, width: "100%" }}>
           <Fade className={"col-sm-12 col-xs-12 col-md-6 col-lg-4 col-xl-4"}>
             {courseMapper()}
           </Fade>
