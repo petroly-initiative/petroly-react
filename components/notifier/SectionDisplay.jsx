@@ -73,24 +73,21 @@ function SectionDisplay(props) {
     });
   };
 
-    const copyCrn = (e) => {
-      navigator.permissions
-        .query({ name: "clipboard-write" })
-        .then((result) => {
-          if (result.state === "granted" || result.state == "prompt") {
-            // use popMsg utility to signal successful copy
-            navigator.clipboard
-              .writeText(props.details[0].crn)
-              .then(() => {
-                props.msgHandler(true, langState.copied);
-              })
-              .catch(() => {
-                props.msgHandler(true, langState.notCopied);
-              });
-          }
-        });
-    };
-
+  const copyCrn = (e) => {
+    navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
+      if (result.state === "granted" || result.state == "prompt") {
+        // use popMsg utility to signal successful copy
+        navigator.clipboard
+          .writeText(props.details[0].crn)
+          .then(() => {
+            props.msgHandler(true, langState.copied);
+          })
+          .catch(() => {
+            props.msgHandler(true, langState.notCopied);
+          });
+      }
+    });
+  };
 
   const typeMapper = (obj) => {
     if (obj.class_type === "LEC") {
@@ -300,7 +297,9 @@ function SectionDisplay(props) {
                       style={colorCount(props.details[0].available_seats)}
                       className={styles["num-slot"]}
                     >
-                      {props.details[0].available_seats}
+                      {props.details[0].available_seats >= 0
+                        ? props.details[0].available_seats
+                        : 0}
                     </span>{" "}
                   </span>
                   {/*  replace with a boolean for open waitlist */}
