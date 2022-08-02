@@ -14,6 +14,7 @@ import { useEffect, useContext, useState, useCallback } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { T, L, langDirection, M } from "../constants";
 import { NavContext } from "../state-management/navbar-state/NavbarContext";
+import ScrollDrag from "../components/utilities/ScrollDrag";
 
 export default function HomeScreen() {
   /**
@@ -83,13 +84,12 @@ export default function HomeScreen() {
       <Container className={styles["main-container"]}>
         <section
           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-          style={langDirection(user.lang)}
           className={styles["sections"] + " " + styles["home-section"]}
         >
           <div
             style={{
-              left: user.lang === L.AR_SA ? 0 : "",
-              right: user.lang === L.EN_US ? 0 : "",
+              left: user.lang === L.AR_SA ? -5 : "",
+              right: user.lang === L.EN_US ? -5 : "",
               transform: `scaleX(${user.lang === L.AR_SA ? "1" : "-1"})`,
             }}
             className={styles["landing-header"]}
@@ -133,17 +133,18 @@ export default function HomeScreen() {
             >
               {"خدمات إلكترونية عالية الجودة لزملائنا البتروليين!"}
             </p>
-            <button className={styles["nav-buttons"]}>
+            <a href="#services-section" className={styles["nav-buttons"]}>
               اكتشف خدماتنا
               <FaArrowDown className={styles["btn-icons"]} />
-            </button>
+            </a>
           </div>
         </section>
         {/* 3 more sections for each image */}
         <section
-        style={{
-          overflowX: "scroll"
-        }}
+          id="services-section"
+          style={{
+            paddingLeft: 0,
+          }}
           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
           className={styles["sections"]}
         >
@@ -155,11 +156,8 @@ export default function HomeScreen() {
           >
             خدماتنا
           </h1>
-          <div
-            dir="ltr"
-            className={styles["cards-container"]}
-            style={{ width: 3 * (420 + 32) }}
-          >
+
+          <ScrollDrag dir="ltr" className={styles["cards-container"]}>
             <ServiceCard
               title={"الرادار"}
               content={
@@ -173,10 +171,10 @@ export default function HomeScreen() {
             <ServiceCard
               title={"التقييم"}
               content={
-                "لا تضيع وقتك في انتظار تغير حالة موادك بعد اليوم. بترولي سيقوم بإشعارك من هاتفك مباشرة"
+                "تبحث عن محاضر يناسب اهتماماتك ؟ بترولي يتيح لك اتخاذ القرار الأنسب في خدمة التقييم التي تحتوي على مئات التقييمات لعديد المحاضرين!"
               }
               imgInit={"/images/home/rating-star.svg"}
-              link="/Notifier"
+              link="/instructors"
               imgVisible={"/images/home/rating-visible.svg"}
             />
 
@@ -186,10 +184,10 @@ export default function HomeScreen() {
                 "لا تضيع وقتك في انتظار تغير حالة موادك بعد اليوم. بترولي سيقوم بإشعارك من هاتفك مباشرة"
               }
               imgInit={"/images/home/groups.svg"}
-              link="/Notifier"
+              link="/Groups"
               imgVisible={"/images/home/groups-visible.svg"}
             />
-          </div>
+          </ScrollDrag>
         </section>
       </Container>
     </>

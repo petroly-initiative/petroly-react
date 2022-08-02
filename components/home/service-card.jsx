@@ -20,61 +20,63 @@ export default function ServiceCard(props) {
 
   return (
     <>
-      <Card
-        className={[
-          styles["md-card"],
-          "shadow",
-          ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`,
-        ]}
-      >
-        <Card.Header className={styles["card-header"]}>
-          <div className={styles["images-aligner"]}>
-            <motion.div
-              className={styles["hovered-img"]}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ type: "spring", delay: 0.8, duration: 1.5 }}
-              // viewport={{ once: true }}
-            >
-              <Image
-                width={150}
-                height={150}
-                src={props.imgVisible}
-                alt={props.alt}
-              />
-            </motion.div>
-            <div className={styles["init-img"]}>
-              <Image
-                width={150}
-                height={150}
-                src={props.imgInit}
-                alt={props.alt}
-              />
+      <div className={styles["card-wrapper"]}>
+        <Card
+          className={[
+            styles["md-card"],
+            "shadow",
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`,
+          ]}
+        >
+          <Card.Header className={styles["card-header"]}>
+            <div className={styles["images-aligner"]}>
+              <motion.div
+                className={styles["hovered-img"]}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ type: "spring", delay: 0.8, duration: 3 }}
+                // viewport={{ once: true }}
+              >
+                <Image
+                  width={150}
+                  height={150}
+                  src={props.imgVisible}
+                  alt={props.alt}
+                />
+              </motion.div>
+              <div className={styles["init-img"]}>
+                <Image
+                  width={150}
+                  height={150}
+                  src={props.imgInit}
+                  alt={props.alt}
+                />
+              </div>
             </div>
-          </div>
-        </Card.Header>
-        <Card.Body className={styles["card-body"]}>
-          <Card.Title className={styles["title"]}>
-            <motion.div
-              initial={{ color: "#cacaca" }}
-              whileInView={{ color: "#00ead3" }}
-              transition={{ type: "spring", delay: 0.8, duration: 1.5 }}
+          </Card.Header>
+          <Card.Body className={styles["card-body"]}>
+            <Card.Title className={styles["title"]}>
+              <motion.div
+                initial={{ color: "#cacaca" }}
+                whileInView={{ color: "#00ead3" }}
+                transition={{ type: "spring", delay: 0.8, duration: 1.5 }}
+              >
+                {props.title}
+              </motion.div>
+            </Card.Title>
+            <p className={styles["card-content"]}>{props.content}</p>
+            <button
+              onClick={() => {
+                router.push(props.link);
+              }}
+              className={styles["nav-buttons"]}
             >
-              {props.title}
-            </motion.div>
-          </Card.Title>
-          <p className={styles["card-content"]}>{props.content}</p>
-          <button
-            onClick={() => {
-              router.push(props.link);
-            }}
-            className={styles["nav-buttons"]}
-          >
-            اكتشف الخدمة
-            <FiArrowUpRight className={styles["btn-icons"]} />
-          </button>
-        </Card.Body>
-      </Card>
+              اكتشف الخدمة
+              <FiArrowUpRight className={styles["btn-icons"]} />
+            </button>
+          </Card.Body>
+        </Card>
+      </div>
     </>
   );
 }

@@ -61,10 +61,16 @@ $txt-hg: #0091e7;
   width: 100%;
 }
 
-.cards-container{
+.cards-container {
+  width: 100%;
+  position: relative;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  display: inline-flex;
+}
 
-  display: flex;
-
+.cards-container::-webkit-scrollbar {
+  display: none;
 }
 
 .sections {
@@ -87,9 +93,7 @@ $txt-hg: #0091e7;
   margin-bottom: 26px;
 }
 
-.sections::-webkit-scrollbar {
-  width: 0rem;
-}
+
 
 .header-title {
   margin-top: 50px;
@@ -145,8 +149,14 @@ $txt-hg: #0091e7;
   padding: 12px;
   background-color: $btn-high;
   color: white;
+  transition: 300ms ease;
   .btn-icons {
     margin: 0 16px;
+  }
+
+  &:hover{
+    transform: scale(1.05);
+    color: white;
   }
 }
 
@@ -233,6 +243,7 @@ $txt-hg: #0091e7;
 
   .sections {
     padding: 16px 8px;
+    height: fit-content;
   }
 }
 

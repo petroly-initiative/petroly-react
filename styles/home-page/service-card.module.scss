@@ -2,22 +2,25 @@
 
 $btn-high: #00ead3;
 
+.card-wrapper{
+   margin: 4px 16px;
+    padding: 0 0 16px 0;
+  padding-bottom: 24px;
+  width: max(33%, 100vw);
+}
+
 .md-card {
   display: flex;
   flex-direction: column;
-  padding:  0  0 16px 0;
-  padding-bottom: 24px;
-  margin: 4px 16px;
-  width: 410px !important;
-  border-radius: 4px !important;
+ 
+ 
+  width: 100% ;
+  border-radius: 4px ;
   image {
     border-radius: 4px !important;
   }
   transition: 300ms ease;
-  cursor: pointer;
-  &:hover {
-    transform: scale(1.05);
-  }
+  
 
   .card-header {
     width: 100%;
@@ -28,7 +31,6 @@ $btn-high: #00ead3;
     flex-direction: column;
     padding-top: 26px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.105);
-    
   }
 
   .card-body {
@@ -44,7 +46,9 @@ $btn-high: #00ead3;
       font-size: medium;
       text-align: center;
       font-weight: 500;
+      margin-top: 16px;
       margin-bottom: 30px;
+      height: 80px;
     }
   }
 
@@ -79,10 +83,18 @@ $btn-high: #00ead3;
     padding: 8px 16px;
     background-color: $btn-high;
     color: white;
+    transition: 300ms ease;
     .btn-icons {
       margin: 0 4px;
       font-size: x-large;
     }
+
+    &:hover{
+      transform: scale(1.05);
+    }
+
+
+
   }
 
   .card-title {
@@ -97,14 +109,23 @@ $btn-high: #00ead3;
   }
 }
 
-
 .dark-mode {
   background-color: theme.$dark-fg !important;
   color: theme.$dark-fnt !important;
 }
 
 @media only screen and (max-width: 600px) {
-  .md-card{
-    width: 85vw;
+  .md-card {
+    width: 80vw !important;
+
+    .title{
+      font-size: 16px !important;
+    }
+  }
+
+
+  .card-wrapper{
+     border: 1px solid bluered;
+   
   }
 }
