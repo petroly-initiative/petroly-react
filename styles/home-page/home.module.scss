@@ -26,10 +26,14 @@ $txt-hg: #0091e7;
   color: theme.$dark-fnt !important;
 }
 
+.dark-header {
+  color: $btn-high !important;
+}
+
 .main-container {
   margin-right: 5rem !important;
   max-width: calc(100vw - 5rem) !important;
-  padding-right: 52px;
+  // padding-right: 52px;
   display: flex;
   margin-top: 0;
   flex-direction: column;
@@ -53,17 +57,38 @@ $txt-hg: #0091e7;
 .containers {
   margin-left: 0;
   margin-right: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.cards-container{
+
+  display: flex;
+
 }
 
 .sections {
   font-size: 28px;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
-  align-items: center;
-  text-align: right;
+  position: relative;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
   padding: 16px;
   font-weight: 700;
+}
+
+.section-header {
+  font-weight: 600;
+  font-size: 3rem;
+  color: $btn-high !important;
+  margin-bottom: 26px;
+}
+
+.sections::-webkit-scrollbar {
+  width: 0rem;
 }
 
 .header-title {
@@ -72,7 +97,7 @@ $txt-hg: #0091e7;
   flex-direction: column;
 
   h1 {
-    font-size: 70px !important;
+    font-size: 6rem !important;
     color: #00dfc8;
   }
 
@@ -80,7 +105,7 @@ $txt-hg: #0091e7;
     font-size: x-large;
     font-weight: 500;
     margin-top: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 60px;
   }
 }
 
@@ -106,23 +131,22 @@ $txt-hg: #0091e7;
 
 .landing-header {
   position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
   width: fit-content;
+  padding: 0;
   margin: 0;
 }
 
 .nav-buttons {
   border-radius: 6px;
+  border: none;
   width: fit-content;
-  font-size: x-large;
+  font-size: large;
   font-weight: 600;
-  padding: 16px;
+  padding: 12px;
   background-color: $btn-high;
   color: white;
   .btn-icons {
-    margin: 0 8px;
-
+    margin: 0 16px;
   }
 }
 
@@ -163,20 +187,42 @@ $txt-hg: #0091e7;
   display: none;
 }
 
-@media only screen and (min-width: 992px) {
-  .news {
-    display: inherit;
+@media only screen and (max-width: 992px) {
+  .header-title {
+    h1 {
+      font-size: 5rem !important;
+    }
   }
+}
 
-  .small-news {
-    display: none;
+@media only screen and (max-width: 1500px) {
+  .landing-header {
+    opacity: 0.15;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .header-title {
+    h1 {
+      font-size: 3rem !important;
+    }
   }
 }
 
 @media only screen and (max-width: 600px) {
-  .header-title {
-    font-size: large;
+  .landing-header {
+    top: 0;
   }
+  .home-section {
+    height: fit-content;
+    margin-bottom: 80px;
+  }
+
+  .nav-buttons {
+    font-size: large;
+    padding: 12px;
+  }
+
   .main-container {
     position: relative;
     max-width: 100vw !important;
@@ -184,8 +230,25 @@ $txt-hg: #0091e7;
     padding-left: 15px;
     padding-right: 15px;
   }
-  // TODO: correct handling for the header of the landing page
-  .landing-header {
-    opacity: 0.05;
+
+  .sections {
+    padding: 16px 8px;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .header-title {
+    h1 {
+      font-size: 2rem !important;
+    }
+  }
+
+  .landing-text {
+    font-size: medium !important;
+  }
+
+  .nav-buttons {
+    font-size: medium;
+    padding: 10px;
   }
 }

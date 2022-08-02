@@ -81,19 +81,26 @@ export default function HomeScreen() {
 
       {/* <Navbar page="home" /> */}
       <Container className={styles["main-container"]}>
-        <div className={styles["landing-header"]}>
-          <Image
-            alt="abstract landing page art"
-            src="/images/home/title_header.svg"
-            width={593}
-            height={437}
-          />
-        </div>
         <section
           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
           style={langDirection(user.lang)}
-          className={styles["sections"]}
+          className={styles["sections"] + " " + styles["home-section"]}
         >
+          <div
+            style={{
+              left: user.lang === L.AR_SA ? 0 : "",
+              right: user.lang === L.EN_US ? 0 : "",
+              transform: `scaleX(${user.lang === L.AR_SA ? "1" : "-1"})`,
+            }}
+            className={styles["landing-header"]}
+          >
+            <Image
+              alt="abstract landing page art"
+              src="/images/home/title_header.svg"
+              width={695}
+              height={759}
+            />
+          </div>
           <div className={styles["header-title"]}>
             <div>
               <Image
@@ -133,13 +140,57 @@ export default function HomeScreen() {
           </div>
         </section>
         {/* 3 more sections for each image */}
-        
-
-        <Row
+        <section
+        style={{
+          overflowX: "scroll"
+        }}
           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-          style={langDirection(user.lang)}
-          className={styles["containers"]}
-        ></Row>
+          className={styles["sections"]}
+        >
+          <h1
+            className={
+              styles["section-header"] +
+              ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+            }
+          >
+            خدماتنا
+          </h1>
+          <div
+            dir="ltr"
+            className={styles["cards-container"]}
+            style={{ width: 3 * (420 + 32) }}
+          >
+            <ServiceCard
+              title={"الرادار"}
+              content={
+                "لا تضيع وقتك في انتظار تغير حالة موادك بعد اليوم. بترولي سيقوم بإشعارك من هاتفك مباشرة"
+              }
+              imgInit={"/images/home/radar.svg"}
+              link="/Notifier"
+              imgVisible={"/images/home/radar-visible.svg"}
+            />
+
+            <ServiceCard
+              title={"التقييم"}
+              content={
+                "لا تضيع وقتك في انتظار تغير حالة موادك بعد اليوم. بترولي سيقوم بإشعارك من هاتفك مباشرة"
+              }
+              imgInit={"/images/home/rating-star.svg"}
+              link="/Notifier"
+              imgVisible={"/images/home/rating-visible.svg"}
+            />
+
+            <ServiceCard
+              title={"المجموعات"}
+              content={
+                "لا تضيع وقتك في انتظار تغير حالة موادك بعد اليوم. بترولي سيقوم بإشعارك من هاتفك مباشرة"
+              }
+              imgInit={"/images/home/groups.svg"}
+              link="/Notifier"
+              imgVisible={"/images/home/groups-visible.svg"}
+            />
+          </div>
+        </section>
       </Container>
     </>
   );
