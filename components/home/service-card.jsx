@@ -70,9 +70,7 @@ export default function ServiceCard(props) {
                 router.push(props.link);
               }}
               className={styles["nav-buttons"]}
-            >
-              اكتشف الخدمة
-              <FiArrowUpRight className={styles["btn-icons"]} />
+            >{props.btnText} <FiArrowUpRight className={styles["btn-icons"]} />
             </button>
           </Card.Body>
         </Card>

@@ -74,7 +74,8 @@ export default function Navbar(props) {
 
   const updateLang = useCallback(() => {
     userDispatch({ type: T.CHANGE_LANG, lang: lang });
-    setLangState(translator(user.lang));
+    setLangState(translator(lang));
+    console.log(translator(lang));
   }, [lang, user.status]);
 
   useEffect(() => {

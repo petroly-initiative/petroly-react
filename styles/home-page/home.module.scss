@@ -88,20 +88,25 @@ $txt-hg: #0091e7;
 
 .section-header {
   font-weight: 600;
-  font-size: 3rem;
+  font-size: 2.2rem;
   color: $btn-high !important;
-  margin-bottom: 26px;
+  margin: 26px 0 26px 16px;
+
+  .header-icons{
+    margin: 0 12px;
+  }
 }
 
 
 
 .header-title {
   margin-top: 50px;
+  margin: 0 16px;
   display: flex;
   flex-direction: column;
 
   h1 {
-    font-size: 6rem !important;
+    font-size: 4rem !important;
     color: #00dfc8;
   }
 
@@ -109,13 +114,13 @@ $txt-hg: #0091e7;
     font-size: x-large;
     font-weight: 500;
     margin-top: 8px;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
   }
 }
 
 .header-highlight {
-  color: #00dfc8;
-  margin: 0 10px;
+  color: #00dfc8 !important;
+
 }
 
 .header-second {
@@ -140,18 +145,54 @@ $txt-hg: #0091e7;
   margin: 0;
 }
 
+.aboutus-text{
+  font-size: x-large;
+  font-style: italic;
+  margin: 46px 120px;
+  text-align: center;
+  font-weight: 400;
+  z-index: 2;
+}
+
+.aboutus-icon{
+  z-index: 1;
+  margin: 0 6px;
+
+  font-size: 120px;
+  color: rgba(128, 128, 128, 0.207);
+}
+
+.about-us-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aboutus-icons-holder{
+position: absolute;
+}
+
+.aboutus-author{
+  font-size: large;
+  font-style: bold;
+  margin: 0 150px;
+  width: 100%;
+  
+}
+
 .nav-buttons {
   border-radius: 6px;
   border: none;
   width: fit-content;
   font-size: large;
   font-weight: 600;
-  padding: 12px;
+  padding: 16px;
   background-color: $btn-high;
   color: white;
   transition: 300ms ease;
   .btn-icons {
-    margin: 0 16px;
+    margin-left: 8px;
+    margin-right: 4px;
   }
 
   &:hover{
@@ -203,6 +244,8 @@ $txt-hg: #0091e7;
       font-size: 5rem !important;
     }
   }
+
+  
 }
 
 @media only screen and (max-width: 1500px) {
@@ -216,6 +259,14 @@ $txt-hg: #0091e7;
     h1 {
       font-size: 3rem !important;
     }
+  }
+
+  .aboutus-text{
+    margin: 8px 4px;
+  }
+
+  .aboutus-author{
+    margin: 8px 12px;
   }
 }
 
@@ -233,6 +284,24 @@ $txt-hg: #0091e7;
     padding: 12px;
   }
 
+  .aboutus-text{
+    margin: 8px 4px;
+  }
+
+  .aboutus-author{
+    margin: 8px 8px;
+  }
+
+  .aboutus-icons-holder{
+    left: 10px;
+    top: 40px;
+
+    .aboutus-icon{
+      font-size: 2rem;
+      margin: 0 2px;
+    }
+  }
+
   .main-container {
     position: relative;
     max-width: 100vw !important;
@@ -244,6 +313,10 @@ $txt-hg: #0091e7;
   .sections {
     padding: 16px 8px;
     height: fit-content;
+  }
+
+  .section-header{
+    font-size: 2rem;
   }
 }
 

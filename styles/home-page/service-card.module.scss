@@ -2,29 +2,27 @@
 
 $btn-high: #00ead3;
 
-.card-wrapper{
-   margin: 4px 16px;
-    padding: 0 0 16px 0;
+.card-wrapper {
+  margin: 4px 16px;
+  padding: 0 0 16px 0;
   padding-bottom: 24px;
-  width: max(33%, 100vw);
+  width: max(40%, 100vw);
 }
 
 .md-card {
   display: flex;
   flex-direction: column;
- 
- 
-  width: 100% ;
-  border-radius: 4px ;
+
+  width: 100%;
+  border-radius: 4px;
   image {
     border-radius: 4px !important;
   }
   transition: 300ms ease;
-  
 
   .card-header {
     width: 100%;
-    height: fit-content;
+    height: 170px;
     display: flex;
     align-items: center !important;
     justify-content: center;
@@ -39,11 +37,12 @@ $btn-high: #00ead3;
     align-items: center;
     .title {
       font-weight: 700 !important;
-
-      font-size: 40px !important;
+      font-size: 30px;
     }
     .card-content {
-      font-size: medium;
+      font-size: large;
+      display: flex;
+      align-items: center;
       text-align: center;
       font-weight: 500;
       margin-top: 16px;
@@ -89,12 +88,9 @@ $btn-high: #00ead3;
       font-size: x-large;
     }
 
-    &:hover{
+    &:hover {
       transform: scale(1.05);
     }
-
-
-
   }
 
   .card-title {
@@ -114,18 +110,71 @@ $btn-high: #00ead3;
   color: theme.$dark-fnt !important;
 }
 
-@media only screen and (max-width: 600px) {
-  .md-card {
-    width: 80vw !important;
-
-    .title{
-      font-size: 16px !important;
+@media only screen and (max-width: 1200px) {
+.md-card {
+     width: 40vw !important;
+    .card-body {
+      .card-content {
+        font-size: medium;
+      }
     }
   }
 
+}
 
-  .card-wrapper{
-     border: 1px solid bluered;
-   
+@media only screen and (max-width: 992px) {
+
+  .md-card {
+     width: 40vw !important;
+    .card-body {
+      .card-content {
+        font-size: small;
+      }
+    }
+  }
+
+  .images-aligner {
+    width: 100px;
+    width: 100px;
+    img {
+      width: 100px !important;
+      width: 100px !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .md-card {
+    width: 68vw !important;
+
+    .title {
+      font-size: 25px !important;
+    }
+
+    .card-body {
+      .card-content {
+        font-size: small;
+      }
+    }
+  }
+
+  .images-aligner {
+    width: 100px;
+    width: 100px;
+    img {
+      width: 100px !important;
+      width: 100px !important;
+    }
+  }
+
+  .card-wrapper {
+    border: 1px solid bluered;
+    margin: 4px 8px;
+  }
+}
+
+@mixin for-tablet-portrait-up {
+  @media (min-width: 600px) {
+    @content;
   }
 }
