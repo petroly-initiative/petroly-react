@@ -1,17 +1,18 @@
 import { L } from "../../../constants";
 
 const arabic = {
-    title: "تتبع المادة",
-    instruction: "اختر جميع الشعب التي تريد تتبعها",
-    reminder: "إشعار تغير حالة المادة سيرسل عبر البريد الإلكتروني",
-    lectureLabel: "محاضرة",
-    labLabel: "مختبر",
-    hybridLabel: "مدمج",
-    confirm: "تأكيد التتبع",
-    cancel: "إلغاء التتبع",
-    cancelhover: "إلغاء تتبع المادة",
-    confirmHover: "تأكيد تتبع الشعب المختارة"
-}
+  title: "تتبع المادة",
+  instruction: "اختر جميع الشعب التي تريد تتبعها",
+  reminder: "إشعار تغير حالة المادة سيرسل عبر البريد الإلكتروني",
+  lectureLabel: "محاضرة",
+  labLabel: "مختبر",
+  hybridLabel: "مدمج",
+  confirm: "تأكيد التتبع",
+  cancel: "إلغاء التتبع",
+  cancelhover: "إلغاء تتبع المادة",
+  confirmHover: "تأكيد تتبع الشعب المختارة",
+  unauth_msg: "الرجاء تسجيل الدخول لاستخدام هذه الخاصية",
+};
 
 const english = {
   title: "Track a course",
@@ -23,7 +24,8 @@ const english = {
   confirm: "Track Selected",
   cancel: "Cancel",
   cancelHover: "Cancel course tracking",
-  confirmHover:"Confirm tracking of selected sections"
+  confirmHover: "Confirm tracking of selected sections",
+  unauth_msg: "You need to login to access this feature",
 };
 
 export default function translator(lang) {

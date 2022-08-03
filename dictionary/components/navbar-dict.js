@@ -11,9 +11,7 @@ const arabic = {
   radar: "الرادار",
   support: "الدعم",
   notifier: "الرادار",
-  theme: "وضع العرض",
-  unauth_msg: "الرجاء تسجيل الدخول لاستخدام هذه الخاصية",
-};
+  theme: "وضع العرض",};
 
 const english = {
   dashboard: "Dashboard",

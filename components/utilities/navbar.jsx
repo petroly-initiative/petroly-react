@@ -241,7 +241,7 @@ export default function Navbar(props) {
             style={sideBarStyle}
           >
             <div
-            id="navbar-overlay"
+              id="navbar-overlay"
               onClick={showSidebar}
               className={styles.nav_overlay}
               style={overlayStyle}
@@ -753,39 +753,12 @@ export default function Navbar(props) {
                   </Link>
                 </li>
                 <li className={styles.navbar_item}>
-                  {user.status !== USER.LOGGED_OUT ? (
-                    <Link href="/Notifier" className={styles.navbar_link}>
-                      <div
-                        className={styles.link_btn + " " + navStyles.notifier}
-                      >
-                        <MdRadar className={styles.nav_img} size="1.3em" />
-                        <div className={styles.link_text}>
-                          {langState.radar}
-                        </div>
-                      </div>
-                    </Link>
-                  ) : (
-                    <OverlayTrigger
-                      // trigger="click"
-                      className={styles.navbar_link}
-                      placement={"left"}
-                      delay={{ show: 0, hide: 50 }}
-                      overlay={<Tooltip>{langState.unauth_msg}</Tooltip>}
-                    >
-                      {/* <Button className={styles.inactive_link} disabled> */}
-                      <div
-                        className={
-                          styles.inactive_btn + " " + navStyles.notifier
-                        }
-                      >
-                        <MdRadar className={styles.nav_img} size="1.3em" />
-                        <div className={styles.link_text}>
-                          {langState.radar}
-                        </div>
-                      </div>
-                      {/* </Button> */}
-                    </OverlayTrigger>
-                  )}
+                  <Link href="/Notifier" className={styles.navbar_link}>
+                    <div className={styles.link_btn + " " + navStyles.notifier}>
+                      <MdRadar className={styles.nav_img} size="1.3em" />
+                      <div className={styles.link_text}>{langState.radar}</div>
+                    </div>
+                  </Link>
                 </li>
                 <li id="groups-btn" className={styles.navbar_item}>
                   <Link href="/Groups" className={styles.navbar_link}>
@@ -1326,31 +1299,12 @@ export default function Navbar(props) {
                 </Link>
               </li>
               <li className={styles.navbar_item}>
-                {user.status !== USER.LOGGED_OUT ? (
-                  <Link href="/Notifier" className={styles.navbar_link}>
-                    <div className={styles.link_btn + " " + navStyles.notifier}>
-                      <MdRadar className={styles.nav_img} size="1.3em" />
-                      <div className={styles.link_text}>{langState.radar}</div>
-                    </div>
-                  </Link>
-                ) : (
-                  <OverlayTrigger
-                    // trigger="click"
-                    className={styles.navbar_link}
-                    placement={"left"}
-                    delay={{ show: 0, hide: 50 }}
-                    overlay={<Tooltip>{langState.unauth_msg}</Tooltip>}
-                  >
-                    {/* <Button className={styles.inactive_link} disabled> */}
-                    <div
-                      className={styles.inactive_btn + " " + navStyles.notifier}
-                    >
-                      <MdRadar className={styles.nav_img} size="1.3em" />
-                      <div className={styles.link_text}>{langState.radar}</div>
-                    </div>
-                    {/* </Button> */}
-                  </OverlayTrigger>
-                )}
+                <Link href="/Notifier" className={styles.navbar_link}>
+                  <div className={styles.link_btn + " " + navStyles.notifier}>
+                    <MdRadar className={styles.nav_img} size="1.3em" />
+                    <div className={styles.link_text}>{langState.radar}</div>
+                  </div>
+                </Link>
               </li>
               <li id="groups-btn" className={styles.navbar_item}>
                 <Link href="/Groups" className={styles.navbar_link}>

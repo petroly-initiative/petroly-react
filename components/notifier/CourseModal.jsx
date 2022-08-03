@@ -7,7 +7,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { useContext } from "react";
-import { M, L, langDirection } from "../../constants";
+import { M, L, langDirection, USER } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/course-modal.module.scss";
 import { BiInfoCircle } from "react-icons/bi";
@@ -65,7 +65,11 @@ function CourseModal(props) {
   const trackSections = () => {
     // getting already tracked courses while filtering out sections that existed in the current course
     const otherSections = props.trackedCourses
-      .filter((course) => (course["course_number"] !== props.course || (course["term_code"] !== props.term.long) ))
+      .filter(
+        (course) =>
+          course["course_number"] !== props.course ||
+          course["term_code"] !== props.term.long
+      )
       .map((course) => ({
         crn: course["crn"],
         term: course["term_code"],
@@ -142,7 +146,7 @@ function CourseModal(props) {
   // storing all selected sections, by firing a mutation
   // dynamic section type labelling
   const typeMapper = (type) => {
-    type = type.map(e => e.toUpperCase())
+    type = type.map((e) => e.toUpperCase());
     if (type.includes("LECTURE")) {
       if (type.includes("LAB")) {
         return [
@@ -196,7 +200,9 @@ function CourseModal(props) {
     if (props.show) {
       // console.log("Modal side effect: ", props.trackedCourses);
       const targetCourse = props.trackedCourses.filter(
-        (course) => (course["course_number"] === props.course && course["term_code"] === props.term.long)
+        (course) =>
+          course["course_number"] === props.course &&
+          course["term_code"] === props.term.long
       );
       setSections(targetCourse.map((course) => course["crn"]));
     }
@@ -239,7 +245,7 @@ function CourseModal(props) {
             {langState.title}
           </Modal.Title>
           <CloseButton
-          style={{marginLeft: user.lang === L.AR_SA ? "0": "auto"}}
+            style={{ marginLeft: user.lang === L.AR_SA ? "0" : "auto" }}
             onClick={() => {
               props.close();
             }}
@@ -320,7 +326,7 @@ function CourseModal(props) {
             placement="top"
             delay={{ show: 1000, hide: 300 }}
             overlay={
-              <Tooltip id="button-tooltip-2"> {langState.confirmHover}</Tooltip>
+              <Tooltip id="button-tooltip-2"> { user.status === USER.LOGGED_OUT ? langState.unauth_msg : langState.confirmHover}</Tooltip>
             }
           >
             {/* {waiting ? (
@@ -332,13 +338,16 @@ function CourseModal(props) {
               </Button>
             ) : ( */}
             <Button
+              disabled={user.status === USER.LOGGED_OUT}
               onClick={() => {
                 trackSections();
                 props.close();
               }}
               className={[styles["btns"], styles["submit-btn"]]}
             >
-              <FaSave size="1.2rem" /> {langState.confirm}
+              <FaSave size="1.2rem" />{" "}
+              
+                langState.confirm
             </Button>
             {/* )} */}
           </OverlayTrigger>

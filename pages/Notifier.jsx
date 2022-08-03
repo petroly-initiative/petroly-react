@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { NavContext } from "../state-management/navbar-state/NavbarContext";
 import {
   Container,
@@ -89,16 +88,28 @@ function Notifier(props) {
 
   const [search, { data: searchData, loading: searchLoading }] =
     useLazyQuery(searchQuery);
-  const { data: trackedCoursesData, loading: trackedCoursesLoading } = useQuery(
-    trackedCoursesQuery,
-    { pollInterval: 10_000 } // refetch every 10 s
-  );
+  const {
+    data: trackedCoursesData,
+    loading: trackedCoursesLoading,
+    startPolling,
+    stopPolling,
+  } = useQuery(trackedCoursesQuery, {
+    skip: user.status === USER.LOGGED_OUT,
+    pollInterval: 10_000,
+  });
+
+  useEffect(() => {
+    console.log(user.status);
+    if (user.status === USER.LOGGED_OUT) {
+      stopPolling();
+    } else if (user.status === USER.LOGGED_IN) {
+      startPolling();
+    }
+  }, [user.status]);
+
   const [updateTrackingList] = useMutation(updateTrackingListMutation, {
     refetchQueries: [{ query: trackedCoursesQuery }],
   });
-
-  // ? router
-  const router = useRouter();
 
   //? utility functions
   // event listener for the "Enter" key
@@ -186,7 +197,7 @@ function Notifier(props) {
     // }
     console.log("Updated courses in notifier", courses);
     await updateTrackingList({ variables: { courses } });
-    console.log(trackedCoursesData);
+    // console.log(trackedCoursesData);
   };
 
   // ? Mappers
@@ -299,16 +310,7 @@ function Notifier(props) {
   }, [user.lang]);
 
   useEffect(() => {
-    if (
-      user.status !== USER.LOGGED_IN &&
-      !window.sessionStorage.getItem("token")
-    ) {
-      router.push("/");
-    }
-  }, [user.status]);
-
-  useEffect(() => {
-    console.log("trackedCoursesData", trackedCoursesData);
+    // console.log("trackedCoursesData", trackedCoursesData);
     if (trackedCoursesData) {
       if (!trackedCoursesData.trackedCourses) {
         setShowSettings(true);
@@ -468,19 +470,18 @@ function Notifier(props) {
             placement="top"
             delay={{ show: 350, hide: 400 }}
             overlay={
-              <Tooltip id="button-tooltip-2">{langState.trackBtn}</Tooltip>
+              <Tooltip id="button-tooltip-2">
+                {user.status === USER.LOGGED_OUT
+                  ? langState.unquth_msg
+                  : langState.trackBtn}
+              </Tooltip>
             }
           >
             <Button
               id="evaluate"
               className={styles.trackBtn}
               onClick={toggleCanvas}
-              // style={{
-              //   backgroundColor:
-              //     user.status !== USER.LOGGED_IN || dataHasEvaluated.hasEvaluated
-              //       ? "gray"
-              //       : "#00ead3",
-              // }}
+              disabled={user.status === USER.LOGGED_OUT}
             >
               <MdRadar size={32} />
             </Button>
@@ -566,7 +567,7 @@ function Notifier(props) {
           </div>
         </Container>
         {/* external component embedded within the page */}
-        {!HasNoTrackingList && (
+        {user.status === USER.LOGGED_IN && !HasNoTrackingList && (
           <TrackingCanvas
             trackedCourses={trackedCoursesData.trackedCourses}
             close={toggleCanvas}
@@ -583,12 +584,14 @@ function Notifier(props) {
           visible={showMsg}
           success
         />
-        <NotificationsModal
-          visible={showSettings}
-          handleClose={setShowSettings}
-          handleMsg={toggleMessage}
-          firstSetup={HasNoTrackingList}
-        />
+        {user.status === USER.LOGGED_OUT && (
+          <NotificationsModal
+            visible={showSettings}
+            handleClose={setShowSettings}
+            handleMsg={toggleMessage}
+            firstSetup={HasNoTrackingList}
+          />
+        )}
         {/* login checking is needed */}
       </>
     );
@@ -720,7 +723,11 @@ function Notifier(props) {
           placement="top"
           delay={{ show: 350, hide: 400 }}
           overlay={
-            <Tooltip id="button-tooltip-2">{langState.trackBtn}</Tooltip>
+            <Tooltip id="button-tooltip-2">
+              {user.status === USER.LOGGED_OUT
+                ? langState.unquth_msg
+                : langState.trackBtn}
+            </Tooltip>
           }
         >
           <Button
@@ -733,6 +740,7 @@ function Notifier(props) {
             //       ? "gray"
             //       : "#00ead3",
             // }}
+            disabled={user.status === USER.LOGGED_OUT}
           >
             <MdRadar size={32} />
           </Button>
@@ -741,7 +749,11 @@ function Notifier(props) {
       {/* external component embedded within the page */}
       <CourseModal
         searchData={searchData.search}
-        trackedCourses={trackedCoursesData.trackedCourses}
+        trackedCourses={
+          user.status === USER.LOGGED_OUT
+            ? []
+            : trackedCoursesData.trackedCourses
+        }
         save={updateTracked}
         close={toggleModal}
         show={showModal}
@@ -752,21 +764,29 @@ function Notifier(props) {
         department={department}
         msgHandler={toggleMessage}
       />
-      <TrackingCanvas
-        allTerms={termsData.terms}
-        trackedCourses={trackedCoursesData.trackedCourses}
-        close={toggleCanvas}
-        show={showCanvas}
-        save={updateTracked}
-        msgHandler={toggleMessage}
-        settingsHandler={setShowSettings}
-      />
+      {user.status === USER.LOGGED_IN && (
+        <TrackingCanvas
+          allTerms={termsData.terms}
+          trackedCourses={
+            user.status === USER.LOGGED_OUT
+              ? []
+              : trackedCoursesData.trackedCourses
+          }
+          close={toggleCanvas}
+          show={showCanvas}
+          save={updateTracked}
+          msgHandler={toggleMessage}
+          settingsHandler={setShowSettings}
+        />
+      )}
       <PopMsg msg={msg} handleClose={toggleMessage} visible={showMsg} success />
-      <NotificationsModal
-        visible={showSettings}
-        handleClose={setShowSettings}
-        handleMsg={toggleMessage}
-      />
+      {user.status === USER.LOGGED_IN && (
+        <NotificationsModal
+          visible={showSettings}
+          handleClose={setShowSettings}
+          handleMsg={toggleMessage}
+        />
+      )}
       {/* login checking is needed */}
     </>
   );

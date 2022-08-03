@@ -9,11 +9,14 @@ const arabic = {
   allDepts: "كل الأقسام",
   tutorialHeader: "كيفية تتبع حالة موادك الجامعية",
   searchHeader: "ابحث",
-  searchContent: "قم بالبحث ياستخدام القسم الجامعي, الفصل الأكاديمي, واسم المادة",
+  searchContent:
+    "قم بالبحث ياستخدام القسم الجامعي, الفصل الأكاديمي, واسم المادة",
   selectHeader: "اختر",
   selectContent: "قم باختيار الشعب التي تود تتبعها من القائمة",
   waitHeader: "انتظر",
-  waitContent: "سنقوم بتنبيهك عند تحديث حالة المواد باستخدام البريد الإلكتروني , و بوت تلقرام الخاص بنا!"
+  waitContent:
+    "سنقوم بتنبيهك عند تحديث حالة المواد باستخدام البريد الإلكتروني , و بوت تلقرام الخاص بنا!",
+  unauth_msg: "الرجاء تسجيل الدخول لاستخدام هذه الخاصية",
 };
 const english = {
   depratments: "Departments List",
@@ -24,11 +27,14 @@ const english = {
   allDepts: "All ",
   tutorialHeader: "How to track your courses",
   searchHeader: "Search",
-  searchContent: "Specify a term, a department, title or course code of your course and hit Search!",
+  searchContent:
+    "Specify a term, a department, title or course code of your course and hit Search!",
   selectHeader: "Select",
   selectContent: "Select all sections you would like to track and confirm",
   waitHeader: "Wait",
-  waitContent: "After tracking a course ,wait until we notify you via an email, or using our telegram bot!"
+  waitContent:
+    "After tracking a course ,wait until we notify you via an email, or using our telegram bot!",
+  unauth_msg: "You need to login to access this feature",
 };
 
 export default function translator(lang) {
