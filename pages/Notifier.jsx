@@ -320,6 +320,10 @@ function Notifier(props) {
     }
   }, [trackedCoursesData]);
 
+  useEffect(() => {
+    navDispatch("notifier");
+  }, []);
+
   if (trackedCoursesLoading || loadingDept || termsLoading || searchLoading) {
     // wait for loading cruical queries
     return (

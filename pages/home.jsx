@@ -127,7 +127,7 @@ export default function HomeScreen() {
               {user.lang === L.AR_SA && (
                 <span
                   style={{
-                    margin: "0px 8px"
+                    margin: "0px 8px",
                   }}
                   className={
                     user.lang === L.AR_SA ? styles["header-highlight"] : ""
@@ -219,14 +219,19 @@ export default function HomeScreen() {
           >
             {" "}
             <ImTarget className={styles["header-icons"]} />
-          {langState.quoteHeader}</h1>
+            {langState.quoteHeader}
+          </h1>
 
           <div className={styles["about-us-container"]}>
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ type: "spring", delay: 0.8, duration: 3 }}
-              className={styles["aboutus-icons-holder"]}
+              className={
+                user.lang === L.AR_SA
+                  ? styles["aboutus-icons-holder-ar"]
+                  : styles["aboutus-icons-holder-en"]
+              }
               dir="ltr"
             >
               <FaQuoteLeft className={styles["aboutus-icon"]} />
@@ -247,7 +252,7 @@ export default function HomeScreen() {
               ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
             }
             style={{
-              textAlign: user.lang === L.AR_SA ? "right": "left"
+              textAlign: user.lang === L.AR_SA ? "right" : "left",
             }}
           >
             {langState.quoteAuth}

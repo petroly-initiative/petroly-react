@@ -9,7 +9,7 @@ class MyDocument extends Document {
     return (
       <>
         <Html lang="ar">
-           <Head>
+          <Head>
             <meta
               name="description"
               content="Digital Platform for All KFUPMers"
@@ -29,11 +29,29 @@ class MyDocument extends Document {
               property="og:image"
               content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
             />
+            <meta property="og:image:type" content="image/png" />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta
+              property="og:image"
+              content="https://res.cloudinary.com/petroly-initiative/image/upload/v1659611338/general/manifest_wa_wluj2r.png"
+            />
+            <meta property="og:image:type" content="image/png" />
+            <meta property="og:image:width" content="400" />
+            <meta property="og:image:height" content="400" />
+
             <meta
               property="og:image:secure_url"
               content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
             />
-            <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+            <meta
+              property="og:image:secure_url"
+              content="https://res.cloudinary.com/petroly-initiative/image/upload/v1659611338/general/manifest_wa_wluj2r.png"
+            />
+            <meta
+              name="apple-mobile-web-app-status-bar-style"
+              content="black"
+            />
 
             <meta property="twitter:card" content="summary_large_image" />
             <meta property="twitter:url" content="https://petroly.co/" />
