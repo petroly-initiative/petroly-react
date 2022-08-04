@@ -19,7 +19,7 @@ import Link from "next/link";
  */
 
 export default function InstructorPopover(props) {
-  const router = useRouter();
+
 
   return (
     <OverlayTrigger
@@ -34,7 +34,9 @@ export default function InstructorPopover(props) {
           }
         >
           <Link href={`/instructors/${props.id}`} passHref>
-            <a target="_blank" rel="noopener noreferrer">
+            <a onClick={(e) => {
+              e.stopPropagation()
+            }} target="_blank" rel="noopener noreferrer">
               <Popover.Header
                 className={
                   styles["card-header"] +
