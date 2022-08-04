@@ -1,10 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
-
 class MyDocument extends Document {
-
-
-  
   render() {
     return (
       <>
@@ -33,6 +29,10 @@ class MyDocument extends Document {
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
             <meta
+              property="og:image:secure_url"
+              content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
+            />
+            <meta
               property="og:image"
               content="https://res.cloudinary.com/petroly-initiative/image/upload/v1659611338/general/manifest_wa_wluj2r.png"
             />
@@ -40,10 +40,6 @@ class MyDocument extends Document {
             <meta property="og:image:width" content="400" />
             <meta property="og:image:height" content="400" />
 
-            <meta
-              property="og:image:secure_url"
-              content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
-            />
             <meta
               property="og:image:secure_url"
               content="https://res.cloudinary.com/petroly-initiative/image/upload/v1659611338/general/manifest_wa_wluj2r.png"

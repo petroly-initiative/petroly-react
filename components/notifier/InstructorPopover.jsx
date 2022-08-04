@@ -5,6 +5,7 @@ import { AiFillStar } from "react-icons/ai";
 import { RiArrowRightUpFill } from "react-icons/ri";
 import { M } from "../../constants";
 import Image from "next/image";
+import Link from "next/link";
 
 /**
  * ? props
@@ -27,58 +28,61 @@ export default function InstructorPopover(props) {
       rootClose
       overlay={
         <Popover
-          onClick={(e) => {
-            router.push(`/instructors/${props.id}`);
-          }}
           className={
             styles["popover-container"] +
             ` ${props.user.theme === M.DARK ? styles["dark-mode"] : ""}`
           }
         >
-          <Popover.Header
-            className={
-              styles["card-header"] +
-              " shadow" +
-              ` ${props.user.theme === M.DARK ? styles["dark-mode"] : ""}`
-            }
-          >
-            <span> {props.msg}</span>
-            <RiArrowRightUpFill className={styles["link-icon"]} />
-          </Popover.Header>
-          <Popover.Body className={styles["card-body"]}>
-            <div
-              style={{ position: "relative" }}
-              className={
-                styles.insuctor_pic +
-                " shadow" +
-                ` ${props.user.theme === M.DARK ? styles["dark-border"] : ""}`
-              }
-            >
-              <Image
-                className={styles.picDiv}
-                src={props.img}
-                width="60"
-                height="60"
-              />
-            </div>
-            <div className={styles["instructor-name"]}>{props.name}</div>
-            <div className={styles["card-rating"]}>
-              <AiFillStar
+          <Link href={`/instructors/${props.id}`} passHref>
+            <a target="_blank" rel="noopener noreferrer">
+              <Popover.Header
                 className={
-                  props.rating > 0
-                    ? styles["active-icon"]
-                    : styles["rating-icon"]
+                  styles["card-header"] +
+                  " shadow" +
+                  ` ${props.user.theme === M.DARK ? styles["dark-mode"] : ""}`
                 }
-              />{" "}
-              <span
-                className={` ${
-                  props.user.theme === M.DARK ? styles["dark-txt"] : ""
-                }`}
               >
-                {props.rating}
-              </span>
-            </div>
-          </Popover.Body>
+                <span> {props.msg}</span>
+                <RiArrowRightUpFill className={styles["link-icon"]} />
+              </Popover.Header>
+              <Popover.Body className={styles["card-body"]}>
+                <div
+                  style={{ position: "relative" }}
+                  className={
+                    styles.insuctor_pic +
+                    " shadow" +
+                    ` ${
+                      props.user.theme === M.DARK ? styles["dark-border"] : ""
+                    }`
+                  }
+                >
+                  <Image
+                    className={styles.picDiv}
+                    src={props.img}
+                    width="60"
+                    height="60"
+                  />
+                </div>
+                <div className={styles["instructor-name"]}>{props.name}</div>
+                <div className={styles["card-rating"]}>
+                  <AiFillStar
+                    className={
+                      props.rating > 0
+                        ? styles["active-icon"]
+                        : styles["rating-icon"]
+                    }
+                  />{" "}
+                  <span
+                    className={` ${
+                      props.user.theme === M.DARK ? styles["dark-txt"] : ""
+                    }`}
+                  >
+                    {props.rating}
+                  </span>
+                </div>
+              </Popover.Body>
+            </a>
+          </Link>
         </Popover>
       }
     >

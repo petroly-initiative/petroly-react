@@ -15,7 +15,6 @@ $txt-hg: #0091e7;
     border: 2px solid $btn-high !important;
   }
   backdrop-filter: blur(2em) !important;
-
 }
 
 .dark-txt {
@@ -25,7 +24,7 @@ $txt-hg: #0091e7;
 .picDiv {
   border-radius: 30px;
   overflow: hidden;
-  padding: 2px;
+  padding: 0px;
   margin: auto;
   opacity: 1;
 }
@@ -63,7 +62,6 @@ $txt-hg: #0091e7;
 
 .card-header {
   background-color: white;
-
 }
 
 .card-body {
@@ -71,7 +69,6 @@ $txt-hg: #0091e7;
   flex-direction: column;
   align-items: center;
   padding-top: 2px;
-
 }
 
 .instructor-name {
@@ -80,8 +77,8 @@ $txt-hg: #0091e7;
   text-align: center;
   font-weight: 600;
   color: #00ead3;
-  margin-top: 16px;
-  font-size: larger;
+  margin-top: 8px;
+  font-size: medium;
 }
 
 .card-rating {
@@ -90,7 +87,6 @@ $txt-hg: #0091e7;
 @mixin rating-layout() {
   display: flex;
   align-items: center;
-
   color: #52575d;
 
   width: fit-content;
@@ -101,8 +97,13 @@ $txt-hg: #0091e7;
     margin: 0 6px;
   }
 
+  .rating-icon {
+    margin: 0;
+  }
+
   .active-icon {
     color: gold;
+    margin: 0;
   }
 }
 
@@ -117,8 +118,8 @@ $txt-hg: #0091e7;
   border: 1px solid rgba(0, 0, 0, 0.2);
   transition: 300me ease;
 
-  &:hover{
-    transform: scale(1.10);
+  &:hover {
+    transform: scale(1.1);
     border: 1px solid $btn-high;
     cursor: pointer;
   }
