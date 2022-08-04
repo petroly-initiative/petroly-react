@@ -127,8 +127,7 @@ export default function HomeScreen() {
               {user.lang === L.AR_SA && (
                 <span
                   style={{
-                    marginRight: user.lang === L.AR_SA ? 0 : 8,
-                    marginLeft: user.lang === L.AR_SA ? 8 : 0,
+                    margin: "0px 8px"
                   }}
                   className={
                     user.lang === L.AR_SA ? styles["header-highlight"] : ""

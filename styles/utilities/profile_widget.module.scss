@@ -1,0 +1,132 @@
+@use "/styles/themes.module" as theme;
+
+$fnt-size: 16px;
+$bg-primary: #2ecfeb;
+$fnt-clr: rgb(170, 170, 170);
+$testing: #00dfc8;
+$clr-primary: #00ead3;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none;
+  &::before,
+  &::after {
+    background-color: theme.$dark-fg !important;
+    color: theme.$dark-fnt !important;
+    box-shadow: none !important;
+  }
+
+  &:active,
+  &:focus {
+    background-color: transparent !important;
+  }
+}
+
+.navbar_link {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  text-decoration: none;
+  background-color: rgba(247, 247, 247, 0) !important;
+  border: none;
+  color: $fnt-clr;
+  &:hover,
+  &:active,
+  &:focus {
+    color: $bg-primary !important;
+    background: rgb(233, 233, 233);
+    box-shadow: unset !important;
+    .link_text {
+      opacity: 1;
+    }
+  }
+}
+
+.popup-info {
+  display: flex;
+  align-items: center;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+.popup-pic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-right: 16px;
+}
+
+.popup-txt {
+  line-height: 1.2;
+  strong {
+    color: #2ecfeb;
+    font-size: 18;
+  }
+}
+
+.btn-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  direction: rtl !important;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2px;
+}
+
+.info-btn {
+  color: $bg-primary !important;
+  text-align: right;
+  font-weight: 600;
+  padding: 6px;
+  margin: 2px;
+  font-size: 13px;
+  font-family: "Cairo", sans-serif !important;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 0.25rem;
+  transition: 200ms ease;
+  &:hover {
+    background-color: $bg-primary;
+    color: white !important;
+  }
+}
+
+.signout-btn {
+  background: unset !important;
+  border: unset !important;
+  text-align: right;
+  color: rgb(255, 89, 89);
+  padding: 6px;
+  width: 100%;
+  margin: 2px;
+  font-size: 13px;
+  font-family: "Cairo", sans-serif !important;
+  font-weight: 600;
+  transition: 200ms ease;
+  &:hover {
+    background: rgb(255, 107, 107) !important;
+    color: white !important;
+  }
+  &:focus {
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.profile {
+  width: 2rem !important;
+  height: 2rem !important;
+  border-radius: 1.25em;
+  background: rgb(233, 165, 233);
+  transition: 200ms ease;
+  &:hover {
+    border-radius: 0.5rem;
+  }
+}

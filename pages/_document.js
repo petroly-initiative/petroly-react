@@ -24,6 +24,7 @@ class MyDocument extends Document {
               property="og:description"
               content="Digital Platform for All KFUPMers"
             />
+            {/* TODO: adding another og:image tag and oh:imahr:secure_url for WA */}
             <meta
               property="og:image"
               content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
@@ -32,6 +33,7 @@ class MyDocument extends Document {
               property="og:image:secure_url"
               content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
             />
+            <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
             <meta property="twitter:card" content="summary_large_image" />
             <meta property="twitter:url" content="https://petroly.co/" />

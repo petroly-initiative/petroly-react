@@ -1,0 +1,100 @@
+@use '/styles/themes.module' as theme;
+
+
+$fnt-size: 16px;
+$bg-primary: #2ecfeb;
+$fnt-clr: rgb(170, 170, 170);
+$testing: #00dfc8;
+$clr-primary: #00ead3;
+
+.dark-mode{
+  
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none;
+  &::before, &::after{
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+   box-shadow: none !important;
+  }
+
+
+  &:active, &:focus{
+    background-color: transparent !important;
+  }
+}
+
+.btn-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  direction: rtl !important;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2px;
+}
+
+.lang-icon{
+  color: rgb(128, 128, 128);
+}
+
+.lang-switch{
+  background-color: white;
+  width: 100%;
+  color: $fnt-clr;
+  font-size: 12px;
+  button:hover{
+    background-color: #00dfc8 !important;
+    color: white;
+    border: 1px solid #00dfc8 !important;
+    box-shadow: none;
+    width:70px !important;
+  }
+
+  button:focus{
+    box-shadow: none;
+    width: 70px !important;
+  }
+
+  button{
+    width: 70px !important;
+    height: 35px !important;
+    border: 1px solid $fnt-clr;
+    margin: 2px;
+    border-radius: 2px !important;
+  }
+
+  button:active, button:focus{
+    width: 50% !important;
+    background-color: #00dfc8 !important;
+    color: white !important;
+    border: unset;
+  }
+}
+
+.lang-active{
+   background-color: #00dfc8 !important;
+    color: white;
+    border: 1px solid #00dfc8 !important;
+}
+
+.navbar_link {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  text-decoration: none;
+  background-color: rgba(247, 247, 247, 0) !important;
+  border: none;
+  color: $fnt-clr;
+  &:hover,
+  &:active,
+  &:focus {
+    color: $bg-primary !important;
+    background: rgb(233, 233, 233);
+    box-shadow: unset !important;
+    .link_text {
+      opacity: 1;
+    }
+  }
+}
