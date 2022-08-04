@@ -584,7 +584,7 @@ function Notifier(props) {
           visible={showMsg}
           success
         />
-        {user.status === USER.LOGGED_OUT && (
+        {user.status === USER.LOGGED_IN && HasNoTrackingList && (
           <NotificationsModal
             visible={showSettings}
             handleClose={setShowSettings}
