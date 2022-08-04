@@ -138,17 +138,21 @@ $x: #22d77c;
 }
 
 .instructor-name {
-  display: inline-flexbox;
+  display: inline-flex;
+  flex-flow: row wrap;
   align-items: center;
   margin-right: auto;
   -webkit-line-clamp: 1;
+  
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   line-clamp: 1;
   // word-break: break-all;
- 
+ span{
+  padding: 8px 0 !important;
+ }
 }
 
 .sections-type {
@@ -214,6 +218,7 @@ $x: #22d77c;
 .loc-time{
  display: flex;
  color: $txt-fill;
+ flex-flow: row wrap;
  flex-grow: 1;
  justify-content: center;
  align-items: center;

@@ -1,8 +1,6 @@
 import React, { useRef } from "react";
 import { Card, Col, Container, OverlayTrigger, Tooltip} from "react-bootstrap";
 import Link from "next/link";
-import Image from "next/image";
-import { CgProfile } from "react-icons/cg";
 import { BsStarFill, BsStar } from "react-icons/bs";
 import { MdFolderSpecial } from "react-icons/md";
 import ReactStars from "react-rating-stars-component";

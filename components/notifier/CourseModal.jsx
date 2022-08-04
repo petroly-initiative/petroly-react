@@ -347,7 +347,7 @@ function CourseModal(props) {
             >
               <FaSave size="1.2rem" />{" "}
               
-                langState.confirm
+                {langState.confirm}
             </Button>
             {/* )} */}
           </OverlayTrigger>

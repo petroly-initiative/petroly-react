@@ -10,6 +10,7 @@ import { CgUnavailable } from "react-icons/cg";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/section-checkbox.module.scss";
 import { MdContentCopy } from "react-icons/md";
+import InstructorPopover from "./InstructorPopover";
 
 /**
  * TODO
@@ -77,12 +78,14 @@ function SectionCheckbox(props) {
     navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
       if (result.state === "granted" || result.state == "prompt") {
         // use popMsg utility to signal successful copy
-        navigator.clipboard.writeText(props.details[0].crn).then(() => {
-          props.msgHandler(true, langState.copied);
-        }).catch(() => {
-          props.msgHandler(true, langState.notCopied);
-        })
-        
+        navigator.clipboard
+          .writeText(props.details[0].crn)
+          .then(() => {
+            props.msgHandler(true, langState.copied);
+          })
+          .catch(() => {
+            props.msgHandler(true, langState.notCopied);
+          });
       }
     });
   };
@@ -134,6 +137,10 @@ function SectionCheckbox(props) {
     setLang(() => translator(user.lang));
   }, [user.lang]);
 
+  useEffect(() => {
+    console.log(props.details[0].id);
+  }, []);
+
   return (
     <>
       {/* ! needs trasnlation */}
@@ -147,17 +154,15 @@ function SectionCheckbox(props) {
           {" "}
           Section # {props.details[0].section_number}
         </span>
-       <OverlayTrigger
-              placement="top"
-              delay={{ show: 0, hide: 50 }}
-              overlay={
-                <Tooltip id="button-tooltip-2">{langState.crn}</Tooltip>
-              }
-            > 
-            <button onClick={copyCrn} className={styles["crn-copy"]}>
-          <MdContentCopy />
-          <span className={styles["crn-num"]}>{props.details[0].crn}</span>
-        </button>
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 0, hide: 50 }}
+          overlay={<Tooltip id="button-tooltip-2">{langState.crn}</Tooltip>}
+        >
+          <button onClick={copyCrn} className={styles["crn-copy"]}>
+            <MdContentCopy />
+            <span className={styles["crn-num"]}>{props.details[0].crn}</span>
+          </button>
         </OverlayTrigger>
       </div>
       <Card
@@ -196,6 +201,18 @@ function SectionCheckbox(props) {
                   {langState.unavailableName}
                 </span>
               </>
+            )}
+            {props.details[0].id && (
+              <span>
+                <InstructorPopover
+                  msg={langState.ratingHeader}
+                  img={props.details[0].profilePic}
+                  rating={props.details[0].rating}
+                  id={props.details[0].id}
+                  name={props.details[0].instructor_name}
+                  user={user}
+                />
+              </span>
             )}
           </span>
           <div className={styles["meta-info"]}>
@@ -327,6 +344,18 @@ function SectionCheckbox(props) {
                       {langState.unavailableName}
                     </span>
                   </>
+                )}
+                {props.details[0].id && (
+                  <span>
+                    <InstructorPopover
+                      msg={langState.ratingHeader}
+                      img={props.details[0].profilePic}
+                      rating={props.details[0].rating}
+                      id={props.details[0].id}
+                      name={props.details[0].instructor_name}
+                      user={user}
+                    />
+                  </span>
                 )}
               </span>
               <div className={styles["meta-info"]}>
