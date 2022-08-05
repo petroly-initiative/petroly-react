@@ -2,7 +2,8 @@ export var URL_ENDPOINT = "https://petroly-pr-77.herokuapp.com/endpoint/";
 
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test")
   URL_ENDPOINT = "http://localhost:8000/endpoint/";
-
+console.log(URL_ENDPOINT);
+console.log(process.env.NODE_ENV);
 export const USER = {
   LOGGED_OUT: "logged_out",
   LOGGED_IN: "logged_in",
