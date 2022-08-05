@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "cy:open": "cypress open --config-file=cypress.config.js",
-    "test": "cypress run",
+    "test": "cypress run --env NODE_ENV=test",
     "test:online": "start-server-and-test start http://localhost:3030 cy:run",
     "cleanTest": "cypress cache clear",
     "installTest": "cypress install",

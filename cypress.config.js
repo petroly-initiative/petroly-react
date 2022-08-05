@@ -8,5 +8,8 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
   },
+  env: {
+    NODE_ENV: "test",
+  },
   chromeWebSecurity: false,
 });

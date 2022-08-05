@@ -1,6 +1,6 @@
 import { URL_ENDPOINT } from "../../constants";
 
-context("Dashboard test " + URL_ENDPOINT, () => {
+context("Dashboard test " + URL_ENDPOINT + process.env.NODE_ENV, () => {
   describe("displays a basic dashboad", () => {
     it("open the dashboard successfully", () => {
       cy.login();
