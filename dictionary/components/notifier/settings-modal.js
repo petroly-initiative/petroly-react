@@ -15,23 +15,26 @@ const arabic = {
   cancelTooltip: "حذف التغييرات في إعدادات الإشعارات",
   successTele: "!تم تسجيل الدخول",
   successEdit: "!تم تحديث إعدادات الإشعارات بنجاح",
-  failEdit: "حدث خطأ! لم نستطع تحديث إعدادات الإشعارات"
+  failEdit: "حدث خطأ! لم نستطع تحديث إعدادات الإشعارات",
 };
 
 const english = {
   header: "Notifications Settings",
   instructions: "Select at least a single notifications channel",
   emailHeader: "Email",
-  emailContent: "Sending notifications via your registered email. Please do not use your KFUPM account",
+  emailContent:
+    "Sending notifications via your registered email. Please do not use your KFUPM account",
   teleHeader: "Telegram",
-  teleContent: "Our telegram bot will send you direct notifications! Requires sign in to telegram",
+  teleContent:
+    "Our telegram bot will send you direct notifications! Requires sign in to telegram",
   confirm: "Confirm",
   cancel: "Cancel",
   confirmTooltip: "Confirm notification channels",
   cancelTooltip: "Cancel notification channels",
   successTele: "You are Signed in!",
-  successEdit: "Notifcation سettings setup is successful!",
-  failEdit: "Oops! we couldn't update your notifications settings. Try again later"
+  successEdit: "Notifcation settings setup is successful!",
+  failEdit:
+    "Oops! we couldn't update your notifications settings. Try again later",
 };
 
 export default function translator(lang) {

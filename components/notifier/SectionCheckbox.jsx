@@ -278,7 +278,9 @@ function SectionCheckbox(props) {
                     style={colorCount(props.details[0].available_seats)}
                     className={styles["num-slot"]}
                   >
-                    {props.details[0].available_seats}
+                    {props.details[0].available_seats >= 0
+                      ? props.details[0].available_seats
+                      : 0}
                   </span>{" "}
                 </span>
                 {/* <span className={styles["divider"]}></span> */}
@@ -426,7 +428,9 @@ function SectionCheckbox(props) {
                   style={colorCount(props.details[1].available_seats)}
                   className={styles["num-slot"]}
                 >
-                  {props.details[1].available_seats}
+                  {props.details[1].available_seats >= 0
+                    ? props.details[1].available_seats
+                    : 0}
                 </span>{" "}
               </span>
               {/* <span className={styles["divider"]}></span> */}
