@@ -29,7 +29,6 @@ import { hasOperationName } from "../utils/graphql-test-utils";
 
 Cypress.Commands.add("login", () => {
   URL = URL_ENDPOINT;
-
   cy.intercept("POST", URL, (req) => {
     if (hasOperationName(req, "getToken")) {
       req.alias = "gqlgetTokenQuery";

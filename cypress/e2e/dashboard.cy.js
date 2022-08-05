@@ -1,11 +1,9 @@
 import { URL_ENDPOINT } from "../../constants";
 
-context("Dashboard test", () => {
+context("Dashboard test " + URL_ENDPOINT, () => {
   describe("displays a basic dashboad", () => {
     it("open the dashboard successfully", () => {
       cy.login();
-
-     
 
       cy.wait(["@gqlMeQuery", "@gqlgetTokenQuery"]);
 
@@ -31,8 +29,13 @@ context("Dashboard test", () => {
       cy.get('button[id="profile-btn"]').filter(":visible").first().click();
       cy.contains("Dashboard").click();
       // wow
-        cy.wait(3000);
-      cy.wait(["@gqlMyEvaluationsQuery", "@gqlMeQuery", "@gqlMyCommunitiesQuery", "@gqlgetCommunityInfoQuery"]);
+      cy.wait(3000);
+      cy.wait([
+        "@gqlMyEvaluationsQuery",
+        "@gqlMeQuery",
+        "@gqlMyCommunitiesQuery",
+        "@gqlgetCommunityInfoQuery",
+      ]);
 
       cy.contains("tested-admin");
       cy.contains("1");
