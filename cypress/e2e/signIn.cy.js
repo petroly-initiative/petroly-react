@@ -10,7 +10,7 @@ import { URL_ENDPOINT } from "../../constants";
 context("Login Tests", () => {
   
 
-  describe("Login Display scenarios", () => {
+  describe("Login Display scenarios" + URL_ENDPOINT, () => {
     it("error on empty input", () => {
       cy.visit("/", {
       onBeforeLoad: (win) => {

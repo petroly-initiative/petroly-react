@@ -1,6 +1,6 @@
 import { URL_ENDPOINT } from "../../constants";
 
-context("group service tests", () => {
+context("group service tests " + URL_ENDPOINT, () => {
   describe("visit the groups service successfully", () => {
     it("visits thw whole page and displays a dialog details", () => {
       cy.login();

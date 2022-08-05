@@ -1,16 +1,11 @@
-
 import { URL_ENDPOINT } from "../../constants";
 import { hasOperationName } from "../utils/graphql-test-utils";
 
-
 // mocking a server-emitted request
 
-
-
-context("Instructors Evaluation Test", () => {
- 
+context("Instructors Evaluation Test" + URL_ENDPOINT, () => {
   // enforcing correct test-timing
-  
+
   describe("Viewing Instructors' list", () => {
     it("displays a single instructor card", () => {
       cy.intercept("POST", URL_ENDPOINT, (req) => {
