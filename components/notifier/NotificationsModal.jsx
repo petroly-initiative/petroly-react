@@ -78,7 +78,7 @@ function NotificationsModal(props) {
     loading: trackingListChannelsLoading,
   } = useQuery(trackingListChannelsQuery, { skip: props.firstSetup });
 
-  const [updateTrackingListChannels, {loading: updateLoading}] = useMutation(
+  const [updateTrackingListChannels, { loading: updateLoading }] = useMutation(
     updateTrackingListChannelsMutation,
     {
       variables: {
@@ -93,8 +93,9 @@ function NotificationsModal(props) {
   );
 
   // ? utility functions
- // TOOD: sovling anomalous email checker
+  // TOOD: sovling anomalous email checker
   const checkChannel = (e) => {
+    console.log(e.target.value);
     switch (e.target.value) {
       case "EMAIL":
         if (emailChecked && !telegramChecked) {
@@ -123,7 +124,7 @@ function NotificationsModal(props) {
     // TODO: certifiying authnetication using the hash value, as mentioned in the docs at https://core.telegram.org/widgets/login,
     // ? as the bot key is not available in the frontend
     setTelegramSuccess(true);
-    props.handleMsg(true, langState.successTele)
+    props.handleMsg(true, langState.successTele);
     setTelegramId(user.id);
     setTelegramHash(user.hash);
 
@@ -142,13 +143,13 @@ function NotificationsModal(props) {
   const submitChannels = async () => {
     console.log("Channels:", telegramChecked, emailChecked);
     const result = await updateTrackingListChannels();
-    
-    if(result.data.updateTrackingListChannels){
-      props.handleMsg(true, langState.successEdit)
-    props.handleClose(false);
-  } else {
- props.handleMsg(true, langState.failEdit);
-  }
+
+    if (result.data.updateTrackingListChannels) {
+      props.handleMsg(true, langState.successEdit);
+      props.handleClose(false);
+    } else {
+      props.handleMsg(true, langState.failEdit);
+    }
   };
 
   useEffect(() => {
@@ -258,16 +259,16 @@ function NotificationsModal(props) {
             <div>{langState.instructions}</div>
           </Alert>
 
-          <Form className={styles.group} onChange={checkChannel} noValidate>
+          <Form className={styles.group} noValidate>
             <Form.Check
               id="email-checker"
               defaultChecked={emailChecked}
               className={styles.radio}
-              value="EMAIL"
               name="type"
               type={"switch"}
             >
               <Form.Check.Input
+                onClick={checkChannel}
                 checked={emailChecked}
                 value="EMAIL"
                 className={styles["checkers"]}
@@ -301,21 +302,20 @@ function NotificationsModal(props) {
                           : styles["channel-content"]
                       }`}
                     >
-                      {langState.emailContent}
+                      {langState.emailContent} hi hi hi
                     </span>
                   </div>
                 </div>
               </Form.Check.Label>
             </Form.Check>
             <Form.Check
-              id="email-checker"
               defaultChecked={telegramChecked}
               className={styles.radio}
-              value="TELEGRAM"
               name="type"
               type={"switch"}
             >
               <Form.Check.Input
+                onClick={checkChannel}
                 checked={telegramChecked}
                 value="TELEGRAM"
                 className={styles["checkers"]}
@@ -357,7 +357,6 @@ function NotificationsModal(props) {
                           botName={"petroly_bot"}
                           dataOnauth={onTelegramAuth}
                         />
-                        
                       </div>
                     )}
                   </div>
@@ -382,7 +381,9 @@ function NotificationsModal(props) {
           >
             <Button
               id="create-group-btn"
-              onClick={props.close}
+              onClick={() => {
+                props.handleClose();
+              }}
               className={[styles["btns"], styles["cancel-btn"]]}
               disabled={invalidInput && props.firstSetup}
             >
