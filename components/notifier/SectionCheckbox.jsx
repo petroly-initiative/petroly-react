@@ -7,6 +7,7 @@ import { HiLocationMarker } from "react-icons/hi";
 import { ImLab } from "react-icons/im";
 import { FaBook } from "react-icons/fa";
 import { CgUnavailable } from "react-icons/cg";
+import { BsCheckCircleFill } from "react-icons/bs";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/section-checkbox.module.scss";
 import { MdContentCopy } from "react-icons/md";
@@ -152,12 +153,12 @@ function SectionCheckbox(props) {
         {" "}
         <span className={styles["section-num"]}>
           {" "}
-          Section # {props.details[0].section_number}
+          Section # {props.details[0].section_number} {isChecked && <BsCheckCircleFill className={styles["checked-icon"]}/>}
         </span>
         <OverlayTrigger
           placement="top"
           delay={{ show: 0, hide: 50 }}
-          overlay={<Tooltip id="button-tooltip-2">{langState.crn}</Tooltip>}
+        overlay={<Tooltip id="button-tooltip-2">{langState.crn}</Tooltip>}
         >
           <button onClick={copyCrn} className={styles["crn-copy"]}>
             <MdContentCopy />

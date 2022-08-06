@@ -1,16 +1,7 @@
-import {
-
-  hasOperationName,
-} from "../utils/graphql-test-utils";
-import { URL_ENDPOINT } from "../../constants";
-
-
-
+import { hasOperationName, TEST_ENDPOINT } from "../utils/graphql-test-utils";
 
 context("Login Tests", () => {
-  
-
-  describe("Login Display scenarios" + URL_ENDPOINT, () => {
+  describe("Login Display scenarios", () => {
     it("error on empty input", () => {
       cy.visit("/", {
         onBeforeLoad: (win) => {
@@ -27,8 +18,8 @@ context("Login Tests", () => {
     });
 
     it("successful input", () => {
-      const URL = URL_ENDPOINT;
-
+      var URL;
+      URL = TEST_ENDPOINT();
       // intercepting 3 diferent graphQL server queries for verification
       cy.intercept("POST", URL, (req) => {
         if (hasOperationName(req, "getToken")) {

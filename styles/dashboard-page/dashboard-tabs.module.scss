@@ -19,34 +19,34 @@ $x: #622edb;
   }
 }
 
-.dark-card{
+.dark-card {
   background-color: theme.$dark-xfg !important;
   border: unset !important;
 }
 
-.dark-spinner{
+.dark-spinner {
   background-color: unset !important;
 }
 
-.dark-btn{
-color: theme.$dark-fnt !important;
-&:hover{
-  color: $btn-primary !important;
-  background-color: transparent;
-}
+.dark-btn {
+  color: theme.$dark-fnt !important;
+  &:hover {
+    color: $btn-primary !important;
+    background-color: transparent;
+  }
 }
 
-.dark-section{
+.dark-section {
   background-color: theme.$dark-xfg !important;
   box-shadow: 0 2 2px 5px theme.$dark-bg !important;
   border: unset !important;
 }
 
-.dark-header{
+.dark-header {
   color: theme.$dark-fnt !important;
 }
 
-.dark-subheader{
+.dark-subheader {
   color: theme.$dark-fnt-fg !important;
 }
 
@@ -57,13 +57,9 @@ color: theme.$dark-fnt !important;
   border: 1px solid theme.$light-fnt;
 }
 
-
-.dark-border{
-background: theme.$dark-xxfg !important;
+.dark-border {
+  background: theme.$dark-xxfg !important;
 }
-
-
-
 
 .card-containers {
   height: 96%;
@@ -153,35 +149,29 @@ background: theme.$dark-xxfg !important;
   border-radius: 0.25rem;
 }
 
-.dark-img-input{
-   border: none;
-   color: theme.$dark-fnt;
-   background-color: theme.$dark-bg;
+.dark-img-input {
+  border: none;
+  color: theme.$dark-fnt;
+  background-color: theme.$dark-bg;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   border-radius: 0.25rem;
 
-  &:active{
+  &:active {
     color: theme.$dark-fnt;
-   background-color: theme.$dark-bg;
+    background-color: theme.$dark-bg;
   }
 
- 
-  &::file-selector-button{
+  &::file-selector-button {
     color: theme.$dark-fnt;
-   background-color: theme.$dark-xfg;
-   border: none;
-
-   
+    background-color: theme.$dark-xfg;
+    border: none;
   }
 
-  &::file-selector-button:hover{
+  &::file-selector-button:hover {
     color: theme.$dark-fnt !important;
-   background-color: $btn-primary !important;
- 
-
-   
+    background-color: $btn-primary !important;
   }
 }
 .user-name {
@@ -245,7 +235,7 @@ background: theme.$dark-xxfg !important;
   width: 50px;
   height: 50px;
   border-radius: 25px;
-  background-color: transparent ;
+  background-color: transparent;
   border: unset !important;
   padding: 0 !important;
   margin-left: 4px;

@@ -3,21 +3,18 @@
 $btn-pr: #1cbfff;
 $btn-high: #00ead3;
 $txt-fill: #52575d;
-$txt-hg: #0091E7;
-
-
+$txt-hg: #0091e7;
 
 $colors: (
   blue: #14f7ef,
   green: #00e091,
   yellow: #fac218,
-  orange: #FF7600,
+  orange: #ff7600,
   red: #f51663,
 );
 
 $txt-fill: #6e737a;
 //
-
 
 .dark-mode {
   background-color: theme.$dark-bg !important;
@@ -33,12 +30,12 @@ $txt-fill: #6e737a;
   }
 }
 
-.dark-section{
+.dark-section {
   background-color: theme.$dark-fg !important;
 }
 
-.dark-extra{
- color: theme.$dark-fnt-fg !important;
+.dark-extra {
+  color: theme.$dark-fnt-fg !important;
 }
 
 @mixin tagstyle($bg-color) {
@@ -53,7 +50,7 @@ $txt-fill: #6e737a;
   padding: 5px;
   margin: 2px;
   cursor: pointer;
-  box-shadow: 0 .225rem .3rem rgba(0, 0, 0, 0.171)!important;
+  box-shadow: 0 0.225rem 0.3rem rgba(0, 0, 0, 0.171) !important;
   &:hover {
     transform: scale(1.05);
   }
@@ -61,14 +58,13 @@ $txt-fill: #6e737a;
 
 .card-body {
   padding: 14px;
- border-radius: 0 0 10px 10px;
-
+  border-radius: 0 0 10px 10px;
 }
 
 .cardHeader {
   display: flex !important;
   justify-content: space-between !important;
-  background-color: #ffffff ;
+  background-color: #ffffff;
   border-bottom: 2px solid rgba(0, 0, 0, 0.125);
   border-radius: 10px !important;
   align-items: center;
@@ -95,7 +91,7 @@ $txt-fill: #6e737a;
 
 .tags {
   display: flex;
-  
+
   width: 40%;
   justify-content: flex-start;
 }
@@ -106,7 +102,6 @@ $txt-fill: #6e737a;
   margin-bottom: 16px;
   box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.15) !important;
   transition: 300ms ease;
-  
 }
 
 .section-icon {
@@ -120,7 +115,6 @@ $txt-fill: #6e737a;
   cursor: default;
   padding: 6px;
   border-radius: 8px;
-  
 }
 
 .headers {
@@ -153,21 +147,20 @@ $txt-fill: #6e737a;
 }
 
 @media only screen and (max-width: 600px) {
-
-  .headers{
+  .headers {
     font-size: 16px !important;
   }
-  .stars span{
+  .stars span {
     font-size: 15px !important;
   }
 
-  .sections{
-    &:hover{
-    transform: unset
-  }
+  .sections {
+    &:hover {
+      transform: unset;
+    }
   }
 
-  .card-body{
+  .card-body {
     padding: 6px;
   }
 }

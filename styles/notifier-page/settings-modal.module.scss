@@ -145,6 +145,8 @@ $btn-prim: #00ead3;
 .radio {
   background-color: rgba(212, 212, 212, 0.233);
   width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
   display: flex;
   justify-content: flex-start;

@@ -90,7 +90,8 @@ $btn-prim: #00ead3;
 
 .header-big {
   padding-bottom: 8px !important;
-  filter: saturate(0.3);
+  -webkit-filter: saturate(0.3);
+          filter: saturate(0.3);
 }
 
 @media only screen and (max-width: 600px) {

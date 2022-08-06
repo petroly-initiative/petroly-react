@@ -40,11 +40,21 @@ $x: #22d77c;
   display: flex;
   flex-grow: 1;
   align-items: center !important;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
   flex-direction: column;
   padding: 0;
   border-bottom:  2px solid rgba(0,0,0,.125);
 
+}
+
+.checked-icon{
+  padding: 0;
+  font-size: 20px;
+  height: 100%;
+  align-items: center;
+  margin-left: 12px;
 }
 
 .lecture-icon{
@@ -74,6 +84,8 @@ $x: #22d77c;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
     margin: 16px 0px 4px 0;
     padding: 2px 10px;
     border-radius: 4px 4px 0 0;
@@ -95,6 +107,14 @@ $x: #22d77c;
        transform: scale(1.05);
       }
     }
+
+    .section-num{
+      display: flex;
+      align-items: center;
+      height: 100%;
+      justify-content: space-between;
+
+    }
 }
 
 .crn-num{
@@ -104,6 +124,8 @@ $x: #22d77c;
 .waitlist-container{
   color: $txt-fill;
   display: flex;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   height: 100%;
   justify-content: center;
@@ -124,6 +146,8 @@ $x: #22d77c;
 
 .checked-container {
   display: flex;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
   border: 3px solid $btn-high !important;
   background-color: theme.$light-fg;
@@ -143,8 +167,6 @@ $x: #22d77c;
   align-items: center;
   margin-right: auto;
   -webkit-line-clamp: 1;
-  
-  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -310,6 +332,8 @@ margin-bottom: 12px;
 
 .num-slot {
   padding: 0px 5px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   font-weight: 600;
   margin-right: 4px;

@@ -77,6 +77,8 @@ align-items: center;
 
 .course-code{
 color: $btn-high;
+width: -webkit-fit-content !important;
+width: -moz-fit-content !important;
 width: fit-content !important;
 margin-bottom: 0px;
 margin-right: 3px;

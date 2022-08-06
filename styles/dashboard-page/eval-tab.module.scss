@@ -5,17 +5,14 @@ $btn-primary: #01dac4;
 $txt-high: #0091e7;
 $x: rgb(189, 189, 189);
 
-.dark-card{
+.dark-card {
   background-color: theme.$dark-xfg !important;
   border: unset !important;
 }
 
-.dark-header{
+.dark-header {
   color: theme.$dark-fnt !important;
 }
-
-
-
 
 .profile-pic {
   border-radius: 70px;
@@ -34,75 +31,72 @@ $x: rgb(189, 189, 189);
   border-radius: 43px;
 }
 
-.instructor-info{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.instructor-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.instructor-name{
-    color: $txt-high;
-    font-size: 20px;
-    font-weight: 600;
-    text-overflow: ellipsis;
-    overflow: hidden;
+.instructor-name {
+  color: $txt-high;
+  font-size: 20px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-
-
-.instructor-dept{
-    color: $txt-fill;
-    font-weight: 600;
+.instructor-dept {
+  color: $txt-fill;
+  font-weight: 600;
 }
 
-.card-body{
-    border-radius: 8px;
-    margin-bottom: 12px;
-    box-shadow: 0 0.125rem 0.4rem rgba(0, 0, 0, 0.125) !important;
-    border: unset;
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
+.card-body {
+  border-radius: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 0.125rem 0.4rem rgba(0, 0, 0, 0.125) !important;
+  border: unset;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  transition: 500ms ease;
+  .edit-icon {
+    opacity: 0;
     transition: 500ms ease;
-    .edit-icon{
-        opacity: 0;
-        transition: 500ms ease;
-        position: absolute;
-        z-index: 10;
-        color: $btn-primary;
-        right: 0;
-        top: 0;
-        margin: 16px;
+    position: absolute;
+    z-index: 10;
+    color: $btn-primary;
+    right: 0;
+    top: 0;
+    margin: 16px;
+  }
 
+  &:hover,
+  &:active,
+  &:focus {
+    transform: scale(1.05);
+    .edit-icon {
+      opacity: 1;
     }
-
-    &:hover, &:active, &:focus{
-        transform: scale(1.05);
-        .edit-icon{
-            opacity: 1;
-        }
-    }
+  }
 }
 
+.rate-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin: 12px;
+}
 
+.rate-container span {
+  font-size: 18px !important;
+  margin-left: 12px;
+  margin-left: 12px;
+}
 
-.rate-container{
-      width: 100%;
-      display: flex;
-      justify-content: space-around;
-      margin: 12px;
-  }
-
-  .rate-container span {
-    font-size: 18px !important;
-    margin-left: 12px;
-    margin-left: 12px;
-  }
-
-  .picDiv {
+.picDiv {
   border-radius: 35px;
   overflow: hidden;
   padding: 2px;

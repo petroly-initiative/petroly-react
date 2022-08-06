@@ -2,7 +2,7 @@
 
 var URL_ENDPOINT = "https://petroly-pr-77.herokuapp.com/endpoint/";
 
-if (process.env.NODE_ENV === "development" && !(Cypress.env("NODE_ENV") === "test" || process.env.NODE_ENV === "test"))
+if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test")
   URL_ENDPOINT = "http://localhost:8000/endpoint/";
 
 export const USER = {

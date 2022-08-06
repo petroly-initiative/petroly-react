@@ -217,10 +217,14 @@ $txt-fill: #52575d;
 .redirecter {
   display: flex;
   margin-top: 16px;
+  width: -webkit-fit-content !important;
+  width: -moz-fit-content !important;
   width: fit-content !important;
 }
 
 .redirectBtn {
+  width: -webkit-fit-content !important;
+  width: -moz-fit-content !important;
   width: fit-content !important;
   border: none;
   outline: none;

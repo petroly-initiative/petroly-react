@@ -39,6 +39,8 @@ $x: #22d77c;
   display: flex;
   flex-grow: 1;
   align-items: center !important;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
   flex-direction: column;
   padding: 0;
@@ -99,6 +101,8 @@ $x: #22d77c;
 }
 
 .header-btns {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   display: flex;
 }
@@ -109,6 +113,8 @@ $x: #22d77c;
 
 .checked-container {
   display: flex;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
   border: 3px solid $btn-high !important;
   background-color: theme.$light-fg;
@@ -260,6 +266,8 @@ $x: #22d77c;
 .waitlist-container {
   color: $txt-fill;
   display: flex;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   height: 100%;
   align-items: center;
@@ -298,6 +306,8 @@ $x: #22d77c;
 
 .num-slot {
   padding: 0px 5px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   font-weight: 600;
   margin-right: 4px;

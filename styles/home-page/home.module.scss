@@ -138,6 +138,8 @@ $txt-hg: #0091e7;
 
 .landing-header {
   position: absolute !important;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   padding: 0;
   margin: 0;
@@ -186,6 +188,8 @@ $txt-hg: #0091e7;
 .nav-buttons {
   border-radius: 6px;
   border: none;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   font-size: large;
   font-weight: 600;
@@ -278,6 +282,8 @@ $txt-hg: #0091e7;
     top: 0;
   }
   .home-section {
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
     height: fit-content;
     margin-bottom: 80px;
   }
@@ -325,6 +331,8 @@ $txt-hg: #0091e7;
 
   .sections {
     padding: 16px 8px;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
     height: fit-content;
   }
 

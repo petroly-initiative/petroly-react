@@ -75,6 +75,8 @@ $btn-high: #00ead3;
 
   .nav-buttons {
     border-radius: 6px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     border: none;
     font-size: medium;

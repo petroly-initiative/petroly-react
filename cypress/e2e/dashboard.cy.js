@@ -1,29 +1,17 @@
-import { URL_ENDPOINT } from "../../constants";
 
-context("Dashboard test " + URL_ENDPOINT + process.env.NODE_ENV, () => {
+
+context("Dashboard test ", () => {
   describe("displays a basic dashboad", () => {
     it("open the dashboard successfully", () => {
       cy.login();
 
       cy.wait(["@gqlMeQuery", "@gqlgetTokenQuery"]);
 
-      cy.interceptGql(URL_ENDPOINT, "Me", "signinData/MeQuery.json");
-      cy.interceptGql(
-        URL_ENDPOINT,
-        "MyEvaluations",
-        "dashboard/evalsQuery.json"
-      );
-      cy.interceptGql(
-        URL_ENDPOINT,
-        "MyCommunities",
-        "dashboard/communitiesQuery.json"
-      );
+      cy.interceptGql("Me", "signinData/MeQuery.json");
+      cy.interceptGql("MyEvaluations", "dashboard/evalsQuery.json");
+      cy.interceptGql("MyCommunities", "dashboard/communitiesQuery.json");
 
-      cy.interceptGql(
-        URL_ENDPOINT,
-        "getCommunityInfo",
-        "dashboard/commInfoQuery.json"
-      );
+      cy.interceptGql("getCommunityInfo", "dashboard/commInfoQuery.json");
 
       // custom login mock command
       cy.get('button[id="profile-btn"]').filter(":visible").first().click();

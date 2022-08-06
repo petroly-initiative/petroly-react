@@ -10,6 +10,8 @@ html,
 body {
   padding: 0;
   min-width: 100vw;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
   position: absolute;
   font-family: "Cairo", sans-serif !important;
@@ -21,8 +23,7 @@ body {
   width: 100vw;
   scroll-behavior: smooth !important;
    -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
+  -webkit-user-select: none; /* Safari */ /* Konqueror HTML */
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
