@@ -1,6 +1,4 @@
-
-
-var URL_ENDPOINT = "https://petroly-pr-77.herokuapp.com/endpoint/";
+var URL_ENDPOINT = "https://petroly-api.graphcdn.app";
 
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test")
   URL_ENDPOINT = "http://localhost:8000/endpoint/";
@@ -42,4 +40,4 @@ export const langDirection = (inLang) => ({
   justifyContent: "flex-start !important",
 });
 
-export {URL_ENDPOINT};
+export { URL_ENDPOINT };
