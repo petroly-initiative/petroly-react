@@ -6,6 +6,7 @@ const arabic = {
   lectureLabel: "محاضرة",
   labLabel: "مختبر",
   hybridLabel: "مدمج",
+  hybridTooltip: "المحاضرة والمختبر تحت شعبة واحدة",
 };
 
 const english = {
@@ -14,6 +15,7 @@ const english = {
   lectureLabel: "Lecture",
   labLabel: "Lab",
   hybridLabel: "Hybrid",
+  hybridTooltip: "Lecture and lab under one CRN",
 };
 
 export default function translator(lang) {

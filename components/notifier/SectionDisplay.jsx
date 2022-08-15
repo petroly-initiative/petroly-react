@@ -56,19 +56,37 @@ function SectionDisplay(props) {
 
   const generateTimeTable = (days) => {
     var DaysList = days.split("");
-    var allDays = ["U", "M", "T", "W", "R"];
-    return allDays.map((day) => {
+    var allDays = {
+      U: "Sunday",
+      M: "Monday",
+      T: "Tuesday",
+      W: "Wedensday",
+      R: "Thursday",
+    };
+    return Object.keys(allDays).map((day) => {
       return DaysList.includes(day) ? (
-        <div className={styles["active-day"]}>{day}</div>
-      ) : (
-        <div
-          className={
-            styles["inactive-day"] +
-            ` ${user.theme === M.DARK ? styles["dark-day"] : ""}`
-          }
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 0, hide: 10 }}
+          overlay={<Tooltip id="button-tooltip-2">{allDays[day]}</Tooltip>}
         >
-          {day}
-        </div>
+          <div className={styles["active-day"]}>{day}</div>
+        </OverlayTrigger>
+      ) : (
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 0, hide: 10 }}
+          overlay={<Tooltip id="button-tooltip-2">{allDays[day]}</Tooltip>}
+        >
+          <div
+            className={
+              styles["inactive-day"] +
+              ` ${user.theme === M.DARK ? styles["dark-day"] : ""}`
+            }
+          >
+            {day}
+          </div>
+        </OverlayTrigger>
       );
     });
   };

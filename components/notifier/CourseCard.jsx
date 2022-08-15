@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { Card } from "react-bootstrap";
+import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ImLab } from "react-icons/im";
 import { FaBook } from "react-icons/fa";
 
@@ -87,7 +87,17 @@ function CourseCard({
       );
     } else if (uniformTypes.includes("HYBRID")) {
       return (
-        <div className={styles["sections-type"]}>{langState.hybridLabel}</div>
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 350, hide: 400 }}
+          overlay={
+            <Tooltip id="button-tooltip-2">
+              {langState.hybridTooltip}
+            </Tooltip>
+          }
+        >
+          <div className={styles["sections-type"]}>{langState.hybridLabel}</div>
+        </OverlayTrigger>
       );
     } else {
       return <div className={styles["sections-type"]}>{type[0]}</div>;

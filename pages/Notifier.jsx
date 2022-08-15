@@ -202,8 +202,9 @@ function Notifier(props) {
 
   // ? Mappers
   const deptMapper = () => {
-    if (dataDept != null)
-      return dataDept.departmentList.map((dept) => (
+    if (dataDept != null) {
+      const localData = dataDept.departmentList.filter((term) => term !== "AF");
+      return localData.map((dept) => (
         <Dropdown.Item
           id={dept}
           active={dept === department}
@@ -220,6 +221,7 @@ function Notifier(props) {
           {dept}
         </Dropdown.Item>
       ));
+    }
   };
 
   const termMapper = () => {
@@ -319,6 +321,17 @@ function Notifier(props) {
       }
     }
   }, [trackedCoursesData]);
+
+  useEffect(() => {
+    if (termsData) setTerm(termsData.terms[0]);
+  }, [termsData]);
+
+  useEffect(() => {
+    if (dataDept) {
+      setDepartment(dataDept.departmentList[1]);
+      console.log(dataDept.departmentList[0]);
+    }
+  }, [dataDept]);
 
   useEffect(() => {
     navDispatch("notifier");
@@ -452,19 +465,7 @@ function Notifier(props) {
                   {langState.searchbarFilter}
                 </Dropdown.Item>
                 <Dropdown.Divider style={{ height: "1" }} />
-                <Dropdown.Item
-                  id="null"
-                  className={
-                    styles["depts"] +
-                    ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                  }
-                  as={"div"}
-                  eventKey="1"
-                  onClick={selectDept}
-                  active={department === null}
-                >
-                  {langState.allDepts}
-                </Dropdown.Item>
+
                 {deptMapper()}
               </DropdownButton>
             </Col>
@@ -700,19 +701,7 @@ function Notifier(props) {
                 {langState.searchbarFilter}
               </Dropdown.Item>
               <Dropdown.Divider style={{ height: "1" }} />
-              <Dropdown.Item
-                id="null"
-                className={
-                  styles["depts"] +
-                  ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                }
-                as={"div"}
-                eventKey="1"
-                onClick={selectDept}
-                active={department === null}
-              >
-                {langState.allDepts}
-              </Dropdown.Item>
+
               {deptMapper()}
             </DropdownButton>
           </Col>

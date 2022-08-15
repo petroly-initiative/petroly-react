@@ -58,19 +58,37 @@ function SectionCheckbox(props) {
 
   const generateTimeTable = (days) => {
     var DaysList = days.split("");
-    var allDays = ["U", "M", "T", "W", "R"];
-    return allDays.map((day) => {
+    var allDays = {
+      U: "Sunday",
+      M: "Monday",
+      T: "Tuesday",
+      W: "Wedensday",
+      R: "Thursday",
+    };
+    return Object.keys(allDays).map((day) => {
       return DaysList.includes(day) ? (
-        <div className={styles["active-day"]}>{day}</div>
-      ) : (
-        <div
-          className={
-            styles["inactive-day"] +
-            ` ${user.theme === M.DARK ? styles["dark-day"] : ""}`
-          }
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 0, hide: 10 }}
+          overlay={<Tooltip id="button-tooltip-2">{allDays[day]}</Tooltip>}
         >
-          {day}
-        </div>
+          <div className={styles["active-day"]}>{day}</div>
+        </OverlayTrigger>
+      ) : (
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 0, hide: 10 }}
+          overlay={<Tooltip id="button-tooltip-2">{allDays[day]}</Tooltip>}
+        >
+          <div
+            className={
+              styles["inactive-day"] +
+              ` ${user.theme === M.DARK ? styles["dark-day"] : ""}`
+            }
+          >
+            {day}
+          </div>
+        </OverlayTrigger>
       );
     });
   };
@@ -153,12 +171,15 @@ function SectionCheckbox(props) {
         {" "}
         <span className={styles["section-num"]}>
           {" "}
-          Section # {props.details[0].section_number} {isChecked && <BsCheckCircleFill className={styles["checked-icon"]}/>}
+          Section # {props.details[0].section_number}{" "}
+          {isChecked && (
+            <BsCheckCircleFill className={styles["checked-icon"]} />
+          )}
         </span>
         <OverlayTrigger
           placement="top"
           delay={{ show: 0, hide: 50 }}
-        overlay={<Tooltip id="button-tooltip-2">{langState.crn}</Tooltip>}
+          overlay={<Tooltip id="button-tooltip-2">{langState.crn}</Tooltip>}
         >
           <button onClick={copyCrn} className={styles["crn-copy"]}>
             <MdContentCopy />
