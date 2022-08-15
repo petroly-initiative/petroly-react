@@ -1,0 +1,9 @@
+{
+  "data": {
+    "trackingListChannels": {
+      "TELEGRAM": true,
+      "EMAIL": false,
+      "__typename": "ChannelsType"
+    }
+  }
+}

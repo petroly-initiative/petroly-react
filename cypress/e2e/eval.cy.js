@@ -24,13 +24,7 @@ context("Instructors Evaluation Test", () => {
 
       cy.wait(["@gqlInstructorsQuery", "@gqlgetDepartmentsQuery"]);
 
-      cy.intercept("POST", URL_ENDPOINT, (req) => {
-        if (hasOperationName(req, "Instructors")) {
-          req.alias = "gqlInstructorsQuery";
-          // data fixture
-          req.reply({ fixture: "evaluation/InstructorQuery2.json" });
-        }
-      });
+  
 
       cy.contains("Muhab");
       cy.contains(0);

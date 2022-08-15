@@ -52,6 +52,7 @@ function SectionDisplay(props) {
 
   const deleteSection = () => {
     props.delete(props.details[0]["crn"]);
+  
   };
 
   const generateTimeTable = (days) => {
@@ -199,7 +200,7 @@ function SectionDisplay(props) {
                 <Tooltip id="button-tooltip-2">{langState.cancel}</Tooltip>
               }
             >
-              <button onClick={deleteSection} className={styles["untrack-btn"]}>
+              <button id={`${props.id}-delete`} onClick={deleteSection} className={styles["untrack-btn"]}>
                 <MdOutlineCancel />
               </button>
             </OverlayTrigger>

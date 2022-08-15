@@ -62,6 +62,7 @@ function TrackingCanvas(props) {
 
         return (
           <SectionDisplay
+            id={sectionObj[0]["crn"]}
             msgHandler={props.msgHandler}
             details={sectionObj}
             hybrid={sectionObj.length === 2}
@@ -81,6 +82,7 @@ function TrackingCanvas(props) {
     return props.allTerms.map((term) => {
       return (
         <Tab
+        data-itemID={term.long}
           tabClassName={styles["tab"]}
           eventKey={term.long}
           id={`${term.long}-tab`}
@@ -90,7 +92,7 @@ function TrackingCanvas(props) {
             (section) => section["term_code"] === term.long
           ).length !== 0 ? (
             populateCourses(term.long)
-           ) : (
+          ) : (
             <div className={styles["empty-container"]}>
               <TbMoodEmpty className={styles["empty-icon"]} />
               <span
@@ -122,7 +124,7 @@ function TrackingCanvas(props) {
       department: section["department_code"],
     }));
 
-    props.save(courseSections);
+    props.save(courseSections, true);
   };
 
   const openSettings = () => {

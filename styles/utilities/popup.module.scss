@@ -16,6 +16,10 @@ $fail: #db422e;
 
 }
 
+.backdrop{
+  pointer-events: none;
+}
+
 .success{
   color: $btn-prim;
 }

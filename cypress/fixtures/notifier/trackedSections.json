@@ -1,0 +1,23 @@
+{
+  "data": {
+    "trackedCourses": [
+      {
+        "term_code": "202130",
+        "crn": "30208",
+        "course_number": "ACCT210",
+        "department_code": "ACFN",
+        "section_number": "02",
+        "course_title": "Introduction to Managerial Accounting",
+        "available_seats": 4,
+        "waiting_list_count": 5,
+        "class_type": "LEC",
+        "class_days": "UMTW",
+        "start_time": "1230",
+        "end_time": "1345",
+        "building": "24",
+        "room": "236A",
+        "instructor_name": "M AMR"
+      }
+    ]
+  }
+}

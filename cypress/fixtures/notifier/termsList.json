@@ -1,0 +1,16 @@
+{
+  "data": {
+    "terms": [
+      {
+        "long": "202210",
+        "short": "221",
+        "__typename": "TermType"
+      },
+      {
+        "long": "202130",
+        "short": "213",
+        "__typename": "TermType"
+      }
+    ]
+  }
+}

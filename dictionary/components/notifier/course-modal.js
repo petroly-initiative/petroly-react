@@ -11,7 +11,7 @@ const arabic = {
   cancel: "إلغاء التتبع",
   cancelhover: "إلغاء تتبع المادة",
   confirmHover: "تأكيد تتبع الشعب المختارة",
-  unauth_msg: "الرجاء تسجيل الدخول لاستخدام هذه الخاصية",
+  unauth_msg: "الرجاء تسجيل الدخول لتتبع موادك الدراسية ",
 };
 
 const english = {
@@ -25,7 +25,7 @@ const english = {
   cancel: "Cancel",
   cancelHover: "Cancel course tracking",
   confirmHover: "Confirm tracking of selected sections",
-  unauth_msg: "You need to login to access this feature",
+  unauth_msg: "You need to login to track courses",
 };
 
 export default function translator(lang) {

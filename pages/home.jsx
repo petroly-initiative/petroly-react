@@ -96,7 +96,7 @@ export default function HomeScreen() {
           >
             <Image
               alt="abstract landing page art"
-              src="/images/home/title_header.svg"
+              src="/images/home/title_header_v4.svg"
               width={695}
               height={759}
             />

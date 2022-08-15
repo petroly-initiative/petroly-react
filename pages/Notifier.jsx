@@ -189,7 +189,7 @@ function Notifier(props) {
    * @param  obj an object in the format: {course: str, sections: [int..]} to update the offcanvas state
    * @param isDeleted if the resulting sections are non-existent delete the object key
    */
-  const updateTracked = async (courses) => {
+  const updateTracked = async (courses, isDeletion) => {
     // if (!isDeleted) setTracked({ ...Object.assign(trackedCourses, obj) });
     // else {
     //   const deletedKey = Object.keys(obj)[0];
@@ -198,6 +198,11 @@ function Notifier(props) {
     console.log("Updated courses in notifier", courses);
     await updateTrackingList({ variables: { courses } });
     // console.log(trackedCoursesData);
+    if(isDeletion)
+      toggleMessage(true, langState.deleted);
+      else toggleMessage(true, langState.added);
+      
+
   };
 
   // ? Mappers
@@ -228,7 +233,7 @@ function Notifier(props) {
     return termsData.terms.map(({ short, long }) => (
       <Dropdown.Item
         id={long}
-        active={long === term}
+        active={long === term.long}
         eventKey={long}
         // disabled={dept === instructorsState.department}
         onClick={selectTerm}
@@ -284,7 +289,9 @@ function Notifier(props) {
         code: courseCode,
         title: courseSections[0]["course_title"],
         available_seats: courseSections.reduce(
-          (prev, curr) => prev + curr["available_seats"],
+          (prev, curr) => {
+            if(curr["available_seats"] < 0) return prev
+            else return  prev + curr["available_seats"]},
           0
         ),
         sections: courseSections.length,
@@ -323,7 +330,11 @@ function Notifier(props) {
   }, [trackedCoursesData]);
 
   useEffect(() => {
-    if (termsData) setTerm(termsData.terms[0]);
+    if (termsData) {
+      console.log(termsData.terms[0]);
+      setTerm(termsData.terms[0])
+    
+    }
   }, [termsData]);
 
   useEffect(() => {
@@ -385,6 +396,7 @@ function Notifier(props) {
               className={styles["search-field"] + " " + styles["search-cols"]}
             >
               <Form.Control
+                onKeyDown={enterSearch}
                 id="name"
                 className={`${styles["search-input"]} ${
                   user.theme === M.DARK ? styles["dark-mode-input"] : ""
@@ -398,6 +410,7 @@ function Notifier(props) {
               ></Form.Control>
 
               <Button
+                id="search-btn"
                 type="submit"
                 onClick={searchCallback}
                 className={
@@ -473,23 +486,26 @@ function Notifier(props) {
 
           <OverlayTrigger
             placement="top"
+            trigger={"hover"}
             delay={{ show: 350, hide: 400 }}
             overlay={
               <Tooltip id="button-tooltip-2">
                 {user.status === USER.LOGGED_OUT
-                  ? langState.unquth_msg
+                  ? langState.unauth_msg
                   : langState.trackBtn}
               </Tooltip>
             }
           >
-            <Button
-              id="evaluate"
-              className={styles.trackBtn}
-              onClick={toggleCanvas}
-              disabled={user.status === USER.LOGGED_OUT}
-            >
-              <MdRadar size={32} />
-            </Button>
+            <span className={styles.trackBtn}>
+              <Button
+                id="canvas-btn"
+                className={styles.trackBtn}
+                onClick={toggleCanvas}
+                disabled={user.status === USER.LOGGED_OUT}
+              >
+                <MdRadar size={32} />
+              </Button>
+            </span>
           </OverlayTrigger>
           <div
             dir={user.lang === L.AR_SA ? "rtl" : "ltr"}
@@ -621,6 +637,7 @@ function Notifier(props) {
             className={styles["search-field"] + " " + styles["search-cols"]}
           >
             <Form.Control
+              onKeyDown={enterSearch}
               id="name"
               className={`${styles["search-input"]} ${
                 user.theme === M.DARK ? styles["dark-mode-input"] : ""
@@ -634,6 +651,7 @@ function Notifier(props) {
             ></Form.Control>
 
             <Button
+              id="search-btn"
               type="submit"
               onClick={searchCallback}
               className={
@@ -713,30 +731,33 @@ function Notifier(props) {
           </Fade>
         </Row>
         <OverlayTrigger
+          trigger={"hover"}
           placement="top"
-          delay={{ show: 350, hide: 400 }}
+          delay={{ show: 0, hide: 400 }}
           overlay={
             <Tooltip id="button-tooltip-2">
               {user.status === USER.LOGGED_OUT
-                ? langState.unquth_msg
+                ? langState.unauth_msg
                 : langState.trackBtn}
             </Tooltip>
           }
         >
-          <Button
-            id="evaluate"
-            className={styles.trackBtn}
-            onClick={toggleCanvas}
-            // style={{
-            //   backgroundColor:
-            //     user.status !== USER.LOGGED_IN || dataHasEvaluated.hasEvaluated
-            //       ? "gray"
-            //       : "#00ead3",
-            // }}
-            disabled={user.status === USER.LOGGED_OUT}
-          >
-            <MdRadar size={32} />
-          </Button>
+          <span className={styles.trackBtn}>
+            <Button
+              id="canvas-btn"
+              className={styles.trackBtn}
+              onClick={toggleCanvas}
+              // style={{
+              //   backgroundColor:
+              //     user.status !== USER.LOGGED_IN || dataHasEvaluated.hasEvaluated
+              //       ? "gray"
+              //       : "#00ead3",
+              // }}
+              disabled={user.status === USER.LOGGED_OUT}
+            >
+              <MdRadar size={32} />
+            </Button>
+          </span>
         </OverlayTrigger>
       </Container>
       {/* external component embedded within the page */}

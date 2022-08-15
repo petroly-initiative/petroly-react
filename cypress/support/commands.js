@@ -65,6 +65,8 @@ var endpoint;
     cy.get('input[id="username-input"]').type("admin", { force: true });
     cy.get('input[id="pass-input"]').type("aassddff", { force: true });
     cy.get('button[id="submit-btn"]').click();
+
+    cy.wait(["@gqlMeQuery", "@gqlgetTokenQuery"])
   });
 
 Cypress.Commands.add("interceptGql", ( operationName, fixtureDir) => {

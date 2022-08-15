@@ -279,7 +279,6 @@ export default function Navbar(props) {
                 className={styles.navbar_item}
                 // style={{ boxShadow: "0 2px 3px rgb(204, 202, 202)" }}
               >
-
                 <SettingsWidget
                   user={user}
                   SaveMsg={SaveMsg}
@@ -289,7 +288,6 @@ export default function Navbar(props) {
                   setLang={setLang}
                   langState={langState}
                 />
-
               </li>
               <div className={styles.nav_pages}>
                 <li className={styles.navbar_item}>
@@ -318,7 +316,7 @@ export default function Navbar(props) {
                     </div>
                   </Link>
                 </li>
-                <li className={styles.navbar_item}>
+                <li id="notifier-btn" className={styles.navbar_item}>
                   <Link href="/Notifier" className={styles.navbar_link}>
                     <div className={styles.link_btn + " " + navStyles.notifier}>
                       <MdRadar className={styles.nav_img} size="1.3em" />
@@ -390,7 +388,6 @@ export default function Navbar(props) {
             ) : (
               <li className={styles.navbar_item}>
                 {user.status === USER.LOGGED_IN ? (
-
                   <ProfileWidget
                     username={username}
                     profilePic={profilePic}
@@ -399,7 +396,6 @@ export default function Navbar(props) {
                     langState={langState}
                     signOut={signOut}
                   />
-
                 ) : (
                   <Button
                     onClick={handleSignInShow}
@@ -452,7 +448,7 @@ export default function Navbar(props) {
                   </div>
                 </Link>
               </li>
-              <li className={styles.navbar_item}>
+              <li id="notifier-btn" className={styles.navbar_item}>
                 <Link href="/Notifier" className={styles.navbar_link}>
                   <div className={styles.link_btn + " " + navStyles.notifier}>
                     <MdRadar className={styles.nav_img} size="1.3em" />

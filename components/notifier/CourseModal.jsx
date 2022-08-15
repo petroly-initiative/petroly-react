@@ -133,6 +133,7 @@ function CourseModal(props) {
     return filteredObjects.map((course) => {
       return (
         <SectionCheckbox
+          id={`${course[0]["crn"]}-checkbox`}
           details={course}
           toggleCheck={toggleSection}
           hybrid={course.length == 2}
@@ -323,10 +324,16 @@ function CourseModal(props) {
             </Button>
           </OverlayTrigger>
           <OverlayTrigger
+            trigger={"hover"}
             placement="top"
-            delay={{ show: 1000, hide: 300 }}
+            delay={{ show: 0, hide: 300 }}
             overlay={
-              <Tooltip id="button-tooltip-2"> { user.status === USER.LOGGED_OUT ? langState.unauth_msg : langState.confirmHover}</Tooltip>
+              <Tooltip id="button-tooltip-2">
+                {" "}
+                {user.status === USER.LOGGED_OUT
+                  ? langState.unauth_msg
+                  : langState.confirmHover}
+              </Tooltip>
             }
           >
             {/* {waiting ? (
@@ -337,18 +344,18 @@ function CourseModal(props) {
                 <Spinner animation="border" role="status" />
               </Button>
             ) : ( */}
-            <Button
-              disabled={user.status === USER.LOGGED_OUT}
-              onClick={() => {
-                trackSections();
-                props.close();
-              }}
-              className={[styles["btns"], styles["submit-btn"]]}
-            >
-              <FaSave size="1.2rem" />{" "}
-              
-                {langState.confirm}
-            </Button>
+            <span>
+              <Button
+                disabled={user.status === USER.LOGGED_OUT}
+                onClick={() => {
+                  trackSections();
+                  props.close();
+                }}
+                className={[styles["btns"], styles["submit-btn"]]}
+              >
+                <FaSave size="1.2rem" /> {langState.confirm}
+              </Button>
+            </span>
             {/* )} */}
           </OverlayTrigger>
         </Modal.Footer>

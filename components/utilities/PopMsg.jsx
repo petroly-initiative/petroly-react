@@ -30,6 +30,8 @@ export default function PopMsg(props) {
   return (
     <>
       <Modal
+      enforceFocus={false}
+        backdropClassName={styles["backdrop"]}
         show={props.visible}
         aria-labelledby="contained-modal-title-vcenter"
         size="lg"
@@ -38,7 +40,7 @@ export default function PopMsg(props) {
           clearTimeout(timer);
           props.handleClose(false);
         }}
-        backdrop={false}
+        backdrop={true}
         style={{ borderRadius: "10px !important" }}
       >
         <Modal.Body

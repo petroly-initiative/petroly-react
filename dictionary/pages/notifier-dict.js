@@ -16,7 +16,9 @@ const arabic = {
   waitHeader: "انتظر",
   waitContent:
     "سنقوم بتنبيهك عند تحديث حالة المواد باستخدام البريد الإلكتروني , و بوت تلقرام الخاص بنا!",
-  unauth_msg: "الرجاء تسجيل الدخول لاستخدام هذه الخاصية",
+  unauth_msg: "الرجاء تسجيل الدخول لاستخدام قائمة التتبع",
+  deleted: "تم إيقاف تتبع الشعبة بنجاح",
+  added: "تم تحديث قائمة التتبع بنجاح",
 };
 const english = {
   depratments: "Departments List",
@@ -34,7 +36,9 @@ const english = {
   waitHeader: "Wait",
   waitContent:
     "After tracking a course ,wait until we notify you via an email, or using our telegram bot!",
-  unauth_msg: "You need to login to access this feature",
+  unauth_msg: "You need to login to access the tracking list",
+  deleted: "Section untracked Successfully",
+  added: "Updated tracking list succesfully",
 };
 
 export default function translator(lang) {

@@ -191,7 +191,7 @@ $txt-hg: #0091e7;
     font-size: 50px;
     color: $btn-high !important;
     margin: 20px 12px;
-    svg path{
+    svg path {
       fill: $btn-high !important;
     }
   }
@@ -216,18 +216,19 @@ $txt-hg: #0091e7;
   justify-content: flex-start;
   align-items: center;
   text-align: center;
-  font-size: max(20px , 3vw);
+  font-size: max(20px, 3vw);
   margin-bottom: 26px;
 
-  .tut-icon{
+  .tut-icon {
     display: flex;
     align-items: center;
   }
 
-  span{
-    margin: 0 8px
+  span {
+    margin: 0 8px;
   }
 }
+
 
 .trackBtn {
   z-index: 10;
@@ -246,18 +247,16 @@ $txt-hg: #0091e7;
   right: 6rem;
   box-shadow: 0px 0px 12px #999999;
   transition: 300ms ease;
+ &:hover {
+    background-color: #00ead3;
+  }
+ 
 
   &:disabled {
     background-color: grey;
   }
 
-  &:hover {
-    transform: scale(1.05);
-    background-color: #00ead3;
-  }
-  &:active {
-    transform: scale(0.95);
-  }
+  
 }
 
 .dropdown-h {
@@ -266,6 +265,8 @@ $txt-hg: #0091e7;
 }
 
 .search-btns {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
 }
 
@@ -356,10 +357,6 @@ $txt-hg: #0091e7;
     margin: 0%;
   }
 
-  .trackBtn {
-    right: 2rem;
-    bottom: 1rem;
-  }
 
   .loading-container {
     left: calc(50vw - 40px);
@@ -388,9 +385,9 @@ $txt-hg: #0091e7;
 }
 
 @media only screen and (max-width: 576px) {
-  .tutorial-step{
-  .step-content{
-    width: 100%;
+  .tutorial-step {
+    .step-content {
+      width: 100%;
+    }
   }
-}
 }

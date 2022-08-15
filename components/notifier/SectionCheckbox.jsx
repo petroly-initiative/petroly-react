@@ -181,13 +181,14 @@ function SectionCheckbox(props) {
           delay={{ show: 0, hide: 50 }}
           overlay={<Tooltip id="button-tooltip-2">{langState.crn}</Tooltip>}
         >
-          <button onClick={copyCrn} className={styles["crn-copy"]}>
+          <button id={`${props.id}-crn`} onClick={copyCrn} className={styles["crn-copy"]}>
             <MdContentCopy />
             <span className={styles["crn-num"]}>{props.details[0].crn}</span>
           </button>
         </OverlayTrigger>
       </div>
       <Card
+      id={props.id}
         onClick={toggleTrack}
         className={
           "shadow border-0 " +

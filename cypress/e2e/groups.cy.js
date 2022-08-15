@@ -14,7 +14,7 @@ context("group service tests", () => {
         "groups/likedCommunityMutation.json"
       );
       cy.get('li[id="groups-btn"]').filter(":visible").first().click();
-      cy.wait(3000);
+    
       cy.wait[
         ("@gqlCommunitiesQuery",
         "@gqlCommunityInteractions.json",
