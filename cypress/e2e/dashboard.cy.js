@@ -1,12 +1,7 @@
-
-
 context("Dashboard test ", () => {
   describe("displays a basic dashboad", () => {
     it("open the dashboard successfully", () => {
       cy.login();
-
-
-      cy.wait(["@gqlMeQuery", "@gqlgetTokenQuery"]);
 
       cy.interceptGql("Me", "signinData/MeQuery.json");
       cy.interceptGql("MyEvaluations", "dashboard/evalsQuery.json");
