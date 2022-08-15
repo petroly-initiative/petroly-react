@@ -6,8 +6,12 @@ context("Instructors Evaluation Test", () => {
 
   describe("Viewing Instructors' list", () => {
     it("displays a single instructor card", () => {
+
       cy.interceptGql("Instructors", "evaluation/InstructorQuery1.json");
       cy.interceptGql("getDepartments", "evaluation/deptListQuery.json");
+
+
+      
 
       cy.visit("/instructors", {
         onBeforeLoad: (win) => {
@@ -20,13 +24,23 @@ context("Instructors Evaluation Test", () => {
 
       cy.wait(["@gqlInstructorsQuery", "@gqlgetDepartmentsQuery"]);
 
+      cy.intercept("POST", URL_ENDPOINT, (req) => {
+        if (hasOperationName(req, "Instructors")) {
+          req.alias = "gqlInstructorsQuery";
+          // data fixture
+          req.reply({ fixture: "evaluation/InstructorQuery2.json" });
+        }
+      });
+
       cy.contains("Muhab");
       cy.contains(0);
+
       cy.contains(1);
       cy.contains("Load More").click();
       cy.contains("ammar");
       cy.contains("ICS");
       cy.contains("PHYS");
+
     });
   });
 });

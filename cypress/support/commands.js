@@ -48,12 +48,14 @@ var endpoint;
       }
     });
 
+
     cy.visit("/", {
       onBeforeLoad: (win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       },
     });
+
 
     cy.contains("Our Services");
 

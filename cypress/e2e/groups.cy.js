@@ -4,10 +4,12 @@ context("group service tests", () => {
       cy.login();
       cy.interceptGql("Communities", "groups/getCommunities.json");
       cy.interceptGql(
+
         "CommunityInteractions",
         "groups/likedCommunityMutation.json"
       );
       cy.interceptGql(
+
         "CommunityInteractions",
         "groups/likedCommunityMutation.json"
       );

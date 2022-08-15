@@ -133,6 +133,7 @@ function instructorsList() {
   const loadMore = (e) => {
     fetchMore({
       variables: { after: data.instructors.pageInfo.endCursor },
+
     });
   };
 
@@ -311,7 +312,7 @@ function instructorsList() {
   var currentList = instructorMapper();
   var deptList = deptMapper();
 
- 
+
 
   return (
     <ClientOnly>

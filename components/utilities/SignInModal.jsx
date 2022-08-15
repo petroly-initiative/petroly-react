@@ -36,7 +36,9 @@ export default function SignInModal(props) {
   const [tab, setTab] = useState("signIn");
   const [mode, setMode] = useState("user-input"); // user-input: FIXME: revert to original
   const client = useApolloClient();
+
   // client.setLink()
+
   // language state
   const [langState, setLang] = useState(() => translator(user.lang));
   useEffect(() => {
