@@ -100,6 +100,7 @@ $txt-hg: #0091e7;
 .header-title {
   margin-top: 50px;
   margin: 0 16px;
+  z-index: 3;
   display: flex;
   flex-direction: column;
 
@@ -143,6 +144,7 @@ $txt-hg: #0091e7;
   width: fit-content;
   padding: 0;
   margin: 0;
+  z-index: 0;
 }
 
 .aboutus-text {
@@ -187,6 +189,7 @@ $txt-hg: #0091e7;
 
 .nav-buttons {
   border-radius: 6px;
+   cursor: pointer;
   border: none;
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -291,6 +294,7 @@ $txt-hg: #0091e7;
   .nav-buttons {
     font-size: large;
     padding: 12px;
+   
   }
 
   .aboutus-text {

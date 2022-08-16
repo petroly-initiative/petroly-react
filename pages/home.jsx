@@ -86,21 +86,6 @@ export default function HomeScreen() {
           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
           className={styles["sections"] + " " + styles["home-section"]}
         >
-          <div
-            style={{
-              left: user.lang === L.AR_SA ? -5 : "",
-              right: user.lang === L.EN_US ? -5 : "",
-              transform: `scaleX(${user.lang === L.AR_SA ? "1" : "-1"})`,
-            }}
-            className={styles["landing-header"]}
-          >
-            <Image
-              alt="abstract landing page art"
-              src="/images/home/title_header_v4.svg"
-              width={695}
-              height={759}
-            />
-          </div>
           <div className={styles["header-title"]}>
             <div>
               <Image
@@ -146,10 +131,31 @@ export default function HomeScreen() {
             >
               {langState.landingText}
             </p>
-            <a href="#services-section" className={styles["nav-buttons"]}>
+            <div
+              onClick={() => {
+                window.location.href =
+                  window.location.origin + "#services-section";
+              }}
+              className={styles["nav-buttons"]}
+            >
               {langState.navBtnMain}
               <FaArrowDown className={styles["btn-icons"]} />
-            </a>
+            </div>
+          </div>
+          <div
+            style={{
+              left: user.lang === L.AR_SA ? -5 : "",
+              right: user.lang === L.EN_US ? -5 : "",
+              transform: `scaleX(${user.lang === L.AR_SA ? "1" : "-1"})`,
+            }}
+            className={styles["landing-header"]}
+          >
+            <Image
+              alt="abstract landing page art"
+              src="/images/home/title_header_v4.svg"
+              width={695}
+              height={759}
+            />
           </div>
         </section>
         {/* 3 more sections for each image */}
