@@ -26,7 +26,7 @@ import { FaInfoCircle } from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
 import CourseCard from "../components/notifier/CourseCard";
 import CourseModal from "../components/notifier/CourseModal";
-import { MdRadar } from "react-icons/md";
+import { HiViewList } from "react-icons/hi";
 import TrackingCanvas from "../components/notifier/TrackingCanvas";
 import { useQuery, useLazyQuery, useMutation } from "@apollo/client/react";
 import { getDepartments } from "../api/queries";
@@ -198,11 +198,8 @@ function Notifier(props) {
     console.log("Updated courses in notifier", courses);
     await updateTrackingList({ variables: { courses } });
     // console.log(trackedCoursesData);
-    if(isDeletion)
-      toggleMessage(true, langState.deleted);
-      else toggleMessage(true, langState.added);
-      
-
+    if (isDeletion) toggleMessage(true, langState.deleted);
+    else toggleMessage(true, langState.added);
   };
 
   // ? Mappers
@@ -288,12 +285,10 @@ function Notifier(props) {
       courseObjects.push({
         code: courseCode,
         title: courseSections[0]["course_title"],
-        available_seats: courseSections.reduce(
-          (prev, curr) => {
-            if(curr["available_seats"] < 0) return prev
-            else return  prev + curr["available_seats"]},
-          0
-        ),
+        available_seats: courseSections.reduce((prev, curr) => {
+          if (curr["available_seats"] < 0) return prev;
+          else return prev + curr["available_seats"];
+        }, 0),
         sections: courseSections.length,
         type: sectionType,
       });
@@ -337,8 +332,7 @@ function Notifier(props) {
   useEffect(() => {
     if (termsData) {
       console.log(termsData.terms[0]);
-      setTerm(termsData.terms[0])
-    
+      setTerm(termsData.terms[0]);
     }
   }, [termsData]);
 
@@ -508,7 +502,7 @@ function Notifier(props) {
                 onClick={toggleCanvas}
                 disabled={user.status === USER.LOGGED_OUT}
               >
-                <MdRadar size={32} />
+                <HiViewList size={32} />
               </Button>
             </span>
           </OverlayTrigger>
@@ -731,7 +725,10 @@ function Notifier(props) {
         </InputGroup>
 
         <Row style={{ marginBottom: 16, width: "100%" }}>
-          <Fade className={"col-sm-12 col-xs-12 col-md-6 col-lg-4 col-xl-4"}>
+          <Fade
+            triggerOnce
+            className={"col-sm-12 col-xs-12 col-md-6 col-lg-4 col-xl-4"}
+          >
             {courseMapper()}
           </Fade>
         </Row>
@@ -760,7 +757,7 @@ function Notifier(props) {
               // }}
               disabled={user.status === USER.LOGGED_OUT}
             >
-              <MdRadar size={32} />
+              <HiViewList size={32} />
             </Button>
           </span>
         </OverlayTrigger>

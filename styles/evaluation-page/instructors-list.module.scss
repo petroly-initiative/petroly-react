@@ -103,13 +103,14 @@ $txt-hg: #0091e7;
   transition: 600ms ease;
   z-index: 5;
   margin-bottom: 12px;
+  align-items: center;
 }
 .search_btn {
   background-color: #00ead3;
   border: none;
   border-radius: 0;
   // border: 2px solid #00ead3;
-  height: 100% !important;
+  height: 37px !important;
   &:hover {
     background-color: #05e6cf !important;
   }
