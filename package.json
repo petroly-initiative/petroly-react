@@ -40,7 +40,7 @@
     "react-icons": "^4.4.0",
     "react-rating-stars-component": "^2.2.0",
     "react-telegram-login": "^1.1.2",
-    "sass": "^1.52.3",
+    "sass": "^1.54.4",
     "sharp": "^0.30.6"
   },
   "devDependencies": {
