@@ -1,19 +1,20 @@
 import { Container, Row, Col, Card } from "react-bootstrap";
 import styles from "../styles/home-page/home.module.scss";
-
+import { motion } from "framer-motion";
 import NewsCard from "../components/home/news-card";
 import ServiceCard from "../components/home/service-card";
 import Image from "next/image";
 import Head from "next/head";
 import ChatCard from "../components/home/Chat-card";
-import { HiDesktopComputer } from "react-icons/hi";
-import { GiMaterialsScience } from "react-icons/gi";
-import { Fade } from "react-awesome-reveal";
+import { ImTarget } from "react-icons/im";
+import { FaArrowDown, FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
+import { FiLayers } from "react-icons/fi";
 import translator from "../dictionary/pages/home-dict";
 import { useEffect, useContext, useState, useCallback } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import { T, L, langDirection, M } from "../constants";
 import { NavContext } from "../state-management/navbar-state/NavbarContext";
+import ScrollDrag from "../components/utilities/ScrollDrag";
 
 export default function HomeScreen() {
   /**
@@ -47,7 +48,10 @@ export default function HomeScreen() {
           property="og:description"
           content="Digital Platform for All KFUPMers"
         />
-        <meta property="og:image" content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png" />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
+        />
         <meta
           property="og:image:secure_url"
           content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
@@ -61,7 +65,10 @@ export default function HomeScreen() {
           content="Digital Platform for All KFUPMers"
         />
 
-        <meta property="twitter:image" content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png" />
+        <meta
+          property="twitter:image"
+          content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
+        />
         <meta
           property="twitter:image:src"
           content="https://res.cloudinary.com/petroly-initiative/image/upload/v1642961963/general/website-header_qljjje.png"
@@ -72,150 +79,185 @@ export default function HomeScreen() {
           crossorigin="anonymous"
         ></script>
       </Head>
+
       {/* <Navbar page="home" /> */}
       <Container className={styles["main-container"]}>
-        <Fade
-          className={styles["fader"]}
-          cascade
-          damping={0.05}
-          triggerOnce
-          direction="up"
+        <section
+          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+          className={styles["sections"] + " " + styles["home-section"]}
         >
           <div
-            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-            style={langDirection(user.lang)}
-            className={styles["titles"]}
+            style={{
+              left: user.lang === L.AR_SA ? -5 : "",
+              right: user.lang === L.EN_US ? -5 : "",
+              transform: `scaleX(${user.lang === L.AR_SA ? "1" : "-1"})`,
+            }}
+            className={styles["landing-header"]}
           >
             <Image
-              className={styles["header-big"]}
-              alt="petroly text icon"
-              src={"/header-plain.svg"}
-              width={194}
-              height={67}
+              alt="abstract landing page art"
+              src="/images/home/title_header_v4.svg"
+              width={695}
+              height={759}
             />
           </div>
-
-          <Row
-            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-            style={langDirection(user.lang)}
-            className={styles["containers"]}
+          <div className={styles["header-title"]}>
+            <div>
+              <Image
+                className={styles["header-big"]}
+                alt="petroly text icon"
+                src={"/header-plain.svg"}
+                width={194}
+                height={67}
+              />
+            </div>
+            <h1
+              className={` ${user.theme === M.DARK ? styles["dark-txt"] : ""} ${
+                user.lang === L.EN_US ? styles["header-highlight"] : ""
+              }`}
+            >
+              {langState.headerOne}
+            </h1>
+            <h1
+              className={`{styles["header-second"]} ${
+                user.theme === M.DARK ? styles["dark-txt"] : ""
+              }`}
+            >
+              {langState.headerTwo}
+              {user.lang === L.AR_SA && (
+                <span
+                  style={{
+                    margin: "0px 8px",
+                  }}
+                  className={
+                    user.lang === L.AR_SA ? styles["header-highlight"] : ""
+                  }
+                >
+                  متميزة
+                </span>
+              )}
+            </h1>
+            {/* ! Translation needed */}
+            <p
+              className={
+                styles["landing-text"] +
+                ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+              }
+            >
+              {langState.landingText}
+            </p>
+            <a href="#services-section" className={styles["nav-buttons"]}>
+              {langState.navBtnMain}
+              <FaArrowDown className={styles["btn-icons"]} />
+            </a>
+          </div>
+        </section>
+        {/* 3 more sections for each image */}
+        <section
+          id="services-section"
+          style={{
+            paddingLeft: 0,
+            height: "fit-content",
+          }}
+          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+          className={styles["sections"]}
+        >
+          <h1
+            className={
+              styles["section-header"] +
+              ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+            }
           >
-            <Col xl={8} lg={8} md={12} sm={12} className={[styles["columns"]]}>
-              <NewsCard
-                title={langState.news0.title}
-                size="lg"
-                header="/images/home/update-news.jpg"
-                content={langState.news0.content}
-              />
-            </Col>
-            <Col
-              xl={4}
-              lg={4}
-              md={6}
-              sm={12}
-              className={[styles["news"], styles["columns"]]}
-            >
-              <NewsCard
-                title={langState.news1.title}
-                header="/images/home/rating-news.jpg"
-                content={langState.news1.content}
-                link="/instructors"
-                linked
-              />
-              <NewsCard
-                title={langState.news2.title}
-                header="/images/home/groups-news.jpg"
-                content={langState.news2.content}
-                link="/Groups"
-                linked
-              />
-            </Col>
-            <Col
-              xl={4}
-              lg={4}
-              md={6}
-              sm={12}
-              className={[styles["small-news"], styles["columns"]]}
-            >
-              <NewsCard
-                title={langState.news1.title}
-                header="/images/home/rating-news.jpg"
-                content={langState.news1.content}
-                link="/instructors"
-                linked
-              />
-            </Col>
-            <Col
-              xl={4}
-              lg={4}
-              md={6}
-              sm={12}
-              className={[styles["small-news"], styles["columns"]]}
-            >
-              <NewsCard
-                title={langState.news2.title}
-                header="/images/home/groups-news.jpg"
-                content={langState.news2.content}
-                link="/Groups"
-                linked
-              />
-            </Col>
-          </Row>
-          <Row className={styles["containers"]}>
-            <Col
-              xs={12}
-              sm={12}
-              md={12}
-              lg={6}
-              xl={7}
-              className={[styles["trending"], styles["columns"]]}
-            ></Col>
-            <Col xl={12} lg={12} sm={12} xs={12}>
-              <Row>
-                <Col
-                  style={langDirection(user.lang)}
-                  xl={12}
-                  xs={12}
-                  className={styles["titles"]}
-                  dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                >
-                  {langState.servicesHeader}{" "}
-                </Col>
-                <Col xl={6} lg={12} md={12} xs={12}>
-                  <ServiceCard
-                    title={langState.service0}
-                    header="/images/home/groups.png"
-                    link="/Groups"
-                  />
-                </Col>
-                <Col xl={6} lg={12} md={12} xs={12}>
-                  <ServiceCard
-                    title={langState.service1}
-                    header="/images/home/rating.png"
-                    link="/instructors"
-                  />
-                </Col>
+            <FiLayers className={styles["header-icons"]} />
+            {langState.servicesHeader}
+          </h1>
 
-                {/* <Col
-                  xs={12}
-                  sm={6}
-                  lg={6}
-                  xl={6}
-                  className={[styles["services"], styles["columns"]]}
-                >
-                  <ServiceCard
-                    title="المحادثات"
-                    header="/images/home/chat.webp"
-                  />
-                  <ServiceCard
-                    title="الموارد"
-                    header="/images/home/resources-icon.webp"
-                  />
-                </Col> */}
-              </Row>
-            </Col>
-          </Row>
-        </Fade>
+          <ScrollDrag dir="ltr" className={styles["cards-container"]}>
+            <ServiceCard
+              title={langState.service2}
+              content={langState.service2Desc}
+              imgInit={"/images/home/radar.svg"}
+              link="/Notifier"
+              imgVisible={"/images/home/radar-visible.svg"}
+              btnText={langState.navBtnSecondary}
+            />
+
+            <ServiceCard
+              title={langState.service1}
+              content={langState.service1Desc}
+              imgInit={"/images/home/rating-star.svg"}
+              link="/instructors"
+              imgVisible={"/images/home/rating-visible.svg"}
+              btnText={langState.navBtnSecondary}
+            />
+
+            <ServiceCard
+              title={langState.service0}
+              content={langState.service0Desc}
+              imgInit={"/images/home/groups.svg"}
+              link="/Groups"
+              imgVisible={"/images/home/groups-visible.svg"}
+              btnText={langState.navBtnSecondary}
+            />
+          </ScrollDrag>
+        </section>
+        <section
+          id="about-us-section"
+          style={{
+            paddingLeft: 0,
+            height: "fit-content",
+            marginBottom: 34,
+          }}
+          dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+          className={styles["sections"]}
+        >
+          <h1
+            className={
+              styles["section-header"] +
+              ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+            }
+          >
+            {" "}
+            <ImTarget className={styles["header-icons"]} />
+            {langState.quoteHeader}
+          </h1>
+
+          <div className={styles["about-us-container"]}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ type: "spring", delay: 0.8, duration: 3 }}
+              className={
+                user.lang === L.AR_SA
+                  ? styles["aboutus-icons-holder-ar"]
+                  : styles["aboutus-icons-holder-en"]
+              }
+              dir="ltr"
+            >
+              <FaQuoteLeft className={styles["aboutus-icon"]} />
+              <FaQuoteRight className={styles["aboutus-icon"]} />
+            </motion.div>
+            <p
+              className={
+                styles["aboutus-text"] +
+                ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+              }
+            >
+              {langState.quoteText}
+            </p>
+          </div>
+          <span
+            className={
+              styles["aboutus-author"] +
+              ` ${user.theme === M.DARK ? styles["dark-header"] : ""}`
+            }
+            style={{
+              textAlign: user.lang === L.AR_SA ? "right" : "left",
+            }}
+          >
+            {langState.quoteAuth}
+          </span>
+        </section>
       </Container>
     </>
   );

@@ -221,7 +221,6 @@ export default function EvaluationModal(props) {
         aria-labelledby="example-custom-modal-styling-title"
         backdrop="static"
         className={styles["modal-container"] + " border-0"}
-        scrollable
       >
         <Modal.Header
           className={

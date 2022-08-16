@@ -24,49 +24,53 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import { URL_ENDPOINT } from "../../constants";
-import { hasOperationName } from "../utils/graphql-test-utils";
 
-Cypress.Commands.add("login", () => {
-  URL = URL_ENDPOINT;
+import { hasOperationName, TEST_ENDPOINT } from "../utils/graphql-test-utils";
 
-  cy.intercept("POST", URL, (req) => {
-    if (hasOperationName(req, "getToken")) {
-      req.alias = "gqlgetTokenQuery";
-      // data fixture
-      req.reply({ fixture: "signinData/getTokenQuery.json" });
-    }
-  });
-
-  cy.intercept("POST", URL, (req) => {
-    if (hasOperationName(req, "Me")) {
-      req.alias = "gqlMeQuery";
-      // data fixture
-      req.reply({ fixture: "signinData/MeQuery.json" });
-    }
-  });
-
+var endpoint;
+  endpoint =TEST_ENDPOINT();
   
+  Cypress.Commands.add("login", () => {
+    URL = endpoint;
+    cy.intercept("POST", URL, (req) => {
+      if (hasOperationName(req, "getToken")) {
+        req.alias = "gqlgetTokenQuery";
+        // data fixture
+        req.reply({ fixture: "signinData/getTokenQuery.json" });
+      }
+    });
 
-  cy.visit("/", {
-    onBeforeLoad: (win) => {
-      win.sessionStorage.clear();
-      win.localStorage.clear();
-    },
+    cy.intercept("POST", URL, (req) => {
+      if (hasOperationName(req, "Me")) {
+        req.alias = "gqlMeQuery";
+        // data fixture
+        req.reply({ fixture: "signinData/MeQuery.json" });
+      }
+    });
+
+
+    cy.visit("/", {
+      onBeforeLoad: (win) => {
+        win.sessionStorage.clear();
+        win.localStorage.clear();
+      },
+    });
+
+
+    cy.contains("Our Services");
+
+    cy.get('button[id="sign-in"]').filter(":visible").click();
+
+    // dummy user
+    cy.get('input[id="username-input"]').type("admin", { force: true });
+    cy.get('input[id="pass-input"]').type("aassddff", { force: true });
+    cy.get('button[id="submit-btn"]').click();
+
+    cy.wait(["@gqlMeQuery", "@gqlgetTokenQuery"])
   });
 
-  cy.contains("Our Services");
-
-  cy.get('button[id="sign-in"]').filter(":visible").click();
-
-  // dummy user
-  cy.get('input[id="username-input"]').type("admin", { force: true });
-  cy.get('input[id="pass-input"]').type("aassddff", { force: true });
-  cy.get('button[id="submit-btn"]').click();
-});
-
-Cypress.Commands.add("interceptGql", (url, operationName, fixtureDir) => {
-  cy.intercept("POST", url, (req) => {
+Cypress.Commands.add("interceptGql", ( operationName, fixtureDir) => {
+  cy.intercept("POST", endpoint, (req) => {
     if (hasOperationName(req, operationName)) {
       req.alias = `gql${operationName}Query`;
       // data fixture

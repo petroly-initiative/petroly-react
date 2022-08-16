@@ -7,9 +7,11 @@ const arabic = {
   home: "الرئيسية",
   rating: "التقييم",
   groups: "المجتمعات",
+  language: "اللغة",
+  radar: "الرادار",
   support: "الدعم",
-  theme: "وضع العرض"
-};
+  notifier: "الرادار",
+  theme: "وضع العرض",};
 
 const english = {
   dashboard: "Dashboard",
@@ -19,7 +21,10 @@ const english = {
   rating: "Evaluation",
   groups: "Groups",
   support: "Support",
-  theme: "Theme"
+  language: "language",
+  radar: "Radar",
+  theme: "Theme",
+  unauth_msg: "You need to login to access this feature"
 };
 
 export default function translator(lang) {

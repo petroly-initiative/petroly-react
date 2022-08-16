@@ -1,0 +1,222 @@
+@use "/styles/themes.module" as theme;
+
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-fill: rgb(146, 146, 146);
+$txt-hg: #0091e7;
+$btn-prim: #00ead3;
+$x: #622edb;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  border: 4px solid theme.$dark-fg !important;
+
+  button {
+    color: rgb(202, 202, 202);
+    &:hover {
+      color: theme.$dark-fnt;
+    }
+  }
+}
+
+.dark-btn {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-xfg !important;
+  &:hover {
+    color: $btn-prim !important;
+    background-color: transparent;
+  }
+}
+
+.tabs-container {
+  margin-top: 16px;
+}
+
+.tab {
+  font-weight: 700 !important;
+  color: $txt-fill;
+
+  &:hover{
+    color: $btn-high !important;
+  }
+
+    &:active{
+      color: red !important;
+    }
+  
+}
+
+.active-tab {
+  font-weight: 700 !important;
+  color: $btn-prim;
+}
+
+.empty-container {
+  display: flex;
+  width: 100%;
+  margin-top: 70px;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+
+  .empty-icon {
+    font-size: 40px;
+    color: #00ead3;
+  }
+
+  .empty-msg {
+    color: $txt-fill;
+  }
+}
+
+.settings-btn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 4px;
+  font-weight: 600;
+  box-shadow: none;
+  color: rgb(89, 88, 88);
+  padding: 16px;
+  font-size: large;
+  background-color: white;
+  border: none;
+
+  &:active,
+  &:focus {
+    border: none;
+    color: white !important;
+    background-color: $btn-prim !important;
+  }
+  span {
+    margin: 0 10px;
+  }
+}
+
+.header-title {
+  color: #00ead3;
+  background-blend-mode: multiply;
+  background-size: cover;
+  margin: 6px 0 !important;
+  border: 0 !important;
+}
+
+.Cardholder {
+  transition: 300ms ease;
+  border: none;
+  cursor: pointer;
+  align-self: center;
+  background: #ffffff;
+  margin: 8px;
+  &:hover {
+    transform: scale(1.05);
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.course-header {
+  border-radius: 4px;
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 14px 16px !important;
+  padding-bottom: 16px !important;
+  overflow: hidden;
+
+  .course-code {
+    color: $btn-high !important;
+    font-size: 20px;
+    text-align: center;
+    margin-right: 8px;
+    font-weight: 700;
+    // padding: 8px;
+    padding-bottom: 0;
+  }
+
+  .course-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // white-space: nowrap;
+    line-clamp: 1;
+    // word-break: break-all;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    // color: #0091e7;
+    font-weight: 400;
+  }
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+}
+
+.sections-type {
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 8px;
+  }
+  color: #aaaaaa;
+  font-size: medium;
+  border-radius: 4px;
+  padding: 1px 8px;
+}
+
+.course-body {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  div {
+    margin: 0 3px;
+    .numeric {
+      font-weight: 700;
+      margin-left: 4px;
+      margin-right: 4px;
+    }
+    .text {
+      margin-left: 4px;
+      margin-right: 4px;
+    }
+  }
+}
+
+.body-container::-webkit-scrollbar {
+  width: 0.3rem !important;
+  border-radius: 0.15rem !important;
+}
+
+.body-container {
+  border: none !important;
+  padding-top: 0;
+}
+
+.body-container::-webkit-scrollbar-track {
+  background: rgb(187, 187, 187);
+  // border-radius: 0.15rem;
+}
+
+.body-container::-webkit-scrollbar-thumb {
+  background: #7b7b7b;
+}
+
+.divider {
+  height: 4px;
+  width: 4px;
+  margin-right: 6px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background-color: #aaaaaa;
+}

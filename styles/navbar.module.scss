@@ -164,7 +164,7 @@ $clr-primary: #00ead3;
   width: 5rem !important;
   align-items: center;
   justify-content: center;
-  z-index: 102;
+  z-index: 10;
 }
 
 .navbar_top {
@@ -257,6 +257,9 @@ $clr-primary: #00ead3;
   }
 }
 
+
+
+
 .nav_pages {
   display: flex;
   flex-direction: column;
@@ -294,6 +297,20 @@ $clr-primary: #00ead3;
   align-items: center;
   border-radius: 4px;
   padding: 4px;
+  
+}
+
+.inactive_btn{
+  color: grey !important;
+  width: 3.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 4px;
+  padding: 4px;
+  .link_text{
+    color: grey;
+  }
 }
 
 .lang-switch{
@@ -393,7 +410,7 @@ $clr-primary: #00ead3;
 
 .navbar_main {
   -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+scrollbar-width: none; /* Firefox */
 }
 
 .btn-container {

@@ -1,0 +1,378 @@
+@use "/styles/themes.module" as theme;
+
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-fill: rgb(146, 146, 146);
+$txt-hg: #0091e7;
+$btn-prim: #00ead3;
+$x: #622edb;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg !important;
+  box-shadow: none !important;
+  border: 4px solid theme.$dark-fg !important;
+
+  button {
+    color: rgb(202, 202, 202);
+    &:hover {
+      color: theme.$dark-fnt;
+    }
+  }
+}
+
+.dark-txt{
+   color: theme.$dark-fnt !important;
+}
+
+.dark-footer {
+  background-color: theme.$dark-xfg !important;
+  border: unset !important;
+}
+
+.dark-section {
+  background-color: theme.$dark-xfg !important;
+  box-shadow: 0 2 2px 5px theme.$dark-bg !important;
+  border: unset !important;
+}
+
+.dark-header {
+  color: theme.$dark-fnt !important;
+}
+
+.dark-subheader {
+  color: theme.$dark-fnt-fg !important;
+}
+
+.dark-mode-input {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-xfg !important;
+  background: theme.$dark-xfg !important;
+  // border: 1px solid theme.$light-fnt;
+}
+
+.dark-border {
+  background: theme.$dark-xxfg !important;
+}
+
+.modalHeader {
+  background: #00ead3;
+  background-blend-mode: multiply;
+  background-size: cover;
+  margin: 0 !important;
+  padding: 16px;
+  border: 0 !important;
+}
+
+.instructor-name{
+  display: flex !important;
+}
+
+.header-info{
+display: flex;
+align-items: center;
+
+}
+
+.course-code{
+color: $btn-high;
+width: -webkit-fit-content !important;
+width: -moz-fit-content !important;
+width: fit-content !important;
+margin-bottom: 0px;
+margin-right: 3px;
+
+}
+
+.meta-info{
+  margin-bottom: 10px;
+}
+
+ .sections-type{
+    font-weight: 600;
+    color: white;
+    font-size: small;
+    margin: 0 4px;
+    border-radius: 4px;
+    padding: 1px 8px;
+  }
+
+
+.divider{
+      height: 5px;
+      width: 5px;
+      margin-right: 6px;
+      margin-left: 6px;
+      border-radius: 50%;
+      background-color: #aaaaaa;
+    }
+
+
+.title_img {
+  margin-right: 10px;
+}
+
+.body-container {
+  overflow-x: hidden;
+  z-index: 100 !important;
+  padding: 16px;
+}
+
+.modal-container {
+  border: 0px !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.eval-params {
+  height: 100px !important;
+}
+
+.body-container::-webkit-scrollbar {
+  width: 0.3rem;
+  border-radius: 0.15rem;
+}
+
+.body-container {
+  border: none !important;
+}
+
+.body-container::-webkit-scrollbar-track {
+  background: rgb(187, 187, 187);
+  // border-radius: 0.15rem;
+}
+
+.body-container::-webkit-scrollbar-thumb {
+  background: #7b7b7b;
+}
+.modalTitle {
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+
+
+ .instructions {
+    padding: 12px 10px;
+    font-size: 18px;
+    color: $txt-fill;
+     border-bottom: 1px solid rgb(235, 234, 234);
+  }
+
+
+
+.sections {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 22px;
+  border-bottom: 1px solid rgb(235, 234, 234);
+  padding: 12px;
+  padding-bottom: 16px;
+  border-radius: 8px;
+}
+
+.sections form {
+  width: 80%;
+  margin-bottom: 8px;
+}
+
+.evaluation-data {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ar-labels {
+  direction: rtl !important;
+}
+
+.evalForm {
+  width: 100% !important;
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.labels {
+  width: 100%;
+  direction: rtl;
+  text-align: center;
+  padding-top: 8px;
+}
+
+.input-containers {
+  margin-top: 16px;
+  width: 90%;
+}
+
+.descriptions {
+  font-weight: 600;
+  color: #747c85;
+  font-size: 16px;
+  text-align: center;
+}
+
+.comments::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.comments::-webkit-scrollbar-track {
+  background: white;
+}
+
+.comments::-webkit-scrollbar-thumb {
+  background: #969696;
+}
+
+
+
+.info-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+
+.headers {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.titles {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0091e7;
+  display: flex;
+  align-items: center;
+}
+
+.btns {
+  width: 150px;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 50px;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  font-size: 15px !important;
+  align-items: center !important;
+  flex-direction: row;
+  justify-content: center !important;
+  transition: 300ms ease;
+  // color: #fff !important;
+  border: unset !important;
+  svg {
+    transition: 300ms ease;
+    margin: 8px;
+    margin-bottom: 10px;
+    padding: 0;
+  }
+  &:hover {
+    svg {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.cancel-btn {
+  background-color: rgba(0, 0, 0, 0.007);
+  border: 2px solid #aaaaaa !important;
+  display: flex;
+  color: #aaaaaa;
+  justify-content: center;
+  &:hover{
+    background-color: rgb(235, 56, 56);
+    color: white;
+    border: 2px solid rgb(235, 56, 56) !important;
+  }
+}
+
+.submit-btn {
+  background-color: $btn-high !important;
+}
+
+.eval-info input {
+  width: 160px;
+  text-align: center;
+}
+
+.term-container {
+  display: flex;
+  align-items: center;
+  margin-right: 16.43px;
+}
+
+.rules {
+  padding: 8px !important;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  padding: 16px;
+  width: 100%;
+  .rules-icon {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+}
+
+.title-icons {
+  margin-left: 8px;
+}
+
+.rules-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  div {
+    margin-bottom: 6px;
+  }
+}
+
+.course-input {
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width: 600px) {
+  .sections {
+    margin: 8px;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .evalForm {
+    padding: 8px;
+  }
+
+  .meta-info{
+    padding: 0 8px;
+  }
+
+  .body-container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .btns {
+    width: 100%;
+    padding: 2px;
+    height: 40px;
+  }
+}

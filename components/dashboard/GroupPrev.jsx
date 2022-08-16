@@ -64,7 +64,7 @@ export default function GroupPreview(props) {
     }
   }, [deleteLoading]);
 
-  const deleteCom = () => deleteThisCommunity({ variables: { id: props.id } }); // TODO Show a proper messeage for the user and update the group tab
+  const deleteCom = () => deleteThisCommunity({ variables: { id: props.id } }); 
 
   if (deleteLoading)
     return (
@@ -154,7 +154,7 @@ export default function GroupPreview(props) {
           edit
           id = {props.id}
         />
-      {/* TODO. I tried to make it show whenever edit btn is clicked, but it shows only the first time. */}
+      
       
     </>
   );

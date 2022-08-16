@@ -8,7 +8,7 @@ import { UserContext } from "../../state-management/user-state/UserContext";
 import { M } from "../../constants";
 import { useCallback } from "react";
 
-// TODO: providing a dark mode
+
 export default function PopMsg(props) {
   // This is gonna be useful when setting onClose prop.
 
@@ -30,6 +30,8 @@ export default function PopMsg(props) {
   return (
     <>
       <Modal
+      enforceFocus={false}
+        backdropClassName={styles["backdrop"]}
         show={props.visible}
         aria-labelledby="contained-modal-title-vcenter"
         size="lg"
@@ -38,7 +40,7 @@ export default function PopMsg(props) {
           clearTimeout(timer);
           props.handleClose(false);
         }}
-        backdrop={false}
+        backdrop={true}
         style={{ borderRadius: "10px !important" }}
       >
         <Modal.Body

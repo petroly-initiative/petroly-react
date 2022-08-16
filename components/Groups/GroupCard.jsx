@@ -143,7 +143,7 @@ function GroupCard(props) {
     setDisplay(false);
   };
   const fireReport = () => {
-    // TODO - mutations for report
+   
     setReport(true);
   };
   const closeReport = () => {

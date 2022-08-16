@@ -151,10 +151,10 @@ function GroupCreationCard(props) {
   };
   // submission controllers
   const createGroup = () => {
-    // TODO: create separate functions and call from this point
+   
     if (type === "SECTION") {
       if (!invalidCourse) {
-        //TODO: check for duplicate naming in the DB, then submit in the DB
+       
         createCommunnity({
           variables: {
             owner: user.id,
@@ -213,7 +213,7 @@ function GroupCreationCard(props) {
       });
   };
 
-  // TODO: edit for tags
+ 
   useEffect(() => {
     if (submit) {
       if (
@@ -241,9 +241,11 @@ function GroupCreationCard(props) {
         props.refetch();
         props.handleMsg(true);
       } else {
+
+        // console.log(createData.communityCreate.messages);
+
         console.log(createData.communityCreate.messages);
-        setAPIErrors(mapErrorsToFields(createData.communityCreate));
-        setSubmit(false); // to use it for later
+
       }
     }
   }, [createData, createLoading]);

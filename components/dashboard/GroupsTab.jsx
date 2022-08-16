@@ -201,7 +201,7 @@ export default function GroupsTab({
     dataComms.me.ownedCommunities.map((community) => {
       const icon = community.icon;
       return (
-        <GroupPreview // TODO Modify this component
+        <GroupPreview 
           refetch={refetchComms}
           pic={icon ? icon.url : "/images/share.png"}
           id={community.pk}

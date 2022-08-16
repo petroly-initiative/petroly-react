@@ -49,7 +49,7 @@ export default function EditGroup(props) {
 
   // ------
   const editGroup = (e) => {
-    // TODO validate the form
+   
     e.preventDefault();
     const groupName = name.current.value;
     const groupLink = link.current.value;
@@ -118,9 +118,7 @@ export default function EditGroup(props) {
         setModalShow(false);
         props.refetch();
       } else {
-        // this error belongs to API itself, user does not care about it
-        // TODO we need help from front dev to map these errors mesages
-        // or ignore if there are enough validation, i.e., regex
+        
       }
     }
   }, [editData, editLoading]);

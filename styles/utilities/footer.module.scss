@@ -90,12 +90,13 @@ $btn-prim: #00ead3;
 
 .header-big {
   padding-bottom: 8px !important;
-  filter: saturate(0.3);
+  -webkit-filter: saturate(0.3);
+          filter: saturate(0.3);
 }
 
 @media only screen and (max-width: 600px) {
   .footer-body {
-    width: 100vw !important; // FIXME: potential bug
+    width: 100vw !important; 
     margin-top: 5rem;
     .footer-arch {
       width: 100%;

@@ -21,3 +21,14 @@ export const aliasMutation = (req, operationName) => {
     req.alias = `gql${operationName}Mutation`;
   }
 };
+
+export const TEST_ENDPOINT = () => {
+  var endpoint;
+  if (Cypress.env("NODE_ENV") === "test") {
+    endpoint = "https://petroly-api.graphcdn.app";
+  } else if (Cypress.env("NODE_ENV") === "dev") {
+    endpoint = "http://localhost:8000/endpoint/";
+  }
+
+  return endpoint
+}

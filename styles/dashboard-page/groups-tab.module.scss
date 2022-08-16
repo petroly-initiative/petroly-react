@@ -5,17 +5,17 @@ $btn-primary: #01dac4;
 $txt-high: #0091e7;
 $x: #622edb;
 
-.dark-card{
+.dark-card {
   background-color: theme.$dark-xfg !important;
   border: unset !important;
 }
 
-.dark-header{
+.dark-header {
   color: theme.$dark-fnt !important;
 }
 
-.loader{
-  display:flex;
+.loader {
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -111,7 +111,7 @@ $x: #622edb;
   color: $btn-primary;
   &:hover {
     background-color: $btn-primary;
-    color: #fff
+    color: #fff;
   }
 }
 
@@ -119,7 +119,7 @@ $x: #622edb;
   color: rgb(253, 97, 97);
   &:hover {
     background-color: rgb(253, 97, 97);
-    color: #fff
+    color: #fff;
   }
 }
 
@@ -134,7 +134,7 @@ $x: #622edb;
   color: #01dac4;
 }
 
-.dark-spinner{
+.dark-spinner {
   background-color: unset !important;
 }
 

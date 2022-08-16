@@ -1,4 +1,4 @@
-@use '/styles/themes.module' as theme;
+@use "/styles/themes.module" as theme;
 
 * {
   margin: 0;
@@ -10,14 +10,23 @@ html,
 body {
   padding: 0;
   min-width: 100vw;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
   position: absolute;
   font-family: "Cairo", sans-serif !important;
-  background: rgb(250, 250, 250) ;
+  background: rgb(250, 250, 250);
   overflow-x: hidden;
+  overflow-y: auto;
   touch-action: pan-y pan-x;
   transition: 300ms ease;
   width: 100vw;
+  scroll-behavior: smooth !important;
+   -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */ /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
 }
 
 a {

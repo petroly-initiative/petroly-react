@@ -63,6 +63,7 @@ export default function Evaluation(props) {
             <OverlayTrigger
               placement="top"
               delay={{ show: 0, hide: 50 }}
+              // TODO translation
               overlay={<Tooltip id="button-tooltip-2">الفصل الدراسي</Tooltip>}
             >
               <div id="term_tag" className={styles.term}>

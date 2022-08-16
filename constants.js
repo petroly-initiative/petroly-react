@@ -1,4 +1,6 @@
-export var URL_ENDPOINT = "https://petroly-api.graphcdn.app";
+
+var URL_ENDPOINT = "https://petroly-api.graphcdn.app";
+
 
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test")
   URL_ENDPOINT = "http://localhost:8000/endpoint/";
@@ -39,3 +41,5 @@ export const langDirection = (inLang) => ({
   display: "flex",
   justifyContent: "flex-start !important",
 });
+
+export { URL_ENDPOINT };

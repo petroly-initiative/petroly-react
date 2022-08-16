@@ -1,0 +1,142 @@
+@use "/styles/themes.module" as theme;
+
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-hg: #0091e7;
+
+.dark-mode {
+  background-color: theme.$dark-fg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-fg;
+  box-shadow: none;
+
+  &:active,
+  &:focus {
+    border: 2px solid $btn-high !important;
+  }
+  backdrop-filter: blur(2em) !important;
+}
+
+.dark-txt {
+  color: white !important;
+}
+
+.picDiv {
+  border-radius: 30px;
+  overflow: hidden;
+  padding: 0px;
+  margin: auto;
+  opacity: 1;
+}
+
+.dark-border {
+  background: theme.$dark-xxfg !important;
+  opacity: 1;
+}
+
+.insuctor_pic {
+  position: relative;
+  z-index: 1;
+  width: 60px;
+  height: 60px;
+  margin: auto;
+  margin-top: 10px;
+  padding-bottom: 8px;
+  padding: 4px;
+  border-radius: 30px;
+  overflow: hidden;
+  background-color: white;
+  color: white !important;
+
+  img {
+    border-radius: 35px;
+  }
+}
+
+.popover-container {
+  cursor: pointer;
+  width: 200px;
+  opacity: 0.95;
+  backdrop-filter: blur(5px);
+}
+
+.card-header {
+  background-color: white;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2px;
+}
+
+.instructor-name {
+  width: 100%;
+  text-overflow: ellipsis;
+  text-align: center;
+  font-weight: 600;
+  color: #00ead3;
+  margin-top: 8px;
+  font-size: medium;
+}
+
+.card-rating {
+}
+
+@mixin rating-layout() {
+  display: flex;
+  align-items: center;
+  color: #52575d;
+
+  width: fit-content;
+
+  padding: 3px 10px;
+
+  span {
+    margin: 0 6px;
+  }
+
+  .rating-icon {
+    margin: 0;
+  }
+
+  .active-icon {
+    color: gold;
+    margin: 0;
+  }
+}
+
+.outer-rating {
+  @include rating-layout();
+  margin: 0 12px;
+  font-size: medium;
+  height: fit-content;
+  font-weight: 700;
+  height: 26px;
+  border-radius: 13px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  transition: 300me ease;
+
+  &:hover {
+    transform: scale(1.1);
+    border: 1px solid $btn-high;
+    cursor: pointer;
+  }
+}
+
+.card-rating {
+  @include rating-layout();
+  margin-top: 0px;
+  font-size: large;
+  height: 30px;
+  font-weight: 600;
+}
+
+.link-icon {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  color: $btn-high;
+  font-size: 20px;
+}

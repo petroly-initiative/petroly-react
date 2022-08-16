@@ -101,7 +101,7 @@ $txt-hg: #0091e7;
 
 .search-container {
   transition: 600ms ease;
-  z-index: 100;
+  z-index: 5;
   margin-bottom: 12px;
 }
 .search_btn {
@@ -122,19 +122,20 @@ $txt-hg: #0091e7;
 
 .dept-dropdown {
   border: none;
+  border-width: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 37px;
   border-radius: 0 6px 6px 0;
   padding-right: 8px;
-  button {
-    // border: 2px solid #00ead3;
-    background-color: #06d8c3;
-    border: none;
-    border-radius: 0 6px 6px 0 !important;
-    height: 38px;
-    &:hover {
-      background-color: #04c0ad !important;
-    }
+  background-color: #06d8c3;
+  color: white;
+  padding-left: 16px;
+  padding-right: 16px;
+  &:hover {
+    background-color: #13988a !important;
   }
-  button::after {
+  &::after {
     display: none;
   }
 }
@@ -201,6 +202,8 @@ $txt-hg: #0091e7;
 .error-container {
   padding-top: 50px;
   width: 100vw;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
   display: flex;
   align-items: center;
@@ -246,21 +249,22 @@ $txt-hg: #0091e7;
   font-weight: 700;
   padding: 8px 15px;
   border-radius: 8px;
+
   display: flex;
   justify-content: center !important;
   align-items: center;
-  margin: auto;
-  margin-top: 16px;
+  margin: 16px auto;
+  
   border: none;
-  &:hover{
+  &:hover {
     background-color: $btn-high;
   }
 }
 
-.loader_col{
+.loader_col {
   display: flex;
   justify-content: center;
-  
+
 }
 
 @media only screen and (max-width: 600px) {

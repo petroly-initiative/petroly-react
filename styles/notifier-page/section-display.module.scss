@@ -1,0 +1,411 @@
+@use "/styles/themes.module" as theme;
+
+$btn-high: #00ead3;
+$txt-fill: #52575d;
+$txt-xfill: rgb(146, 146, 146);
+$txt-hg: #0091e7;
+$btn-prim: #00ead3;
+$x: #22d77c;
+
+.dark-mode {
+  background-color: theme.$dark-xfg !important;
+  color: theme.$dark-fnt !important;
+  background: theme.$dark-xfg !important;
+  box-shadow: none !important;
+  border-color: theme.$dark-bg !important;
+
+  button {
+    color: rgb(202, 202, 202);
+    &:hover {
+      color: theme.$dark-fnt;
+    }
+  }
+}
+
+.dark-txt {
+  color: theme.$dark-fnt !important;
+}
+.dark-footer {
+  border-color: theme.$dark-bg !important;
+}
+
+.dark-day {
+  background-color: theme.$dark-xfg !important;
+  color: theme.$dark-fnt !important;
+  border-color: theme.$dark-fnt !important;
+}
+
+.details-block {
+  display: flex;
+  flex-grow: 1;
+  align-items: center !important;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  flex-direction: column;
+  padding: 0;
+}
+
+.unchecked-container {
+  white-space: nowrap;
+  display: flex;
+  background-color: theme.$light-fg;
+  // border: 2px solid rgba(81, 81, 81, 0.25);
+  border: 0px solid white !important;
+  border-radius: 4px;
+  padding: 16px;
+  box-shadow: 0 0.25rem 0.1rem 0px rgba(0, 0, 0, 0.253);
+  margin-bottom: 8px;
+  transition: 300ms;
+}
+
+@mixin headerLayout($fnt-clr, $fnt-wght: 300) {
+  font-size: 22px;
+  white-space: nowrap;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0px 4px 0;
+  padding: 2px 10px;
+  border-radius: 4px 4px 0 0;
+  align-items: center !important;
+  color: $fnt-clr;
+  font-weight: $fnt-wght;
+  transition: 300ms ease;
+  .crn-copy {
+    background-color: transparent;
+    border: none;
+    font-size: large;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #7e7e7f;
+    .crn-icon{
+      display: flex;
+      align-items: center;
+      vertical-align: bottom;
+      font-size: medium;
+    }
+    &:hover,
+    &:active,
+    &:focus {
+      color: $btn-high !important;
+      transform: scale(1.05);
+    }
+  }
+}
+
+.crn-num {
+  margin-right: 12px;
+}
+
+.header-btns {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+}
+
+.unchecked-input {
+  @include headerLayout(gray);
+}
+
+.checked-container {
+  display: flex;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  border: 3px solid $btn-high !important;
+  background-color: theme.$light-fg;
+  // border: 2px solid rgba(81, 81, 81, 0.25);
+  border-radius: 4px;
+  padding: 16px;
+  box-shadow: 0 0.25rem 0.5rem 0px rgba(0, 0, 0, 0.253);
+  margin-bottom: 8px;
+  transition: 300ms;
+}
+
+.instructor-name {
+  display: inline-flexbox;
+  width: 65%;
+  font-size: 14px;
+  align-items: center;
+  margin-right: auto;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-clamp: 1;
+  // word-break: break-all;
+}
+
+.sections-type {
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 8px;
+  }
+  color: $txt-xfill;
+  font-size: small;
+  margin-right: 8px;
+  border-radius: 4px;
+  padding: 1px 8px;
+}
+
+.divider {
+  height: 4px;
+  width: 4px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background-color: #aaaaaa;
+}
+
+@mixin weekday-label($bg-clr, $fnt-clr, $border-style: none) {
+  width: 35px;
+  height: 35px;
+  font-size: medium;
+  font-weight: 700;
+  margin: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $bg-clr;
+  border-radius: 50%;
+  color: $fnt-clr;
+  border: $border-style;
+}
+
+.section-details {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  margin-top: 12px;
+}
+
+.section-num{
+  cursor: help;
+}
+
+.weekdays {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  width: 200px;
+  flex-grow: 1;
+  flex-flow: row nowrap;
+  padding: 8px 0px;
+  margin-right: 8px;
+  margin-bottom: 4px;
+}
+
+.loc-time {
+  display: flex;
+  flex-grow: 1;
+  font-size: large;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+  height: 100%;
+}
+
+.active-day {
+  @include weekday-label($btn-high, white);
+}
+
+.inactive-day {
+  @include weekday-label(white, #aaaaaa, 1px solid #c3c3c3);
+}
+
+.time {
+  white-space: nowrap;
+  font-weight: 400;
+  color: $txt-fill;
+  width: 125px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  .time-icon {
+    margin: 0 4px !important;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding: 0 0 1px 0;
+    font-size: medium;
+  }
+}
+
+.location {
+  width: 97px;
+  white-space: nowrap;
+  color: $txt-fill !important;
+  height: 100%;
+  font-weight: 400;
+  justify-content: center;
+  margin-right: 8px;
+  display: flex;
+  align-items: center !important;
+  span {
+    height: 27px !important;
+  }
+  .location-icon {
+    margin: 0 4px !important;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    font-size: medium;
+    margin: 0px 4px;
+    
+  }
+}
+
+.waitlist-container {
+  color: $txt-fill;
+  display: flex;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 100%;
+  align-items: center;
+  span {
+    margin-left: 8px;
+  }
+}
+
+@mixin waitlistLabels($bg-clr) {
+  background-color: $bg-clr;
+  height: 12px;
+  width: 12px;
+  border-radius: 6px;
+  margin: 0;
+}
+
+.waitlist-open {
+  @include waitlistLabels($btn-high);
+}
+
+.waitlist-close {
+  @include waitlistLabels(rgb(255, 91, 91));
+}
+
+.availability-details {
+  display: flex;
+  font-size: 16px;
+  flex-grow: 1;
+  align-items: center;
+  width: 280px;
+  justify-content: flex-start;
+  justify-content: center;
+  flex-flow: row wrap;
+  margin-bottom: 12px;
+}
+
+.num-slot {
+  padding: 0px 5px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-weight: 600;
+  margin-right: 4px;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 0 1px inner #c3c3c3;
+  border-radius: 8px;
+}
+
+.card-header {
+  border-radius: 4px;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+  padding: 0 16px;
+  padding-bottom: 8px;
+  display: flex;
+  background-color: white;
+  align-items: center;
+  overflow: hidden;
+}
+
+.untrack-btn {
+  font-size: 20px;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0);
+  border: none !important;
+  color: #aaaaaa;
+  transition: 300ms ease;
+  &:hover,
+  &:active {
+    color: red !important;
+    background-color: rgba(255, 255, 255, 0);
+    border: none !important;
+     transform: scale(1.05);
+  }
+}
+
+.hover-detector {
+  &:hover {
+    .untrack-btn {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.Cardholder {
+  transition: 300ms ease;
+  border: none;
+  align-self: center;
+  background: #ffffff;
+  border-radius: 4px;
+  margin: 0 0 10px 0;
+  padding: 16px 0;
+  padding-bottom: 0;
+}
+
+.seats-left {
+  display: flex;
+  align-items: center;
+  color: $txt-fill;
+  margin-right: 16px;
+}
+
+.meta-info {
+  display: flex;
+  align-items: center;
+}
+
+.footerContainer {
+  background-color: white;
+  padding: 16px 0 0 0;
+  border-top: 2px solid rgba(0, 0, 0, 0.125);
+
+  .availability-details {
+    width: 100%;
+    justify-content: flex;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 2px solid rgba(0, 0, 0, 0.125);
+  }
+
+  .card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  }
+}
+
+.course-code {
+  font-weight: 700;
+  color: $btn-prim;
+}
+
+.unavailable-icon {
+  font-size: 25px;
+  color: #aaaaaa;
+  height: 29.6px;
+  margin-right: 8px;
+}
+
+.unavailable-name {
+  color: #aaaaaa;
+}
