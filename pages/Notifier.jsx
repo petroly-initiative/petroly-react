@@ -305,7 +305,12 @@ function Notifier(props) {
         course={course["code"]}
         title={course["title"]}
         type={course["type"]}
-        available_seats={course["available_seats"]}
+        // to avoid double counting hybrid sections
+        available_seats={
+          course["type"][0] === "hybrid"
+            ? course["available_seats"] / 2
+            : course["available_seats"]
+        }
         section_count={course["sections"]}
       />
     ));
