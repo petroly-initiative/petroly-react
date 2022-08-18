@@ -52,7 +52,6 @@ function SectionDisplay(props) {
 
   const deleteSection = () => {
     props.delete(props.details[0]["crn"]);
-  
   };
 
   const generateTimeTable = (days) => {
@@ -93,19 +92,32 @@ function SectionDisplay(props) {
   };
 
   const copyCrn = (e) => {
-    navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
-      if (result.state === "granted" || result.state == "prompt") {
-        // use popMsg utility to signal successful copy
-        navigator.clipboard
-          .writeText(props.details[0].crn)
-          .then(() => {
-            props.msgHandler(true, langState.copied);
-          })
-          .catch(() => {
-            props.msgHandler(true, langState.notCopied);
-          });
-      }
-    });
+    if (navigator.permissions && navigator.permissions.query) {
+      navigator.permissions
+        .query({ name: "clipboard-write" })
+        .then((result) => {
+          if (result.state === "granted" || result.state == "prompt") {
+            // use popMsg utility to signal successful copy
+            navigator.clipboard
+              .writeText(props.details[0].crn)
+              .then(() => {
+                props.msgHandler(true, langState.copied);
+              })
+              .catch(() => {
+                props.msgHandler(true, langState.notCopied);
+              });
+          }
+        });
+    } else {
+      navigator.clipboard
+        .writeText(props.details[0].crn)
+        .then(() => {
+          props.msgHandler(true, langState.copied);
+        })
+        .catch(() => {
+          props.msgHandler(true, langState.notCopied);
+        });
+    }
   };
 
   const typeMapper = (obj) => {
@@ -200,7 +212,11 @@ function SectionDisplay(props) {
                 <Tooltip id="button-tooltip-2">{langState.cancel}</Tooltip>
               }
             >
-              <button id={`${props.id}-delete`} onClick={deleteSection} className={styles["untrack-btn"]}>
+              <button
+                id={`${props.id}-delete`}
+                onClick={deleteSection}
+                className={styles["untrack-btn"]}
+              >
                 <MdOutlineCancel />
               </button>
             </OverlayTrigger>

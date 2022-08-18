@@ -94,19 +94,32 @@ function SectionCheckbox(props) {
   };
 
   const copyCrn = (e) => {
-    navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
-      if (result.state === "granted" || result.state == "prompt") {
-        // use popMsg utility to signal successful copy
-        navigator.clipboard
-          .writeText(props.details[0].crn)
-          .then(() => {
-            props.msgHandler(true, langState.copied);
-          })
-          .catch(() => {
-            props.msgHandler(true, langState.notCopied);
-          });
-      }
-    });
+    if (navigator.permissions && navigator.permissions.query) {
+      navigator.permissions
+        .query({ name: "clipboard-write" })
+        .then((result) => {
+          if (result.state === "granted" || result.state == "prompt") {
+            // use popMsg utility to signal successful copy
+            navigator.clipboard
+              .writeText(props.details[0].crn)
+              .then(() => {
+                props.msgHandler(true, langState.copied);
+              })
+              .catch(() => {
+                props.msgHandler(true, langState.notCopied);
+              });
+          }
+        });
+    } else {
+      navigator.clipboard
+        .writeText(props.details[0].crn)
+        .then(() => {
+          props.msgHandler(true, langState.copied);
+        })
+        .catch(() => {
+          props.msgHandler(true, langState.notCopied);
+        });
+    }
   };
 
   // ? mappers
@@ -181,14 +194,18 @@ function SectionCheckbox(props) {
           delay={{ show: 0, hide: 50 }}
           overlay={<Tooltip id="button-tooltip-2">{langState.crn}</Tooltip>}
         >
-          <button id={`${props.id}-crn`} onClick={copyCrn} className={styles["crn-copy"]}>
+          <button
+            id={`${props.id}-crn`}
+            onClick={copyCrn}
+            className={styles["crn-copy"]}
+          >
             <MdContentCopy />
             <span className={styles["crn-num"]}>{props.details[0].crn}</span>
           </button>
         </OverlayTrigger>
       </div>
       <Card
-      id={props.id}
+        id={props.id}
         onClick={toggleTrack}
         className={
           "shadow border-0 " +

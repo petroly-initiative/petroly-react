@@ -189,9 +189,12 @@ $txt-hg: #0091e7;
 
 .nav-buttons {
   border-radius: 6px;
-   cursor: pointer;
+  cursor: pointer;
   border: none;
   width: -webkit-fit-content;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
   width: -moz-fit-content;
   width: fit-content;
   font-size: large;
@@ -294,7 +297,6 @@ $txt-hg: #0091e7;
   .nav-buttons {
     font-size: large;
     padding: 12px;
-   
   }
 
   .aboutus-text {
