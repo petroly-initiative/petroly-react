@@ -183,7 +183,7 @@ function SectionCheckbox(props) {
         >
           <button
             id={`${props.id}-crn`}
-            onPointerDown={copyCrn}
+            onClick={copyCrn}
             className={styles["crn-copy"]}
           >
             <MdContentCopy />
