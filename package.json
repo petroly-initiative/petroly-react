@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3000",
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "next dev -p 80",
     "build": "next build",
     "start": "next start",
     "cy:open": "cypress open --config-file=cypress.config.js --env NODE_ENV=dev",

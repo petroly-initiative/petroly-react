@@ -76,6 +76,7 @@ function NotificationsModal(props) {
   const {
     data: trackingListChannelsData,
     loading: trackingListChannelsLoading,
+    refetch: refetchChannels,
   } = useQuery(trackingListChannelsQuery, { skip: props.firstSetup });
 
   const [updateTrackingListChannels, { loading: updateLoading }] = useMutation(
@@ -152,6 +153,16 @@ function NotificationsModal(props) {
     }
   };
 
+  const cancel = async () => {
+              props.handleClose();
+              await refetchChannels();
+              setEmail(trackingListChannelsData.trackingListChannels.EMAIL);
+              settelegram(
+                trackingListChannelsData.trackingListChannels.TELEGRAM
+              );
+              setinvalidInput(false);
+            }
+
   useEffect(() => {
     if (trackingListChannelsData) {
       setEmail(trackingListChannelsData.trackingListChannels.EMAIL);
@@ -163,10 +174,6 @@ function NotificationsModal(props) {
   useEffect(() => {
     setLang(() => translator(user.lang));
   }, [user.lang]);
-
-  if (props.firstSetup) {
-    props.op;
-  }
 
   return (
     <>
@@ -233,9 +240,7 @@ function NotificationsModal(props) {
 
           <CloseButton
             style={{ marginLeft: user.lang === L.AR_SA ? "0" : "auto" }}
-            onClick={() => {
-              props.handleClose();
-            }}
+            onClick={cancel}
             variant={`${user.theme === M.DARK ? "white" : ""}`}
             disabled={invalidInput && props.firstSetup}
           />
@@ -302,7 +307,7 @@ function NotificationsModal(props) {
                           : styles["channel-content"]
                       }`}
                     >
-                      {langState.emailContent} hi hi hi
+                      {langState.emailContent}
                     </span>
                   </div>
                 </div>
@@ -381,9 +386,7 @@ function NotificationsModal(props) {
           >
             <Button
               id="create-group-btn"
-              onClick={() => {
-                props.handleClose();
-              }}
+              onClick={cancel}
               className={[styles["btns"], styles["cancel-btn"]]}
               disabled={invalidInput && props.firstSetup}
             >
