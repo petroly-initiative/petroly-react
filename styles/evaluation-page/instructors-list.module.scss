@@ -117,26 +117,6 @@ $txt-hg: #0091e7;
   }
 }
 
-.dropdown-menu + div {
-  z-index: 50 !important;
-}
-
-.dropdown-menu + div {
-  height: 180px !important;
-  overflow-y: scroll !important;
-}
-.dropdown-menu + div::-webkit-scrollbar {
-  width: 0.2rem;
-}
-
-.dropdown-menu + div::-webkit-scrollbar-track {
-  background: rgb(160, 160, 160);
-}
-
-.dropdown-menu + div::-webkit-scrollbar-thumb {
-  background: #5f5f5f;
-}
-
 .dept-dropdown {
   border: none;
   border-width: 0;
@@ -168,19 +148,23 @@ $txt-hg: #0091e7;
   cursor: pointer;
 }
 
-.dept-dropdown > div {
+.dept-dropdown + div {
+  z-index: 50 !important;
+}
+
+.dept-dropdown + div {
   height: 180px !important;
   overflow-y: scroll !important;
 }
-.dept-dropdown div::-webkit-scrollbar {
-  width: 0.5rem;
+.dept-dropdown + div::-webkit-scrollbar {
+  width: 0.2rem;
 }
 
-.dept-dropdown div::-webkit-scrollbar-track {
+.dept-dropdown + div::-webkit-scrollbar-track {
   background: rgb(160, 160, 160);
 }
 
-.dept-dropdown div::-webkit-scrollbar-thumb {
+.dept-dropdown + div::-webkit-scrollbar-thumb {
   background: #5f5f5f;
 }
 

@@ -234,6 +234,7 @@ function instructorsList() {
                 {/*popover for filters and order*/}
                 <DropdownButton
                   disabled
+            
                   variant={`${user.theme === M.DARK ? "dark" : ""}`}
                   menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
                   bsPrefix={
@@ -261,7 +262,8 @@ function instructorsList() {
                       styles["depts"] +
                       ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
                     }
-                    as={"div"}p
+                    as={"div"}
+                    p
                     eventKey="1"
                     onClick={selectDept}
                     active={instructorsState.department === null}
