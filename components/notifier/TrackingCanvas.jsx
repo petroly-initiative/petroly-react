@@ -78,11 +78,10 @@ function TrackingCanvas(props) {
   };
 
   const populateTabs = (currentTerm) => {
-    console.log(populateCourses(currentTerm));
     return props.allTerms.map((term) => {
       return (
         <Tab
-        data-itemID={term.long}
+          data-itemID={term.long}
           tabClassName={styles["tab"]}
           eventKey={term.long}
           id={`${term.long}-tab`}
@@ -96,6 +95,7 @@ function TrackingCanvas(props) {
             <div className={styles["empty-container"]}>
               <TbMoodEmpty className={styles["empty-icon"]} />
               <span
+                style={{ textAlign: "center" }}
                 className={
                   styles["empty-msg"] +
                   ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`

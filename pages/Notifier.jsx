@@ -197,10 +197,10 @@ function Notifier(props) {
     //   setTracked({ ...delete trackedCourses[deletedKey] });
     // }
     console.log("Updated courses in notifier", courses);
+    console.log("before", trackedCoursesData);
     await updateTrackingList({ variables: { courses } });
-    // console.log(trackedCoursesData);
-    if (isDeletion) toggleMessage(true, langState.deleted);
-    else toggleMessage(true, langState.added);
+
+    if (!isDeletion) toggleMessage(true, langState.added);
   };
 
   // ? Mappers
@@ -321,6 +321,7 @@ function Notifier(props) {
 
   useEffect(() => {
     if (trackedCoursesData) {
+      console.log("in hook", trackedCoursesData);
       if (!trackedCoursesData.trackedCourses) {
         // Here user has no TrackingList
         // HasTrackingList is already `false`

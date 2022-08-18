@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps }) {
                 content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
               />
 
-              <link rel="shortcut icon" href="/favicon.png" />
+              
             </Head>
             <ClientMutator>
               <NavContext.Provider
