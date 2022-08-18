@@ -202,10 +202,12 @@ $txt-hg: #0091e7;
     flex-direction: column;
     .step-header {
       font-weight: 700 !important;
+      color: rgb(71, 71, 71);
     }
-    .step-content {
+    div {
       color: $txt-fill;
       font-size: medium;
+      font-weight: 600 !important;
     }
   }
 }
@@ -218,6 +220,7 @@ $txt-hg: #0091e7;
   text-align: center;
   font-size: max(20px, 3vw);
   margin-bottom: 26px;
+  color: #009cea;
 
   .tut-icon {
     display: flex;
@@ -228,7 +231,6 @@ $txt-hg: #0091e7;
     margin: 0 8px;
   }
 }
-
 
 .trackBtn {
   z-index: 5;
@@ -247,16 +249,13 @@ $txt-hg: #0091e7;
   right: 6rem;
   box-shadow: 0px 0px 12px #999999;
   transition: 300ms ease;
- &:hover {
+  &:hover {
     background-color: #00ead3;
   }
- 
 
   &:disabled {
     background-color: grey;
   }
-
-  
 }
 
 .dropdown-h {
@@ -313,7 +312,7 @@ $txt-hg: #0091e7;
   // max-width: 700px;
   width: 100% !important;
   display: flex;
-  
+
   z-index: 5;
   justify-content: center;
   margin-bottom: 12px;
@@ -327,7 +326,7 @@ $txt-hg: #0091e7;
 }
 
 .search-input {
-  border-radius:  0.25rem 0 0.25rem 0.25rem !important;
+  border-radius: 0.25rem 0 0.25rem 0.25rem !important;
 }
 
 .search_btn {
@@ -359,10 +358,12 @@ $txt-hg: #0091e7;
   }
 
   .trackBtn {
-    right: 2rem;
+    right: 1rem;
     bottom: 1rem;
+    height: 50px;
+    width: 50px;
+    border-radius: 10px;
   }
-
 
   .loading-container {
     left: calc(50vw - 40px);
@@ -395,5 +396,11 @@ $txt-hg: #0091e7;
     .step-content {
       width: 100%;
     }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .tut-header {
+    font-size: 1rem;
   }
 }

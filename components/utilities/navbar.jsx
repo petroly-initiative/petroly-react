@@ -85,7 +85,9 @@ export default function Navbar(props) {
 
   useEffect(() => {
     // console.log(user);
-  }, []);
+    if(document && sideVisible)
+    document.getElementById("navbar-overlay").click();
+  }, [navState]);
 
   //--------
 
