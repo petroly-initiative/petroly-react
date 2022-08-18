@@ -75,7 +75,7 @@ function Notifier(props) {
   const courseInput = useRef(""); // to sync searchbar textInput information
   const [department, setDepartment] = useState("ICS");
   const [term, setTerm] = useState({ long: "202210", short: "221" }); //! will be replaced by current term
-  const [HasNoTrackingList, setHasNoTrackingList] = useState(true);
+  const [HasTrackingList, setHasTrackingList] = useState(false);
   // ? fetched state
   const {
     data: dataDept,
@@ -320,12 +320,14 @@ function Notifier(props) {
   }, [user.lang]);
 
   useEffect(() => {
-    // console.log("trackedCoursesData", trackedCoursesData);
     if (trackedCoursesData) {
       if (!trackedCoursesData.trackedCourses) {
+        // Here user has no TrackingList
+        // HasTrackingList is already `false`
         setShowSettings(true);
       } else {
-        setHasNoTrackingList(false);
+        // Here user does have TrackingList
+        setHasTrackingList(true);
       }
     }
   }, [trackedCoursesData]);
@@ -588,7 +590,7 @@ function Notifier(props) {
           </div>
         </Container>
         {/* external component embedded within the page */}
-        {user.status === USER.LOGGED_IN && !HasNoTrackingList && (
+        {user.status === USER.LOGGED_IN && HasTrackingList && (
           <TrackingCanvas
             trackedCourses={trackedCoursesData.trackedCourses}
             close={toggleCanvas}
@@ -610,7 +612,7 @@ function Notifier(props) {
             visible={showSettings}
             handleClose={setShowSettings}
             handleMsg={toggleMessage}
-            firstSetup={HasNoTrackingList}
+            firstSetup={!HasTrackingList}
           />
         )}
         {/* login checking is needed */}
