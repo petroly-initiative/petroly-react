@@ -320,12 +320,13 @@ function Notifier(props) {
   }, [user.lang]);
 
   useEffect(() => {
-    // console.log("trackedCoursesData", trackedCoursesData);
     if (trackedCoursesData) {
       if (!trackedCoursesData.trackedCourses) {
         setShowSettings(true);
+        console.log(">>>>>>>show settings");
       } else {
         setHasNoTrackingList(false);
+        console.log(">>>>>>>user has a tracking list");
       }
     }
   }, [trackedCoursesData]);
