@@ -96,6 +96,7 @@ function Notifier(props) {
   } = useQuery(trackedCoursesQuery, {
     skip: user.status === USER.LOGGED_OUT,
     pollInterval: 10_000,
+    fetchPolicy: "network-only",
   });
 
   useEffect(() => {
