@@ -94,19 +94,32 @@ function SectionCheckbox(props) {
   };
 
   const copyCrn = (e) => {
-    navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
-      if (result.state === "granted" || result.state == "prompt") {
-        // use popMsg utility to signal successful copy
-        navigator.clipboard
-          .writeText(props.details[0].crn)
-          .then(() => {
-            props.msgHandler(true, langState.copied);
-          })
-          .catch(() => {
-            props.msgHandler(true, langState.notCopied);
-          });
-      }
-    });
+    if (navigator.permissions && navigator.permissions.query) {
+      navigator.permissions
+        .query({ name: "clipboard-write" })
+        .then((result) => {
+          if (result.state === "granted" || result.state == "prompt") {
+            // use popMsg utility to signal successful copy
+            navigator.clipboard
+              .writeText(props.details[0].crn)
+              .then(() => {
+                props.msgHandler(true, langState.copied);
+              })
+              .catch(() => {
+                props.msgHandler(true, langState.notCopied);
+              });
+          }
+        });
+    } else {
+      navigator.clipboard
+        .writeText(props.details[0].crn)
+        .then(() => {
+          props.msgHandler(true, langState.copied);
+        })
+        .catch(() => {
+          props.msgHandler(true, langState.notCopied);
+        });
+    }
   };
 
   // ? mappers
