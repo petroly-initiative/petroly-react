@@ -325,9 +325,11 @@ function Notifier(props) {
         // Here user has no TrackingList
         // HasTrackingList is already `false`
         setShowSettings(true);
+        console.log(">>>>>>>show settings");
       } else {
         // Here user does have TrackingList
         setHasTrackingList(true);
+        console.log(">>>>>>>user has tracking list");
       }
     }
   }, [trackedCoursesData]);
