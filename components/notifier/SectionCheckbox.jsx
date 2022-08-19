@@ -332,7 +332,7 @@ function SectionCheckbox(props) {
                   }
                 >
                   {langState.waitlist}
-                  {props.details[0].waiting_list_count === 5 ? (
+                  {props.details[0].waiting_list_count === 0 ? (
                     <OverlayTrigger
                       placement="top"
                       delay={{ show: 1000, hide: 300 }}
