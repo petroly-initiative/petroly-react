@@ -32,13 +32,14 @@ const english = {
   servicesHeader: "Our Services",
   quoteHeader: "Our Goal",
   quoteAuth: " - Petroly Intiative Team",
-  quoteText: "Supporting our beloved university classmates in their academic journeys by compiling all information that they need under one platform, and we hope to be joined by new friends to pass the torch for next generations",
+  quoteText:
+    "Supporting our beloved university classmates in their academic journeys by compiling all information that they need under one platform, and we hope to be joined by new friends to pass the torch for next generations",
   service0: "Groups",
   service0Desc:
     "Tired from searching for communities that gather your interests? Petroly has a collection of all types of communities !",
   service1: "Rating",
   service1Desc:
-    "Searching for your ideal instructor? Petroly got you coverted iwth hundreds of evaluations",
+    "Searching for your ideal instructor? Petroly got you covered with hundreds of evaluations",
   service2: "Radar",
   service2Desc:
     "Stop wasting your time waiting for the sections to open. Track them and Petroly will notify you immediately",
