@@ -537,7 +537,12 @@ function Notifier(props) {
               >
                 {/*  place the icon here */}
                 <BiSearch className={styles["step-icon"]} />
-                <div className={styles["step-content"]}>
+                <div
+                  className={
+                    styles["step-content"] +
+                    ` ${user.theme === M.DARK ? styles["dark-mini-txt"] : ""}`
+                  }
+                >
                   <h3 className={styles["step-header"]}>
                     {langState.searchHeader}
                   </h3>
@@ -557,7 +562,12 @@ function Notifier(props) {
               >
                 {/*  place the icon here */}
                 <MdOutlineHighlightAlt className={styles["step-icon"]} />
-                <div className={styles["step-content"]}>
+                <div
+                  className={
+                    styles["step-content"] +
+                    ` ${user.theme === M.DARK ? styles["dark-mini-txt"] : ""}`
+                  }
+                >
                   <h3 className={styles["step-header"]}>
                     {langState.selectHeader}
                   </h3>
@@ -577,7 +587,12 @@ function Notifier(props) {
               >
                 {/*  place the icon here */}
                 <BiTimeFive color="#00ead3" className={styles["step-icon"]} />
-                <div className={styles["step-content"]}>
+                <div
+                  className={
+                    styles["step-content"] +
+                    ` ${user.theme === M.DARK ? styles["dark-mini-txt"] : ""}`
+                  }
+                >
                   <h3 className={styles["step-header"]}>
                     {langState.waitHeader}
                   </h3>
