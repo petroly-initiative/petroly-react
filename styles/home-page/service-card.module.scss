@@ -75,6 +75,9 @@ $btn-high: #00ead3;
 
   .nav-buttons {
     border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;
@@ -87,7 +90,12 @@ $btn-high: #00ead3;
     transition: 300ms ease;
     .btn-icons {
       margin: 0 4px;
+      padding: 0;
       font-size: x-large;
+    }
+
+    span{
+      white-space: nowrap;
     }
 
     &:hover {
@@ -158,14 +166,18 @@ $btn-high: #00ead3;
         font-size: small;
       }
     }
+
+    .nav-buttons{
+    width: 100%;
+  }
   }
 
   .images-aligner {
-    width: 100px;
-    width: 100px;
+    width: 120px;
+    width: 120px;
     img {
-      width: 100px !important;
-      width: 100px !important;
+      width: 200px !important;
+      width: 120px !important;
     }
   }
 
@@ -173,6 +185,8 @@ $btn-high: #00ead3;
     border: 1px solid bluered;
     margin: 4px 8px;
   }
+
+  
 }
 
 @mixin for-tablet-portrait-up {

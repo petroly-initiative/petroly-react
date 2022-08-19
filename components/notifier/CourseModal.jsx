@@ -344,7 +344,7 @@ function CourseModal(props) {
                 <Spinner animation="border" role="status" />
               </Button>
             ) : ( */}
-            <span>
+            <span style={{padding: 0}} className={styles["btns"]}>
               <Button
                 disabled={user.status === USER.LOGGED_OUT}
                 onClick={() => {

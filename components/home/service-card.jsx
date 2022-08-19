@@ -70,7 +70,9 @@ export default function ServiceCard(props) {
                 router.push(props.link);
               }}
               className={styles["nav-buttons"]}
-            >{props.btnText} <FiArrowUpRight className={styles["btn-icons"]} />
+            >
+              <span>{props.btnText}</span>{" "}
+              <FiArrowUpRight className={styles["btn-icons"]} />
             </button>
           </Card.Body>
         </Card>
