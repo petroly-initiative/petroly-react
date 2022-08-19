@@ -26,6 +26,10 @@ $txt-hg: #0091e7;
   color: $btn-high !important;
 }
 
+.dark-mini-txt{
+  color: white !important
+}
+
 .dark-btn {
   background-color: theme.$dark-xfg !important;
   background: theme.$dark-xfg !important;
@@ -200,12 +204,11 @@ $txt-hg: #0091e7;
     width: 80%;
     display: flex;
     flex-direction: column;
+    color: rgb(71, 71, 71);
     .step-header {
       font-weight: 700 !important;
-      color: rgb(71, 71, 71);
     }
-    div {
-      color: $txt-fill;
+    .step-body {
       font-size: medium;
       font-weight: 600 !important;
     }
