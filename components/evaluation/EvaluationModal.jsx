@@ -648,7 +648,7 @@ export default function EvaluationModal(props) {
                 <FormControl
                   dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                   style={langDirection(user.lang)}
-                  maxLength="160"
+                  maxLength="500"
                   className={
                     ` ${
                       user.theme === M.DARK ? styles["dark-mode-input"] : ""
