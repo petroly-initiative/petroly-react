@@ -26,8 +26,12 @@ $txt-hg: #0091e7;
   color: $btn-high !important;
 }
 
-.dark-mini-txt{
-  color: white !important
+.dark-mini-txt {
+  color: white !important;
+}
+
+.dark-loading {
+  background-color: theme.$dark-xfg !important;
 }
 
 .dark-btn {
@@ -41,7 +45,7 @@ $txt-hg: #0091e7;
 }
 
 .loading-container {
-  background-color: #ffffff !important;
+  background-color: #ffffff;
   opacity: 1;
   border: none !important;
   display: flex;
@@ -63,6 +67,31 @@ $txt-hg: #0091e7;
     height: 65px;
     color: #00ffe591 !important;
   }
+}
+
+.error-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: fixed;
+  padding: 32px;
+  left: 0;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.error-icon {
+  font-size: 15rem;
+  color: rgb(228, 21, 21);
+}
+
+.error-txt {
+  font-weight: 600;
+  text-align: center;
+  color: $txt-fill;
+  font-size: 1.2rem;
 }
 
 .dark-mode-dropper {
@@ -117,8 +146,6 @@ $txt-hg: #0091e7;
   background-color: theme.$dark-fg !important;
   background: theme.$dark-fg !important;
   border: 1px solid theme.$dark-fg !important;
-
-  
 }
 
 .list_container {
@@ -249,6 +276,7 @@ $txt-hg: #0091e7;
   display: flex;
   align-items: center;
   justify-content: space-around;
+  color: white;
   background-color: #00ead3;
   border: none;
   margin: auto;
@@ -261,7 +289,8 @@ $txt-hg: #0091e7;
   right: 6rem;
   box-shadow: 0px 0px 12px #999999;
   transition: 300ms ease;
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: #00ead3;
   }
 
@@ -279,6 +308,9 @@ $txt-hg: #0091e7;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .active-term div {
@@ -344,6 +376,9 @@ $txt-hg: #0091e7;
 .search_btn {
   background-color: #00ead3;
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 0;
   height: 37px !important;
   width: 50px;
@@ -382,6 +417,16 @@ $txt-hg: #0091e7;
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .error-container {
+    .error-icon {
+      font-size: 5rem;
+    }
+
+    .error-txt {
+      font-size: 0.8rem;
+    }
   }
 }
 

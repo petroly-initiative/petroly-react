@@ -19,6 +19,7 @@ const arabic = {
   unauth_msg: "الرجاء تسجيل الدخول لاستخدام قائمة التتبع",
   deleted: "تم إيقاف تتبع الشعبة بنجاح",
   added: "تم تحديث قائمة التتبع بنجاح",
+  error: "نواجه مشاكل في عرض البيانات. حاول مرة أخرى"
 };
 const english = {
   depratments: "Departments List",
@@ -39,6 +40,7 @@ const english = {
   unauth_msg: "You need to login to access the tracking list",
   deleted: "Section untracked Successfully",
   added: "Updated tracking list succesfully",
+  error: "We are facing issues in providing data. Please try later",
 };
 
 export default function translator(lang) {
