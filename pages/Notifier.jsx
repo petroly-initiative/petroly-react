@@ -7,7 +7,7 @@ import {
   Col,
   InputGroup,
   Form,
-  Button,
+  Button as div,
   OverlayTrigger,
   Tooltip,
   Spinner,
@@ -20,7 +20,7 @@ import Head from "next/head";
 import { M, L, USER } from "../constants";
 import translator from "../dictionary/pages/notifier-dict";
 
-import { BiSearch, BiTimeFive } from "react-icons/bi";
+import { BiSearch, BiTimeFive, BiMessageAltError } from "react-icons/bi";
 import { MdOutlineHighlightAlt } from "react-icons/md";
 import { FaInfoCircle } from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
@@ -84,13 +84,20 @@ function Notifier(props) {
   } = useQuery(getDepartments, {
     variables: { short: true },
   });
-  const { data: termsData, loading: termsLoading } = useQuery(termsQuery);
+  const {
+    data: termsData,
+    loading: termsLoading,
+    error: termsError,
+  } = useQuery(termsQuery);
 
-  const [search, { data: searchData, loading: searchLoading }] =
-    useLazyQuery(searchQuery);
+  const [
+    search,
+    { data: searchData, loading: searchLoading, error: searchError },
+  ] = useLazyQuery(searchQuery);
   const {
     data: trackedCoursesData,
     loading: trackedCoursesLoading,
+    error: trackedCoursesError,
     startPolling,
     stopPolling,
   } = useQuery(trackedCoursesQuery, {
@@ -351,6 +358,31 @@ function Notifier(props) {
     navDispatch("notifier");
   }, []);
 
+  if (termsError || errorDept || searchError || trackedCoursesError) {
+    return (
+      <Container
+        style={{ minHeight: "100vh" }}
+        className={
+          styles["list_container"] + " " + user.theme === M.DARK
+            ? styles["dark-txt"]
+            : ""
+        }
+      >
+        <div className={styles["error-container"] + " shadow"}>
+          {" "}
+          <BiMessageAltError className={styles["error-icon"]} />
+          <div
+            className={
+              styles["error-txt"] +
+              ` ${user.theme === M.DARK ? styles["dark-mini-txt"] : ""}`
+            }
+          >
+            {langState.error}
+          </div>
+        </div>
+      </Container>
+    );
+  }
   if (trackedCoursesLoading || loadingDept || termsLoading || searchLoading) {
     // wait for loading cruical queries
     return (
@@ -359,16 +391,23 @@ function Notifier(props) {
         className={styles["list_container"]}
       >
         {" "}
-        <Button className={styles["loading-container"] + " shadow"} disabled>
+        <div
+          className={
+            styles["loading-container"] +
+            " shadow" +
+            ` ${user.theme === M.DARK ? styles["dark-loading"] : ""}`
+          }
+          
+        >
           <Spinner
-            className={styles["loading-spinner"]}
+            className={styles["loading-spinner"] }
             as="div"
             animation="grow"
             size="xl"
             role="status"
             aria-hidden="true"
           />
-        </Button>
+        </div>
       </Container>
     );
   }
@@ -412,7 +451,7 @@ function Notifier(props) {
                 // onKeyDown={enterSearch}
               ></Form.Control>
 
-              <Button
+              <div
                 id="search-btn"
                 type="submit"
                 onClick={searchCallback}
@@ -422,7 +461,7 @@ function Notifier(props) {
                 }
               >
                 <BiSearch size="1.5rem" />
-              </Button>
+              </div>
             </Col>
             <Col
               xl={3}
@@ -500,14 +539,14 @@ function Notifier(props) {
             }
           >
             <span className={styles.trackBtn}>
-              <Button
+              <div
                 id="canvas-btn"
                 className={styles.trackBtn}
                 onClick={toggleCanvas}
                 disabled={user.status === USER.LOGGED_OUT}
               >
                 <HiViewList size={32} />
-              </Button>
+              </div>
             </span>
           </OverlayTrigger>
           <div
@@ -531,7 +570,7 @@ function Notifier(props) {
                 className={
                   styles["tutorial-step"] +
                   ` shadow-sm ${
-                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                    user.theme === M.DARK ? styles["dark-mode-step"] : ""
                   }`
                 }
               >
@@ -556,7 +595,7 @@ function Notifier(props) {
                 className={
                   styles["tutorial-step"] +
                   ` shadow-sm ${
-                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                    user.theme === M.DARK ? styles["dark-mode-step"] : ""
                   }`
                 }
               >
@@ -581,7 +620,7 @@ function Notifier(props) {
                 className={
                   styles["tutorial-step"] +
                   ` shadow-sm ${
-                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                    user.theme === M.DARK ? styles["dark-mode-step"] : ""
                   }`
                 }
               >
@@ -668,7 +707,7 @@ function Notifier(props) {
               // onKeyDown={enterSearch}
             ></Form.Control>
 
-            <Button
+            <div
               id="search-btn"
               type="submit"
               onClick={searchCallback}
@@ -678,7 +717,7 @@ function Notifier(props) {
               }
             >
               <BiSearch size="1.5rem" />
-            </Button>
+            </div>
           </Col>
           <Col
             xl={3}
@@ -764,7 +803,7 @@ function Notifier(props) {
           }
         >
           <span className={styles.trackBtn}>
-            <Button
+            <div
               id="canvas-btn"
               className={styles.trackBtn}
               onClick={toggleCanvas}
@@ -777,7 +816,7 @@ function Notifier(props) {
               disabled={user.status === USER.LOGGED_OUT}
             >
               <HiViewList size={32} />
-            </Button>
+            </div>
           </span>
         </OverlayTrigger>
       </Container>

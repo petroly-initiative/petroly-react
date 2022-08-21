@@ -60,6 +60,19 @@ Create a high-quality platform where all students share their knowledge and expe
 
 ## Tech Stack
 
+<img width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" />
+ <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40" />
+    </a>
+
+<img style="background-color: white; padding: 3px; border-radius: 50%" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" />
+ 
+<img width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" />
+  
+<img width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" />
+
+<img width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" />
+
 - Next.js (a React.js framework)
 - react-bootstrap
 - react-icons
@@ -76,8 +89,9 @@ Create a high-quality platform where all students share their knowledge and expe
 - this project runs on `node v16`, so make sure you have the correct `nodejs` version installed
 
 - download the python backend dependencies via your selected virtual environment option
-  - for `anaconda` users, create a virtrual environment `conda create --name envName` and then activate it `conda activate envName`
-  - install the dependencies on your virtual envrionments `conda install --file requirements.txt`
+  - install `pipenv` using `pip install pipenv`
+  - install the dependencies on your virtual envrionments `py -m pipenv install` to install all dependencies from `.pipfile`
+  - use `py -m pipenv shell` to run the virtual environment
 - run `python manage.py runserver` to run the backend project at port 8000 after activating your virtual environment
 - run `npm install` to install required packages for the frontend
 - run `npm run dev` to launch the frontend project on localhost 3000
@@ -87,6 +101,7 @@ Create a high-quality platform where all students share their knowledge and expe
 ### How to Contribute
 
 To gurarantee a uniform maintenance of the project, contributors need to adhere to the following guidelines
+
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
 
 ### Pull Requests
@@ -130,6 +145,9 @@ The Details of our targeted services are in the `Projects` tab of the repository
 
 ## Acknowledgements
 
+<a width="100%"  href = "https://github.com/Tanu-N-Prabhu/Python/graphs/contributors">
+  <img width="250px" src = "https://contrib.rocks/image?repo=petroly-initiative/petroly-react"/>
+</a><br/>
 Special thanks to everyone who has supported us by complementing us despite the shortcomings, interacting with our platform, giving us feedback, and helping us in maintaining this project, and to those who are willing to support us with their invaluable contributions in the future
 
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
