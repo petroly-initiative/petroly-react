@@ -91,6 +91,7 @@ function Notifier(props) {
   const {
     data: trackedCoursesData,
     loading: trackedCoursesLoading,
+    error: trackedCoursesError,
     startPolling,
     stopPolling,
   } = useQuery(trackedCoursesQuery, {
@@ -531,7 +532,7 @@ function Notifier(props) {
                 className={
                   styles["tutorial-step"] +
                   ` shadow-sm ${
-                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                    user.theme === M.DARK ? styles["dark-mode-step"] : ""
                   }`
                 }
               >
@@ -556,7 +557,7 @@ function Notifier(props) {
                 className={
                   styles["tutorial-step"] +
                   ` shadow-sm ${
-                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                    user.theme === M.DARK ? styles["dark-mode-step"] : ""
                   }`
                 }
               >
@@ -581,7 +582,7 @@ function Notifier(props) {
                 className={
                   styles["tutorial-step"] +
                   ` shadow-sm ${
-                    user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                    user.theme === M.DARK ? styles["dark-mode-step"] : ""
                   }`
                 }
               >

@@ -112,6 +112,15 @@ $txt-hg: #0091e7;
   }
 }
 
+.dark-mode-step {
+  color: theme.$dark-fnt !important;
+  background-color: theme.$dark-fg !important;
+  background: theme.$dark-fg !important;
+  border: 1px solid theme.$dark-fg !important;
+
+  
+}
+
 .list_container {
   margin-right: 5rem !important;
   max-width: calc(100vw - 5rem) !important;
