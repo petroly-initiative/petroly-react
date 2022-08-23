@@ -139,7 +139,7 @@ function CourseCard({
           <div className={styles["divider"]}></div>
           <div className={styles["seats-num"]}>
             <span className={styles["text"]}>{langState.seats}</span>
-            <span style={colorCount()} className={styles["numeric"]}>
+            <span style={{...colorCount(), fontSize: available_seats > 99 ? "10px": ""}} className={styles["numeric"]}>
               {available_seats < 0 ? 0 : available_seats}
             </span>
           </div>

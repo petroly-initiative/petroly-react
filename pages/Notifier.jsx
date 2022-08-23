@@ -465,31 +465,36 @@ function Notifier(props) {
                 <BiSearch size="1.5rem" />
               </button>
             </Col>
-            <OverlayTrigger
-              trigger={"hover"}
-              placement="bottom"
-              delay={{ show: 0, hide: 50 }}
-              overlay={<Tooltip id="button-tooltip-2">{langState.filters}</Tooltip>}
+
+            <Col
+              xl={3}
+              lg={4}
+              md={6}
+              sm={12}
+              xs={12}
+              className={[styles["search-btns"], styles["search-cols"]]}
             >
-              <Col
-                xl={3}
-                lg={4}
-                md={6}
-                sm={12}
-                xs={12}
-                className={[styles["search-btns"], styles["search-cols"]]}
-              >
-                <DropdownButton
-                  drop={"start"}
-                  variant={`${user.theme === M.DARK ? "dark" : ""}`}
-                  menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
-                  bsPrefix={
-                    styles["term-dropdown"] +
-                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                  }
-                  align="start"
-                  id="dropdown-menu-align-right"
-                  title={
+              <DropdownButton
+                drop={"start"}
+                variant={`${user.theme === M.DARK ? "dark" : ""}`}
+                menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
+                bsPrefix={
+                  styles["term-dropdown"] +
+                  ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                }
+                align="start"
+                id="dropdown-menu-align-right"
+                title={
+                  <OverlayTrigger
+                    trigger={"hover"}
+                    placement="bottom"
+                    delay={{ show: 0, hide: 0 }}
+                    overlay={
+                      <Tooltip id="button-tooltip-2">
+                        {langState.termfilter}
+                      </Tooltip>
+                    }
+                  >
                     <div>
                       {" "}
                       <span className={styles["dropdown-icon-container"]}>
@@ -498,56 +503,67 @@ function Notifier(props) {
                       </span>
                       {term.short}
                     </div>
+                  </OverlayTrigger>
+                }
+              >
+                <Dropdown.Item
+                  className={
+                    user.theme === M.DARK
+                      ? styles["dark-mode"]
+                      : styles["dropdown-h"]
                   }
+                  disabled
                 >
-                  <Dropdown.Item
-                    className={
-                      user.theme === M.DARK
-                        ? styles["dark-mode"]
-                        : styles["dropdown-h"]
-                    }
-                    disabled
-                  >
-                    {langState.termfilter}
-                  </Dropdown.Item>
-                  {termMapper()}
-                </DropdownButton>
+                  {langState.termfilter}
+                </Dropdown.Item>
+                {termMapper()}
+              </DropdownButton>
 
-                {/*popover for filters and order*/}
-                <DropdownButton
-                  variant={`${user.theme === M.DARK ? "dark" : ""}`}
-                  menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
-                  bsPrefix={
-                    styles["dropdowns"] +
-                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                  }
-                  align="start"
-                  id="dropdown-menu-align-right"
-                  title={
+              {/*popover for filters and order*/}
+              <DropdownButton
+                variant={`${user.theme === M.DARK ? "dark" : ""}`}
+                menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
+                bsPrefix={
+                  styles["dropdowns"] +
+                  ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                }
+                align="start"
+                id="dropdown-menu-align-right"
+                title={
+                  <OverlayTrigger
+                    trigger={"hover"}
+                    placement="bottom"
+                    delay={{ show: 0, hide: 0 }}
+                    overlay={
+                      <Tooltip id="button-tooltip-2">
+                        {langState.searchbarFilter}
+                      </Tooltip>
+                    }
+                  >
                     <div>
                       <span className={styles["dropdown-icon-container"]}>
                         <FaBuilding className={styles["dropdown-icon"]} />
                       </span>
                       {department}
                     </div>
+                  </OverlayTrigger>
+                }
+              >
+                <Dropdown.Item
+                  className={
+                    user.theme === M.DARK
+                      ? styles["dark-mode"]
+                      : styles["dropdown-h"]
                   }
+                  disabled
                 >
-                  <Dropdown.Item
-                    className={
-                      user.theme === M.DARK
-                        ? styles["dark-mode"]
-                        : styles["dropdown-h"]
-                    }
-                    disabled
-                  >
-                    {langState.searchbarFilter}
-                  </Dropdown.Item>
-                  <Dropdown.Divider style={{ height: "1" }} />
+                  {langState.searchbarFilter}
+                </Dropdown.Item>
+                <Dropdown.Divider style={{ height: "1" }} />
 
-                  {deptMapper()}
-                </DropdownButton>
-              </Col>
-            </OverlayTrigger>
+                {deptMapper()}
+              </DropdownButton>
+            </Col>
           </InputGroup>
 
           <OverlayTrigger
@@ -591,10 +607,10 @@ function Notifier(props) {
             </div>
             <div className={styles["tutorial-map"]}>
               <div
-              onClick={() => {
-                document.querySelector("#name").focus()
-                console.log("Clicked!")
-              }}
+                onClick={() => {
+                  document.querySelector("#name").focus();
+                  console.log("Clicked!");
+                }}
                 className={
                   styles["tutorial-step"] +
                   ` shadow-sm ${
@@ -747,33 +763,36 @@ function Notifier(props) {
               <BiSearch size="1.5rem" />
             </button>
           </Col>
-          <OverlayTrigger
-            trigger={"hover"}
-            placement="bottom"
-            delay={{ show: 0, hide: 50 }}
-            overlay={
-              <Tooltip id="button-tooltip-2">{langState.filters}</Tooltip>
-            }
+
+          <Col
+            xl={3}
+            lg={4}
+            md={6}
+            sm={4}
+            xs={12}
+            className={[styles["search-btns"], styles["search-cols"]]}
           >
-            <Col
-              xl={3}
-              lg={4}
-              md={6}
-              sm={4}
-              xs={12}
-              className={[styles["search-btns"], styles["search-cols"]]}
-            >
-              <DropdownButton
-                drop={"start"}
-                variant={`${user.theme === M.DARK ? "dark" : ""}`}
-                menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
-                bsPrefix={
-                  styles["term-dropdown"] +
-                  ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                }
-                align="start"
-                id="dropdown-menu-align-right"
-                title={
+            <DropdownButton
+              drop={"start"}
+              variant={`${user.theme === M.DARK ? "dark" : ""}`}
+              menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
+              bsPrefix={
+                styles["term-dropdown"] +
+                ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+              }
+              align="start"
+              id="dropdown-menu-align-right"
+              title={
+                <OverlayTrigger
+                  trigger={"hover"}
+                  placement="bottom"
+                  delay={{ show: 0, hide: 0 }}
+                  overlay={
+                    <Tooltip id="button-tooltip-2">
+                      {langState.termfilter}
+                    </Tooltip>
+                  }
+                >
                   <div>
                     {" "}
                     <span className={styles["dropdown-icon-container"]}>
@@ -782,56 +801,67 @@ function Notifier(props) {
                     </span>
                     {term.short}
                   </div>
+                </OverlayTrigger>
+              }
+            >
+              <Dropdown.Item
+                className={
+                  user.theme === M.DARK
+                    ? styles["dark-mode"]
+                    : styles["dropdown-h"]
                 }
+                disabled
               >
-                <Dropdown.Item
-                  className={
-                    user.theme === M.DARK
-                      ? styles["dark-mode"]
-                      : styles["dropdown-h"]
-                  }
-                  disabled
-                >
-                  {langState.termfilter}
-                </Dropdown.Item>
-                {termMapper()}
-              </DropdownButton>
+                {langState.termfilter}
+              </Dropdown.Item>
+              {termMapper()}
+            </DropdownButton>
 
-              {/*popover for filters and order*/}
-              <DropdownButton
-                variant={`${user.theme === M.DARK ? "dark" : ""}`}
-                menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
-                bsPrefix={
-                  styles["dropdowns"] +
-                  ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                }
-                align="start"
-                id="dropdown-menu-align-right"
-                title={
+            {/*popover for filters and order*/}
+            <DropdownButton
+              variant={`${user.theme === M.DARK ? "dark" : ""}`}
+              menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
+              bsPrefix={
+                styles["dropdowns"] +
+                ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+              }
+              align="start"
+              id="dropdown-menu-align-right"
+              title={
+                <OverlayTrigger
+                  trigger={"hover"}
+                  placement="bottom"
+                  delay={{ show: 0, hide: 0 }}
+                  overlay={
+                    <Tooltip id="button-tooltip-2">
+                      {langState.searchbarFilter}
+                    </Tooltip>
+                  }
+                >
                   <div>
                     <span className={styles["dropdown-icon-container"]}>
                       <FaBuilding className={styles["dropdown-icon"]} />
                     </span>
                     {department}
                   </div>
+                </OverlayTrigger>
+              }
+            >
+              <Dropdown.Item
+                className={
+                  user.theme === M.DARK
+                    ? styles["dark-mode"]
+                    : styles["dropdown-h"]
                 }
+                disabled
               >
-                <Dropdown.Item
-                  className={
-                    user.theme === M.DARK
-                      ? styles["dark-mode"]
-                      : styles["dropdown-h"]
-                  }
-                  disabled
-                >
-                  {langState.searchbarFilter}
-                </Dropdown.Item>
-                <Dropdown.Divider style={{ height: "1" }} />
+                {langState.searchbarFilter}
+              </Dropdown.Item>
+              <Dropdown.Divider style={{ height: "1" }} />
 
-                {deptMapper()}
-              </DropdownButton>
-            </Col>
-          </OverlayTrigger>
+              {deptMapper()}
+            </DropdownButton>
+          </Col>
         </InputGroup>
 
         <Row style={{ marginBottom: 16, width: "100%" }}>

@@ -20,7 +20,7 @@ const arabic = {
   deleted: "تم إيقاف تتبع الشعبة بنجاح",
   added: "تم تحديث قائمة التتبع بنجاح",
   error: "نواجه مشاكل في عرض البيانات. حاول مرة أخرى",
-  filters: "إعدادات البحث للفصل الدراسي والقسم الجامعي"
+ 
 };
 const english = {
   depratments: "Departments List",
@@ -42,7 +42,7 @@ const english = {
   deleted: "Section untracked Successfully",
   added: "Updated tracking list succesfully",
   error: "We are facing issues in providing data. Please try later",
-  filters: "Search filters for term and department"
+ 
 };
 
 export default function translator(lang) {

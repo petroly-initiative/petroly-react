@@ -81,7 +81,7 @@ $x: #22d77c;
     align-items: center;
     cursor: pointer;
     color: #7e7e7f;
-    .crn-icon{
+    .crn-icon {
       display: flex;
       align-items: center;
       vertical-align: bottom;
@@ -187,7 +187,7 @@ $x: #22d77c;
   margin-top: 12px;
 }
 
-.section-num{
+.section-num {
   cursor: help;
 }
 
@@ -259,7 +259,6 @@ $x: #22d77c;
     align-items: center;
     font-size: medium;
     margin: 0px 4px;
-    
   }
 }
 
@@ -277,11 +276,10 @@ $x: #22d77c;
 }
 
 @mixin waitlistLabels($bg-clr) {
-  background-color: $bg-clr;
-  height: 12px;
-  width: 12px;
-  border-radius: 6px;
-  margin: 0;
+  color: $bg-clr !important;
+
+  border-radius: 6px !important;
+  font-weight: 600;
 }
 
 .waitlist-open {
@@ -341,7 +339,7 @@ $x: #22d77c;
     color: red !important;
     background-color: rgba(255, 255, 255, 0);
     border: none !important;
-     transform: scale(1.05);
+    transform: scale(1.05);
   }
 }
 
