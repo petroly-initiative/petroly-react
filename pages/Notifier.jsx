@@ -579,14 +579,14 @@ function Notifier(props) {
             }
           >
             <span className={styles.trackBtn}>
-              <div
+              <button
                 id="canvas-btn"
                 className={styles.trackBtn}
                 onClick={toggleCanvas}
                 disabled={user.status === USER.LOGGED_OUT}
               >
                 <HiViewList size={32} />
-              </div>
+              </button>
             </span>
           </OverlayTrigger>
           <div
@@ -885,7 +885,7 @@ function Notifier(props) {
           }
         >
           <span className={styles.trackBtn}>
-            <div
+            <button
               id="canvas-btn"
               className={styles.trackBtn}
               onClick={toggleCanvas}
@@ -898,7 +898,7 @@ function Notifier(props) {
               disabled={user.status === USER.LOGGED_OUT}
             >
               <HiViewList size={32} />
-            </div>
+            </button>
           </span>
         </OverlayTrigger>
       </Container>
