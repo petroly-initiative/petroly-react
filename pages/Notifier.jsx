@@ -453,7 +453,7 @@ function Notifier(props) {
                 // onKeyDown={enterSearch}
               ></Form.Control>
 
-              <div
+              <button
                 id="search-btn"
                 type="submit"
                 onClick={searchCallback}
@@ -463,7 +463,7 @@ function Notifier(props) {
                 }
               >
                 <BiSearch size="1.5rem" />
-              </div>
+              </button>
             </Col>
             <OverlayTrigger
               trigger={"hover"}
@@ -735,7 +735,7 @@ function Notifier(props) {
               // onKeyDown={enterSearch}
             ></Form.Control>
 
-            <div
+            <button
               id="search-btn"
               type="submit"
               onClick={searchCallback}
@@ -745,7 +745,7 @@ function Notifier(props) {
               }
             >
               <BiSearch size="1.5rem" />
-            </div>
+            </button>
           </Col>
           <OverlayTrigger
             trigger={"hover"}
