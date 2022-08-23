@@ -43,7 +43,7 @@ $x: #22d77c;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
-  flex-direction: column;
+flex-direction: column;
   padding: 0;
   border-bottom:  2px solid rgba(0,0,0,.125);
 
@@ -301,10 +301,10 @@ margin-bottom: 12px;
 }
 
 @mixin waitlistLabels($bg-clr){
- background-color: $bg-clr !important;
-  height: 12px !important;
-  width: 12px !important;
+  color: $bg-clr !important;
+  
   border-radius: 6px !important;
+  font-weight: 600
 }
 
 .waitlist-open{

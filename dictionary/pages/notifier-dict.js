@@ -2,7 +2,7 @@ import { L } from "../../constants";
 
 const arabic = {
   departments: "الأقسام الجامعية",
-  searchbar: "ابحث عن كود المادة",
+  searchbar: "ابحث عن كود المادة أو وصف المادة",
   searchbarFilter: "القسم الجامعي",
   trackBtn: "استعرض المواد المتتبعة",
   termfilter: "الفصل الأكاديمي",
@@ -19,11 +19,12 @@ const arabic = {
   unauth_msg: "الرجاء تسجيل الدخول لاستخدام قائمة التتبع",
   deleted: "تم إيقاف تتبع الشعبة بنجاح",
   added: "تم تحديث قائمة التتبع بنجاح",
-  error: "نواجه مشاكل في عرض البيانات. حاول مرة أخرى"
+  error: "نواجه مشاكل في عرض البيانات. حاول مرة أخرى",
+ 
 };
 const english = {
   depratments: "Departments List",
-  searchbar: "Search for a course code",
+  searchbar: "Search for a course code, or course title",
   searchbarFilter: "Departments",
   trackBtn: "View Tracked Courses",
   termfilter: "Academic term",
@@ -41,6 +42,7 @@ const english = {
   deleted: "Section untracked Successfully",
   added: "Updated tracking list succesfully",
   error: "We are facing issues in providing data. Please try later",
+ 
 };
 
 export default function translator(lang) {

@@ -34,6 +34,15 @@ const english = {
   ratingHeader: "Lookup ratings"
 };
 
+export function waitlistMsg(lang, seats){
+  switch (lang) {
+    case L.EN_US:
+      return `Waitlist open with ${seats} seats left`
+    case L.AR_SA:
+      return ` مقاعد متاحة في قائمة الانتظار ${seats}`;
+  }
+}
+
 export default function translator(lang) {
   switch (lang) {
     case L.EN_US:

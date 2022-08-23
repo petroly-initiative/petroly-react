@@ -20,9 +20,14 @@ import Head from "next/head";
 import { M, L, USER } from "../constants";
 import translator from "../dictionary/pages/notifier-dict";
 
-import { BiSearch, BiTimeFive, BiMessageAltError } from "react-icons/bi";
+import {
+  BiSearch,
+  BiTimeFive,
+  BiMessageAltError,
+  BsCalendar2WeekFill,
+} from "react-icons/bi";
 import { MdOutlineHighlightAlt } from "react-icons/md";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle, FaRegCalendarAlt, FaBuilding } from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
 import CourseCard from "../components/notifier/CourseCard";
 import CourseModal from "../components/notifier/CourseModal";
@@ -397,10 +402,9 @@ function Notifier(props) {
             " shadow" +
             ` ${user.theme === M.DARK ? styles["dark-loading"] : ""}`
           }
-          
         >
           <Spinner
-            className={styles["loading-spinner"] }
+            className={styles["loading-spinner"]}
             as="div"
             animation="grow"
             size="xl"
@@ -411,8 +415,6 @@ function Notifier(props) {
       </Container>
     );
   }
-  // ? a 3 Step guide on how to track a course search, select, wait)
-  // ? we need to fire the settings modal for an intitial setup of the user and when changing settings
 
   if (!searchData) {
     // show landing page to start searching
@@ -433,7 +435,7 @@ function Notifier(props) {
               xl={7}
               lg={8}
               md={6}
-              sm={8}
+              sm={12}
               xs={12}
               className={styles["search-field"] + " " + styles["search-cols"]}
             >
@@ -451,7 +453,7 @@ function Notifier(props) {
                 // onKeyDown={enterSearch}
               ></Form.Control>
 
-              <div
+              <button
                 id="search-btn"
                 type="submit"
                 onClick={searchCallback}
@@ -461,19 +463,19 @@ function Notifier(props) {
                 }
               >
                 <BiSearch size="1.5rem" />
-              </div>
+              </button>
             </Col>
+
             <Col
               xl={3}
               lg={4}
               md={6}
-              sm={4}
+              sm={12}
               xs={12}
               className={[styles["search-btns"], styles["search-cols"]]}
             >
               <DropdownButton
                 drop={"start"}
-                className={styles["dept-dropdown"]}
                 variant={`${user.theme === M.DARK ? "dark" : ""}`}
                 menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
                 bsPrefix={
@@ -482,7 +484,27 @@ function Notifier(props) {
                 }
                 align="start"
                 id="dropdown-menu-align-right"
-                title={term.short}
+                title={
+                  <OverlayTrigger
+                    trigger={"hover"}
+                    placement="bottom"
+                    delay={{ show: 0, hide: 0 }}
+                    overlay={
+                      <Tooltip id="button-tooltip-2">
+                        {langState.termfilter}
+                      </Tooltip>
+                    }
+                  >
+                    <div>
+                      {" "}
+                      <span className={styles["dropdown-icon-container"]}>
+                        {" "}
+                        <FaRegCalendarAlt className={styles["dropdown-icon"]} />
+                      </span>
+                      {term.short}
+                    </div>
+                  </OverlayTrigger>
+                }
               >
                 <Dropdown.Item
                   className={
@@ -502,12 +524,30 @@ function Notifier(props) {
                 variant={`${user.theme === M.DARK ? "dark" : ""}`}
                 menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
                 bsPrefix={
-                  styles["dept-dropdown"] +
+                  styles["dropdowns"] +
                   ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
                 }
                 align="start"
                 id="dropdown-menu-align-right"
-                title={department}
+                title={
+                  <OverlayTrigger
+                    trigger={"hover"}
+                    placement="bottom"
+                    delay={{ show: 0, hide: 0 }}
+                    overlay={
+                      <Tooltip id="button-tooltip-2">
+                        {langState.searchbarFilter}
+                      </Tooltip>
+                    }
+                  >
+                    <div>
+                      <span className={styles["dropdown-icon-container"]}>
+                        <FaBuilding className={styles["dropdown-icon"]} />
+                      </span>
+                      {department}
+                    </div>
+                  </OverlayTrigger>
+                }
               >
                 <Dropdown.Item
                   className={
@@ -539,14 +579,14 @@ function Notifier(props) {
             }
           >
             <span className={styles.trackBtn}>
-              <div
+              <button
                 id="canvas-btn"
                 className={styles.trackBtn}
                 onClick={toggleCanvas}
                 disabled={user.status === USER.LOGGED_OUT}
               >
                 <HiViewList size={32} />
-              </div>
+              </button>
             </span>
           </OverlayTrigger>
           <div
@@ -567,10 +607,14 @@ function Notifier(props) {
             </div>
             <div className={styles["tutorial-map"]}>
               <div
+                onClick={() => {
+                  document.querySelector("#name").focus();
+                  console.log("Clicked!");
+                }}
                 className={
                   styles["tutorial-step"] +
                   ` shadow-sm ${
-                    user.theme === M.DARK ? styles["dark-mode-step"] : ""
+                    user.theme === M.DARK ? styles["dark-btn"] : ""
                   }`
                 }
               >
@@ -707,7 +751,7 @@ function Notifier(props) {
               // onKeyDown={enterSearch}
             ></Form.Control>
 
-            <div
+            <button
               id="search-btn"
               type="submit"
               onClick={searchCallback}
@@ -717,8 +761,9 @@ function Notifier(props) {
               }
             >
               <BiSearch size="1.5rem" />
-            </div>
+            </button>
           </Col>
+
           <Col
             xl={3}
             lg={4}
@@ -729,7 +774,6 @@ function Notifier(props) {
           >
             <DropdownButton
               drop={"start"}
-              className={styles["dept-dropdown"]}
               variant={`${user.theme === M.DARK ? "dark" : ""}`}
               menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
               bsPrefix={
@@ -738,7 +782,27 @@ function Notifier(props) {
               }
               align="start"
               id="dropdown-menu-align-right"
-              title={term.short}
+              title={
+                <OverlayTrigger
+                  trigger={"hover"}
+                  placement="bottom"
+                  delay={{ show: 0, hide: 0 }}
+                  overlay={
+                    <Tooltip id="button-tooltip-2">
+                      {langState.termfilter}
+                    </Tooltip>
+                  }
+                >
+                  <div>
+                    {" "}
+                    <span className={styles["dropdown-icon-container"]}>
+                      {" "}
+                      <FaRegCalendarAlt className={styles["dropdown-icon"]} />
+                    </span>
+                    {term.short}
+                  </div>
+                </OverlayTrigger>
+              }
             >
               <Dropdown.Item
                 className={
@@ -758,12 +822,30 @@ function Notifier(props) {
               variant={`${user.theme === M.DARK ? "dark" : ""}`}
               menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
               bsPrefix={
-                styles["dept-dropdown"] +
+                styles["dropdowns"] +
                 ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
               }
               align="start"
               id="dropdown-menu-align-right"
-              title={department}
+              title={
+                <OverlayTrigger
+                  trigger={"hover"}
+                  placement="bottom"
+                  delay={{ show: 0, hide: 0 }}
+                  overlay={
+                    <Tooltip id="button-tooltip-2">
+                      {langState.searchbarFilter}
+                    </Tooltip>
+                  }
+                >
+                  <div>
+                    <span className={styles["dropdown-icon-container"]}>
+                      <FaBuilding className={styles["dropdown-icon"]} />
+                    </span>
+                    {department}
+                  </div>
+                </OverlayTrigger>
+              }
             >
               <Dropdown.Item
                 className={
@@ -803,7 +885,7 @@ function Notifier(props) {
           }
         >
           <span className={styles.trackBtn}>
-            <div
+            <button
               id="canvas-btn"
               className={styles.trackBtn}
               onClick={toggleCanvas}
@@ -816,7 +898,7 @@ function Notifier(props) {
               disabled={user.status === USER.LOGGED_OUT}
             >
               <HiViewList size={32} />
-            </div>
+            </button>
           </span>
         </OverlayTrigger>
       </Container>

@@ -5,7 +5,6 @@ $btn-high: #00ead3;
 $txt-fill: #52575d;
 $txt-hg: #00e760;
 
-
 .dark-mode {
   background-color: theme.$dark-fg !important;
   color: theme.$dark-fnt !important;
@@ -13,31 +12,29 @@ $txt-hg: #00e760;
   box-shadow: none !important;
 }
 
-
-.dark-border{
-background: theme.$dark-xxfg !important;
-
+.dark-border {
+  background: theme.$dark-xxfg !important;
 }
-.Cardholder{
-    transition: 300ms ease;
-    border: none;
-    cursor: pointer;
-    align-self: center;
-    background: #ffffff;
-    margin: 8px; 
-    &:hover{
-        transform: scale(1.05);
-    }
-    &:active{
-      transform: scale(0.95);
-    }
+.Cardholder {
+  transition: 300ms ease;
+  border: none;
+  cursor: pointer;
+  align-self: center;
+  background: #ffffff;
+  margin: 8px;
+  &:hover {
+    transform: scale(1.05);
+  }
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 .course-header {
   border-radius: 4px;
   display: flex;
   background-color: white;
-  
+
   flex-direction: column;
   align-items: flex-start;
   padding: 14px 16px !important;
@@ -50,7 +47,9 @@ background: theme.$dark-xxfg !important;
     text-align: left;
     margin-right: 8px;
     font-weight: 700;
-    width: 90px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
     // padding: 8px;
     padding-bottom: 0;
   }
@@ -69,16 +68,16 @@ background: theme.$dark-xxfg !important;
     // color: #0091e7;
     font-weight: 400;
   }
-  }
+}
 
-  .header-info{
-    display: flex;
-    align-items: center;
-    flex-flow: row wrap;
-    margin-bottom: 6px;
-  }
+.header-info {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  margin-bottom: 6px;
+}
 
-  .sections-type {
+.sections-type {
   font-weight: 400;
   display: flex;
   width: -webkit-fit-content;
@@ -86,7 +85,7 @@ background: theme.$dark-xxfg !important;
   width: fit-content;
   flex-flow: row nowrap;
   align-items: center;
-  svg{
+  svg {
     margin-right: 8px;
   }
   color: #aaaaaa;
@@ -96,35 +95,31 @@ background: theme.$dark-xxfg !important;
   padding: 1px 8px;
 }
 
-.course-body{
+.course-body {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
   div {
     margin: 0 3px;
-    .numeric{
+    .numeric {
       font-weight: 700;
       font-size: small;
       margin-left: 4px;
       margin-right: 4px;
     }
-    .text{
+    .text {
       font-size: small;
-       margin-left: 4px;
+      margin-left: 4px;
       margin-right: 4px;
-    
     }
-    
   }
-
-  
 }
 
-.divider{
-      height: 4px;
-      width: 4px;
-      margin-right: 3px;
-      margin-left: 3px;
-      border-radius: 50%;
-      background-color: #aaaaaa;
-    }
+.divider {
+  height: 4px;
+  width: 4px;
+  margin-right: 3px;
+  margin-left: 3px;
+  border-radius: 50%;
+  background-color: #aaaaaa;
+}

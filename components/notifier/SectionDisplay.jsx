@@ -11,6 +11,7 @@ import { CgUnavailable } from "react-icons/cg";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/section-display.module.scss";
 import { MdContentCopy } from "react-icons/md";
+import { waitlistMsg } from "../../dictionary/components/notifier/section-checkbox";
 
 /**
  * TODO
@@ -338,39 +339,36 @@ function SectionDisplay(props) {
                     </span>{" "}
                   </span>
                   {/*  replace with a boolean for open waitlist */}
-                  <span
-                    className={
-                      styles["waitlist-container"] +
-                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 100, hide: 300 }}
+                    overlay={
+                      <Tooltip id="button-tooltip-2">
+                        {props.details[0].waiting_list_count <= 0
+                          ? langState.closed
+                          : waitlistMsg(
+                              user.lang,
+                              props.details[0].waiting_list_count
+                            )}
+                      </Tooltip>
                     }
                   >
-                    {langState.waitlist}
-                    {props.details[0].waiting_list_count == 5 ? (
-                      <OverlayTrigger
-                        placement="top"
-                        delay={{ show: 1000, hide: 300 }}
-                        overlay={
-                          <Tooltip id="button-tooltip-2">
-                            {langState.closed}
-                          </Tooltip>
-                        }
-                      >
-                        <span className={styles["waitlist-close"]}></span>
-                      </OverlayTrigger>
-                    ) : (
-                      <OverlayTrigger
-                        placement="top"
-                        delay={{ show: 1000, hide: 300 }}
-                        overlay={
-                          <Tooltip id="button-tooltip-2">
-                            {langState.open}
-                          </Tooltip>
-                        }
-                      >
-                        <span className={styles["waitlist-open"]}></span>
-                      </OverlayTrigger>
-                    )}
-                  </span>
+                    <span
+                      className={
+                        styles["waitlist-container"] +
+                        ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                      }
+                    >
+                      {langState.waitlist}
+                      {props.details[0].waiting_list_count <= 0 ? (
+                        <span className={styles["waitlist-close"]}>0</span>
+                      ) : (
+                        <span className={styles["waitlist-open"]}>
+                          {props.details[0].waiting_list_count}
+                        </span>
+                      )}
+                    </span>
+                  </OverlayTrigger>
                 </div>
               )}
             </div>
@@ -484,39 +482,36 @@ function SectionDisplay(props) {
                 </span>
 
                 {/*  replace with a boolean for open waitlist */}
-                <span
-                  className={
-                    styles["waitlist-container"] +
-                    ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 100, hide: 300 }}
+                  overlay={
+                    <Tooltip id="button-tooltip-2">
+                      {props.details[1].waiting_list_count <= 0
+                        ? langState.closed
+                        : waitlistMsg(
+                            user.lang,
+                            props.details[1].waiting_list_count
+                          )}
+                    </Tooltip>
                   }
                 >
-                  {langState.waitlist}
-                  {props.details[1].waiting_list_count == 5 ? (
-                    <OverlayTrigger
-                      placement="top"
-                      delay={{ show: 1000, hide: 300 }}
-                      overlay={
-                        <Tooltip id="button-tooltip-2">
-                          {langState.closed}
-                        </Tooltip>
-                      }
-                    >
-                      <span className={styles["waitlist-close"]}></span>
-                    </OverlayTrigger>
-                  ) : (
-                    <OverlayTrigger
-                      placement="top"
-                      delay={{ show: 1000, hide: 300 }}
-                      overlay={
-                        <Tooltip id="button-tooltip-2">
-                          {langState.open}
-                        </Tooltip>
-                      }
-                    >
-                      <span className={styles["waitlist-open"]}></span>
-                    </OverlayTrigger>
-                  )}
-                </span>
+                  <span
+                    className={
+                      styles["waitlist-container"] +
+                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                    }
+                  >
+                    {langState.waitlist}
+                    {props.details[1].waiting_list_count <= 0 ? (
+                      <span className={styles["waitlist-close"]}>0</span>
+                    ) : (
+                      <span className={styles["waitlist-open"]}>
+                        {props.details[1].waiting_list_count}
+                      </span>
+                    )}
+                  </span>
+                </OverlayTrigger>
               </div>
             </Card.Footer>
           )}
