@@ -20,9 +20,14 @@ import Head from "next/head";
 import { M, L, USER } from "../constants";
 import translator from "../dictionary/pages/notifier-dict";
 
-import { BiSearch, BiTimeFive, BiMessageAltError } from "react-icons/bi";
+import {
+  BiSearch,
+  BiTimeFive,
+  BiMessageAltError,
+  BsCalendar2WeekFill,
+} from "react-icons/bi";
 import { MdOutlineHighlightAlt } from "react-icons/md";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle, FaRegCalendarAlt, FaBuilding } from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
 import CourseCard from "../components/notifier/CourseCard";
 import CourseModal from "../components/notifier/CourseModal";
@@ -397,10 +402,9 @@ function Notifier(props) {
             " shadow" +
             ` ${user.theme === M.DARK ? styles["dark-loading"] : ""}`
           }
-          
         >
           <Spinner
-            className={styles["loading-spinner"] }
+            className={styles["loading-spinner"]}
             as="div"
             animation="grow"
             size="xl"
@@ -411,8 +415,6 @@ function Notifier(props) {
       </Container>
     );
   }
-  // ? a 3 Step guide on how to track a course search, select, wait)
-  // ? we need to fire the settings modal for an intitial setup of the user and when changing settings
 
   if (!searchData) {
     // show landing page to start searching
@@ -433,7 +435,7 @@ function Notifier(props) {
               xl={7}
               lg={8}
               md={6}
-              sm={8}
+              sm={12}
               xs={12}
               className={styles["search-field"] + " " + styles["search-cols"]}
             >
@@ -463,67 +465,89 @@ function Notifier(props) {
                 <BiSearch size="1.5rem" />
               </div>
             </Col>
-            <Col
-              xl={3}
-              lg={4}
-              md={6}
-              sm={4}
-              xs={12}
-              className={[styles["search-btns"], styles["search-cols"]]}
+            <OverlayTrigger
+              trigger={"hover"}
+              placement="bottom"
+              delay={{ show: 0, hide: 50 }}
+              overlay={<Tooltip id="button-tooltip-2">{langState.filters}</Tooltip>}
             >
-              <DropdownButton
-                drop={"start"}
-                className={styles["dept-dropdown"]}
-                variant={`${user.theme === M.DARK ? "dark" : ""}`}
-                menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
-                bsPrefix={
-                  styles["term-dropdown"] +
-                  ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                }
-                align="start"
-                id="dropdown-menu-align-right"
-                title={term.short}
+              <Col
+                xl={3}
+                lg={4}
+                md={6}
+                sm={12}
+                xs={12}
+                className={[styles["search-btns"], styles["search-cols"]]}
               >
-                <Dropdown.Item
-                  className={
-                    user.theme === M.DARK
-                      ? styles["dark-mode"]
-                      : styles["dropdown-h"]
+                <DropdownButton
+                  drop={"start"}
+                  variant={`${user.theme === M.DARK ? "dark" : ""}`}
+                  menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
+                  bsPrefix={
+                    styles["term-dropdown"] +
+                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
                   }
-                  disabled
-                >
-                  {langState.termfilter}
-                </Dropdown.Item>
-                {termMapper()}
-              </DropdownButton>
-
-              {/*popover for filters and order*/}
-              <DropdownButton
-                variant={`${user.theme === M.DARK ? "dark" : ""}`}
-                menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
-                bsPrefix={
-                  styles["dept-dropdown"] +
-                  ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                }
-                align="start"
-                id="dropdown-menu-align-right"
-                title={department}
-              >
-                <Dropdown.Item
-                  className={
-                    user.theme === M.DARK
-                      ? styles["dark-mode"]
-                      : styles["dropdown-h"]
+                  align="start"
+                  id="dropdown-menu-align-right"
+                  title={
+                    <div>
+                      {" "}
+                      <span className={styles["dropdown-icon-container"]}>
+                        {" "}
+                        <FaRegCalendarAlt className={styles["dropdown-icon"]} />
+                      </span>
+                      {term.short}
+                    </div>
                   }
-                  disabled
                 >
-                  {langState.searchbarFilter}
-                </Dropdown.Item>
-                <Dropdown.Divider style={{ height: "1" }} />
+                  <Dropdown.Item
+                    className={
+                      user.theme === M.DARK
+                        ? styles["dark-mode"]
+                        : styles["dropdown-h"]
+                    }
+                    disabled
+                  >
+                    {langState.termfilter}
+                  </Dropdown.Item>
+                  {termMapper()}
+                </DropdownButton>
 
-                {deptMapper()}
-              </DropdownButton>
-            </Col>
+                {/*popover for filters and order*/}
+                <DropdownButton
+                  variant={`${user.theme === M.DARK ? "dark" : ""}`}
+                  menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
+                  bsPrefix={
+                    styles["dropdowns"] +
+                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                  }
+                  align="start"
+                  id="dropdown-menu-align-right"
+                  title={
+                    <div>
+                      <span className={styles["dropdown-icon-container"]}>
+                        <FaBuilding className={styles["dropdown-icon"]} />
+                      </span>
+                      {department}
+                    </div>
+                  }
+                >
+                  <Dropdown.Item
+                    className={
+                      user.theme === M.DARK
+                        ? styles["dark-mode"]
+                        : styles["dropdown-h"]
+                    }
+                    disabled
+                  >
+                    {langState.searchbarFilter}
+                  </Dropdown.Item>
+                  <Dropdown.Divider style={{ height: "1" }} />
+
+                  {deptMapper()}
+                </DropdownButton>
+              </Col>
+            </OverlayTrigger>
           </InputGroup>
 
           <OverlayTrigger
@@ -567,10 +591,14 @@ function Notifier(props) {
             </div>
             <div className={styles["tutorial-map"]}>
               <div
+              onClick={() => {
+                document.querySelector("#name").focus()
+                console.log("Clicked!")
+              }}
                 className={
                   styles["tutorial-step"] +
                   ` shadow-sm ${
-                    user.theme === M.DARK ? styles["dark-mode-step"] : ""
+                    user.theme === M.DARK ? styles["dark-btn"] : ""
                   }`
                 }
               >
@@ -719,67 +747,91 @@ function Notifier(props) {
               <BiSearch size="1.5rem" />
             </div>
           </Col>
-          <Col
-            xl={3}
-            lg={4}
-            md={6}
-            sm={4}
-            xs={12}
-            className={[styles["search-btns"], styles["search-cols"]]}
+          <OverlayTrigger
+            trigger={"hover"}
+            placement="bottom"
+            delay={{ show: 0, hide: 50 }}
+            overlay={
+              <Tooltip id="button-tooltip-2">{langState.filters}</Tooltip>
+            }
           >
-            <DropdownButton
-              drop={"start"}
-              className={styles["dept-dropdown"]}
-              variant={`${user.theme === M.DARK ? "dark" : ""}`}
-              menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
-              bsPrefix={
-                styles["term-dropdown"] +
-                ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-              }
-              align="start"
-              id="dropdown-menu-align-right"
-              title={term.short}
+            <Col
+              xl={3}
+              lg={4}
+              md={6}
+              sm={4}
+              xs={12}
+              className={[styles["search-btns"], styles["search-cols"]]}
             >
-              <Dropdown.Item
-                className={
-                  user.theme === M.DARK
-                    ? styles["dark-mode"]
-                    : styles["dropdown-h"]
+              <DropdownButton
+                drop={"start"}
+                variant={`${user.theme === M.DARK ? "dark" : ""}`}
+                menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
+                bsPrefix={
+                  styles["term-dropdown"] +
+                  ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
                 }
-                disabled
-              >
-                {langState.termfilter}
-              </Dropdown.Item>
-              {termMapper()}
-            </DropdownButton>
-
-            {/*popover for filters and order*/}
-            <DropdownButton
-              variant={`${user.theme === M.DARK ? "dark" : ""}`}
-              menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
-              bsPrefix={
-                styles["dept-dropdown"] +
-                ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-              }
-              align="start"
-              id="dropdown-menu-align-right"
-              title={department}
-            >
-              <Dropdown.Item
-                className={
-                  user.theme === M.DARK
-                    ? styles["dark-mode"]
-                    : styles["dropdown-h"]
+                align="start"
+                id="dropdown-menu-align-right"
+                title={
+                  <div>
+                    {" "}
+                    <span className={styles["dropdown-icon-container"]}>
+                      {" "}
+                      <FaRegCalendarAlt className={styles["dropdown-icon"]} />
+                    </span>
+                    {term.short}
+                  </div>
                 }
-                disabled
               >
-                {langState.searchbarFilter}
-              </Dropdown.Item>
-              <Dropdown.Divider style={{ height: "1" }} />
+                <Dropdown.Item
+                  className={
+                    user.theme === M.DARK
+                      ? styles["dark-mode"]
+                      : styles["dropdown-h"]
+                  }
+                  disabled
+                >
+                  {langState.termfilter}
+                </Dropdown.Item>
+                {termMapper()}
+              </DropdownButton>
 
-              {deptMapper()}
-            </DropdownButton>
-          </Col>
+              {/*popover for filters and order*/}
+              <DropdownButton
+                variant={`${user.theme === M.DARK ? "dark" : ""}`}
+                menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
+                bsPrefix={
+                  styles["dropdowns"] +
+                  ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                }
+                align="start"
+                id="dropdown-menu-align-right"
+                title={
+                  <div>
+                    <span className={styles["dropdown-icon-container"]}>
+                      <FaBuilding className={styles["dropdown-icon"]} />
+                    </span>
+                    {department}
+                  </div>
+                }
+              >
+                <Dropdown.Item
+                  className={
+                    user.theme === M.DARK
+                      ? styles["dark-mode"]
+                      : styles["dropdown-h"]
+                  }
+                  disabled
+                >
+                  {langState.searchbarFilter}
+                </Dropdown.Item>
+                <Dropdown.Divider style={{ height: "1" }} />
+
+                {deptMapper()}
+              </DropdownButton>
+            </Col>
+          </OverlayTrigger>
         </InputGroup>
 
         <Row style={{ marginBottom: 16, width: "100%" }}>
