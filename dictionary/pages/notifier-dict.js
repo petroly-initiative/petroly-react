@@ -2,7 +2,7 @@ import { L } from "../../constants";
 
 const arabic = {
   departments: "الأقسام الجامعية",
-  searchbar: "ابحث عن كود المادة",
+  searchbar: "ابحث عن كود المادة أو وصف المادة",
   searchbarFilter: "القسم الجامعي",
   trackBtn: "استعرض المواد المتتبعة",
   termfilter: "الفصل الأكاديمي",
@@ -24,7 +24,7 @@ const arabic = {
 };
 const english = {
   depratments: "Departments List",
-  searchbar: "Search for a course code",
+  searchbar: "Search for a course code, or course title",
   searchbarFilter: "Departments",
   trackBtn: "View Tracked Courses",
   termfilter: "Academic term",
