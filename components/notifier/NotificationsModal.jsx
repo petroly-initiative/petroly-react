@@ -40,6 +40,7 @@ import {
 } from "../../api/notifierQueries";
 import { updateTrackingListChannelsMutation } from "../../api/notifierMutations";
 import { useQuery, useMutation } from "@apollo/client";
+import { toInteger } from "lodash";
 
 /**
  * a modal for both editing and creating a new community
@@ -85,7 +86,7 @@ function NotificationsModal(props) {
       variables: {
         EMAIL: emailChecked,
         TELEGRAM: telegramChecked,
-        telegramId: TelegramId,
+        telegramId: toInteger(TelegramId),
         hash: telegramHash,
         dataCheckString: telegramDataCheck,
       },
@@ -154,14 +155,12 @@ function NotificationsModal(props) {
   };
 
   const cancel = async () => {
-              props.handleClose();
-              await refetchChannels();
-              setEmail(trackingListChannelsData.trackingListChannels.EMAIL);
-              settelegram(
-                trackingListChannelsData.trackingListChannels.TELEGRAM
-              );
-              setinvalidInput(false);
-            }
+    props.handleClose();
+    await refetchChannels();
+    setEmail(trackingListChannelsData.trackingListChannels.EMAIL);
+    settelegram(trackingListChannelsData.trackingListChannels.TELEGRAM);
+    setinvalidInput(false);
+  };
 
   useEffect(() => {
     if (trackingListChannelsData) {
