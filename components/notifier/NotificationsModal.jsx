@@ -86,7 +86,7 @@ function NotificationsModal(props) {
       variables: {
         EMAIL: emailChecked,
         TELEGRAM: telegramChecked,
-        telegramId: toInteger(TelegramId),
+        telegramId: TelegramId,
         hash: telegramHash,
         dataCheckString: telegramDataCheck,
       },
@@ -127,7 +127,7 @@ function NotificationsModal(props) {
     // ? as the bot key is not available in the frontend
     setTelegramSuccess(true);
     props.handleMsg(true, langState.successTele);
-    setTelegramId((user.id).toString()); // ! necessary to avoid integer range overflow in graphQL
+    setTelegramId(user.id.toString()); // ! necessary to avoid integer range overflow in graphQL
     setTelegramHash(user.hash);
 
     var check_array = [];
