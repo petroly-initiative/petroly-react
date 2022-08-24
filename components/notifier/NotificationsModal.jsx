@@ -127,7 +127,7 @@ function NotificationsModal(props) {
     // ? as the bot key is not available in the frontend
     setTelegramSuccess(true);
     props.handleMsg(true, langState.successTele);
-    setTelegramId(user.id);
+    setTelegramId((user.id).toString()); // ! necessary to avoid integer range overflow in graphQL
     setTelegramHash(user.hash);
 
     var check_array = [];
