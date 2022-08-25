@@ -4,6 +4,13 @@
 
 <h1 align="center" > Petroly Frontend Codebase</h1>
 
+<div align="center">
+
+<img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/petroly-initiative?color=%2300ead3&label=Petroly%20Sponsors">
+<img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/PetrolyInit?style=social">
+<img alt="GitHub closed issues" src="https://img.shields.io/github/issues-closed-raw/petroly-initiative/petroly-react?color=00ead3">
+</div>
+
 Petroly's first initiative frontend source codebase
 
 ---
@@ -83,7 +90,10 @@ Create a high-quality platform where all students share their knowledge and expe
 - run `python manage.py runserver` to run the backend project at port 8000 after activating your virtual environment
 - run `npm install` to install required packages for the frontend
 - run `npm run dev` to launch the frontend project on localhost 3000
-- for a headless testing session run `npm run cy:run`, and for a browser session test, use `npm run cy:open`
+- for a headless testing session run `npm run test`, and for a browser session test, use `npm run cy:open`
+- to run the telegram bot use `py manage.py startbot` on a separate terminal
+> **Note**
+> to use the telegram bot setup you need to generate a telegram bot token from [BotFather](https://t.me/BotFather). and use as an environmental variable named `TELEGRAM_BOT_TOKEN` ( *we recommend using `secrets` vscode extension* ) in the backend codebase. After naming your bot, change the bot name <u>**In your fork**</u> from the frontend in `NotificationsModal.jsx` in the telegram button component to link it to your bot
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
 
 ### How to Contribute
@@ -125,6 +135,10 @@ To gurarantee a uniform maintenance of the project, contributors need to adhere 
 - only core-team members can merge branches to the master branch to ensure testing the code properly
 <div style="font-size: 12px;" align="center"><a href="#Table-of-Contents" >(get to the top)</a></div>
 
+### Sponsorship
+You can help covering the costs of the ongoing maintenance of the Petroly Initiative by becoming a Patreon member using the sponsor button.
+
+
 ## Roadmap
 
 The Details of our targeted services are in the `Projects` tab of the repository
@@ -142,8 +156,7 @@ Special thanks to everyone who has supported us by complementing us despite the 
 
 ## Contact
 
-You can contact the core maintainers of the project through our official support email support@petroly.co or drop by our official discord server from the link:
-<a href="https://discord.gg/XWSTFmprHU">Petroly Discord link</a>
+You can contact the core maintainers of the project through our official support email support@petroly.co
 
 <br />
 <div align="center"><i>We are more than excited to see your amazing contributions to the Petroly Intiative! ;-)</i></div>
