@@ -106,7 +106,7 @@ function Notifier(props) {
     startPolling,
     stopPolling,
   } = useQuery(trackedCoursesQuery, {
-    skip: true,
+    skip: user.status === USER.LOGGED_OUT,
     pollInterval: 10_000,
     fetchPolicy: "network-only",
   });
@@ -427,7 +427,7 @@ function Notifier(props) {
     // meaning at the initial load for the page
     // no result will be fetch until the user schoose a dept & term
 
-    if (searchData.search.length === 0) {
+    if (searchData && searchData.search.length === 0) {
       toggleMessage(true, langState.empty);
     }
 
