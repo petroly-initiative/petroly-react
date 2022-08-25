@@ -112,7 +112,7 @@ function Notifier(props) {
   });
 
   useEffect(() => {
-    console.log(user.status);
+    // console.log(user.status);
     if (user.status === USER.LOGGED_OUT) {
       stopPolling();
     } else if (user.status === USER.LOGGED_IN) {
@@ -208,8 +208,8 @@ function Notifier(props) {
     //   const deletedKey = Object.keys(obj)[0];
     //   setTracked({ ...delete trackedCourses[deletedKey] });
     // }
-    console.log("Updated courses in notifier", courses);
-    console.log("before", trackedCoursesData);
+    // console.log("Updated courses in notifier", courses);
+    // console.log("before", trackedCoursesData);
     await updateTrackingList({ variables: { courses } });
 
     if (!isDeletion) toggleMessage(true, langState.added);
@@ -262,8 +262,8 @@ function Notifier(props) {
   // })
   // ! needs to be replaced by a fetching hook, this is a static demo
   const courseMapper = () => {
-    if(!searchData.search){
-      return [];  // some depts have 0 offerings
+    if (!searchData.search) {
+      return []; // some depts have 0 offerings
     }
     var uniqueCourses = new Set();
     // getting unique courses
@@ -336,7 +336,7 @@ function Notifier(props) {
 
   useEffect(() => {
     if (trackedCoursesData) {
-      console.log("in hook", trackedCoursesData);
+      // console.log("in hook", trackedCoursesData);
       if (!trackedCoursesData.trackedCourses) {
         // Here user has no TrackingList
         // HasTrackingList is already `false`
@@ -350,13 +350,14 @@ function Notifier(props) {
 
   useEffect(() => {
     if (termsData) {
-      console.log(termsData.terms[0]);
+      // console.log(termsData.terms[0]);
       setTerm(termsData.terms[0]);
     }
   }, [termsData]);
 
   useEffect(() => {
     if (dataDept) {
+      console.log(dataDept);
       setDepartment(dataDept.departmentList[1]);
       console.log(dataDept.departmentList[0]);
     }
@@ -421,13 +422,13 @@ function Notifier(props) {
     );
   }
 
-  if (!searchData || !searchData.search) {
+  if (!searchData || searchData.search.length === 0) {
     // show landig page to start searching
     // meaning at the initial load for the page
     // no result will be fetch until the user schoose a dept & term
 
-    if(searchData && !searchData.search){
-      toggleMessage(true, langState.empty)
+    if (searchData && searchData.search.length === 0) {
+      toggleMessage(true, langState.empty);
     }
 
     return (
@@ -727,8 +728,6 @@ function Notifier(props) {
       </>
     );
   }
-
-  
 
   return (
     <>
