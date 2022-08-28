@@ -42,7 +42,7 @@ function InstructorCard(props) {
   return (
     <>
 
-      <Link href={`/instructors/${props.instructorID}`}>
+      <Link key={props.instructorID} href={`/instructors/${props.instructorID}`}>
         <Card
           onClick={() => {
             props.setLoading(true);

@@ -262,9 +262,9 @@ function Notifier(props) {
   // })
   // ! needs to be replaced by a fetching hook, this is a static demo
   const courseMapper = () => {
-    if (!searchData.search) {
-      return []; // some depts have 0 offerings
-    }
+    // if (!searchData.search) {
+    //   return []; // some depts have 0 offerings
+    // }
     var uniqueCourses = new Set();
     // getting unique courses
     for (let section of searchData.search) {
@@ -422,14 +422,12 @@ function Notifier(props) {
     );
   }
 
-  if (!searchData || searchData.search.length === 0) {
+  if (!searchData ) {
     // show landig page to start searching
     // meaning at the initial load for the page
     // no result will be fetch until the user schoose a dept & term
 
-    if (searchData && searchData.search.length === 0) {
-      toggleMessage(true, langState.empty);
-    }
+
 
     return (
       <>
