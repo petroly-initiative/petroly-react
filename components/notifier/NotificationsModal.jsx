@@ -40,6 +40,7 @@ import {
 } from "../../api/notifierQueries";
 import { updateTrackingListChannelsMutation } from "../../api/notifierMutations";
 import { useQuery, useMutation } from "@apollo/client";
+import { toInteger } from "lodash";
 
 /**
  * a modal for both editing and creating a new community
