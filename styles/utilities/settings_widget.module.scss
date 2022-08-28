@@ -82,6 +82,8 @@ $clr-primary: #00ead3;
 .navbar_link {
   display: flex;
   align-items: center;
+  margin-bottom: auto;
+  margin-top: 0;
   height: 3rem;
   text-decoration: none;
   background-color: rgba(247, 247, 247, 0) !important;
