@@ -64,7 +64,6 @@ function NotificationsModal(props) {
 
   // ? instance state
   // ! initial values of checkboxes need to be provided in props
-  const [emailChecked, setEmail] = useState(false);
   const [telegramChecked, settelegram] = useState(false);
   const [TelegramId, setTelegramId] = useState(null);
   const [telegramHash, setTelegramHash] = useState(null);
@@ -83,7 +82,6 @@ function NotificationsModal(props) {
     updateTrackingListChannelsMutation,
     {
       variables: {
-        EMAIL: emailChecked,
         TELEGRAM: telegramChecked,
         telegramId: TelegramId,
         hash: telegramHash,
@@ -97,27 +95,9 @@ function NotificationsModal(props) {
   // TOOD: sovling anomalous email checker
   const checkChannel = (e) => {
     console.log(e.target.value);
-    switch (e.target.value) {
-      case "EMAIL":
-        if (emailChecked && !telegramChecked) {
-          setinvalidInput(true);
-        } else {
-          setinvalidInput(false);
-        }
-        // console.log(telegramChecked);
-        setEmail((state) => !state);
-        break;
-      case "TELEGRAM":
-        if (!emailChecked && telegramChecked) {
-          setinvalidInput(true);
-        } else {
-          setinvalidInput(false);
-        }
-        // console.log(!telegramChecked);
-        settelegram((state) => !state);
 
-        break;
-    }
+    // console.log(!telegramChecked);
+    settelegram((state) => !state);
   };
 
   const onTelegramAuth = (user) => {
@@ -126,7 +106,7 @@ function NotificationsModal(props) {
     // ? as the bot key is not available in the frontend
     setTelegramSuccess(true);
     props.handleMsg(true, langState.successTele);
-    setTelegramId((user.id).toString()); // ! necessary to avoid integer range overflow in graphQL
+    setTelegramId(user.id.toString()); // ! necessary to avoid integer range overflow in graphQL
     setTelegramHash(user.hash);
 
     var check_array = [];
@@ -142,30 +122,28 @@ function NotificationsModal(props) {
   };
 
   const submitChannels = async () => {
-    console.log("Channels:", telegramChecked, emailChecked);
     const result = await updateTrackingListChannels();
 
     if (result.data.updateTrackingListChannels) {
       props.handleMsg(true, langState.successEdit);
       props.handleClose(false);
+      setinvalidInput(false);
     } else {
       props.handleMsg(true, langState.failEdit);
+      setinvalidInput(true);
     }
   };
 
   const cancel = async () => {
-              props.handleClose();
-              await refetchChannels();
-              setEmail(trackingListChannelsData.trackingListChannels.EMAIL);
-              settelegram(
-                trackingListChannelsData.trackingListChannels.TELEGRAM
-              );
-              setinvalidInput(false);
-            }
+    props.handleClose();
+    await refetchChannels();
+
+    settelegram(trackingListChannelsData.trackingListChannels.TELEGRAM);
+    setinvalidInput(false);
+  };
 
   useEffect(() => {
     if (trackingListChannelsData) {
-      setEmail(trackingListChannelsData.trackingListChannels.EMAIL);
       settelegram(trackingListChannelsData.trackingListChannels.TELEGRAM);
       setinvalidInput(false);
     }
@@ -265,54 +243,6 @@ function NotificationsModal(props) {
           </Alert>
 
           <Form className={styles.group} noValidate>
-            <Form.Check
-              id="email-checker"
-              defaultChecked={emailChecked}
-              className={styles.radio}
-              name="type"
-              type={"switch"}
-            >
-              <Form.Check.Input
-                onClick={checkChannel}
-                checked={emailChecked}
-                value="EMAIL"
-                className={styles["checkers"]}
-              />
-              <Form.Check.Label>
-                <div className={styles["channel-container"]}>
-                  <div className={styles["channel-text"]}>
-                    <h6
-                      style={{ marginLeft: 8, marginRight: 8 }}
-                      className={` ${
-                        user.theme === M.DARK
-                          ? styles["dark-header"] +
-                            " " +
-                            styles["channel-header"]
-                          : styles["channel-header"]
-                      }`}
-                    >
-                      <MdEmail
-                        color="#FEB139"
-                        className={styles["channel-icon"]}
-                      />{" "}
-                      {langState.emailHeader}
-                    </h6>
-                    <span
-                      style={{ marginLeft: 8, marginRight: 8 }}
-                      className={` ${
-                        user.theme === M.DARK
-                          ? styles["dark-check"] +
-                            " " +
-                            styles["channel-content"]
-                          : styles["channel-content"]
-                      }`}
-                    >
-                      {langState.emailContent}
-                    </span>
-                  </div>
-                </div>
-              </Form.Check.Label>
-            </Form.Check>
             <Form.Check
               defaultChecked={telegramChecked}
               className={styles.radio}
