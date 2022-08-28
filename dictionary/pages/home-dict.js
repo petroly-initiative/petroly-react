@@ -21,6 +21,7 @@ const arabic = {
   service2: "الرادار",
   service2Desc:
     "لا تضيع وقتك في انتظار تغير حالة موادك بعد اليوم. بترولي سيقوم بإشعارك من هاتفك مباشرة",
+  supportBtn: "ادعم بترولي عن طريق Pateron",
 };
 
 const english = {
@@ -43,6 +44,7 @@ const english = {
   service2: "Radar",
   service2Desc:
     "Stop wasting your time waiting for the sections to open. Track them and Petroly will notify you immediately",
+  supportBtn: "Support Petroly on Pateron",
 };
 
 export default function translator(lang) {
