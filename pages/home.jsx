@@ -7,7 +7,12 @@ import Image from "next/image";
 import Head from "next/head";
 import ChatCard from "../components/home/Chat-card";
 import { ImTarget } from "react-icons/im";
-import { FaArrowDown, FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
+import {
+  FaArrowDown,
+  FaQuoteLeft,
+  FaQuoteRight,
+  FaPatreon,
+} from "react-icons/fa";
 import { FiLayers } from "react-icons/fi";
 import translator from "../dictionary/pages/home-dict";
 import { useEffect, useContext, useState, useCallback } from "react";
@@ -141,6 +146,21 @@ export default function HomeScreen() {
               {langState.navBtnMain}
               <FaArrowDown className={styles["btn-icons"]} />
             </div>
+            <a
+              href="https://patreon.com/petroly_initiative"
+              target={"_blank"}
+              rel="noreferrer"
+              className={
+                styles["support-btn"] +
+                ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+              }
+            >
+              <FaPatreon
+                style={{ marginRight: 16 }}
+                className={styles["btn-icons"]}
+              />
+              <span> {langState.supportBtn}</span>
+            </a>
           </div>
           <div
             style={{

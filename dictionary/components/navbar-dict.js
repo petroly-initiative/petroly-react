@@ -3,6 +3,7 @@ import { L } from "../../constants";
 const arabic = {
   dashboard: "لوحة التحكم",
   logout: "تسجيل الخروج",
+  login: "تسجيل الدخول",
   settings: "الإعدادات",
   home: "الرئيسية",
   rating: "التقييم",
@@ -11,12 +12,15 @@ const arabic = {
   radar: "الرادار",
   support: "الدعم",
   notifier: "الرادار",
-  theme: "وضع العرض",};
+  theme: "وضع العرض",
+  patreon: "ادعمنا عبر باتريون",
+};
 
 const english = {
   dashboard: "Dashboard",
   logout: "Logout",
   settings: "Settings",
+  login: "sign-in",
   home: "Home",
   rating: "Evaluation",
   groups: "Groups",
@@ -24,7 +28,8 @@ const english = {
   language: "language",
   radar: "Radar",
   theme: "Theme",
-  unauth_msg: "You need to login to access this feature"
+  unauth_msg: "You need to login to access this feature",
+  patreon: "Support us on Patreon",
 };
 
 export default function translator(lang) {

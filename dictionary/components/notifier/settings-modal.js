@@ -2,7 +2,7 @@ import { L } from "../../../constants";
 
 const arabic = {
   header: "إعدادات الإشعارات",
-  instructions: "الرجاء اختيار قناة إشعار واحدة على الأقل",
+  instructions: "الرجاء ربط حسابك في تلقرام لتلقي الإشعارات",
   emailHeader: "البريد الإلكتروني",
   emailContent:
     "نقوم بإرسال الإشعارات عبر بريدك الإكلتروني المسجل في بترولي الرجاء عدم استخدام البريد الجامعي لتجنب الحجب ",
@@ -15,12 +15,12 @@ const arabic = {
   cancelTooltip: "حذف التغييرات في إعدادات الإشعارات",
   successTele: "!تم تسجيل الدخول",
   successEdit: "!تم تحديث إعدادات الإشعارات بنجاح",
-  failEdit: "حدث خطأ! لم نستطع تحديث إعدادات الإشعارات",
+  failEdit: "حدث خطأ! لم نستطع تحديث إعدادات الإشعارات. تأكد من ربك حسابك في تلقرام",
 };
 
 const english = {
   header: "Notifications Settings",
-  instructions: "Select at least a single notifications channel",
+  instructions: "You need to connect your telegram account to recieve notifications",
   emailHeader: "Email",
   emailContent:
     "Sending notifications via your registered email. Please do not use your KFUPM account",
@@ -34,7 +34,7 @@ const english = {
   successTele: "You are Signed in!",
   successEdit: "Notifcation settings setup is successful!",
   failEdit:
-    "Oops! we couldn't update your notifications settings. Try again later",
+    "Oops! we couldn't update your notifications settings. Make sure you link your Telegram account",
 };
 
 export default function translator(lang) {

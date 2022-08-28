@@ -21,6 +21,7 @@ const arabic = {
   added: "تم تحديث قائمة التتبع بنجاح",
   error: "نواجه مشاكل في عرض البيانات. حاول مرة أخرى",
   empty: "لا توجد مواد دراسية متاحة لهذا القسم في الفصل الدراسي المختار",
+  
 };
 const english = {
   depratments: "Departments List",
@@ -43,6 +44,7 @@ const english = {
   added: "Updated tracking list succesfully",
   error: "We are facing issues in providing data. Please try later",
   empty: "No courses are offered for this department in the specified term",
+  
 };
 
 export default function translator(lang) {

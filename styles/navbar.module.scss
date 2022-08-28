@@ -84,7 +84,7 @@ $clr-primary: #00ead3;
 
 .navbar_item {
   width: 5rem;
-  height: 4rem;
+  height: 4rem !important;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -197,10 +197,39 @@ $clr-primary: #00ead3;
   right: 0;
 }
 
+.support-btn{
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+   color: $fnt-clr;
+   transition: 300ms ease;
+  .btn-icons {
+    margin-left: 8px;
+    margin-right: 4px;
+  }
+
+
+
+
+  &:hover {
+    color:  #f96854;
+
+    .support_text{
+      color: #f96854;
+    }
+   
+  }
+
+  
+}
+
+
 .navbar_side {
   z-index: 100;
   pointer-events: auto;
   position: fixed;
+  
   height: calc(100vh - 4rem);
   overflow-y: scroll;
   top: 4rem;
@@ -223,10 +252,9 @@ $clr-primary: #00ead3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  // justify-content: space-between;
   transition: 200ms ease, height 50ms ease;
-  height: 100%;
-  min-height: 640px;
+  height: calc(100vh - 4rem);
 }
 
 .navbar_side ul:last-child {
@@ -509,7 +537,12 @@ scrollbar-width: none; /* Firefox */
   }
 
   .nav_pages {
-    height: 50vh;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    margin: 0;
+    margin-top: 32px;
+    margin-bottom: 16px;
   }
 }
 

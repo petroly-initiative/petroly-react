@@ -8,15 +8,15 @@ export const updateTrackingListMutation = gql`
 
 export const updateTrackingListChannelsMutation = gql`
   mutation UpdateTrackingListChannels(
-    $TELEGRAM: Boolean!
-    $EMAIL: Boolean!
-    $telegramId: String
-    $hash: String
+
+    $TELEGRAM: Boolean!,
+    $telegramId: Int,
+    $hash: String,
     $dataCheckString: String
   ) {
     updateTrackingListChannels(
       input: {
-        channels: { TELEGRAM: $TELEGRAM, EMAIL: $EMAIL }
+        channels: { TELEGRAM: $TELEGRAM, EMAIL: false }
         telegramId: $telegramId
         hash: $hash
         dataCheckString: $dataCheckString

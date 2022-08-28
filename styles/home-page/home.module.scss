@@ -24,6 +24,10 @@ $txt-hg: #0091e7;
 
 .dark-txt {
   color: theme.$dark-fnt !important;
+  &:hover{
+    
+  color: theme.$dark-fnt !important;
+  }
 }
 
 .dark-header {
@@ -196,6 +200,7 @@ $txt-hg: #0091e7;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  margin-bottom: 8px;
   width: -moz-fit-content;
   width: fit-content;
   font-size: large;
@@ -212,6 +217,42 @@ $txt-hg: #0091e7;
   &:hover {
     transform: scale(1.05);
     color: white;
+  }
+}
+
+.support-btn{
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  width: -webkit-fit-content;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin-bottom: 8px;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 0px;
+  background-color: transparent;
+   border: 2px solid transparent;
+  color: $txt-fill;
+  transition: 300ms ease;
+  .btn-icons {
+    margin-left: 8px;
+    margin-right: 4px;
+    color: #f96854;
+  }
+
+  span{
+    margin-right: 8px;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    border: 2px solid #f96854;
+     color: $txt-fill;
+   
   }
 }
 

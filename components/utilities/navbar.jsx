@@ -10,7 +10,7 @@ import {
   BsStarFill,
   BsFillPeopleFill,
 } from "react-icons/bs";
-import { RiSunFill } from "react-icons/ri";
+import { FaPatreon } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 
 import { useContext, useEffect, useState, useRef } from "react";
@@ -85,8 +85,8 @@ export default function Navbar(props) {
 
   useEffect(() => {
     // console.log(user);
-    if(document && sideVisible)
-    document.getElementById("navbar-overlay").click();
+    if (document && sideVisible)
+      document.getElementById("navbar-overlay").click();
   }, [navState]);
 
   //--------
@@ -291,6 +291,32 @@ export default function Navbar(props) {
                   langState={langState}
                 />
               </li>
+              <OverlayTrigger
+                placement="left"
+                trigger={"hover"}
+                delay={{ show: 0, hide: 50 }}
+                overlay={
+                  <Tooltip id="button-tooltip-2">{langState.patreon}</Tooltip>
+                }
+              >
+                <li
+                  className={styles.navbar_item}
+                  style={{ marginBottom: "auto" }}
+                >
+                  <a
+                    href="https://patreon.com/petroly_initiative"
+                    target={"_blank"}
+                    rel="noreferrer"
+                    className={
+                      styles["support-btn"] +
+                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                    }
+                  >
+                    <div className={styles.link_btn}></div>
+                    <FaPatreon className={styles["btn-icons"]} />
+                  </a>
+                </li>
+              </OverlayTrigger>
               <div className={styles.nav_pages}>
                 <li className={styles.navbar_item}>
                   <Link href="/" className={styles.navbar_link}>
@@ -341,7 +367,10 @@ export default function Navbar(props) {
                 </li>
               </div>
               {
-                <li className={styles.navbar_item}>
+                <li
+                  style={{ marginTop: "auto" }}
+                  className={styles.navbar_item}
+                >
                   <a
                     rel="noopener"
                     target="_blank"
@@ -424,6 +453,32 @@ export default function Navbar(props) {
                 langState={langState}
               />
             </li>
+            <OverlayTrigger
+              placement="left"
+              trigger={"hover"}
+              delay={{ show: 0, hide: 50 }}
+              overlay={
+                <Tooltip id="button-tooltip-2">{langState.patreon}</Tooltip>
+              }
+            >
+              <li
+                style={{ marginBottom: "auto" }}
+                className={styles.navbar_item}
+              >
+                <a
+                  href="https://patreon.com/petroly_initiative"
+                  target={"_blank"}
+                  rel="noreferrer"
+                  className={
+                    styles["support-btn"] +
+                    ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                  }
+                >
+                  <div className={styles.link_btn}></div>
+                  <FaPatreon className={styles["btn-icons"]} />
+                </a>
+              </li>
+            </OverlayTrigger>
             <div className={styles.nav_pages}>
               <li className={styles.navbar_item}>
                 <Link href="/" className={styles.navbar_link}>
@@ -469,7 +524,7 @@ export default function Navbar(props) {
                 </Link>
               </li>
             </div>
-            <li className={styles.navbar_item}>
+            <li style={{ marginTop: "auto" }} className={styles.navbar_item}>
               <a
                 target="_blank"
                 rel="noopener"

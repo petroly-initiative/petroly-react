@@ -6,6 +6,7 @@ const arabic = {
   person: "الشخصية",
   course: "المادة الدراسية",
   comment: "تعليق عام",
+  term :"الفصل الأكاديمي"
 };
 
 const english = {
@@ -14,6 +15,7 @@ const english = {
   person: "Personality",
   course: "Course",
   comment: "Overview",
+  term: "Academic term"
 };
 
 export default function translator(lang) {
