@@ -253,26 +253,27 @@ $btn-prim: #00ead3;
   align-items: center !important;
   flex-direction: row;
   justify-content: center !important;
-  color: #fff !important;
+  color: #fff;
   border: unset !important;
   svg {
-    transition: 600ms ease;
     margin: 8px;
     margin-bottom: 10px;
     padding: 0;
-  }
-  &:hover {
-    svg {
-      transform: scale(1.1);
-    }
   }
 }
 
 .cancel-btn {
   background-color: rgba(0, 0, 0, 0.007) !important;
-  border: 2px solid white !important;
+  border: 2px solid $txt-fill !important;
   display: flex;
+  color: $txt-fill;
   justify-content: center;
+  transition: 300ms ease;
+
+  &:hover {
+    color: rgb(252, 89, 89) !important;
+    border: 2px solid rgb(252, 89, 89) !important;
+  }
 }
 
 .submit-btn {

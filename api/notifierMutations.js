@@ -10,7 +10,7 @@ export const updateTrackingListChannelsMutation = gql`
   mutation UpdateTrackingListChannels(
 
     $TELEGRAM: Boolean!,
-    $telegramId: Int,
+    $telegramId: String,
     $hash: String,
     $dataCheckString: String
   ) {
