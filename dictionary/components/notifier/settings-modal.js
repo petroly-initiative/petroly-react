@@ -2,7 +2,7 @@ import { L } from "../../../constants";
 
 const arabic = {
   header: "إعدادات الإشعارات",
-  instructions: "الرجاء ربط حسابك في تلقرام لتلقي الإشعارات",
+  instructions: "اربط حسابك في تلقرام لتلقي الإشعارات",
   emailHeader: "البريد الإلكتروني",
   emailContent:
     "نقوم بإرسال الإشعارات عبر بريدك الإكلتروني المسجل في بترولي الرجاء عدم استخدام البريد الجامعي لتجنب الحجب ",
@@ -20,7 +20,7 @@ const arabic = {
 
 const english = {
   header: "Notifications Settings",
-  instructions: "You need to connect your telegram account to recieve notifications",
+  instructions: "Connect your telegram account to recieve notifications",
   emailHeader: "Email",
   emailContent:
     "Sending notifications via your registered email. Please do not use your KFUPM account",

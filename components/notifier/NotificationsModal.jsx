@@ -69,7 +69,7 @@ function NotificationsModal(props) {
   const [TelegramId, setTelegramId] = useState(null);
   const [telegramHash, setTelegramHash] = useState(null);
   const [telegramDataCheck, setDataCheck] = useState(null);
-  const [invalidInput, setinvalidInput] = useState(true);
+  const [invalidInput, setinvalidInput] = useState(false);
   const [TelegramSuccess, setTelegramSuccess] = useState(false);
 
   // GraqphQL Operations
@@ -126,15 +126,20 @@ function NotificationsModal(props) {
 
   const submitChannels = async () => {
     const result = await updateTrackingListChannels();
-
+    console.log(result);
     if (result.data.updateTrackingListChannels) {
-      props.handleMsg(true, langState.successEdit);
-      props.handleClose(false);
       setinvalidInput(false);
+      props.handleClose(false)
     } else {
-      props.handleMsg(true, langState.failEdit);
       setinvalidInput(true);
     }
+
+    // if (telegramChecked && !result.data.updateTrackingListChannels) {
+    //   props.handleMsg(true, langState.failEdit);
+    //   setinvalidInput(true);
+    // } else if (!telegramChecked && result.data.updateTrackingListChannels) {
+    // } else {
+    // }
   };
 
   const cancel = async () => {
@@ -234,17 +239,21 @@ function NotificationsModal(props) {
             ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
           }
         >
-          <Alert
-            dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-            style={{ textAlign: `${user.lang === L.AR_SA ? "right" : "left"}` }}
-            className={styles["rules"]}
-            key={0}
-            variant="warning"
-          >
-            <BiInfoCircle className={styles["rules-icon"]} size="1.4rem" />
-            <div>{langState.instructions}</div>
-          </Alert>
-
+          {invalidInput && (
+            <Alert
+              dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+              style={{
+                textAlign: `${user.lang === L.AR_SA ? "right" : "left"}`,
+              }}
+              className={styles["rules"]}
+              key={0}
+              variant="danger"
+            >
+              <BiInfoCircle className={styles["rules-icon"]} size="1.4rem" />
+              <div>{langState.failEdit}</div>
+            </Alert>
+          )}
+          <div style={{ marginBottom: 12 }}>{langState.instructions}</div>
           <Form className={styles.group} noValidate>
             <Form.Check
               defaultChecked={telegramChecked}
@@ -292,7 +301,7 @@ function NotificationsModal(props) {
                     {telegramChecked && (
                       <div className={styles["tele-button"]}>
                         <TelegramLoginButton
-                          botName={"petroly_bot"}
+                          botName={"petroly_test_bot"}
                           dataOnauth={onTelegramAuth}
                         />
                       </div>
@@ -340,6 +349,7 @@ function NotificationsModal(props) {
               <Button
                 onClick={submitChannels}
                 className={[styles["btns"], styles["submit-btn"]]}
+                style={{ color: "white " }}
               >
                 <Spinner animation="border" role="status" />
               </Button>
@@ -348,6 +358,7 @@ function NotificationsModal(props) {
                 onClick={submitChannels}
                 className={[styles["btns"], styles["submit-btn"]]}
                 disabled={invalidInput}
+                style={{ color: "white" }}
               >
                 <FaSave size="1.2rem" /> {langState.confirm}
               </Button>

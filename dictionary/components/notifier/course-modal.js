@@ -12,12 +12,16 @@ const arabic = {
   cancelhover: "إلغاء تتبع المادة",
   confirmHover: "تأكيد تتبع الشعب المختارة",
   unauth_msg: "الرجاء تسجيل الدخول لتتبع موادك الدراسية ",
+  empty: "لا توجد هناك شعب تطابق الإعدادات",
+  male: "طلاب",
+  female: "طالبات"
 };
 
 const english = {
   title: "Track a course",
   instruction: "Check the desired section to track it",
-  reminder: "Course status change will be sent according to your notification settings",
+  reminder:
+    "Course status change will be sent according to your notification settings",
   lectureLabel: "Lecture",
   labLabel: "Lab",
   hybridLabel: "Hybrid",
@@ -26,6 +30,9 @@ const english = {
   cancelHover: "Cancel course tracking",
   confirmHover: "Confirm tracking of selected sections",
   unauth_msg: "You need to login to track courses",
+  empty: "No Sections Match the selected filters",
+  male: "Male",
+  female: "Female"
 };
 
 export default function translator(lang) {

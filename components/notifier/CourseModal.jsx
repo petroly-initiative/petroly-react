@@ -5,18 +5,20 @@ import {
   OverlayTrigger,
   Tooltip,
   Button,
+  ButtonGroup,
 } from "react-bootstrap";
 import { useContext } from "react";
 import { M, L, langDirection, USER } from "../../constants";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/course-modal.module.scss";
 import { BiInfoCircle } from "react-icons/bi";
-import { FaSave } from "react-icons/fa";
+import { FaSave, FaFemale, FaMale } from "react-icons/fa";
 import { useState } from "react";
 import { useEffect } from "react";
 import translator from "../../dictionary/components/notifier/course-modal";
 import SectionCheckbox from "./SectionCheckbox";
 import { MdRadar, MdCancel } from "react-icons/md";
+import { TbMoodEmpty } from "react-icons/tb";
 
 // import data from "../../mocks/mockData.json";
 /**
@@ -35,10 +37,18 @@ import { MdRadar, MdCancel } from "react-icons/md";
  * ! handle translations and variable themes
  * ! the modal shall be accessed only by logged-in users
  */
+
+const sectionFilters = {
+  MALE: 1,
+  FEMALE: 0,
+  NONE: -1,
+};
+
 function CourseModal(props) {
   // ? base state
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
+  const [filters, setFilters] = useState(sectionFilters.NONE);
 
   useEffect(() => {
     setLang(() => translator(user.lang));
@@ -92,15 +102,19 @@ function CourseModal(props) {
     props.save(newSections);
   };
 
+  const switchFilter = (e) => {
+    setFilters(e.target.value);
+  };
+
   // returns a list of section card elements
   // ! (1) data filtering should be replaced be a ready-to-go fetch on course change
   // ! (2) some fields are not needed in a checkbox such as the title, course-code, and department
   // ! as they are already presented on the modal header
   // ! (3) section number is preferrably provided outside the detail objects to avoid redundancy
-  const populateSections = (courseName) => {
+  const populateSections = (courseName, filter) => {
     // getting all sections related to this course
     const courseObjects = props.searchData.filter(
-      (obj) => obj["course_number"] == courseName
+      (obj) => obj["course_number"] === courseName
     );
 
     // getting all unique section numbers
@@ -109,7 +123,24 @@ function CourseModal(props) {
       sectionsSet.add(course["section_number"])
     );
     sectionsSet = Array.from(sectionsSet);
+
+    //using filters
+
+    if (filter == sectionFilters.MALE)
+      sectionsSet = sectionsSet.filter((section) => section.charAt(0) !== "F");
+    else if (filter == sectionFilters.FEMALE)
+      sectionsSet = sectionsSet.filter((section) => section.charAt(0) === "F");
+
     // grouping similar section numbers
+
+    if (sectionsSet.length === 0) {
+      return (
+        <div className={styles["empty-container"]}>
+          <TbMoodEmpty className={styles["empty-icon"]} size="2rem" />
+          <span className={styles["empty-msg"]}>{langState.empty}</span>
+        </div>
+      );
+    }
 
     var filteredObjects = [];
 
@@ -129,6 +160,8 @@ function CourseModal(props) {
     trackedSectionSet = Array.from(trackedSectionSet);
 
     // map to section checkbox components
+
+    // console.log(filteredObjects);
 
     return filteredObjects.map((course) => {
       return (
@@ -213,6 +246,10 @@ function CourseModal(props) {
   //   console.log("tracked sections:", sections);
   // }, [sections]);
 
+  // useEffect(() => {
+  //   console.log(filters);
+  // }, [filters]);
+
   return (
     <>
       <style jsx global>{`
@@ -284,6 +321,34 @@ function CourseModal(props) {
               <div>{langState.reminder}</div>
             </Alert>
           </section>
+          <section className={styles["filters"]}>
+            <ButtonGroup className={styles["filters"]}>
+              <Button
+                className={
+                  styles["filter-btns"] +
+                  ` ${filters == 1 ? styles["active-filter"] : ""}`
+                }
+                id={sectionFilters.MALE}
+                onClick={(e) => {
+                  setFilters(e.target.id);
+                }}
+              >
+                <FaMale /> {langState.male}
+              </Button>
+              <Button
+                className={
+                  styles["filter-btns"] +
+                  ` ${filters == 0 ? styles["active-filter"] : ""}`
+                }
+                id={sectionFilters.FEMALE}
+                onClick={(e) => {
+                  setFilters(e.target.id);
+                }}
+              >
+                <FaFemale /> {langState.female}
+              </Button>
+            </ButtonGroup>
+          </section>
           <section>
             <div
               className={
@@ -294,7 +359,7 @@ function CourseModal(props) {
               {langState.instruction}
             </div>
             <div className={styles["sections-container"]}>
-              {populateSections(props.course)}
+              {populateSections(props.course, filters)}
             </div>
             {/* populating the list of sections for the course */}
           </section>
@@ -344,7 +409,7 @@ function CourseModal(props) {
                 <Spinner animation="border" role="status" />
               </Button>
             ) : ( */}
-            <span style={{padding: 0}} className={styles["btns"]}>
+            <span style={{ padding: 0 }} className={styles["btns"]}>
               <Button
                 disabled={user.status === USER.LOGGED_OUT}
                 onClick={() => {

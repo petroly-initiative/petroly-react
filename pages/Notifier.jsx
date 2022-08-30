@@ -154,14 +154,18 @@ function Notifier(props) {
     // refetching courses with provided search input and department
   };
 
-  const searchCallback = (inputObj) => {
-    search({
+  const searchCallback =  (inputObj) => {
+     search({
       variables: {
         title: courseInput.current.value,
         term: inputObj["term"] || term.long,
         department: inputObj["dept"] || department,
       },
     });
+
+   
+
+    // console.log(searchData.search);
     return "searched!";
   };
 
@@ -262,9 +266,8 @@ function Notifier(props) {
   // })
   // ! needs to be replaced by a fetching hook, this is a static demo
   const courseMapper = () => {
-    // if (!searchData.search) {
-    //   return []; // some depts have 0 offerings
-    // }
+  
+     console.log(searchData.search);
     var uniqueCourses = new Set();
     // getting unique courses
     for (let section of searchData.search) {
@@ -357,9 +360,9 @@ function Notifier(props) {
 
   useEffect(() => {
     if (dataDept) {
-      console.log(dataDept);
+      // console.log(dataDept);
       setDepartment(dataDept.departmentList[1]);
-      console.log(dataDept.departmentList[0]);
+      // console.log(dataDept.departmentList[0]);
     }
   }, [dataDept]);
 
@@ -422,11 +425,12 @@ function Notifier(props) {
     );
   }
 
-  if (!searchData ) {
+  if (!searchData || searchData.search.length === 0) {
     // show landig page to start searching
     // meaning at the initial load for the page
     // no result will be fetch until the user schoose a dept & term
 
+    // handling empty lists
 
 
     return (
@@ -597,104 +601,119 @@ function Notifier(props) {
               </button>
             </span>
           </OverlayTrigger>
-          <div
-            dir={user.lang === L.AR_SA ? "rtl" : "ltr"}
-            className={styles["tutorial-canvas"]}
-          >
+          {searchData ? (
+            <div className={styles["error-container"] + " shadow"}>
+              {" "}
+              <BiMessageAltError className={styles["error-icon"]} />
+              <div
+                className={
+                  styles["error-txt"] +
+                  ` ${user.theme === M.DARK ? styles["dark-mini-txt"] : ""}`
+                }
+              >
+                {langState.empty}
+              </div>
+            </div>
+          ) : (
             <div
-              dir={user.lang === L.AR_SA ? "ltr" : "rtl"}
-              className={`${styles["tut-header"]} ${
-                user.theme === M.DARK ? styles["dark-txt"] : ""
-              }`}
+              dir={user.lang === L.AR_SA ? "rtl" : "ltr"}
+              className={styles["tutorial-canvas"]}
             >
-              <span>{langState.tutorialHeader}</span>{" "}
-              <span>
-                {" "}
-                <FaInfoCircle className={styles["tut-icon"]} />{" "}
-              </span>
+              <div
+                dir={user.lang === L.AR_SA ? "ltr" : "rtl"}
+                className={`${styles["tut-header"]} ${
+                  user.theme === M.DARK ? styles["dark-txt"] : ""
+                }`}
+              >
+                <span>{langState.tutorialHeader}</span>{" "}
+                <span>
+                  {" "}
+                  <FaInfoCircle className={styles["tut-icon"]} />{" "}
+                </span>
+              </div>
+              <div className={styles["tutorial-map"]}>
+                <div
+                  onClick={() => {
+                    document.querySelector("#name").focus();
+                    // console.log("Clicked!");
+                  }}
+                  className={
+                    styles["tutorial-step"] +
+                    ` shadow-sm ${
+                      user.theme === M.DARK ? styles["dark-btn"] : ""
+                    }`
+                  }
+                >
+                  {/*  place the icon here */}
+                  <BiSearch className={styles["step-icon"]} />
+                  <div
+                    className={
+                      styles["step-content"] +
+                      ` ${user.theme === M.DARK ? styles["dark-mini-txt"] : ""}`
+                    }
+                  >
+                    <h3 className={styles["step-header"]}>
+                      {langState.searchHeader}
+                    </h3>
+
+                    <div className={styles["step-body"]}>
+                      {langState.searchContent}
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className={
+                    styles["tutorial-step"] +
+                    ` shadow-sm ${
+                      user.theme === M.DARK ? styles["dark-mode-step"] : ""
+                    }`
+                  }
+                >
+                  {/*  place the icon here */}
+                  <MdOutlineHighlightAlt className={styles["step-icon"]} />
+                  <div
+                    className={
+                      styles["step-content"] +
+                      ` ${user.theme === M.DARK ? styles["dark-mini-txt"] : ""}`
+                    }
+                  >
+                    <h3 className={styles["step-header"]}>
+                      {langState.selectHeader}
+                    </h3>
+
+                    <div className={styles["step-body"]}>
+                      {langState.selectContent}
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className={
+                    styles["tutorial-step"] +
+                    ` shadow-sm ${
+                      user.theme === M.DARK ? styles["dark-mode-step"] : ""
+                    }`
+                  }
+                >
+                  {/*  place the icon here */}
+                  <BiTimeFive color="#00ead3" className={styles["step-icon"]} />
+                  <div
+                    className={
+                      styles["step-content"] +
+                      ` ${user.theme === M.DARK ? styles["dark-mini-txt"] : ""}`
+                    }
+                  >
+                    <h3 className={styles["step-header"]}>
+                      {langState.waitHeader}
+                    </h3>
+
+                    <div className={styles["step-body"]}>
+                      {langState.waitContent}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className={styles["tutorial-map"]}>
-              <div
-                onClick={() => {
-                  document.querySelector("#name").focus();
-                  console.log("Clicked!");
-                }}
-                className={
-                  styles["tutorial-step"] +
-                  ` shadow-sm ${
-                    user.theme === M.DARK ? styles["dark-btn"] : ""
-                  }`
-                }
-              >
-                {/*  place the icon here */}
-                <BiSearch className={styles["step-icon"]} />
-                <div
-                  className={
-                    styles["step-content"] +
-                    ` ${user.theme === M.DARK ? styles["dark-mini-txt"] : ""}`
-                  }
-                >
-                  <h3 className={styles["step-header"]}>
-                    {langState.searchHeader}
-                  </h3>
-
-                  <div className={styles["step-body"]}>
-                    {langState.searchContent}
-                  </div>
-                </div>
-              </div>
-              <div
-                className={
-                  styles["tutorial-step"] +
-                  ` shadow-sm ${
-                    user.theme === M.DARK ? styles["dark-mode-step"] : ""
-                  }`
-                }
-              >
-                {/*  place the icon here */}
-                <MdOutlineHighlightAlt className={styles["step-icon"]} />
-                <div
-                  className={
-                    styles["step-content"] +
-                    ` ${user.theme === M.DARK ? styles["dark-mini-txt"] : ""}`
-                  }
-                >
-                  <h3 className={styles["step-header"]}>
-                    {langState.selectHeader}
-                  </h3>
-
-                  <div className={styles["step-body"]}>
-                    {langState.selectContent}
-                  </div>
-                </div>
-              </div>
-              <div
-                className={
-                  styles["tutorial-step"] +
-                  ` shadow-sm ${
-                    user.theme === M.DARK ? styles["dark-mode-step"] : ""
-                  }`
-                }
-              >
-                {/*  place the icon here */}
-                <BiTimeFive color="#00ead3" className={styles["step-icon"]} />
-                <div
-                  className={
-                    styles["step-content"] +
-                    ` ${user.theme === M.DARK ? styles["dark-mini-txt"] : ""}`
-                  }
-                >
-                  <h3 className={styles["step-header"]}>
-                    {langState.waitHeader}
-                  </h3>
-
-                  <div className={styles["step-body"]}>
-                    {langState.waitContent}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          )}
         </Container>
         {/* external component embedded within the page */}
         {user.status === USER.LOGGED_IN && HasTrackingList && (
