@@ -106,6 +106,8 @@ function NotificationsModal(props) {
     // TODO: certifiying authnetication using the hash value, as mentioned in the docs at https://core.telegram.org/widgets/login,
     // ? as the bot key is not available in the frontend
     setTelegramSuccess(true);
+    setinvalidInput(false);
+
     props.handleMsg(true, langState.successTele);
     setTelegramId(user.id.toString()); // ! necessary to avoid integer range overflow in graphQL
     setTelegramHash(user.hash);
