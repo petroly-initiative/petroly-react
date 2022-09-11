@@ -354,7 +354,7 @@ function Notifier(props) {
   useEffect(() => {
     if (termsData) {
       // console.log(termsData.terms[0]);
-      setTerm(sessionStorage.getItem("radar_term").long || termsData.terms[0]);
+      setTerm( sessionStorage.getItem("radar_term") ? sessionStorage.getItem("radar_term").long : termsData.terms[0]);
     }
   }, [termsData]);
 
