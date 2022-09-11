@@ -154,16 +154,17 @@ function Notifier(props) {
     // refetching courses with provided search input and department
   };
 
-  const searchCallback =  (inputObj) => {
-     search({
+  const searchCallback = (inputObj) => {
+    sessionStorage.setItem("radar_term", inputObj["term"] || term.long);
+    sessionStorage.setItem("radar_dept", inputObj["dept"] || department);
+
+    search({
       variables: {
-        title: courseInput.current.value,
+        title: courseInput.current.value || "",
         term: inputObj["term"] || term.long,
         department: inputObj["dept"] || department,
       },
     });
-
-   
 
     // console.log(searchData.search);
     return "searched!";
@@ -220,7 +221,7 @@ function Notifier(props) {
   };
 
   // ? Mappers
-  const deptMapper = () => {
+  const deptMapper = (department) => {
     if (dataDept != null) {
       const localData = dataDept.departmentList.filter((term) => term !== "AF");
       return localData.map((dept) => (
@@ -266,8 +267,7 @@ function Notifier(props) {
   // })
   // ! needs to be replaced by a fetching hook, this is a static demo
   const courseMapper = () => {
-  
-     console.log(searchData.search);
+    console.log(searchData.search);
     var uniqueCourses = new Set();
     // getting unique courses
     for (let section of searchData.search) {
@@ -354,20 +354,31 @@ function Notifier(props) {
   useEffect(() => {
     if (termsData) {
       // console.log(termsData.terms[0]);
-      setTerm(termsData.terms[0]);
+      setTerm( sessionStorage.getItem("radar_term") ? sessionStorage.getItem("radar_term").long : termsData.terms[0]);
     }
   }, [termsData]);
 
   useEffect(() => {
     if (dataDept) {
       // console.log(dataDept);
-      setDepartment(dataDept.departmentList[1]);
+      setDepartment(sessionStorage.getItem("radar_dept") || dataDept.departmentList[1]);
       // console.log(dataDept.departmentList[0]);
     }
   }, [dataDept]);
 
   useEffect(() => {
     navDispatch("notifier");
+    if (
+      sessionStorage.getItem("radar_dept") &&
+      sessionStorage.getItem("radar_term")
+    ) {
+      setTerm(sessionStorage.getItem("radar_term"));
+      setDepartment(sessionStorage.getItem("radar_dept"));
+      searchCallback({
+        term: sessionStorage.getItem("radar_term"),
+        dept: sessionStorage.getItem("radar_dept"),
+      });
+    }
   }, []);
 
   if (termsError || errorDept || searchError || trackedCoursesError) {
@@ -431,7 +442,6 @@ function Notifier(props) {
     // no result will be fetch until the user schoose a dept & term
 
     // handling empty lists
-
 
     return (
       <>
@@ -573,7 +583,7 @@ function Notifier(props) {
                 </Dropdown.Item>
                 <Dropdown.Divider style={{ height: "1" }} />
 
-                {deptMapper()}
+                {deptMapper(department)}
               </DropdownButton>
             </Col>
           </InputGroup>
@@ -886,7 +896,7 @@ function Notifier(props) {
               </Dropdown.Item>
               <Dropdown.Divider style={{ height: "1" }} />
 
-              {deptMapper()}
+              {deptMapper(department)}
             </DropdownButton>
           </Col>
         </InputGroup>

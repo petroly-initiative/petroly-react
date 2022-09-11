@@ -13,7 +13,6 @@ export const updateTrackingListChannelsMutation = gql`
     $TELEGRAM: Boolean!,
     $telegramId: String,
     $hash: String,
-
     $dataCheckString: String
   ) {
     updateTrackingListChannels(
