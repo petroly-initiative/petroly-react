@@ -43,7 +43,7 @@
     "sharp": "^0.30.6"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.7",
+    "autoprefixer": "^10.4.13",
     "cypress": "^10.4.0",
     "eslint": "^8.18.0",
     "eslint-config-google": "^0.14.0",
