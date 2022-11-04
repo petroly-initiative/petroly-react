@@ -131,7 +131,7 @@ function CourseCard({
         </Card.Header>
         <Card.Body className={styles["course-body"]}>
           {/* number of sections, and the number of available seats */}
-          <div className={styles["section-num"]}>  
+          <div className={styles["section-num"]}>
             <span className={styles["text"]}>{langState.sections}</span>
 
             <span className={styles["numeric"]}>{section_count}</span>
@@ -139,7 +139,7 @@ function CourseCard({
           <div className={styles["divider"]}></div>
           <div className={styles["seats-num"]}>
             <span className={styles["text"]}>{langState.seats}</span>
-            <span style={{...colorCount(), fontSize: available_seats > 99 ? "10px": ""}} className={styles["numeric"]}>
+            <span style={{ ...colorCount(), fontSize: available_seats > 99 ? "10px" : "" }} className={styles["numeric"]}>
               {available_seats < 0 ? 0 : available_seats}
             </span>
           </div>

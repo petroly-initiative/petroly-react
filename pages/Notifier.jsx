@@ -271,18 +271,20 @@ function Notifier(props) {
     var uniqueCourses = new Set();
     // getting unique courses
     for (let section of searchData.search) {
-      uniqueCourses.add(section["course_number"]);
+      uniqueCourses.add(section["courseNumber"]);
     }
     //for each unique course accumulate info
     uniqueCourses = Array.from(uniqueCourses);
     var courseObjects = [];
     for (let courseCode of uniqueCourses) {
       var courseSections = searchData.search.filter(
-        (course) => course["course_number"] == courseCode
+        (course) => course["courseNumber"] == courseCode
       );
       var sectionType = new Set();
       for (let section of courseSections) {
-        sectionType.add(section["class_type"]);
+        sectionType.add(
+          section["meetingsFaculty"][0]["meetingTime"]["meetingScheduleType"]
+        );
       }
 
       sectionType = Array.from(sectionType);
@@ -290,7 +292,7 @@ function Notifier(props) {
       if (sectionType.length !== 1) {
         if (
           courseSections.filter(
-            (e) => e["section_number"] === courseSections[0]["section_number"]
+            (e) => e["sequenceNumber"] === courseSections[0]["sequenceNumber"]
           ).length == 2
         ) {
           sectionType = ["hybrid"];
@@ -303,10 +305,10 @@ function Notifier(props) {
 
       courseObjects.push({
         code: courseCode,
-        title: courseSections[0]["course_title"],
-        available_seats: courseSections.reduce((prev, curr) => {
-          if (curr["available_seats"] < 0) return prev;
-          else return prev + curr["available_seats"];
+        title: courseSections[0]["subjectCourse"],
+        seatsAvailable: courseSections.reduce((prev, curr) => {
+          if (curr["seatsAvailable"] < 0) return prev;
+          else return prev + curr["seatsAvailable"];
         }, 0),
         sections: courseSections.length,
         type: sectionType,
@@ -320,10 +322,10 @@ function Notifier(props) {
         title={course["title"]}
         type={course["type"]}
         // to avoid double counting hybrid sections
-        available_seats={
+        seatsAvailable={
           course["type"][0] === "hybrid"
-            ? course["available_seats"] / 2
-            : course["available_seats"]
+            ? course["seatsAvailable"] / 2
+            : course["seatsAvailable"]
         }
         section_count={course["sections"]}
       />
