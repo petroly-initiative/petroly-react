@@ -267,7 +267,6 @@ function Notifier(props) {
   // })
   // ! needs to be replaced by a fetching hook, this is a static demo
   const courseMapper = () => {
-    console.log(searchData.search);
     var uniqueCourses = new Set();
     // getting unique courses
     for (let section of searchData.search) {
