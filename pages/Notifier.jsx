@@ -354,14 +354,20 @@ function Notifier(props) {
   useEffect(() => {
     if (termsData) {
       // console.log(termsData.terms[0]);
-      setTerm( sessionStorage.getItem("radar_term") ? sessionStorage.getItem("radar_term").long : termsData.terms[0]);
+      setTerm(
+        sessionStorage.getItem("radar_term")
+          ? sessionStorage.getItem("radar_term").long
+          : termsData.terms[0]
+      );
     }
   }, [termsData]);
 
   useEffect(() => {
     if (dataDept) {
       // console.log(dataDept);
-      setDepartment(sessionStorage.getItem("radar_dept") || dataDept.departmentList[1]);
+      setDepartment(
+        sessionStorage.getItem("radar_dept") || dataDept.departmentList[1]
+      );
       // console.log(dataDept.departmentList[0]);
     }
   }, [dataDept]);
