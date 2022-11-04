@@ -58,28 +58,30 @@ function SectionCheckbox(props) {
   };
 
   const generateTimeTable = (days) => {
-    var DaysList = days.split("");
+    console.log(days);
     var allDays = {
-      U: "Sunday",
-      M: "Monday",
-      T: "Tuesday",
-      W: "Wedensday",
-      R: "Thursday",
+      U: "sunday",
+      M: "monday",
+      T: "tuesday",
+      W: "wedensday",
+      R: "thursday",
     };
-    return Object.keys(allDays).map((day) => {
-      return DaysList.includes(day) ? (
+    return Object.values(allDays).map((day) => {
+      return days[day] ? (
         <OverlayTrigger
           placement="top"
           delay={{ show: 0, hide: 10 }}
-          overlay={<Tooltip id="button-tooltip-2">{allDays[day]}</Tooltip>}
+          overlay={<Tooltip id="button-tooltip-2">{day}</Tooltip>}
         >
-          <div className={styles["active-day"]}>{day}</div>
+          <div className={styles["active-day"]}>
+            {day.substring(0, 1).toUpperCase()}
+          </div>
         </OverlayTrigger>
       ) : (
         <OverlayTrigger
           placement="top"
           delay={{ show: 0, hide: 10 }}
-          overlay={<Tooltip id="button-tooltip-2">{allDays[day]}</Tooltip>}
+          overlay={<Tooltip id="button-tooltip-2">{day}</Tooltip>}
         >
           <div
             className={
@@ -87,7 +89,7 @@ function SectionCheckbox(props) {
               ` ${user.theme === M.DARK ? styles["dark-day"] : ""}`
             }
           >
-            {day}
+            {day.substring(0, 1).toUpperCase()}
           </div>
         </OverlayTrigger>
       );
@@ -141,12 +143,7 @@ function SectionCheckbox(props) {
         </div>
       );
     } else {
-      return (
-        <div className={styles["sections-type"]}>
-          <ImLab style={{ marginLeft: 4 }} className={styles["lab-icon"]} />
-          {obj.class_type}
-        </div>
-      );
+      return <div className={styles["sections-type"]}>{obj.class_type}</div>;
     }
   };
 
@@ -185,7 +182,7 @@ function SectionCheckbox(props) {
         {" "}
         <span className={styles["section-num"]}>
           {" "}
-          Section # {props.details[0].section_number}{" "}
+          Section # {props.details[0].sequenceNumber}{" "}
           {isChecked && (
             <BsCheckCircleFill className={styles["checked-icon"]} />
           )}
@@ -201,7 +198,9 @@ function SectionCheckbox(props) {
             className={styles["crn-copy"]}
           >
             <MdContentCopy />
-            <span className={styles["crn-num"]}>{props.details[0].crn}</span>
+            <span className={styles["crn-num"]}>
+              {props.details[0].courseReferenceNumber}
+            </span>
           </button>
         </OverlayTrigger>
       </div>
@@ -232,8 +231,8 @@ function SectionCheckbox(props) {
               ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
             }
           >
-            {props.details[0].instructor_name.trim().length != 0 ? (
-              props.details[0].instructor_name
+            {props.details[0].faculty.length !== 0 ? (
+              props.details[0].faculty[0].displayName
             ) : (
               <>
                 {/* translation needed */}
@@ -243,7 +242,7 @@ function SectionCheckbox(props) {
                 </span>
               </>
             )}
-            {props.details[0].id && (
+            {/* {props.details[0].id && (
               <span>
                 <InstructorPopover
                   msg={langState.ratingHeader}
@@ -253,25 +252,28 @@ function SectionCheckbox(props) {
                   name={props.details[0].instructor_name}
                   user={user}
                 />
-              </span>
-            )}
+              </span> */}
+            {/* )} */}
           </span>
           <div className={styles["meta-info"]}>
             {" "}
-            {typeMapper(props.details[0])}
+            {typeMapper(props.details[0].meetingsFaculty[0].meetingTime)}
           </div>
         </Card.Header>
         <Card.Body className={styles["details-block"]}>
           <div className={styles["section-details"]}>
             {props.details[0].class_days !== null && (
               <span className={styles["weekdays"]}>
-                {generateTimeTable(props.details[0].class_days)}
+                {generateTimeTable(
+                  props.details[0].meetingsFaculty[0]["meetingTime"]
+                )}
               </span>
             )}
-            {props.details[0].start_time !== null &&
+            {props.details[0].meetingsFaculty[0]["beginTime"] !== null &&
               props.details[0].building !== null && (
                 <div className={styles["loc-time"]}>
-                  {props.details[0].start_time !== null && (
+                  {props.details[0].meetingsFaculty[0]["beginTime"] !==
+                    null && (
                     <span
                       className={
                         styles["time"] +
@@ -282,10 +284,21 @@ function SectionCheckbox(props) {
                         color="#aaaaaa"
                         className={styles["time-icon"]}
                       />{" "}
-                      {props.details[0].start_time.substring(0, 2)}:
-                      {props.details[0].start_time.substring(2)}-
-                      {props.details[0].end_time.substring(0, 2)}:
-                      {props.details[0].end_time.substring(2)}
+                      {props.details[0].meetingsFaculty[0].meetingTime[
+                        "beginTime"
+                      ].substring(0, 2)}
+                      :
+                      {props.details[0].meetingsFaculty[0].meetingTime[
+                        "beginTime"
+                      ].substring(2)}
+                      -
+                      {props.details[0].meetingsFaculty[0].meetingTime[
+                        "endTime"
+                      ].substring(0, 2)}
+                      :
+                      {props.details[0].meetingsFaculty[0].meetingTime[
+                        "endTime"
+                      ].substring(2)}
                     </span>
                   )}
                   {props.details[0].building !== null && (
@@ -305,7 +318,11 @@ function SectionCheckbox(props) {
 
                       <span>
                         {" "}
-                        {props.details[0].building}-{props.details[0].room}
+                        {
+                          props.details[0].meetingsFaculty[0].meetingTime
+                            .building
+                        }
+                        -{props.details[0].meetingsFaculty[1].meetingTime.room}
                       </span>
                     </span>
                   )}
@@ -316,11 +333,11 @@ function SectionCheckbox(props) {
                 <span className={styles["seats-left"]}>
                   {langState.seats}
                   <span
-                    style={colorCount(props.details[0].available_seats)}
+                    style={colorCount(props.details[0].seatsAvailable)}
                     className={styles["num-slot"]}
                   >
-                    {props.details[0].available_seats >= 0
-                      ? props.details[0].available_seats
+                    {props.details[0].seatsAvailable >= 0
+                      ? props.details[0].seatsAvailable
                       : 0}
                   </span>{" "}
                 </span>
@@ -332,12 +349,9 @@ function SectionCheckbox(props) {
                   delay={{ show: 100, hide: 300 }}
                   overlay={
                     <Tooltip id="button-tooltip-2">
-                      {props.details[0].waiting_list_count <= 0
+                      {props.details[0].waitCount <= 0
                         ? langState.closed
-                        : waitlistMsg(
-                            user.lang,
-                            props.details[0].waiting_list_count
-                          )}
+                        : waitlistMsg(user.lang, props.details[0].waitCount)}
                     </Tooltip>
                   }
                 >
@@ -348,11 +362,11 @@ function SectionCheckbox(props) {
                     }
                   >
                     {langState.waitlist}
-                    {props.details[0].waiting_list_count <= 0 ? (
+                    {props.details[0].waitCount <= 0 ? (
                       <span className={styles["waitlist-close"]}>0</span>
                     ) : (
                       <span className={styles["waitlist-open"]}>
-                        {props.details[0].waiting_list_count}
+                        {props.details[0].waitCount}
                       </span>
                     )}
                   </span>
@@ -361,7 +375,7 @@ function SectionCheckbox(props) {
             )}
           </div>
         </Card.Body>
-        {props.hybrid && (
+        {props.details[0].meetingsFaculty.length === 2 && (
           <Card.Footer
             className={
               styles.footerContainer +
@@ -375,8 +389,8 @@ function SectionCheckbox(props) {
               }
             >
               <span className={styles["instructor-name"]}>
-                {props.details[1].instructor_name.trim().length != 0 ? (
-                  props.details[1].instructor_name
+                {props.details[0].faculty.length === 2 ? (
+                  props.details[0].faculty[1].displayName
                 ) : (
                   <>
                     {/* translation needed */}
@@ -386,7 +400,7 @@ function SectionCheckbox(props) {
                     </span>
                   </>
                 )}
-                {props.details[0].id && (
+                {/* {props.details[0].id && (
                   <span>
                     <InstructorPopover
                       msg={langState.ratingHeader}
@@ -397,22 +411,25 @@ function SectionCheckbox(props) {
                       user={user}
                     />
                   </span>
-                )}
+                )} */}
               </span>
               <div className={styles["meta-info"]}>
                 {" "}
-                {typeMapper(props.details[1])}
+                {typeMapper(props.details[0].meetingsFaculty[1].meetingTime)}
               </div>
             </div>
             <div className={styles["section-details"]}>
-              {props.details[1].class_days !== null && (
+              {props.details[0].meetingsFaculty.length === 2 && (
                 <span className={styles["weekdays"]}>
-                  {generateTimeTable(props.details[1].class_days)}
+                  {generateTimeTable(
+                    props.details[0].meetingsFaculty[1].meetingTime
+                  )}
                 </span>
               )}
               {/*  delete the whole container if both features are missing */}
-              {props.details[1].start_time !== null &&
-                props.details[1].building !== null && (
+              {props.details[0].meetingsFaculty[1]["beginTime"] !== null &&
+                props.details[0].meetingsFaculty[1].meetingTime.building !==
+                  "" && (
                   <div className={styles["loc-time"]}>
                     {props.details[1].start_time !== null && (
                       <span
@@ -425,13 +442,25 @@ function SectionCheckbox(props) {
                           color="#aaaaaa"
                           className={styles["time-icon"]}
                         />{" "}
-                        {props.details[1].start_time.substring(0, 2)}:
-                        {props.details[1].start_time.substring(2)}-
-                        {props.details[1].end_time.substring(0, 2)}:
-                        {props.details[1].end_time.substring(2)}
+                        {props.details[0].meetingsFaculty[1].meetingTime[
+                          "beginTime"
+                        ].substring(0, 2)}
+                        :
+                        {props.details[0].meetingsFaculty[1].meetingTime[
+                          "beginTime"
+                        ].substring(2)}
+                        -
+                        {props.details[0].meetingsFaculty[1].meetingTime[
+                          "endTime"
+                        ].substring(0, 2)}
+                        :
+                        {props.details[0].meetingsFaculty[1].meetingTime[
+                          "endTime"
+                        ].substring(2)}
                       </span>
                     )}
-                    {props.details[1].building !== null && (
+                    {props.details[0].meetingsFaculty[1].meetingTime
+                      .building !== null && (
                       <span
                         className={
                           styles["location"] +
@@ -448,7 +477,12 @@ function SectionCheckbox(props) {
 
                         <span>
                           {" "}
-                          {props.details[1].building}-{props.details[1].room}
+                          {
+                            props.details[0].meetingsFaculty[1].meetingTime
+                              .building
+                          }
+                          -
+                          {props.details[0].meetingsFaculty[1].meetingTime.room}
                         </span>
                       </span>
                     )}
@@ -464,11 +498,11 @@ function SectionCheckbox(props) {
               <span className={styles["seats-left"]}>
                 {langState.seats}
                 <span
-                  style={colorCount(props.details[1].available_seats)}
+                  style={colorCount(props.details[0].seatsAvailable)}
                   className={styles["num-slot"]}
                 >
-                  {props.details[1].available_seats >= 0
-                    ? props.details[1].available_seats
+                  {props.details[0].seatsAvailable >= 0
+                    ? props.details[0].seatsAvailable
                     : 0}
                 </span>{" "}
               </span>
@@ -479,12 +513,9 @@ function SectionCheckbox(props) {
                 delay={{ show: 100, hide: 300 }}
                 overlay={
                   <Tooltip id="button-tooltip-2">
-                    {props.details[1].waiting_list_count <= 0
+                    {props.details[0].waitCount <= 0
                       ? langState.closed
-                      : waitlistMsg(
-                          user.lang,
-                          props.details[1].waiting_list_count
-                        )}
+                      : waitlistMsg(user.lang, props.details[1].waitCount)}
                   </Tooltip>
                 }
               >
@@ -495,11 +526,11 @@ function SectionCheckbox(props) {
                   }
                 >
                   {langState.waitlist}
-                  {props.details[1].waiting_list_count <= 0 ? (
+                  {props.details[0].waitCount <= 0 ? (
                     <span className={styles["waitlist-close"]}>0</span>
                   ) : (
                     <span className={styles["waitlist-open"]}>
-                      {props.details[1].waiting_list_count}
+                      {props.details[0].waitCount}
                     </span>
                   )}
                 </span>

@@ -77,10 +77,11 @@ function Notifier(props) {
   const [showMsg, setShowMsg] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [msg, setMsg] = useState("");
-  const courseInput = useRef(""); // to sync searchbar textInput information
+  const courseInput = useRef(null); // to sync searchbar textInput information
   const [department, setDepartment] = useState("ICS");
   const [term, setTerm] = useState({ long: "202210", short: "221" }); //! will be replaced by current term
   const [HasTrackingList, setHasTrackingList] = useState(false);
+
   // ? fetched state
   const {
     data: dataDept,
@@ -150,19 +151,24 @@ function Notifier(props) {
     const newTerm = termsData.terms.find((term) => value === term.long);
     // console.log("Term: ", newTerm);
     setTerm(newTerm);
-    searchCallback({ term: newTerm.long });
+    searchCallback({ term: { long: newTerm.long, short: newTerm.short } });
     // refetching courses with provided search input and department
   };
 
   const searchCallback = (inputObj) => {
-    sessionStorage.setItem("radar_term", inputObj["term"] || term.long);
+    sessionStorage.setItem(
+      "radar_term",
+      JSON.stringify(inputObj["term"] || { long: term.long, short: term.short })
+    );
     sessionStorage.setItem("radar_dept", inputObj["dept"] || department);
 
     search({
       variables: {
-        title: courseInput.current.value || "",
-        term: inputObj["term"] || term.long,
+        title: courseInput ? "" : courseInput.current.value,
         department: inputObj["dept"] || department,
+        term: inputObj["term"]
+          ? inputObj["term"].long || inputObj["term"]
+          : term.long,
       },
     });
 
@@ -354,10 +360,14 @@ function Notifier(props) {
 
   useEffect(() => {
     if (termsData) {
+      const parsedTerms = JSON.parse(sessionStorage.getItem("radar_term"));
       // console.log(termsData.terms[0]);
       setTerm(
-        sessionStorage.getItem("radar_term")
-          ? sessionStorage.getItem("radar_term").long
+        parsedTerms
+          ? {
+              long: parsedTerms.long,
+              short: parsedTerms.short,
+            }
           : termsData.terms[0]
       );
     }
@@ -375,14 +385,16 @@ function Notifier(props) {
 
   useEffect(() => {
     navDispatch("notifier");
+    const termsObj = JSON.parse(sessionStorage.getItem("radar_term"));
     if (
       sessionStorage.getItem("radar_dept") &&
-      sessionStorage.getItem("radar_term")
+      termsObj.long &&
+      termsObj.short
     ) {
-      setTerm(sessionStorage.getItem("radar_term"));
+      setTerm(JSON.parse(sessionStorage.getItem("radar_term")));
       setDepartment(sessionStorage.getItem("radar_dept"));
       searchCallback({
-        term: sessionStorage.getItem("radar_term"),
+        term: JSON.parse(sessionStorage.getItem("radar_term")).long,
         dept: sessionStorage.getItem("radar_dept"),
       });
     }

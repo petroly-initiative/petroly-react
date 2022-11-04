@@ -112,15 +112,16 @@ function CourseModal(props) {
   // ! as they are already presented on the modal header
   // ! (3) section number is preferrably provided outside the detail objects to avoid redundancy
   const populateSections = (courseName, filter) => {
+    console.log(courseName, filter);
     // getting all sections related to this course
     const courseObjects = props.searchData.filter(
-      (obj) => obj["course_number"] === courseName
+      (obj) => obj["courseNumber"] === courseName
     );
 
     // getting all unique section numbers
     var sectionsSet = new Set();
     courseObjects.forEach((course) =>
-      sectionsSet.add(course["section_number"])
+      sectionsSet.add(course["sequenceNumber"])
     );
     sectionsSet = Array.from(sectionsSet);
 
@@ -146,7 +147,7 @@ function CourseModal(props) {
 
     for (let sectionNum of sectionsSet) {
       filteredObjects.push(
-        courseObjects.filter((obj) => obj["section_number"] == sectionNum)
+        courseObjects.filter((obj) => obj["sequenceNumber"] == sectionNum)
       );
     }
     // getting all sections that are already tracked
@@ -154,23 +155,25 @@ function CourseModal(props) {
 
     if (courseObjects != null) {
       for (let section of props.trackedCourses) {
-        trackedSectionSet.add(section["crn"]);
+        trackedSectionSet.add(section["courseReferenceNumber"]);
       }
     }
     trackedSectionSet = Array.from(trackedSectionSet);
 
     // map to section checkbox components
 
-    // console.log(filteredObjects);
+    console.log(filteredObjects);
 
     return filteredObjects.map((course) => {
       return (
         <SectionCheckbox
-          id={`${course[0]["crn"]}-checkbox`}
+          id={`${course[0]["courseReferenceNumber"]}-checkbox`}
           details={course}
           toggleCheck={toggleSection}
           hybrid={course.length == 2}
-          tracked={trackedSectionSet.includes(course[0]["crn"])}
+          tracked={trackedSectionSet.includes(
+            course[0]["courseReferenceNumber"]
+          )}
           msgHandler={props.msgHandler}
         />
       );
