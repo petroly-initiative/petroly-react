@@ -77,13 +77,13 @@ function CourseModal(props) {
     const otherSections = props.trackedCourses
       .filter(
         (course) =>
-          course["course_number"] !== props.course ||
-          course["term_code"] !== props.term.long
+          course["subjectCourse"] !== props.course ||
+          course["term"] !== props.term.long
       )
       .map((course) => ({
-        crn: course["crn"],
-        term: course["term_code"],
-        department: course["department_code"],
+        crn: course["courseReferenceNumber"],
+        term: course["term"],
+        department: course["subject"],
       }));
     // merging newly tracked courses with already tracked courses
     var newSections = [...sections].map((crn) => ({
@@ -92,12 +92,6 @@ function CourseModal(props) {
       department: props.department,
     }));
     newSections.push(...otherSections);
-    console.log(
-      "joined sections",
-      newSections,
-      "Other sections",
-      otherSections
-    );
 
     props.save(newSections);
   };
@@ -112,7 +106,6 @@ function CourseModal(props) {
   // ! as they are already presented on the modal header
   // ! (3) section number is preferrably provided outside the detail objects to avoid redundancy
   const populateSections = (courseName, filter) => {
-    console.log(courseName, filter);
     // getting all sections related to this course
     const courseObjects = props.searchData.filter(
       (obj) => obj["courseNumber"] === courseName
@@ -161,8 +154,6 @@ function CourseModal(props) {
     trackedSectionSet = Array.from(trackedSectionSet);
 
     // map to section checkbox components
-
-    console.log(filteredObjects);
 
     return filteredObjects.map((course) => {
       return (
@@ -238,20 +229,14 @@ function CourseModal(props) {
       // console.log("Modal side effect: ", props.trackedCourses);
       const targetCourse = props.trackedCourses.filter(
         (course) =>
-          course["course_number"] === props.course &&
-          course["term_code"] === props.term.long
+          course["subjectCourse"] === props.course &&
+          course["term"] === props.term.long
       );
-      setSections(targetCourse.map((course) => course["crn"]));
+      setSections(
+        targetCourse.map((course) => course["courseReferenceNumber"])
+      );
     }
   }, [props.show]);
-
-  // useEffect(() => {
-  //   console.log("tracked sections:", sections);
-  // }, [sections]);
-
-  // useEffect(() => {
-  //   console.log(filters);
-  // }, [filters]);
 
   return (
     <>

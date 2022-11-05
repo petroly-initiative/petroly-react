@@ -53,7 +53,7 @@ function SectionCheckbox(props) {
   // ? utility functions
 
   const toggleTrack = () => {
-    props.toggleCheck(props.details[0].crn);
+    props.toggleCheck(props.details[0].courseReferenceNumber);
     setChecked((state) => !state);
   };
 
@@ -165,10 +165,6 @@ function SectionCheckbox(props) {
   useEffect(() => {
     setLang(() => translator(user.lang));
   }, [user.lang]);
-
-  useEffect(() => {
-    console.log(props.details[0].id);
-  }, []);
 
   return (
     <>
