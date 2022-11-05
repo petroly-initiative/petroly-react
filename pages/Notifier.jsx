@@ -99,7 +99,10 @@ function Notifier(props) {
   const [
     search,
     { data: searchData, loading: searchLoading, error: searchError },
-  ] = useLazyQuery(searchQuery);
+  ] = useLazyQuery(searchQuery, {
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "network-only",
+  });
   const {
     data: trackedCoursesData,
     loading: trackedCoursesLoading,
@@ -109,7 +112,6 @@ function Notifier(props) {
   } = useQuery(trackedCoursesQuery, {
     skip: user.status === USER.LOGGED_OUT,
     pollInterval: 10_000,
-    fetchPolicy: "network-only",
   });
 
   useEffect(() => {
@@ -127,7 +129,9 @@ function Notifier(props) {
   //? utility functions
   // event listener for the "Enter" key
   const enterSearch = (event) => {
-    if (event.key === "Enter") searchCallback();
+    if (event.key === "Enter") {
+      searchCallback({});
+    }
   };
 
   const selectDept = (e) => {
@@ -160,6 +164,11 @@ function Notifier(props) {
       JSON.stringify(inputObj["term"] || term)
     );
 
+    console.log({
+      title: courseInput ? "" : courseInput.current.value,
+      department: inputObj["dept"] || department,
+      term: inputObj["term"] ? inputObj["term"].long : term.long,
+    });
     search({
       variables: {
         title: courseInput ? "" : courseInput.current.value,
