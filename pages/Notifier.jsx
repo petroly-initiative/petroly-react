@@ -350,6 +350,7 @@ function Notifier(props) {
 
   useEffect(() => {
     if (trackedCoursesData) {
+      console.log(trackedCoursesData);
       if (!trackedCoursesData.trackedCourses) {
         // Here user has no TrackingList
         // HasTrackingList is already `false`
@@ -974,14 +975,10 @@ function Notifier(props) {
         department={department}
         msgHandler={toggleMessage}
       />
-      {user.status === USER.LOGGED_IN && (
+      {user.status === USER.LOGGED_IN && HasTrackingList && (
         <TrackingCanvas
           allTerms={termsData.terms}
-          trackedCourses={
-            user.status === USER.LOGGED_OUT
-              ? []
-              : trackedCoursesData.trackedCourses
-          }
+          trackedCourses={trackedCoursesData.trackedCourses}
           close={toggleCanvas}
           show={showCanvas}
           save={updateTracked}
@@ -995,6 +992,7 @@ function Notifier(props) {
           visible={showSettings}
           handleClose={setShowSettings}
           handleMsg={toggleMessage}
+          firstSetup={!HasTrackingList}
         />
       )}
       {/* login checking is needed */}
