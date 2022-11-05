@@ -317,7 +317,7 @@ function SectionCheckbox(props) {
                           props.details[0].meetingsFaculty[0].meetingTime
                             .building
                         }
-                        -{props.details[0].meetingsFaculty[1].meetingTime.room}
+                        -{props.details[0].meetingsFaculty[0].meetingTime.room}
                       </span>
                     </span>
                   )}
@@ -426,7 +426,7 @@ function SectionCheckbox(props) {
                 props.details[0].meetingsFaculty[1].meetingTime.building !==
                   "" && (
                   <div className={styles["loc-time"]}>
-                    {props.details[1].start_time !== null && (
+                    {props.details[0].start_time !== null && (
                       <span
                         className={
                           styles["time"] +

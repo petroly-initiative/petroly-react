@@ -52,11 +52,10 @@ function SectionDisplay(props) {
   // ? utility functions
 
   const deleteSection = () => {
-    props.delete(props.details[0]["crn"]);
+    props.delete(props.details[0].courseReferenceNumber);
   };
 
   const generateTimeTable = (days) => {
-    console.log(days);
     var allDays = {
       U: "sunday",
       M: "monday",
@@ -101,7 +100,7 @@ function SectionDisplay(props) {
           if (result.state === "granted" || result.state == "prompt") {
             // use popMsg utility to signal successful copy
             navigator.clipboard
-              .writeText(props.details[0].crn)
+              .writeText(props.details[0].courseReferenceNumber)
               .then(() => {
                 props.msgHandler(true, langState.copied);
               })
@@ -244,7 +243,7 @@ function SectionDisplay(props) {
                 ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
               }
             >
-              {rops.details[0].faculty.length !== 0 ? (
+              {props.details[0].faculty.length !== 0 ? (
                 props.details[0].faculty[0].displayName
               ) : (
                 <>
@@ -270,7 +269,9 @@ function SectionDisplay(props) {
             <div className={styles["section-details"]}>
               {props.details[0].class_days !== null && (
                 <span className={styles["weekdays"]}>
-                  {generateTimeTable(props.details[0].class_days)}
+                  {generateTimeTable(
+                    props.details[0].meetingsFaculty[0].meetingTime
+                  )}
                 </span>
               )}
               {props.details[0].meetingsFaculty[0]["beginTime"] !== null &&
@@ -328,7 +329,7 @@ function SectionDisplay(props) {
                               .building
                           }
                           -
-                          {props.details[0].meetingsFaculty[1].meetingTime.room}
+                          {props.details[0].meetingsFaculty[0].meetingTime.room}
                         </span>
                       </span>
                     )}
@@ -407,7 +408,7 @@ function SectionDisplay(props) {
                 }
               >
                 <span className={styles["instructor-name"]}>
-                  {rops.details[0].faculty.length === 2 ? (
+                  {props.details[0].faculty.length === 2 ? (
                     props.details[0].faculty[1].displayName
                   ) : (
                     <>
@@ -427,15 +428,18 @@ function SectionDisplay(props) {
               <div className={styles["section-details"]}>
                 {props.details[0].meetingsFaculty.length === 2 && (
                   <span className={styles["weekdays"]}>
-                    {generateTimeTable(props.details[1].class_days)}
+                    {generateTimeTable(
+                      props.details[0].meetingsFaculty[1].meetingTime
+                    )}
                   </span>
                 )}
                 {/*  delete the whole container if both features are missing */}
-                {pprops.details[0].meetingsFaculty[1]["beginTime"] !== null &&
+                {props.details[0].meetingsFaculty[1]["beginTime"] !== null &&
                   props.details[0].meetingsFaculty[1].meetingTime.building !==
                     "" && (
                     <div className={styles["loc-time"]}>
-                      {props.details[1].start_time !== null && (
+                      {props.details[0].meetingsFaculty[1].meetingTime
+                        .beginTime !== null && (
                         <span
                           className={
                             styles["time"] +
@@ -511,7 +515,7 @@ function SectionDisplay(props) {
                 >
                   {langState.seats}
                   <span
-                    style={colorCount(pprops.details[0].seatsAvailable)}
+                    style={colorCount(props.details[0].seatsAvailable)}
                     className={styles["num-slot"]}
                   >
                     {props.details[0].seatsAvailable}
@@ -524,9 +528,9 @@ function SectionDisplay(props) {
                   delay={{ show: 100, hide: 300 }}
                   overlay={
                     <Tooltip id="button-tooltip-2">
-                      {props.details[1].waitCount <= 0
+                      {props.details[0].waitCount <= 0
                         ? langState.closed
-                        : waitlistMsg(user.lang, props.details[1].waitCount)}
+                        : waitlistMsg(user.lang, props.details[0].waitCount)}
                     </Tooltip>
                   }
                 >
@@ -537,11 +541,11 @@ function SectionDisplay(props) {
                     }
                   >
                     {langState.waitlist}
-                    {props.details[1].waitCount <= 0 ? (
+                    {props.details[0].waitCount <= 0 ? (
                       <span className={styles["waitlist-close"]}>0</span>
                     ) : (
                       <span className={styles["waitlist-open"]}>
-                        {props.details[1].waitCount}
+                        {props.details[0].waitCount}
                       </span>
                     )}
                   </span>

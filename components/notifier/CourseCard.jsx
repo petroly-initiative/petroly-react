@@ -32,6 +32,7 @@ function CourseCard({
   available_seats,
   openModal,
   type,
+  is_cx,
 }) {
   // ? base state
   const { user } = useContext(UserContext);
@@ -91,9 +92,7 @@ function CourseCard({
           placement="top"
           delay={{ show: 350, hide: 400 }}
           overlay={
-            <Tooltip id="button-tooltip-2">
-              {langState.hybridTooltip}
-            </Tooltip>
+            <Tooltip id="button-tooltip-2">{langState.hybridTooltip}</Tooltip>
           }
         >
           <div className={styles["sections-type"]}>{langState.hybridLabel}</div>
@@ -125,6 +124,7 @@ function CourseCard({
           <div className={styles["header-info"]}>
             {" "}
             <div className={styles["course-code"]}>{course}</div>
+            {is_cx ? "CX" : ""}
             {typeMapper()}
           </div>
           <div className={styles["course-title"]}>{title}</div>
@@ -139,7 +139,13 @@ function CourseCard({
           <div className={styles["divider"]}></div>
           <div className={styles["seats-num"]}>
             <span className={styles["text"]}>{langState.seats}</span>
-            <span style={{ ...colorCount(), fontSize: available_seats > 99 ? "10px" : "" }} className={styles["numeric"]}>
+            <span
+              style={{
+                ...colorCount(),
+                fontSize: available_seats > 99 ? "10px" : "",
+              }}
+              className={styles["numeric"]}
+            >
               {available_seats < 0 ? 0 : available_seats}
             </span>
           </div>

@@ -36,17 +36,18 @@ function TrackingCanvas(props) {
   const populateCourses = (term) => {
     const uniqueCrn = new Set();
     props.trackedCourses.forEach((course) => {
-      uniqueCrn.add(course["crn"]);
+      uniqueCrn.add(course.courseReferenceNumber);
     });
+
     uniqueCrn = Array.from(uniqueCrn);
     const uniqueSections = [];
     uniqueCrn.forEach((crn) => {
       uniqueSections.push(
-        props.trackedCourses.filter((course) => course["crn"] === crn)
+        props.trackedCourses.filter(
+          (course) => course.courseReferenceNumber === crn
+        )
       );
     });
-
-    // console.log(uniqueSections, uniqueCrn, props.trackedCourses);
 
     // <SectionDisplay
     //   course={course}
@@ -54,15 +55,13 @@ function TrackingCanvas(props) {
     //   hybrid={sectionObjs.length === 2}
     //   delete={deleteSections}
     // />
-    // console.log(uniqueSections);
-    return uniqueSections
-      .filter((sectionObj) => sectionObj[0]["term_code"] === term)
-      .map((sectionObj) => {
-        // console.log(sectionObj);
 
+    return uniqueSections
+      .filter((sectionObj) => sectionObj[0]["term"] === term)
+      .map((sectionObj) => {
         return (
           <SectionDisplay
-            id={sectionObj[0]["crn"]}
+            id={sectionObj[0].courseReferenceNumber}
             msgHandler={props.msgHandler}
             details={sectionObj}
             hybrid={sectionObj.length === 2}
@@ -88,7 +87,7 @@ function TrackingCanvas(props) {
           title={term.short}
         >
           {props.trackedCourses.filter(
-            (section) => section["term_code"] === term.long
+            (section) => section["term"] === term.long
           ).length !== 0 ? (
             populateCourses(term.long)
           ) : (
@@ -116,12 +115,14 @@ function TrackingCanvas(props) {
 
     // get all sections from the certain course, and filter
     var courseSections = props.trackedCourses;
+    courseSections = courseSections.filter(
+      (section) => section.courseReferenceNumber !== crn
+    );
 
-    courseSections = courseSections.filter((section) => section["crn"] !== crn);
     courseSections = courseSections.map((section) => ({
-      crn: section["crn"],
-      term: section["term_code"],
-      department: section["department_code"],
+      crn: section.courseReferenceNumber,
+      term: section.term,
+      department: section.subject,
     }));
 
     props.save(courseSections, true);

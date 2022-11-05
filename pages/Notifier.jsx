@@ -269,14 +269,14 @@ function Notifier(props) {
     var uniqueCourses = new Set();
     // getting unique courses
     for (let section of searchData.search) {
-      uniqueCourses.add(section["courseNumber"]);
+      uniqueCourses.add(section["subjectCourse"]);
     }
     //for each unique course accumulate info
     uniqueCourses = Array.from(uniqueCourses);
     var courseObjects = [];
     for (let courseCode of uniqueCourses) {
       var courseSections = searchData.search.filter(
-        (course) => course["courseNumber"] == courseCode
+        (course) => course["subjectCourse"] == courseCode
       );
       var sectionType = new Set();
       for (let section of courseSections) {
@@ -303,13 +303,14 @@ function Notifier(props) {
 
       courseObjects.push({
         code: courseCode,
-        title: courseSections[0]["subjectCourse"],
+        title: courseSections[0]["courseTitle"],
         seatsAvailable: courseSections.reduce((prev, curr) => {
           if (curr["seatsAvailable"] < 0) return prev;
           else return prev + curr["seatsAvailable"];
         }, 0),
         sections: courseSections.length,
         type: sectionType,
+        is_cx: courseSections[0].linkIdentifier === "CX",
       });
     }
     // TODO: fix the single card output
@@ -326,6 +327,7 @@ function Notifier(props) {
             : course["seatsAvailable"]
         }
         section_count={course["sections"]}
+        is_cx={course.is_cx}
       />
     ));
   };
@@ -762,7 +764,6 @@ function Notifier(props) {
       </>
     );
   }
-
   return (
     <>
       <Head>

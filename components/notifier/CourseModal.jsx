@@ -108,7 +108,7 @@ function CourseModal(props) {
   const populateSections = (courseName, filter) => {
     // getting all sections related to this course
     const courseObjects = props.searchData.filter(
-      (obj) => obj["courseNumber"] === courseName
+      (obj) => obj["subjectCourse"] === courseName
     );
 
     // getting all unique section numbers
