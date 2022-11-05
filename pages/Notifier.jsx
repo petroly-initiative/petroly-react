@@ -113,7 +113,6 @@ function Notifier(props) {
   });
 
   useEffect(() => {
-    // console.log(user.status);
     if (user.status === USER.LOGGED_OUT) {
       stopPolling();
     } else if (user.status === USER.LOGGED_IN) {
@@ -149,30 +148,26 @@ function Notifier(props) {
       return;
     }
     const newTerm = termsData.terms.find((term) => value === term.long);
-    // console.log("Term: ", newTerm);
     setTerm(newTerm);
     searchCallback({ term: { long: newTerm.long, short: newTerm.short } });
     // refetching courses with provided search input and department
   };
 
   const searchCallback = (inputObj) => {
+    sessionStorage.setItem("radar_dept", inputObj["dept"] || department);
     sessionStorage.setItem(
       "radar_term",
-      JSON.stringify(inputObj["term"] || { long: term.long, short: term.short })
+      JSON.stringify(inputObj["term"] || term)
     );
-    sessionStorage.setItem("radar_dept", inputObj["dept"] || department);
 
     search({
       variables: {
         title: courseInput ? "" : courseInput.current.value,
         department: inputObj["dept"] || department,
-        term: inputObj["term"]
-          ? inputObj["term"].long || inputObj["term"]
-          : term.long,
+        term: inputObj["term"] ? inputObj["term"].long : term.long,
       },
     });
 
-    // console.log(searchData.search);
     return "searched!";
   };
 
@@ -219,8 +214,6 @@ function Notifier(props) {
     //   const deletedKey = Object.keys(obj)[0];
     //   setTracked({ ...delete trackedCourses[deletedKey] });
     // }
-    // console.log("Updated courses in notifier", courses);
-    // console.log("before", trackedCoursesData);
     await updateTrackingList({ variables: { courses } });
 
     if (!isDeletion) toggleMessage(true, langState.added);
@@ -346,7 +339,6 @@ function Notifier(props) {
 
   useEffect(() => {
     if (trackedCoursesData) {
-      // console.log("in hook", trackedCoursesData);
       if (!trackedCoursesData.trackedCourses) {
         // Here user has no TrackingList
         // HasTrackingList is already `false`
@@ -358,30 +350,27 @@ function Notifier(props) {
     }
   }, [trackedCoursesData]);
 
-  useEffect(() => {
-    if (termsData) {
-      const parsedTerms = JSON.parse(sessionStorage.getItem("radar_term"));
-      // console.log(termsData.terms[0]);
-      setTerm(
-        parsedTerms
-          ? {
-              long: parsedTerms.long,
-              short: parsedTerms.short,
-            }
-          : termsData.terms[0]
-      );
-    }
-  }, [termsData]);
+  // useEffect(() => {
+  //   if (dataDept) {
+  //     setDepartment(
+  //       sessionStorage.getItem("radar_dept") || dataDept.departmentList[1]
+  //     );
+  //   }
+  // }, [dataDept]);
 
-  useEffect(() => {
-    if (dataDept) {
-      // console.log(dataDept);
-      setDepartment(
-        sessionStorage.getItem("radar_dept") || dataDept.departmentList[1]
-      );
-      // console.log(dataDept.departmentList[0]);
-    }
-  }, [dataDept]);
+  // useEffect(() => {
+  //   if (termsData) {
+  //     const parsedTerms = JSON.parse(sessionStorage.getItem("radar_term"));
+  //     setTerm(
+  //       parsedTerms
+  //         ? {
+  //             long: parsedTerms.long,
+  //             short: parsedTerms.short,
+  //           }
+  //         : termsData.terms[0]
+  //     );
+  //   }
+  // }, [termsData]);
 
   useEffect(() => {
     navDispatch("notifier");
@@ -394,7 +383,7 @@ function Notifier(props) {
       setTerm(JSON.parse(sessionStorage.getItem("radar_term")));
       setDepartment(sessionStorage.getItem("radar_dept"));
       searchCallback({
-        term: JSON.parse(sessionStorage.getItem("radar_term")).long,
+        term: JSON.parse(sessionStorage.getItem("radar_term")),
         dept: sessionStorage.getItem("radar_dept"),
       });
     }
@@ -664,7 +653,6 @@ function Notifier(props) {
                 <div
                   onClick={() => {
                     document.querySelector("#name").focus();
-                    // console.log("Clicked!");
                   }}
                   className={
                     styles["tutorial-step"] +
