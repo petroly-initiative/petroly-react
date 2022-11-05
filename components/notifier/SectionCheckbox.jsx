@@ -58,7 +58,6 @@ function SectionCheckbox(props) {
   };
 
   const generateTimeTable = (days) => {
-    console.log(days);
     var allDays = {
       U: "sunday",
       M: "monday",
