@@ -338,7 +338,6 @@ function SectionCheckbox(props) {
                 </span>
                 {/* <span className={styles["divider"]}></span> */}
                 {/*  replace with a boolean for open waitlist */}
-
                 <OverlayTrigger
                   placement="top"
                   delay={{ show: 100, hide: 300 }}
@@ -366,6 +365,10 @@ function SectionCheckbox(props) {
                     )}
                   </span>
                 </OverlayTrigger>
+                <div>
+                  Enrollments {props.details[0].enrollment}/
+                  {props.details[0].maximumEnrollment}
+                </div>
               </div>
             )}
           </div>
