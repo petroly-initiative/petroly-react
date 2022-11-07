@@ -129,7 +129,7 @@ function NotificationsModal(props) {
     console.log(result);
     if (result.data.updateTrackingListChannels) {
       setinvalidInput(false);
-      props.handleClose(false)
+      props.handleClose(false);
     } else {
       setinvalidInput(true);
     }
@@ -301,7 +301,7 @@ function NotificationsModal(props) {
                     {telegramChecked && (
                       <div className={styles["tele-button"]}>
                         <TelegramLoginButton
-                          botName={"petroly_test_bot"}
+                          botName={"petroly_bot"}
                           dataOnauth={onTelegramAuth}
                         />
                       </div>
