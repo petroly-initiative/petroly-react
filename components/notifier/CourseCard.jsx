@@ -29,7 +29,7 @@ function CourseCard({
   course,
   title,
   section_count,
-  available_seats,
+  seatsAvailable,
   openModal,
   type,
   is_cx,
@@ -45,9 +45,9 @@ function CourseCard({
   // ? utility functions
   const colorCount = () => {
     // color coding according to a pre-defined range
-    if (available_seats < 15) {
+    if (seatsAvailable < 15) {
       return { color: "rgb(255, 75, 75)" };
-    } else if (available_seats < 30) {
+    } else if (seatsAvailable < 30) {
       return { color: "rgb(255, 129, 50)" };
     } else {
       return { color: "#00ead3" };
@@ -142,11 +142,11 @@ function CourseCard({
             <span
               style={{
                 ...colorCount(),
-                fontSize: available_seats > 99 ? "10px" : "",
+                fontSize: seatsAvailable > 99 ? "10px" : "",
               }}
               className={styles["numeric"]}
             >
-              {available_seats < 0 ? 0 : available_seats}
+              {seatsAvailable < 0 ? 0 : seatsAvailable}
             </span>
           </div>
         </Card.Body>
