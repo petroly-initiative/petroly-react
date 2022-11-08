@@ -366,6 +366,7 @@ function SectionCheckbox(props) {
                   </span>
                 </OverlayTrigger>
                 <div>
+                  {" "}
                   Enrollments {props.details[0].enrollment}/
                   {props.details[0].maximumEnrollment}
                 </div>
