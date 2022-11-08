@@ -264,7 +264,7 @@ function SectionCheckbox(props) {
                 )}
               </span>
             )}
-            {props.details[0].meetingsFaculty[0]["beginTime"] !== null &&
+            {props.details[0].meetingsFaculty[0].beginTime &&
               props.details[0].building !== null && (
                 <div className={styles["loc-time"]}>
                   {props.details[0].meetingsFaculty[0]["beginTime"] !==
@@ -366,7 +366,6 @@ function SectionCheckbox(props) {
                   </span>
                 </OverlayTrigger>
                 <div>
-                  {" "}
                   Enrollments {props.details[0].enrollment}/
                   {props.details[0].maximumEnrollment}
                 </div>
@@ -426,7 +425,7 @@ function SectionCheckbox(props) {
                 </span>
               )}
               {/*  delete the whole container if both features are missing */}
-              {props.details[0].meetingsFaculty[1]["beginTime"] !== null &&
+              {props.details[0].meetingsFaculty[1].beginTime &&
                 props.details[0].meetingsFaculty[1].meetingTime.building !==
                   "" && (
                   <div className={styles["loc-time"]}>
