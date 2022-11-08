@@ -237,18 +237,18 @@ function SectionCheckbox(props) {
                 </span>
               </>
             )}
-            {/* {props.details[0].id && (
+            {props.details[0].faculty[0].pk && (
               <span>
                 <InstructorPopover
                   msg={langState.ratingHeader}
-                  img={props.details[0].profilePic}
-                  rating={props.details[0].rating}
-                  id={props.details[0].id}
-                  name={props.details[0].instructor_name}
+                  img={props.details[0].faculty[0].profilePic}
+                  rating={props.details[0].faculty[0].rating}
+                  id={props.details[0].faculty[0].pk}
+                  name={props.details[0].faculty[0].instructor_name}
                   user={user}
                 />
-              </span> */}
-            {/* )} */}
+              </span>
+            )}
           </span>
           <div className={styles["meta-info"]}>
             {" "}
