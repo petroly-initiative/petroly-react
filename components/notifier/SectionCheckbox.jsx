@@ -237,7 +237,7 @@ function SectionCheckbox(props) {
                 </span>
               </>
             )}
-            {props.details[0].faculty[0].pk && (
+            {props.details[0].faculty[0] && props.details[0].faculty[0].pk && (
               <span>
                 <InstructorPopover
                   msg={langState.ratingHeader}
