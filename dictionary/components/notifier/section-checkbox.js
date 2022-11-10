@@ -14,7 +14,8 @@ const arabic = {
   copied: "تم نسخ رقم تعريف الشعبة",
   crn: " انسخ رقم تعريف الشعبة",
   notCopied: "فشل نسخ الرقم التعريفي للشعبة",
-  ratingHeader: "توجه للتقييم"
+  ratingHeader: "توجه للتقييم",
+  enrolements: "عدد المقاعد الكلي"
 };
 
 const english = {
@@ -31,7 +32,8 @@ const english = {
   copied: "CRN copied successfully",
   crn: "copy course reference number (CRN)",
   notCopied: "failed to copy the CRN to your clipboard",
-  ratingHeader: "Lookup ratings"
+  ratingHeader: "Lookup ratings",
+  enrolements: "Total number of seats"
 };
 
 export function waitlistMsg(lang, seats){

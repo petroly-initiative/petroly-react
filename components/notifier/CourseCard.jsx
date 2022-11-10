@@ -124,10 +124,20 @@ function CourseCard({
           <div className={styles["header-info"]}>
             {" "}
             <div className={styles["course-code"]}>{course}</div>
-            {is_cx ? "CX" : ""}
+            <span
+              style={{
+                margin: 0,
+                color: "#ff00eb",
+                fontWeight: "bold",
+              }}
+            >
+              {is_cx ? "CX" : ""}
+            </span>
             {typeMapper()}
           </div>
-          <div className={styles["course-title"]}>{title}</div>
+          <div className={styles["course-title"]}>
+            {title.replace("&amp;", "&")}
+          </div>
         </Card.Header>
         <Card.Body className={styles["course-body"]}>
           {/* number of sections, and the number of available seats */}

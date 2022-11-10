@@ -22,8 +22,8 @@ $x: #622edb;
   }
 }
 
-.dark-txt{
-   color: theme.$dark-fnt !important;
+.dark-txt {
+  color: theme.$dark-fnt !important;
 }
 
 .dark-footer {
@@ -65,49 +65,46 @@ $x: #622edb;
   border: 0 !important;
 }
 
-.instructor-name{
+.instructor-name {
   display: flex !important;
 }
 
-.header-info{
-display: flex;
-align-items: center;
-
+.header-info {
+  display: flex;
+  align-items: center;
+  height: 40px;
 }
 
-.course-code{
-color: $btn-high;
-width: -webkit-fit-content !important;
-width: -moz-fit-content !important;
-width: fit-content !important;
-margin-bottom: 0px;
-margin-right: 3px;
-
+.course-code {
+  color: $btn-high;
+  width: -webkit-fit-content !important;
+  width: -moz-fit-content !important;
+  width: fit-content !important;
+  margin-bottom: 0px;
+  margin-right: 3px;
 }
 
-.meta-info{
+.meta-info {
   margin-bottom: 10px;
 }
 
- .sections-type{
-    font-weight: 600;
-    color: white;
-    font-size: small;
-    margin: 0 4px;
-    border-radius: 4px;
-    padding: 1px 8px;
-  }
+.sections-type {
+  font-weight: 600;
+  color: white;
+  font-size: small;
+  margin: 0 4px;
+  border-radius: 4px;
+  padding: 1px 8px;
+}
 
-
-.divider{
-      height: 5px;
-      width: 5px;
-      margin-right: 6px;
-      margin-left: 6px;
-      border-radius: 50%;
-      background-color: #aaaaaa;
-    }
-
+.divider {
+  height: 5px;
+  width: 5px;
+  margin-right: 6px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background-color: #aaaaaa;
+}
 
 .title_img {
   margin-right: 10px;
@@ -154,16 +151,12 @@ margin-right: 3px;
   height: 100%;
 }
 
-
-
- .instructions {
-    padding: 12px 10px;
-    font-size: 18px;
-    color: $txt-fill;
-     border-bottom: 1px solid rgb(235, 234, 234);
-  }
-
-
+.instructions {
+  padding: 12px 10px;
+  font-size: 18px;
+  color: $txt-fill;
+  border-bottom: 1px solid rgb(235, 234, 234);
+}
 
 .sections {
   width: 100%;
@@ -231,8 +224,6 @@ margin-right: 3px;
   background: #969696;
 }
 
-
-
 .info-container {
   width: 100%;
   display: flex;
@@ -242,7 +233,7 @@ margin-right: 3px;
   align-items: center;
 }
 
-.empty-container{
+.empty-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -250,25 +241,22 @@ margin-right: 3px;
   padding: 16px;
   width: 100%;
 
-  .empty-icon{
-    color: $btn-high
+  .empty-icon {
+    color: $btn-high;
   }
 
-  .empty-msg{
-   margin-top: 8px; 
+  .empty-msg {
+    margin-top: 8px;
   }
 }
 
-
-.filters{
+.filters {
   width: 100%;
   display: flex;
   justify-content: center;
-  
-  
 
   .filter-btns {
-    background-color: transparent ;
+    background-color: transparent;
     color: $txt-fill;
     border: 2px solid $txt-fill;
     border-radius: 8px;
@@ -276,18 +264,17 @@ margin-right: 3px;
     width: 50%;
     max-width: 300px;
 
-    &:checked{
+    &:checked {
       background-color: #00ead3 !important;
     }
   }
 }
 
-.active-filter{
+.active-filter {
   color: $btn-high !important;
   border: 2px solid $btn-high !important;
   background-color: $btn-high;
 }
-
 
 .headers {
   display: flex;
@@ -339,7 +326,7 @@ margin-right: 3px;
   display: flex;
   color: #aaaaaa;
   justify-content: center;
-  &:hover{
+  &:hover {
     background-color: rgb(235, 56, 56);
     color: white;
     border: 2px solid rgb(235, 56, 56) !important;
@@ -404,7 +391,7 @@ margin-right: 3px;
     padding: 8px;
   }
 
-  .meta-info{
+  .meta-info {
     padding: 0 8px;
   }
 

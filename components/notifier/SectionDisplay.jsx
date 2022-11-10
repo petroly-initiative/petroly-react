@@ -174,7 +174,7 @@ function SectionDisplay(props) {
           <span className={styles["section-num"]}>
             {" "}
             <span className={styles["course-code"]}>
-              {props.details[0]["course_number"]}
+              {props.details[0].subjectCourse}
             </span>
             &nbsp;
             <OverlayTrigger
