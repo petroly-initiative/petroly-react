@@ -49,6 +49,7 @@ function CourseModal(props) {
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
   const [filters, setFilters] = useState(sectionFilters.NONE);
+  const [is_cx, setCx] = useState(true);
 
   useEffect(() => {
     setLang(() => translator(user.lang));
@@ -99,6 +100,18 @@ function CourseModal(props) {
   const switchFilter = (e) => {
     setFilters(e.target.value);
   };
+
+  useEffect(() => {
+    const courseObjects = props.searchData.filter(
+      (obj) => obj["subjectCourse"] === props.course
+    );
+
+    if (courseObjects.length !== 0) {
+      setCx(courseObjects[0].linkIdentifier === "CX");
+      console.log(courseObjects[0]);
+    }
+    console.log(is_cx);
+  }, [props.course]);
 
   // returns a list of section card elements
   // ! (1) data filtering should be replaced be a ready-to-go fetch on course change
@@ -287,13 +300,26 @@ function CourseModal(props) {
         >
           <section className={styles["meta-info"]}>
             <div className={styles["header-info"]}>
-              <h2 className={styles["course-code"]}>{props.course}</h2>{" "}
+              <h2 className={styles["course-code"]}>{props.course}</h2>
+              {"  "}
+              <h3
+                style={{
+                  margin: 0,
+                  marginLeft: 2,
+                  color: "#ff00eb",
+                  fontWeight: "bold",
+                }}
+              >
+                {is_cx ? " CX" : ""}
+              </h3>
               <span className={styles["divider"]}></span>
               <div className={styles["header-info"]}>
                 {typeMapper(props.type)}
               </div>
             </div>
-            <h6 className={styles["course-title"]}>{props.title}</h6>
+            <h6 className={styles["course-title"]}>
+              {props.title.replace(/&amp;/g, "&")}
+            </h6>
           </section>
           <section className={styles["reminder-section"]}>
             <Alert

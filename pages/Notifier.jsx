@@ -960,6 +960,7 @@ function Notifier(props) {
       {/* external component embedded within the page */}
       <CourseModal
         searchData={searchData.search}
+       
         trackedCourses={
           user.status === USER.LOGGED_OUT
             ? []

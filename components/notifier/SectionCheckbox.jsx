@@ -5,7 +5,7 @@ import translator from "../../dictionary/components/notifier/section-checkbox";
 import { IoIosTime } from "react-icons/io";
 import { HiLocationMarker } from "react-icons/hi";
 import { ImLab } from "react-icons/im";
-import { FaBook } from "react-icons/fa";
+import { FaBook, FaChair } from "react-icons/fa";
 import { CgUnavailable } from "react-icons/cg";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { UserContext } from "../../state-management/user-state/UserContext";
@@ -250,6 +250,18 @@ function SectionCheckbox(props) {
               </span>
             )}
           </span>
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 100, hide: 300 }}
+            overlay={
+              <Tooltip id="button-tooltip-2">{langState.enrolements}</Tooltip>
+            }
+          >
+            <div className={styles["enrolement"]}>
+              <FaChair style={{ marginRight: 8 }} />
+              {props.details[0].maximumEnrollment}
+            </div>
+          </OverlayTrigger>
           <div className={styles["meta-info"]}>
             {" "}
             {typeMapper(props.details[0].meetingsFaculty[0].meetingTime)}
@@ -325,49 +337,47 @@ function SectionCheckbox(props) {
               )}
             {!props.hybrid && (
               <div className={styles["availability-details"]}>
-                <span className={styles["seats-left"]}>
-                  {langState.seats}
-                  <span
-                    style={colorCount(props.details[0].seatsAvailable)}
-                    className={styles["num-slot"]}
-                  >
-                    {props.details[0].seatsAvailable >= 0
-                      ? props.details[0].seatsAvailable
-                      : 0}
-                  </span>{" "}
-                </span>
-                {/* <span className={styles["divider"]}></span> */}
-                {/*  replace with a boolean for open waitlist */}
-                <OverlayTrigger
-                  placement="top"
-                  delay={{ show: 100, hide: 300 }}
-                  overlay={
-                    <Tooltip id="button-tooltip-2">
-                      {props.details[0].waitCount <= 0
-                        ? langState.closed
-                        : waitlistMsg(user.lang, props.details[0].waitCount)}
-                    </Tooltip>
-                  }
-                >
-                  <span
-                    className={
-                      styles["waitlist-container"] +
-                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                <div className={styles["availability-details"]}>
+                  <span className={styles["seats-left"]}>
+                    {langState.seats}
+                    <span
+                      style={colorCount(props.details[0].seatsAvailable)}
+                      className={styles["num-slot"]}
+                    >
+                      {props.details[0].seatsAvailable >= 0
+                        ? props.details[0].seatsAvailable
+                        : 0}
+                    </span>{" "}
+                  </span>
+                  {/* <span className={styles["divider"]}></span> */}
+                  {/*  replace with a boolean for open waitlist */}
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 100, hide: 300 }}
+                    overlay={
+                      <Tooltip id="button-tooltip-2">
+                        {props.details[0].waitCount <= 0
+                          ? langState.closed
+                          : waitlistMsg(user.lang, props.details[0].waitCount)}
+                      </Tooltip>
                     }
                   >
-                    {langState.waitlist}
-                    {props.details[0].waitCount <= 0 ? (
-                      <span className={styles["waitlist-close"]}>0</span>
-                    ) : (
-                      <span className={styles["waitlist-open"]}>
-                        {props.details[0].waitCount}
-                      </span>
-                    )}
-                  </span>
-                </OverlayTrigger>
-                <div>
-                  Enrollments {props.details[0].enrollment}/
-                  {props.details[0].maximumEnrollment}
+                    <span
+                      className={
+                        styles["waitlist-container"] +
+                        ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                      }
+                    >
+                      {langState.waitlist}
+                      {props.details[0].waitCount <= 0 ? (
+                        <span className={styles["waitlist-close"]}>0</span>
+                      ) : (
+                        <span className={styles["waitlist-open"]}>
+                          {props.details[0].waitCount}
+                        </span>
+                      )}
+                    </span>
+                  </OverlayTrigger>
                 </div>
               </div>
             )}
