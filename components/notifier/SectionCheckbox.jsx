@@ -276,65 +276,60 @@ function SectionCheckbox(props) {
                 )}
               </span>
             )}
-            {props.details[0].meetingsFaculty[0].beginTime &&
-              props.details[0].building !== null && (
-                <div className={styles["loc-time"]}>
-                  {props.details[0].meetingsFaculty[0]["beginTime"] !==
-                    null && (
-                    <span
-                      className={
-                        styles["time"] +
-                        ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
-                      }
-                    >
-                      <IoIosTime
-                        color="#aaaaaa"
-                        className={styles["time-icon"]}
+            {props.details[0].meetingsFaculty[0] && (
+              <div className={styles["loc-time"]}>
+                {props.details[0].meetingsFaculty[0].beginTime && (
+                  <span
+                    className={
+                      styles["time"] +
+                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                    }
+                  >
+                    <IoIosTime
+                      color="#aaaaaa"
+                      className={styles["time-icon"]}
+                    />{" "}
+                    {props.details[0].meetingsFaculty[0].meetingTime[
+                      "beginTime"
+                    ].substring(0, 2)}
+                    :
+                    {props.details[0].meetingsFaculty[0].meetingTime[
+                      "beginTime"
+                    ].substring(2)}
+                    -
+                    {props.details[0].meetingsFaculty[0].meetingTime[
+                      "endTime"
+                    ].substring(0, 2)}
+                    :
+                    {props.details[0].meetingsFaculty[0].meetingTime[
+                      "endTime"
+                    ].substring(2)}
+                  </span>
+                )}
+                {props.details[0].meetingsFaculty[0].meetingTime.building && (
+                  <span
+                    className={
+                      styles["location"] +
+                      ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                    }
+                  >
+                    <span>
+                      {" "}
+                      <HiLocationMarker
+                        color="#0091e7"
+                        className={styles["location-icon"]}
                       />{" "}
-                      {props.details[0].meetingsFaculty[0].meetingTime[
-                        "beginTime"
-                      ].substring(0, 2)}
-                      :
-                      {props.details[0].meetingsFaculty[0].meetingTime[
-                        "beginTime"
-                      ].substring(2)}
-                      -
-                      {props.details[0].meetingsFaculty[0].meetingTime[
-                        "endTime"
-                      ].substring(0, 2)}
-                      :
-                      {props.details[0].meetingsFaculty[0].meetingTime[
-                        "endTime"
-                      ].substring(2)}
                     </span>
-                  )}
-                  {props.details[0].building !== null && (
-                    <span
-                      className={
-                        styles["location"] +
-                        ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
-                      }
-                    >
-                      <span>
-                        {" "}
-                        <HiLocationMarker
-                          color="#0091e7"
-                          className={styles["location-icon"]}
-                        />{" "}
-                      </span>
 
-                      <span>
-                        {" "}
-                        {
-                          props.details[0].meetingsFaculty[0].meetingTime
-                            .building
-                        }
-                        -{props.details[0].meetingsFaculty[0].meetingTime.room}
-                      </span>
+                    <span>
+                      {" "}
+                      {props.details[0].meetingsFaculty[0].meetingTime.building}
+                      -{props.details[0].meetingsFaculty[0].meetingTime.room}
                     </span>
-                  )}
-                </div>
-              )}
+                  </span>
+                )}
+              </div>
+            )}
             {!props.hybrid && (
               <div className={styles["availability-details"]}>
                 <div className={styles["availability-details"]}>
@@ -435,67 +430,63 @@ function SectionCheckbox(props) {
                 </span>
               )}
               {/*  delete the whole container if both features are missing */}
-              {props.details[0].meetingsFaculty[1].beginTime &&
-                props.details[0].meetingsFaculty[1].meetingTime.building !==
-                  "" && (
-                  <div className={styles["loc-time"]}>
-                    {props.details[0].start_time !== null && (
-                      <span
-                        className={
-                          styles["time"] +
-                          ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
-                        }
-                      >
-                        <IoIosTime
-                          color="#aaaaaa"
-                          className={styles["time-icon"]}
+              {props.details[0].meetingsFaculty[1] && (
+                <div className={styles["loc-time"]}>
+                  {props.details[0].meetingsFaculty[1].beginTime && (
+                    <span
+                      className={
+                        styles["time"] +
+                        ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                      }
+                    >
+                      <IoIosTime
+                        color="#aaaaaa"
+                        className={styles["time-icon"]}
+                      />{" "}
+                      {props.details[0].meetingsFaculty[1].meetingTime[
+                        "beginTime"
+                      ].substring(0, 2)}
+                      :
+                      {props.details[0].meetingsFaculty[1].meetingTime[
+                        "beginTime"
+                      ].substring(2)}
+                      -
+                      {props.details[0].meetingsFaculty[1].meetingTime[
+                        "endTime"
+                      ].substring(0, 2)}
+                      :
+                      {props.details[0].meetingsFaculty[1].meetingTime[
+                        "endTime"
+                      ].substring(2)}
+                    </span>
+                  )}
+                  {props.details[0].meetingsFaculty[1].meetingTime.building && (
+                    <span
+                      className={
+                        styles["location"] +
+                        ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                      }
+                    >
+                      <span>
+                        {" "}
+                        <HiLocationMarker
+                          color="#0091e7"
+                          className={styles["location-icon"]}
                         />{" "}
-                        {props.details[0].meetingsFaculty[1].meetingTime[
-                          "beginTime"
-                        ].substring(0, 2)}
-                        :
-                        {props.details[0].meetingsFaculty[1].meetingTime[
-                          "beginTime"
-                        ].substring(2)}
-                        -
-                        {props.details[0].meetingsFaculty[1].meetingTime[
-                          "endTime"
-                        ].substring(0, 2)}
-                        :
-                        {props.details[0].meetingsFaculty[1].meetingTime[
-                          "endTime"
-                        ].substring(2)}
                       </span>
-                    )}
-                    {props.details[0].meetingsFaculty[1].meetingTime
-                      .building !== null && (
-                      <span
-                        className={
-                          styles["location"] +
-                          ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
-                        }
-                      >
-                        <span>
-                          {" "}
-                          <HiLocationMarker
-                            color="#0091e7"
-                            className={styles["location-icon"]}
-                          />{" "}
-                        </span>
 
-                        <span>
-                          {" "}
-                          {
-                            props.details[0].meetingsFaculty[1].meetingTime
-                              .building
-                          }
-                          -
-                          {props.details[0].meetingsFaculty[1].meetingTime.room}
-                        </span>
+                      <span>
+                        {" "}
+                        {
+                          props.details[0].meetingsFaculty[1].meetingTime
+                            .building
+                        }
+                        -{props.details[0].meetingsFaculty[1].meetingTime.room}
                       </span>
-                    )}
-                  </div>
-                )}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
             <div
               className={
