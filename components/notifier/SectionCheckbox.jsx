@@ -257,10 +257,12 @@ function SectionCheckbox(props) {
               <Tooltip id="button-tooltip-2">{langState.enrolements}</Tooltip>
             }
           >
-            <div className={styles["enrolement"]}>
-              {props.details[0].enrollment}
+            <div className={styles["enrolement-container"]}>
               <FaChair style={{ margin: 8 }} />
-              {props.details[0].maximumEnrollment}
+              <div className={styles["enrolement"]}>
+                <span>{props.details[0].enrollment}</span>
+                <span>{props.details[0].maximumEnrollment}</span>
+              </div>
             </div>
           </OverlayTrigger>
           <div className={styles["meta-info"]}>

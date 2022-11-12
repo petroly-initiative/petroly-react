@@ -319,9 +319,30 @@ $x: #22d77c;
   margin: 4px 4px 12px 0px;
 }
 
-.enrolement {
+.enrolement-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   &:hover {
     color: $btn-high;
+  }
+}
+
+.enrolement {
+  padding: 2px 2px;
+  border: 2px solid gray;
+  border-radius: 3px;
+  span {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    padding: 0.5px 8px;
+    position: relative;
+    margin: auto;
+  }
+
+  span:first-child {
+    border-right: 2px solid grey;
   }
 }
 
