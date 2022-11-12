@@ -514,7 +514,7 @@ function SectionCheckbox(props) {
                   <Tooltip id="button-tooltip-2">
                     {props.details[0].waitCount <= 0
                       ? langState.closed
-                      : waitlistMsg(user.lang, props.details[1].waitCount)}
+                      : waitlistMsg(user.lang, props.details[0].waitCount)}
                   </Tooltip>
                 }
               >
