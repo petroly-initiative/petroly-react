@@ -301,7 +301,7 @@ function NotificationsModal(props) {
                     {telegramChecked && (
                       <div className={styles["tele-button"]}>
                         <TelegramLoginButton
-                          botName={"petroly_test_bot"}
+                          botName={"petroly_bot"}
                           dataOnauth={onTelegramAuth}
                         />
                       </div>
