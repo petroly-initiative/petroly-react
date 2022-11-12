@@ -60,7 +60,7 @@ function SectionDisplay(props) {
       U: "sunday",
       M: "monday",
       T: "tuesday",
-      W: "wedensday",
+      W: "sednesday",
       R: "thursday",
     };
     return Object.values(allDays).map((day) => {

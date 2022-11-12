@@ -62,7 +62,7 @@ function SectionCheckbox(props) {
       U: "sunday",
       M: "monday",
       T: "tuesday",
-      W: "wedensday",
+      W: "wednesday",
       R: "thursday",
     };
     return Object.values(allDays).map((day) => {
