@@ -34,7 +34,7 @@ import CourseModal from "../components/notifier/CourseModal";
 import { HiViewList } from "react-icons/hi";
 import TrackingCanvas from "../components/notifier/TrackingCanvas";
 import { useQuery, useLazyQuery, useMutation } from "@apollo/client/react";
-import { getDepartments } from "../api/queries";
+import { getSubjects } from "../api/notifierQueries";
 import {
   searchQuery,
   trackedCoursesQuery,
@@ -87,7 +87,7 @@ function Notifier(props) {
     data: dataDept,
     error: errorDept,
     loading: loadingDept,
-  } = useQuery(getDepartments, {
+  } = useQuery(getSubjects, {
     variables: { short: true },
   });
   const {
@@ -231,7 +231,7 @@ function Notifier(props) {
   // ? Mappers
   const deptMapper = (department) => {
     if (dataDept != null) {
-      const localData = dataDept.departmentList.filter((term) => term !== "AF");
+      const localData = dataDept.subjectList.filter((term) => term !== "AF");
       return localData.map((dept) => (
         <Dropdown.Item
           id={dept}
@@ -960,7 +960,6 @@ function Notifier(props) {
       {/* external component embedded within the page */}
       <CourseModal
         searchData={searchData.search}
-       
         trackedCourses={
           user.status === USER.LOGGED_OUT
             ? []

@@ -29,3 +29,9 @@ export const trackingListChannelsQuery = gql`
     }
   }
 `;
+
+export const getSubjects = gql`
+  query GetSubjects($short: Boolean) {
+    subjectList(short: $short)
+  }
+`;
