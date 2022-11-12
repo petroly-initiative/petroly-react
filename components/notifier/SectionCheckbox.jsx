@@ -258,7 +258,8 @@ function SectionCheckbox(props) {
             }
           >
             <div className={styles["enrolement"]}>
-              <FaChair style={{ marginRight: 8 }} />
+              {props.details[0].enrollment}
+              <FaChair style={{ margin: 8 }} />
               {props.details[0].maximumEnrollment}
             </div>
           </OverlayTrigger>

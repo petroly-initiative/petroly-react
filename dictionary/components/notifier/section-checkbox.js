@@ -15,7 +15,7 @@ const arabic = {
   crn: " انسخ رقم تعريف الشعبة",
   notCopied: "فشل نسخ الرقم التعريفي للشعبة",
   ratingHeader: "توجه للتقييم",
-  enrolements: "عدد المقاعد الكلي"
+  enrolements: "عدد المسجلين من الحد الأقصى",
 };
 
 const english = {
@@ -33,13 +33,13 @@ const english = {
   crn: "copy course reference number (CRN)",
   notCopied: "failed to copy the CRN to your clipboard",
   ratingHeader: "Lookup ratings",
-  enrolements: "Total number of seats"
+  enrolements: "Number of enrollments out of maximum",
 };
 
-export function waitlistMsg(lang, seats){
+export function waitlistMsg(lang, seats) {
   switch (lang) {
     case L.EN_US:
-      return `Waitlist open with ${seats} seats left`
+      return `Waitlist open with ${seats} seats left`;
     case L.AR_SA:
       return ` مقاعد متاحة في قائمة الانتظار ${seats}`;
   }
