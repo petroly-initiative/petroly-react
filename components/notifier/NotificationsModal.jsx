@@ -228,7 +228,7 @@ function NotificationsModal(props) {
             style={{ marginLeft: user.lang === L.AR_SA ? "0" : "auto" }}
             onClick={cancel}
             variant={`${user.theme === M.DARK ? "white" : ""}`}
-            disabled={invalidInput && props.firstSetup}
+            disabled={props.firstSetup}
           />
         </Modal.Header>
 
@@ -301,7 +301,7 @@ function NotificationsModal(props) {
                     {telegramChecked && (
                       <div className={styles["tele-button"]}>
                         <TelegramLoginButton
-                          botName={"petroly_bot"}
+                          botName={"petroly_test_bot"}
                           dataOnauth={onTelegramAuth}
                         />
                       </div>
@@ -330,7 +330,7 @@ function NotificationsModal(props) {
               id="create-group-btn"
               onClick={cancel}
               className={[styles["btns"], styles["cancel-btn"]]}
-              disabled={invalidInput && props.firstSetup}
+              disabled={props.firstSetup}
             >
               <MdCancel size="1.2rem" /> {langState.cancel}
             </Button>
@@ -357,7 +357,7 @@ function NotificationsModal(props) {
               <Button
                 onClick={submitChannels}
                 className={[styles["btns"], styles["submit-btn"]]}
-                disabled={invalidInput}
+                disabled={invalidInput || !TelegramSuccess}
                 style={{ color: "white" }}
               >
                 <FaSave size="1.2rem" /> {langState.confirm}
