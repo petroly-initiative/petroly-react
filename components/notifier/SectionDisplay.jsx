@@ -108,10 +108,13 @@ function SectionDisplay(props) {
                 props.msgHandler(true, langState.notCopied);
               });
           }
+        })
+        .catch(() => {
+          props.msgHandler(true, langState.notCopied);
         });
     } else {
       navigator.clipboard
-        .writeText(props.details[0].crn)
+        .writeText(props.details[0].courseReferenceNumber)
         .then(() => {
           props.msgHandler(true, langState.copied);
         })
