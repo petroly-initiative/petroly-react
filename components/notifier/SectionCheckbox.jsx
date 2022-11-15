@@ -103,7 +103,7 @@ function SectionCheckbox(props) {
           if (result.state === "granted" || result.state == "prompt") {
             // use popMsg utility to signal successful copy
             navigator.clipboard
-              .writeText(props.details[0].crn)
+              .writeText(props.details[0].courseReferenceNumber)
               .then(() => {
                 props.msgHandler(true, langState.copied);
               })
