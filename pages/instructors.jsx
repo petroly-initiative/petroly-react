@@ -133,18 +133,14 @@ function instructorsList() {
   const loadMore = (e) => {
     fetchMore({
       variables: { after: data.instructors.pageInfo.endCursor },
-
     });
   };
-
- 
 
   // useEffect(() => {}, [stackIndex]);
 
   useEffect(() => {
     navDispatch("rating");
-    if(data)
-    console.log(Math.ceil(data.instructors.count / ITEMS));
+    if (data) console.log(Math.ceil(data.instructors.count / ITEMS));
   }, []);
 
   // ? Mappers
@@ -234,7 +230,6 @@ function instructorsList() {
                 {/*popover for filters and order*/}
                 <DropdownButton
                   disabled
-            
                   variant={`${user.theme === M.DARK ? "dark" : ""}`}
                   menuVariant={`${user.theme === M.DARK ? "dark" : ""}`}
                   bsPrefix={
@@ -313,8 +308,6 @@ function instructorsList() {
   const pageInfo = data.instructors.pageInfo;
   var currentList = instructorMapper();
   var deptList = deptMapper();
-
-
 
   return (
     <ClientOnly>
@@ -407,30 +400,34 @@ function instructorsList() {
               triggerOnce
               direction="up"
             >
-              {data.instructors.totalCount === 0 ? <div className={styles["error-container"]}>
-              <div className={styles["error-img"]}>
-                <Image
-                  src="/images/errors/NotFoundE2.svg"
-                  width="400"
-                  height="351"
-                />
-              </div>
-              <div
-                style={{
-                  color: (user.theme === M.DARK ? "white" : ""),
-                }}
-                className={styles["error-txt"]}
-              >
-                {langState.errMsg}
-              </div>
-              <a
-                href="https://forms.gle/s3PWGxWmck2fpPJo8"
-                target="_blank"
-                className={styles["form-link"] + " shadow"}
-              >
-                {langState.errBtn}
-              </a>
-            </div> :  currentList}
+              {data.instructors.totalCount === 0 ? (
+                <div className={styles["error-container"]}>
+                  <div className={styles["error-img"]}>
+                    <Image
+                      src="/images/errors/NotFoundE2.svg"
+                      width="400"
+                      height="351"
+                    />
+                  </div>
+                  <div
+                    style={{
+                      color: user.theme === M.DARK ? "white" : "",
+                    }}
+                    className={styles["error-txt"]}
+                  >
+                    {langState.errMsg}
+                  </div>
+                  <a
+                    href="https://forms.gle/s3PWGxWmck2fpPJo8"
+                    target="_blank"
+                    className={styles["form-link"] + " shadow"}
+                  >
+                    {langState.errBtn}
+                  </a>
+                </div>
+              ) : (
+                currentList
+              )}
             </Fade>
             {/* *!Number of pages should be provided by the api */}
             {/* bad style: the new api doesn't provide instructors count out of box
@@ -452,21 +449,19 @@ function instructorsList() {
                   />
                 </Button>
               ) : (
-                pageInfo.hasNextPage && (
-                  <Col l={12} xs={12} className={styles["loader_col"]}>
-                    <Button
-                      className={
-                        styles["pagination-container"] +
-                        " shadow" +
-                        ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
-                      }
-                      onClick={loadMore}
-                      disabled={!pageInfo.hasNextPage}
-                    >
-                      <BsPlusLg style={{ margin: 8 }} /> Load More
-                    </Button>
-                  </Col>
-                )
+                <Col l={12} xs={12} className={styles["loader_col"]}>
+                  <Button
+                    className={
+                      styles["pagination-container"] +
+                      " shadow" +
+                      ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
+                    }
+                    onClick={loadMore}
+                    disabled={!pageInfo.hasNextPage}
+                  >
+                    <BsPlusLg style={{ margin: 8 }} /> Load More
+                  </Button>
+                </Col>
               )}
             </>
           </Row>
