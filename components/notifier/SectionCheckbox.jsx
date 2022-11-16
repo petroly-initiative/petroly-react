@@ -383,6 +383,12 @@ function SectionCheckbox(props) {
                       )}
                     </span>
                   </OverlayTrigger>
+                  <span className={styles["seats-left"]}>
+                    {langState.waitCount}
+                    <span className={styles["num-slot"]}>
+                      {props.details[0].waitCount}
+                    </span>
+                  </span>
                 </div>
               </div>
             )}
