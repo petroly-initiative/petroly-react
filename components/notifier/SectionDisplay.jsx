@@ -367,9 +367,12 @@ function SectionDisplay(props) {
                     delay={{ show: 100, hide: 300 }}
                     overlay={
                       <Tooltip id="button-tooltip-2">
-                        {props.details[0].waitCount <= 0
+                        {props.details[0].waitAvailable <= 0
                           ? langState.closed
-                          : waitlistMsg(user.lang, props.details[0].waitCount)}
+                          : waitlistMsg(
+                              user.lang,
+                              props.details[0].waitAvailable
+                            )}
                       </Tooltip>
                     }
                   >
@@ -380,11 +383,11 @@ function SectionDisplay(props) {
                       }
                     >
                       {langState.waitlist}
-                      {props.details[0].waitCount <= 0 ? (
+                      {props.details[0].waitAvailable <= 0 ? (
                         <span className={styles["waitlist-close"]}>0</span>
                       ) : (
                         <span className={styles["waitlist-open"]}>
-                          {props.details[0].waitCount}
+                          {props.details[0].waitAvailable}
                         </span>
                       )}
                     </span>
@@ -531,9 +534,12 @@ function SectionDisplay(props) {
                   delay={{ show: 100, hide: 300 }}
                   overlay={
                     <Tooltip id="button-tooltip-2">
-                      {props.details[0].waitCount <= 0
+                      {props.details[0].waitAvailable <= 0
                         ? langState.closed
-                        : waitlistMsg(user.lang, props.details[0].waitCount)}
+                        : waitlistMsg(
+                            user.lang,
+                            props.details[0].waitAvailable
+                          )}
                     </Tooltip>
                   }
                 >
@@ -544,11 +550,11 @@ function SectionDisplay(props) {
                     }
                   >
                     {langState.waitlist}
-                    {props.details[0].waitCount <= 0 ? (
+                    {props.details[0].waitAvailable <= 0 ? (
                       <span className={styles["waitlist-close"]}>0</span>
                     ) : (
                       <span className={styles["waitlist-open"]}>
-                        {props.details[0].waitCount}
+                        {props.details[0].waitAvailable}
                       </span>
                     )}
                   </span>
