@@ -161,7 +161,7 @@ export const communityInteractionsQuery = gql`
 
 // -- communities' queries:
 export const getCommunity = gql`
-  query getCommunityInfo($id: ID) {
+  query getCommunityInfo($id: ID!) {
     community(pk: $id) {
       name
       platform
