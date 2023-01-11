@@ -1,5 +1,5 @@
 
-var URL_ENDPOINT = "https://petroly-api.graphcdn.app";
+var URL_ENDPOINT = "https://api.petroly.co";
 
 
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test")
