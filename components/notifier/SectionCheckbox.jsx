@@ -285,7 +285,7 @@ function SectionCheckbox(props) {
             )}
             {props.details[0].meetingsFaculty[0] && (
               <div className={styles["loc-time"]}>
-                {props.details[0].meetingsFaculty[0].beginTime && (
+                {props.details[0].meetingsFaculty[0].meetingTime.beginTime && (
                   <span
                     className={
                       styles["time"] +
@@ -448,7 +448,7 @@ function SectionCheckbox(props) {
               {/*  delete the whole container if both features are missing */}
               {props.details[0].meetingsFaculty[1] && (
                 <div className={styles["loc-time"]}>
-                  {props.details[0].meetingsFaculty[1].beginTime && (
+                  {props.details[0].meetingsFaculty[1].meetingTime.beginTime && (
                     <span
                       className={
                         styles["time"] +
