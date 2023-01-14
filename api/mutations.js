@@ -298,6 +298,13 @@ export const editCommunnityMutation = gql`
     }
   }
 `;
+
+export const quickAddGroups = gql`
+  mutation QuickAddGroups($text: String!) {
+    quickAdd(text: $text)
+  }
+`;
+
 export const reportCreateMutation = gql`
   mutation CreateReport(
     $reason: ReasonEnum

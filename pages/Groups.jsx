@@ -14,7 +14,7 @@ import {
 import Image from "next/image";
 import Head from "next/head";
 
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiAddToQueue } from "react-icons/bi";
 import { GoSettings } from "react-icons/go";
 import { AiFillFileAdd } from "react-icons/ai";
 import { Fade } from "react-awesome-reveal";
@@ -24,6 +24,7 @@ import { useQuery } from "@apollo/client";
 import { CommunitiesQuery } from "../api/queries";
 import GroupsFilter from "../components/Groups/GroupsFilter";
 import GroupCreationCard from "../components/Groups/GroupCreationCard";
+import GroupQuickAddModal from "../components/Groups/GroupQuickAddModal";
 import { UserContext } from "../state-management/user-state/UserContext";
 import translator from "../dictionary/pages/groups-dict";
 import { NavContext } from "../state-management/navbar-state/NavbarContext";
@@ -37,6 +38,7 @@ function Groups() {
   const [filterVisible, setVisible] = useState(false);
   const [msgVisible, setMsg] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleQuick, setModalVisibleQuick] = useState(false);
   // search filter modal state
   const [platform, setPlatform] = useState("ALL");
   // we included firstRender to stop initial double request
@@ -90,7 +92,7 @@ function Groups() {
       category: category.type === "ALL" ? undefined : category.type,
       platform: platform === "ALL" ? undefined : platform,
       section: category.course,
-    }
+    };
     refetch(vars);
   };
 
@@ -292,7 +294,7 @@ function Groups() {
           image={
             <Image
               className={styles.picDiv}
-              src={icon ? icon.url : "/images/share.png"} 
+              src={icon ? icon.url : "/images/share.png"}
               width="70"
               height="70"
             />
@@ -335,31 +337,30 @@ function Groups() {
                   // onChange={ref}
                   onKeyDown={enterSearch}
                 />
-               
-                  <Button
-                    type="submit"
-                    onClick={search}
-                    className={
-                      styles["search_btn"] +
-                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                    }
-                  >
-                    <BiSearch size="1.5rem" />
-                  </Button>
-               
-                  {/*popover for filters and order*/}
-                  <Button
-                    className={
-                      styles["filter-btn"] +
-                      ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
-                    }
-                    align="start"
-                    id="dropdown-menu-align-right"
-                    onClick={launchModal}
-                  >
-                    <GoSettings size="1.5rem" />
-                  </Button>
-                
+
+                <Button
+                  type="submit"
+                  onClick={search}
+                  className={
+                    styles["search_btn"] +
+                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                  }
+                >
+                  <BiSearch size="1.5rem" />
+                </Button>
+
+                {/*popover for filters and order*/}
+                <Button
+                  className={
+                    styles["filter-btn"] +
+                    ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                  }
+                  align="start"
+                  id="dropdown-menu-align-right"
+                  onClick={launchModal}
+                >
+                  <GoSettings size="1.5rem" />
+                </Button>
               </InputGroup>
             </Col>
           </Row>
@@ -397,6 +398,14 @@ function Groups() {
           create
         /> /* Show only when the user is logged in */
       }
+      {
+        <GroupQuickAddModal
+          visible={modalVisibleQuick}
+          handleClose={setModalVisibleQuick}
+          refetch={refetch}
+          handleMsg={setMsg}
+        /> /* Show only when the user is logged in */
+      }
       <PopMsg
         visible={msgVisible}
         msg={
@@ -431,6 +440,14 @@ function Groups() {
           <AiFillFileAdd size={32} />
         </Button>
       )}
+      <br />
+      <Button
+        style={{ bottom: "6rem" }}
+        className={styles.modalButton}
+        onClick={() => setModalVisibleQuick(true)}
+      >
+        <BiAddToQueue size={32} />
+      </Button>
     </ClientOnly>
   );
 }

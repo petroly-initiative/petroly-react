@@ -1,10 +1,11 @@
 import { L } from "../../constants";
 
-
 const arabic = {
   header: "إنشاء مجتمع",
+  headerQuick: "إضافة مجموعات متعددة",
   name: "الاسم",
   namePlaceholder: "ادخل اسم المجموعة",
+  namePlaceholderQuick: "أدخل العديد من روابط وتساب",
   edu: "تعليمي",
   eduSub: "لتجمعات طلاب المواد الدراسية والاهتمامات العلمية المشتركة",
   fun: "ترفيهي",
@@ -19,12 +20,16 @@ const arabic = {
   platform: "المنصة",
   type: "تصنيف المجتمع",
   desc: "الوصف",
+  descQuick: "إوابط وتساب",
   descPlaceHolder: "اكتب وصفاً للمجموعة",
   descHelper: "الحد الأقصى للوصف هو 500 حرف",
+  descHelperQuick:
+    "يمكن كتباة أكثر من رابط، كل رابط في سطر جديد. حتى مع وجود نصوص عشوائية.",
   nameHelper: "الحد الأقصى هو 100 حرفا",
   link: "الرابط",
   linkPlaceholder: "ادخل رابط المجموعة",
   create: "أنشئ المجتمع",
+  createQuick: "استخرج الكل ثم أضف",
   edit: "حدث المجتمع",
   course: "المادة الدراسية",
   courseErr: "الرجاء استخدام صيغة ABCDXXX",
@@ -36,9 +41,9 @@ const arabic = {
   imageHelper: "الرجاء استخدام صيغة PNG, JPG, JPEG",
 };
 
-
 const english = {
   header: "Create a Group",
+  headerQuick: "Create Multiple Groups",
   name: "Name",
   namePlaceholder: "Enter Group name",
   edu: "Educational",
@@ -54,12 +59,17 @@ const english = {
   platform: "Platform",
   type: "Group Type",
   desc: "Description",
+  descQuick: "WahtsApp URLs",
   descPlaceHolder: "Enter Group Description",
+  descPlaceHolderQuick: "Enter multiple WahtsApp URLs",
   descHelper: "Description Should not exceed 500 letters",
+  descHelperQuick:
+    "Write any mumber of WahtsApp links, even with some text, each link in a new line.",
   nameHelper: "Name should not exceed 100 letters",
   link: "Link",
   linkPlaceholder: "Enter the Group link",
   create: "Create Group",
+  createQuick: "Extract All and Add",
   edit: "Edit Group",
   course: "Course",
   courseErr: "Please use the following format : ABCDXXX",
@@ -68,8 +78,7 @@ const english = {
   typeErr: "Please Select the Group Type",
   platformErr: "Please Select the Group Platform",
   descErr: "Please provide a description for the group",
-   imageHelper: "Please use PNG, JPG, or JPEG format"
- 
+  imageHelper: "Please use PNG, JPG, or JPEG format",
 };
 
 export default function translator(lang) {
