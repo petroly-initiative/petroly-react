@@ -83,6 +83,7 @@ export default function HomeScreen() {
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4435926247205725"
           crossorigin="anonymous"
         ></script>
+        <script defer src="https://cdn.bayanplus.co/bp.js" data-pid="12yT00iI"></script>
       </Head>
 
       {/* <Navbar page="home" /> */}
