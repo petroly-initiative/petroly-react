@@ -83,7 +83,6 @@ export default function HomeScreen() {
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4435926247205725"
           crossorigin="anonymous"
         ></script>
-        <script defer src="https://cdn.bayanplus.co/bp.js" data-pid="12yT00iI"></script>
       </Head>
 
       {/* <Navbar page="home" /> */}
@@ -103,16 +102,14 @@ export default function HomeScreen() {
               />
             </div>
             <h1
-              className={` ${user.theme === M.DARK ? styles["dark-txt"] : ""} ${
-                user.lang === L.EN_US ? styles["header-highlight"] : ""
-              }`}
+              className={` ${user.theme === M.DARK ? styles["dark-txt"] : ""} ${user.lang === L.EN_US ? styles["header-highlight"] : ""
+                }`}
             >
               {langState.headerOne}
             </h1>
             <h1
-              className={`{styles["header-second"]} ${
-                user.theme === M.DARK ? styles["dark-txt"] : ""
-              }`}
+              className={`{styles["header-second"]} ${user.theme === M.DARK ? styles["dark-txt"] : ""
+                }`}
             >
               {langState.headerTwo}
               {user.lang === L.AR_SA && (

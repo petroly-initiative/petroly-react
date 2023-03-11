@@ -28,12 +28,12 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
 
 function MyApp({ Component, pageProps }) {
 
- 
+
 
   const [user, dispatch] = useReducer(userReducer, {
     status: USER.LOGGED_OUT,
     token: "",
-    lang:  DEF_LANG,
+    lang: DEF_LANG,
     theme: DEF_THEME,
   });
   const [navState, navDispatch] = useReducer(NavReducer, {
@@ -56,9 +56,9 @@ function MyApp({ Component, pageProps }) {
                 name="viewport"
                 content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
               />
-
-              
+              <script defer src="https://cdn.bayanplus.co/bp.js" data-pid="12yT00iI"></script>
             </Head>
+
             <ClientMutator>
               <NavContext.Provider
                 value={{
@@ -76,8 +76,8 @@ function MyApp({ Component, pageProps }) {
         <style jsx global>{`
           body {
             background: ${user.theme === M.DARK
-              ? "#121212;"
-              : "rgb(250, 250, 250)"};
+            ? "#121212;"
+            : "rgb(250, 250, 250)"};
           }
         `}</style>
       </SSRProvider>
