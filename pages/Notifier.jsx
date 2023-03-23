@@ -79,7 +79,7 @@ function Notifier(props) {
   const [msg, setMsg] = useState("");
   const courseInput = useRef(null); // to sync searchbar textInput information
   const [department, setDepartment] = useState("ICS");
-  const [term, setTerm] = useState({ long: "202220", short: "222" }); //! will be replaced by current term
+  const [term, setTerm] = useState({ long: "", short: "" }); //! will be replaced by current term
   const [HasTrackingList, setHasTrackingList] = useState(false);
 
   // ? fetched state
