@@ -3,67 +3,73 @@ import { gql } from "@apollo/client";
 export const tokenAuthMutation = gql`
   mutation getToken($username: String!, $password: String!) {
     tokenAuth(username: $username, password: $password) {
-      success
-      errors
-      obtainPayload {
-        payload {
-          username
-          origIat
-          exp
-        }
-        token
-        refreshToken
-        refreshExpiresIn
+    success
+    errors
+    user{
+      username
+      verified
+    }
+    token{
+      token
+      payload{
+        origIat
+        exp
+        username
       }
     }
+    refreshToken{
+      revoked
+      created
+      token
+    }
+   }
   }
 `;
 
 export const verifyTokenMutation = gql`
   mutation VerifyToken($token: String!) {
     verifyToken(token: $token) {
-      success
-      errors
-      verifyPayload {
-        payload {
-          exp
-          origIat
-          username
-        }
-      }
+    success
+    errors
+    user{
+      username
     }
+   }
   }
 `;
 
 export const refreshTokenMutation = gql`
   mutation Refresh($refreshToken: String!) {
-    refreshToken(refreshToken: $refreshToken) {
-      success
-      errors
-      refreshPayload {
-        token
-        refreshToken
-        refreshExpiresIn
-        payload {
-          exp
-          origIat
-          username
-        }
+    refreshToken(refreshToken: $refreshToken, revokeRefreshToken:false) {
+    success
+    errors
+		token{
+      token
+      payload{
+        username
       }
+
+  }
+    refreshToken{
+      created
+      revoked
+      expiresAt
+      isExpired
     }
+   }
   }
 `;
 
 export const revokeTokenMutation = gql`
   mutation Revoke($refreshToken: String!) {
     revokeToken(refreshToken: $refreshToken) {
-      success
-      errors
-      revokePayload {
-        revoked
-      }
+    success
+    errors
+    refreshToken{
+      revoked
     }
   }
+ }
 `;
 
 export const registerMutation = gql`
@@ -84,6 +90,42 @@ export const registerMutation = gql`
     }
   }
 `;
+
+
+export const sendPasswordResetEmailMutation = gql`
+  mutation ($email: String!) {
+    sendPasswordResetEmail(email: $email) {
+      success
+      errors
+    }
+  }
+`;
+
+export const passwordResetMutation = gql`
+  mutation ($token: String!, $newPassword1: String!, $newPassword2: String!) {
+    passwordReset(
+      token: $token
+      newPassword1: $newPassword1
+      newPassword2: $newPassword2
+    ) {
+      success
+      errors
+    }
+  }
+`;
+
+export const verifyAccountMutation = gql`
+  mutation ($token: String!) {
+    verifyAccount(token: $token) {
+      success
+      errors
+    }
+  }
+`;
+
+
+
+
 export const evaluationCreateMutation = gql`
   mutation EvaluationCreate(
     $user: ID!
@@ -165,37 +207,6 @@ export const evaluationUpdateMutation = gql`
       ... on EvaluationType {
         pk
       }
-    }
-  }
-`;
-
-export const sendPasswordResetEmailMutation = gql`
-  mutation ($email: String!) {
-    sendPasswordResetEmail(email: $email) {
-      success
-      errors
-    }
-  }
-`;
-
-export const passwordResetMutation = gql`
-  mutation ($token: String!, $newPassword1: String!, $newPassword2: String!) {
-    passwordReset(
-      token: $token
-      newPassword1: $newPassword1
-      newPassword2: $newPassword2
-    ) {
-      success
-      errors
-    }
-  }
-`;
-
-export const verifyAccountMutation = gql`
-  mutation ($token: String!) {
-    verifyAccount(token: $token) {
-      success
-      errors
     }
   }
 `;

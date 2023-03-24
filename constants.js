@@ -1,5 +1,5 @@
 
-var URL_ENDPOINT = "https://api.petroly.co";
+var URL_ENDPOINT = "http://localhost:8000/endpoint/";
 
 
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test")

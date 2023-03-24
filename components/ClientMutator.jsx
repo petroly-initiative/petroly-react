@@ -108,7 +108,7 @@ export default function ClientMutator({ children }) {
         // no change in the client
         userDispatch({
           type: T.SET_CLIENT,
-          username: dataVerifyToken.verifyToken.verifyPayload.payload.username,
+          username: dataVerifyToken.verifyToken.user.username,
           token,
         });
       } else if (rToken) refreshToken();
@@ -118,10 +118,8 @@ export default function ClientMutator({ children }) {
   useEffect(() => {
     if (dataRefreshToken && dataRefreshToken.refreshToken.success) {
       var lang = user.lang;
-      token = dataRefreshToken.refreshToken.refreshPayload.token;
-      rToken = dataRefreshToken.refreshToken.refreshPayload.refreshToken;
+      token = dataRefreshToken.refreshToken.token.token;
       sessionStorage.setItem("token", token);
-      localStorage.setItem("refreshToken", rToken);
 
       client.setLink(
         createUploadLink({
@@ -132,10 +130,11 @@ export default function ClientMutator({ children }) {
           },
         })
       );
+      console.log(dataRefreshToken);
 
       userDispatch({
         type: T.SET_CLIENT,
-        username: dataRefreshToken.refreshToken.refreshPayload.payload.username,
+        username: dataRefreshToken.refreshToken.token.payload.username,
         token,
       });
     }
@@ -148,7 +147,7 @@ export default function ClientMutator({ children }) {
         msg={Msg}
         handleClose={setMsgVisible}
         success
-        // you can use failure or none for different message types
+      // you can use failure or none for different message types
       />
       <ApolloProvider client={client}>{children}</ApolloProvider>
     </>

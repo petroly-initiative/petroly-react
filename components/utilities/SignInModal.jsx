@@ -267,25 +267,17 @@ export default function SignInModal(props) {
       if (dataTokenAuth.tokenAuth.success) {
         sessionStorage.setItem(
           "token",
-          dataTokenAuth.tokenAuth.obtainPayload.token
-        );
-        sessionStorage.setItem(
-          "exp",
-          dataTokenAuth.tokenAuth.obtainPayload.payload.exp
+          dataTokenAuth.tokenAuth.token.token
         );
         localStorage.setItem(
           "refreshToken",
-          dataTokenAuth.tokenAuth.obtainPayload.refreshToken
-        );
-        localStorage.setItem(
-          "refreshExpiresIn",
-          dataTokenAuth.tokenAuth.obtainPayload.refreshExpiresIn
+          dataTokenAuth.tokenAuth.refreshToken.token
         );
 
         userDispatch({
           type: T.LOGIN,
-          token: dataTokenAuth.tokenAuth.obtainPayload.token,
-          username: dataTokenAuth.tokenAuth.obtainPayload.payload.username,
+          token: dataTokenAuth.tokenAuth.token.token,
+          username: dataTokenAuth.tokenAuth.user.username,
         });
         props.close();
       }
@@ -333,11 +325,14 @@ export default function SignInModal(props) {
       if (dataSendPasswordResetEmail.sendPasswordResetEmail.success) {
         setMode("ps-sccuess");
         setTimeout(() => router.reload(), 1000);
-      } else
-       console.log (
+      } else {
+        const errors = dataSendPasswordResetEmail.sendPasswordResetEmail.errors;
+        setError({ show: true, msg: errors.nonFieldErrors[0].message });
+        console.log(
           "Email wasn't sent",
           dataSendPasswordResetEmail.sendPasswordResetEmail.errors
         );
+      }
     }
   }, [
     loadingTokenAuth,
@@ -380,13 +375,11 @@ export default function SignInModal(props) {
                         className={
                           tab === "signIn"
                             ? styles["active-tab"] +
-                              ` ${
-                                user.theme === M.DARK ? styles["dark-mode"] : ""
-                              }`
+                            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""
+                            }`
                             : styles["tab-btns"] +
-                              ` ${
-                                user.theme === M.DARK ? styles["dark-mode"] : ""
-                              }`
+                            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""
+                            }`
                         }
                         onClick={switchTab}
                         id="signIn"
@@ -397,13 +390,11 @@ export default function SignInModal(props) {
                         className={
                           tab === "signUp"
                             ? styles["active-tab"] +
-                              ` ${
-                                user.theme === M.DARK ? styles["dark-mode"] : ""
-                              }`
+                            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""
+                            }`
                             : styles["tab-btns"] +
-                              ` ${
-                                user.theme === M.DARK ? styles["dark-mode"] : ""
-                              }`
+                            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""
+                            }`
                         }
                         onClick={switchTab}
                         id="signUp"
@@ -444,11 +435,10 @@ export default function SignInModal(props) {
                       >
                         <FormControl
                           id="username-input"
-                          className={`${
-                            user.theme === M.DARK
-                              ? styles["dark-mode-input"]
-                              : ""
-                          }`}
+                          className={`${user.theme === M.DARK
+                            ? styles["dark-mode-input"]
+                            : ""
+                            }`}
                           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                           onChange={handleUsername}
                           value={username}
@@ -476,11 +466,10 @@ export default function SignInModal(props) {
                           hasValidation
                         >
                           <FormControl
-                            className={`${
-                              user.theme === M.DARK
-                                ? styles["dark-mode-input"]
-                                : ""
-                            }`}
+                            className={`${user.theme === M.DARK
+                              ? styles["dark-mode-input"]
+                              : ""
+                              }`}
                             dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                             onChange={handleEmail}
                             value={email}
@@ -516,11 +505,10 @@ export default function SignInModal(props) {
                       >
                         <FormControl
                           id="pass-input"
-                          className={`${
-                            user.theme === M.DARK
-                              ? styles["dark-mode-input"]
-                              : ""
-                          }`}
+                          className={`${user.theme === M.DARK
+                            ? styles["dark-mode-input"]
+                            : ""
+                            }`}
                           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                           onChange={handlePassword}
                           value={password}
@@ -552,11 +540,10 @@ export default function SignInModal(props) {
                         </Form.Label>
                         <InputGroup className={styles["input-groups"]}>
                           <FormControl
-                            className={`${
-                              user.theme === M.DARK
-                                ? styles["dark-mode-input"]
-                                : ""
-                            }`}
+                            className={`${user.theme === M.DARK
+                              ? styles["dark-mode-input"]
+                              : ""
+                              }`}
                             dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                             onChange={handleConfirmPass}
                             value={confirmPass}
@@ -662,9 +649,8 @@ export default function SignInModal(props) {
                   )}
                   <InputGroup className={styles["input-groups"]} hasValidation>
                     <FormControl
-                      className={`${
-                        user.theme === M.DARK ? styles["dark-mode-input"] : ""
-                      }`}
+                      className={`${user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                        }`}
                       dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
                       onChange={handleEmail}
                       value={email}
