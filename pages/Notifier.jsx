@@ -79,7 +79,7 @@ function Notifier(props) {
   const [msg, setMsg] = useState("");
   const courseInput = useRef(null); // to sync searchbar textInput information
   const [department, setDepartment] = useState("ICS");
-  const [term, setTerm] = useState({ long: "", short: "" }); //! will be replaced by current term
+  const [term, setTerm] = useState({ long: "202230", short: "223" }); //! will be replaced by current term
   const [HasTrackingList, setHasTrackingList] = useState(false);
 
   // ? fetched state
@@ -241,8 +241,7 @@ function Notifier(props) {
           onClick={selectDept}
           className={
             styles["depts"] +
-            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""} ${
-              dept === department ? styles["active-term"] : ""
+            ` ${user.theme === M.DARK ? styles["dark-mode"] : ""} ${dept === department ? styles["active-term"] : ""
             }`
           }
         >
@@ -484,15 +483,14 @@ function Notifier(props) {
               <Form.Control
                 onKeyDown={enterSearch}
                 id="name"
-                className={`${styles["search-input"]} ${
-                  user.theme === M.DARK ? styles["dark-mode-input"] : ""
-                }`}
+                className={`${styles["search-input"]} ${user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                  }`}
                 type="text"
                 placeholder={langState.searchbar}
                 ref={courseInput}
                 // onChange={changeName}
                 dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                // onKeyDown={enterSearch}
+              // onKeyDown={enterSearch}
               ></Form.Control>
 
               <button
@@ -651,9 +649,8 @@ function Notifier(props) {
             >
               <div
                 dir={user.lang === L.AR_SA ? "ltr" : "rtl"}
-                className={`${styles["tut-header"]} ${
-                  user.theme === M.DARK ? styles["dark-txt"] : ""
-                }`}
+                className={`${styles["tut-header"]} ${user.theme === M.DARK ? styles["dark-txt"] : ""
+                  }`}
               >
                 <span>{langState.tutorialHeader}</span>{" "}
                 <span>
@@ -668,8 +665,7 @@ function Notifier(props) {
                   }}
                   className={
                     styles["tutorial-step"] +
-                    ` shadow-sm ${
-                      user.theme === M.DARK ? styles["dark-btn"] : ""
+                    ` shadow-sm ${user.theme === M.DARK ? styles["dark-btn"] : ""
                     }`
                   }
                 >
@@ -693,8 +689,7 @@ function Notifier(props) {
                 <div
                   className={
                     styles["tutorial-step"] +
-                    ` shadow-sm ${
-                      user.theme === M.DARK ? styles["dark-mode-step"] : ""
+                    ` shadow-sm ${user.theme === M.DARK ? styles["dark-mode-step"] : ""
                     }`
                   }
                 >
@@ -718,8 +713,7 @@ function Notifier(props) {
                 <div
                   className={
                     styles["tutorial-step"] +
-                    ` shadow-sm ${
-                      user.theme === M.DARK ? styles["dark-mode-step"] : ""
+                    ` shadow-sm ${user.theme === M.DARK ? styles["dark-mode-step"] : ""
                     }`
                   }
                 >
@@ -795,15 +789,14 @@ function Notifier(props) {
             <Form.Control
               onKeyDown={enterSearch}
               id="name"
-              className={`${styles["search-input"]} ${
-                user.theme === M.DARK ? styles["dark-mode-input"] : ""
-              }`}
+              className={`${styles["search-input"]} ${user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                }`}
               type="text"
               placeholder={langState.searchbar}
               ref={courseInput}
               // onChange={changeName}
               dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-              // onKeyDown={enterSearch}
+            // onKeyDown={enterSearch}
             ></Form.Control>
 
             <button
