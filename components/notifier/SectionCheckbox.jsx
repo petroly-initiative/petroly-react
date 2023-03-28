@@ -174,9 +174,8 @@ function SectionCheckbox(props) {
     <>
       {/* ! needs trasnlation */}
       <div
-        className={`${
-          isChecked ? styles["checked-input"] : styles["unchecked-input"]
-        } ${user.theme === M.DARK ? styles["dark-txt"] : ""}`}
+        className={`${isChecked ? styles["checked-input"] : styles["unchecked-input"]
+          } ${user.theme === M.DARK ? styles["dark-txt"] : ""}`}
       >
         {" "}
         <span className={styles["section-num"]}>
@@ -210,10 +209,9 @@ function SectionCheckbox(props) {
           "shadow border-0 " +
           styles.Cardholder +
           ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}` +
-          ` ${
-            isChecked
-              ? styles["checked-container"]
-              : styles["unchecked-container"]
+          ` ${isChecked
+            ? styles["checked-container"]
+            : styles["unchecked-container"]
           }`
         }
       >
@@ -361,9 +359,9 @@ function SectionCheckbox(props) {
                         {props.details[0].waitAvailable <= 0
                           ? langState.closed
                           : waitlistMsg(
-                              user.lang,
-                              props.details[0].waitAvailable
-                            )}
+                            user.lang,
+                            props.details[0].waitAvailable
+                          )}
                       </Tooltip>
                     }
                   >
@@ -375,7 +373,7 @@ function SectionCheckbox(props) {
                     >
                       {langState.waitlist}
                       {props.details[0].waitAvailable <= 0 ? (
-                        <span className={styles["waitlist-close"]}>0</span>
+                        <span className={styles["waitlist-close"]}>{props.details[0].waitAvailable}</span>
                       ) : (
                         <span className={styles["waitlist-open"]}>
                           {props.details[0].waitAvailable}
@@ -542,7 +540,7 @@ function SectionCheckbox(props) {
                 >
                   {langState.waitlist}
                   {props.details[0].waitAvailable <= 0 ? (
-                    <span className={styles["waitlist-close"]}>0</span>
+                    <span className={styles["waitlist-close"]}>{props.details[0].waitAvailable}</span>
                   ) : (
                     <span className={styles["waitlist-open"]}>
                       {props.details[0].waitAvailable}
