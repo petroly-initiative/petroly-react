@@ -80,7 +80,6 @@ export default function GroupsFilter(props) {
 
 
   useEffect(() => {
-    console.log(groupType);
     if (props.category.type === "SECTION")
       setType({ type: props.category.type, course: props.category.course });
     else setType({ type: props.category.type });

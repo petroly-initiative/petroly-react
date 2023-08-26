@@ -164,11 +164,6 @@ function Notifier(props) {
       JSON.stringify(inputObj["term"] || term)
     );
 
-    console.log({
-      title: courseInput ? "" : courseInput.current.value,
-      department: inputObj["dept"] || department,
-      term: inputObj["term"] ? inputObj["term"].long : term.long,
-    });
     search({
       variables: {
         title: courseInput ? "" : courseInput.current.value,
@@ -349,7 +344,6 @@ function Notifier(props) {
 
   useEffect(() => {
     if (trackedCoursesData) {
-      console.log(trackedCoursesData);
       if (!trackedCoursesData.trackedCourses) {
         // Here user has no TrackingList
         // HasTrackingList is already `false`

@@ -241,11 +241,7 @@ function GroupCreationCard(props) {
         props.refetch();
         props.handleMsg(true);
       } else {
-
-        // console.log(createData.communityCreate.messages);
-
-        console.log(createData.communityCreate.messages);
-
+        console.error(createData)
       }
     }
   }, [createData, createLoading]);

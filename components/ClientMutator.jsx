@@ -130,7 +130,6 @@ export default function ClientMutator({ children }) {
           },
         })
       );
-      console.log(dataRefreshToken);
 
       userDispatch({
         type: T.SET_CLIENT,

@@ -108,9 +108,7 @@ function CourseModal(props) {
 
     if (courseObjects.length !== 0) {
       setCx(courseObjects[0].linkIdentifier === "CX");
-      console.log(courseObjects[0]);
     }
-    console.log(is_cx);
   }, [props.course]);
 
   // returns a list of section card elements
@@ -239,7 +237,6 @@ function CourseModal(props) {
   // savign already tracked sections to the sections' state
   useEffect(() => {
     if (props.show) {
-      // console.log("Modal side effect: ", props.trackedCourses);
       const targetCourse = props.trackedCourses.filter(
         (course) =>
           course["subjectCourse"] === props.course &&

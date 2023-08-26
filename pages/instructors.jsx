@@ -140,7 +140,6 @@ function instructorsList() {
 
   useEffect(() => {
     navDispatch("rating");
-    if (data) console.log(Math.ceil(data.instructors.count / ITEMS));
   }, []);
 
   // ? Mappers

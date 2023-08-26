@@ -95,9 +95,6 @@ function NotificationsModal(props) {
   // ? utility functions
   // TOOD: sovling anomalous email checker
   const checkChannel = (e) => {
-    console.log(e.target.value);
-
-    // console.log(!telegramChecked);
     settelegram((state) => !state);
   };
 
@@ -126,7 +123,6 @@ function NotificationsModal(props) {
 
   const submitChannels = async () => {
     const result = await updateTrackingListChannels();
-    console.log(result);
     if (result.data.updateTrackingListChannels) {
       setinvalidInput(false);
       props.handleClose(false);

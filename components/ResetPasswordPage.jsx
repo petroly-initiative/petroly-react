@@ -60,8 +60,7 @@ export default function ResetPasswordPage(props) {
       if (data.passwordReset.success) {
         setTimeout(() => location.assign("/"), 1200);
       } else {
-        console.log("setting new password error");
-        console.log(data.passwordReset.errors);
+        console.error("setting new password error", data.passwordReset.errors);
       }
     }
   }, [loading]);

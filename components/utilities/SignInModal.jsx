@@ -262,7 +262,6 @@ export default function SignInModal(props) {
 
   useEffect(() => {
     if (tab === "signIn" && dataTokenAuth) {
-      console.log(dataTokenAuth);
       //  Successful login
       if (dataTokenAuth.tokenAuth.success) {
         sessionStorage.setItem(

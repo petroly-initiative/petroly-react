@@ -116,7 +116,6 @@ function SectionCheckbox(props) {
           props.msgHandler(true, langState.notCopied);
         });
     } else {
-      console.log(1);
       navigator.clipboard
         .writeText(props.details[0].courseReferenceNumber)
         .then(() => {

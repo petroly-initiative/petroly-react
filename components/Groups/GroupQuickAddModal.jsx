@@ -81,7 +81,6 @@ function GroupQuickAddModal(props) {
   useEffect(() => {
     if (submit) {
       if (!invalidDesc) {
-        console.log(description);
         createGroups({ variables: { text: description.current.value } });
       } else setSubmit(false);
     }
