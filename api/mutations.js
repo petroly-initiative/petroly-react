@@ -141,7 +141,7 @@ export const evaluationCreateMutation = gql`
     $term: Int!
   ) {
     evaluationCreate(
-      input: {
+      data: {
         user: $user
         instructor: $instructorId
         grading: $grading
@@ -184,7 +184,7 @@ export const evaluationUpdateMutation = gql`
     $comment: String
   ) {
     evaluationUpdate(
-      input: {
+      data: {
         pk: $id
         grading: $grading
         teaching: $teaching
@@ -224,7 +224,7 @@ export const createCommunnityMutation = gql`
     $file: Upload
   ) {
     communityCreate(
-      input: {
+      data: {
         owner: $owner
         name: $name
         link: $link
@@ -257,7 +257,7 @@ export const toggleLikeCommunityMutation = gql`
 
 export const deleteCommunity = gql`
   mutation DeleteCommunity($id: ID) {
-    communityDelete(input: { pk: $id }) {
+    communityDelete(data: { pk: $id }) {
       ... on CommunityType {
         pk
       }
@@ -284,7 +284,7 @@ export const editCommunnityMutation = gql`
     $file: Upload
   ) {
     communityUpdate(
-      input: {
+      data: {
         pk: $id
         name: $name
         link: $link
@@ -323,14 +323,14 @@ export const reportCreateMutation = gql`
     $otherReason: String = ""
   ) {
     reportCreate(
-      input: { pk: $CommunityID, reason: $reason, otherReason: $otherReason }
+      data: { pk: $CommunityID, reason: $reason, otherReason: $otherReason }
     )
   }
 `;
 
 export const profileUpdateMutation = gql`
   mutation ProfileUpdateMutation($id: ID!, $lang: String, $theme: String) {
-    profileUpdate(input: { pk: $id, language: $lang, theme: $theme }) {
+    profileUpdate(data: { pk: $id, language: $lang, theme: $theme }) {
       ... on OperationInfo {
         messages {
           message

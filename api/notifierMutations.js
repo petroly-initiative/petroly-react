@@ -16,7 +16,7 @@ export const updateTrackingListChannelsMutation = gql`
     $dataCheckString: String
   ) {
     updateTrackingListChannels(
-      input: {
+      data: {
         channels: { TELEGRAM: $TELEGRAM, EMAIL: false }
         telegramId: $telegramId
         hash: $hash
