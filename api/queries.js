@@ -2,47 +2,35 @@ import { gql } from "@apollo/client";
 
 // -- Instructos' queries:
 export const instructorsQuery = gql`
-  query Instructors(
-    $first: Int
-    $after: String
-    $department: DepartmentEnum
-    $name: String
+query Instructors($first: Int, $after: String, $department: DepartmentEnum, $name: String) {
+  instructors(
+    first: $first
+    after: $after
+    data: {name: $name, department: $department}
   ) {
-    instructors(
-      first: $first
-      after: $after
-      input: { name: { iContains: $name }, department: $department }
-    ) {
-      totalCount
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-      edges {
-        cursor
-        node {
-          id
-          pk
-          name
-          department
-          overallFloat
-          profilePic
-          evaluationSetCount
-        }
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        pk
+        name
+        department
+        overallFloat
+        profilePic
+        evaluationSetCount
       }
     }
   }
+}
 `;
 
-export const getInstructorName = gql`
-  query getIds {
-    instructors {
-      pk
-    }
-  }
-`;
 
 export const getEvaluatedInstructors = gql`
   query EvaluatedInstructors {
