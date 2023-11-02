@@ -8,11 +8,9 @@ export const updateTrackingListMutation = gql`
 
 export const updateTrackingListChannelsMutation = gql`
   mutation UpdateTrackingListChannels(
-
-
-    $TELEGRAM: Boolean!,
-    $telegramId: String,
-    $hash: String,
+    $TELEGRAM: Boolean!
+    $telegramId: String
+    $hash: String
     $dataCheckString: String
   ) {
     updateTrackingListChannels(
@@ -23,5 +21,11 @@ export const updateTrackingListChannelsMutation = gql`
         dataCheckString: $dataCheckString
       }
     )
+  }
+`;
+
+export const toggleRegiter = gql`
+  mutation ToggleRegiter($crn: String!) {
+    toggleRegisterCourse(crn: $crn)
   }
 `;

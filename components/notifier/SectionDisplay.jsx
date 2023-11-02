@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
+import ToggleButton from "react-bootstrap/ToggleButton";
 import { M } from "../../constants";
 import translator from "../../dictionary/components/notifier/section-display";
 import { IoIosTime } from "react-icons/io";
@@ -47,6 +48,7 @@ function SectionDisplay(props) {
   // ? base state
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
+  const [checked, setChecked] = useState(false);
   // const [isDeleted, setDeleted] = useState(false);
 
   // ? utility functions
@@ -169,8 +171,9 @@ function SectionDisplay(props) {
       <div className={styles["hover-detector"]}>
         {/* ! needs trasnlation */}
         <div
-          className={`${styles["unchecked-input"]} ${user.theme === M.DARK ? styles["dark-txt"] : ""
-            }`}
+          className={`${styles["unchecked-input"]} ${
+            user.theme === M.DARK ? styles["dark-txt"] : ""
+          }`}
         >
           {" "}
           <span className={styles["section-num"]}>
@@ -261,6 +264,19 @@ function SectionDisplay(props) {
               {" "}
               {typeMapper(props.details[0].meetingsFaculty[0].meetingTime)}
             </div>
+            <div style={{ scale: "0.7" }}>
+              <ToggleButton
+                className="mb-2"
+                id="toggle-check"
+                type="checkbox"
+                variant="outline-primary"
+                checked={checked}
+                value={props.details[0].sequenceNumber}
+                onChange={(e) => setChecked(e.currentTarget.checked)}
+              >
+                Register
+              </ToggleButton>
+            </div>
           </Card.Header>
           <Card.Body
             className={
@@ -278,63 +294,63 @@ function SectionDisplay(props) {
               )}
               {props.details[0].meetingsFaculty[0]["beginTime"] !== null &&
                 props.details[0].meetingsFaculty[0].meetingTime.building !==
-                null && (
+                  null && (
                   <div className={styles["loc-time"]}>
                     {props.details[0].meetingsFaculty[0]["beginTime"] !==
                       null && (
-                        <span
-                          className={
-                            styles["time"] +
-                            ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
-                          }
-                        >
-                          <IoIosTime
-                            color="#aaaaaa"
-                            className={styles["time-icon"]}
-                          />{" "}
-                          {props.details[0].meetingsFaculty[0].meetingTime[
-                            "beginTime"
-                          ].substring(0, 2)}
-                          :
-                          {props.details[0].meetingsFaculty[0].meetingTime[
-                            "beginTime"
-                          ].substring(2)}
-                          -
-                          {props.details[0].meetingsFaculty[0].meetingTime[
-                            "endTime"
-                          ].substring(0, 2)}
-                          :
-                          {props.details[0].meetingsFaculty[0].meetingTime[
-                            "endTime"
-                          ].substring(2)}
-                        </span>
-                      )}
+                      <span
+                        className={
+                          styles["time"] +
+                          ` ${user.theme === M.DARK ? styles["dark-txt"] : ""}`
+                        }
+                      >
+                        <IoIosTime
+                          color="#aaaaaa"
+                          className={styles["time-icon"]}
+                        />{" "}
+                        {props.details[0].meetingsFaculty[0].meetingTime[
+                          "beginTime"
+                        ].substring(0, 2)}
+                        :
+                        {props.details[0].meetingsFaculty[0].meetingTime[
+                          "beginTime"
+                        ].substring(2)}
+                        -
+                        {props.details[0].meetingsFaculty[0].meetingTime[
+                          "endTime"
+                        ].substring(0, 2)}
+                        :
+                        {props.details[0].meetingsFaculty[0].meetingTime[
+                          "endTime"
+                        ].substring(2)}
+                      </span>
+                    )}
                     {props.details[0].meetingsFaculty[0].meetingTime
                       .building !== null && (
-                        <span className={styles["location"]}>
-                          <span>
-                            {" "}
-                            <HiLocationMarker
-                              color="#0091e7"
-                              className={styles["location-icon"]}
-                            />{" "}
-                          </span>
-
-                          <span
-                            className={
-                              user.theme === M.DARK ? styles["dark-txt"] : ""
-                            }
-                          >
-                            {" "}
-                            {
-                              props.details[0].meetingsFaculty[0].meetingTime
-                                .building
-                            }
-                            -
-                            {props.details[0].meetingsFaculty[0].meetingTime.room}
-                          </span>
+                      <span className={styles["location"]}>
+                        <span>
+                          {" "}
+                          <HiLocationMarker
+                            color="#0091e7"
+                            className={styles["location-icon"]}
+                          />{" "}
                         </span>
-                      )}
+
+                        <span
+                          className={
+                            user.theme === M.DARK ? styles["dark-txt"] : ""
+                          }
+                        >
+                          {" "}
+                          {
+                            props.details[0].meetingsFaculty[0].meetingTime
+                              .building
+                          }
+                          -
+                          {props.details[0].meetingsFaculty[0].meetingTime.room}
+                        </span>
+                      </span>
+                    )}
                   </div>
                 )}
               {!props.hybrid && (
@@ -369,9 +385,9 @@ function SectionDisplay(props) {
                         {props.details[0].waitAvailable <= 0
                           ? langState.closed
                           : waitlistMsg(
-                            user.lang,
-                            props.details[0].waitAvailable
-                          )}
+                              user.lang,
+                              props.details[0].waitAvailable
+                            )}
                       </Tooltip>
                     }
                   >
@@ -383,7 +399,9 @@ function SectionDisplay(props) {
                     >
                       {langState.waitlist}
                       {props.details[0].waitAvailable <= 0 ? (
-                        <span className={styles["waitlist-close"]}>{props.details[0].waitAvailable}</span>
+                        <span className={styles["waitlist-close"]}>
+                          {props.details[0].waitAvailable}
+                        </span>
                       ) : (
                         <span className={styles["waitlist-open"]}>
                           {props.details[0].waitAvailable}
@@ -399,9 +417,10 @@ function SectionDisplay(props) {
             <Card.Footer
               className={
                 styles.footerContainer +
-                ` ${user.theme === M.DARK
-                  ? styles["dark-mode"] + " " + styles["dark-footer"]
-                  : ""
+                ` ${
+                  user.theme === M.DARK
+                    ? styles["dark-mode"] + " " + styles["dark-footer"]
+                    : ""
                 }`
               }
             >
@@ -440,67 +459,68 @@ function SectionDisplay(props) {
                 {/*  delete the whole container if both features are missing */}
                 {props.details[0].meetingsFaculty[1]["beginTime"] !== null &&
                   props.details[0].meetingsFaculty[1].meetingTime.building !==
-                  "" && (
+                    "" && (
                     <div className={styles["loc-time"]}>
                       {props.details[0].meetingsFaculty[1].meetingTime
                         .beginTime !== null && (
-                          <span
-                            className={
-                              styles["time"] +
-                              ` ${user.theme === M.DARK ? styles["dark-txt"] : ""
-                              }`
-                            }
-                          >
-                            <IoIosTime
-                              color="#aaaaaa"
-                              className={styles["time-icon"]}
-                            />{" "}
-                            {props.details[0].meetingsFaculty[1].meetingTime[
-                              "beginTime"
-                            ].substring(0, 2)}
-                            :
-                            {props.details[0].meetingsFaculty[1].meetingTime[
-                              "beginTime"
-                            ].substring(2)}
-                            -
-                            {props.details[0].meetingsFaculty[1].meetingTime[
-                              "endTime"
-                            ].substring(0, 2)}
-                            :
-                            {props.details[0].meetingsFaculty[1].meetingTime[
-                              "endTime"
-                            ].substring(2)}
-                          </span>
-                        )}
+                        <span
+                          className={
+                            styles["time"] +
+                            ` ${
+                              user.theme === M.DARK ? styles["dark-txt"] : ""
+                            }`
+                          }
+                        >
+                          <IoIosTime
+                            color="#aaaaaa"
+                            className={styles["time-icon"]}
+                          />{" "}
+                          {props.details[0].meetingsFaculty[1].meetingTime[
+                            "beginTime"
+                          ].substring(0, 2)}
+                          :
+                          {props.details[0].meetingsFaculty[1].meetingTime[
+                            "beginTime"
+                          ].substring(2)}
+                          -
+                          {props.details[0].meetingsFaculty[1].meetingTime[
+                            "endTime"
+                          ].substring(0, 2)}
+                          :
+                          {props.details[0].meetingsFaculty[1].meetingTime[
+                            "endTime"
+                          ].substring(2)}
+                        </span>
+                      )}
                       {props.details[0].meetingsFaculty[1].meetingTime
                         .building !== null && (
-                          <span className={styles["location"]}>
-                            <span>
-                              {" "}
-                              <HiLocationMarker
-                                color="#0091e7"
-                                className={styles["location-icon"]}
-                              />{" "}
-                            </span>
-
-                            <span
-                              className={
-                                user.theme === M.DARK ? styles["dark-mode"] : ""
-                              }
-                            >
-                              {" "}
-                              {
-                                props.details[0].meetingsFaculty[1].meetingTime
-                                  .building
-                              }
-                              -
-                              {
-                                props.details[0].meetingsFaculty[1].meetingTime
-                                  .room
-                              }
-                            </span>
+                        <span className={styles["location"]}>
+                          <span>
+                            {" "}
+                            <HiLocationMarker
+                              color="#0091e7"
+                              className={styles["location-icon"]}
+                            />{" "}
                           </span>
-                        )}
+
+                          <span
+                            className={
+                              user.theme === M.DARK ? styles["dark-mode"] : ""
+                            }
+                          >
+                            {" "}
+                            {
+                              props.details[0].meetingsFaculty[1].meetingTime
+                                .building
+                            }
+                            -
+                            {
+                              props.details[0].meetingsFaculty[1].meetingTime
+                                .room
+                            }
+                          </span>
+                        </span>
+                      )}
                     </div>
                   )}
               </div>
@@ -534,9 +554,9 @@ function SectionDisplay(props) {
                       {props.details[0].waitAvailable <= 0
                         ? langState.closed
                         : waitlistMsg(
-                          user.lang,
-                          props.details[0].waitAvailable
-                        )}
+                            user.lang,
+                            props.details[0].waitAvailable
+                          )}
                     </Tooltip>
                   }
                 >
@@ -548,7 +568,9 @@ function SectionDisplay(props) {
                   >
                     {langState.waitlist}
                     {props.details[0].waitAvailable <= 0 ? (
-                      <span className={styles["waitlist-close"]}>{props.details[0].waitAvailable}</span>
+                      <span className={styles["waitlist-close"]}>
+                        {props.details[0].waitAvailable}
+                      </span>
                     ) : (
                       <span className={styles["waitlist-open"]}>
                         {props.details[0].waitAvailable}
