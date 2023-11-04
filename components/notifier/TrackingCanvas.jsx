@@ -86,7 +86,8 @@ function TrackingCanvas(props) {
           id={`${term.long}-tab`}
           title={term.short}
         >
-          {props.trackedCourses && props.trackedCourses.filter(
+          {props.trackedCourses &&
+          props.trackedCourses.filter(
             (section) => section["term"] === term.long
           ).length !== 0 ? (
             populateCourses(term.long)

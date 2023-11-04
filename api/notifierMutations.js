@@ -24,8 +24,8 @@ export const updateTrackingListChannelsMutation = gql`
   }
 `;
 
-export const toggleRegiter = gql`
-  mutation ToggleRegiter($crn: String!) {
+export const TOGGLE_REGISTER = gql`
+  mutation ToggleRegister($crn: String!) {
     toggleRegisterCourse(crn: $crn)
   }
 `;

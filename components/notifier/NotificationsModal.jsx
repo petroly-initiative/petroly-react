@@ -88,7 +88,7 @@ function NotificationsModal(props) {
         hash: telegramHash,
         dataCheckString: telegramDataCheck,
       },
-      refetchQueries: [{ query: trackedCoursesQuery }],
+      refetchQueries: [trackedCoursesQuery],
     }
   );
 

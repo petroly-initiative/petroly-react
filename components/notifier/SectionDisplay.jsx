@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
-import ToggleButton from "react-bootstrap/ToggleButton";
+import { Card, OverlayTrigger, ToggleButton, Tooltip } from "react-bootstrap";
 import { M } from "../../constants";
 import translator from "../../dictionary/components/notifier/section-display";
 import { IoIosTime } from "react-icons/io";
@@ -13,6 +12,8 @@ import { UserContext } from "../../state-management/user-state/UserContext";
 import styles from "../../styles/notifier-page/section-display.module.scss";
 import { MdContentCopy } from "react-icons/md";
 import { waitlistMsg } from "../../dictionary/components/notifier/section-checkbox";
+import { TOGGLE_REGISTER } from "../../api/notifierMutations";
+import { useMutation } from "@apollo/client";
 
 /**
  * TODO
@@ -48,14 +49,21 @@ function SectionDisplay(props) {
   // ? base state
   const { user } = useContext(UserContext);
   const [langState, setLang] = useState(() => translator(user.lang));
-  const [checked, setChecked] = useState(false);
-  // const [isDeleted, setDeleted] = useState(false);
+  const [checked, setChecked] = useState(props.details[0].userRegister);
 
   // ? utility functions
-
   const deleteSection = () => {
     props.delete(props.details[0].courseReferenceNumber);
   };
+
+  ///////////// GraphQL API /////////////
+  const [toggleRegister, { data }] = useMutation(TOGGLE_REGISTER);
+
+  useEffect(() => {
+    if (data && data.toggleRegisterCourse) {
+      setChecked(!checked);
+    }
+  }, [data]);
 
   const generateTimeTable = (days) => {
     var allDays = {
@@ -267,12 +275,14 @@ function SectionDisplay(props) {
             <div style={{ scale: "0.7" }}>
               <ToggleButton
                 className="mb-2"
-                id="toggle-check"
                 type="checkbox"
                 variant="outline-primary"
                 checked={checked}
-                value={props.details[0].sequenceNumber}
-                onChange={(e) => setChecked(e.currentTarget.checked)}
+                onClick={() =>
+                  toggleRegister({
+                    variables: { crn: props.details[0].courseReferenceNumber },
+                  })
+                }
               >
                 Register
               </ToggleButton>
