@@ -48,7 +48,6 @@ import NotificationsModal from "../components/notifier/NotificationsModal";
 /**
  *
  * ? state management details
- * @courseInput searchbar input state
  * @department department selection state
  * @courses course objects retrieved from API fetching, and with correct sections grouped within
  * @trackerVisible controlling the visibility of the off-canvas course tracker
@@ -68,19 +67,19 @@ function Notifier(props) {
   // ? instance state
   const [currentCourse, setCurrentCourse] = useState({
     // state for the displayed course on the modal
-    course: "ACCT110",
-    title: "Introduction to Financial Accounting",
-    type: ["Lecture"],
+    course: "",
+    title: "",
+    type: [],
   });
   const [showModal, setShowModal] = useState(false);
   const [showCanvas, setshowCanvas] = useState(false);
   const [showMsg, setShowMsg] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [msg, setMsg] = useState("");
-  const courseInput = useRef(null); // to sync searchbar textInput information
   const [department, setDepartment] = useState("ICS");
   const [term, setTerm] = useState({ long: "202320", short: "232" }); //! will be replaced by current term
   const [HasTrackingList, setHasTrackingList] = useState(false);
+  const [courseCards, setCourseCards] = useState(null);
 
   // ? fetched state
   const {
@@ -99,10 +98,7 @@ function Notifier(props) {
   const [
     search,
     { data: searchData, loading: searchLoading, error: searchError },
-  ] = useLazyQuery(searchQuery, {
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "network-only",
-  });
+  ] = useLazyQuery(searchQuery);
   const {
     data: trackedCoursesData,
     loading: trackedCoursesLoading,
@@ -166,7 +162,7 @@ function Notifier(props) {
 
     search({
       variables: {
-        title: courseInput ? "" : courseInput.current.value,
+        title: "",
         department: inputObj["dept"] || department,
         term: inputObj["term"] ? inputObj["term"].long : term.long,
       },
@@ -232,7 +228,7 @@ function Notifier(props) {
           id={dept}
           active={dept === department}
           eventKey={dept}
-          // disabled={dept === instructorsState.department}
+          disabled={dept === department}
           onClick={selectDept}
           className={
             styles["depts"] +
@@ -253,7 +249,7 @@ function Notifier(props) {
         id={long}
         active={long === term.long}
         eventKey={long}
-        // disabled={dept === instructorsState.department}
+        disabled={long === term.long}
         onClick={selectTerm}
         className={
           styles["depts"] +
@@ -265,15 +261,14 @@ function Notifier(props) {
     ));
   };
 
-  // useEffect(() => {
-  //   courseMapper()
-  // })
   // ! needs to be replaced by a fetching hook, this is a static demo
-  const courseMapper = () => {
+  function courseMapper(search) {
+    search = search || "";
     var uniqueCourses = new Set();
     // getting unique courses
     for (let section of searchData.search) {
-      uniqueCourses.add(section["subjectCourse"]);
+      if (section["subjectCourse"].toLowerCase().includes(search.toLowerCase()))
+        uniqueCourses.add(section["subjectCourse"]);
     }
     //for each unique course accumulate info
     uniqueCourses = Array.from(uniqueCourses);
@@ -334,7 +329,7 @@ function Notifier(props) {
         is_cx={course.is_cx}
       />
     ));
-  };
+  }
 
   // returns course cards
 
@@ -356,27 +351,11 @@ function Notifier(props) {
     }
   }, [trackedCoursesData]);
 
-  // useEffect(() => {
-  //   if (dataDept) {
-  //     setDepartment(
-  //       sessionStorage.getItem("radar_dept") || dataDept.departmentList[1]
-  //     );
-  //   }
-  // }, [dataDept]);
-
-  // useEffect(() => {
-  //   if (termsData) {
-  //     const parsedTerms = JSON.parse(sessionStorage.getItem("radar_term"));
-  //     setTerm(
-  //       parsedTerms
-  //         ? {
-  //             long: parsedTerms.long,
-  //             short: parsedTerms.short,
-  //           }
-  //         : termsData.terms[0]
-  //     );
-  //   }
-  // }, [termsData]);
+  useEffect(() => {
+    if (searchData && searchData.search) {
+      setCourseCards(courseMapper());
+    }
+  }, [searchData]);
 
   useEffect(() => {
     navDispatch("notifier");
@@ -394,6 +373,10 @@ function Notifier(props) {
       });
     }
   }, []);
+
+  function handleSearch(event) {
+    setCourseCards(courseMapper(event.target.value));
+  }
 
   if (termsError || errorDept || searchError || trackedCoursesError) {
     stopPolling();
@@ -476,17 +459,13 @@ function Notifier(props) {
               className={styles["search-field"] + " " + styles["search-cols"]}
             >
               <Form.Control
-                onKeyDown={enterSearch}
                 id="name"
                 className={`${styles["search-input"]} ${
                   user.theme === M.DARK ? styles["dark-mode-input"] : ""
                 }`}
                 type="text"
                 placeholder={langState.searchbar}
-                ref={courseInput}
-                // onChange={changeName}
                 dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-                // onKeyDown={enterSearch}
               ></Form.Control>
 
               <button
@@ -768,6 +747,8 @@ function Notifier(props) {
       </>
     );
   }
+
+  //////////////// Data is available and ready to render //////////////
   return (
     <>
       <Head>
@@ -787,15 +768,13 @@ function Notifier(props) {
             className={styles["search-field"] + " " + styles["search-cols"]}
           >
             <Form.Control
-              onKeyDown={enterSearch}
               id="name"
               className={`${styles["search-input"]} ${
                 user.theme === M.DARK ? styles["dark-mode-input"] : ""
               }`}
               type="text"
               placeholder={langState.searchbar}
-              ref={courseInput}
-              // onChange={changeName}
+              onChange={handleSearch}
               dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
               // onKeyDown={enterSearch}
             ></Form.Control>
@@ -906,8 +885,6 @@ function Notifier(props) {
               >
                 {langState.searchbarFilter}
               </Dropdown.Item>
-              <Dropdown.Divider style={{ height: "1" }} />
-
               {deptMapper(department)}
             </DropdownButton>
           </Col>
@@ -918,7 +895,7 @@ function Notifier(props) {
             triggerOnce
             className={"col-sm-12 col-xs-12 col-md-6 col-lg-4 col-xl-4"}
           >
-            {courseMapper()}
+            {courseCards}
           </Fade>
         </Row>
         <OverlayTrigger
