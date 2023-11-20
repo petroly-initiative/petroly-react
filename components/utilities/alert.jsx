@@ -59,7 +59,7 @@ function RadarAlert() {
               Only contributors to the{" "}
               <Alert.Link
                 target="_blank"
-                href="https://github.com/petroly-initiative"
+                href="https://cutt.ly/ewUFbDXG"
               >
                 source code
               </Alert.Link>{" "}
