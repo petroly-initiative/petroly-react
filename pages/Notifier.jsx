@@ -13,19 +13,14 @@ import {
   Spinner,
   Dropdown,
 } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
 import styles from "../styles/notifier-page/courses-list.module.scss";
-import { useRef } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
 import Head from "next/head";
 import { M, L, USER } from "../constants";
 import translator from "../dictionary/pages/notifier-dict";
 
-import {
-  BiSearch,
-  BiTimeFive,
-  BiMessageAltError,
-  BsCalendar2WeekFill,
-} from "react-icons/bi";
+import { BiSearch, BiTimeFive, BiMessageAltError } from "react-icons/bi";
 import { MdOutlineHighlightAlt } from "react-icons/md";
 import { FaInfoCircle, FaRegCalendarAlt, FaBuilding } from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
@@ -43,6 +38,7 @@ import {
 import { updateTrackingListMutation } from "../api/notifierMutations";
 import PopMsg from "../components/utilities/PopMsg";
 import NotificationsModal from "../components/notifier/NotificationsModal";
+import RadarAlert from "../components/utilities/alert";
 
 // TODO: create the responsive layout for the cards, and the off-canvas
 /**
@@ -77,9 +73,10 @@ function Notifier(props) {
   const [showSettings, setShowSettings] = useState(false);
   const [msg, setMsg] = useState("");
   const [department, setDepartment] = useState("ICS");
-  const [term, setTerm] = useState({ long: "202320", short: "232" }); //! will be replaced by current term
+  const [term, setTerm] = useState({ long: "202320", short: "232" });
   const [HasTrackingList, setHasTrackingList] = useState(false);
   const [courseCards, setCourseCards] = useState(null);
+  const [showAlert, setShowAlert] = useState(true);
 
   // ? fetched state
   const {
@@ -359,6 +356,8 @@ function Notifier(props) {
 
   useEffect(() => {
     navDispatch("notifier");
+    // setAlerts(AlertDismissibleExample());
+
     const termsObj = JSON.parse(sessionStorage.getItem("radar_term"));
     if (
       sessionStorage.getItem("radar_dept") &&
@@ -758,6 +757,8 @@ function Notifier(props) {
         style={{ minHeight: "100vh" }}
         className={styles["list_container"]}
       >
+        <RadarAlert />
+
         <InputGroup as={Row} className={styles["search-container"]}>
           <Col
             xl={4}
