@@ -799,16 +799,14 @@ function Notifier(props) {
             ></Form.Control>
 
             <ToggleButton
+              variant=""
               onClick={() => setGradCourses(!gradCourses)}
-              className={
-                (gradCourses
-                  ? styles["search_btn"] + " " + styles["search_btn_checked"]
-                  : styles["search_btn"]) +
-                " " +
-                (user.theme === M.DARK ? styles["dark-toggle-btn"] : "")
-              }
+              className={`${styles["search_btn"]} ${
+                gradCourses ? styles["search_btn_checked"] : ""
+              } ${user.theme === M.DARK ? styles["dark-toggle-btn"] : ""}`}
               type="checkbox"
               checked={gradCourses}
+              id="grad-toggle-btn"
             >
               <FaGraduationCap size={20} />
             </ToggleButton>
