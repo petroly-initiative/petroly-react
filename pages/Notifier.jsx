@@ -7,13 +7,12 @@ import {
   Col,
   InputGroup,
   Form,
-  Button as div,
   OverlayTrigger,
   Tooltip,
   Spinner,
   Dropdown,
+  ToggleButton,
 } from "react-bootstrap";
-import Alert from "react-bootstrap/Alert";
 import styles from "../styles/notifier-page/courses-list.module.scss";
 import { UserContext } from "../state-management/user-state/UserContext";
 import Head from "next/head";
@@ -22,7 +21,12 @@ import translator from "../dictionary/pages/notifier-dict";
 
 import { BiSearch, BiTimeFive, BiMessageAltError } from "react-icons/bi";
 import { MdOutlineHighlightAlt } from "react-icons/md";
-import { FaInfoCircle, FaRegCalendarAlt, FaBuilding } from "react-icons/fa";
+import {
+  FaInfoCircle,
+  FaRegCalendarAlt,
+  FaBuilding,
+  FaGraduationCap,
+} from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
 import CourseCard from "../components/notifier/CourseCard";
 import CourseModal from "../components/notifier/CourseModal";
@@ -76,7 +80,7 @@ function Notifier(props) {
   const [term, setTerm] = useState({ long: "202320", short: "232" });
   const [HasTrackingList, setHasTrackingList] = useState(false);
   const [courseCards, setCourseCards] = useState(null);
-  const [showAlert, setShowAlert] = useState(true);
+  const [gradCourses, setGradCourses] = useState(false);
 
   // ? fetched state
   const {
@@ -264,8 +268,23 @@ function Notifier(props) {
     var uniqueCourses = new Set();
     // getting unique courses
     for (let section of searchData.search) {
-      if (section["subjectCourse"].toLowerCase().includes(search.toLowerCase()))
-        uniqueCourses.add(section["subjectCourse"]);
+      if (gradCourses) {
+        if (
+          section["subjectCourse"]
+            .toLowerCase()
+            .includes(search.toLowerCase()) &&
+          section["courseNumber"] >= 500
+        )
+          uniqueCourses.add(section["subjectCourse"]);
+      } else {
+        if (
+          section["subjectCourse"]
+            .toLowerCase()
+            .includes(search.toLowerCase()) &&
+          section["courseNumber"] < 500
+        )
+          uniqueCourses.add(section["subjectCourse"]);
+      }
     }
     //for each unique course accumulate info
     uniqueCourses = Array.from(uniqueCourses);
@@ -352,7 +371,7 @@ function Notifier(props) {
     if (searchData && searchData.search) {
       setCourseCards(courseMapper());
     }
-  }, [searchData]);
+  }, [searchData, gradCourses]);
 
   useEffect(() => {
     navDispatch("notifier");
@@ -777,20 +796,22 @@ function Notifier(props) {
               placeholder={langState.searchbar}
               onChange={handleSearch}
               dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-              // onKeyDown={enterSearch}
             ></Form.Control>
 
-            <button
-              id="search-btn"
-              type="submit"
-              onClick={searchCallback}
+            <ToggleButton
+              onClick={() => setGradCourses(!gradCourses)}
               className={
-                styles["search_btn"] +
-                ` ${user.theme === M.DARK ? styles["dark-btn"] : ""}`
+                (gradCourses
+                  ? styles["search_btn"] + " " + styles["search_btn_checked"]
+                  : styles["search_btn"]) +
+                " " +
+                (user.theme === M.DARK ? styles["dark-toggle-btn"] : "")
               }
+              type="checkbox"
+              checked={gradCourses}
             >
-              <BiSearch size="1.5rem" />
-            </button>
+              <FaGraduationCap size={20} />
+            </ToggleButton>
           </Col>
 
           <Col
