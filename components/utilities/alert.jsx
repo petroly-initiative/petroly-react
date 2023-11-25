@@ -2,7 +2,7 @@ import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 
 function RadarAlert() {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const [show2, setShow2] = useState(true);
 
   return (
@@ -15,7 +15,7 @@ function RadarAlert() {
       >
         <Alert.Heading>New Feature !</Alert.Heading>
         <p>
-          We introduce our new feature <em>Radar Register</em> beta UwU. To acivate
+          We introduce our new feature <em>Radar Register</em> (beta) & hidden termsUwU. To acivate
           it:
           <ol>
             <li>
