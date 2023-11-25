@@ -19,7 +19,7 @@ function RadarAlert() {
           it:
           <ol>
             <li>
-              <Alert.Link href="https://github.com/petroly-initiative/session-clone-extension/archive/refs/heads/main.zip">
+              <Alert.Link href="https://cutt.ly/AwIJMqMo">
                 Download
               </Alert.Link>{" "}
               our Chrome extension.
@@ -39,7 +39,7 @@ function RadarAlert() {
               in Petroly.co tab.
             </li>
             <li>
-              Now form your tracked courses toggle "Register" button for each
+              Now from your tracked courses toggle "Register" button for each
               section.
             </li>
           </ol>
