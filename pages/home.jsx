@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Alert } from "react-bootstrap";
 import styles from "../styles/home-page/home.module.scss";
 import { motion } from "framer-motion";
 import NewsCard from "../components/home/news-card";
@@ -20,6 +20,7 @@ import { UserContext } from "../state-management/user-state/UserContext";
 import { T, L, langDirection, M } from "../constants";
 import { NavContext } from "../state-management/navbar-state/NavbarContext";
 import ScrollDrag from "../components/utilities/ScrollDrag";
+import { gql, useMutation } from "@apollo/client";
 
 export default function HomeScreen() {
   /**
@@ -30,6 +31,17 @@ export default function HomeScreen() {
   const { user } = useContext(UserContext);
   const { navDispatch } = useContext(NavContext);
   const [langState, setLang] = useState(() => translator(user.lang));
+  const [showMsg, setShowMsg] = useState(false);
+
+  const [becomePremium, { data }] = useMutation(gql`
+    mutation {
+      becomePremium
+    }
+  `);
+
+  useEffect(() => {
+    if (data) setShowMsg(true);
+  }, [data]);
 
   useEffect(() => {
     setLang(() => translator(user.lang));
@@ -87,6 +99,19 @@ export default function HomeScreen() {
 
       {/* <Navbar page="home" /> */}
       <Container className={styles["main-container"]}>
+        {showMsg ? (
+          <div style={{ width: "400px", alignSelf: "center" }}>
+            <Alert
+              variant="success"
+              onClose={() => setShowMsg(false)}
+              show={showMsg}
+              dismissible
+            >
+              <Alert.Heading>Congrats !</Alert.Heading>
+              <p>You become a Premium user.</p>
+            </Alert>
+          </div>
+        ) : null}
         <section
           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
           className={styles["sections"] + " " + styles["home-section"]}
@@ -102,14 +127,16 @@ export default function HomeScreen() {
               />
             </div>
             <h1
-              className={` ${user.theme === M.DARK ? styles["dark-txt"] : ""} ${user.lang === L.EN_US ? styles["header-highlight"] : ""
-                }`}
+              className={` ${user.theme === M.DARK ? styles["dark-txt"] : ""} ${
+                user.lang === L.EN_US ? styles["header-highlight"] : ""
+              }`}
             >
               {langState.headerOne}
             </h1>
             <h1
-              className={`{styles["header-second"]} ${user.theme === M.DARK ? styles["dark-txt"] : ""
-                }`}
+              className={`{styles["header-second"]} ${
+                user.theme === M.DARK ? styles["dark-txt"] : ""
+              }`}
             >
               {langState.headerTwo}
               {user.lang === L.AR_SA && (
@@ -144,6 +171,19 @@ export default function HomeScreen() {
               {langState.navBtnMain}
               <FaArrowDown className={styles["btn-icons"]} />
             </div>
+            <Button
+              onClick={() => becomePremium()}
+              variant="success"
+              style={{ width: "200px" }}
+            >
+              Be a Premium{"  "}
+              <Image
+                width={"30px"}
+                height={"30px"}
+                src="/images/expo.jpg"
+                style={{ borderRadius: 50 }}
+              ></Image>
+            </Button>
             <a
               href="https://patreon.com/petroly_initiative"
               target={"_blank"}
