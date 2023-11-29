@@ -174,15 +174,17 @@ export default function HomeScreen() {
             <Button
               onClick={() => becomePremium()}
               variant="success"
-              style={{ width: "200px" }}
+              className={styles["be_premium_btn"]}
             >
-              Be a Premium{"  "}
-              <Image
-                width={"30px"}
-                height={"30px"}
-                src="/images/expo.jpg"
-                style={{ borderRadius: 50 }}
-              ></Image>
+              <div className={styles['items']}>
+                Be a Premium
+                <Image
+                  width={"30px"}
+                  height={"30px"}
+                  src="/images/expo.jpg"
+                  style={{ borderRadius: 50 }}
+                ></Image>
+              </div>
             </Button>
             <a
               href="https://patreon.com/petroly_initiative"
