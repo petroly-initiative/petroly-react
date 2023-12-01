@@ -99,19 +99,6 @@ export default function HomeScreen() {
 
       {/* <Navbar page="home" /> */}
       <Container className={styles["main-container"]}>
-        {showMsg ? (
-          <div style={{ width: "400px", alignSelf: "center" }}>
-            <Alert
-              variant="success"
-              onClose={() => setShowMsg(false)}
-              show={showMsg}
-              dismissible
-            >
-              <Alert.Heading>Congrats !</Alert.Heading>
-              <p>You become a Premium user.</p>
-            </Alert>
-          </div>
-        ) : null}
         <section
           dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
           className={styles["sections"] + " " + styles["home-section"]}
@@ -171,21 +158,6 @@ export default function HomeScreen() {
               {langState.navBtnMain}
               <FaArrowDown className={styles["btn-icons"]} />
             </div>
-            <Button
-              onClick={() => becomePremium()}
-              variant="success"
-              className={styles["be_premium_btn"]}
-            >
-              <div className={styles['items']}>
-                Be a Premium
-                <Image
-                  width={"30px"}
-                  height={"30px"}
-                  src="/images/expo.jpg"
-                  style={{ borderRadius: 50 }}
-                ></Image>
-              </div>
-            </Button>
             <a
               href="https://patreon.com/petroly_initiative"
               target={"_blank"}
