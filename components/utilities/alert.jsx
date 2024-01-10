@@ -15,7 +15,7 @@ function RadarAlert() {
       >
         <Alert.Heading>New Feature !</Alert.Heading>
         <p>
-          We introduce our new feature <em>Radar Register</em> (beta) & hidden terms UwU. To acivate
+          We introduce our new feature <em>Radar Register</em> (beta) & hidden terms. To acivate
           it:
           <ol>
             <li>
