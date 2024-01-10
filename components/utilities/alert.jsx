@@ -3,7 +3,7 @@ import Alert from "react-bootstrap/Alert";
 
 function RadarAlert() {
   const [show, setShow] = useState(true);
-  const [show2, setShow2] = useState(true);
+  const [show2, setShow2] = useState(false);
 
   return (
     <>
