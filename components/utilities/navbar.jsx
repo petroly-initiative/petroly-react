@@ -373,7 +373,7 @@ export default function Navbar(props) {
                   <a
                     rel="noopener"
                     target="_blank"
-                    href="https://forms.gle/dFhnn6qSeTJBfc5ZA"
+                    href="mailto:support@petroly.co"
                     className={styles.navbar_link}
                   >
                     <div className={styles.link_btn}>
@@ -527,7 +527,7 @@ export default function Navbar(props) {
               <a
                 target="_blank"
                 rel="noopener"
-                href="https://forms.gle/dFhnn6qSeTJBfc5ZA"
+                href="mailto:support@petroly.co"
                 className={styles.navbar_link}
               >
                 <div className={styles.link_btn}>
