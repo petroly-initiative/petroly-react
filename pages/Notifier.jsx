@@ -77,7 +77,7 @@ function Notifier(props) {
   const [showSettings, setShowSettings] = useState(false);
   const [msg, setMsg] = useState("");
   const [department, setDepartment] = useState("ICS");
-  const [term, setTerm] = useState({ long: "202320", short: "232" });
+  const [term, setTerm] = useState({ long: "202330", short: "233" });
   const [HasTrackingList, setHasTrackingList] = useState(false);
   const [courseCards, setCourseCards] = useState(null);
   const [gradCourses, setGradCourses] = useState(false);
