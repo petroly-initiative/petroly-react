@@ -55,7 +55,7 @@ export default function HomeScreen() {
     <>
       <Head>
         <title>Petroly | home</title>
-        <meta name="theme-color" content="#000000">
+        <meta name="theme-color" content="#000000"/>
 
         <meta name="title" content="Petroly | home" />
         <meta name="description" content="Digital Platform for All KFUPMers" />
