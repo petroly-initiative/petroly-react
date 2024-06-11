@@ -17,7 +17,7 @@
     "doctor": "ncu --doctor -u"
   },
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   },
   "dependencies": {
     "@apollo/client": "^3.6.8",
