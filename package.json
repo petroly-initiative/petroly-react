@@ -20,7 +20,7 @@
     "node": "20.x"
   },
   "dependencies": {
-    "@apollo/client": "^3.6.8",
+    "@apollo/client": "^3.6.9",
     "@cloudinary/react": "^1.4.1",
     "@cloudinary/url-gen": "^1.8.0",
     "apollo-upload-client": "^17.0.0",
