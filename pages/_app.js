@@ -56,7 +56,6 @@ function MyApp({ Component, pageProps }) {
                 name="viewport"
                 content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
               />
-              <script defer src="https://cdn.bayanplus.co/bp.js" data-pid="12yT00iI"></script>
             </Head>
 
             <ClientMutator>
