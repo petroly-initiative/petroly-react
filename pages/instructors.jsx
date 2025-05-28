@@ -15,7 +15,7 @@ import InstructorCard from "../components/instructors/InstructorCard";
 import { BiSearch } from "react-icons/bi";
 import { BsPlusLg } from "react-icons/bs";
 import styles from "../styles/evaluation-page/instructors-list.module.scss";
-import { GoSettings } from "react-icons/go";
+import { GiSettingsKnobs } from "react-icons/gi";
 import Image from "next/image";
 import Head from "next/head";
 import { useEffect, useState, useReducer, useContext } from "react";
@@ -237,7 +237,7 @@ function instructorsList() {
                   }
                   align="start"
                   // id="dropdown-menu-align-right"
-                  title={<GoSettings size="1.5rem" />}
+                  title={<GiSettingsKnobs size="1.5rem" />}
                 >
                   <Dropdown.Item
                     className={
@@ -257,7 +257,6 @@ function instructorsList() {
                       ` ${user.theme === M.DARK ? styles["dark-mode"] : ""}`
                     }
                     as={"div"}
-                    p
                     eventKey="1"
                     onClick={selectDept}
                     active={instructorsState.department === null}
@@ -359,7 +358,7 @@ function instructorsList() {
                   }
                   align="start"
                   id="dropdown-menu-align-right"
-                  title={<GoSettings size="1.5rem" />}
+                  title={<GiSettingsKnobs size="1.5rem" />}
                 >
                   <Dropdown.Item
                     className={
