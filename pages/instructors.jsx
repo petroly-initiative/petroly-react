@@ -8,7 +8,6 @@ import {
   DropdownButton,
   Dropdown,
   Spinner,
-  Pagination,
 } from "react-bootstrap";
 import InstructorCard from "../components/instructors/InstructorCard";
 
@@ -20,13 +19,12 @@ import Image from "next/image";
 import Head from "next/head";
 import { useEffect, useState, useReducer, useContext } from "react";
 import { UserContext } from "../state-management/user-state/UserContext";
-import CustomPagination from "../components/utilities/Pagination";
 import { Fade } from "react-awesome-reveal";
 import ClientOnly from "../components/ClientOnly";
 import { useQuery, NetworkStatus } from "@apollo/client";
 import { instructorsQuery, getDepartments } from "../api/queries";
 import translator from "../dictionary/pages/instructors-dict";
-import { L, langDirection, M } from "../constants";
+import { L, M } from "../constants";
 import { NavContext } from "../state-management/navbar-state/NavbarContext";
 
 function instructorsReducer(state, action) {
@@ -60,8 +58,6 @@ const initialInstructorsState = {
 };
 
 function instructorsList() {
-  const [stackIndex, setStackIndex] = useState(0);
-
   // language state
   const { user } = useContext(UserContext);
   const { navDispatch } = useContext(NavContext);

@@ -34,7 +34,7 @@ function TrackingCanvas(props) {
   // returns a course block for each course object
   // ! this chould be repalced by a fetch call instead
   const populateCourses = (term) => {
-    const uniqueCrn = new Set();
+    let uniqueCrn = new Set();
     props.trackedCourses.forEach((course) => {
       uniqueCrn.add(course.courseReferenceNumber);
     });

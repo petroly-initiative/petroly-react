@@ -12,7 +12,7 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { MdGames } from "react-icons/md";
 import { RiBook2Fill } from "react-icons/ri";
 import { useEffect, useState, useCallback, useRef, useContext } from "react";
-import { GoSettings } from "react-icons/go";
+import { GiSettingsKnobs } from "react-icons/gi";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/groups-filter-dict";
 import { M } from "../../constants";
@@ -111,7 +111,7 @@ export default function GroupsFilter(props) {
           <span
             className={` ${user.theme === M.DARK ? styles["dark-topper"] : ""}`}
           >
-            <GoSettings />
+            <GiSettingsKnobs />
             <span dir="ltr">{langState.modalHeader}</span>
           </span>
           <CloseButton

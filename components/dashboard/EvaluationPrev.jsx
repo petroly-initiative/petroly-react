@@ -1,12 +1,11 @@
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
 import styles from "../../styles/dashboard-page/eval-tab.module.scss";
 import { BsStarFill, BsStar } from "react-icons/bs";
 import { MdModeEdit } from "react-icons/md";
-import Image from "next/dist/client/image";
+import Image from "next/image";
 import EvaluationModal from "../evaluation/EvaluationModal";
-import { useEffect, useState, useContext } from "react";
-import { indexOf } from "lodash";
+import { useState, useContext } from "react";
 import { UserContext } from "../../state-management/user-state/UserContext";
 import { M } from "../../constants";
 /**

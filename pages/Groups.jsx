@@ -15,7 +15,7 @@ import Image from "next/image";
 import Head from "next/head";
 
 import { BiSearch, BiAddToQueue } from "react-icons/bi";
-import { GoSettings } from "react-icons/go";
+import { GiSettingsKnobs } from "react-icons/gi";
 import { AiFillFileAdd } from "react-icons/ai";
 import { Fade } from "react-awesome-reveal";
 import GroupCard from "../components/Groups/GroupCard";
@@ -197,7 +197,7 @@ function Groups() {
                     id="dropdown-menu-align-right"
                     onClick={launchModal}
                   >
-                    <GoSettings size="1.5rem" />
+                    <GiSettingsKnobs size="1.5rem" />
                   </Button>
                 </InputGroup>
               </Col>
@@ -208,6 +208,7 @@ function Groups() {
                   src="/images/errors/NotFoundE2.svg"
                   width="400"
                   height="351"
+                  alt="Not found."
                 />
               </div>
               <div
@@ -230,7 +231,6 @@ function Groups() {
           </Container>
           {user.status !== USER.LOGGED_IN ? (
             <OverlayTrigger
-              trigger={"hover"}
               placement="top"
               delay={{ show: 100, hide: 300 }}
               overlay={<Tooltip>{langState.createBlock}</Tooltip>}
@@ -297,6 +297,7 @@ function Groups() {
               src={icon ? icon.url : "/images/share.png"}
               width="70"
               height="70"
+              alt="Icon"
             />
           }
           description={community.description}
@@ -359,7 +360,7 @@ function Groups() {
                   id="dropdown-menu-align-right"
                   onClick={launchModal}
                 >
-                  <GoSettings size="1.5rem" />
+                  <GiSettingsKnobs size="1.5rem" />
                 </Button>
               </InputGroup>
             </Col>
@@ -419,7 +420,6 @@ function Groups() {
       />
       {user.status !== USER.LOGGED_IN ? (
         <OverlayTrigger
-          trigger={"hover"}
           placement="top"
           delay={{ show: 100, hide: 300 }}
           overlay={<Tooltip>{langState.createBlock}</Tooltip>}

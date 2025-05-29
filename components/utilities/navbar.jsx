@@ -292,7 +292,6 @@ export default function Navbar(props) {
               </li>
               <OverlayTrigger
                 placement="left"
-                trigger={"hover"}
                 delay={{ show: 0, hide: 50 }}
                 overlay={
                   <Tooltip id="button-tooltip-2">{langState.patreon}</Tooltip>
@@ -454,7 +453,6 @@ export default function Navbar(props) {
             </li>
             <OverlayTrigger
               placement="left"
-              trigger={"hover"}
               delay={{ show: 0, hide: 50 }}
               overlay={
                 <Tooltip id="button-tooltip-2">{langState.patreon}</Tooltip>
