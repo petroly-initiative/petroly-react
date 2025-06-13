@@ -14,7 +14,7 @@ function RadarAlert() {
         dismissible
       >
         <Alert.Heading>New Feature !</Alert.Heading>
-        <p>
+        <span>
           We introduce our new feature <em>Radar Register</em> (beta) & hidden terms. To acivate
           it:
           <ol>
@@ -43,7 +43,7 @@ function RadarAlert() {
               section.
             </li>
           </ol>
-        </p>
+        </span>
       </Alert>
       <Alert
         variant="warning"

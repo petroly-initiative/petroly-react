@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Card, Col, Container, OverlayTrigger, Tooltip} from "react-bootstrap";
+import { Card, Col, Container, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Link from "next/link";
 import { BsStarFill, BsStar } from "react-icons/bs";
 import { MdFolderSpecial } from "react-icons/md";
@@ -16,9 +16,7 @@ import { L, M } from "../../constants";
  */
 
 function InstructorCard(props) {
-  const {user} = useContext(UserContext);
-
-
+  const { user } = useContext(UserContext);
 
   const gradientColor = () => {
     switch (props.starValue) {
@@ -41,8 +39,10 @@ function InstructorCard(props) {
 
   return (
     <>
-
-      <Link key={props.instructorID} href={`/instructors/${props.instructorID}`}>
+      <Link
+        key={props.instructorID}
+        href={`/instructors/${props.instructorID}`}
+      >
         <Card
           onClick={() => {
             props.setLoading(true);

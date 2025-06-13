@@ -143,6 +143,7 @@ function instructorsList() {
     dataDept.departmentList.map((dept) => (
       <Dropdown.Item
         id={dept}
+        key={dept}
         active={dept === instructorsState.department}
         eventKey={dept}
         // disabled={dept === instructorsState.department}
@@ -161,6 +162,7 @@ function instructorsList() {
     data.instructors.edges.map(({ node }) => {
       return (
         <InstructorCard
+          key={node.id}
           setLoading={setClicked}
           image={
             <Image
@@ -168,6 +170,7 @@ function instructorsList() {
               src={node.profilePic}
               width="70"
               height="70"
+              alt="Instructor Pic"
             />
           }
           instructorName={node.name}

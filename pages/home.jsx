@@ -1,11 +1,9 @@
 import { Container, Row, Col, Card, Button, Alert } from "react-bootstrap";
 import styles from "../styles/home-page/home.module.scss";
 import { motion } from "framer-motion";
-import NewsCard from "../components/home/news-card";
 import ServiceCard from "../components/home/service-card";
 import Image from "next/image";
 import Head from "next/head";
-import ChatCard from "../components/home/Chat-card";
 import { ImTarget } from "react-icons/im";
 import {
   FaArrowDown,

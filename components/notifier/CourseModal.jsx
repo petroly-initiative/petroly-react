@@ -169,6 +169,7 @@ function CourseModal(props) {
     return filteredObjects.map((course) => {
       return (
         <SectionCheckbox
+          key={`${course[0]["courseReferenceNumber"]}-checkbox`}
           id={`${course[0]["courseReferenceNumber"]}-checkbox`}
           details={course}
           toggleCheck={toggleSection}
@@ -188,20 +189,22 @@ function CourseModal(props) {
     type = type.map((e) => e.toUpperCase());
     if (type.includes("LECTURE")) {
       if (type.includes("LAB")) {
-        return [
-          <div
-            style={{ backgroundColor: "#00a0ea" }}
-            className={styles["sections-type"]}
-          >
-            {langState.lectureLabel}
-          </div>,
-          <div
-            style={{ backgroundColor: "rgb(29, 190, 101)" }}
-            className={styles["sections-type"]}
-          >
-            {langState.labLabel}
-          </div>,
-        ];
+        return (
+          <>
+            <div
+              style={{ backgroundColor: "#00a0ea" }}
+              className={styles["sections-type"]}
+            >
+              {langState.lectureLabel}
+            </div>
+            <div
+              style={{ backgroundColor: "rgb(29, 190, 101)" }}
+              className={styles["sections-type"]}
+            >
+              {langState.labLabel}
+            </div>{" "}
+          </>
+        );
       } else {
         return (
           <div
@@ -400,7 +403,6 @@ function CourseModal(props) {
             </Button>
           </OverlayTrigger>
           <OverlayTrigger
-            trigger={"hover"}
             placement="top"
             delay={{ show: 0, hide: 300 }}
             overlay={

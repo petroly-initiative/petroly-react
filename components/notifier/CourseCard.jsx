@@ -61,17 +61,19 @@ function CourseCard({
   const typeMapper = () => {
     const uniformTypes = type.map((e) => e.toUpperCase());
     if (uniformTypes.includes("LECTURE") && uniformTypes.includes("LAB")) {
-      return [
-        <div className={styles["sections-type"]}>
-          <FaBook className={styles["lecture-icon"]} />
-          {langState.lectureLabel}
-        </div>,
-        <div className={styles["divider"]}></div>,
-        <div className={styles["sections-type"]}>
-          <ImLab className={styles["lab-icon"]} />
-          {langState.labLabel}
-        </div>,
-      ];
+      return (
+        <>
+          <div className={styles["sections-type"]}>
+            <FaBook className={styles["lecture-icon"]} />
+            {langState.lectureLabel}
+          </div>
+          <div className={styles["divider"]}></div>
+          <div className={styles["sections-type"]}>
+            <ImLab className={styles["lab-icon"]} />
+            {langState.labLabel}
+          </div>
+        </>
+      );
     } else if (uniformTypes.includes("LECTURE")) {
       return (
         <div className={styles["sections-type"]}>

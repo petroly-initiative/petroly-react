@@ -1,6 +1,15 @@
 import { useContext, useState, useEffect } from "react";
-import { Card, OverlayTrigger, ToggleButton, Tooltip } from "react-bootstrap";
-import { M } from "../../constants";
+import {
+  Card,
+  Col,
+  Form,
+  InputGroup,
+  OverlayTrigger,
+  Row,
+  ToggleButton,
+  Tooltip,
+} from "react-bootstrap";
+import { M, L } from "../../constants";
 import translator from "../../dictionary/components/notifier/section-display";
 import { IoIosTime } from "react-icons/io";
 import { MdOutlineCancel } from "react-icons/md";
@@ -76,6 +85,7 @@ function SectionDisplay(props) {
     return Object.values(allDays).map((day) => {
       return days[day] ? (
         <OverlayTrigger
+          key={day}
           placement="top"
           delay={{ show: 0, hide: 10 }}
           overlay={<Tooltip id="button-tooltip-2">{day}</Tooltip>}
@@ -86,6 +96,7 @@ function SectionDisplay(props) {
         </OverlayTrigger>
       ) : (
         <OverlayTrigger
+          key={day}
           placement="top"
           delay={{ show: 0, hide: 10 }}
           overlay={<Tooltip id="button-tooltip-2">{day}</Tooltip>}
@@ -205,7 +216,7 @@ function SectionDisplay(props) {
               </span>
             </OverlayTrigger>
           </span>
-          <display className={styles["header-btns"]}>
+          <div className={styles["header-btns"]}>
             <OverlayTrigger
               placement="top"
               delay={{ show: 0, hide: 50 }}
@@ -233,7 +244,7 @@ function SectionDisplay(props) {
                 <MdOutlineCancel />
               </button>
             </OverlayTrigger>
-          </display>
+          </div>
         </div>
         <Card
           className={
@@ -592,7 +603,33 @@ function SectionDisplay(props) {
             </Card.Footer>
           )}
 
-          {/* add a case for hybrid sections */}
+          {/* NOTE: Ability to register a sectioon with a linked lab */}
+          {/* ability to replace a section with another, conditionalAddDrop */}
+          <InputGroup as={Row} className={styles["search-container"]}>
+            <Col className={styles["search-field"]}>
+              <Form.Control
+                id="name"
+                className={`${styles["search-input"]} ${
+                  user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                }`}
+                type="number"
+                placeholder="Lab's CRN"
+                dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+              ></Form.Control>
+            </Col>
+
+            <Col className={styles["search-field"]}>
+              <Form.Control
+                id="name"
+                className={`${styles["search-input"]} ${
+                  user.theme === M.DARK ? styles["dark-mode-input"] : ""
+                }`}
+                type="text"
+                placeholder="Replace with CRN"
+                dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
+              ></Form.Control>
+            </Col>
+          </InputGroup>
         </Card>
       </div>
     </>

@@ -7,6 +7,17 @@ $txt-hg: #0091e7;
 $btn-prim: #00ead3;
 $x: #22d77c;
 
+.search-cols {
+  margin: 0 !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+.search-field {
+  display: flex !important;
+  height: 37px !important;
+  border: rgba(255, 255, 255, 0);
+}
+
 .dark-mode {
   background-color: theme.$dark-xfg !important;
   color: theme.$dark-fnt !important;

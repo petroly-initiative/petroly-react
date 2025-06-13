@@ -61,6 +61,7 @@ function TrackingCanvas(props) {
       .map((sectionObj) => {
         return (
           <SectionDisplay
+            key={sectionObj[0].courseReferenceNumber}
             id={sectionObj[0].courseReferenceNumber}
             msgHandler={props.msgHandler}
             details={sectionObj}
@@ -80,7 +81,8 @@ function TrackingCanvas(props) {
     return props.allTerms.map((term) => {
       return (
         <Tab
-          data-itemID={term.long}
+          key={term.long}
+          data-itemid={term.long}
           tabClassName={styles["tab"]}
           eventKey={term.long}
           id={`${term.long}-tab`}

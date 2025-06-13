@@ -92,7 +92,9 @@ export default function ClientMutator({ children }) {
     } else if (user.status === USER.LOGGED_OUT) {
       if (token) verifyToken();
       else if (rToken) refreshToken();
-      else client.resetStore();
+      // NOTE: i'm not using `resetStore` since it triggerss refetch,
+      // whcih in turn triggers re-render then it'll call `resetStore` again.
+      else client.clearStore();
     }
   }, [user.status]);
 
@@ -102,21 +104,19 @@ export default function ClientMutator({ children }) {
    */
 
   useEffect(() => {
-    if (dataVerifyToken) {
-      if (dataVerifyToken.verifyToken.success) {
-        // since the found is token is valid
-        // no change in the client
-        userDispatch({
-          type: T.SET_CLIENT,
-          username: dataVerifyToken.verifyToken.user.username,
-          token,
-        });
-      } else if (rToken) refreshToken();
-    }
+    if (dataVerifyToken?.verifyToken.success) {
+      // since the found is token is valid
+      // no change in the client
+      userDispatch({
+        type: T.SET_CLIENT,
+        username: dataVerifyToken.verifyToken.user.username,
+        token,
+      });
+    } else if (rToken) refreshToken();
   }, [dataVerifyToken]);
 
   useEffect(() => {
-    if (dataRefreshToken && dataRefreshToken.refreshToken.success) {
+    if (dataRefreshToken?.refreshToken.success) {
       var lang = user.lang;
       token = dataRefreshToken.refreshToken.token.token;
       sessionStorage.setItem("token", token);
@@ -146,7 +146,7 @@ export default function ClientMutator({ children }) {
         msg={Msg}
         handleClose={setMsgVisible}
         success
-      // you can use failure or none for different message types
+        // you can use failure or none for different message types
       />
       <ApolloProvider client={client}>{children}</ApolloProvider>
     </>

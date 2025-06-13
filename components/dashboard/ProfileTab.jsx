@@ -239,6 +239,7 @@ export default function ProfileTab({ dataMe, errorMe, refetchMe, loadingMe }) {
             <div className={styles["body-structure"]}>
               <div className={styles["pic-border"] + " shadow"}>
                 <Image
+                  alt="My Pic"
                   width="140"
                   height="140"
                   className={styles["profile-pic"]}
@@ -389,6 +390,7 @@ export default function ProfileTab({ dataMe, errorMe, refetchMe, loadingMe }) {
                 ) : (
                   <Fade style={{ width: "100%", height: "100%" }}>
                     <Image
+                      alt="My Pic"
                       width="140"
                       height="140"
                       className={styles["profile-pic"]}

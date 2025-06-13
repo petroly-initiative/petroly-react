@@ -226,6 +226,7 @@ function Notifier(props) {
       const localData = dataDept.subjectList.filter((term) => term !== "AF");
       return localData.map((dept) => (
         <Dropdown.Item
+          key={dept}
           id={dept}
           active={dept === department}
           eventKey={dept}
@@ -247,6 +248,7 @@ function Notifier(props) {
   const termMapper = () => {
     return termsData.terms.map(({ short, long }) => (
       <Dropdown.Item
+        key={long}
         id={long}
         active={long === term.long}
         eventKey={long}
@@ -331,6 +333,7 @@ function Notifier(props) {
     // TODO: fix the single card output
     return courseObjects.map((course) => (
       <CourseCard
+        key={course.code}
         openModal={toggleModal}
         course={course["code"]}
         title={course["title"]}
@@ -519,7 +522,6 @@ function Notifier(props) {
                 id="dropdown-menu-align-right"
                 title={
                   <OverlayTrigger
-                    trigger={"hover"}
                     placement="bottom"
                     delay={{ show: 0, hide: 0 }}
                     overlay={
@@ -564,7 +566,6 @@ function Notifier(props) {
                 id="dropdown-menu-align-right"
                 title={
                   <OverlayTrigger
-                    trigger={"hover"}
                     placement="bottom"
                     delay={{ show: 0, hide: 0 }}
                     overlay={
@@ -601,7 +602,6 @@ function Notifier(props) {
 
           <OverlayTrigger
             placement="top"
-            trigger={"hover"}
             delay={{ show: 350, hide: 400 }}
             overlay={
               <Tooltip id="button-tooltip-2">
@@ -832,7 +832,6 @@ function Notifier(props) {
               id="dropdown-menu-align-right"
               title={
                 <OverlayTrigger
-                  trigger={"hover"}
                   placement="bottom"
                   delay={{ show: 0, hide: 0 }}
                   overlay={
@@ -877,7 +876,6 @@ function Notifier(props) {
               id="dropdown-menu-align-right"
               title={
                 <OverlayTrigger
-                  trigger={"hover"}
                   placement="bottom"
                   delay={{ show: 0, hide: 0 }}
                   overlay={
@@ -919,7 +917,6 @@ function Notifier(props) {
           </Fade>
         </Row>
         <OverlayTrigger
-          trigger={"hover"}
           placement="top"
           delay={{ show: 0, hide: 400 }}
           overlay={

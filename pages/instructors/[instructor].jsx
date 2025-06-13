@@ -203,6 +203,7 @@ export default function instructorDetails({ data }) {
                     }
                   >
                     <Image
+                      alt="Instructor Pic"
                       className={cardStyles.picDiv}
                       src={data.instructor.profilePic}
                       width="70"
@@ -378,6 +379,7 @@ export default function instructorDetails({ data }) {
           id={data.instructor.pk}
           image={
             <Image
+              alt="Instructor Pic"
               style={{ borderRadius: "30px !important" }}
               className={cardStyles.picDiv}
               src={data.instructor.profilePic}
