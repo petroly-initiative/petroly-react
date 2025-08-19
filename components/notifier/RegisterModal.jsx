@@ -64,8 +64,6 @@ function RegisterModal(props) {
   useEffect(() => {
     if (rcData?.registerCourseUpdate.code === "SUCCESS") setInvalidInput(null);
     else setInvalidInput(rcData?.registerCourseUpdate.message);
-
-    console.log(rcData);
   }, [rcData]);
 
   useEffect(() => {
@@ -107,7 +105,6 @@ function RegisterModal(props) {
 
   // Needed to avoid stale closure on formData
   useEffect(() => {
-    console.log("formData: ", formData);
     if (registerCourseData) debouncedApiCall();
   }, [formData]);
 
