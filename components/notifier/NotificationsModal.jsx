@@ -1,16 +1,8 @@
-import React, {
-  useRef,
-  useState,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import {
-  Container,
   Form,
   Button,
-  InputGroup,
   Alert,
   Spinner,
   CloseButton,
@@ -18,14 +10,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { FaTelegramPlane, FaSave } from "react-icons/fa";
-import { IoLogoWhatsapp } from "react-icons/io";
-import {
-  MdWarning,
-  MdNotificationsActive,
-  MdEmail,
-  MdCancel,
-} from "react-icons/md";
-import Script from "next/script";
+import { MdNotificationsActive, MdCancel } from "react-icons/md";
 import { BiInfoCircle } from "react-icons/bi";
 import TelegramLoginButton from "react-telegram-login";
 import styles from "../../styles/notifier-page/settings-modal.module.scss";
@@ -251,15 +236,10 @@ function NotificationsModal(props) {
           )}
           <div style={{ marginBottom: 12 }}>{langState.instructions}</div>
           <Form className={styles.group} noValidate>
-            <Form.Check
-              defaultChecked={telegramChecked}
-              className={styles.radio}
-              name="type"
-              type={"switch"}
-            >
+            <Form.Check className={styles.radio} name="type" type={"switch"}>
               <Form.Check.Input
                 onClick={checkChannel}
-                checked={telegramChecked}
+                defaultChecked={telegramChecked}
                 value="TELEGRAM"
                 className={styles["checkers"]}
               />

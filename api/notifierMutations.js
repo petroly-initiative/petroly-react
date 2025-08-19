@@ -1,5 +1,27 @@
 import { gql } from "@apollo/client";
 
+export const registerCourseMutation = gql`
+  mutation RegisterCourseUpdate(
+    $id: ID!
+    $strategy: RegisterStrategyEnum
+    $withAddCrn: String
+    $withDropCrn: String
+  ) {
+    registerCourseUpdate(
+      data: {
+        id: $id
+        strategy: $strategy
+        withAddCrn: $withAddCrn
+        withDropCrn: $withDropCrn
+      }
+    ) {
+      kind
+      message
+      code
+    }
+  }
+`;
+
 export const updateTrackingListMutation = gql`
   mutation UpdateTrackingList($courses: [CourseInput!]!) {
     updateTrackingList(courses: $courses)

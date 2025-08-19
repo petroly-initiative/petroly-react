@@ -1,9 +1,7 @@
-
 var URL_ENDPOINT = "https://api.petroly.co";
 
-
-// if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test")
-//   URL_ENDPOINT = "http://localhost:8000/endpoint/";
+if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test")
+  URL_ENDPOINT = "http://localhost:8000/endpoint/";
 
 export const USER = {
   LOGGED_OUT: "logged_out",
@@ -43,3 +41,10 @@ export const langDirection = (inLang) => ({
 });
 
 export { URL_ENDPOINT };
+
+export const REG_STRATEGY = {
+  OFF: "OFF",
+  DEFAULT: "DEFAULT",
+  LINKED_LAB: "LINKED_LAB",
+  REPLACE_WITH: "REPLACE_WITH",
+};

@@ -6,7 +6,7 @@ import {
   InputGroup,
   OverlayTrigger,
   Row,
-  ToggleButton,
+  Button,
   Tooltip,
 } from "react-bootstrap";
 import { M, L } from "../../constants";
@@ -181,6 +181,11 @@ function SectionDisplay(props) {
     }
   };
 
+  function registerBtnHandler() {
+    props.registerSettingsHandler(true);
+    props.setActiveRegisterSettingsId(props.id);
+  }
+
   useEffect(() => {
     setLang(() => translator(user.lang));
   }, [user.lang]);
@@ -284,19 +289,14 @@ function SectionDisplay(props) {
               {typeMapper(props.details[0].meetingsFaculty[0].meetingTime)}
             </div>
             <div style={{ scale: "0.7" }}>
-              <ToggleButton
+              <Button
+                onClick={registerBtnHandler}
                 className="mb-2"
                 type="checkbox"
                 variant="outline-primary"
-                checked={checked}
-                onClick={() =>
-                  toggleRegister({
-                    variables: { crn: props.details[0].courseReferenceNumber },
-                  })
-                }
               >
                 Register
-              </ToggleButton>
+              </Button>
             </div>
           </Card.Header>
           <Card.Body
@@ -602,34 +602,6 @@ function SectionDisplay(props) {
               </div>
             </Card.Footer>
           )}
-
-          {/* NOTE: Ability to register a sectioon with a linked lab */}
-          {/* ability to replace a section with another, conditionalAddDrop */}
-          <InputGroup as={Row} className={styles["search-container"]}>
-            <Col className={styles["search-field"]}>
-              <Form.Control
-                id="name"
-                className={`${styles["search-input"]} ${
-                  user.theme === M.DARK ? styles["dark-mode-input"] : ""
-                }`}
-                type="number"
-                placeholder="Lab's CRN"
-                dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-              ></Form.Control>
-            </Col>
-
-            <Col className={styles["search-field"]}>
-              <Form.Control
-                id="name"
-                className={`${styles["search-input"]} ${
-                  user.theme === M.DARK ? styles["dark-mode-input"] : ""
-                }`}
-                type="text"
-                placeholder="Replace with CRN"
-                dir={`${user.lang === L.AR_SA ? "rtl" : "ltr"}`}
-              ></Form.Control>
-            </Col>
-          </InputGroup>
         </Card>
       </div>
     </>

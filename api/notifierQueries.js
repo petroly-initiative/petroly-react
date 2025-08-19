@@ -1,5 +1,23 @@
 import { gql } from "@apollo/client";
 
+export const registerCourseByCRN = gql`
+  query RegisterCourseByCrn($crn: String!) {
+    registerCourseByCrn(crn: $crn) {
+      id
+      strategy
+      course {
+        crn
+      }
+      withAdd {
+        crn
+      }
+      withDrop {
+        crn
+      }
+    }
+  }
+`;
+
 export const trackedCoursesQuery = gql`
   query TrackedCourses {
     trackedCourses

@@ -67,6 +67,8 @@ function TrackingCanvas(props) {
             details={sectionObj}
             hybrid={sectionObj.length === 2}
             delete={deleteSections}
+            registerSettingsHandler={props.registerSettingsHandler}
+            setActiveRegisterSettingsId={props.setActiveRegisterSettingsId}
           />
         );
       });

@@ -43,6 +43,7 @@ import { updateTrackingListMutation } from "../api/notifierMutations";
 import PopMsg from "../components/utilities/PopMsg";
 import NotificationsModal from "../components/notifier/NotificationsModal";
 import RadarAlert from "../components/utilities/alert";
+import RegisterModal from "../components/notifier/RegisterModal";
 
 // TODO: create the responsive layout for the cards, and the off-canvas
 /**
@@ -75,12 +76,15 @@ function Notifier(props) {
   const [showCanvas, setshowCanvas] = useState(false);
   const [showMsg, setShowMsg] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showRegisterSettings, setShowRegisterSettings] = useState(false);
   const [msg, setMsg] = useState("");
   const [department, setDepartment] = useState("ICS");
   const [term, setTerm] = useState({ long: "202420", short: "242" });
   const [HasTrackingList, setHasTrackingList] = useState(false);
   const [courseCards, setCourseCards] = useState(null);
   const [gradCourses, setGradCourses] = useState(false);
+  const [activeRegisterSettingsId, setActiveRegisterSettingsId] =
+    useState(null);
 
   // ? fetched state
   const {
@@ -745,6 +749,8 @@ function Notifier(props) {
             msgHandler={toggleMessage}
             settingsHandler={setShowSettings}
             allTerms={termsData.terms}
+            registerSettingsHandler={setShowRegisterSettings}
+            setActiveRegisterSettingsId={setActiveRegisterSettingsId}
           />
         )}
         <PopMsg
@@ -754,12 +760,20 @@ function Notifier(props) {
           success
         />
         {user.status === USER.LOGGED_IN && (
-          <NotificationsModal
-            visible={showSettings}
-            handleClose={setShowSettings}
-            handleMsg={toggleMessage}
-            firstSetup={!HasTrackingList}
-          />
+          <>
+            <NotificationsModal
+              visible={showSettings}
+              handleClose={setShowSettings}
+              handleMsg={toggleMessage}
+              firstSetup={!HasTrackingList}
+            />
+            <RegisterModal
+              id={activeRegisterSettingsId}
+              visible={showRegisterSettings}
+              handleClose={setShowRegisterSettings}
+              handleMsg={toggleMessage}
+            />
+          </>
         )}
         {/* login checking is needed */}
       </>
@@ -972,16 +986,26 @@ function Notifier(props) {
           save={updateTracked}
           msgHandler={toggleMessage}
           settingsHandler={setShowSettings}
+          registerSettingsHandler={setShowRegisterSettings}
+          setActiveRegisterSettingsId={setActiveRegisterSettingsId}
         />
       )}
       <PopMsg msg={msg} handleClose={toggleMessage} visible={showMsg} success />
       {user.status === USER.LOGGED_IN && (
-        <NotificationsModal
-          visible={showSettings}
-          handleClose={setShowSettings}
-          handleMsg={toggleMessage}
-          firstSetup={!HasTrackingList}
-        />
+        <>
+          <NotificationsModal
+            visible={showSettings}
+            handleClose={setShowSettings}
+            handleMsg={toggleMessage}
+            firstSetup={!HasTrackingList}
+          />
+          <RegisterModal
+            id={activeRegisterSettingsId}
+            visible={showRegisterSettings}
+            handleClose={setShowRegisterSettings}
+            handleMsg={toggleMessage}
+          />
+        </>
       )}
       {/* login checking is needed */}
     </>
