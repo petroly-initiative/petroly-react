@@ -1,22 +1,6 @@
-import React, {
-  useState,
-  useContext,
-  useEffect,
-  useRef,
-  useCallback,
-} from "react";
+import { useState, useContext, useEffect, useRef, useCallback } from "react";
 import Modal from "react-bootstrap/Modal";
-import {
-  Form,
-  Button,
-  Alert,
-  Spinner,
-  CloseButton,
-  OverlayTrigger,
-  Tooltip,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Form, Alert, Spinner, CloseButton } from "react-bootstrap";
 import { TbReplaceFilled } from "react-icons/tb";
 import { BsLightning } from "react-icons/bs";
 import { LuServerCog } from "react-icons/lu";
@@ -27,7 +11,7 @@ import styles from "../../styles/notifier-page/register-settings-modal.module.sc
 
 import { UserContext } from "../../state-management/user-state/UserContext";
 import translator from "../../dictionary/components/notifier/register-settings-modal";
-import { langDirection, L, M, USER, REG_STRATEGY } from "../../constants";
+import { langDirection, L, M, REG_STRATEGY } from "../../constants";
 
 import { registerCourseByCRN } from "../../api/notifierQueries";
 import { registerCourseMutation } from "../../api/notifierMutations";
@@ -66,11 +50,7 @@ function RegisterModal(props) {
   //////// GraqphQL Operations //////////
   const [
     fetchRegisterCourse,
-    {
-      data: registerCourseData,
-      loading: registerCourseLoading,
-      refetch: refetchregisterCourse,
-    },
+    { data: registerCourseData, loading: registerCourseLoading },
   ] = useLazyQuery(registerCourseByCRN);
 
   const [updateRegisterCourse, { data: rcData, loading: rcLoading }] =
@@ -93,8 +73,8 @@ function RegisterModal(props) {
       const newData = {
         id: registerCourseData.registerCourseByCrn.id,
         strategy: registerCourseData.registerCourseByCrn.strategy,
-        withAddCrn: registerCourseData.registerCourseByCrn.withAdd?.crn,
-        withDropCrn: registerCourseData.registerCourseByCrn.withDrop?.crn,
+        withAddCrn: registerCourseData.registerCourseByCrn.withAdd?.crn || "",
+        withDropCrn: registerCourseData.registerCourseByCrn.withDrop?.crn || "",
       };
       setFormData(newData);
     }

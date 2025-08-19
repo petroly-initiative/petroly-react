@@ -1,16 +1,16 @@
 import { L } from "../../../constants";
 
 const arabic = {
-  header: " إعدادات تسجيل (بيتا)",
-  instructions: "اختار وش تبي تسوي لما تنفتح هالمادة:",
+  header: " إعدادات التسجيل (بيتا)",
+  instructions: "اختار وش تبي تسوي لما تفتح المادة:",
   offHeader: "ما أبي أسجل",
-  offContent: "لا تسجل لي هالمادة خلاص",
+  offContent: "لا تسجل لي المادة خلاص",
   defaultHeader: "سجل المادة بس",
-  defaultContent: "سجل لي هالمادة لما تنفتح",
+  defaultContent: "سجل لي ذي المادة لما تفتح",
   linkedLabHeader: "سجل المادة مع المختبر",
-  linkedLabContent: "سجل لي هالمادة مع المختبر اللي رقمه:",
+  linkedLabContent: "سجل لي ذي المادة مع المختبر اللي رقمه:",
   replaceHeader: "بدل مادة ثانية",
-  replaceContent: "سجل لي هالمادة واحذف المادة اللي رقمها:",
+  replaceContent: "سجل لي ذي المادة واحذف المادة اللي رقمها:",
   confirm: "حفظ الإعدادات",
   cancel: "إلغاء التغييرات",
   confirmTooltip: "حفظ التغييرات في إعدادات الإشعارات",
@@ -18,7 +18,7 @@ const arabic = {
   successTele: "!تم تسجيل الدخول",
   successEdit: "!تم تحديث إعدادات الإشعارات بنجاح",
   failEdit:
-    "حدث خطأ! لم نستطع تحديث إعدادات الإشعارات. تأكد من ربك حسابك في تلقرام",
+    "حدث خطأ! لم نستطع تحديث إعدادات التسجيل",
 };
 
 const english = {

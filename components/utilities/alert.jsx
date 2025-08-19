@@ -13,34 +13,21 @@ function RadarAlert() {
         show={show}
         dismissible
       >
-        <Alert.Heading>New Feature !</Alert.Heading>
+        <Alert.Heading>Radar Register 2.5.0b!</Alert.Heading>
         <span>
-          We introduce our new feature <em>Radar Register</em> (beta) & hidden terms. To acivate
-          it:
+          We improved our new feature <em>Radar Register</em> & hidden terms. To
+          acivate it:
           <ol>
             <li>
-              <Alert.Link href="https://cutt.ly/AwIJMqMo">
-                Download
-              </Alert.Link>{" "}
-              our Chrome extension.
-            </li>
-            <li>
-              Follow{" "}
-              <Alert.Link
-                href="https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked"
-                target="_blank"
-              >
-                these steps
-              </Alert.Link>{" "}
-              for how to load it to your Chrome.
+              <Alert.Link href="https://cutt.ly/AwIJMqMo">Download</Alert.Link>{" "}
+              our Chrome extension, then install it.
             </li>
             <li>
               Sign in to both Petroly and Banner/Portal, then open the extension
               in Petroly.co tab.
             </li>
             <li>
-              Now from your tracked courses toggle "Register" button for each
-              section.
+              Now from your tracked courses control your register strategy.
             </li>
           </ol>
         </span>
@@ -57,10 +44,7 @@ function RadarAlert() {
             <li>Normal users can track as many as 5 sections.</li>
             <li>
               Only contributors to the{" "}
-              <Alert.Link
-                target="_blank"
-                href="https://cutt.ly/ewUFbDXG"
-              >
+              <Alert.Link target="_blank" href="https://cutt.ly/ewUFbDXG">
                 source code
               </Alert.Link>{" "}
               can track up to 30 sections.
