@@ -63,6 +63,7 @@ function MaintenancePage() {
               fontSize: "1.2rem",
               color: "#666",
               lineHeight: "1.6",
+              marginBottom: "20px",
             }}
           >
             We stopped the project for losing interest.
@@ -70,8 +71,30 @@ function MaintenancePage() {
           <p
             style={{
               fontSize: "1rem",
+              color: "#666",
+              marginBottom: "10px",
+            }}
+          >
+            The source code is available at:
+          </p>
+          <a
+            href="https://github.com/petroly-initiative/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: "1.1rem",
+              color: "#0366d6",
+              textDecoration: "none",
+              fontWeight: "500",
+            }}
+          >
+            github.com/petroly-initiative
+          </a>
+          <p
+            style={{
+              fontSize: "1rem",
               color: "#999",
-              marginTop: "20px",
+              marginTop: "30px",
             }}
           >
             Thank you for your support.
